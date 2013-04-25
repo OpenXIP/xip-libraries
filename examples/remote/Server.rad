@@ -1,0 +1,613 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	0 0 1
+	height	16
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3 -1.2 -0.999999 -0.4
+	    flags	()
+	    autoPanelPos	653 600 0 0
+	    node		    DEF +0 SoXipLut {
+		fields [ SFEnum inputMode, SFEnum fileMode, SFShort bitsUsed, SFString fileIn,
+			SFShort fileEntries, MFColor arrayColor, MFFloat arrayAlpha ]
+		inputMode	FILE
+		fileMode	FLOAT_COMMA
+		bitsUsed	12
+		fileIn	"C:\data\lut\splineshaded.txt"
+		fileEntries	4096
+		arrayColor	[  ]
+		arrayAlpha	[  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3 0 -0.83282 0.8
+	    flags	()
+	    autoPanelPos	422 264 0 0
+	    node		    DEF +1 SoXipTextureUnit {
+		fields [ SFInt32 textureStage, SFBool autoGenerate ]
+		textureStage	2
+		autoGenerate	FALSE
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-5.7 0 -3.53282 0.8
+	    flags	()
+	    autoPanelPos	304 258 0 0
+	    node		    DEF +2 SoXipTextureUnit {
+		fields [ SFInt32 textureStage, SFBool autoGenerate ]
+		textureStage	1
+		autoGenerate	FALSE
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	2.1 0 4.1 0.8
+	    flags	()
+	    autoPanelPos	603 259 0 0
+	    node		    DEF +3 SoXipUniformInt {
+		fields [ SFString name, MFInt32 value ]
+		name	"transferFunc"
+		value	2
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	2.1 -1.2 4.1 -0.4
+	    flags	()
+	    autoPanelPos	621 310 0 0
+	    node		    DEF +4 SoXipUniformInt {
+		fields [ SFString name, MFInt32 value ]
+		name	"volume"
+		value	1
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-9 -3.3 -6.67533 -2.5
+	    flags	()
+	    autoPanelPos	196 383 0 0
+	    node		    DEF projectionMatrix SoXipSetTransform {
+		fields [ SFEnum matrixType, SFBool multiply ]
+		matrixType	PROJECTION
+		multiply	FALSE
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-9 -1.5 -6.67534 -0.7
+	    flags	()
+	    autoPanelPos	158 326 0 0
+	    node		    DEF viewMatrix SoXipSetTransform {
+		fields [ SFEnum matrixType, SFBool multiply ]
+		matrixType	VIEW
+		multiply	FALSE
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3 -2.7 -1 -1.9
+	    flags	()
+	    autoPanelPos	442 393 0 0
+	    node		    DEF +5 SoXipLutTexture {
+		fields [  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-5.7 -1.5 -3.7 -0.7
+	    flags	()
+	    autoPanelPos	353 510 0 0
+	    node		    DEF volumeTexture+6 SoXipTexture {
+		fields [ SoXipSFDataImage image, SFEnum wrapS, SFEnum wrapT, SFEnum wrapR,
+			SFEnum filter, SFEnum model, SFEnum internalFormat, SFBool padDimensions,
+			SFVec3f textureSize ]
+		image	"DATA" =
+		    DEF volumeData+7 SoXipVolumeDicom {
+			inputs [ SoXipMFDataDicom input ]
+			input	[ "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA",
+					  "DATA" ] =
+			    DEF +8 SoXipSortDicom {
+				inputs [ SoXipMFDataDicom input ]
+				input	[ "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA",
+						  "DATA" ] =
+				    DEF dicomLoader+9 SoXipLoadDicom {
+					inputs [ MFString name ]
+					name	"C:\Data\Acetabulum"
+					outputs [ SoXipMFDataDicom dicom ]
+				    }
+				    . dicom
+
+				outputs [ SoXipMFDataDicom output ]
+			    }
+			    . output
+
+			outputs [ SoXipSFDataImage output ]
+		    }
+		    . output
+
+		wrapS	CLAMP_TO_EDGE
+		wrapT	CLAMP_TO_EDGE
+		wrapR	CLAMP_TO_EDGE
+		filter	LINEAR
+		model	REPLACE
+		internalFormat	LUMINANCE16
+		padDimensions	FALSE
+		textureSize	512 512 119
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-9 0 -6.67533 0.8
+	    flags	()
+	    autoPanelPos	142 250 0 0
+	    node		    DEF modelMatrix SoXipSetTransform {
+		fields [ SFEnum matrixType, SFMatrix matrix, SFBool multiply ]
+		matrixType	MODEL
+		matrix	185.001 0 0 0
+			0 185.001 0 0
+			0 0 120 0
+			-66.5 -109.5 -30.5 1
+		multiply	FALSE
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	7.8 6.3 9.8 7.1
+	    flags	()
+	    autoPanelPos	531 312 0 0
+	    node		    DEF lutTexture SoXipTexture {
+		fields [  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3.8 3.6 0.6 4.4
+	    flags	()
+	    autoPanelPos	398 391 0 0
+	    node		    DEF +10 Separator {
+		DEF +11 SoXipExaminer {
+		    mode	ROTATE
+		    viewBoundingBox	1 0 0 0
+			    0 1 0 0
+			    0 0 1 0
+			    0 0 0 1
+		    complexity			    Complexity {
+			value	0.5
+			textureQuality	0.5
+		    }
+
+		    orthoCamera			    DEF +12 OrthographicCamera {
+		    }
+
+		    perspectiveCamera			    DEF +13 PerspectiveCamera {
+			position	-0.998785 0.966596 -0.881033
+			orientation	-0.111874 -0.9901 -0.084769  2.30845
+			nearDistance	1.22474
+			farDistance	2.9568
+			focalDistance	2.09077
+			heightAngle	0.785398
+		    }
+
+		    borderNode			    SoXipViewportBorder {
+			fields [  ]
+		    }
+
+		    cameraSwitch			    Switch {
+			whichChild	1
+			USE +12
+			USE +13
+		    }
+
+		}
+		USE +2
+		USE volumeTexture+6
+		USE +1
+		USE +0
+		USE +5
+		DEF +14 SoXipLoadShaders {
+		    fields [ SFString fpFilename, SFString vpFilename,  ]
+		    fpFilename	"C:\Work\xip\examples\remote\simpleLut_tf_fp.glsl"
+		    vpFilename	"C:\Work\xip\examples\remote\simple_vp.glsl"
+		}
+		USE +3
+		USE +4
+		DEF +15 SoXipSlicer {
+		    fields [ SFInt32 numSlices, SFBool useComplexity, SFEnum mode,  ]
+		    numSlices	1024
+		    useComplexity	TRUE
+		    mode	VRT
+		}
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-0.3 -5.7 1.7 -4.9
+	    flags	()
+	    autoPanelPos	157 764 0 0
+	    engine		    USE +8
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-0.399184 -4.5 2.04973 -3.7
+	    flags	()
+	    autoPanelPos	684 685 0 0
+	    engine		    USE volumeData+7
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-0.674435 -0 1.70947 0.8
+	    flags	()
+	    autoPanelPos	645 437 0 0
+	    node		    USE +14
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-0.3 -6.9 1.7 -6.1
+	    flags	SHOW_AUTOPANEL
+	    autoPanelPos	659 565 0 0
+	    engine		    USE dicomLoader+9
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-7.2 2.7 -5.2 3.5
+	    flags	()
+	    autoPanelPos	62 73 0 0
+	    node		    USE +11
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	4.8 0 6.8 0.8
+	    flags	()
+	    autoPanelPos	575 374 0 0
+	    node		    USE +15
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	-3.3 6 -1.3 6.8
+	    flags	()
+	    node		    DEF OffRenderer Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	-1.23326 4.07075 1
+		    height	16
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +16 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-2.23326 -1.3 -0.23326 -0.5
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +17 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-2.23326 8.64149 -0.233259 9.44149
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	-6.6 3.3 -3.47926 4.1
+			flags	()
+			autoPanelPos	238 590 0 0
+			engine				DEF renderer+18 SoXipOffscreenRenderer {
+			    inputs [ SFNode node,  ]
+			    node				    USE +10
+
+			    outputs [ SoXipSFDataImage image ]
+			}
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	-1.8 3.3 0.199999 4.1
+			flags	()
+			autoPanelPos	471 571 0 0
+			node				DEF image+19 SoXipImage {
+			    fields [ SoXipSFDataImage image ]
+			    image	"NULL" =
+				USE renderer+18
+				. image
+
+			}
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+			placement	-1.8 6 0.2 6.8
+			flags	()
+			node				Separator {
+			    USE image+19
+			}
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +16
+
+	    outputs		    USE +17
+
+	}
+    }
+}

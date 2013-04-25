@@ -1,0 +1,15 @@
+<XMLConfig>
+    <section name="libraries" >
+        <setting key="library">xipivcore</setting>
+        <setting key="library">xipivcoregl</setting>
+        <setting key="library">xipivdicom</setting>
+        <setting key="library">xipivoverlay</setting>
+        <setting key="library">xipivrenderer</setting>
+        <setting key="library">xipivitk</setting>
+        <setting key="library">xipivvtk</setting>
+        <setting key="library">xipivremote</setting>
+    </section>
+    <section name="templates" >
+        <setting key="directory">../templates</setting>
+    </section>
+</XMLConfig>

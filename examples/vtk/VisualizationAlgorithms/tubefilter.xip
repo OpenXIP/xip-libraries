@@ -1,0 +1,181 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.5 6.9 -2.5 7.7
+    flags	()
+    autoPanelPos	286 40 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-7.2 6.3 -5.2 7.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	15 74 0 0
+    node	    SoXipExaminer {
+	mode	ROTATE
+	viewBoundingBox	1.91892 0 0 0
+		0 2.05915 0 0
+		0 0 2.07596 0
+		-0.882456 -1.02587 -1.04127 1
+	plane	-2.92192e-009 -1.02521e-007 1  -0.00329542
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	3.50207 2.26864 0.977644
+	    orientation	-0.143175 -0.733775 -0.664135  4.32968
+	    nearDistance	2.47305
+	    farDistance	5.97047
+	    focalDistance	4.22176
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-4.5 5.7 -2.5 6.5
+    flags	()
+    autoPanelPos	261 108 0 0
+    node	    SoVtkRenderer {
+	fields [ SFVec3f Background ]
+	Background	0 0 1
+    }
+
+}
+#addChild "2" "3"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-4.5 4.5 -2.5 5.3
+    flags	()
+    autoPanelPos	223 124 0 0
+    node	    SoVtkActor {
+	fields [ SoSFVtkObject Mapper, SFVec3f Origin, SFVec3f Orientation, SFVec3f Position,
+		SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+	Mapper	"NULL"
+	Origin	0 0 0
+	Orientation	0 -0 0
+	Position	0 0 0
+	Scale	1 1 1
+	Pickable	1
+	Visibility	1
+    }
+
+}
+#connect "Mapper@3" "Output@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-4.8 3.3 -2.04568 4.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	44 290 0 0
+    engine	    SoVtkPolyDataMapper {
+	inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+		SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+		SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+		SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+		SFFloat RenderTime, SFInt32 ColorMode ]
+	ScalarRange	0 1
+	ResolveCoincidentTopology	0
+	ImmediateModeRendering	0
+	ScalarMode	0
+	GlobalImmediateModeRendering	0
+	ResolveCoincidentTopologyZShift	0.01
+	NumberOfSubPieces	1
+	InputConnection	"NULL"
+	GhostLevel	0
+	UseLookupTableScalarRange	0
+	ScalarMaterialMode	0
+	NumberOfPieces	1
+	Piece	0
+	ScalarVisibility	1
+	InterpolateScalarsBeforeMapping	0
+	Static	0
+	RenderTime	0
+	ColorMode	0
+	outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+    }
+
+}
+#connect "InputConnection@4" "OutputPort@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-4.5 1.8 -2.5 2.6
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	727 162 0 0
+    engine	    SoVtkTubeFilter {
+	inputs [ SFFloat Radius, SFFloat RadiusFactor, SFInt32 OnRatio, SFInt32 SidesShareVertices,
+		SFInt32 VaryRadius, SFFloat TextureLength, SFInt32 NumberOfSides, SoSFVtkObject Input,
+		SoSFVtkAlgorithmOutput InputConnection, SFVec3f DefaultNormal, SFInt32 Offset, SFInt32 UseDefaultNormal,
+		SFInt32 GenerateTCoords, SFInt32 Capping ]
+	Radius	0.05
+	RadiusFactor	0
+	OnRatio	1
+	SidesShareVertices	1
+	VaryRadius	0
+	TextureLength	1
+	NumberOfSides	3
+	Input	"NULL"
+	InputConnection	"NULL"
+	DefaultNormal	0 0 1
+	Offset	0
+	UseDefaultNormal	0
+	GenerateTCoords	0
+	Capping	0
+	outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+#connect "InputConnection@5" "OutputPort@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-4.5 0.6 -2.21593 1.4
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	608 505 0 0
+    engine	    SoVtkEarthSource {
+	inputs [ SFFloat Radius, SFInt32 OnRatio, SFInt32 Outline,  ]
+	Radius	1
+	OnRatio	10
+	Outline	1
+	outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

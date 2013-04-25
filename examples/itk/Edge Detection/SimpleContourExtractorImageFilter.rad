@@ -1,0 +1,255 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	2.05 2.65 8.65361
+	nearDistance	0
+	farDistance	17.3072
+	focalDistance	8.65361
+	height	14.6667
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-0.6 0.9 1.4 1.7
+	    flags	()
+	    autoPanelPos	215 605 385 392
+	    node		    DEF +0 SoXipImage {
+		fields [ SoXipSFDataImage image ]
+		image	"DATA" =
+		    DEF +1 SoItkRescaleIntensityImageFilter {
+			inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum,  ]
+			Input0	"DATA" =
+			    DEF +2 SoItkImageFileReader {
+				inputs [ SFString File,  ]
+				File	"../../data/cthead1.png"
+				outputs [ SoItkSFDataImage Output, MFShort Dimensions ]
+			    }
+			    . Output
+
+			OutputMaximum	1
+			outputs [ SoItkSFDataImage Output ]
+		    }
+		    . Output
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-5.7 0.9 -3.7 1.7
+	    flags	()
+	    autoPanelPos	63 428 385 392
+	    node		    DEF +3 Complexity {
+		value	1
+		textureQuality	1
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-5.77366 -1.2 -3.04301 -0.4
+	    flags	()
+	    autoPanelPos	51 507 385 392
+	    engine		    USE +2
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	2.7 0.9 4.7 1.7
+	    flags	()
+	    autoPanelPos	63 428 385 392
+	    node		    DEF +4 Complexity {
+		value	1
+		textureQuality	1
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-3.3 3 -1.3 3.8
+	    flags	()
+	    viewPos	184 413 385 392
+	    node		    DEF +5 Separator {
+		USE +3
+		DEF +6 SoXipExaminer {
+		    viewBoundingBox	1 0 0 0
+			    0 1 0 0
+			    0 0 1 0
+			    0 0 0 1
+		    complexity			    Complexity {
+		    }
+
+		    orthoCamera			    DEF +7 OrthographicCamera {
+		    }
+
+		    perspectiveCamera			    DEF +8 PerspectiveCamera {
+			position	0.5 0.5 -1.59077
+			orientation	1 0 0  3.14159
+			nearDistance	1.22474
+			farDistance	2.9568
+			focalDistance	2.09077
+			heightAngle	0.785398
+		    }
+
+		    borderNode			    SoXipViewportBorder {
+			fields [  ]
+		    }
+
+		    cameraSwitch			    Switch {
+			whichChild	1
+			USE +7
+			USE +8
+		    }
+
+		}
+		USE +0
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	5.1 3 7.1 3.8
+	    flags	()
+	    viewPos	628 301 385 392
+	    node		    DEF +9 Separator {
+		USE +4
+		DEF +10 SoXipExaminer {
+		    viewBoundingBox	1 0 0 0
+			    0 1 0 0
+			    0 0 1 0
+			    0 0 0 1
+		    complexity			    Complexity {
+		    }
+
+		    orthoCamera			    DEF +11 OrthographicCamera {
+		    }
+
+		    perspectiveCamera			    DEF +12 PerspectiveCamera {
+			position	0.5 0.5 -1.59077
+			orientation	1 0 0  3.14159
+			nearDistance	1.22474
+			farDistance	2.9568
+			focalDistance	2.09077
+			heightAngle	0.785398
+		    }
+
+		    borderNode			    SoXipViewportBorder {
+			fields [  ]
+		    }
+
+		    cameraSwitch			    Switch {
+			whichChild	1
+			USE +11
+			USE +12
+		    }
+
+		}
+		DEF +13 SoXipImage {
+		    fields [ SoXipSFDataImage image ]
+		    image	"DATA" =
+			DEF +14 SoItkSimpleContourExtractorImageFilter {
+			    inputs [ SoItkSFDataImage Input0, SFFloat OutputForegroundValue, MFInt32 Radius, SFFloat InputForegroundValue,
+				     ]
+			    Input0	"DATA" =
+				USE +1
+				. Output
+
+			    OutputForegroundValue	1
+			    Radius	[ 80, 80 ]
+			    InputForegroundValue	1
+			    outputs [ SoItkSFDataImage Output ]
+			}
+			. Output
+
+		}
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-0.751316 -1.2 3.30132 -0.4
+	    flags	()
+	    autoPanelPos	801 114 385 392
+	    engine		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFVec4f autoPanelPos,
+		    SFNode node ]
+	    placement	0.600001 5.7 3.12778 6.5
+	    flags	SHOW_RENDERVIEW
+	    viewPos	171 87 359 666
+	    autoPanelPos	305 244 385 392
+	    node		    DEF +15 SoXipViewportGroup {
+		fields [ SFBool on, SFBool relative, MFVec4f viewports, SFInt32 current ]
+		on	TRUE
+		relative	TRUE
+		viewports	[ 0 0 1 0.5,
+				  0 0.5 1 0.5 ]
+		current	0
+		USE +5
+		USE +9
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	4.88404 -1.2 9.82522 -0.4
+	    flags	()
+	    autoPanelPos	462 530 385 392
+	    engine		    USE +14
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFVec4f autoPanelPos,
+		    SFNode node ]
+	    placement	7.8 0.9 9.8 1.7
+	    flags	()
+	    viewPos	464 709 385 392
+	    autoPanelPos	310 160 385 392
+	    node		    USE +13
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	0.652682 7.49459 2.65268 8.29459
+	    flags	()
+	    node		    Separator {
+		DEF +16 LightModel {
+		    model	BASE_COLOR
+		}
+		USE +15
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-1.64041 5.72369 0.359591 6.52369
+	    flags	()
+	    autoPanelPos	359 132 0 0
+	    node		    USE +16
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3.3 0.9 -1.3 1.7
+	    flags	()
+	    autoPanelPos	281 389 0 0
+	    node		    USE +6
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	5.1 0.9 7.1 1.7
+	    flags	()
+	    autoPanelPos	651 393 0 0
+	    node		    USE +10
+
+	}
+    }
+}

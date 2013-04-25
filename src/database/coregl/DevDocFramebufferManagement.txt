@@ -1,0 +1,224 @@
+
+
+                                        Framebuffer Management
+DEVELOPER
+    
+    Lindholm S, SCR, Princeton
+
+CURRENT STATUS
+    
+    Complete
+    
+INVOLVED CLASSES
+
+    FramebufferObject (struct)
+    
+    SoXipFboElement
+    SoXipFbo
+    SoXipClearFbo
+    SoXipFboAttachColor
+    SoXipFboAttachDepth
+    
+    SoXipPingPong
+    SoXipPingPongFlip
+    
+    SoXipBindTextures
+
+BRIEF
+        
+        What we had:
+        
+            A group node called SoXipFramebufferGroup. The main limitations of this design
+            that called for a an update was,
+            a)  The scope was limited to its children. Even if the node used an element
+                that element was not part of the state.
+            b)  Since it was not part of a state a push/pop was performed within the node
+                to solve issues like changing viewports.
+            c)  The FBO did not support multiple color targets, usage of texture for
+                depthbuffers and a number of other attachment variables.
+            d)  Questions such as where textures were bound and how to access these units
+                were not not adressed properly.
+                
+        What we wanted (as of GPU meeting on 11/3/07):
+        
+            The wishlist of a new FBO sollution included the following,
+            a)  The FBO should follow regular scene-graph rules as to when it is bound and
+                unbound (scope not limited to its children).
+            b)  The above should be done using an element.
+            c)  There should be support for multiple attachments using both textures and
+                renderbuffers.
+            d)  There should be support for adding attachments using seperate nodes and if
+                possible there should be a solution enabling external textures as render
+                targets (might be a seperate node though).
+            e)  Information such as active draw buffers should exist in an element to provide
+                for dynamic clearing of buffers (using glDrawBuffers(...) and glClear(...)).
+        
+ISSUES
+
+    (1) Where to put functionality? The three main blocks should be allocation, attachment and
+        activation!?
+    
+        RESOLUTION: resolved
+        
+            Both the Fbo node and the attachment nodes handle allocation, this causes some
+            but not to much (imho) code duplication. The manipulation (attachment) nodes
+            causes a change in the current setup but it is not until they (as children to the
+            Fbo node) have been traversed and we yet again are in the Fbo code that the actual
+            attaching happens. Activation of the fbo is done before the traversal of its
+            children even though this is should not have to (it does no harm and gives more
+            opportunities for future extensions).
+            This setup allowes for easy manipulation and further extensions (external texture
+            nodes) yet it removes the problem discussed in issue 11.
+
+    
+    (2) Do we specify size and internal formats for the FBO attachments in the FBO node or in
+        the attachment nodes?
+        
+        RESULUTION: resolved, size goes in the fbo node
+        
+            Since the attachments are forced to have identical sizes and internal formats there
+            is no point in exploiting this options more than once. As they are specific for each
+            FBO the most natural thing would be if the options exist in the FBO node. While this
+            is true for the size of the fbo the internal formats on the other hand can (along
+            with most other attachment specific options) be replaced by the attachment nodes.
+
+        
+    (3) How do we prevent the user from reading and writing to the same texture?
+    
+        RESOLUTION: resolved, we don't prevent this
+        
+            It is simply up to the user not to bind a texture both as an FBO attachment and as
+            an OpenGL texture at hte same time.
+
+        
+    (4) When and how do we get access to the rendered images?
+        
+        RESOLUTION: resolved, option c)
+        
+            There are several ideas as how to solve this:
+            a)  We add a node to unbind the the FBO and since we at that time safely can bind the
+                textures to one unit each we do so and give the user the unit IDs.
+                This however has the drawback that we cannot use the textures once we get outside
+                of the scope (i.e. passing a seperator) since the units will be freed and the
+                textures unbound. And also, we do not alwas want to explicitly disable the fbo
+                as this is done automaticly when we get out of the scope.
+            b)  We could have a seperate node for extracting the textures from the element
+                (such a node would be called somthing like SoXipUseFBOTextures). But then how do
+                we know what FBO we want to extract textures from? It would only be valid in the
+                same scope as the FBO is active and therefor be almost equal to option a).
+            c)  We give out the textuer ID's from the FBO node by a field and create a
+                UseFBOTexture that takes this field as an input to extract and bind the
+                textures. The internal code of this node could then be copied to an eventual,
+                more complex, rendering node that would use the textures but take care of the
+                actual binding-to-texture-unit internally.
+
+
+    (5) How do we reset the viewport, since an fbo very well might change it?
+    
+        RESOLUTION: resolved, the FboElement manages the viewports
+        
+            The idea was that this was supposed to be done automaticly when passing a seperator
+            (ie, the element would be a Replaced element), unfortunately this is not the case.
+            So what we need is some way to set the viewport according to the fbo just after the
+            fbo have been activated. The viewport would then be reset when the fbo is pop'ed
+            (ie, in the FBOElement).
+            
+            Options:
+            
+                a)  We use the existing SoViewportRegionelement. My guess is that this would give
+                    us some benefits as to what happens if the vewport is changed while an fbo
+                    is active. It is however not done easy since we are unable to set one element
+                    in another elements pop rutine.
+                    
+                b)  We create a new Replaced FBOViewportElement. This has the a drawback since
+                    we are unable to set it from any FBO pop rutine. If it vould push and pop
+                    just at the fbo pushes and pop's (ie, it is a replaced element) than we gain
+                    nothing.
+                    
+                c)  We create a new "sticky" FBOViewportElement. If we can create a "sticky"
+                    element we could use this in the set/pop rutines of our FBOElement to make
+                    sure the viewport is valid (as long as we do not write while pop'ing). This
+                    would however not be so different from an additional variable in our
+                    existing FBOElement.
+                    
+                d)  We add an additional variable in the FBOElement. Using this variable we could
+                    keep track of the previous viewports and restore it when pop'ing the fbo.
+                    
+                e)  We use the fbo setup's in the FBOElement. We should really have all the
+                    information we need to restore the vieports correctly.
+                    
+            The final resolution became option d)
+
+
+    (6) How do we restore the frambuffer setup upon a pop event?
+    
+        RESOLUTION: resolved
+        
+            The problem here lies in that we have to keep track not only of what draw buffers are
+            active but also which subbuffers are used. I.e. we could have draw buffers 1 (db1)
+            and 2 (db2) active where db1 renders to back and front left buffers while db2 renders
+            to attachment 1. We solve this by storing the sub buffer setup for each draw buffer
+            in an array as a member of the DrawBufferElement. In reality this only makes a
+            differece when pop'ing back to the default frame buffer since all application created
+            buffer always renders to attachment points.
+
+
+    (7) Synchronizing output fields in SoXipFBOBindTextures triggers an invalid adress call at any
+        geometry node that comes behind it. It gets triggered by glBegin(..) and tries to access
+        0x0..058.
+        
+        RESOLUTION: resolved
+        
+            This was a bug caused by the fact that the default output value for texture units not
+            currently in use in BindTextures was -1. If this number was given to the shader as a
+            sampler2D even though it was -1 it resualted in an undefined gl crash.
+            Hard to see and hard to debug, the default was thus changed to 0 instead of -1.
+
+
+    (8) Do we prevent the user from choosing zero attachments resaulting in an incomplete fbo?
+    
+        RESOLUTION: resolved, we do not prevent it    
+    
+            Since we have the option of altering an existing fbo by adding additional attachments
+            the user can set the default attachments to zero. This does however leaves the fbo in
+            an incomplete state before the additional attachments are set.
+            
+            We solve this by informing the user of the need for additional attachments whenever
+            zero is entered in the multiplicity field.
+
+            
+    (9) Do we replace existing attachments if additional ones are creating using the seperate
+        nodes or do we accumulate the elements?
+        
+        RESOLUTION: resolved, we replace the attachments
+        
+            The biggest issue here is that all attachments have to be identical in format and
+            internal format so we would get an overhead and new issues if we tried to accumulate
+            the attachments. Also, depth and stencil attachments are replace by nature so extending
+            this policy for color attachments makes sense (to me at least).
+
+
+    (10) ClearFbo doesn't seem to work with external attachments?
+   
+        RESOLUTION: resolved
+        
+            Make sure the DrawBuffersElement is up to date. Maybe we should try to make the
+            elements depend on eachother rather than setting them seperatly all the time.
+
+
+    (11) After disconnecting an attachment node the Fbo does not fall back to ite previus setup.
+         
+         RESOLUTION: resolved
+         
+            The issue comes fro the fact that there is no way to transport information backwards in
+            a scene graph. Originally the Fbo node set up an fbo and then it was up to the
+            attachments to manipulate it as they wished. Even though this is a common way of solving
+            problems in Xip and worked in this case as well if we allowed seperate fbo objectsto be
+            created it is no optimal solution. Taken into account that a swith of fbo's is somewhat
+            of a costly context switch we needed another solution to the problem.
+            
+            By forcing all manipulative nodes to be children of the Fbo they are to manipulate we
+            avoid the problem of information transportation since we have the choice of executing
+            code both before and after the traversal of the children. Thereby enabling cache without
+            the need for extra fbo's.
+            

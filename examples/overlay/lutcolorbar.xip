@@ -1,0 +1,198 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-3 8.7 -0.2 9.5
+    flags	()
+    viewPos	576 613 508 359
+    autoPanelPos	243 160 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 5 6"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-8.4 5.7 -5.7777 6.5
+    flags	()
+    autoPanelPos	0 298 0 0
+    node	    OrthographicCamera {
+	viewportMapping	LEAVE_ALONE
+	position	0.5 0.5 1
+	height	1.25
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-5.7 5.7 -3.7 6.5
+    flags	()
+    autoPanelPos	272 468 385 392
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-3.6 5.7 -1.6 6.5
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-8.4 3.6 -6.4 4.4
+    flags	()
+    autoPanelPos	0 179 0 0
+    node	    SoXipFontType {
+	fields [ SFEnum type ]
+	type	PIXMAP
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-6 3.6 -3.48607 4.4
+    flags	()
+    autoPanelPos	38 400 0 0
+    node	    SoXipFontAutoScale {
+	fields [  ]
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	1.8 5.7 3.8 6.5
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "6" "7 8 9 10"
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-3 3.6 0.120744 4.4
+    flags	()
+    autoPanelPos	477 465 0 0
+    node	    SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	window	0.782227
+	level	0.383301
+	mouse	BUTTON1
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	0.6 3.6 2.6 4.4
+    flags	()
+    autoPanelPos	57 469 0 0
+    node	    SoXipLut {
+	fields [ SFEnum inputMode, SFShort bitsUsed, SFFloat rampWidth, SFFloat rampCenter,
+		SFString fileIn, SFShort fileEntries, MFColor arrayColor, MFFloat arrayAlpha ]
+	inputMode	RAMP
+	bitsUsed	12
+	rampWidth	0.782227
+	rampCenter	0.383301
+	fileIn	""
+	fileEntries	0
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+#connect "rampWidth@8" "window@7"
+#connect "rampCenter@8" "level@7"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	3 3.6 5.2322 4.4
+    flags	()
+    autoPanelPos	515 61 0 0
+    node	    SoXipLutColorBar {
+	fields [ SFEnum position, SFVec2f origin, SFVec2f size, SFBool showAlpha,
+		SFColor borderColor, SFString bottomLabel, SFString topLabel ]
+	position	RIGHT
+	origin	0.92 0.1
+	size	0.06 0.3
+	showAlpha	FALSE
+	bottomLabel	"0"
+	topLabel	"4095"
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	6 3.6 8 4.4
+    flags	()
+    autoPanelPos	639 532 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"DATA"
+    }
+
+}
+#connect "image@10" "Output@11"
+
+### 11 ###
+SoXipBuilderEngine {
+    placement	-0.3 2.4 4.14272 3.2
+    flags	()
+    autoPanelPos	241 412 0 0
+    engine	    SoItkIntensityWindowingImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat WindowMinimum, SFFloat OutputMaximum, SFFloat WindowMaximum ]
+	Input0	"DATA"
+	WindowMinimum	0
+	OutputMaximum	4095
+	WindowMaximum	200
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@11" "output@12"
+
+### 12 ###
+SoXipBuilderEngine {
+    placement	-3 2.4 -1 3.2
+    flags	()
+    autoPanelPos	651 466 385 464
+    engine	    SoXipLoadRaw {
+	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+		SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
+	voxelType	USHORT
+	width	256
+	height	256
+	depth	1
+	bitsUsed	12
+	modelMatrix	1 0 0 0
+		0 -1 0 0
+		0 0 1 0
+		0 1 0 1
+	file	"../data/lena.raw"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9, 10, 11, 12 ]
+    position	-0.35 5.8 5.63494
+    height	13.4815
+    inputs	[  ]
+    outputs	[  ]
+}
+

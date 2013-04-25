@@ -1,0 +1,14 @@
+#Inventor V2.1 ascii
+
+Separator {
+    DEF image SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL" =
+	    DEF renderer SoXipOffscreenRenderer {
+		inputs [  ]
+		outputs [ SoXipSFDataImage image ]
+	    }
+	    . image
+
+    }
+}

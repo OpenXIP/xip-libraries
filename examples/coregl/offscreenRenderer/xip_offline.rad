@@ -1,0 +1,86 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-0.95 -0.05 5.93001
+	nearDistance	-0
+	farDistance	11.86
+	focalDistance	5.93001
+	height	9.44
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	1.8 -3.6 3.8 -2.8
+	    flags	()
+	    autoPanelPos	602 483 385 385
+	    node		    DEF +0 SoXipImage {
+		fields [ SoXipSFDataImage image ]
+		image	"DATA" =
+		    DEF +1 SoXipOffscreenRenderer {
+			inputs [ SFNode node,  ]
+			node				DEF +2 Separator {
+			    DEF +3 SoXipLoadShaders {
+				fields [ SFString fpFilename,  ]
+				fpFilename	"red.glsl.frag.txt"
+			    }
+			    DEF +4 SoXipDrawQuad {
+				fields [  ]
+			    }
+			}
+
+			outputs [ SoXipSFDataImage image ]
+		    }
+		    . image
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFNode node ]
+	    placement	1.2 0 3.29 0.8
+	    node		    USE +4
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3.3 -1.5 -0.89 -0.7
+	    flags	()
+	    autoPanelPos	172 526 385 385
+	    node		    USE +3
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFVec4f autoPanelPos,
+		    SFNode node ]
+	    placement	-1.2 2.7 0.8 3.5
+	    flags	()
+	    viewPos	325 303 385 385
+	    autoPanelPos	333 312 385 385
+	    node		    USE +2
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-5.7 -3.6 -2.67 -2.8
+	    flags	()
+	    autoPanelPos	120 503 385 385
+	    engine		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	1.5 -1.8 3.5 -1
+	    flags	()
+	    viewPos	464 532 385 385
+	    node		    Separator {
+		USE +0
+	    }
+
+	}
+    }
+}

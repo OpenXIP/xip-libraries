@@ -1,0 +1,631 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	0 0 1
+	height	16
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	-4.24304 4.00816 -2.24304 4.80816
+	    flags	()
+	    node		    Separator {
+		DEF +0 SoXipMprPlane {
+		    fields [ SFMatrix plane, SFVec3f center,  ]
+		    plane	-0.277334 0.642301 0.714517 0
+			    -0.845308 0.190359 -0.499217 0
+			    -0.456661 -0.742436 0.49015 0
+			    0.408668 0.351513 0.598029 1
+		    center	0.5 0.5 0.5
+		}
+		DEF +1 SoXipMprExaminer {
+		    mouse	BUTTON1
+		    mode	ROTATE
+		    dogEar	TRUE
+		    orientationCube	TRUE
+		    camera			    OrthographicCamera {
+			position	0.408668 0.351513 0.598029
+			orientation	0.127415 -0.613545 0.779313  1.87383
+			nearDistance	-1
+			farDistance	1
+			focalDistance	0
+			height	1
+		    }
+
+		    complexity			    Complexity {
+			value	0.5
+			textureQuality	0.5
+		    }
+
+		    intersectionManip			    SoXipMprIntersectionManip {
+			fields [ SFBool on,  ]
+			on	TRUE
+		    }
+
+		    borderNode			    SoXipViewportBorder {
+			fields [ SFColor activeColor, SFColor inactiveColor,  ]
+			activeColor	1 1 1
+			inactiveColor	1 1 1
+		    }
+
+		    dogEarNode			    DEF +2 SoXipDogEar {
+			fields [  ]
+		    }
+
+		    orientationNode			    DEF +3 SoXipOrientationCube {
+			fields [  ]
+		    }
+
+		    dogEarSwitch			    Switch {
+			whichChild	0
+			USE +2
+		    }
+
+		    orientationSwitch			    Switch {
+			whichChild	0
+			USE +3
+		    }
+
+		}
+		DEF +4 SoXipMPRRender {
+		    fields [ SoXipSFDataImage volume ]
+		    volume	"DATA" =
+			DEF +5 SoXipVolumeDicom {
+			    inputs [ SoXipMFDataDicom input ]
+			    input	[ "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA",
+					      "DATA" ] =
+				DEF +6 SoXipSortDicom {
+				    inputs [ SoXipMFDataDicom input ]
+				    input	[ "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA",
+						      "DATA" ] =
+					DEF +7 SoXipLoadDicom {
+					    inputs [ MFString name ]
+					    name	"C:\Data\CTHeart2"
+					    outputs [ SoXipMFDataDicom dicom ]
+					}
+					. dicom
+
+				    outputs [ SoXipMFDataDicom output ]
+				}
+				. output
+
+			    outputs [ SoXipSFDataImage output ]
+			}
+			. output
+
+		}
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-2.4 -2.7 -0.4 -1.9
+	    flags	SHOW_AUTOPANEL
+	    autoPanelPos	594 519 0 0
+	    engine		    USE +7
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-2.4 -1.2 -0.4 -0.4
+	    flags	SHOW_AUTOPANEL
+	    autoPanelPos	599 417 0 0
+	    engine		    USE +6
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-2.7 0.3 -0.323377 1.1
+	    flags	SHOW_AUTOPANEL
+	    autoPanelPos	596 312 0 0
+	    engine		    USE +5
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-1.8 1.8 0.342857 2.6
+	    flags	SHOW_AUTOPANEL
+	    autoPanelPos	575 208 0 0
+	    node		    USE +4
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-4.5 1.5 -2.18831 2.3
+	    flags	()
+	    autoPanelPos	282 506 0 0
+	    node		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	-6.9 1.5 -4.9 2.3
+	    flags	()
+	    node		    USE +0
+
+	}
+    }
+}

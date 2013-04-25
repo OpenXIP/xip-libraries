@@ -1,0 +1,37 @@
+#Inventor V2.1 ascii
+
+Separator {
+    SoXipShapeList {
+	fields [ SFString label ]
+	label	""
+	SoXipEllipse {
+	    fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		    SFVec3f textPosition, SFVec3f center, SFVec3f a, SFVec3f b,
+		     ]
+	    status	NONE
+	    rank	1
+	    label	[ "User_1",
+			      "Ellipse" ]
+	    caption	"Ellipse"
+	    textPosition	0.330909 0.321083 -4.5
+	    center	0.541841 0.507845 -4.5
+	    a	0 -0.264121 0
+	    b	0.279812 0 0
+	}
+	SoXipRectangle {
+	    fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		    SFVec3f textPosition, SFVec3f p0, SFVec3f p1, SFVec3f p2,
+		    SFVec3f p3 ]
+	    status	NONE
+	    rank	2
+	    label	[ "User_1",
+			      "Rectangle" ]
+	    caption	"Rectangle"
+	    textPosition	0.084205 0.533996 -4.5
+	    p0	0.0972803 0.863494 -4.5
+	    p1	0.591527 0.863494 -4.5
+	    p2	0.591527 0.533996 -4.5
+	    p3	0.0972803 0.533996 -4.5
+	}
+    }
+}

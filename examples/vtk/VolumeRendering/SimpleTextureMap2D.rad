@@ -1,0 +1,219 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	0.25 3.25 11.7654
+	nearDistance	0
+	farDistance	23.5308
+	focalDistance	11.7654
+	height	15.32
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-5.4 3.3 -2.27 4.1
+	    flags	()
+	    autoPanelPos	1727 316 385 392
+	    engine		    DEF +0 SoVtkPiecewiseFunction {
+		inputs [ SFInt32 MaximumNumberOfPieces, SFInt32 RequestExactExtent, SFInt32 UpdatePiece, SFInt32 UpdateGhostLevel,
+			SFInt32 UpdateNumberOfPieces, SFInt32 Clamping, SoMFVariant Point ]
+		MaximumNumberOfPieces	-1
+		RequestExactExtent	0
+		UpdatePiece	0
+		UpdateGhostLevel	0
+		UpdateNumberOfPieces	1
+		Clamping	1
+		Point	[ 20 0 , 255 0.2 ]
+		outputs [ SoSFVtkObject Output ]
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	0 3 2.81 3.8
+	    flags	()
+	    autoPanelPos	1727 316 385 392
+	    engine		    DEF +1 SoVtkVolumeProperty {
+		inputs [ SFFloat Ambient, SFInt32 Shade, SFInt32 InterpolationType, SoSFVtkObject ScalarOpacity,
+			SFFloat Diffuse, SFFloat Specular, SFInt32 IndependentComponents, SoSFVtkObject Color,
+			SFFloat SpecularPower, SFFloat ScalarOpacityUnitDistance, SFInt32 DisableGradientOpacity ]
+		Ambient	0.1
+		Shade	0
+		InterpolationType	0
+		ScalarOpacity	"DATA" =
+		    USE +0
+		    . Output
+
+		Diffuse	0.7
+		Specular	0.2
+		IndependentComponents	1
+		Color	"DATA" =
+		    DEF +2 SoVtkColorTransferFunction {
+			inputs [ SFInt32 HSVWrap, SFInt32 VectorComponent, SFInt32 ColorSpace, SFInt32 Clamping,
+				SoMFVariant RGBPoint, SFInt32 VectorMode, SFFloat Alpha ]
+			HSVWrap	1
+			VectorComponent	0
+			ColorSpace	0
+			Clamping	1
+			RGBPoint	[ 0 0 0 0 , 64 1 0 0 , 128 0 0 1 , 192 0 1 0 , 255 0 0.2 0 ]
+			VectorMode	1
+			Alpha	1
+			outputs [ SoSFVtkObject Output ]
+		    }
+		    . Output
+
+		SpecularPower	10
+		ScalarOpacityUnitDistance	1
+		DisableGradientOpacity	0
+		outputs [ SoSFVtkObject Output ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	1.5 6 3.61 6.8
+	    flags	()
+	    autoPanelPos	1364 99 385 392
+	    node		    DEF +3 SoXipExaminer {
+		borderNode			SoRadViewportBorder {
+		    fields [ SFColor activeColor, SFColor inactiveColor ]
+		    activeColor	0.7 0.7 0.7
+		    inactiveColor	0.7 0.7 0.7
+		}
+
+		mode	ROTATE
+		viewBoundingBox	67 0 0 0
+			0 67 0 0
+			0 0 67 0
+			0 0 0 1
+		plane	-0.424534 0.38828 0.81793  26.1861
+		complexity			Complexity {
+		    value	0.5
+		    textureQuality	0.5
+		}
+
+		orthoCamera			DEF +4 OrthographicCamera {
+		}
+
+		perspectiveCamera			DEF +5 PerspectiveCamera {
+		    position	142.273 -53.886 45.9612
+		    orientation	-0.493019 0.462509 -0.736898  3.02847
+		    nearDistance	82.0579
+		    farDistance	198.105
+		    focalDistance	140.082
+		    heightAngle	0.785398
+		}
+
+		borderSwitch			Switch {
+		}
+
+		cameraSwitch			Switch {
+		    whichChild	1
+		    USE +4
+		    USE +5
+		}
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	3.3 8.4 5.3 9.2
+	    flags	()
+	    viewPos	1440 342 385 392
+	    node		    Separator {
+		USE +3
+		DEF +6 SoVtkRenderer {
+		    fields [ SFVec3f Background ]
+		    Background	0 0 0
+		    DEF +7 SoVtkVolume {
+			fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Position ]
+			Mapper	"DATA" =
+			    DEF +8 SoVtkVolumeTextureMapper2D {
+				inputs [ SFInt32 Cropping, MFFloat CroppingRegionPlanes, SFInt32 MaximumStorageSize, SFInt32 MaximumNumberOfPlanes,
+					SFVec2f TargetTextureSize, SFInt32 CroppingRegionFlags, SFInt32 BlendMode, SoSFVtkAlgorithmOutput InputConnection ]
+				Cropping	0
+				CroppingRegionPlanes	0
+				MaximumStorageSize	0
+				MaximumNumberOfPlanes	0
+				TargetTextureSize	512 512
+				CroppingRegionFlags	8192
+				BlendMode	0
+				InputConnection	"DATA" =
+				    DEF +9 SoVtkStructuredPointsReader {
+					inputs [ SFInt32 ReadFromInputString, SFInt32 ReadAllNormals, SFInt32 ReadAllTCoords, SFInt32 ReadAllColorScalars,
+						SFInt32 ReadAllTensors, SFInt32 ReadAllScalars, SFInt32 ReadAllVectors, MFString FileName,
+						SFInt32 ReadAllFields ]
+					ReadFromInputString	0
+					ReadAllNormals	0
+					ReadAllTCoords	0
+					ReadAllColorScalars	0
+					ReadAllTensors	0
+					ReadAllScalars	0
+					ReadAllVectors	0
+					FileName	"../../data/ironProt.vtk"
+					ReadAllFields	0
+					outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+				    }
+				    . OutputPort
+
+				outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+			    }
+			    . Output
+
+			Property	"DATA" =
+			    USE +1
+			    . Output
+
+			Origin	0 0 0
+			Position	0 0 0
+		    }
+		}
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-3.3 0.3 0.57 1.1
+	    flags	()
+	    autoPanelPos	1579 269 385 392
+	    engine		    USE +8
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	4.8 2.1 6.8 2.9
+	    flags	()
+	    autoPanelPos	2059 567 385 392
+	    node		    USE +7
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	4.8 4.2 6.8 5
+	    flags	()
+	    node		    USE +6
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-5.7 2.1 -2.23 2.9
+	    flags	()
+	    autoPanelPos	293 347 0 0
+	    engine		    USE +2
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-9.9 0.3 -6.19 1.1
+	    flags	()
+	    autoPanelPos	158 420 0 0
+	    engine		    USE +9
+
+	}
+    }
+}

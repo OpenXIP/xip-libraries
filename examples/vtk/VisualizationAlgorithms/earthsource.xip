@@ -1,0 +1,150 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.5 6.9 -2.5 7.7
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-7.2 6.3 -5.2 7.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	15 74 0 0
+    node	    SoXipExaminer {
+	mode	ROTATE
+	viewBoundingBox	1.84753 0 0 0
+		0 1.97753 0 0
+		0 0 1.9903 0
+		-0.851867 -0.986667 -0.996733 1
+	plane	4.25274e-016 -8.74228e-008 1  -0.0015831
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	3.70405 0.127802 1.79719
+	    orientation	0.420756 0.56612 0.708853  1.68944
+	    nearDistance	2.37543
+	    farDistance	5.73479
+	    focalDistance	4.05511
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-4.5 5.7 -2.5 6.5
+    flags	()
+    autoPanelPos	300 109 0 0
+    node	    SoVtkRenderer {
+	fields [ SFVec3f Background ]
+	Background	0 0 1
+    }
+
+}
+#addChild "2" "3"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-4.5 4.5 -2.5 5.3
+    flags	()
+    autoPanelPos	223 124 0 0
+    node	    SoVtkActor {
+	fields [ SoSFVtkObject Mapper, SFVec3f Origin, SFVec3f Orientation, SFVec3f Position,
+		SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+	Mapper	"NULL"
+	Origin	0 0 0
+	Orientation	0 -0 0
+	Position	0 0 0
+	Scale	1 1 1
+	Pickable	1
+	Visibility	1
+    }
+
+}
+#connect "Mapper@3" "Output@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-4.8 3.3 -2.04568 4.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	41 271 0 0
+    engine	    SoVtkPolyDataMapper {
+	inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+		SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+		SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+		SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+		SFFloat RenderTime, SFInt32 ColorMode ]
+	ScalarRange	0 1
+	ResolveCoincidentTopology	0
+	ImmediateModeRendering	0
+	ScalarMode	0
+	GlobalImmediateModeRendering	0
+	ResolveCoincidentTopologyZShift	0.01
+	NumberOfSubPieces	1
+	InputConnection	"NULL"
+	GhostLevel	0
+	UseLookupTableScalarRange	0
+	ScalarMaterialMode	0
+	NumberOfPieces	1
+	Piece	0
+	ScalarVisibility	1
+	InterpolateScalarsBeforeMapping	0
+	Static	0
+	RenderTime	0
+	ColorMode	0
+	outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+    }
+
+}
+#connect "InputConnection@4" "OutputPort@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-4.2 1.8 -1.91593 2.6
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	328 455 0 0
+    engine	    SoVtkEarthSource {
+	inputs [ SFFloat Radius, SFInt32 OnRatio, SFInt32 Outline,  ]
+	Radius	1
+	OnRatio	10
+	Outline	1
+	outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

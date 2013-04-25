@@ -1,0 +1,152 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	0 0 1
+	height	16
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	2.15789 3.31517 4.15789 4.11517
+	    flags	()
+	    autoPanelPos	194 84 0 0
+	    node		    DEF +0 SoVtkActor {
+		fields [ SoSFVtkObject Mapper, SFVec3f Origin, SFVec3f Orientation, SFVec3f Position,
+			SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+		Mapper	"DATA" =
+		    DEF +1 SoVtkPolyDataMapper {
+			inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+				SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+				SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+				SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+				SFFloat RenderTime, SFInt32 ColorMode ]
+			ScalarRange	0 1
+			ResolveCoincidentTopology	0
+			ImmediateModeRendering	0
+			ScalarMode	0
+			GlobalImmediateModeRendering	0
+			ResolveCoincidentTopologyZShift	0.01
+			NumberOfSubPieces	1
+			InputConnection	"DATA" =
+			    DEF +2 SoVtkConeSource {
+				inputs [ SFFloat Radius, SFFloat Height, SFInt32 Capping, SFVec3f Direction,
+					SFVec3f Center, SFInt32 Resolution, SFFloat Angle,  ]
+				Radius	0.5
+				Height	1
+				Capping	1
+				Direction	1 0 0
+				Center	0 0 0
+				Resolution	6
+				Angle	26.5651
+				outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+			    }
+			    . OutputPort
+
+			GhostLevel	0
+			UseLookupTableScalarRange	0
+			ScalarMaterialMode	0
+			NumberOfPieces	1
+			Piece	0
+			ScalarVisibility	1
+			InterpolateScalarsBeforeMapping	0
+			Static	0
+			RenderTime	0
+			ColorMode	0
+			outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+		    }
+		    . Output
+
+		Origin	0 0 0
+		Orientation	0 -0 0
+		Position	0 0 0
+		Scale	1 1 1
+		Pickable	1
+		Visibility	1
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	1.98452 5.19752 3.98452 5.99752
+	    flags	()
+	    node		    DEF +3 SoVtkRenderer {
+		fields [  ]
+		USE +0
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-3.48916 -0.300929 -1.48916 0.499071
+	    flags	()
+	    autoPanelPos	236 310 0 0
+	    engine		    USE +2
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	3 -0.3 5 0.5
+	    flags	()
+	    autoPanelPos	551 322 0 0
+	    engine		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-1.60681 4.50402 0.393189 5.30402
+	    flags	()
+	    autoPanelPos	206 92 0 0
+	    node		    DEF +4 SoXipExaminer {
+		orientation	FEET
+		mode	ROTATE
+		autoSpin	FALSE
+		viewBoundingBox	1 0 0 0
+			0 1 0 0
+			0 0 0.866027 0
+			-0.5 -0.500001 -0.433014 1
+		complexity			Complexity {
+		    value	0.5
+		    textureQuality	0.5
+		}
+
+		orthoCamera			DEF +5 OrthographicCamera {
+		}
+
+		perspectiveCamera			DEF +6 PerspectiveCamera {
+		    position	-5.96572e-008 1.78972e-007 -2.00176
+		    orientation	1 -1.49012e-008 -1.49012e-008  3.14159
+		    nearDistance	1.17261
+		    farDistance	2.83092
+		    focalDistance	2.00176
+		    heightAngle	0.785398
+		}
+
+		borderSwitch			Switch {
+		}
+
+		cameraSwitch			Switch {
+		    whichChild	1
+		    USE +5
+		    USE +6
+		}
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	-0.3 6.6 1.7 7.4
+	    flags	()
+	    node		    Separator {
+		USE +4
+		USE +3
+	    }
+
+	}
+    }
+}

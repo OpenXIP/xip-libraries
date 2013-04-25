@@ -1,0 +1,151 @@
+
+
+                                        Shader Management
+DEVELOPER
+    
+    Lindholm S, SCR, Princeton
+
+CURRENT STATUS
+    
+    Complete
+    
+INVOLVED CLASSES
+
+    ShaderProgramManager
+    SoXipGLSLPrograms
+    SoXipGLSLUseProgram
+    
+BRIEF
+        
+        What we had:
+        
+            The mangement of shaders was built around regular scene graph rules where
+            shaders got loaded and bounf using a SoXipLoadShaders node. While beeing
+            intuitive in a scene graph sense this made for some restrictions since we
+            were in the need of a more dynamic way of bindng /unbinding shaders. Some
+            of the highlighted limitations was:
+            a)  A shader could only be activated by a connection in a scene graph,
+                however intuitive this made it impossible to work with shaders in a
+                dynamic way inside more complex rendering node.
+                
+        What we wanted (as of GPU meeting on 10/26/07):
+        
+            The wishlist of a new shader sollution included the following,
+            
+            a)  Shaders should be managed by a central entiry, a "shader manager" or
+                "shader pool", that would reflect the current context and its compiled
+                shaders.
+            b)  Shaders should be accessable through tags (a name string) given as a call
+                to the manager. This would work in favor for environmets were shaders
+                are compiled once and then bound several times in different places
+                (even within more complex nodes). Instead of passing the handle we are
+                now able to activate a shader by remembering its tag and call it by name.
+            c)  We should be able to upload multiple shaders using a single node and in
+                the event of a shader beeing in the need of a recompilation (by source
+                change or different define setup) only the parts of the shader that need
+                recompilation should be recompiled.
+            d)  We should have away of recompiling shaders automaticly if their source
+                is changed using timestamps in the manager or in the loading nodes.
+            e)  The solution should support an eventual shader debugger/editor. That is,
+                during development the idea of a debuger should be present but since the
+                debugger does not exists no protocol to follow exists either.
+        
+ISSUES
+
+    (1) Do we create the manager as a stand alone class free of inventor and opengl?
+        If so, then where do we place such functionality?
+        
+        RESOLUTION: resolved, the manager is stand alone
+
+            The two main options here were:
+            
+            a)  A stand alone solution free of open inventor and open gl, thus simply a
+                list with shader entries.
+            b)  A more complete manager with all functionality built in to it, including
+                binding, compiling and linkage.
+                
+            On behalf of option a) there are heavier issues concerning interface between
+            loading nodes (i.e. SoXipLoadMultipleShaders) and the manager if the
+            functionality exist in the manager. Every time a field change we would have
+            to access the manager and compare the corresponding entry with the new values.
+            By moving most of the functionality to the loding nodes the interface can be
+            held simple. This solution would make the loading nodes responsible for the
+            created shaders (including their updates and eventual removal from the system).
+            
+            On behalf of option b) on the other hand there will be more code repetition
+            present. If all entities that manage shaders (loading nodes, complex render
+            nodes, debuggers, etc.) all have to have their own version of the functionality
+            implemented this could possibly lead to uasge of "depricated" functions if the
+            manager or its interface is ever changed.
+            
+            We finaly resolved to use option a) due to the portability of the manger itself.
+            Another reason was the fact that even though a more complex manager would
+            prevent some code duplication it would have to have a massive interface since
+            all shader using entities don't have the same idea of what have to be in a
+            shader (i.e. they do not have the same fields avaliable).
+        
+            
+    (2) When do we remove a shader from the context?
+    
+        RESOLUTION: resolved, all responsibility lies with the loading node
+        
+            At first the idea was that when a shader no longer exist in the manager it should
+            be removed from the context (that is, the shader would be destroyed as its manager
+            entry was deleted or altered). This comes natural from the fact that the manager is
+            a reflection of what is in the context.
+            
+            However, due to the large number of ways a shader can earn the label dirty and
+            need recompilation this happens often enough for the handles in the manager to be
+            obsolete (and thereby reused) by the time we update the manager (all done within
+            one frame though). So the responsibility of removing obsolete shaders from the
+            context (calling glDeleteShader) and synchronising the manager according to the
+            context is completely up to the loading node.
+        
+            
+    (3) Node naming, what names are the most representive yet consistent for future development?
+    
+        RESULUTION: resolved, SoXipGLSLPrograms and SoXipGLSLUseProgram
+        
+            The nodes were originallly named SoXipLoadShaders (both compiling and binding) but
+            were scheduled to be split into SoXipLoadShaders (compiling) and SoXipUseShader
+            (binding).
+            The issue lies in the fact that while the names are user friendly they are not very
+            consistent in what the represent. A shader in opengl is but a part of the actual
+            program in the context. And since later development might expose the option of
+            linking several, seperatly compiled, shaders into one program we need more general
+            names for our nodes.
+            
+            Choices for the compiling/linking node:
+                
+                a)  SoXipSimpleGLSLProgram
+                    SoXipCreateGLSLProgram
+                    SoXipMakeGLSLProgram
+                    SoXipBuildGLGLProgram
+                    
+                    SoXipGLSLSimpleProgram
+                    SoXipGLSLCreateProgram
+                    SoXipGLSLMakeProgram
+                    SoXipGLSLBuildProgram
+                    
+            Choices for the binding node:
+                
+                a)  SoXipUseProgram
+                    SoXipGLSLUseProgram
+                    SoXipGLSLUseProgram
+
+
+    (4) How often do we check the timestamps? Do we expose the time as an option?
+    
+        RESOLUTION: resolved, 1/3 seconds no expose
+        
+            This could easily be exposed if desired.
+
+            
+    (5) The shader manager does not empty on context switch?
+    
+        RESOLUTION: open
+        
+            This is a bug in XIP since it is caused by the fact that no destructors are being
+            run when the workspace is cleared (they should).
+
+            

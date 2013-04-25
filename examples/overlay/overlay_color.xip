@@ -1,0 +1,167 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-5.4 4.8 -3.4 5.6
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 7"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-9.6 2.1 -6.97771 2.9
+    flags	()
+    node	    OrthographicCamera {
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-6.9 2.1 -4.9 2.9
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-4.8 2.1 -2.8 2.9
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "3" "4 5 6"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-9.9 -0.3 -7.55944 0.5
+    flags	()
+    autoPanelPos	174 590 0 0
+    node	    SoXipOverlayColor {
+	fields [ MFString label, SFColor color,  ]
+	label	"User_1"
+	color	1 0 0
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-7.5 -0.3 -5.15944 0.5
+    flags	()
+    autoPanelPos	345 539 0 0
+    node	    SoXipOverlayColor {
+	fields [ MFString label, SFColor color,  ]
+	label	"Tumor"
+	color	0 1 0
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	-5.1 -0.3 -2.75944 0.5
+    flags	()
+    autoPanelPos	476 519 0 0
+    node	    SoXipOverlayColor {
+	fields [ MFString label, SFColor color,  ]
+	label	[ "User_1",
+			  "Tumor" ]
+	color	0 0 1
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-2.7 2.1 -0.700001 2.9
+    flags	()
+    node	    SoXipShapeList {
+	fields [  ]
+    }
+
+}
+#addChild "7" "8 9 10"
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-2.1 -0.3 -0.100002 0.5
+    flags	()
+    autoPanelPos	535 643 0 0
+    node	    SoXipEllipse {
+	fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		SFVec3f textPosition, SFVec3f center, SFVec3f a, SFVec3f b,
+		 ]
+	status	NONE
+	label	"User_1"
+	caption	""
+	textPosition	-0.357589 -0.386982 -4.5
+	center	0.00209208 -0.0585774 -4.5
+	a	0 -0.464435 0
+	b	0.47908 0 0
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	0 -0.3 2 0.5
+    flags	()
+    autoPanelPos	789 533 0 0
+    node	    SoXipRectangle {
+	fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		SFVec3f textPosition, SFVec3f p0, SFVec3f p1, SFVec3f p2,
+		SFVec3f p3 ]
+	status	NONE
+	label	[ "User_2",
+			  "Tumor" ]
+	textPosition	-0.652719 0.146443 -4.5
+	p0	-0.631799 0.648536 -4.5
+	p1	0.230125 0.648536 -4.5
+	p2	0.230125 0.146443 -4.5
+	p3	-0.631799 0.146443 -4.5
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	2.1 -0.3 4.1 0.5
+    flags	()
+    autoPanelPos	605 609 0 0
+    node	    SoXipPolygon {
+	fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		SFVec3f textPosition, MFVec3f point, SFBool closed,  ]
+	status	NONE
+	label	[ "User_1",
+			  "Tumor" ]
+	textPosition	-0.778243 -0.380754 -4.5
+	point	[ -0.757322 -0.359833 -4.5,
+			  -0.518828 0.389121 -4.5,
+			  0.0543933 0.0125523 -4.5,
+			  -0.0962343 -0.230126 -4.5,
+			  0.34728 -0.569038 -4.5,
+			  -0.142259 -0.702929 -4.5,
+			  -0.439331 -0.497908 -4.5 ]
+	closed	TRUE
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9, 10 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

@@ -1,0 +1,472 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	0.7 7.2 3.5 8
+    flags	()
+    autoPanelPos	697 148 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 6 17 23"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-1.8 1.8 0.2 2.6
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-4.5 2.7 -2.5 3.5
+    flags	()
+    autoPanelPos	0 395 0 0
+    node	    SoXipExaminer {
+	orientation	POSTERIOR
+	mode	ROTATE
+	viewBoundingBox	2.5 0 0 0
+		0 2.5 0 0
+		0 0 2 0
+		-1 -1 -1 1
+	plane	1.68587e-007 -1 1.34359e-007  -0.25
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	1.06314 -0.204331 -4.81402
+	    orientation	-0.0102363 0.998816 -0.0475551  2.97577
+	    nearDistance	2.87228
+	    farDistance	6.9343
+	    focalDistance	4.90329
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	0.3 3 2.3 3.8
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "3" "4 5"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-2.4 0.3 -0.4 1.1
+    flags	()
+    autoPanelPos	248 415 0 0
+    node	    Translation {
+	translation	-0.5 -0.1 0
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	3.9 -5.1 5.9 -4.3
+    flags	()
+    node	    Cone {
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	1.10984 1.8 5.33756 2.6
+    flags	()
+    autoPanelPos	438 277 0 0
+    node	    SoXipTransparentGeometryGroup {
+	fields [  ]
+    }
+
+}
+#addChild "6" "7 9"
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-6.3 -0.9 -4.3 -0.1
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "7" "8"
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-10.5 -4.8 -8.5 -4
+    flags	()
+    autoPanelPos	0 489 0 0
+    node	    Material {
+	diffuseColor	0.2 0.2 0.8
+	transparency	0.8
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-0.9 -1.2 2.7 -0.4
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "9" "10 11 12 13 14 15 16 5"
+
+### 10 ###
+SoXipBuilderNode {
+    placement	-4.5 -3.9 -2.5 -3.1
+    flags	()
+    autoPanelPos	433 582 0 0
+    node	    Material {
+	diffuseColor	0.8 0.2 0.2
+	transparency	0.8
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	-3.9 -4.8 -1.9 -4
+    flags	()
+    node	    Cone {
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	-2.4 -3.9 -0.399999 -3.1
+    flags	()
+    autoPanelPos	40 646 0 0
+    node	    Material {
+	diffuseColor	0.5 0.6 0.8
+	transparency	0.8
+    }
+
+}
+
+### 13 ###
+SoXipBuilderNode {
+    placement	-1.5 -4.8 0.5 -4
+    flags	()
+    autoPanelPos	377 826 0 0
+    node	    Sphere {
+    }
+
+}
+
+### 14 ###
+SoXipBuilderNode {
+    placement	-0.3 -3.9 1.7 -3.1
+    flags	()
+    autoPanelPos	16 283 0 0
+    node	    Translation {
+	translation	0.5 0.5 -0
+    }
+
+}
+
+### 15 ###
+SoXipBuilderNode {
+    placement	1.8 -3.9 3.79999 -3.1
+    flags	()
+    autoPanelPos	407 646 0 0
+    node	    Material {
+	diffuseColor	0.2 0.8 0.2
+	transparency	0.8
+    }
+
+}
+
+### 16 ###
+SoXipBuilderNode {
+    placement	1.5 -5.1 3.5 -4.3
+    flags	()
+    autoPanelPos	377 646 0 0
+    node	    Sphere {
+	radius	0.5
+    }
+
+}
+
+### 17 ###
+SoXipBuilderNode {
+    placement	5.4 1.8 7.4 2.6
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "17" "18 20 21 22"
+
+### 18 ###
+SoXipBuilderNode {
+    placement	3.6 -1.2 5.6 -0.4
+    flags	()
+    autoPanelPos	705 461 0 0
+    node	    SoXipFbo {
+	fields [ SFInt32 width, SFInt32 height, SFBool autoSize, SFInt32 colorAttachments,
+		SFBool useDepthBuffer, MFInt32 colorHandlesOutput ]
+	width	843
+	height	767
+	autoSize	TRUE
+	colorAttachments	1
+	useDepthBuffer	FALSE
+	colorHandlesOutput	[  ]
+    }
+
+}
+#addChild "18" "19"
+
+### 19 ###
+SoXipBuilderNode {
+    placement	2.61313 -3.3 5.40274 -2.5
+    flags	()
+    autoPanelPos	857 637 0 0
+    node	    SoXipFboAttachDepth {
+	fields [  ]
+    }
+
+}
+
+### 20 ###
+SoXipBuilderNode {
+    placement	6.6 -2.4 8.6 -1.6
+    flags	()
+    autoPanelPos	64 447 0 0
+    node	    SoXipPingPong {
+	fields [ MFInt32 handleOutput, MFInt32 opUnitOutput ]
+	handleOutput	[  ]
+	opUnitOutput	[  ]
+    }
+
+}
+
+### 21 ###
+SoXipBuilderNode {
+    placement	5.4 0 7.7947 0.8
+    flags	()
+    autoPanelPos	744 266 0 0
+    node	    SoXipLoadShaders {
+	fields [ SFString fpFilename,  ]
+	fpFilename	"shaders/transparent_geometry_frag.glsl"
+    }
+
+}
+
+### 22 ###
+SoXipBuilderNode {
+    placement	6.4266 -1.2 11.0528 -0.4
+    flags	()
+    autoPanelPos	617 399 0 0
+    node	    SoXipTransparentGeometryRenderer {
+	fields [ SFInt32 maxNumLayers, SFInt32 firstLayer, SFInt32 textureUnit, SFUInt32 outputColorBufferHandle,
+		SFUInt32 outputDepthBufferHandle ]
+	maxNumLayers	4
+	firstLayer	0
+	textureUnit	2
+	outputColorBufferHandle	0x2
+	outputDepthBufferHandle	0x5
+    }
+
+}
+
+### 23 ###
+SoXipBuilderNode {
+    placement	11.1 1.8 14.7 2.6
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "23" "24 25 26 27 28 29 30 32"
+
+### 24 ###
+SoXipBuilderNode {
+    placement	8.4 -3 10.7234 -2.2
+    flags	()
+    autoPanelPos	707 646 0 0
+    node	    SoXipBindTextures {
+	fields [ MFInt32 attachmentHandles, SFInt32 texture0Output, SFInt32 texture1Output, SFInt32 texture2Output,
+		SFInt32 texture3Output, SFInt32 texture4Output, SFInt32 texture5Output, SFInt32 texture6Output,
+		SFInt32 texture7Output ]
+	attachmentHandles	2
+	texture0Output	0
+	texture1Output	0
+	texture2Output	0
+	texture3Output	0
+	texture4Output	0
+	texture5Output	0
+	texture6Output	0
+	texture7Output	0
+    }
+
+}
+#connect "attachmentHandles@24" "outputColorBufferHandle@22"
+
+### 25 ###
+SoXipBuilderNode {
+    placement	8.7 -4.2 11.0234 -3.4
+    flags	()
+    autoPanelPos	707 630 0 0
+    node	    SoXipBindTextures {
+	fields [ MFInt32 attachmentHandles, SFInt32 texture0Output, SFInt32 texture1Output, SFInt32 texture2Output,
+		SFInt32 texture3Output, SFInt32 texture4Output, SFInt32 texture5Output, SFInt32 texture6Output,
+		SFInt32 texture7Output ]
+	attachmentHandles	5
+	texture0Output	1
+	texture1Output	0
+	texture2Output	0
+	texture3Output	0
+	texture4Output	0
+	texture5Output	0
+	texture6Output	0
+	texture7Output	0
+    }
+
+}
+#connect "attachmentHandles@25" "outputDepthBufferHandle@22"
+
+### 26 ###
+SoXipBuilderNode {
+    placement	10.1169 -6.3 12.7852 -5.5
+    flags	()
+    node	    OrthographicCamera {
+    }
+
+}
+
+### 27 ###
+SoXipBuilderNode {
+    placement	11.4 -2.1 13.7947 -1.3
+    flags	()
+    autoPanelPos	744 646 0 0
+    node	    SoXipLoadShaders {
+	fields [ SFString fpFilename,  ]
+	fpFilename	"shaders/composite_frag.glsl"
+    }
+
+}
+
+### 28 ###
+SoXipBuilderNode {
+    placement	12 -3.3 14 -2.5
+    flags	()
+    autoPanelPos	606 470 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name,  ]
+	name	"colortex"
+    }
+
+}
+#connect "value@28" "texture0Output@24"
+
+### 29 ###
+SoXipBuilderNode {
+    placement	13.2 -4.8 15.2 -4
+    flags	()
+    autoPanelPos	1379 725 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"depthtex"
+	value	1
+    }
+
+}
+#connect "value@29" "texture0Output@25"
+
+### 30 ###
+SoXipBuilderNode {
+    placement	13.2 -6 15.5088 -5.2
+    flags	()
+    autoPanelPos	1362 796 0 0
+    node	    SoXipUniformVec3f {
+	fields [ SFString name, SFVec3f value ]
+	name	"viewsize"
+	value	0.00118624 0.00130378 0
+    }
+
+}
+#connect "value@30" "oA@31"
+
+### 31 ###
+SoXipBuilderEngine {
+    placement	11.7 6.6 13.7 7.4
+    flags	()
+    autoPanelPos	754 17 0 0
+    engine	    Calculator {
+	a	843
+	b	767
+	expression	"oA=vec3f(1/a, 1/b, 0)"
+    }
+
+}
+#connect "a@31" "width@18"
+#connect "b@31" "height@18"
+
+### 32 ###
+SoXipBuilderNode {
+    placement	14.1 -2.1 16.1 -1.3
+    flags	()
+    autoPanelPos	738 646 0 0
+    node	    SoXipDrawQuad {
+	fields [ SFBool enableTexture, SFBool blend,  ]
+	enableTexture	FALSE
+	blend	TRUE
+    }
+
+}
+
+### 33 ###
+SoXipBuilderNode {
+    placement	-8.4 -4.8 -6.4 -4
+    flags	()
+    autoPanelPos	0 500 0 0
+    node	    Cone {
+	bottomRadius	1.5
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9, 10, 11, 12, 13, 14, 15,
+		      16, 17, 18, 19, 20, 21, 22, 23,
+		      24, 25, 26, 27, 28, 29, 30, 31,
+		      32, 33 ]
+    position	3.71712 0.106263 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

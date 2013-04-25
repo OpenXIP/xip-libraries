@@ -1,0 +1,4 @@
+Description: CT of a normal right foot and part of ankle
+Source:      http://radiology.uiowa.edu/downloads/
+Dimensions:  160 x 430 x 183 
+Pixel size:  .65 x .65 x 1

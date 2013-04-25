@@ -1,0 +1,17 @@
+uniform sampler2D texUnit;
+void main(void)
+{
+   const float offset = 1.0 / 128.0;
+   vec2 texCoord = gl_TexCoord[0].xy;
+  
+texCoord.y=1.0-texCoord.y;
+   vec4 c  = texture2D(texUnit, texCoord);
+   
+   vec4 tl = texture2D(texUnit, texCoord + vec2(-offset,  offset));
+   vec4 br = texture2D(texUnit, texCoord + vec2( offset,  offset));
+   
+   vec4 myColor=(-tl-c+2.0*br);
+   myColor+=0.5;
+
+   gl_FragColor = myColor; 
+}

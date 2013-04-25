@@ -1,0 +1,347 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	0.7 7.8 3.5 8.6
+    flags	SHOW_RENDERVIEW
+    viewPos	120 411 427 424
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 5 8"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-5.7 5.4 -3.7 6.2
+    flags	()
+    autoPanelPos	0 269 0 0
+    node	    SoXipFontType {
+	fields [ SFEnum type ]
+	type	PIXMAP
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-3.3 5.4 -0.67771 6.2
+    flags	()
+    autoPanelPos	103 459 385 392
+    node	    OrthographicCamera {
+	position	0.5 0.5 1
+	height	1.25
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-0.3 5.4 1.7 6.2
+    flags	()
+    autoPanelPos	272 468 385 392
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	2.1 5.4 4.1 6.2
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	4.8 5.4 6.8 6.2
+    flags	()
+    autoPanelPos	639 532 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"DATA"
+    }
+
+}
+#connect "image@5" "Output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-3.19821 3.3 1.24451 4.1
+    flags	()
+    autoPanelPos	257 383 0 0
+    engine	    SoItkIntensityWindowingImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat WindowMinimum, SFFloat OutputMaximum, SFFloat WindowMaximum ]
+	Input0	"DATA"
+	WindowMinimum	0
+	OutputMaximum	4095
+	WindowMaximum	200
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@6" "output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-5.7 3.3 -3.7 4.1
+    flags	()
+    autoPanelPos	651 466 385 464
+    engine	    SoXipLoadRaw {
+	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+		SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
+	voxelType	USHORT
+	width	256
+	height	256
+	depth	1
+	bitsUsed	12
+	modelMatrix	1 0 0 0
+		0 -1 0 0
+		0 0 1 0
+		0 1 0 1
+	file	"../data/lena.raw"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	7.2 5.4 9.2 6.2
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "8" "9 10 11"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	1.72299 3.3 4.62701 4.1
+    flags	()
+    autoPanelPos	709 459 385 392
+    node	    SoXipDropShadowStyle {
+	fields [ SFBool on, SFColor color, SFFloat transparency,  ]
+	on	TRUE
+	color	0 0 0
+	transparency	0.5
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	4.8 3.3 6.8 4.1
+    flags	()
+    autoPanelPos	727 533 385 392
+    node	    Font {
+	size	18
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	7.2 3.3 9.2 4.1
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "11" "12 14 17 20"
+
+### 12 ###
+SoXipBuilderNode {
+    placement	3 1.2 5 2
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "12" "13"
+
+### 13 ###
+SoXipBuilderNode {
+    placement	2.1 -0.3 4.1 0.500001
+    flags	()
+    autoPanelPos	659 663 385 392
+    node	    SoXipText2 {
+	fields [ SFString string, SFEnum justification, SFEnum vAlignment ]
+	string	"Bottom Left"
+	justification	LEFT
+	vAlignment	BOTTOM
+    }
+
+}
+
+### 14 ###
+SoXipBuilderNode {
+    placement	5.4 1.2 7.4 2
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "14" "15 16"
+
+### 15 ###
+SoXipBuilderNode {
+    placement	4.5 -0.3 6.5 0.5
+    flags	()
+    autoPanelPos	279 544 385 392
+    node	    Translation {
+	translation	1 0 0
+    }
+
+}
+
+### 16 ###
+SoXipBuilderNode {
+    placement	6.9 -0.3 8.9 0.500001
+    flags	()
+    autoPanelPos	659 663 385 392
+    node	    SoXipText2 {
+	fields [ SFString string, SFEnum justification, SFEnum vAlignment ]
+	string	"Bottom Right"
+	justification	RIGHT
+	vAlignment	BOTTOM
+    }
+
+}
+
+### 17 ###
+SoXipBuilderNode {
+    placement	8.1 1.2 10.1 2
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "17" "18 19"
+
+### 18 ###
+SoXipBuilderNode {
+    placement	7.2 -0.3 9.2 0.5
+    flags	()
+    autoPanelPos	329 557 385 392
+    node	    Translation {
+	translation	0 1 0
+    }
+
+}
+
+### 19 ###
+SoXipBuilderNode {
+    placement	9.6 -0.3 11.6 0.500001
+    flags	()
+    autoPanelPos	659 663 385 392
+    node	    SoXipText2 {
+	fields [ SFString string, SFEnum justification, SFEnum vAlignment ]
+	string	"Upper Left"
+	justification	LEFT
+	vAlignment	TOP
+    }
+
+}
+
+### 20 ###
+SoXipBuilderNode {
+    placement	10.5 1.2 12.5 2
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "20" "21 22"
+
+### 21 ###
+SoXipBuilderNode {
+    placement	9.6 -0.3 11.6 0.5
+    flags	()
+    autoPanelPos	362 550 385 392
+    node	    Translation {
+	translation	1 1 0
+    }
+
+}
+
+### 22 ###
+SoXipBuilderNode {
+    placement	12 -0.3 14 0.500001
+    flags	()
+    autoPanelPos	659 663 385 392
+    node	    SoXipText2 {
+	fields [ SFString string, SFEnum justification, SFEnum vAlignment ]
+	string	"Upper Right"
+	justification	RIGHT
+	vAlignment	TOP
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-4
+    placement	9.6 1.2 11.6 2
+    name	"UpperRight"
+    members	[ 20, 21, 22 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsPlacement	6.5 -2.4 8.5 -1.6
+    outputs	20
+    outputsPlacement	6.5 4 8.5 4.8
+}
+
+SoXipBuilderPackage {
+    def	-3
+    placement	7.2 1.2 9.2 2
+    name	"UpperLeft"
+    members	[ 17, 18, 19 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsPlacement	5.3 -2.4 7.3 -1.6
+    outputs	17
+    outputsPlacement	5.3 4 7.3 4.8
+}
+
+SoXipBuilderPackage {
+    def	-2
+    placement	4.8 1.2 6.8 2
+    name	"BottomRight"
+    members	[ 14, 15, 16 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsPlacement	3.95 -2.4 5.95 -1.6
+    outputs	14
+    outputsPlacement	3.95 4 5.95 4.8
+}
+
+SoXipBuilderPackage {
+    def	-1
+    placement	2.4 1.2 4.4 2
+    name	"BottomLeft"
+    members	[ 12, 13 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsPlacement	2 -2.4 4 -1.6
+    outputs	12
+    outputsPlacement	2 4 4 4.8
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -4, -3, -2, -1, 0, 1, 2, 3,
+		      4, 5, 6, 7, 8, 9, 10, 11 ]
+    position	2.95 4.9 9.40811
+    height	14.1111
+    inputs	[  ]
+    outputs	[  ]
+}
+

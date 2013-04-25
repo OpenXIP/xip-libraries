@@ -1,0 +1,180 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.5 6.9 -2.5 7.7
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-7.2 6.3 -5.2 7.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	15 74 0 0
+    node	    SoXipExaminer {
+	mode	ROTATE
+	viewBoundingBox	0.99672 0 0 0
+		0 0.997473 0 0
+		0 0 0.998024 0
+		-0.49836 -0.497572 -0.498419 1
+	plane	-4.90995e-009 -7.7691e-008 1  0.000592708
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	-1.45377 0.740829 -1.29869
+	    orientation	0.434687 0.900525 0.0100902  4.03954
+	    nearDistance	1.22157
+	    farDistance	2.94913
+	    focalDistance	2.08535
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-4.5 5.7 -2.5 6.5
+    flags	()
+    node	    SoVtkRenderer {
+	fields [  ]
+    }
+
+}
+#addChild "2" "3"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-4.5 4.5 -2.5 5.3
+    flags	()
+    autoPanelPos	223 124 0 0
+    node	    SoVtkActor {
+	fields [ SoSFVtkObject Mapper, SFVec3f Origin, SFVec3f Orientation, SFVec3f Position,
+		SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+	Mapper	"NULL"
+	Origin	0 0 0
+	Orientation	0 -0 0
+	Position	0 0 0
+	Scale	1 1 1
+	Pickable	1
+	Visibility	1
+    }
+
+}
+#connect "Mapper@3" "Output@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-4.8 3.3 -2.04568 4.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	44 290 0 0
+    engine	    SoVtkPolyDataMapper {
+	inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+		SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+		SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+		SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+		SFFloat RenderTime, SFInt32 ColorMode ]
+	ScalarRange	0 1
+	ResolveCoincidentTopology	0
+	ImmediateModeRendering	0
+	ScalarMode	0
+	GlobalImmediateModeRendering	0
+	ResolveCoincidentTopologyZShift	0.01
+	NumberOfSubPieces	1
+	InputConnection	"NULL"
+	GhostLevel	0
+	UseLookupTableScalarRange	0
+	ScalarMaterialMode	0
+	NumberOfPieces	1
+	Piece	0
+	ScalarVisibility	1
+	InterpolateScalarsBeforeMapping	0
+	Static	0
+	RenderTime	0
+	ColorMode	0
+	outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+    }
+
+}
+#connect "InputConnection@4" "OutputPort@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-4.5 1.8 -2.14875 2.6
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	764 260 0 0
+    engine	    SoVtkDecimatePro {
+	inputs [ SFFloat AbsoluteError, SFInt32 Splitting, SFInt32 AccumulateError, SFFloat InflectionPointRatio,
+		SFFloat MaximumError, SFInt32 ErrorIsAbsolute, SFFloat TargetReduction, SFInt32 BoundaryVertexDeletion,
+		SFInt32 PreserveTopology, SFInt32 PreSplitMesh, SFInt32 Degree, SFFloat FeatureAngle,
+		SFFloat SplitAngle, SoSFVtkAlgorithmOutput InputConnection ]
+	AbsoluteError	1.#INF
+	Splitting	1
+	AccumulateError	0
+	InflectionPointRatio	10
+	MaximumError	1.#INF
+	ErrorIsAbsolute	0
+	TargetReduction	0.995
+	BoundaryVertexDeletion	1
+	PreserveTopology	0
+	PreSplitMesh	0
+	Degree	25
+	FeatureAngle	15
+	SplitAngle	75
+	InputConnection	"NULL"
+	outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+#connect "InputConnection@5" "OutputPort@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-4.5 0.3 -1.98752 1.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	413 534 0 0
+    engine	    SoVtkSphereSource {
+	inputs [ SFFloat Radius, SFInt32 PhiResolution, SFVec3f Center, SFInt32 ThetaResolution,
+		 ]
+	Radius	0.5
+	PhiResolution	80
+	Center	0 0 0
+	ThetaResolution	80
+	outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

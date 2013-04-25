@@ -1,0 +1,195 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-0.5 7.2 2.3 8
+    flags	()
+    viewPos	-6 280 501 539
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 5 8"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-9 3.9 -7 4.7
+    flags	()
+    autoPanelPos	0 341 0 0
+    node	    SoXipFontType {
+	fields [ SFEnum type ]
+	type	PIXMAP
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-6.69355 3.9 -4.07126 4.7
+    flags	()
+    autoPanelPos	129 423 385 392
+    node	    OrthographicCamera {
+	position	0.5 0.5 1
+	height	1.25
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-3.9 3.9 -1.9 4.7
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-1.5 3.9 0.5 4.7
+    flags	()
+    autoPanelPos	240 339 0 0
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	0.9 3.9 2.9 4.7
+    flags	()
+    autoPanelPos	802 154 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"DATA"
+    }
+
+}
+#connect "image@5" "Output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-4.8 2.1 -0.35728 2.9
+    flags	()
+    autoPanelPos	178 440 0 0
+    engine	    SoItkIntensityWindowingImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat WindowMinimum, SFFloat OutputMaximum, SFFloat WindowMaximum ]
+	Input0	"DATA"
+	WindowMinimum	0
+	OutputMaximum	4095
+	WindowMaximum	200
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@6" "output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-7.2 2.1 -5.2 2.9
+    flags	()
+    autoPanelPos	9 420 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+		SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
+	voxelType	USHORT
+	width	256
+	height	256
+	depth	1
+	bitsUsed	12
+	modelMatrix	1 0 0 0
+		0 -1 0 0
+		0 0 1 0
+		0 1 0 1
+	file	"../data/lena.raw"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	3.6 4.5 5.6 5.3
+    flags	()
+    viewPos	385 335 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "8" "9 10 11 12"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-1.2 2.1 1.55 2.9
+    flags	()
+    autoPanelPos	7 404 385 392
+    node	    SoXipDropShadowStyle {
+	fields [ SFBool on, SFColor color,  ]
+	on	TRUE
+	color	0 0 0
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	2.1 2.1 4.1 2.9
+    flags	()
+    autoPanelPos	-82 497 385 392
+    node	    Font {
+	size	16
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	4.5 2.1 6.91667 2.9
+    flags	()
+    node	    SoXipOverlayManips {
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection ]
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	7.2 2.1 9.76482 2.9
+    flags	()
+    autoPanelPos	689 473 385 392
+    node	    SoXipOverlayManager {
+	fields [ SFBool menuEnabled, SFBool create, SFString shapeClassName, MFString shapeLabel,
+		 ]
+	menuEnabled	TRUE
+	create	TRUE
+	shapeClassName	"SoXipHermiteSpline"
+	shapeLabel	[  ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	3.6 3.9 5.6 4.7
+    name	"Overlays"
+    members	[ 8, 9, 10, 11, 12 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsPlacement	4.5 -0.9 6.5 -0.1
+    outputs	8
+    outputsPlacement	4.8 6.9 6.8 7.7
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
+		      7 ]
+    position	-0.5 5.05 6.77588
+    height	13.6296
+    inputs	[  ]
+    outputs	[  ]
+}
+

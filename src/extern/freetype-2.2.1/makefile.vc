@@ -1,0 +1,184 @@
+# Pull in standard variable definitions
+!include <win32.mak>
+
+CFLAGS  = $(cflags) $(cdebug) $(cvarsdll) /UDEBUG -I./include /DFT2_BUILD_LIBRARY
+#LDFLAGS = $(ldebug) $(dlllflags)
+
+
+# Template commands for compiling
+.SUFFIXES : .obj .c
+
+.c.obj:
+	$(cc) $(CFLAGS) /Fo$*.obj $<
+
+OBJECTS = \
+        src\gzip\adler32.obj \
+        src\autofit\afangles.obj \
+        src\autofit\afcjk.obj \
+        src\autofit\afdummy.obj \
+        src\autofit\afglobal.obj \
+        src\autofit\afhints.obj \
+        src\autofit\aflatin.obj \
+        src\autofit\afloader.obj \
+        src\autofit\afmodule.obj \
+        src\psaux\afmparse.obj \
+        src\autofit\afwarp.obj \
+        src\autofit\autofit.obj \
+        src\bdf\bdf.obj \
+        src\bdf\bdfdrivr.obj \
+        src\bdf\bdflib.obj \
+        src\cff\cff.obj \
+        src\cff\cffcmap.obj \
+        src\cff\cffdrivr.obj \
+        src\cff\cffgload.obj \
+        src\cff\cffload.obj \
+        src\cff\cffobjs.obj \
+        src\cff\cffparse.obj \
+        src\cid\cidgload.obj \
+        src\cid\cidload.obj \
+        src\cid\cidobjs.obj \
+        src\cid\cidparse.obj \
+        src\cid\cidriver.obj \
+        src\base\ftapi.obj \
+        src\base\ftbase.obj \
+        src\base\ftbbox.obj \
+        src\base\ftbdf.obj \
+        src\base\ftbitmap.obj \
+        src\cache\ftcache.obj \
+        src\base\ftcalc.obj \
+        src\cache\ftcbasic.obj \
+        src\cache\ftccache.obj \
+        src\cache\ftccmap.obj \
+        src\cache\ftcglyph.obj \
+        src\cache\ftcimage.obj \
+        src\cache\ftcmanag.obj \
+        src\cache\ftcmru.obj \
+        src\cache\ftcsbits.obj \
+        src\base\ftdbgmem.obj \
+        src\base\ftdebug.obj \
+        src\base\ftgloadr.obj \
+        src\base\ftglyph.obj \
+        src\smooth\ftgrays.obj \
+        src\base\ftgxval.obj \
+        src\gzip\ftgzip.obj \
+        src\base\ftinit.obj \
+        src\lzw\ftlzw.obj \
+        src\base\ftmm.obj \
+        src\base\ftnames.obj \
+        src\base\ftobjs.obj \
+        src\base\ftotval.obj \
+        src\base\ftoutln.obj \
+        src\base\ftpfr.obj \
+        src\raster\ftraster.obj \
+        src\raster\ftrend1.obj \
+        src\base\ftrfork.obj \
+        src\smooth\ftsmooth.obj \
+        src\base\ftstream.obj \
+        src\base\ftstroke.obj \
+        src\base\ftsynth.obj \
+        src\base\ftsystem.obj \
+        src\base\fttrigon.obj \
+        src\base\fttype1.obj \
+        src\base\ftutil.obj \
+        src\base\ftwinfnt.obj \
+        src\base\ftxf86.obj \
+        src\lzw\ftzopen.obj \
+        src\gxvalid\gxvalid.obj \
+        src\gxvalid\gxvbsln.obj \
+        src\gxvalid\gxvcommn.obj \
+        src\gxvalid\gxvfeat.obj \
+        src\gxvalid\gxvfgen.obj \
+        src\gxvalid\gxvjust.obj \
+        src\gxvalid\gxvkern.obj \
+        src\gxvalid\gxvlcar.obj \
+        src\gxvalid\gxvmod.obj \
+        src\gxvalid\gxvmort.obj \
+        src\gxvalid\gxvmort0.obj \
+        src\gxvalid\gxvmort1.obj \
+        src\gxvalid\gxvmort2.obj \
+        src\gxvalid\gxvmort4.obj \
+        src\gxvalid\gxvmort5.obj \
+        src\gxvalid\gxvmorx.obj \
+        src\gxvalid\gxvmorx0.obj \
+        src\gxvalid\gxvmorx1.obj \
+        src\gxvalid\gxvmorx2.obj \
+        src\gxvalid\gxvmorx4.obj \
+        src\gxvalid\gxvmorx5.obj \
+        src\gxvalid\gxvopbd.obj \
+        src\gxvalid\gxvprop.obj \
+        src\gxvalid\gxvtrak.obj \
+        src\gzip\inftrees.obj \
+        src\otvalid\otvalid.obj \
+        src\otvalid\otvbase.obj \
+        src\otvalid\otvcommn.obj \
+        src\otvalid\otvgdef.obj \
+        src\otvalid\otvgpos.obj \
+        src\otvalid\otvgsub.obj \
+        src\otvalid\otvjstf.obj \
+        src\otvalid\otvmod.obj \
+        src\pcf\pcf.obj \
+        src\pcf\pcfdrivr.obj \
+        src\pcf\pcfread.obj \
+        src\pcf\pcfutil.obj \
+        src\pfr\pfr.obj \
+        src\pfr\pfrcmap.obj \
+        src\pfr\pfrdrivr.obj \
+        src\pfr\pfrgload.obj \
+        src\pfr\pfrload.obj \
+        src\pfr\pfrobjs.obj \
+        src\pfr\pfrsbit.obj \
+        src\psaux\psaux.obj \
+        src\psaux\psauxmod.obj \
+        src\psaux\psconv.obj \
+        src\pshinter\pshalgo.obj \
+        src\pshinter\pshglob.obj \
+        src\pshinter\pshmod.obj \
+        src\pshinter\pshrec.obj \
+        src\psnames\psmodule.obj \
+        src\psnames\psnames.obj \
+        src\psaux\psobjs.obj \
+        src\raster\raster.obj \
+        src\sfnt\sfdriver.obj \
+        src\sfnt\sfnt.obj \
+        src\sfnt\sfobjs.obj \
+        src\smooth\smooth.obj \
+        src\type1\t1afm.obj \
+        src\psaux\t1cmap.obj \
+        src\psaux\t1decode.obj \
+        src\type1\t1driver.obj \
+        src\type1\t1gload.obj \
+        src\type1\t1load.obj \
+        src\type1\t1objs.obj \
+        src\type1\t1parse.obj \
+        src\type42\t42drivr.obj \
+        src\type42\t42objs.obj \
+        src\type42\t42parse.obj \
+        src\truetype\truetype.obj \
+        src\sfnt\ttbdf.obj \
+        src\sfnt\ttcmap.obj \
+        src\truetype\ttdriver.obj \
+        src\truetype\ttgload.obj \
+        src\truetype\ttgxvar.obj \
+        src\truetype\ttinterp.obj \
+        src\sfnt\ttkern.obj \
+        src\sfnt\ttload.obj \
+        src\sfnt\ttmtx.obj \
+        src\truetype\ttobjs.obj \
+        src\truetype\ttpload.obj \
+        src\sfnt\ttpost.obj \
+        src\sfnt\ttsbit.obj \
+        src\sfnt\ttsbit0.obj \
+        src\type1\type1.obj \
+        src\cid\type1cid.obj \
+        src\type42\type42.obj \
+        src\winfonts\winfnt.obj \
+        src\gzip\zutil.obj \
+
+
+all: freetype2
+
+freetype2: $(OBJECTS)
+	lib /OUT:"freetype2.lib" $(OBJECTS)
+
+clean:
+	rm -f freetype2.lib freetype2.pdb $(OBJECTS)

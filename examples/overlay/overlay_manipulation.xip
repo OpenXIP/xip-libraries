@@ -1,0 +1,252 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-0.5 7.2 2.3 8
+    flags	SHOW_RENDERVIEW
+    viewPos	211 414 413 383
+    autoPanelPos	663 186 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 5 8"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-9.3 3.9 -7.3 4.7
+    flags	()
+    autoPanelPos	0 347 0 0
+    node	    SoXipFontType {
+	fields [ SFEnum type ]
+	type	PIXMAP
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-6.69355 3.9 -4.07126 4.7
+    flags	()
+    autoPanelPos	129 423 385 392
+    node	    OrthographicCamera {
+	position	0.5 0.5 1
+	height	1.25
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-3.9 3.9 -1.9 4.7
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-1.5 3.9 0.5 4.7
+    flags	()
+    autoPanelPos	164 606 385 392
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	0.9 3.9 2.9 4.7
+    flags	()
+    autoPanelPos	802 154 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"DATA"
+    }
+
+}
+#connect "image@5" "Output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-3.49821 2.1 0.94451 2.9
+    flags	()
+    autoPanelPos	439 441 0 0
+    engine	    SoItkIntensityWindowingImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat WindowMinimum, SFFloat OutputMaximum, SFFloat WindowMaximum ]
+	Input0	"DATA"
+	WindowMinimum	0
+	OutputMaximum	4095
+	WindowMaximum	200
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@6" "output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-6 2.1 -4 2.9
+    flags	()
+    autoPanelPos	651 466 385 464
+    engine	    SoXipLoadRaw {
+	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+		SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
+	voxelType	USHORT
+	width	256
+	height	256
+	depth	1
+	bitsUsed	12
+	modelMatrix	1 0 0 0
+		0 -1 0 0
+		0 0 1 0
+		0 1 0 1
+	file	"../data/lena.raw"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	4.2 4.8 7.4 5.6
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "8" "9 10 11 12 13 14 15"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-2.1 2.7 0.65 3.5
+    flags	()
+    autoPanelPos	7 404 385 392
+    node	    SoXipDropShadowStyle {
+	fields [ SFBool on, SFColor color,  ]
+	on	TRUE
+	color	0 0 0
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	-0.6 1.2 1.4 2
+    flags	()
+    autoPanelPos	-82 497 385 392
+    node	    Font {
+	size	16
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	1.8 1.2 3.99444 2
+    flags	()
+    autoPanelPos	215 500 385 392
+    node	    SoXipOverlayColor {
+	fields [ MFString label, SFColor color,  ]
+	label	[  ]
+	color	1 1 0
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	4.5 1.2 6.69444 2
+    flags	()
+    autoPanelPos	324 640 385 392
+    node	    SoXipOverlayColor {
+	fields [ MFString label, SFColor color,  ]
+	label	"Spline"
+	color	0 1 0
+    }
+
+}
+
+### 13 ###
+SoXipBuilderNode {
+    placement	6.9 1.2 9.31667 2
+    flags	()
+    node	    SoXipOverlayManips {
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection ]
+    }
+
+}
+
+### 14 ###
+SoXipBuilderNode {
+    placement	9.6 1.2 11.6 2
+    flags	()
+    autoPanelPos	64 538 385 392
+    node	    SoXipEllipse {
+	fields [ SFEnum status, SFInt32 rank, SFString caption, SFVec3f textPosition,
+		SFVec3f center, SFVec3f a, SFVec3f b,  ]
+	status	NONE
+	caption	"Ellipse"
+	textPosition	0.443248 0.25648 -4.5
+	center	0.572158 0.410458 -4.5
+	a	-0.0738039 -0.188526 0
+	b	0.124513 -0.0527791 0
+    }
+
+}
+
+### 15 ###
+SoXipBuilderNode {
+    placement	12 1.2 14.3426 2
+    flags	()
+    autoPanelPos	146 533 385 392
+    node	    SoXipHermiteSpline {
+	fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		SFVec3f textPosition, MFVec3f point, SFBool closed,  ]
+	status	NONE
+	label	"Spline"
+	caption	"Hermitian Spline"
+	textPosition	0.275202 0.518051 -4.5
+	point	[ 0.288277 0.531126 -4.5,
+			  0.251427 0.598714 -4.5,
+			  0.214576 0.676974 -4.5,
+			  0.280907 0.847724 -4.5,
+			  0.4062 0.908197 -4.5,
+			  0.494642 0.901083 -4.5,
+			  0.583082 0.851281 -4.5,
+			  0.642044 0.769463 -4.5,
+			  0.675209 0.726776 -4.5,
+			  0.572027 0.659188 -4.5,
+			  0.483586 0.641401 -4.5,
+			  0.376719 0.609386 -4.5 ]
+	closed	TRUE
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	3.6 3.9 5.6 4.7
+    name	"Overlays"
+    members	[ 8, 9, 10, 11, 12, 13, 14, 15 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsPlacement	4.5 -0.9 6.5 -0.1
+    outputs	8
+    outputsPlacement	4.8 6.9 6.8 7.7
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
+		      7 ]
+    position	-0.5 4.9 6.71193
+    height	14.1111
+    inputs	[  ]
+    outputs	[  ]
+}
+

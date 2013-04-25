@@ -1,0 +1,628 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.8 3.9 -2 4.7
+    flags	()
+    viewPos	305 237 516 503
+    autoPanelPos	50 290 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 5 6"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-10.8 0.6 -8.8 1.4
+    flags	()
+    autoPanelPos	0 159 0 0
+    node	    SoXipFontType {
+	fields [ SFEnum type ]
+	type	PIXMAP
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-8.7 0.6 -6.18607 1.4
+    flags	()
+    node	    SoXipFontAutoScale {
+	fields [  ]
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-6 0.6 -4 1.4
+    flags	()
+    node	    LightModel {
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-3.9 0.6 -1.9 1.4
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-1.5 0.6 0.73148 1.4
+    flags	()
+    autoPanelPos	230 430 385 392
+    node	    SoXipBackground {
+	fields [ MFColor color, MFFloat alpha ]
+	color	[ 0.4 0.4 0.4,
+			  0.4 0.4 0.4,
+			  0.4 0.4 0.4,
+			  0.4 0.4 0.4 ]
+	alpha	[ 1, 1, 1, 1 ]
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	1.2 0.6 4 1.4
+    flags	()
+    autoPanelPos	590 339 0 0
+    node	    SoXipPlot2Area {
+	fields [ SFString title, SFString labelX, SFString labelY, SFBitMask flags,
+		SFVec2f scrollPosX, SFVec2f scrollPosY, MFColor scrollColors ]
+	title	"Plot"
+	labelX	"X-label"
+	labelY	"Y-label"
+	flags	(SCROLL_X | SCROLL_Y | NO_LEGEND)
+	scrollPosX	0 1
+	scrollPosY	0 0.769022
+	scrollColors	[ 0.1 0.1 0.1,
+			  0.6 0.6 0.4 ]
+    }
+
+}
+#addChild "6" "7 8 9 10 11 12"
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-6.3 -3 -4.06852 -2.2
+    flags	()
+    autoPanelPos	42 484 385 392
+    node	    SoXipBackground {
+	fields [ MFColor color, MFFloat alpha ]
+	color	[ 0.8 0.8 0.6,
+			  0.8 0.8 0.6,
+			  0.8 0.8 0.6,
+			  0.8 0.8 0.6 ]
+	alpha	[ 1, 1, 1, 1 ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-3.9 -3 -1.9 -2.2
+    flags	()
+    autoPanelPos	-66 591 385 392
+    node	    DrawStyle {
+	lineWidth	1
+	linePattern	0x4444
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-1.8 -3 0.2 -2.2
+    flags	()
+    autoPanelPos	47 336 0 0
+    node	    BaseColor {
+	rgb	0 0 0
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	0.6 -3 2.64494 -2.2
+    flags	()
+    autoPanelPos	107 465 385 392
+    node	    SoXipPlot2Extent {
+	fields [  ]
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	3 -3 5 -2.2
+    flags	()
+    autoPanelPos	30 593 385 392
+    node	    SoXipPlot2Grid {
+	fields [  ]
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	1.5 -2.4 5.1 -1.6
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "12" "13 14 15 16 17 18 19 20"
+
+### 13 ###
+SoXipBuilderNode {
+    placement	-10.2 -6 -7.7463 -5.2
+    flags	()
+    autoPanelPos	643 48 385 392
+    node	    DEF +0 SoXipPlot2Columns {
+	fields [ MFFloat data, SFColor faceColor, SFFloat faceTransparency, SFColor borderColor,
+		SFShort borderWidth, SFNode mVertices, SFNode mFaceMaterial, SFNode mFaces,
+		SFNode mBorderColor, SFNode mBorderStyle, SFNode mBorderLines,  ]
+	data	[ 2, 3, 6, 4,
+			  1, 4, 6, 7,
+			  2, 3, 5 ]
+	faceColor	0.5 0.2 0.2
+	mVertices		Coordinate3 {
+	    point	[ 0.9 0 0,
+			      0.9 2 0,
+			      0.1 2 0,
+			      0.1 0 0,
+			      1.9 0 0,
+			      1.9 3 0,
+			      1.1 3 0,
+			      1.1 0 0,
+			      2.9 0 0,
+			      2.9 6 0,
+			      2.1 6 0,
+			      2.1 0 0,
+			      3.9 0 0,
+			      3.9 4 0,
+			      3.1 4 0,
+			      3.1 0 0,
+			      4.9 0 0,
+			      4.9 1 0,
+			      4.1 1 0,
+			      4.1 0 0,
+			      5.9 0 0,
+			      5.9 4 0,
+			      5.1 4 0,
+			      5.1 0 0,
+			      6.9 0 0,
+			      6.9 6 0,
+			      6.1 6 0,
+			      6.1 0 0,
+			      7.9 0 0,
+			      7.9 7 0,
+			      7.1 7 0,
+			      7.1 0 0,
+			      8.9 0 0,
+			      8.9 2 0,
+			      8.1 2 0,
+			      8.1 0 0,
+			      9.9 0 0,
+			      9.9 3 0,
+			      9.1 3 0,
+			      9.1 0 0,
+			      10.9 0 0,
+			      10.9 5 0,
+			      10.1 5 0,
+			      10.1 0 0 ]
+	}
+
+	mFaceMaterial		Material {
+	    diffuseColor	0.5 0.2 0.2 =
+		USE +0
+		. faceColor
+
+	    transparency	0 =
+		USE +0
+		. faceTransparency
+
+	}
+
+	mFaces		FaceSet {
+	    numVertices	[ 4, 4, 4, 4, 4, 4, 4, 4,
+			      4, 4, 4 ]
+	}
+
+	mBorderColor		BaseColor {
+	    rgb	0 0 0 =
+		USE +0
+		. borderColor
+
+	}
+
+	mBorderStyle		DrawStyle {
+	    lineWidth	1 =
+		USE +0
+		. borderWidth
+
+	}
+
+	mBorderLines		LineSet {
+	    numVertices	[ 4, 4, 4, 4, 4, 4, 4, 4,
+			      4, 4, 4 ]
+	}
+
+    }
+
+}
+
+### 14 ###
+SoXipBuilderNode {
+    placement	-7.5 -6 -5.0463 -5.2
+    flags	()
+    autoPanelPos	275 114 385 392
+    node	    DEF +0 SoXipPlot2Columns {
+	fields [ MFFloat data, SFColor faceColor, SFFloat faceTransparency, SFColor borderColor,
+		SFShort borderWidth, SFNode mVertices, SFNode mFaceMaterial, SFNode mFaces,
+		SFNode mBorderColor, SFNode mBorderStyle, SFNode mBorderLines,  ]
+	data	[ 0.5, 1, 1.5, 3,
+			  0.75, 3.2, 2.8, 4,
+			  2, 2, 1 ]
+	faceColor	0.8 0.5 0.3
+	mVertices		Coordinate3 {
+	    point	[ 0.9 0 0,
+			      0.9 0.5 0,
+			      0.1 0.5 0,
+			      0.1 0 0,
+			      1.9 0 0,
+			      1.9 1 0,
+			      1.1 1 0,
+			      1.1 0 0,
+			      2.9 0 0,
+			      2.9 1.5 0,
+			      2.1 1.5 0,
+			      2.1 0 0,
+			      3.9 0 0,
+			      3.9 3 0,
+			      3.1 3 0,
+			      3.1 0 0,
+			      4.9 0 0,
+			      4.9 0.75 0,
+			      4.1 0.75 0,
+			      4.1 0 0,
+			      5.9 0 0,
+			      5.9 3.2 0,
+			      5.1 3.2 0,
+			      5.1 0 0,
+			      6.9 0 0,
+			      6.9 2.8 0,
+			      6.1 2.8 0,
+			      6.1 0 0,
+			      7.9 0 0,
+			      7.9 4 0,
+			      7.1 4 0,
+			      7.1 0 0,
+			      8.9 0 0,
+			      8.9 2 0,
+			      8.1 2 0,
+			      8.1 0 0,
+			      9.9 0 0,
+			      9.9 2 0,
+			      9.1 2 0,
+			      9.1 0 0,
+			      10.9 0 0,
+			      10.9 1 0,
+			      10.1 1 0,
+			      10.1 0 0 ]
+	}
+
+	mFaceMaterial		Material {
+	    diffuseColor	0.8 0.5 0.3 =
+		USE +0
+		. faceColor
+
+	    transparency	0 =
+		USE +0
+		. faceTransparency
+
+	}
+
+	mFaces		FaceSet {
+	    numVertices	[ 4, 4, 4, 4, 4, 4, 4, 4,
+			      4, 4, 4 ]
+	}
+
+	mBorderColor		BaseColor {
+	    rgb	0 0 0 =
+		USE +0
+		. borderColor
+
+	}
+
+	mBorderStyle		DrawStyle {
+	    lineWidth	1 =
+		USE +0
+		. borderWidth
+
+	}
+
+	mBorderLines		LineSet {
+	    numVertices	[ 4, 4, 4, 4, 4, 4, 4, 4,
+			      4, 4, 4 ]
+	}
+
+    }
+
+}
+
+### 15 ###
+SoXipBuilderNode {
+    placement	-4.8 -6 -2.8 -5.2
+    flags	()
+    autoPanelPos	778 56 385 392
+    node	    DrawStyle {
+	style	LINES
+	pointSize	12
+	lineWidth	1
+    }
+
+}
+
+### 16 ###
+SoXipBuilderNode {
+    placement	-2.7 -6 -0.59815 -5.2
+    flags	()
+    autoPanelPos	756 439 439 460
+    node	    DEF +0 SoXipPlot2Curve {
+	fields [ SFString label, MFVec2f data, SFEnum markerType, SFColor markerColor,
+		SFFloat markerTransparency, SFColor lineColor, SFEnum lineSmoothing, SFNode mAreaMaterial,
+		SFNode mAreaCoord, SFNode mAreaFaceSet, SFNode mLineColor, SFNode mLineCoord,
+		SFNode mLineSet, SFNode mMarkerMaterial, SFNode mMarkerCoord, SFNode mMarkerSet,
+		SFNode mSwitch, SFNode mAreaSeparator, SFNode mCurveSeparator, SFNode mLineSeparator,
+		SFNode mMarkerSeparator ]
+	label	"Line 1"
+	data	[ -0.25 8,
+			  2 2,
+			  3 6,
+			  5 1,
+			  8 4,
+			  10 12 ]
+	markerType	DIAMOND
+	markerColor	0.1 0.1 0.1
+	lineColor	1 1 1
+	lineSmoothing	HERMITE_SPLINE
+	mAreaMaterial		DEF +1 Material {
+	    diffuseColor	0.1 0.1 0.1 =
+		USE +0
+		. markerColor
+
+	    transparency	0 =
+		USE +0
+		. markerTransparency
+
+	}
+
+	mAreaCoord		DEF +2 Coordinate3 {
+	    point	[ -0.25 0 0,
+			      2 2 0,
+			      3 4 0,
+			      5 6 0,
+			      8 0.5 0,
+			      10 3 0,
+			      -0.25 0 0,
+			      2 0 0,
+			      3 0 0,
+			      5 0 0,
+			      8 0 0,
+			      10 0 0 ]
+	}
+
+	mAreaFaceSet		DEF +3 IndexedFaceSet {
+	    coordIndex	[ 6, 1, 0, -1, 6, 7, 1, -1,
+			      7, 2, 1, -1, 7, 8, 2, -1,
+			      8, 3, 2, -1, 8, 9, 3, -1,
+			      9, 4, 3, -1, 9, 10, 4, -1,
+			      10, 5, 4, -1, 10, 11, 5, -1 ]
+	}
+
+	mLineColor		DEF +4 BaseColor {
+	    rgb	1 1 1 =
+		USE +0
+		. lineColor
+
+	}
+
+	mLineCoord		DEF +5 Coordinate3 {
+	    point	[ -0.25 8 0,
+			      -0.0949474 7.52968 0,
+			      0.112128 6.83534 0,
+			      0.359105 5.99197 0,
+			      0.633859 5.07453 0,
+			      0.924268 4.15798 0,
+			      1.21821 3.31728 0,
+			      1.50356 2.62741 0,
+			      1.7682 2.16333 0,
+			      2 2 0,
+			      2 2 0,
+			      2.12785 2.14235 0,
+			      2.24211 2.51087 0,
+			      2.34682 3.041 0,
+			      2.446 3.66817 0,
+			      2.54368 4.32783 0,
+			      2.64389 4.9554 0,
+			      2.75067 5.48633 0,
+			      2.86802 5.85605 0,
+			      3 6 0,
+			      3 6 0,
+			      3.18184 5.84492 0,
+			      3.36308 5.40697 0,
+			      3.54831 4.76448 0,
+			      3.7421 3.99575 0,
+			      3.94904 3.17912 0,
+			      4.17372 2.39291 0,
+			      4.42071 1.71544 0,
+			      4.69461 1.22503 0,
+			      5 1 0,
+			      5 1 0,
+			      5.28163 1.02261 0,
+			      5.60878 1.17881 0,
+			      5.96749 1.44465 0,
+			      6.34379 1.79616 0,
+			      6.7237 2.20937 0,
+			      7.09325 2.66033 0,
+			      7.43846 3.12506 0,
+			      7.74537 3.57961 0,
+			      8 4 0,
+			      8 4 0,
+			      8.40136 4.83757 0,
+			      8.74035 5.78562 0,
+			      9.02452 6.80229 0,
+			      9.26138 7.84574 0,
+			      9.45849 8.87413 0,
+			      9.62337 9.84559 0,
+			      9.76356 10.7183 0,
+			      9.88659 11.4504 0,
+			      10 12 0 ]
+	}
+
+	mLineSet		DEF +6 LineSet {
+	    numVertices	-1
+	}
+
+	mMarkerMaterial		DEF +7 Material {
+	    diffuseColor	0.1 0.1 0.1 =
+		USE +0
+		. markerColor
+
+	    transparency	0 =
+		USE +0
+		. markerTransparency
+
+	}
+
+	mMarkerCoord		DEF +8 Coordinate3 {
+	    point	[ -0.25 8 0,
+			      2 2 0,
+			      3 6 0,
+			      5 1 0,
+			      8 4 0,
+			      10 12 0 ]
+	}
+
+	mMarkerSet		DEF +9 SoXipMarkerSet {
+	    fields [ SFEnum marker ]
+	    marker	DIAMOND =
+		USE +0
+		. markerType
+
+	}
+
+	mSwitch		Switch {
+	    whichChild	1
+	    DEF +10 Separator {
+		USE +1
+		USE +2
+		USE +3
+	    }
+	    DEF +11 Separator {
+		DEF +12 Separator {
+		    USE +4
+		    USE +5
+		    USE +6
+		}
+		DEF +13 Separator {
+		    USE +7
+		    USE +8
+		    USE +9
+		}
+	    }
+	}
+
+	mAreaSeparator		USE +10
+
+	mCurveSeparator		USE +11
+
+	mLineSeparator		USE +12
+
+	mMarkerSeparator		USE +13
+
+    }
+
+}
+
+### 17 ###
+SoXipBuilderNode {
+    placement	0 -6 2 -5.2
+    flags	()
+    autoPanelPos	685 47 385 392
+    node	    DrawStyle {
+	lineWidth	2
+	linePattern	0xaaaa
+    }
+
+}
+
+### 18 ###
+SoXipBuilderNode {
+    placement	2.1 -6 4.1 -5.2
+    flags	()
+    autoPanelPos	737 178 385 393
+    node	    BaseColor {
+	rgb	0 0 0
+    }
+
+}
+
+### 19 ###
+SoXipBuilderNode {
+    placement	4.2 -6 6.2 -5.2
+    flags	()
+    autoPanelPos	820 572 385 392
+    node	    DEF Ruler SoXipPlot2Ruler {
+	fields [ MFFloat value ]
+	value	1.69601
+    }
+
+}
+
+### 20 ###
+SoXipBuilderNode {
+    placement	6.3 -6 8.3 -5.2
+    flags	()
+    autoPanelPos	102 181 385 392
+    node	    DEF Ruler SoXipPlot2Ruler {
+	fields [ SFEnum type, MFFloat value ]
+	type	HORIZONTAL
+	value	4.5536
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	5.4 -3 7.4 -2.2
+    name	"Plot_Graphics"
+    members	[ 12, 13, 14, 15, 16, 17, 18, 19,
+		      20 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsPlacement	-1.95 -8.8 0.0499992 -8
+    outputs	12
+    outputsPlacement	-1.95 0.399999 0.0500002 1.2
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
+		      7, 8, 9, 10, 11 ]
+    position	-1.98235 -0.169289 1
+    height	14.0041
+    inputs	[  ]
+    outputs	[  ]
+}
+

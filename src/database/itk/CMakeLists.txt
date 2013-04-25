@@ -1,0 +1,614 @@
+# Sylvain Jaume 2007
+
+project(itk)
+
+#--------------------------------------------------------------------
+# Header files.
+#
+set(HEADERS
+  SoItkArray.h
+  SoItkBinaryBallStructuringElement.h
+  SoItkBinaryCrossStructuringElement.h
+  SoItkCenteredRigid2DTransform.h
+  SoItkComposeMFDataImage.h
+  SoItkConvertDicomToItkImage.h
+  SoItkConvertItkImageToXipImage.h
+  SoItkConvertItkPointSetToMFVec3f.h
+  SoItkConvertMFDicomToItkImage.h
+  SoItkConvertXipImageToItkImage.h
+  SoItkFastMarchingImageFilter.h
+  SoItkFunctionBase.h
+  SoItkImageFileReader.h
+  SoItkImageFileWriter.h
+  SoItkImageFunction.h
+  SoItkImageRegistrationMethod.h
+  SoItkImageToImageMetric.h
+  SoItkImportImageFilter.h
+  SoItkInterpolateImageFunction.h
+  SoItkInterpolator.h
+  SoItkLinearInterpolateImageFunction.h
+  SoItkMatrix.h
+  SoItkMatrixOffsetTransformBase.h
+  SoItkMeanSquaresImageToImageMetric.h
+  SoItkNeighborhood.h
+  SoItkNodeContainer.h
+  SoItkNonLinearOptimizer.h
+  SoItkOptimizer.h
+  SoItkPointSet.h
+  SoItkRegularStepGradientDescentBaseOptimizer.h
+  SoItkRegularStepGradientDescentOptimizer.h
+  SoItkRigid2DTransform.h
+  SoItkSeedImage.h
+  SoItkSingleValuedNonLinearOptimizer.h
+  SoItkTransform.h
+  SoItkVectorImage.h
+  generated/SoItkAbsImageFilter.h
+  generated/SoItkAbsoluteValueDifferenceImageFilter.h
+  generated/SoItkAccumulateImageFilter.h
+  generated/SoItkAcosImageFilter.h
+  generated/SoItkAdaptiveHistogramEqualizationImageFilter.h
+  generated/SoItkAddImageFilter.h
+  generated/SoItkAndImageFilter.h
+  generated/SoItkAnisotropicDiffusionImageFilter.h
+  generated/SoItkAnisotropicFourthOrderLevelSetImageFilter.h
+  generated/SoItkAntiAliasBinaryImageFilter.h
+  generated/SoItkApproximateSignedDistanceMapImageFilter.h
+  generated/SoItkAsinImageFilter.h
+  generated/SoItkAtan2ImageFilter.h
+  generated/SoItkAtanImageFilter.h
+  generated/SoItkBSplineCenteredL2ResampleImageFilterBase.h
+  generated/SoItkBSplineCenteredResampleImageFilterBase.h
+  generated/SoItkBSplineDecompositionImageFilter.h
+  generated/SoItkBSplineDownsampleImageFilter.h
+  generated/SoItkBSplineResampleImageFilterBase.h
+  generated/SoItkBSplineUpsampleImageFilter.h
+  generated/SoItkBilateralImageFilter.h
+  generated/SoItkBinaryDilateImageFilter.h
+  generated/SoItkBinaryErodeImageFilter.h
+  generated/SoItkBinaryFunctorImageFilter.h
+  generated/SoItkBinaryMagnitudeImageFilter.h
+  generated/SoItkBinaryMaskToNarrowBandPointSetFilter.h
+  generated/SoItkBinaryMedianImageFilter.h
+  generated/SoItkBinaryMinMaxCurvatureFlowImageFilter.h
+  generated/SoItkBinaryPruningImageFilter.h
+  generated/SoItkBinaryThinningImageFilter.h
+  generated/SoItkBinaryThresholdImageFilter.h
+  generated/SoItkBinomialBlurImageFilter.h
+  generated/SoItkBlackTopHatImageFilter.h
+  generated/SoItkBoundedReciprocalImageFilter.h
+  generated/SoItkCannyEdgeDetectionImageFilter.h
+  generated/SoItkCannySegmentationLevelSetImageFilter.h
+  generated/SoItkCastImageFilter.h
+  generated/SoItkChangeInformationImageFilter.h
+  generated/SoItkCheckerBoardImageFilter.h
+  generated/SoItkClosingByReconstructionImageFilter.h
+  generated/SoItkCollidingFrontsImageFilter.h
+  generated/SoItkConfidenceConnectedImageFilter.h
+  generated/SoItkConnectedComponentImageFilter.h
+  generated/SoItkConnectedThresholdImageFilter.h
+  generated/SoItkConstantPadImageFilter.h
+  generated/SoItkConstrainedValueAdditionImageFilter.h
+  generated/SoItkConstrainedValueDifferenceImageFilter.h
+  generated/SoItkContourDirectedMeanDistanceImageFilter.h
+  generated/SoItkContourMeanDistanceImageFilter.h
+  generated/SoItkCosImageFilter.h
+  generated/SoItkCropImageFilter.h
+  generated/SoItkCurvatureAnisotropicDiffusionImageFilter.h
+  generated/SoItkCurvatureFlowImageFilter.h
+  generated/SoItkCurvesLevelSetImageFilter.h
+  generated/SoItkDanielssonDistanceMapImageFilter.h
+  generated/SoItkDenseFiniteDifferenceImageFilter.h
+  generated/SoItkDerivativeImageFilter.h
+  generated/SoItkDifferenceImageFilter.h
+  generated/SoItkDilateObjectMorphologyImageFilter.h
+  generated/SoItkDirectedHausdorffDistanceImageFilter.h
+  generated/SoItkDiscreteGaussianImageFilter.h
+  generated/SoItkDivideImageFilter.h
+  generated/SoItkDoubleThresholdImageFilter.h
+  generated/SoItkErodeObjectMorphologyImageFilter.h
+  generated/SoItkExpImageFilter.h
+  generated/SoItkExpNegativeImageFilter.h
+  generated/SoItkExpandImageFilter.h
+  generated/SoItkExtractImageFilter.h
+  generated/SoItkFastIncrementalBinaryDilateImageFilter.h
+  #generated/SoItkFastMarchingImageFilter.h
+  generated/SoItkFiniteDifferenceImageFilter.h
+  generated/SoItkFlipImageFilter.h
+  generated/SoItkGeodesicActiveContourLevelSetImageFilter.h
+  generated/SoItkGeodesicActiveContourShapePriorLevelSetImageFilter.h
+  #generated/SoItkGetAverageSliceImageFilter.h
+  generated/SoItkGradientAnisotropicDiffusionImageFilter.h
+  generated/SoItkGradientMagnitudeImageFilter.h
+  generated/SoItkGradientMagnitudeRecursiveGaussianImageFilter.h
+  generated/SoItkGrayscaleConnectedClosingImageFilter.h
+  generated/SoItkGrayscaleConnectedOpeningImageFilter.h
+  generated/SoItkGrayscaleDilateImageFilter.h
+  generated/SoItkGrayscaleErodeImageFilter.h
+  generated/SoItkGrayscaleFillholeImageFilter.h
+  generated/SoItkGrayscaleFunctionDilateImageFilter.h
+  generated/SoItkGrayscaleFunctionErodeImageFilter.h
+  generated/SoItkGrayscaleGeodesicDilateImageFilter.h
+  generated/SoItkGrayscaleGeodesicErodeImageFilter.h
+  generated/SoItkGrayscaleGrindPeakImageFilter.h
+  generated/SoItkGrayscaleMorphologicalClosingImageFilter.h
+  generated/SoItkGrayscaleMorphologicalOpeningImageFilter.h
+  generated/SoItkHConcaveImageFilter.h
+  generated/SoItkHConvexImageFilter.h
+  generated/SoItkHMaximaImageFilter.h
+  generated/SoItkHMinimaImageFilter.h
+  generated/SoItkHardConnectedComponentImageFilter.h
+  generated/SoItkHausdorffDistanceImageFilter.h
+  generated/SoItkHistogramMatchingImageFilter.h
+  generated/SoItkImageSource.h
+  generated/SoItkImageToImageFilter.h
+  generated/SoItkImageToMeshFilter.h
+  generated/SoItkInPlaceImageFilter.h
+  generated/SoItkIntensityWindowingImageFilter.h
+  generated/SoItkInterpolateImageFilter.h
+  generated/SoItkIsolatedConnectedImageFilter.h
+  generated/SoItkIsolatedWatershedImageFilter.h
+  generated/SoItkIsotropicFourthOrderLevelSetImageFilter.h
+  generated/SoItkJoinSeriesImageFilter.h
+  generated/SoItkLaplacianImageFilter.h
+  generated/SoItkLaplacianRecursiveGaussianImageFilter.h
+  generated/SoItkLaplacianSegmentationLevelSetImageFilter.h
+  generated/SoItkLaplacianSharpeningImageFilter.h
+  #generated/SoItkLazyEdgeDetectionImageFilter3D.h
+  generated/SoItkLog10ImageFilter.h
+  generated/SoItkLogImageFilter.h
+  generated/SoItkMaskImageFilter.h
+  generated/SoItkMaskNegatedImageFilter.h
+  generated/SoItkMaskNeighborhoodOperatorImageFilter.h
+  generated/SoItkMaximumImageFilter.h
+  generated/SoItkMeanImageFilter.h
+  generated/SoItkMedianImageFilter.h
+  generated/SoItkMeshSource.h
+  generated/SoItkMinMaxCurvatureFlowImageFilter.h
+  generated/SoItkMinimumImageFilter.h
+  generated/SoItkMinimumMaximumImageFilter.h
+  generated/SoItkMirrorPadImageFilter.h
+  generated/SoItkMorphologyImageFilter.h
+  generated/SoItkMultiResolutionPyramidImageFilter.h
+  generated/SoItkMultiplyImageFilter.h
+  generated/SoItkNaryAddImageFilter.h
+  generated/SoItkNaryFunctorImageFilter.h
+  generated/SoItkNaryMaximumImageFilter.h
+  generated/SoItkNeighborhoodConnectedImageFilter.h
+  generated/SoItkNeighborhoodOperatorImageFilter.h
+  generated/SoItkNoiseImageFilter.h
+  generated/SoItkNonThreadedShrinkImageFilter.h
+  generated/SoItkNormalizeImageFilter.h
+  generated/SoItkNormalizedCorrelationImageFilter.h
+  generated/SoItkNotImageFilter.h
+  generated/SoItkObjectMorphologyImageFilter.h
+  generated/SoItkOpeningByReconstructionImageFilter.h
+  generated/SoItkOrImageFilter.h
+  generated/SoItkOtsuMultipleThresholdsImageFilter.h
+  generated/SoItkOtsuThresholdImageFilter.h
+  generated/SoItkPadImageFilter.h
+  generated/SoItkPasteImageFilter.h
+  generated/SoItkPermuteAxesImageFilter.h
+  generated/SoItkProcessObject.h
+  generated/SoItkReconstructionByDilationImageFilter.h
+  generated/SoItkReconstructionByErosionImageFilter.h
+  generated/SoItkRecursiveGaussianImageFilter.h
+  generated/SoItkRecursiveSeparableImageFilter.h
+  generated/SoItkReflectImageFilter.h
+  generated/SoItkRegionGrowImageFilter.h
+  generated/SoItkRegionOfInterestImageFilter.h
+  generated/SoItkRelabelComponentImageFilter.h
+  generated/SoItkResampleImageFilter.h
+  generated/SoItkRescaleIntensityImageFilter.h
+  generated/SoItkSTAPLEImageFilter.h
+  generated/SoItkScalarImageKmeansImageFilter.h
+  generated/SoItkSegmentationLevelSetImageFilter.h
+  generated/SoItkShapeDetectionLevelSetImageFilter.h
+  generated/SoItkShapePriorSegmentationLevelSetImageFilter.h
+  generated/SoItkShiftScaleImageFilter.h
+  generated/SoItkShrinkImageFilter.h
+  generated/SoItkSigmoidImageFilter.h
+  generated/SoItkSignedDanielssonDistanceMapImageFilter.h
+  generated/SoItkSimpleContourExtractorImageFilter.h
+  generated/SoItkSimpleFuzzyConnectednessImageFilterBase.h
+  generated/SoItkSimpleFuzzyConnectednessScalarImageFilter.h
+  generated/SoItkSinImageFilter.h
+  generated/SoItkSmoothingRecursiveGaussianImageFilter.h
+  generated/SoItkSobelEdgeDetectionImageFilter.h
+  generated/SoItkSparseFieldFourthOrderLevelSetImageFilter.h
+  generated/SoItkSparseFieldLevelSetImageFilter.h
+  generated/SoItkSqrtImageFilter.h
+  generated/SoItkSquareImageFilter.h
+  generated/SoItkSquaredDifferenceImageFilter.h
+  generated/SoItkStatisticsImageFilter.h
+  generated/SoItkSubtractImageFilter.h
+  generated/SoItkTanImageFilter.h
+  generated/SoItkTernaryAddImageFilter.h
+  generated/SoItkTernaryFunctorImageFilter.h
+  generated/SoItkTernaryMagnitudeImageFilter.h
+  generated/SoItkTernaryMagnitudeSquaredImageFilter.h
+  generated/SoItkThresholdImageFilter.h
+  generated/SoItkThresholdSegmentationLevelSetImageFilter.h
+  generated/SoItkTileImageFilter.h
+  generated/SoItkTobogganImageFilter.h
+  generated/SoItkUnaryFunctorImageFilter.h
+  generated/SoItkUnsharpMaskLevelSetImageFilter.h
+  generated/SoItkVotingBinaryHoleFillingImageFilter.h
+  generated/SoItkVotingBinaryImageFilter.h
+  generated/SoItkVotingBinaryIterativeHoleFillingImageFilter.h
+  generated/SoItkWatershedImageFilter.h
+  generated/SoItkWeightedAddImageFilter.h
+  generated/SoItkWhiteTopHatImageFilter.h
+  generated/SoItkWrapPadImageFilter.h
+  generated/SoItkXorImageFilter.h
+  generated/SoItkZeroCrossingBasedEdgeDetectionImageFilter.h
+  generated/SoItkZeroCrossingImageFilter.h
+  generated/itkWrapInit.h)
+
+#--------------------------------------------------------------------
+# Source files.
+#
+set(SOURCES
+  SbItkNodeContainer.cpp
+  SoItkArray.cpp
+  SoItkBinaryBallStructuringElement.cpp
+  SoItkBinaryCrossStructuringElement.cpp
+  SoItkCenteredRigid2DTransform.cpp
+  SoItkComposeMFDataImage.cpp
+  #SoItkConvertDicomToItkImage.cpp
+  SoItkConvertItkImageToXipImage.cpp
+  SoItkConvertItkPointSetToMFVec3f.cpp
+  #SoItkConvertMFDicomToItkImage.cpp
+  SoItkConvertXipImageToItkImage.cpp
+  SoItkDataArray.cpp
+  SoItkDataDecorator.cpp
+  SoItkDataImage.cpp
+  SoItkDataImageMetric.cpp
+  SoItkDataInterpolator.cpp
+  SoItkDataMatrix.cpp
+  SoItkDataNeighborhood.cpp
+  SoItkDataOptimizer.cpp
+  SoItkDataPointSet.cpp
+  SoItkDataTransform.cpp
+  SoItkFastMarchingImageFilter.cpp
+  SoItkFunctionBase.cpp
+  SoItkImageFileReader.cpp
+  SoItkImageFileWriter.cpp
+  SoItkImageFunction.cpp
+  SoItkImageRegistrationMethod.cpp
+  SoItkImageToImageMetric.cpp
+  SoItkImportImageFilter.cpp
+  SoItkInterpolateImageFunction.cpp
+  SoItkInterpolator.cpp
+  SoItkLinearInterpolateImageFunction.cpp
+  SoItkMFDataImage.cpp
+  SoItkMatrix.cpp
+  SoItkMatrixOffsetTransformBase.cpp
+  SoItkMeanSquaresImageToImageMetric.cpp
+  SoItkNeighborhood.cpp
+  SoItkNodeContainer.cpp
+  SoItkNonLinearOptimizer.cpp
+  SoItkOptimizer.cpp
+  SoItkPointSet.cpp
+  SoItkRegularStepGradientDescentBaseOptimizer.cpp
+  SoItkRegularStepGradientDescentOptimizer.cpp
+  SoItkRigid2DTransform.cpp
+  SoItkSFDataArray.cpp
+  SoItkSFDataDecorator.cpp
+  SoItkSFDataImage.cpp
+  SoItkSFDataImageMetric.cpp
+  SoItkSFDataInterpolator.cpp
+  SoItkSFDataMatrix.cpp
+  SoItkSFDataNeighborhood.cpp
+  SoItkSFDataOptimizer.cpp
+  SoItkSFDataPointSet.cpp
+  SoItkSFDataTransform.cpp
+  SoItkSFNodeContainer.cpp
+  SoItkSeedImage.cpp
+  SoItkSingleValuedNonLinearOptimizer.cpp
+  SoItkTransform.cpp
+  SoItkVectorImage.cpp
+  xipivitk.cpp
+  generated/SoItkAbsImageFilter.cpp
+  generated/SoItkAbsoluteValueDifferenceImageFilter.cpp
+  generated/SoItkAccumulateImageFilter.cpp
+  generated/SoItkAcosImageFilter.cpp
+  generated/SoItkAdaptiveHistogramEqualizationImageFilter.cpp
+  generated/SoItkAddImageFilter.cpp
+  generated/SoItkAndImageFilter.cpp
+  generated/SoItkAnisotropicDiffusionImageFilter.cpp
+  generated/SoItkAnisotropicFourthOrderLevelSetImageFilter.cpp
+  generated/SoItkAntiAliasBinaryImageFilter.cpp
+  generated/SoItkApproximateSignedDistanceMapImageFilter.cpp
+  generated/SoItkAsinImageFilter.cpp
+  generated/SoItkAtan2ImageFilter.cpp
+  generated/SoItkAtanImageFilter.cpp
+  generated/SoItkBSplineCenteredL2ResampleImageFilterBase.cpp
+  generated/SoItkBSplineCenteredResampleImageFilterBase.cpp
+  generated/SoItkBSplineDecompositionImageFilter.cpp
+  generated/SoItkBSplineDownsampleImageFilter.cpp
+  generated/SoItkBSplineResampleImageFilterBase.cpp
+  generated/SoItkBSplineUpsampleImageFilter.cpp
+  generated/SoItkBilateralImageFilter.cpp
+  generated/SoItkBinaryDilateImageFilter.cpp
+  generated/SoItkBinaryErodeImageFilter.cpp
+  generated/SoItkBinaryFunctorImageFilter.cpp
+  generated/SoItkBinaryMagnitudeImageFilter.cpp
+  generated/SoItkBinaryMaskToNarrowBandPointSetFilter.cpp
+  generated/SoItkBinaryMedianImageFilter.cpp
+  generated/SoItkBinaryMinMaxCurvatureFlowImageFilter.cpp
+  generated/SoItkBinaryPruningImageFilter.cpp
+  generated/SoItkBinaryThinningImageFilter.cpp
+  generated/SoItkBinaryThresholdImageFilter.cpp
+  generated/SoItkBinomialBlurImageFilter.cpp
+  generated/SoItkBlackTopHatImageFilter.cpp
+  generated/SoItkBoundedReciprocalImageFilter.cpp
+  generated/SoItkCannyEdgeDetectionImageFilter.cpp
+  generated/SoItkCannySegmentationLevelSetImageFilter.cpp
+  generated/SoItkCastImageFilter.cpp
+  generated/SoItkChangeInformationImageFilter.cpp
+  generated/SoItkCheckerBoardImageFilter.cpp
+  generated/SoItkClosingByReconstructionImageFilter.cpp
+  generated/SoItkCollidingFrontsImageFilter.cpp
+  generated/SoItkConfidenceConnectedImageFilter.cpp
+  generated/SoItkConnectedComponentImageFilter.cpp
+  generated/SoItkConnectedThresholdImageFilter.cpp
+  generated/SoItkConstantPadImageFilter.cpp
+  generated/SoItkConstrainedValueAdditionImageFilter.cpp
+  generated/SoItkConstrainedValueDifferenceImageFilter.cpp
+  generated/SoItkContourDirectedMeanDistanceImageFilter.cpp
+  generated/SoItkContourMeanDistanceImageFilter.cpp
+  generated/SoItkCosImageFilter.cpp
+  generated/SoItkCropImageFilter.cpp
+  generated/SoItkCurvatureAnisotropicDiffusionImageFilter.cpp
+  generated/SoItkCurvatureFlowImageFilter.cpp
+  generated/SoItkCurvesLevelSetImageFilter.cpp
+  generated/SoItkDanielssonDistanceMapImageFilter.cpp
+  generated/SoItkDenseFiniteDifferenceImageFilter.cpp
+  generated/SoItkDerivativeImageFilter.cpp
+  generated/SoItkDifferenceImageFilter.cpp
+  generated/SoItkDilateObjectMorphologyImageFilter.cpp
+  generated/SoItkDirectedHausdorffDistanceImageFilter.cpp
+  generated/SoItkDiscreteGaussianImageFilter.cpp
+  generated/SoItkDivideImageFilter.cpp
+  generated/SoItkDoubleThresholdImageFilter.cpp
+  generated/SoItkErodeObjectMorphologyImageFilter.cpp
+  generated/SoItkExpImageFilter.cpp
+  generated/SoItkExpNegativeImageFilter.cpp
+  generated/SoItkExpandImageFilter.cpp
+  generated/SoItkExtractImageFilter.cpp
+  generated/SoItkFastIncrementalBinaryDilateImageFilter.cpp
+  #generated/SoItkFastMarchingImageFilter.cpp
+  generated/SoItkFiniteDifferenceImageFilter.cpp
+  generated/SoItkFlipImageFilter.cpp
+  generated/SoItkGeodesicActiveContourLevelSetImageFilter.cpp
+  generated/SoItkGeodesicActiveContourShapePriorLevelSetImageFilter.cpp
+  #generated/SoItkGetAverageSliceImageFilter.cpp
+  generated/SoItkGradientAnisotropicDiffusionImageFilter.cpp
+  generated/SoItkGradientMagnitudeImageFilter.cpp
+  generated/SoItkGradientMagnitudeRecursiveGaussianImageFilter.cpp
+  generated/SoItkGrayscaleConnectedClosingImageFilter.cpp
+  generated/SoItkGrayscaleConnectedOpeningImageFilter.cpp
+  generated/SoItkGrayscaleDilateImageFilter.cpp
+  generated/SoItkGrayscaleErodeImageFilter.cpp
+  generated/SoItkGrayscaleFillholeImageFilter.cpp
+  generated/SoItkGrayscaleFunctionDilateImageFilter.cpp
+  generated/SoItkGrayscaleFunctionErodeImageFilter.cpp
+  generated/SoItkGrayscaleGeodesicDilateImageFilter.cpp
+  generated/SoItkGrayscaleGeodesicErodeImageFilter.cpp
+  generated/SoItkGrayscaleGrindPeakImageFilter.cpp
+  generated/SoItkGrayscaleMorphologicalClosingImageFilter.cpp
+  generated/SoItkGrayscaleMorphologicalOpeningImageFilter.cpp
+  generated/SoItkHConcaveImageFilter.cpp
+  generated/SoItkHConvexImageFilter.cpp
+  generated/SoItkHMaximaImageFilter.cpp
+  generated/SoItkHMinimaImageFilter.cpp
+  generated/SoItkHardConnectedComponentImageFilter.cpp
+  generated/SoItkHausdorffDistanceImageFilter.cpp
+  generated/SoItkHistogramMatchingImageFilter.cpp
+  generated/SoItkImageSource.cpp
+  generated/SoItkImageToImageFilter.cpp
+  generated/SoItkImageToMeshFilter.cpp
+  generated/SoItkInPlaceImageFilter.cpp
+  generated/SoItkIntensityWindowingImageFilter.cpp
+  generated/SoItkInterpolateImageFilter.cpp
+  generated/SoItkIsolatedConnectedImageFilter.cpp
+  generated/SoItkIsolatedWatershedImageFilter.cpp
+  generated/SoItkIsotropicFourthOrderLevelSetImageFilter.cpp
+  generated/SoItkJoinSeriesImageFilter.cpp
+  generated/SoItkLaplacianImageFilter.cpp
+  generated/SoItkLaplacianRecursiveGaussianImageFilter.cpp
+  generated/SoItkLaplacianSegmentationLevelSetImageFilter.cpp
+  generated/SoItkLaplacianSharpeningImageFilter.cpp
+  #generated/SoItkLazyEdgeDetectionImageFilter3D.cpp
+  generated/SoItkLog10ImageFilter.cpp
+  generated/SoItkLogImageFilter.cpp
+  generated/SoItkMaskImageFilter.cpp
+  generated/SoItkMaskNegatedImageFilter.cpp
+  generated/SoItkMaskNeighborhoodOperatorImageFilter.cpp
+  generated/SoItkMaximumImageFilter.cpp
+  generated/SoItkMeanImageFilter.cpp
+  generated/SoItkMedianImageFilter.cpp
+  generated/SoItkMeshSource.cpp
+  generated/SoItkMinMaxCurvatureFlowImageFilter.cpp
+  generated/SoItkMinimumImageFilter.cpp
+  generated/SoItkMinimumMaximumImageFilter.cpp
+  generated/SoItkMirrorPadImageFilter.cpp
+  generated/SoItkMorphologyImageFilter.cpp
+  generated/SoItkMultiResolutionPyramidImageFilter.cpp
+  generated/SoItkMultiplyImageFilter.cpp
+  generated/SoItkNaryAddImageFilter.cpp
+  generated/SoItkNaryFunctorImageFilter.cpp
+  generated/SoItkNaryMaximumImageFilter.cpp
+  generated/SoItkNeighborhoodConnectedImageFilter.cpp
+  generated/SoItkNeighborhoodOperatorImageFilter.cpp
+  generated/SoItkNoiseImageFilter.cpp
+  generated/SoItkNonThreadedShrinkImageFilter.cpp
+  generated/SoItkNormalizeImageFilter.cpp
+  generated/SoItkNormalizedCorrelationImageFilter.cpp
+  generated/SoItkNotImageFilter.cpp
+  generated/SoItkObjectMorphologyImageFilter.cpp
+  generated/SoItkOpeningByReconstructionImageFilter.cpp
+  generated/SoItkOrImageFilter.cpp
+  generated/SoItkOtsuMultipleThresholdsImageFilter.cpp
+  generated/SoItkOtsuThresholdImageFilter.cpp
+  generated/SoItkPadImageFilter.cpp
+  generated/SoItkPasteImageFilter.cpp
+  generated/SoItkPermuteAxesImageFilter.cpp
+  generated/SoItkProcessObject.cpp
+  generated/SoItkReconstructionByDilationImageFilter.cpp
+  generated/SoItkReconstructionByErosionImageFilter.cpp
+  generated/SoItkRecursiveGaussianImageFilter.cpp
+  generated/SoItkRecursiveSeparableImageFilter.cpp
+  generated/SoItkReflectImageFilter.cpp
+  generated/SoItkRegionGrowImageFilter.cpp
+  generated/SoItkRegionOfInterestImageFilter.cpp
+  generated/SoItkRelabelComponentImageFilter.cpp
+  generated/SoItkResampleImageFilter.cpp
+  generated/SoItkRescaleIntensityImageFilter.cpp
+  generated/SoItkSTAPLEImageFilter.cpp
+  generated/SoItkScalarImageKmeansImageFilter.cpp
+  generated/SoItkSegmentationLevelSetImageFilter.cpp
+  generated/SoItkShapeDetectionLevelSetImageFilter.cpp
+  generated/SoItkShapePriorSegmentationLevelSetImageFilter.cpp
+  generated/SoItkShiftScaleImageFilter.cpp
+  generated/SoItkShrinkImageFilter.cpp
+  generated/SoItkSigmoidImageFilter.cpp
+  generated/SoItkSignedDanielssonDistanceMapImageFilter.cpp
+  generated/SoItkSimpleContourExtractorImageFilter.cpp
+  generated/SoItkSimpleFuzzyConnectednessImageFilterBase.cpp
+  generated/SoItkSimpleFuzzyConnectednessScalarImageFilter.cpp
+  generated/SoItkSinImageFilter.cpp
+  generated/SoItkSmoothingRecursiveGaussianImageFilter.cpp
+  generated/SoItkSobelEdgeDetectionImageFilter.cpp
+  generated/SoItkSparseFieldFourthOrderLevelSetImageFilter.cpp
+  generated/SoItkSparseFieldLevelSetImageFilter.cpp
+  generated/SoItkSqrtImageFilter.cpp
+  generated/SoItkSquareImageFilter.cpp
+  generated/SoItkSquaredDifferenceImageFilter.cpp
+  generated/SoItkStatisticsImageFilter.cpp
+  generated/SoItkSubtractImageFilter.cpp
+  generated/SoItkTanImageFilter.cpp
+  generated/SoItkTernaryAddImageFilter.cpp
+  generated/SoItkTernaryFunctorImageFilter.cpp
+  generated/SoItkTernaryMagnitudeImageFilter.cpp
+  generated/SoItkTernaryMagnitudeSquaredImageFilter.cpp
+  generated/SoItkThresholdImageFilter.cpp
+  generated/SoItkThresholdSegmentationLevelSetImageFilter.cpp
+  generated/SoItkTileImageFilter.cpp
+  generated/SoItkTobogganImageFilter.cpp
+  generated/SoItkUnaryFunctorImageFilter.cpp
+  generated/SoItkUnsharpMaskLevelSetImageFilter.cpp
+  generated/SoItkVotingBinaryHoleFillingImageFilter.cpp
+  generated/SoItkVotingBinaryImageFilter.cpp
+  generated/SoItkVotingBinaryIterativeHoleFillingImageFilter.cpp
+  generated/SoItkWatershedImageFilter.cpp
+  generated/SoItkWeightedAddImageFilter.cpp
+  generated/SoItkWhiteTopHatImageFilter.cpp
+  generated/SoItkWrapPadImageFilter.cpp
+  generated/SoItkXorImageFilter.cpp
+  generated/SoItkZeroCrossingBasedEdgeDetectionImageFilter.cpp
+  generated/SoItkZeroCrossingImageFilter.cpp
+  generated/itkWrapInit.cpp)
+
+#--------------------------------------------------------------------
+# Definitions.
+#
+if(WIN32)
+  add_definitions(-DXIPIVITK_EXPORTS)
+else(WIN32)
+  add_definitions(-DHAVE_CONFIG_H)
+endif(WIN32)
+
+#--------------------------------------------------------------------
+# Include directories.
+#
+if(WIN32)
+  include_directories(
+    generated
+    ${ITK_PATH}/include/InsightToolkit
+    ${ITK_PATH}/include/InsightToolkit/Algorithms
+    ${ITK_PATH}/include/InsightToolkit/BasicFilters
+    ${ITK_PATH}/include/InsightToolkit/Common
+    ${ITK_PATH}/include/InsightToolkit/IO
+    ${ITK_PATH}/include/InsightToolkit/Numerics
+    ${ITK_PATH}/include/InsightToolkit/Numerics/Statistics
+    ${ITK_PATH}/include/InsightToolkit/Patented
+    ${ITK_PATH}/include/InsightToolkit/SpatialObject
+    ${ITK_PATH}/include/InsightToolkit/Utilities
+    ${ITK_PATH}/include/InsightToolkit/Utilities/vxl/core
+    ${ITK_PATH}/include/InsightToolkit/Utilities/vxl/vcl)
+else(WIN32)
+  include_directories(${ITK_INCLUDE_DIRS})
+endif(WIN32)
+
+#--------------------------------------------------------------------
+# Link directories.
+#
+if(WIN32)
+  link_directories(${ITK_PATH}/lib)
+endif(WIN32)
+
+#--------------------------------------------------------------------
+# Library creation.
+#
+add_library(xipivitk SHARED ${HEADERS} ${SOURCES})
+
+#--------------------------------------------------------------------
+# Linking.
+#
+target_link_libraries(xipivitk
+  xipivcore
+  ITKAlgorithms
+  ITKBasicFilters
+  ITKCommon
+  ITKDICOMParser
+  ITKEXPAT
+  ITKFEM
+  ITKIO
+  ITKMetaIO
+  ITKNrrdIO
+  ITKNumerics
+  ITKSpatialObject
+  ITKStatistics
+  ITKniftiio
+  ITKznz
+  itkgdcm
+  itkjpeg12
+  itkjpeg16
+  itkjpeg8
+  itknetlib
+  itkpng
+  itksys
+  itktiff
+  itkvcl
+  itkvnl
+  itkvnl_algo
+  itkvnl_inst
+  itkzlib)
+
+if(WIN32)
+  if(NOT BORLAND)
+    target_link_libraries(xipivitk
+      Ws2_32
+      wsock32
+      Snmpapi)
+  endif(NOT BORLAND)
+endif(WIN32)
+
+#--------------------------------------------------------------------
+# Install.
+#
+install(TARGETS xipivitk
+  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
+  
+install(TARGETS xipivitk
+  RUNTIME DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+
+if(WIN32)
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivitk.pdb
+    DESTINATION bin/debug CONFIGURATIONS Debug)
+endif(WIN32)

@@ -1,0 +1,10 @@
+<XMLConfig>
+    <section name="favorites" >
+        <setting key="entry" >BaseColor</setting>
+        <setting key="entry" >Calculator</setting>
+        <setting key="entry" >Group</setting>
+        <setting key="entry" >Material</setting>
+        <setting key="entry" >Separator</setting>
+        <setting key="entry" >Switch</setting>
+    </section>
+</XMLConfig>

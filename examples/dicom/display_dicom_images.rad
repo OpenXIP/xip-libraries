@@ -1,0 +1,75 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-3.87468 5.84375 3.66116
+	nearDistance	-0
+	farDistance	7.32232
+	focalDistance	3.66116
+	height	13.26
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-6.71 5.2575 -4.71 6.0575
+	    flags	()
+	    autoPanelPos	321 525 385 392
+	    node		    DEF +0 SoXipLut {
+		fields [ SFEnum inputMode, SFEnum outputMode, SFShort bitsUsed, SFFloat rampWidth,
+			SFFloat rampCenter, MFColor arrayColor, MFFloat arrayAlpha ]
+		inputMode	TRAPEZOID
+		outputMode	COLOR
+		bitsUsed	12
+		rampWidth	0.5
+		rampCenter	0.1
+		arrayColor	[  ]
+		arrayAlpha	[  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-5.4 7.36 -3.4 8.16
+	    flags	()
+	    viewPos	618 41 508 418
+	    node		    Separator {
+		USE +0
+		DEF +1 SoXipDicomExaminer {
+		    fields [ SoXipMFDataDicom images, SFShort imageIndex, SFShort sliceIndex, SFEnum mode ]
+		    images	"DATA" =
+			DEF +2 SoXipLoadDicom {
+			    inputs [ MFString name ]
+			    name	"..\data\1.2.276.0.7230010.3.1.4.3674814570.3388.1188499931.1.dcm"
+			    outputs [ SoXipMFDataDicom dicom ]
+			}
+			. dicom
+
+		    imageIndex	0
+		    sliceIndex	0
+		    mode	NONE
+		}
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-3.73902 3.5475 -1.54902 4.3475
+	    flags	()
+	    autoPanelPos	31 516 385 392
+	    engine		    USE +2
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3.76935 5.325 -1.03935 6.125
+	    flags	()
+	    autoPanelPos	159 364 385 392
+	    node		    USE +1
+
+	}
+    }
+}

@@ -1,0 +1,118 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.5 6.9 -2.5 7.7
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-7.2 6.3 -5.2 7.1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	15 74 0 0
+    node	    SoXipExaminer {
+	mode	ROTATE
+	viewBoundingBox	255 0 0 0
+		0 255 0 0
+		0 0 0 0
+		0 0 0 1
+	plane	3.95111e-014 -8.74229e-008 1  -1.11464e-005
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	127.5 127.5 -435.312
+	    orientation	1 2.4869e-014 -1.97555e-014  3.14159
+	    nearDistance	255
+	    farDistance	615.624
+	    focalDistance	435.312
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-4.5 5.7 -2.5 6.5
+    flags	()
+    autoPanelPos	280 138 0 0
+    node	    SoVtkRenderer {
+	fields [  ]
+    }
+
+}
+#addChild "2" "3"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-0.9 5.4 1.29002 6.2
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	941 133 0 0
+    node	    SoVtkImageActor {
+	fields [ SoSFVtkObject Input ]
+	Input	"NULL"
+    }
+
+}
+#connect "Input@3" "Output@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-0.9 3.9 1.31689 4.7
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	637 321 0 0
+    engine	    SoVtkBMPReader {
+	inputs [ SFVec3f DataSpacing, SFInt32 FileDimensionality, SFVec3f DataOrigin, SFInt32 Allow8BitBMP,
+		SFUInt32 HeaderSize, SFInt32 FileNameSliceOffset, SFInt32 NumberOfScalarComponents, SFInt32 FileLowerLeft,
+		SFInt32 DataByteOrder, MFString FileName, SFInt32 SwapBytes, SFInt32 FileNameSliceSpacing ]
+	DataSpacing	1 1 1
+	FileDimensionality	2
+	DataOrigin	0 0 0
+	Allow8BitBMP	0
+	HeaderSize	0
+	FileNameSliceOffset	0
+	NumberOfScalarComponents	1
+	FileLowerLeft	0
+	DataByteOrder	1
+	FileName	"C:\home\sylvain\VTKData\Data\masonry.bmp"
+	SwapBytes	0
+	FileNameSliceSpacing	1
+	outputs [ SoSFVtkObject oTransform, SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

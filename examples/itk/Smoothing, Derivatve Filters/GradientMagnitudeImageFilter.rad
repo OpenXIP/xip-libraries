@@ -1,0 +1,223 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	4.6178 2.65 8.65776
+	nearDistance	0
+	farDistance	17.3155
+	focalDistance	8.65776
+	height	14.1852
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-0.6 0.9 1.4 1.7
+	    flags	()
+	    autoPanelPos	215 605 385 392
+	    node		    DEF +0 SoXipImage {
+		fields [ SoXipSFDataImage image ]
+		image	"DATA" =
+		    DEF +1 SoItkRescaleIntensityImageFilter {
+			inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum,  ]
+			Input0	"DATA" =
+			    DEF +2 SoItkImageFileReader {
+				inputs [ SFString File,  ]
+				File	"../../data/cthead1.png"
+				outputs [ SoItkSFDataImage Output, MFShort Dimensions ]
+			    }
+			    . Output
+
+			OutputMaximum	1
+			outputs [ SoItkSFDataImage Output ]
+		    }
+		    . Output
+
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-5.77366 -1.2 -3.04301 -0.4
+	    flags	()
+	    autoPanelPos	51 507 385 392
+	    engine		    USE +2
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	5.1 3 7.1 3.8
+	    flags	()
+	    viewPos	825 437 385 392
+	    node		    DEF +3 Separator {
+		DEF +4 SoXipExaminer {
+		    viewBoundingBox	1 0 0 0
+			    0 1 0 0
+			    0 0 1 0
+			    0 0 0 1
+		    complexity			    Complexity {
+		    }
+
+		    orthoCamera			    DEF +5 OrthographicCamera {
+		    }
+
+		    perspectiveCamera			    DEF +6 PerspectiveCamera {
+			position	0.5 0.5 -1.59077
+			orientation	1 0 0  3.14159
+			nearDistance	1.22474
+			farDistance	2.9568
+			focalDistance	2.09077
+			heightAngle	0.785398
+		    }
+
+		    borderNode			    SoXipViewportBorder {
+			fields [  ]
+		    }
+
+		    cameraSwitch			    Switch {
+			whichChild	1
+			USE +5
+			USE +6
+		    }
+
+		}
+		DEF +7 SoXipImage {
+		    fields [ SoXipSFDataImage image ]
+		    image	"DATA" =
+			DEF +8 SoItkGradientMagnitudeImageFilter {
+			    inputs [ SoItkSFDataImage Input0,  ]
+			    Input0	"DATA" =
+				USE +1
+				. Output
+
+			    outputs [ SoItkSFDataImage Output ]
+			}
+			. Output
+
+		}
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFVec4f autoPanelPos,
+		    SFNode node ]
+	    placement	0.600002 5.7 3.12778 6.5
+	    flags	()
+	    viewPos	289 51 359 666
+	    autoPanelPos	305 244 385 392
+	    node		    DEF +9 SoXipViewportGroup {
+		fields [ MFVec4f viewports, SFInt32 current ]
+		viewports	[ 0 0 1 0.5,
+				  0 0.5 1 0.5 ]
+		current	1
+		DEF +10 Separator {
+		    DEF +11 SoXipExaminer {
+			viewBoundingBox	1 0 0 0
+				0 1 0 0
+				0 0 1 0
+				0 0 0 1
+			complexity				Complexity {
+			}
+
+			orthoCamera				DEF +12 OrthographicCamera {
+			}
+
+			perspectiveCamera				DEF +13 PerspectiveCamera {
+			    position	0.5 0.5 -1.59077
+			    orientation	1 0 0  3.14159
+			    nearDistance	1.22474
+			    farDistance	2.9568
+			    focalDistance	2.09077
+			    heightAngle	0.785398
+			}
+
+			borderNode				SoXipViewportBorder {
+			    fields [  ]
+			}
+
+			cameraSwitch				Switch {
+			    whichChild	1
+			    USE +12
+			    USE +13
+			}
+
+		    }
+		    USE +0
+		}
+		USE +3
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-0.751316 -1.2 3.30132 -0.399999
+	    flags	()
+	    autoPanelPos	81 850 385 392
+	    engine		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	7.8 0.9 9.8 1.7
+	    flags	()
+	    autoPanelPos	524 78 385 392
+	    node		    USE +7
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	6.11733 -1.2 10.4734 -0.4
+	    flags	()
+	    autoPanelPos	518 866 385 392
+	    engine		    USE +8
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-1.67025 5.71487 0.329745 6.51487
+	    flags	()
+	    autoPanelPos	352 98 0 0
+	    node		    DEF +14 LightModel {
+		model	BASE_COLOR
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	0.463905 7.07711 2.46391 7.87711
+	    flags	()
+	    node		    Separator {
+		USE +14
+		USE +9
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-3.3 3 -1.3 3.8
+	    flags	()
+	    viewPos	825 437 385 392
+	    node		    USE +10
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3.9 0.9 -1.9 1.7
+	    flags	()
+	    autoPanelPos	135 245 0 0
+	    node		    USE +11
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	4.5 0.9 6.5 1.7
+	    flags	()
+	    autoPanelPos	352 189 0 0
+	    node		    USE +4
+
+	}
+    }
+}

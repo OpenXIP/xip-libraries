@@ -1,0 +1,4027 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-1.1 8.8 10.2903
+	nearDistance	0
+	farDistance	20.5806
+	focalDistance	10.2903
+	height	15.32
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-6.9 11.7 -4.79 12.5
+	    flags	()
+	    autoPanelPos	1328 418 385 392
+	    node		    DEF +0 SoXipExaminer {
+		borderNode			SoRadViewportBorder {
+		    fields [ SFColor activeColor, SFColor inactiveColor ]
+		    activeColor	0.7 0.7 0.7
+		    inactiveColor	0.7 0.7 0.7
+		}
+
+		mode	ROTATE
+		viewBoundingBox	4.49 0 0 0
+			0 4.49 0 0
+			0 0 2.49 0
+			0.01 0.01 0.01 1
+		complexity			Complexity {
+		    value	0.5
+		    textureQuality	0.5
+		}
+
+		orthoCamera			DEF +1 OrthographicCamera {
+		}
+
+		perspectiveCamera			DEF +2 PerspectiveCamera {
+		    position	9.82486 5.00591 2.96218
+		    orientation	-0.343383 -0.654059 -0.674014  4.2428
+		    nearDistance	4.82288
+		    farDistance	11.6435
+		    focalDistance	8.23317
+		    heightAngle	0.785398
+		}
+
+		borderSwitch			Switch {
+		}
+
+		cameraSwitch			Switch {
+		    whichChild	1
+		    USE +1
+		    USE +2
+		}
+
+	    }
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	-4.5 6 -2.5 6.8
+	    flags	()
+	    node		    DEF bookshelf1 Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	1.455 5.25 9.69456
+		    nearDistance	0
+		    farDistance	19.3891
+		    focalDistance	9.69456
+		    height	15.32
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +3 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	1.455 -2.4 3.455 -1.6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +4 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	1.455 12.1 3.455 12.9
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				DEF +5 SoVtkAssembly {
+				    fields [  ]
+				    DEF +6 SoVtkActor {
+					fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					Mapper	"DATA" =
+					    DEF +7 SoVtkPolyDataMapper {
+						inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							SFFloat RenderTime, SFInt32 ColorMode ]
+						ScalarRange	0 1
+						ResolveCoincidentTopology	0
+						ImmediateModeRendering	0
+						ScalarMode	0
+						GlobalImmediateModeRendering	0
+						ResolveCoincidentTopologyZShift	0.01
+						NumberOfSubPieces	1
+						InputConnection	"DATA" =
+						    DEF +8 SoVtkStructuredGridGeometryFilter {
+							inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							Extent	13 13 0 4 0 11 
+							InputConnection	"DATA" =
+							    DEF +9 SoVtkStructuredGridReader {
+								inputs [ SFInt32 ReadFromInputString, SFInt32 ReadAllNormals, SFInt32 ReadAllTCoords, SFInt32 ReadAllColorScalars,
+									SFInt32 ReadAllTensors, SFInt32 ReadAllScalars, SFInt32 ReadAllVectors, MFString FileName,
+									SFInt32 ReadAllFields ]
+								ReadFromInputString	0
+								ReadAllNormals	0
+								ReadAllTCoords	0
+								ReadAllColorScalars	0
+								ReadAllTensors	0
+								ReadAllScalars	0
+								ReadAllVectors	0
+								FileName	"../../data/office.binary.vtk"
+								ReadAllFields	0
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+						    }
+						    . OutputPort
+
+						GhostLevel	0
+						UseLookupTableScalarRange	0
+						ScalarMaterialMode	0
+						NumberOfPieces	1
+						Piece	0
+						ScalarVisibility	0
+						InterpolateScalarsBeforeMapping	0
+						Static	0
+						RenderTime	0
+						ColorMode	0
+						outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Property	"DATA" =
+					    DEF +10 SoVtkProperty {
+						inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						Representation	2
+						Diffuse	1
+						AmbientColor	1 1 1
+						Color	0.8 0.8 0.6 
+						FrontfaceCulling	0
+						BackfaceCulling	0
+						EdgeVisibility	0
+						Opacity	1
+						DiffuseColor	1 1 1
+						Interpolation	1
+						Ambient	0
+						LineWidth	1
+						LineStipplePattern	65535
+						Specular	0
+						SpecularColor	1 1 1
+						LineStippleRepeatFactor	1
+						SpecularPower	1
+						EdgeColor	1 1 1
+						PointSize	1
+						outputs [ SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Origin	0 0 0
+					Orientation	0 0 0
+					Position	0 0 0
+					Scale	1 1 1
+					Pickable	1
+					Visibility	1
+				    }
+				    DEF +11 SoVtkActor {
+					fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					Mapper	"DATA" =
+					    DEF +12 SoVtkPolyDataMapper {
+						inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							SFFloat RenderTime, SFInt32 ColorMode ]
+						ScalarRange	0 1
+						ResolveCoincidentTopology	0
+						ImmediateModeRendering	0
+						ScalarMode	0
+						GlobalImmediateModeRendering	0
+						ResolveCoincidentTopologyZShift	0.01
+						NumberOfSubPieces	1
+						InputConnection	"DATA" =
+						    DEF +13 SoVtkStructuredGridGeometryFilter {
+							inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							Extent	20 20 0 4 0 11 
+							InputConnection	"DATA" =
+							    USE +9
+							    . OutputPort
+
+							outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+						    }
+						    . OutputPort
+
+						GhostLevel	0
+						UseLookupTableScalarRange	0
+						ScalarMaterialMode	0
+						NumberOfPieces	1
+						Piece	0
+						ScalarVisibility	0
+						InterpolateScalarsBeforeMapping	0
+						Static	0
+						RenderTime	0
+						ColorMode	0
+						outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Property	"DATA" =
+					    DEF +14 SoVtkProperty {
+						inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						Representation	2
+						Diffuse	1
+						AmbientColor	1 1 1
+						Color	0.8 0.8 0.6 
+						FrontfaceCulling	0
+						BackfaceCulling	0
+						EdgeVisibility	0
+						Opacity	1
+						DiffuseColor	1 1 1
+						Interpolation	1
+						Ambient	0
+						LineWidth	1
+						LineStipplePattern	65535
+						Specular	0
+						SpecularColor	1 1 1
+						LineStippleRepeatFactor	1
+						SpecularPower	1
+						EdgeColor	1 1 1
+						PointSize	1
+						outputs [ SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Origin	0 0 0
+					Orientation	0 0 0
+					Position	0 0 0
+					Scale	1 1 1
+					Pickable	1
+					Visibility	1
+				    }
+				    DEF +15 SoVtkActor {
+					fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					Mapper	"DATA" =
+					    DEF +16 SoVtkPolyDataMapper {
+						inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							SFFloat RenderTime, SFInt32 ColorMode ]
+						ScalarRange	0 1
+						ResolveCoincidentTopology	0
+						ImmediateModeRendering	0
+						ScalarMode	0
+						GlobalImmediateModeRendering	0
+						ResolveCoincidentTopologyZShift	0.01
+						NumberOfSubPieces	1
+						InputConnection	"DATA" =
+						    DEF +17 SoVtkStructuredGridGeometryFilter {
+							inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							Extent	13 20 0 0 0 11 
+							InputConnection	"DATA" =
+							    USE +9
+							    . OutputPort
+
+							outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+						    }
+						    . OutputPort
+
+						GhostLevel	0
+						UseLookupTableScalarRange	0
+						ScalarMaterialMode	0
+						NumberOfPieces	1
+						Piece	0
+						ScalarVisibility	0
+						InterpolateScalarsBeforeMapping	0
+						Static	0
+						RenderTime	0
+						ColorMode	0
+						outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Property	"DATA" =
+					    DEF +18 SoVtkProperty {
+						inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						Representation	2
+						Diffuse	1
+						AmbientColor	1 1 1
+						Color	0.8 0.8 0.6 
+						FrontfaceCulling	0
+						BackfaceCulling	0
+						EdgeVisibility	0
+						Opacity	1
+						DiffuseColor	1 1 1
+						Interpolation	1
+						Ambient	0
+						LineWidth	1
+						LineStipplePattern	65535
+						Specular	0
+						SpecularColor	1 1 1
+						LineStippleRepeatFactor	1
+						SpecularPower	1
+						EdgeColor	1 1 1
+						PointSize	1
+						outputs [ SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Origin	0 0 0
+					Orientation	0 0 0
+					Position	0 0 0
+					Scale	1 1 1
+					Pickable	1
+					Visibility	1
+				    }
+				    DEF +19 SoVtkActor {
+					fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					Mapper	"DATA" =
+					    DEF +20 SoVtkPolyDataMapper {
+						inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							SFFloat RenderTime, SFInt32 ColorMode ]
+						ScalarRange	0 1
+						ResolveCoincidentTopology	0
+						ImmediateModeRendering	0
+						ScalarMode	0
+						GlobalImmediateModeRendering	0
+						ResolveCoincidentTopologyZShift	0.01
+						NumberOfSubPieces	1
+						InputConnection	"DATA" =
+						    DEF +21 SoVtkStructuredGridGeometryFilter {
+							inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							Extent	13 20 4 4 0 11 
+							InputConnection	"DATA" =
+							    USE +9
+							    . OutputPort
+
+							outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+						    }
+						    . OutputPort
+
+						GhostLevel	0
+						UseLookupTableScalarRange	0
+						ScalarMaterialMode	0
+						NumberOfPieces	1
+						Piece	0
+						ScalarVisibility	0
+						InterpolateScalarsBeforeMapping	0
+						Static	0
+						RenderTime	0
+						ColorMode	0
+						outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Property	"DATA" =
+					    DEF +22 SoVtkProperty {
+						inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						Representation	2
+						Diffuse	1
+						AmbientColor	1 1 1
+						Color	0.8 0.8 0.6 
+						FrontfaceCulling	0
+						BackfaceCulling	0
+						EdgeVisibility	0
+						Opacity	1
+						DiffuseColor	1 1 1
+						Interpolation	1
+						Ambient	0
+						LineWidth	1
+						LineStipplePattern	65535
+						Specular	0
+						SpecularColor	1 1 1
+						LineStippleRepeatFactor	1
+						SpecularPower	1
+						EdgeColor	1 1 1
+						PointSize	1
+						outputs [ SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Origin	0 0 0
+					Orientation	0 0 0
+					Position	0 0 0
+					Scale	1 1 1
+					Pickable	1
+					Visibility	1
+				    }
+				    DEF +23 SoVtkActor {
+					fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					Mapper	"DATA" =
+					    DEF +24 SoVtkPolyDataMapper {
+						inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							SFFloat RenderTime, SFInt32 ColorMode ]
+						ScalarRange	0 1
+						ResolveCoincidentTopology	0
+						ImmediateModeRendering	0
+						ScalarMode	0
+						GlobalImmediateModeRendering	0
+						ResolveCoincidentTopologyZShift	0.01
+						NumberOfSubPieces	1
+						InputConnection	"DATA" =
+						    DEF +25 SoVtkStructuredGridGeometryFilter {
+							inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							Extent	13 20 0 4 0 0 
+							InputConnection	"DATA" =
+							    USE +9
+							    . OutputPort
+
+							outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+						    }
+						    . OutputPort
+
+						GhostLevel	0
+						UseLookupTableScalarRange	0
+						ScalarMaterialMode	0
+						NumberOfPieces	1
+						Piece	0
+						ScalarVisibility	0
+						InterpolateScalarsBeforeMapping	0
+						Static	0
+						RenderTime	0
+						ColorMode	0
+						outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Property	"DATA" =
+					    DEF +26 SoVtkProperty {
+						inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						Representation	2
+						Diffuse	1
+						AmbientColor	1 1 1
+						Color	0.8 0.8 0.6 
+						FrontfaceCulling	0
+						BackfaceCulling	0
+						EdgeVisibility	0
+						Opacity	1
+						DiffuseColor	1 1 1
+						Interpolation	1
+						Ambient	0
+						LineWidth	1
+						LineStipplePattern	65535
+						Specular	0
+						SpecularColor	1 1 1
+						LineStippleRepeatFactor	1
+						SpecularPower	1
+						EdgeColor	1 1 1
+						PointSize	1
+						outputs [ SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Origin	0 0 0
+					Orientation	0 0 0
+					Position	0 0 0
+					Scale	1 1 1
+					Pickable	1
+					Visibility	1
+				    }
+				    DEF +27 SoVtkActor {
+					fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					Mapper	"DATA" =
+					    DEF +28 SoVtkPolyDataMapper {
+						inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							SFFloat RenderTime, SFInt32 ColorMode ]
+						ScalarRange	0 1
+						ResolveCoincidentTopology	0
+						ImmediateModeRendering	0
+						ScalarMode	0
+						GlobalImmediateModeRendering	0
+						ResolveCoincidentTopologyZShift	0.01
+						NumberOfSubPieces	1
+						InputConnection	"DATA" =
+						    DEF +29 SoVtkStructuredGridGeometryFilter {
+							inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							Extent	13 20 0 4 11 11 
+							InputConnection	"DATA" =
+							    USE +9
+							    . OutputPort
+
+							outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+						    }
+						    . OutputPort
+
+						GhostLevel	0
+						UseLookupTableScalarRange	0
+						ScalarMaterialMode	0
+						NumberOfPieces	1
+						Piece	0
+						ScalarVisibility	0
+						InterpolateScalarsBeforeMapping	0
+						Static	0
+						RenderTime	0
+						ColorMode	0
+						outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Property	"DATA" =
+					    DEF +30 SoVtkProperty {
+						inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						Representation	2
+						Diffuse	1
+						AmbientColor	1 1 1
+						Color	0.8 0.8 0.6 
+						FrontfaceCulling	0
+						BackfaceCulling	0
+						EdgeVisibility	0
+						Opacity	1
+						DiffuseColor	1 1 1
+						Interpolation	1
+						Ambient	0
+						LineWidth	1
+						LineStipplePattern	65535
+						Specular	0
+						SpecularColor	1 1 1
+						LineStippleRepeatFactor	1
+						SpecularPower	1
+						EdgeColor	1 1 1
+						PointSize	1
+						outputs [ SoSFVtkObject Output ]
+					    }
+					    . Output
+
+					Origin	0 0 0
+					Orientation	0 0 0
+					Position	0 0 0
+					Scale	1 1 1
+					Pickable	1
+					Visibility	1
+				    }
+				}
+				Separator {
+				    DEF +31 SoVtkRenderer {
+					fields [  ]
+					DEF +32 SoVtkActor {
+					    fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						    SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					    Mapper	"DATA" =
+						DEF +33 SoVtkPolyDataMapper {
+						    inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							    SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							    SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							    SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							    SFFloat RenderTime, SFInt32 ColorMode ]
+						    ScalarRange	-3.87 0.72
+						    ResolveCoincidentTopology	0
+						    ImmediateModeRendering	0
+						    ScalarMode	0
+						    GlobalImmediateModeRendering	0
+						    ResolveCoincidentTopologyZShift	0.01
+						    NumberOfSubPieces	1
+						    InputConnection	"DATA" =
+							DEF +34 SoVtkTubeFilter {
+							    inputs [ SFFloat Radius, SFFloat RadiusFactor, SFInt32 OnRatio, SFInt32 SidesShareVertices,
+								    SFInt32 VaryRadius, SFFloat TextureLength, SFInt32 NumberOfSides, SoSFVtkAlgorithmOutput InputConnection,
+								    SFVec3f DefaultNormal, SFInt32 Offset, SFInt32 UseDefaultNormal, SFInt32 GenerateTCoords,
+								    SFInt32 Capping ]
+							    Radius	0.02
+							    RadiusFactor	10
+							    OnRatio	1
+							    SidesShareVertices	1
+							    VaryRadius	2
+							    TextureLength	1
+							    NumberOfSides	15
+							    InputConnection	"DATA" =
+								DEF +35 SoVtkStreamLine {
+								    inputs [ SoSFVariant StartPosition, SFInt32 NumberOfThreads, SFFloat IntegrationStepLength, SFFloat MaximumPropagationTime,
+									    SFInt32 IntegrationDirection, SFFloat TerminalSpeed, SFFloat StepLength, SoSFVtkAlgorithmOutput InputConnection,
+									    SFInt32 OrientationScalars, SFInt32 SpeedScalars, SFInt32 Vorticity, SoSFVtkObject Integrator,
+									    SFFloat SavePointInterval ]
+								    StartPosition	0.05 2.15 0.1 
+								    NumberOfThreads	2
+								    IntegrationStepLength	0.5
+								    MaximumPropagationTime	600
+								    IntegrationDirection	2
+								    TerminalSpeed	0
+								    StepLength	0.5
+								    InputConnection	"DATA" =
+									USE +9
+									. OutputPort
+
+								    OrientationScalars	0
+								    SpeedScalars	0
+								    Vorticity	0
+								    Integrator	"DATA" =
+									DEF +36 SoVtkRungeKutta4 {
+									    inputs [  ]
+									    outputs [ SoSFVtkObject Output ]
+									}
+									. Output
+
+								    SavePointInterval	1e-005
+								    outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+								}
+								. OutputPort
+
+							    DefaultNormal	0 0 1
+							    Offset	0
+							    UseDefaultNormal	0
+							    GenerateTCoords	0
+							    Capping	0
+							    outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							}
+							. OutputPort
+
+						    GhostLevel	0
+						    UseLookupTableScalarRange	0
+						    ScalarMaterialMode	0
+						    NumberOfPieces	1
+						    Piece	0
+						    ScalarVisibility	1
+						    InterpolateScalarsBeforeMapping	0
+						    Static	0
+						    RenderTime	0
+						    ColorMode	0
+						    outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Property	"DATA" =
+						DEF +37 SoVtkProperty {
+						    inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SFInt32 FrontfaceCulling,
+							    SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity, SFVec3f DiffuseColor,
+							    SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth, SFInt32 LineStipplePattern,
+							    SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor, SFFloat SpecularPower,
+							    SFVec3f EdgeColor, SFFloat PointSize ]
+						    Representation	2
+						    Diffuse	1
+						    AmbientColor	1 1 1
+						    FrontfaceCulling	0
+						    BackfaceCulling	1
+						    EdgeVisibility	0
+						    Opacity	1
+						    DiffuseColor	1 1 1
+						    Interpolation	1
+						    Ambient	0
+						    LineWidth	1
+						    LineStipplePattern	65535
+						    Specular	0
+						    SpecularColor	1 1 1
+						    LineStippleRepeatFactor	1
+						    SpecularPower	1
+						    EdgeColor	1 1 1
+						    PointSize	1
+						    outputs [ SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Origin	0 0 0
+					    Orientation	0 0 0
+					    Position	0 0 0
+					    Scale	1 1 1
+					    Pickable	1
+					    Visibility	1
+					}
+					DEF +38 SoVtkAssembly {
+					    fields [ SFVec3f Position ]
+					    Position	0 0 0
+					    DEF +39 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +40 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +41 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	11 15 7 9 8 8 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +42 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.59 0.427 0.392 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					    DEF +43 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +44 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +45 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	11 15 10 12 8 8 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +46 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.59 0.427 0.392 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					}
+					DEF +47 SoVtkAssembly {
+					    fields [ SFVec3f Position ]
+					    Position	0 0 0
+					    DEF +48 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +49 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +50 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVtkAlgorithmOutput InputConnection ]
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +51 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					}
+					USE +5
+					DEF +52 SoVtkAssembly {
+					    fields [  ]
+					    DEF +53 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +54 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +55 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	13 13 15 19 0 11 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +56 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					    DEF +57 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +58 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +59 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	20 20 15 19 0 11 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +60 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					    DEF +61 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +62 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +63 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	13 20 15 15 0 11 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +64 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	0.8 0.8 0.6
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					    DEF +65 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +66 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +67 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	13 20 19 19 0 11 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +68 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					    DEF +69 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +70 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +71 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	13 20 15 19 0 0 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +72 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					    DEF +73 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +74 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +75 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	13 20 15 19 11 11 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +76 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					}
+					DEF +77 SoVtkActor {
+					    fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						    SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					    Mapper	"DATA" =
+						DEF +78 SoVtkPolyDataMapper {
+						    inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							    SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							    SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							    SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							    SFFloat RenderTime, SFInt32 ColorMode ]
+						    ScalarRange	0 1
+						    ResolveCoincidentTopology	0
+						    ImmediateModeRendering	0
+						    ScalarMode	0
+						    GlobalImmediateModeRendering	0
+						    ResolveCoincidentTopologyZShift	0.01
+						    NumberOfSubPieces	1
+						    InputConnection	"DATA" =
+							DEF +79 SoVtkStructuredGridGeometryFilter {
+							    inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							    Extent	20 20 6 13 10 13 
+							    InputConnection	"DATA" =
+								USE +9
+								. OutputPort
+
+							    outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							}
+							. OutputPort
+
+						    GhostLevel	0
+						    UseLookupTableScalarRange	0
+						    ScalarMaterialMode	0
+						    NumberOfPieces	1
+						    Piece	0
+						    ScalarVisibility	0
+						    InterpolateScalarsBeforeMapping	0
+						    Static	0
+						    RenderTime	0
+						    ColorMode	0
+						    outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Property	"DATA" =
+						DEF +80 SoVtkProperty {
+						    inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							    SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							    SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							    SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							    SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						    Representation	2
+						    Diffuse	1
+						    AmbientColor	1 1 1
+						    Color	0.3 0.3 0.5 
+						    FrontfaceCulling	0
+						    BackfaceCulling	0
+						    EdgeVisibility	0
+						    Opacity	1
+						    DiffuseColor	1 1 1
+						    Interpolation	1
+						    Ambient	0
+						    LineWidth	1
+						    LineStipplePattern	65535
+						    Specular	0
+						    SpecularColor	1 1 1
+						    LineStippleRepeatFactor	1
+						    SpecularPower	1
+						    EdgeColor	1 1 1
+						    PointSize	1
+						    outputs [ SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Origin	0 0 0
+					    Orientation	0 0 0
+					    Position	0 0 0
+					    Scale	1 1 1
+					    Pickable	1
+					    Visibility	1
+					}
+					DEF +81 SoVtkActor {
+					    fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						    SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					    Mapper	"DATA" =
+						DEF +82 SoVtkPolyDataMapper {
+						    inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							    SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							    SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							    SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							    SFFloat RenderTime, SFInt32 ColorMode ]
+						    ScalarRange	0 1
+						    ResolveCoincidentTopology	0
+						    ImmediateModeRendering	0
+						    ScalarMode	0
+						    GlobalImmediateModeRendering	0
+						    ResolveCoincidentTopologyZShift	0.01
+						    NumberOfSubPieces	1
+						    InputConnection	"DATA" =
+							DEF +83 SoVtkStructuredGridGeometryFilter {
+							    inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							    Extent	0 0 9 10 14 16 
+							    InputConnection	"DATA" =
+								USE +9
+								. OutputPort
+
+							    outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							}
+							. OutputPort
+
+						    GhostLevel	0
+						    UseLookupTableScalarRange	0
+						    ScalarMaterialMode	0
+						    NumberOfPieces	1
+						    Piece	0
+						    ScalarVisibility	0
+						    InterpolateScalarsBeforeMapping	0
+						    Static	0
+						    RenderTime	0
+						    ColorMode	0
+						    outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Property	"DATA" =
+						DEF +84 SoVtkProperty {
+						    inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							    SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							    SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							    SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							    SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						    Representation	2
+						    Diffuse	1
+						    AmbientColor	1 1 1
+						    Color	0 0 0 
+						    FrontfaceCulling	0
+						    BackfaceCulling	0
+						    EdgeVisibility	0
+						    Opacity	1
+						    DiffuseColor	1 1 1
+						    Interpolation	1
+						    Ambient	0
+						    LineWidth	1
+						    LineStipplePattern	65535
+						    Specular	0
+						    SpecularColor	1 1 1
+						    LineStippleRepeatFactor	1
+						    SpecularPower	1
+						    EdgeColor	1 1 1
+						    PointSize	1
+						    outputs [ SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Origin	0 0 0
+					    Orientation	0 0 0
+					    Position	0 0.1 0
+					    Scale	1 1 1
+					    Pickable	1
+					    Visibility	1
+					}
+					DEF +85 SoVtkActor {
+					    fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						    SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					    Mapper	"DATA" =
+						DEF +86 SoVtkPolyDataMapper {
+						    inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							    SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							    SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							    SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							    SFFloat RenderTime, SFInt32 ColorMode ]
+						    ScalarRange	0 1
+						    ResolveCoincidentTopology	0
+						    ImmediateModeRendering	0
+						    ScalarMode	0
+						    GlobalImmediateModeRendering	0
+						    ResolveCoincidentTopologyZShift	0.01
+						    NumberOfSubPieces	1
+						    InputConnection	"DATA" =
+							DEF +87 SoVtkStructuredGridGeometryFilter {
+							    inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+							    Extent	0 0 9 10 0 6 
+							    InputConnection	"DATA" =
+								USE +9
+								. OutputPort
+
+							    outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							}
+							. OutputPort
+
+						    GhostLevel	0
+						    UseLookupTableScalarRange	0
+						    ScalarMaterialMode	0
+						    NumberOfPieces	1
+						    Piece	0
+						    ScalarVisibility	0
+						    InterpolateScalarsBeforeMapping	0
+						    Static	0
+						    RenderTime	0
+						    ColorMode	0
+						    outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Property	"DATA" =
+						DEF +88 SoVtkProperty {
+						    inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							    SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							    SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							    SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							    SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						    Representation	2
+						    Diffuse	1
+						    AmbientColor	1 1 1
+						    Color	0 0 0 
+						    FrontfaceCulling	0
+						    BackfaceCulling	0
+						    EdgeVisibility	0
+						    Opacity	1
+						    DiffuseColor	1 1 1
+						    Interpolation	1
+						    Ambient	0
+						    LineWidth	1
+						    LineStipplePattern	65535
+						    Specular	0
+						    SpecularColor	1 1 1
+						    LineStippleRepeatFactor	1
+						    SpecularPower	1
+						    EdgeColor	1 1 1
+						    PointSize	1
+						    outputs [ SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Origin	0 0 0
+					    Orientation	0 0 0
+					    Position	0 -0.25 0
+					    Scale	1 1 1
+					    Pickable	1
+					    Visibility	1
+					}
+					DEF +89 SoVtkActor {
+					    fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+						    SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+					    Mapper	"DATA" =
+						DEF +90 SoVtkPolyDataMapper {
+						    inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+							    SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+							    SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+							    SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+							    SFFloat RenderTime, SFInt32 ColorMode ]
+						    ScalarRange	0 1
+						    ResolveCoincidentTopology	0
+						    ImmediateModeRendering	0
+						    ScalarMode	0
+						    GlobalImmediateModeRendering	0
+						    ResolveCoincidentTopologyZShift	0.01
+						    NumberOfSubPieces	1
+						    InputConnection	"DATA" =
+							DEF +91 SoVtkStructuredGridOutlineFilter {
+							    inputs [ SoSFVtkAlgorithmOutput InputConnection ]
+							    InputConnection	"DATA" =
+								USE +9
+								. OutputPort
+
+							    outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							}
+							. OutputPort
+
+						    GhostLevel	0
+						    UseLookupTableScalarRange	0
+						    ScalarMaterialMode	0
+						    NumberOfPieces	1
+						    Piece	0
+						    ScalarVisibility	1
+						    InterpolateScalarsBeforeMapping	0
+						    Static	0
+						    RenderTime	0
+						    ColorMode	0
+						    outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Property	"DATA" =
+						DEF +92 SoVtkProperty {
+						    inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+							    SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+							    SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+							    SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+							    SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+						    Representation	2
+						    Diffuse	1
+						    AmbientColor	1 1 1
+						    Color	0 0 0 
+						    FrontfaceCulling	0
+						    BackfaceCulling	0
+						    EdgeVisibility	0
+						    Opacity	1
+						    DiffuseColor	1 1 1
+						    Interpolation	1
+						    Ambient	0
+						    LineWidth	1
+						    LineStipplePattern	65535
+						    Specular	0
+						    SpecularColor	1 1 1
+						    LineStippleRepeatFactor	1
+						    SpecularPower	1
+						    EdgeColor	1 1 1
+						    PointSize	1
+						    outputs [ SoSFVtkObject Output ]
+						}
+						. Output
+
+					    Origin	0 0 0
+					    Orientation	0 0 0
+					    Position	0 0 0
+					    Scale	1 1 1
+					    Pickable	1
+					    Visibility	1
+					}
+				    }
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	-4.5 8.1 -2.5 8.9
+			flags	()
+			node				DEF bookshelf1Top Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	5.28571 2.36429 6.4979
+				nearDistance	0
+				farDistance	12.9958
+				focalDistance	6.4979
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +93 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	3.66964 -3.37143 5.66964 -2.57143
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +94 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	3.66964 7.3 5.66964 8.1
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +6
+					    Separator {
+						USE +5
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	3.11071 -1.37143 7.46071 -0.571428
+				    flags	()
+				    autoPanelPos	1401 352 385 392
+				    engine					    USE +8
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	3.99357 1.17143 6.86357 1.97143
+				    flags	()
+				    autoPanelPos	1496 312 385 392
+				    engine					    USE +7
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	4.56786 4.5 6.56786 5.3
+				    flags	()
+				    autoPanelPos	1845 336 385 392
+				    node					    USE +6
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	4.825 3.6 6.825 4.4
+				    flags	()
+				    autoPanelPos	1362 284 385 392
+				    engine					    USE +10
+
+				}
+			    }
+			}
+
+			inputs				USE +93
+
+			outputs				USE +94
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	-3 7.2 -0.69 8
+			flags	()
+			node				DEF bookshelf1Bottom Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	4.85357 -3.9 7.7288
+				nearDistance	0
+				farDistance	15.4576
+				focalDistance	7.7288
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +95 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	3.45357 -11 5.45357 -10.2
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +96 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	3.45357 2.4 5.45357 3.2
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +11
+					    Separator {
+						USE +5
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	2.67857 -9 7.02857 -8.2
+				    flags	()
+				    autoPanelPos	1375 301 385 392
+				    engine					    USE +13
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	3.96786 -3 5.96786 -2.2
+				    flags	()
+				    autoPanelPos	1525 362 385 392
+				    node					    USE +11
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	4.225 -3.9 6.225 -3.1
+				    flags	()
+				    autoPanelPos	1586 399 385 392
+				    engine					    USE +14
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	3.56143 -6.6 6.43143 -5.8
+				    flags	()
+				    autoPanelPos	1457 376 385 392
+				    engine					    USE +12
+
+				}
+			    }
+			}
+
+			inputs				USE +95
+
+			outputs				USE +96
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+			placement	-2.1 9.3 0.7 10.1
+			flags	()
+			node				USE +5
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	-0.3 5.7 1.77 6.5
+			flags	()
+			node				DEF bookshelf1Front Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	10.6304 5.1 8.44272
+				nearDistance	0
+				farDistance	16.8854
+				focalDistance	8.44272
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +97 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -2.4 8.75357 -1.6
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +98 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 11.8 8.75357 12.6
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +15
+					    Separator {
+						USE +5
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27857 3 13.6286 3.8
+				    flags	()
+				    autoPanelPos	1383 314 385 392
+				    engine					    USE +17
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.5679 9 12.5679 9.8
+				    flags	()
+				    autoPanelPos	1717 238 385 392
+				    node					    USE +15
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.825 8.1 12.825 8.9
+				    flags	()
+				    autoPanelPos	2100 243 385 392
+				    engine					    USE +18
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 5.7 13.0314 6.5
+				    flags	()
+				    autoPanelPos	1822 319 385 392
+				    engine					    USE +16
+
+				}
+			    }
+			}
+
+			inputs				USE +97
+
+			outputs				USE +98
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	1.2 4.8 3.27 5.6
+			flags	()
+			node				DEF bookshelf1Back Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	10.6304 -0.85 6.85215
+				nearDistance	0
+				farDistance	13.7043
+				focalDistance	6.85215
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +99 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +100 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +19
+					    Separator {
+						USE +5
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27857 -4.5 13.6286 -3.7
+				    flags	()
+				    autoPanelPos	1431 164 385 392
+				    engine					    USE +21
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +19
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	2072 354 385 392
+				    engine					    USE +22
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1466 244 385 392
+				    engine					    USE +20
+
+				}
+			    }
+			}
+
+			inputs				USE +99
+
+			outputs				USE +100
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	3.6 7.5 5.6 8.3
+			flags	()
+			node				DEF bookshelf1LHS Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	10.1911 -0.85 6.61354
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61354
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +101 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node,
+					    SFNode connections,  ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    autoPanelPos	1474 580 385 392
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +102 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +23
+					    Separator {
+						USE +5
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27858 -4.5 13.6286 -3.7
+				    flags	()
+				    autoPanelPos	768 415 385 392
+				    engine					    USE +25
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +23
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    engine					    USE +26
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    engine					    USE +24
+
+				}
+			    }
+			}
+
+			inputs				USE +101
+
+			outputs				USE +102
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	5.4 6.6 7.41 7.4
+			flags	()
+			node				DEF bookshelf1RHS Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	10.1911 -0.85 6.61355
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61355
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +103 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +104 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +27
+					    Separator {
+						USE +5
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27858 -4.5 13.6286 -3.7
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    engine					    USE +29
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +27
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	2072 354 385 392
+				    engine					    USE +30
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1466 244 385 392
+				    engine					    USE +28
+
+				}
+			    }
+			}
+
+			inputs				USE +103
+
+			outputs				USE +104
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +3
+
+	    outputs		    USE +4
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	0.3 6 2.3 6.8
+	    flags	()
+	    node		    DEF window Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	3.385 9.39 9.96744
+		    nearDistance	0
+		    farDistance	19.9349
+		    focalDistance	9.96744
+		    height	15.32
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +105 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 -2.4 4.285 -1.6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +106 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 16.25 4.285 17.05
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +77
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	1.2 9.9 5.55 10.7
+			flags	()
+			autoPanelPos	1727 316 385 392
+			engine				USE +79
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	2.7 11.1 5.57 11.9
+			flags	()
+			autoPanelPos	2115 377 385 392
+			engine				USE +78
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	3.3 12.3 5.3 13.1
+			flags	()
+			autoPanelPos	1727 316 385 392
+			engine				USE +80
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	3.3 13.5 5.3 14.3
+			flags	()
+			autoPanelPos	1653 94 385 392
+			node				USE +77
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +105
+
+	    outputs		    USE +106
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	5.4 8.7 7.4 9.5
+	    flags	()
+	    node		    DEF outline Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	3.385 9.39 9.96744
+		    nearDistance	0
+		    farDistance	19.9349
+		    focalDistance	9.96744
+		    height	15.32
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +107 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 -2.4 4.285 -1.6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +108 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 16.25 4.285 17.05
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +89
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	3.52 13.45 5.52 14.25
+			flags	()
+			autoPanelPos	1653 94 385 392
+			node				USE +89
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	2.7 11.1 5.57 11.9
+			flags	()
+			autoPanelPos	2032 322 385 392
+			engine				USE +90
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	3.3 12.3 5.3 13.1
+			flags	()
+			autoPanelPos	2047 246 385 392
+			engine				USE +92
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	1.73 9.75 5.76 10.55
+			flags	()
+			autoPanelPos	1658 450 385 392
+			engine				USE +91
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +107
+
+	    outputs		    USE +108
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-5.1 13.8 -3.1 14.6
+	    flags	()
+	    viewPos	-4 -4 1288 998
+	    node		    Separator {
+		USE +0
+		USE +31
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	-3 11.7 1 12.5
+	    flags	()
+	    node		    USE +31
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	3.9 7.8 5.9 8.6
+	    flags	()
+	    node		    DEF inlet Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	3.9025 7.325 1
+		    nearDistance	0
+		    farDistance	19.9349
+		    focalDistance	9.96744
+		    height	19.95
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +109 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 -2.4 4.285 -1.6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +110 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 16.25 4.285 17.05
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +85
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	1.2 9.9 5.55 10.7
+			flags	()
+			autoPanelPos	1727 316 385 392
+			engine				USE +87
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	2.7 11.1 5.57 11.9
+			flags	()
+			autoPanelPos	2115 377 385 392
+			engine				USE +86
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	3.3 12.3 5.3 13.1
+			flags	()
+			autoPanelPos	493 146 0 0
+			engine				USE +88
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	3.6 13.5 5.6 14.3
+			flags	()
+			autoPanelPos	477 111 0 0
+			node				USE +85
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +109
+
+	    outputs		    USE +110
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	2.1 6.9 4.1 7.7
+	    flags	()
+	    node		    DEF outlet Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	3.9025 7.325 1
+		    nearDistance	0
+		    farDistance	19.9349
+		    focalDistance	9.96744
+		    height	19.95
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +111 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 -2.4 4.285 -1.6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +112 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	2.285 16.25 4.285 17.05
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +81
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	1.2 9.9 5.55 10.7
+			flags	()
+			autoPanelPos	1727 316 385 392
+			engine				USE +83
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	2.7 11.1 5.57 11.9
+			flags	()
+			autoPanelPos	2115 377 385 392
+			engine				USE +82
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	3.3 12.3 5.3 13.1
+			flags	()
+			autoPanelPos	2047 246 385 392
+			engine				USE +84
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	3.6 13.5 5.6 14.3
+			flags	()
+			autoPanelPos	482 118 0 0
+			node				USE +81
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +111
+
+	    outputs		    USE +112
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	-9.6 9 -7.6 9.8
+	    flags	()
+	    node		    DEF Tube Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	-9.5375 -0.55 1
+		    nearDistance	0
+		    farDistance	16.0078
+		    focalDistance	8.00391
+		    height	15.32
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +113 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-7 -6.8 -5 -6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	-14.0322 2.1 -12.0322 2.9
+			flags	()
+			autoPanelPos	1746 446 385 392
+			node				USE +32
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	-14.075 1.2 -12.075 2
+			flags	()
+			autoPanelPos	1826 394 385 392
+			engine				USE +37
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	-14.4385 -0.6 -11.5686 0.2
+			flags	()
+			autoPanelPos	1489 308 385 392
+			engine				USE +33
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	-14.0057 -3 -11.9157 -2.2
+			flags	()
+			autoPanelPos	314 399 0 0
+			engine				USE +34
+
+		    }
+		    DEF +114 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-6.9 5.1 -4.9 5.9
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +32
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	-13.8 -4.8 -11.3499 -4
+			flags	()
+			autoPanelPos	321 495 0 0
+			engine				USE +36
+
+		    }
+		    SoRadBuilderEngine {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+			placement	-14.1 -3.9 -11.83 -3.1
+			flags	()
+			autoPanelPos	407 386 0 0
+			engine				USE +35
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +113
+
+	    outputs		    USE +114
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-3 3 0.45 3.8
+	    flags	SHOW_AUTOPANEL
+	    autoPanelPos	663 421 0 0
+	    engine		    USE +9
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	-2.1 6 -0.1 6.8
+	    flags	()
+	    node		    DEF bookshelf2 Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	10.3686 4.4 1
+		    nearDistance	0
+		    farDistance	15.7787
+		    focalDistance	7.88935
+		    height	15.32
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +115 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	6.73214 -2.6 8.73214 -1.8
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	9.9 1.8 11.97 2.6
+			flags	()
+			node				DEF bookshelf2Back Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	10.1911 -0.85 6.61355
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61355
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +116 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +117 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +65
+					    Separator {
+						USE +52
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27859 -4.5 13.6286 -3.7
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    engine					    USE +67
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +65
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	2072 354 385 392
+				    engine					    USE +68
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1466 244 385 392
+				    engine					    USE +66
+
+				}
+			    }
+			}
+
+			inputs				USE +116
+
+			outputs				USE +117
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	11.1 0.6 13.1 1.4
+			flags	()
+			node				DEF bookshelf2LHS Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	10.1911 -0.85 6.61355
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61355
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +118 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +119 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +69
+					    Separator {
+						USE +52
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27859 -4.5 13.6286 -3.7
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    engine					    USE +71
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +69
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	2072 354 385 392
+				    engine					    USE +72
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1466 244 385 392
+				    engine					    USE +70
+
+				}
+			    }
+			}
+
+			inputs				USE +118
+
+			outputs				USE +119
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	12 -0.6 14.01 0.2
+			flags	()
+			node				DEF bookshelf2RHS Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	10.1911 -0.85 6.61355
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61355
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +120 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +121 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +73
+					    Separator {
+						USE +52
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27859 -4.5 13.6286 -3.7
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    engine					    USE +75
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +73
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	2072 354 385 392
+				    engine					    USE +76
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1466 244 385 392
+				    engine					    USE +74
+
+				}
+			    }
+			}
+
+			inputs				USE +120
+
+			outputs				USE +121
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+			placement	10.5 7.8 13.3 8.6
+			flags	()
+			node				USE +52
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	7.5 5.4 9.5 6.2
+			flags	()
+			node				DEF bookshelf2Top Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	9.93929 -0.85 1
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61355
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +122 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +123 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +53
+					    Separator {
+						USE +52
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.27859 -4.5 13.6286 -3.7
+				    flags	()
+				    autoPanelPos	1484 317 385 392
+				    engine					    USE +55
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +53
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    engine					    USE +56
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1466 244 385 392
+				    engine					    USE +54
+
+				}
+			    }
+			}
+
+			inputs				USE +122
+
+			outputs				USE +123
+
+		    }
+		    DEF +124 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				SFNode updateInfo ]
+			placement	6.6 10.5 8.6 11.3
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +52
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+			updateInfo	NULL
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	7.8 4.2 10.11 5
+			flags	()
+			node				DEF bookshelf2Bottom Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	9.93929 -0.85 1
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61355
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +125 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +126 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +57
+					    Separator {
+						USE +52
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8679 1.2 12.8679 2
+				    flags	()
+				    autoPanelPos	1651 304 385 392
+				    node					    USE +57
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	11.125 0.3 13.125 1.1
+				    flags	()
+				    autoPanelPos	2072 354 385 392
+				    engine					    USE +60
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.1614 -2.1 13.0314 -1.3
+				    flags	()
+				    autoPanelPos	1466 244 385 392
+				    engine					    USE +58
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.3 -4.5 13.65 -3.7
+				    flags	()
+				    autoPanelPos	536 470 0 0
+				    engine					    USE +59
+
+				}
+			    }
+			}
+
+			inputs				USE +125
+
+			outputs				USE +126
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	8.7 3 10.77 3.8
+			flags	()
+			node				DEF bookshelf2Front Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	9.93929 -0.85 1
+				nearDistance	0
+				farDistance	13.2271
+				focalDistance	6.61355
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +127 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 -6.5 8.75357 -5.7
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +128 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	6.75357 4 8.75357 4.8
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +61
+					    Separator {
+						USE +52
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	10.8 1.2 12.8 2
+				    flags	()
+				    autoPanelPos	554 225 0 0
+				    node					    USE +61
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.8 0.3 12.8 1.1
+				    flags	()
+				    autoPanelPos	546 254 0 0
+				    engine					    USE +64
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	10.2 -2.1 13.07 -1.3
+				    flags	()
+				    autoPanelPos	542 367 0 0
+				    engine					    USE +62
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	9.3 -4.5 13.65 -3.7
+				    flags	()
+				    autoPanelPos	355 386 0 0
+				    engine					    USE +63
+
+				}
+			    }
+			}
+
+			inputs				USE +127
+
+			outputs				USE +128
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +115
+
+	    outputs		    USE +124
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	-7.8 8.1 -5.8 8.9
+	    flags	()
+	    node		    DEF _2xTables Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	-6.7 5.4 1
+		    nearDistance	0
+		    farDistance	17.9109
+		    focalDistance	8.95545
+		    height	16.1
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +129 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-4.3 -2.4 -2.3 -1.6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +130 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-4.3 12.4 -2.3 13.2
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +38
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	-9 9.6 -6.89 10.4
+			flags	()
+			autoPanelPos	1727 316 385 392
+			node				USE +38
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	-8.1 7.5 -6.1 8.3
+			flags	()
+			node				DEF table2 Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	-5.5 -0.55 7.16327
+				nearDistance	0
+				farDistance	14.3265
+				focalDistance	7.16327
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +131 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-4 -6.8 -2 -6
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +132 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-4 4.9 -2 5.7
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +43
+					    Separator {
+						USE +38
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-8.12143 -4.8 -3.77143 -4
+				    flags	()
+				    autoPanelPos	1335 368 385 392
+				    engine					    USE +45
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-7.23857 -1.5 -4.36857 -0.7
+				    flags	()
+				    autoPanelPos	1434 481 385 392
+				    engine					    USE +44
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-6.275 1.2 -4.275 2
+				    flags	()
+				    autoPanelPos	2146 456 385 392
+				    engine					    USE +46
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	-6.23215 2.1 -4.23215 2.9
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    node					    USE +43
+
+				}
+			    }
+			}
+
+			inputs				USE +131
+
+			outputs				USE +132
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	-11.1 7.2 -9.1 8
+			flags	()
+			node				DEF table1 Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	-6.7625 -0.0999999 1
+				height	14
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +133 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-5.35 -5.9 -3.35 -5.1
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +134 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-5.35 4.9 -3.35 5.7
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +39
+					    Separator {
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-11.1 -0.6 -7.10714 0.2
+				    flags	()
+				    autoPanelPos	1414 529 385 392
+				    engine					    USE +40
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-10.5 1.2 -7.85 2
+				    flags	()
+				    autoPanelPos	1949 551 385 392
+				    engine					    USE +42
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	-10.2 2.1 -8.06429 2.9
+				    flags	()
+				    autoPanelPos	1568 565 385 392
+				    node					    USE +39
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-11.7 -3.9 -5.59286 -3.1
+				    flags	()
+				    autoPanelPos	372 485 0 0
+				    engine					    USE +41
+
+				}
+			    }
+			}
+
+			inputs				USE +133
+
+			outputs				USE +134
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +129
+
+	    outputs		    USE +130
+
+	}
+	SoRadBuilderGroup {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+		    SFNode inputs, SFNode outputs ]
+	    placement	-6.3 6.9 -4.15 7.7
+	    flags	()
+	    node		    DEF _2xFilingCabinet Separator {
+	    }
+
+	    nodeList		    Separator {
+		OrthographicCamera {
+		    position	-4.6 4.8 1
+		    nearDistance	0
+		    farDistance	15.7582
+		    focalDistance	7.87909
+		    height	15.32
+		}
+		SoRadBuilderConnections {
+		    fields [  ]
+		}
+		SoRadBuilderNodeSelection {
+		    fields [  ]
+		    DEF +135 SoRadBuilderGroupInputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-3.4 -2.4 -1.4 -1.6
+			flags	()
+			node				DEF INPUTS Separator {
+			}
+
+			connections				Separator {
+			}
+
+		    }
+		    DEF +136 SoRadBuilderGroupOutputs {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+				 ]
+			placement	-3.4 11.2 -1.4 12
+			flags	()
+			node				DEF OUTPUTS Separator {
+			}
+
+			connections				Separator {
+			    Separator {
+				USE +47
+				Separator {
+				    USE +31
+				}
+			    }
+			}
+
+		    }
+		    SoRadBuilderNode {
+			fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+			placement	-6.9675 8.4 -4.8575 9.2
+			flags	()
+			autoPanelPos	1604 313 385 392
+			node				USE +47
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	-6.3 5.1 -4.3 5.9
+			flags	()
+			node				DEF FilingCabinet2 Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	-0.24643 -0.55 6.95606
+				nearDistance	0
+				farDistance	13.9121
+				focalDistance	6.95606
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +137 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-0.24643 -6.8 1.75357 -6
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +138 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-0.24643 4.9 1.75357 5.7
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    USE +48
+					    Separator {
+						USE +47
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-2.42143 -4.8 1.92857 -4
+				    flags	()
+				    autoPanelPos	1330 255 385 392
+				    engine					    USE +50
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-0.275 1.2 1.725 2
+				    flags	()
+				    autoPanelPos	1455 394 385 392
+				    engine					    USE +51
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	-0.232145 2.1 1.76785 2.9
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    node					    USE +48
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-1.2 -1.5 1.67 -0.7
+				    flags	()
+				    autoPanelPos	1380 439 385 392
+				    engine					    USE +49
+
+				}
+			    }
+			}
+
+			inputs				USE +137
+
+			outputs				USE +138
+
+		    }
+		    SoRadBuilderGroup {
+			fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode nodeList,
+				SFNode inputs, SFNode outputs ]
+			placement	-7.8 6 -5.8 6.8
+			flags	()
+			node				DEF FilingCabinet1 Separator {
+			}
+
+			nodeList				Separator {
+			    OrthographicCamera {
+				position	-2.22321 -0.0999999 1
+				nearDistance	0
+				farDistance	13.1094
+				focalDistance	6.55472
+				height	15.32
+			    }
+			    SoRadBuilderConnections {
+				fields [  ]
+			    }
+			    SoRadBuilderNodeSelection {
+				fields [  ]
+				DEF +139 SoRadBuilderGroupInputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-2.5 -5.9 -0.5 -5.1
+				    flags	()
+				    node					    DEF INPUTS Separator {
+				    }
+
+				    connections					    Separator {
+				    }
+
+				}
+				DEF +140 SoRadBuilderGroupOutputs {
+				    fields [ SFVec4f placement, SFBitMask flags, SFNode node, SFNode connections,
+					     ]
+				    placement	-2.5 4.9 -0.5 5.7
+				    flags	()
+				    node					    DEF OUTPUTS Separator {
+				    }
+
+				    connections					    Separator {
+					Separator {
+					    DEF +141 SoVtkActor {
+						fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Orientation,
+							SFVec3f Position, SFVec3f Scale, SFInt32 Pickable, SFInt32 Visibility ]
+						Mapper	"DATA" =
+						    DEF +142 SoVtkPolyDataMapper {
+							inputs [ SFVec2f ScalarRange, SFInt32 ResolveCoincidentTopology, SFInt32 ImmediateModeRendering, SFInt32 ScalarMode,
+								SFInt32 GlobalImmediateModeRendering, SFFloat ResolveCoincidentTopologyZShift, SFInt32 NumberOfSubPieces, SoSFVtkAlgorithmOutput InputConnection,
+								SFInt32 GhostLevel, SFInt32 UseLookupTableScalarRange, SFInt32 ScalarMaterialMode, SFInt32 NumberOfPieces,
+								SFInt32 Piece, SFInt32 ScalarVisibility, SFInt32 InterpolateScalarsBeforeMapping, SFInt32 Static,
+								SFFloat RenderTime, SFInt32 ColorMode ]
+							ScalarRange	0 1
+							ResolveCoincidentTopology	0
+							ImmediateModeRendering	0
+							ScalarMode	0
+							GlobalImmediateModeRendering	0
+							ResolveCoincidentTopologyZShift	0.01
+							NumberOfSubPieces	1
+							InputConnection	"DATA" =
+							    DEF +143 SoVtkStructuredGridGeometryFilter {
+								inputs [ SoSFVariant Extent, SoSFVtkAlgorithmOutput InputConnection ]
+								Extent	15 15 7 9 0 8 
+								InputConnection	"DATA" =
+								    USE +9
+								    . OutputPort
+
+								outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+							    }
+							    . OutputPort
+
+							GhostLevel	0
+							UseLookupTableScalarRange	0
+							ScalarMaterialMode	0
+							NumberOfPieces	1
+							Piece	0
+							ScalarVisibility	0
+							InterpolateScalarsBeforeMapping	0
+							Static	0
+							RenderTime	0
+							ColorMode	0
+							outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Property	"DATA" =
+						    DEF +144 SoVtkProperty {
+							inputs [ SFInt32 Representation, SFFloat Diffuse, SFVec3f AmbientColor, SoSFVariant Color,
+								SFInt32 FrontfaceCulling, SFInt32 BackfaceCulling, SFInt32 EdgeVisibility, SFFloat Opacity,
+								SFVec3f DiffuseColor, SFInt32 Interpolation, SFFloat Ambient, SFFloat LineWidth,
+								SFInt32 LineStipplePattern, SFFloat Specular, SFVec3f SpecularColor, SFInt32 LineStippleRepeatFactor,
+								SFFloat SpecularPower, SFVec3f EdgeColor, SFFloat PointSize ]
+							Representation	2
+							Diffuse	1
+							AmbientColor	1 1 1
+							Color	0.8 0.8 0.6 
+							FrontfaceCulling	0
+							BackfaceCulling	0
+							EdgeVisibility	0
+							Opacity	1
+							DiffuseColor	1 1 1
+							Interpolation	1
+							Ambient	0
+							LineWidth	1
+							LineStipplePattern	65535
+							Specular	0
+							SpecularColor	1 1 1
+							LineStippleRepeatFactor	1
+							SpecularPower	1
+							EdgeColor	1 1 1
+							PointSize	1
+							outputs [ SoSFVtkObject Output ]
+						    }
+						    . Output
+
+						Origin	0 0 0
+						Orientation	0 0 0
+						Position	0 0 0
+						Scale	1 1 1
+						Pickable	1
+						Visibility	1
+					    }
+					    Separator {
+					    }
+					}
+				    }
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-2.975 1.2 -0.975 2
+				    flags	()
+				    autoPanelPos	1571 433 385 392
+				    engine					    USE +144
+
+				}
+				SoRadBuilderNode {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+				    placement	-3.23214 2.1 -1.23214 2.9
+				    flags	()
+				    autoPanelPos	1727 316 385 392
+				    node					    USE +141
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-5.1 -3.9 -0.749999 -3.1
+				    flags	()
+				    autoPanelPos	437 463 0 0
+				    engine					    USE +143
+
+				}
+				SoRadBuilderEngine {
+				    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+				    placement	-4.2 -0.6 -1.33 0.2
+				    flags	()
+				    autoPanelPos	1323 550 385 392
+				    engine					    USE +142
+
+				}
+			    }
+			}
+
+			inputs				USE +139
+
+			outputs				USE +140
+
+		    }
+		}
+	    }
+
+	    inputs		    USE +135
+
+	    outputs		    USE +136
+
+	}
+    }
+}

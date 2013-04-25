@@ -1,0 +1,244 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-2.88 1.35 8.3657
+	nearDistance	0
+	farDistance	16.7314
+	focalDistance	8.3657
+	height	15.32
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-8.995 -1.62 -5.525 -0.82
+	    flags	()
+	    autoPanelPos	1365 388 385 392
+	    engine		    DEF +0 SoVtkColorTransferFunction {
+		inputs [ SFInt32 HSVWrap, SFInt32 VectorComponent, SFInt32 ColorSpace, SFInt32 Clamping,
+			SoMFVariant RGBPoint, SFInt32 VectorMode, SFFloat Alpha ]
+		HSVWrap	1
+		VectorComponent	0
+		ColorSpace	0
+		Clamping	1
+		RGBPoint	[ 10 0 0 0 , 64 0.8 0.7 0.6 , 128 0 0 0 , 192 1 1 1 , 255 0.2 0.2 0.2 ]
+		VectorMode	1
+		Alpha	1
+		outputs [ SoSFVtkObject Output ]
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-8.7 -2.7 -5.57 -1.9
+	    flags	()
+	    autoPanelPos	1300 608 385 392
+	    engine		    DEF +1 SoVtkPiecewiseFunction {
+		inputs [ SFInt32 MaximumNumberOfPieces, SFInt32 RequestExactExtent, SFInt32 UpdatePiece, SFInt32 UpdateGhostLevel,
+			SFInt32 UpdateNumberOfPieces, SFInt32 Clamping, SoMFVariant Point ]
+		MaximumNumberOfPieces	-1
+		RequestExactExtent	0
+		UpdatePiece	0
+		UpdateGhostLevel	0
+		UpdateNumberOfPieces	1
+		Clamping	1
+		Point	255 1 
+		outputs [ SoSFVtkObject Output ]
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-4.2 -1.8 -1.39 -1
+	    flags	()
+	    autoPanelPos	1453 466 385 392
+	    engine		    DEF +2 SoVtkVolumeProperty {
+		inputs [ SFFloat Ambient, SFInt32 Shade, SFInt32 InterpolationType, SoSFVtkObject ScalarOpacity,
+			SFFloat Diffuse, SFFloat Specular, SFInt32 IndependentComponents, SoSFVtkObject Color,
+			SFFloat SpecularPower, SFFloat ScalarOpacityUnitDistance, SFInt32 DisableGradientOpacity ]
+		Ambient	0.1
+		Shade	0
+		InterpolationType	0
+		ScalarOpacity	"DATA" =
+		    USE +1
+		    . Output
+
+		Diffuse	0.7
+		Specular	0.2
+		IndependentComponents	1
+		Color	"DATA" =
+		    USE +0
+		    . Output
+
+		SpecularPower	10
+		ScalarOpacityUnitDistance	1
+		DisableGradientOpacity	0
+		outputs [ SoSFVtkObject Output ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	2.3 -0.64 4.3 0.16
+	    flags	()
+	    autoPanelPos	1905 157 385 392
+	    node		    DEF +3 SoVtkVolume {
+		fields [ SoSFVtkObject Mapper, SoSFVtkObject Property,  ]
+		Mapper	"DATA" =
+		    DEF +4 SoVtkVolumeRayCastMapper {
+			inputs [ SFInt32 NumberOfThreads, SFInt32 AutoAdjustSampleDistances, SoSFVtkAlgorithmOutput InputConnection, SFFloat SampleDistance,
+				SFFloat MinimumImageSampleDistance, SFInt32 Cropping, SFInt32 IntermixIntersectingGeometry, SFFloat ImageSampleDistance,
+				SFInt32 CroppingRegionFlags, SFInt32 BlendMode, SFFloat MaximumImageSampleDistance, SoSFVtkObject VolumeRayCastFunction,
+				 ]
+			NumberOfThreads	2
+			AutoAdjustSampleDistances	1
+			InputConnection	"DATA" =
+			    DEF +5 SoVtkStructuredPointsReader {
+				inputs [ SFInt32 ReadFromInputString, SFInt32 ReadAllNormals, SFInt32 ReadAllTCoords, SFInt32 ReadAllColorScalars,
+					SFInt32 ReadAllTensors, SFInt32 ReadAllScalars, SFInt32 ReadAllVectors, MFString FileName,
+					SFInt32 ReadAllFields ]
+				ReadFromInputString	0
+				ReadAllNormals	0
+				ReadAllTCoords	0
+				ReadAllColorScalars	0
+				ReadAllTensors	0
+				ReadAllScalars	0
+				ReadAllVectors	0
+				FileName	"C:/DATA/mummy.128.vtk"
+				ReadAllFields	0
+				outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+			    }
+			    . OutputPort
+
+			SampleDistance	1
+			MinimumImageSampleDistance	1
+			Cropping	0
+			IntermixIntersectingGeometry	1
+			ImageSampleDistance	1
+			CroppingRegionFlags	8192
+			BlendMode	0
+			MaximumImageSampleDistance	10
+			VolumeRayCastFunction	"DATA" =
+			    DEF +6 SoVtkVolumeRayCastMIPFunction {
+				inputs [ SFInt32 MaximizeMethod ]
+				MaximizeMethod	0
+				outputs [ SoSFVtkObject Output ]
+			    }
+			    . Output
+
+			outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+		    }
+		    . Output
+
+		Property	"DATA" =
+		    USE +2
+		    . Output
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFNode node ]
+	    placement	2.44 2.64 4.44 3.44
+	    node		    DEF +7 SoVtkRenderer {
+		fields [  ]
+		USE +3
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	1.64 4.6 3.64 5.4
+	    flags	()
+	    viewPos	802 337 385 392
+	    node		    Separator {
+		DEF +8 SoXipExaminer {
+		    mode	ROTATE
+		    viewBoundingBox	239.522 0 0 0
+			    0 239.522 0 0
+			    0 0 242.951 0
+			    0 0 0 1
+		    complexity			    Complexity {
+			value	0.5
+			textureQuality	0.5
+		    }
+
+		    orthoCamera			    DEF +9 OrthographicCamera {
+		    }
+
+		    perspectiveCamera			    DEF +10 PerspectiveCamera {
+			position	-189.485 -277.118 114.282
+			orientation	-0.900227 0.315374 0.300217  4.59736
+			nearDistance	294.76
+			farDistance	711.613
+			focalDistance	503.187
+			heightAngle	0.785398
+		    }
+
+		    borderNode			    SoRadViewportBorder {
+			fields [ SFColor activeColor, SFColor inactiveColor,  ]
+			activeColor	0.7 0.7 0.7
+			inactiveColor	0.7 0.7 0.7
+		    }
+
+		    cameraSwitch			    Switch {
+			whichChild	1
+			USE +9
+			USE +10
+		    }
+
+		}
+		USE +7
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-0.415 2.76 1.695 3.56
+	    flags	()
+	    autoPanelPos	555 416 385 392
+	    node		    USE +8
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-4.2 0.9 -0.510001 1.7
+	    flags	()
+	    autoPanelPos	1370 141 562 842
+	    engine		    USE +4
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-9 1.2 -5.29 2
+	    flags	()
+	    autoPanelPos	534 61 682 845
+	    engine		    USE +5
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-10.2 0.3 -5.13 1.1
+	    flags	()
+	    autoPanelPos	895 484 385 392
+	    engine		    SoVtkVolumeRayCastCompositeFunction {
+		inputs [ SFInt32 CompositeMethod ]
+		CompositeMethod	1
+		outputs [ SoSFVtkObject Output ]
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-9.785 -0.63 -5.495 0.17
+	    flags	()
+	    autoPanelPos	184 572 385 392
+	    engine		    USE +6
+
+	}
+    }
+}

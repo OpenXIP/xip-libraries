@@ -1,0 +1,273 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-0.747003 -0.661908 1
+	height	18.1125
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-0.9 0 1.1 0.8
+	    flags	()
+	    autoPanelPos	641 227 0 0
+	    node		    DEF +0 SoXipUniformInt {
+		fields [ SFString name, MFInt32 value ]
+		name	"volume"
+		value	0 =
+		    DEF +1 SoXipTextureUnit {
+			fields [ SFInt32 textureStage, SFBool autoGenerate ]
+			textureStage	0
+			autoGenerate	FALSE
+		    }
+		    . textureStage
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	0.3 -0.9 2.3 -0.0999998
+	    flags	()
+	    autoPanelPos	503 200 0 0
+	    node		    DEF +2 SoXipUniformInt {
+		fields [ SFString name, MFInt32 value ]
+		name	"lut"
+		value	1 =
+		    DEF +3 SoXipTextureUnit {
+			fields [ SFInt32 textureStage, SFBool autoGenerate ]
+			textureStage	1
+			autoGenerate	FALSE
+		    }
+		    . textureStage
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-9 0.3 -7 1.1
+	    flags	()
+	    autoPanelPos	573 490 0 0
+	    node		    DEF +4 SoXipTexture {
+		fields [ SoXipSFDataImage image, SFEnum wrapS, SFEnum wrapT, SFEnum wrapR,
+			SFEnum filter, SFEnum model, SFEnum textureDimension, SFEnum internalFormat,
+			SFVec3f textureSize ]
+		image	"DATA" =
+		    DEF +5 SoXipLoadRaw {
+			inputs [ SFShort width, SFShort height, SFShort depth, SFString file ]
+			width	256
+			height	256
+			depth	256
+			file	"p:\data\cartesian\head_ct_8bit.img"
+			outputs [ SoXipSFDataImage output ]
+		    }
+		    . output
+
+		wrapS	CLAMP_TO_BORDER
+		wrapT	CLAMP_TO_BORDER
+		wrapR	CLAMP_TO_BORDER
+		filter	LINEAR
+		model	REPLACE
+		textureDimension	AUTO
+		internalFormat	LUMINANCE8
+		textureSize	256 256 256
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-10.8 -1.2 -8.8 -0.4
+	    flags	()
+	    autoPanelPos	161 403 0 0
+	    engine		    USE +5
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-11.7 4.2 -9.7 5
+	    flags	()
+	    autoPanelPos	85 249 0 0
+	    node		    DEF +6 SoXipMprPlane {
+		fields [ SFMatrix plane, SFVec3f center,  ]
+		plane	-1 -8.25892e-007 5.92612e-007 0
+			-8.6834e-007 -0.999999 -3.01758e-007 0
+			-8.29839e-007 1.21869e-007 1 0
+			0.5 0.5 0.5 1
+		center	0.5 0.5 0.5
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-9 1.5 -6.83282 2.3
+	    flags	()
+	    autoPanelPos	208 236 0 0
+	    node		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-6.3 2.4 -3.38204 3.2
+	    flags	()
+	    autoPanelPos	359 224 0 0
+	    node		    DEF +7 SoXipWindowLevelManip {
+		fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+		window	0.608887
+		level	0.325195
+		mouse	BUTTON3
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-5.4 1.2 -3.23282 2
+	    flags	()
+	    autoPanelPos	354 249 0 0
+	    node		    USE +3
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-5.1 0 -3.1 0.8
+	    flags	()
+	    autoPanelPos	388 286 0 0
+	    node		    DEF +8 SoXipLut {
+		fields [ SFEnum inputMode, SFEnum alphaMode, SFEnum fileMode, SFShort bitsUsed,
+			SFFloat rampWidth, SFFloat rampCenter, SFString fileIn, SFShort fileEntries,
+			MFColor arrayColor, MFFloat arrayAlpha ]
+		inputMode	RAMP
+		alphaMode	CONSTANT
+		fileMode	FLOAT_COMMA
+		bitsUsed	8
+		rampWidth	0.608887 =
+		    USE +7
+		    . window
+
+		rampCenter	0.325195 =
+		    USE +7
+		    . level
+
+		fileIn	""
+		fileEntries	4096
+		arrayColor	[  ]
+		arrayAlpha	[  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-4.8 -1.2 -2.8 -0.4
+	    flags	()
+	    autoPanelPos	370 323 0 0
+	    node		    DEF +9 SoXipLutTexture {
+		fields [  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-1.8 0.9 0.435032 1.7
+	    flags	()
+	    autoPanelPos	513 216 0 0
+	    node		    DEF +10 SoXipLoadShaders {
+		fields [ SFString fpFilename, SFString vpFilename,  ]
+		fpFilename	"mpr_fp.glsl"
+		vpFilename	"mpr_vp.glsl"
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	1.2 3.3 3.34551 4.1
+	    flags	()
+	    autoPanelPos	632 162 0 0
+	    node		    DEF +11 SoXipMprRender {
+		fields [  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-11.4 2.4 -9.08831 3.2
+	    flags	()
+	    autoPanelPos	209 297 0 0
+	    node		    DEF +12 SoXipMprExaminer {
+		orientation	HEAD
+		mouse	BUTTON1
+		mode	ROTATE
+		dogEar	TRUE
+		orientationCube	TRUE
+		camera			OrthographicCamera {
+		    position	0.5 0.5 0.5
+		    orientation	-5.59949e-008 -4.81393e-008 1  3.14159
+		    nearDistance	-1
+		    farDistance	1
+		    focalDistance	0
+		    height	1
+		}
+
+		complexity			Complexity {
+		    value	0.5
+		    textureQuality	0.5
+		}
+
+		intersectionManip			SoXipMprIntersectionManip {
+		    fields [ SFBool on,  ]
+		    on	TRUE
+		}
+
+		borderNode			SoXipViewportBorder {
+		    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+		    activeColor	1 1 1
+		    inactiveColor	1 1 1
+		}
+
+		dogEarNode			DEF +13 SoXipDogEar {
+		    fields [  ]
+		}
+
+		orientationNode			DEF +14 SoXipOrientationCube {
+		    fields [  ]
+		}
+
+		dogEarSwitch			Switch {
+		    whichChild	0
+		    USE +13
+		}
+
+		orientationSwitch			Switch {
+		    whichChild	0
+		    USE +14
+		}
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-6.9 6 -1.7 6.8
+	    flags	()
+	    autoPanelPos	421 62 0 0
+	    node		    Separator {
+		USE +6
+		USE +12
+		USE +1
+		USE +4
+		USE +7
+		USE +3
+		USE +8
+		USE +9
+		USE +10
+		USE +0
+		USE +2
+		USE +11
+	    }
+
+	}
+    }
+}

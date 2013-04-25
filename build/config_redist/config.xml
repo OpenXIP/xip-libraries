@@ -1,0 +1,20 @@
+<XMLConfig>
+    <section name="General" >
+        <setting key="x" >0</setting>
+        <setting key="y" >0</setting>
+        <setting key="width" >1030</setting>
+        <setting key="height" >774</setting>
+        <setting key="status" >normal</setting>
+        <setting key="html" >enabled</setting>
+    </section>
+    <section name="RenderArea" >
+        <setting key="indirect" >0</setting>
+    </section>
+    <section name="HtmlExport" >
+        <setting key="imageSize" >1024</setting>
+        <setting key="hideFields" >0</setting>
+        <setting key="hideTypeReferences" >0</setting>
+    </section>
+    <section name="Recent Scene Graphs" >
+    </section>
+</XMLConfig>

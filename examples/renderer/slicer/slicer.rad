@@ -1,0 +1,174 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-4.1 5.5 8.4386
+	nearDistance	-0
+	farDistance	16.8772
+	focalDistance	8.4386
+	height	14.78
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-4.19627 6.49564 -2.19627 7.29564
+	    flags	()
+	    autoPanelPos	663 347 0 0
+	    node		    DEF +0 MatrixTransform {
+		matrix	430 0 0 0
+			0 104 0 0
+			0 0 118.95 0
+			0 0 0 1 =
+		    DEF +1 SoXipLoadRaw {
+			inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+				SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
+			voxelType	UBYTE
+			width	160
+			height	430
+			depth	183
+			bitsUsed	8
+			modelMatrix	430 0 0 0
+				0 104 0 0
+				0 0 118.95 0
+				0 0 0 1
+			file	"..\..\data\CT_WHOLE.img"
+			outputs [ SoXipSFDataImage output ]
+		    }
+		    . modelMatrix
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-4.40848 9.29229 -2.00848 10.0923
+	    flags	()
+	    viewPos	495 162 748 491
+	    node		    Separator {
+		DEF +2 OrthographicCamera {
+		    viewportMapping	ADJUST_CAMERA
+		    position	215 60 600
+		    farDistance	600
+		    height	600
+		}
+		DEF +3 TrackballManip {
+		    translation	102.367 207.947 46.7792
+		    rotation	0.880105 -0.246818 0.405581  3.59839
+		    scaleFactor	1 0.999995 1
+		    scaleOrientation	-0.00592385 -0.0581792 -0.998289  0.0937382
+		}
+		USE +0
+		DEF +4 Separator {
+		    DEF +5 SoXipTextureUnit {
+			fields [ SFBool autoGenerate ]
+			autoGenerate	FALSE
+		    }
+		    DEF +6 SoXipTexture {
+			fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize ]
+			image	"DATA" =
+			    USE +1
+			    . output
+
+			internalFormat	LUMINANCE8
+			textureSize	160 430 183
+		    }
+		    DEF +7 SoXipLoadShaders {
+			fields [ SFString fpFilename, SFString vpFilename, SFString fpDefines,  ]
+			fpFilename	"simple_tf_fp.glsl"
+			vpFilename	"simple_vp.glsl"
+			fpDefines	" as"
+		    }
+		    DEF +8 SoXipUniformInt {
+			fields [ SFString name,  ]
+			name	"volume"
+		    }
+		    DEF +9 SoXipSlicer {
+			fields [ SFInt32 numSlicesX, SFInt32 numSlicesY, SFInt32 numSlicesZ, SFInt32 numSlices,
+				SFEnum mode, SFEnum compositing ]
+			numSlicesX	100
+			numSlicesY	100
+			numSlicesZ	100
+			numSlices	100
+			mode	MAXIP
+			compositing	BACK_TO_FRONT
+		    }
+		}
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	-1.81683 6.49564 0.183173 7.29564
+	    flags	()
+	    node		    USE +4
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-7.65734 3.03059 -5.44734 3.83059
+	    flags	()
+	    autoPanelPos	-15 578 385 385
+	    node		    USE +5
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-4.0982 3.06864 -2.0982 3.86864
+	    flags	()
+	    autoPanelPos	452 236 385 385
+	    node		    USE +6
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-1.88638 3.04808 0.523622 3.84808
+	    flags	()
+	    autoPanelPos	840 144 385 385
+	    node		    USE +7
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	0.724427 3.0635 2.77443 3.8635
+	    flags	()
+	    autoPanelPos	270 668 385 385
+	    node		    USE +8
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	3.01492 3.06118 5.01493 3.86118
+	    flags	()
+	    autoPanelPos	511 87 0 0
+	    node		    USE +9
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-9.64153 6.49563 -7.64153 7.29563
+	    flags	()
+	    autoPanelPos	287 265 0 0
+	    node		    USE +2
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	-7.14769 6.49563 -5.14769 7.29563
+	    flags	()
+	    node		    USE +3
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-7.43393 1.51799 -5.43393 2.31799
+	    flags	()
+	    autoPanelPos	379 445 0 0
+	    engine		    USE +1
+
+	}
+    }
+}

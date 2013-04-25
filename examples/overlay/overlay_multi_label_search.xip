@@ -1,0 +1,179 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	0.4 2.4 3.2 3.2
+    flags	()
+    autoPanelPos	526 160 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 8 9"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-6 -0.6 -4 0.2
+    flags	()
+    autoPanelPos	275 335 0 0
+    node	    SoXipFontType {
+	fields [ SFEnum type ]
+	type	PIXMAP
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-3.9 -0.6 -1.27771 0.2
+    flags	()
+    node	    OrthographicCamera {
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-1.2 -0.6 0.8 0.2
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	0.9 -0.6 2.9 0.2
+    flags	()
+    node	    SoXipShapeList {
+	fields [  ]
+    }
+
+}
+#addChild "4" "5 6 7"
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-0.9 -3 1.1 -2.2
+    flags	()
+    autoPanelPos	294 608 0 0
+    node	    SoXipEllipse {
+	fields [ SFBool on, SFEnum status, SFInt32 rank, MFString label,
+		SFString caption, SFVec3f textPosition, SFVec3f center, SFVec3f a,
+		SFVec3f b,  ]
+	on	TRUE
+	status	NONE
+	label	"User_1"
+	caption	"User_1"
+	textPosition	-0.357589 -0.386982 -4.5
+	center	0.00209208 -0.0585774 -4.5
+	a	0 -0.464435 0
+	b	0.47908 0 0
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	1.2 -3 3.2 -2.2
+    flags	()
+    autoPanelPos	585 595 0 0
+    node	    SoXipRectangle {
+	fields [ SFBool on, SFEnum status, SFInt32 rank, MFString label,
+		SFString caption, SFVec3f textPosition, SFVec3f p0, SFVec3f p1,
+		SFVec3f p2, SFVec3f p3 ]
+	on	TRUE
+	status	NONE
+	label	[ "User_2",
+			  "Tumor" ]
+	caption	"User_2"
+	textPosition	-0.652719 0.146443 -4.5
+	p0	-0.631799 0.648536 -4.5
+	p1	0.230125 0.648536 -4.5
+	p2	0.230125 0.146443 -4.5
+	p3	-0.631799 0.146443 -4.5
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	3.3 -3 5.3 -2.2
+    flags	()
+    autoPanelPos	953 547 0 0
+    node	    SoXipPolygon {
+	fields [ SFBool on, SFEnum status, SFInt32 rank, MFString label,
+		SFString caption, SFVec3f textPosition, MFVec3f point, SFBool closed,
+		 ]
+	on	TRUE
+	status	NONE
+	label	[ "User_1",
+			  "Tumor" ]
+	caption	"User_1"
+	textPosition	-0.778243 -0.380754 -4.5
+	point	[ -0.757322 -0.359833 -4.5,
+			  -0.518828 0.389121 -4.5,
+			  0.0543933 0.0125523 -4.5,
+			  -0.0962343 -0.230126 -4.5,
+			  0.34728 -0.569038 -4.5,
+			  -0.142259 -0.702929 -4.5,
+			  -0.439331 -0.497908 -4.5 ]
+	closed	TRUE
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	3 -0.6 5.48052 0.2
+    flags	()
+    autoPanelPos	646 573 0 0
+    node	    SoXipOverlaySearch {
+	fields [ MFString label, SFString type, MFNode overlays, SFInt32 numOverlays ]
+	label	[  ]
+	type	""
+	overlays	[  ]
+	numOverlays	0
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	6.3 0.3 8.3 1.1
+    flags	()
+    autoPanelPos	869 308 0 0
+    node	    SoXipText2 {
+	fields [ SFString string, SFEnum vAlignment ]
+	string	""
+	vAlignment	TOP
+    }
+
+}
+#connect "string@9" "status@10"
+
+### 10 ###
+SoXipBuilderEngine {
+    placement	5.7 -0.6 8.30062 0.2
+    flags	()
+    autoPanelPos	822 358 0 0
+    engine	    SoXipOverlayActions {
+	inputs [ MFNode overlays,  ]
+	overlays	[  ]
+	outputs [ SFString status ]
+    }
+
+}
+#connect "overlays@10" "overlays@8"
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9, 10 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

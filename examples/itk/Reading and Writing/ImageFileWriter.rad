@@ -1,0 +1,154 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-7.76389 -2 8.03946
+	nearDistance	0
+	farDistance	16.0789
+	focalDistance	8.03946
+	height	16.38
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-7.5 -2.1 -5.5 -1.3
+	    flags	()
+	    autoPanelPos	172 493 385 390
+	    node		    DEF +0 SoXipImage {
+		fields [ SoXipSFDataImage image ]
+		image	"DATA" =
+		    DEF +1 SoItkRescaleIntensityImageFilter {
+			inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum, SFEnum OutputPixelType ]
+			Input0	"DATA" =
+			    DEF +2 SoItkImageFileReader {
+				inputs [ SFString File, SFEnum Type,  ]
+				File	"../../data/BrainProtonDensitySlice.PNG"
+				Type	UNSIGNED_SHORT
+				outputs [ SoItkSFDataImage Output, MFShort Dimensions ]
+			    }
+			    . Output
+
+			OutputMaximum	4095
+			OutputPixelType	UNSIGNED_SHORT
+			outputs [ SoItkSFDataImage Output ]
+		    }
+		    . Output
+
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-2.78889 -4.8 -0.138889 -4
+	    flags	()
+	    autoPanelPos	573 535 385 392
+	    engine		    SoItkImageFileWriter {
+		inputs [ SFString File, SoItkSFDataImage Input,  ]
+		File	"../../data/output.png"
+		Input	"DATA" =
+		    DEF +3 SoItkRescaleIntensityImageFilter {
+			inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum, SFEnum OutputPixelType ]
+			Input0	"DATA" =
+			    USE +2
+			    . Output
+
+			OutputMaximum	4095
+			OutputPixelType	UNSIGNED_SHORT
+			outputs [ SoItkSFDataImage Output ]
+		    }
+		    . Output
+
+		outputs [  ]
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-15.3 -4.2 -12.53 -3.4
+	    flags	()
+	    autoPanelPos	1065 194 385 392
+	    engine		    USE +2
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-12 -4.8 -7.97 -4
+	    flags	()
+	    autoPanelPos	114 82 385 392
+	    engine		    USE +3
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-12 -3.6 -7.97 -2.8
+	    flags	()
+	    autoPanelPos	365 475 385 392
+	    engine		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-9.9 0.6 -7.9 1.4
+	    flags	()
+	    viewPos	1077 683 385 392
+	    node		    Separator {
+		DEF +4 LightModel {
+		    model	BASE_COLOR
+		}
+		DEF +5 SoXipExaminer {
+		    viewBoundingBox	1 0 0 0
+			    0 1 0 0
+			    0 0 1 0
+			    0 0 0 1
+		    complexity			    Complexity {
+		    }
+
+		    orthoCamera			    DEF +6 OrthographicCamera {
+		    }
+
+		    perspectiveCamera			    DEF +7 PerspectiveCamera {
+			position	0.5 0.5 -1.59077
+			orientation	1 0 0  3.14159
+			nearDistance	1.22474
+			farDistance	2.9568
+			focalDistance	2.09077
+			heightAngle	0.785398
+		    }
+
+		    borderNode			    SoXipViewportBorder {
+			fields [  ]
+		    }
+
+		    cameraSwitch			    Switch {
+			whichChild	1
+			USE +6
+			USE +7
+		    }
+
+		}
+		USE +0
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-13.2 -2.1 -11.2 -1.3
+	    flags	()
+	    autoPanelPos	207 311 0 0
+	    node		    USE +4
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-10.5 -2.1 -8.5 -1.3
+	    flags	()
+	    autoPanelPos	386 317 0 0
+	    node		    USE +5
+
+	}
+    }
+}

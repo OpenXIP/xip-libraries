@@ -1,0 +1,110 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-0.35 5.8 5.63494
+	nearDistance	0
+	farDistance	11.2699
+	focalDistance	5.63494
+	height	13.4815
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	2.7 5.4 4.7 6.2
+	    flags	()
+	    autoPanelPos	639 532 385 392
+	    node		    DEF +0 SoXipImage {
+		fields [ SoXipSFDataImage image ]
+		image	"DATA" =
+		    DEF +1 SoItkIntensityWindowingImageFilter {
+			inputs [ SoItkSFDataImage Input0, SFFloat WindowMinimum, SFFloat OutputMaximum, SFFloat WindowMaximum ]
+			Input0	"DATA" =
+			    DEF +2 SoXipLoadRaw {
+				inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+					SFShort bitsUsed, SFString file ]
+				voxelType	USHORT
+				width	256
+				height	256
+				depth	1
+				bitsUsed	12
+				file	"../data/lena.raw"
+				modelMatrix 1 0 0 0	0 -1 0 0 0 0 1 0 0 1 0 1
+				outputs [ SoXipSFDataImage output ]
+			    }
+			    . output
+
+			WindowMinimum	0
+			OutputMaximum	4095
+			WindowMaximum	200
+			outputs [ SoItkSFDataImage Output ]
+		    }
+		    . Output
+
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-2.4 5.4 -0.4 6.2
+	    flags	()
+	    autoPanelPos	272 468 385 392
+	    node		    DEF +3 LightModel {
+		model	BASE_COLOR
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-5.4 5.4 -2.96481 6.2
+	    flags	()
+	    autoPanelPos	103 459 385 392
+	    node		    DEF +4 OrthographicCamera {
+		position	0.5 0.5 1
+		height	1.25
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-2.1 7.5 -0.0999999 8.3
+	    flags	()
+	    viewPos	576 613 508 359
+	    node		    Separator {
+		USE +4
+		USE +3
+		DEF +5 DirectionalLight {
+		}
+		USE +0
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-4.5 3.3 -2.5 4.1
+	    flags	()
+	    autoPanelPos	651 466 385 464
+	    engine		    USE +2
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-1.8 3.3 2.2463 4.1
+	    flags	()
+	    autoPanelPos	266 465 0 0
+	    engine		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	0 5.4 2 6.2
+	    flags	()
+	    node		    USE +5
+
+	}
+    }
+}

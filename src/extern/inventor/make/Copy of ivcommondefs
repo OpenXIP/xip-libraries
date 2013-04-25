@@ -1,0 +1,276 @@
+include $(IVDEPTH)/make/system
+include $(IVDEPTH)/make/commondefs
+
+IVCOMMONRULES = $(IVDEPTH)/make/ivcommonrules
+
+
+
+#
+# Settings for systems without single-precision math functions.
+#
+
+MATHDEFS = -D_DOUBLE_MATH_ONLY
+
+
+
+#
+# Settings for IRIX systems.
+#
+
+ifeq ($(usingIrix), 1)
+
+# Define this to have menus appear in the popup planes instead of the normal
+# planes. You lose menu colors, but don't have to redraw the scene just to see
+# a menu.
+LCXXDEFS += -DMENUS_IN_POPUP
+
+LD = $(TOOLROOT)/usr/bin/CC
+LLDDSOOPTS += -Wl,-full_transitive_link
+LLDOPTS += -Wl,-full_transitive_link
+LD_QUICKSTART_INFO =
+
+endif
+
+
+#
+# Settings for Microsoft Windows
+#
+
+ifeq ($(usingWin32), 1)
+
+FREETYPE = 1
+
+IVROOT = .
+INSTALLDIR = $(IVDEPTH)/../install/sgioiv
+
+FREETYPEDIR = $(IVDEPTH)/../install
+FREETYPEINCDIR = $(FREETYPEDIR)/include/freetype2
+FREETYPELIBDIR = $(FREETYPEDIR)/lib
+
+JPEGDIR = $(IVDEPTH)/../install
+JPEGINCDIR = $(JPEGDIR)/include
+JPEGLIBDIR = $(JPEGDIR)/lib
+
+CC  = wrapmsvc.exe
+C++ = wrapmsvc.exe
+LD  = wrapmsvc.exe
+RSC = rc.exe
+
+YACC = byacc.exe
+
+INSTALL = /usr/bin/install
+
+ifneq (, $(findstring debug, $(LIBTYPE)))
+WIN32OPTS = /MDd /GX -DWIN32 -DDEBUG -DINVENTOR_EXPORTS -D__SGIOIV_BUILD_DLL
+else
+WIN32OPTS = /MD /GX -DWIN32 -DINVENTOR_EXPORTS -D__SGIOIV_BUILD_DLL
+endif
+
+LCXXOPTS += $(WIN32OPTS)
+LCOPTS += $(WIN32OPTS)
+
+LCXXINCS += -I$(FREETYPEINCDIR) -I$(JPEGINCDIR)
+LCINCS += -I$(FREETYPEINCDIR) -I$(JPEGINCDIR)
+
+LDDSOOPTS += -L$(FREETYPELIBDIR) -L$(JPEGLIBDIR)
+LDOPTS += -L$(FREETYPELIBDIR) -L$(JPEGLIBDIR)
+
+endif
+
+
+#
+# Assume FreeBSD options are the same as those for Linux.
+#
+
+ifeq ($(usingFreeBSD), 1)
+usingLinux = 1
+endif
+
+
+
+#
+# Override variables in commondefs when building on Linux systems.
+#
+
+ifeq ($(usingLinux), 1)
+
+CC  = /usr/bin/gcc
+C++ = /usr/bin/g++
+LD  = /usr/bin/g++
+
+INSTALL = /usr/bin/install
+
+# MKDEPOPT = -MD
+
+GLDDSOOPTS = -shared -Wl,--whole-archive
+POST_LDDSOOPTS = -Wl,--no-whole-archive
+
+endif
+
+
+
+#
+# Additional settings for Linux systems and GNU compilers.
+#
+
+ifeq ($(usingLinux), 1)
+
+LINUXOPTS = -fPIC
+LCXXOPTS += $(LINUXOPTS)
+LCOPTS += $(LINUXOPTS)
+
+X11DIR = /usr/X11R6
+X11INCDIR = $(X11DIR)/include
+X11LIBDIR = $(X11DIR)/lib
+
+LCXXINCS += -I$(X11INCDIR)
+LCINCS += -I$(X11INCDIR)
+
+LDDSOOPTS += -L$(X11LIBDIR)
+LDOPTS += -L$(X11LIBDIR)
+
+endif
+
+
+
+#
+# Settings for Apple Darwin (Mac OS X) systems.
+#
+
+ifeq ($(usingDarwin), 1)
+
+FREETYPE = 1
+
+CC  = /usr/bin/gcc
+C++ = /usr/bin/g++
+LD  = /usr/bin/g++
+
+ARFLAGS = vrs
+INSTALL = /usr/bin/install
+
+DARWINOPTS = -dynamic -fPIC -fno-common
+LCXXOPTS += $(DARWINOPTS)
+LCOPTS += $(DARWINOPTS)
+
+OPTDIR = /opt/local
+OPTINCDIR = $(OPTDIR)/include
+OPTLIBDIR = $(OPTDIR)/lib
+
+X11DIR = /usr/X11R6
+X11INCDIR = $(X11DIR)/include
+X11LIBDIR = $(X11DIR)/lib
+
+LCXXINCS += -I$(X11INCDIR) -I$(OPTINCDIR)
+LCINCS += -I$(X11INCDIR) -I$(X11INCDIR)/freetype2 -I$(OPTINCDIR)
+
+LDDSOOPTS += -dynamiclib -all_load -L$(X11LIBDIR) -L$(OPTLIBDIR)
+LDOPTS += -bind_at_load -multiply_defined suppress -L$(X11LIBDIR) -L$(OPTLIBDIR)
+CXXDSOOPTS += -bundle -flat_namespace -undefined suppress -L$(X11LIBDIR) -L$(OPTLIBDIR)
+
+LOCALRULES = $(IVDEPTH)/make/localrules.apple
+
+endif
+
+
+
+#
+# Determine optimization from LIBTYPE.
+#
+
+OPTIMIZER = -O -DNDEBUG
+ifneq (, $(findstring debug, $(LIBTYPE)))
+OPTIMIZER = -g -DDEBUG
+endif
+
+
+
+#
+# Inventor library include directories.
+#
+
+IVLIBHDRDIRS = \
+	-I. \
+	-I$(IVDEPTH)/lib/database/include \
+	-I$(IVDEPTH)/lib/interaction/include \
+	-I$(IVDEPTH)/lib/nodekits/include \
+	-I$(IVDEPTH)/lib/mevis/include \
+	-I$(IVDEPTH)/libSoXt/include
+
+LCXXINCS += $(IVLIBHDRDIRS)
+LCINCS += $(IVLIBHDRDIRS)
+
+
+
+#
+# Font library directories.
+#
+
+FLDIR = $(IVDEPTH)/libFL/src
+ifeq ($(usingWin32), 1)
+FLLIB = -llibFL
+else
+FLLIB = -lFL
+endif
+ifdef FREETYPE
+FLDIR = $(IVDEPTH)/libFL/freetype
+FLLIB += -lfreetype
+endif
+
+
+
+#
+# Tools for generating Inventor man pages.
+#
+
+IVPPPDIR = $(IVDEPTH)/tools/ppp
+IVPPP = $(IVPPPDIR)/ppp
+IVMANDIR = $(shell dirname $(IVDEPTH))/doc/man/ivman
+IVMAN = $(IVMANDIR)/ivman
+MAKEMANDIRS = $(IVMANDIR)/makeManDirs
+
+
+
+#
+# Inventor install directories.
+#
+
+ifeq ($(usingWin32), 1)
+IVPREFIX = $(INSTALLDIR)
+else
+IVPREFIX = /usr
+endif
+LCXXOPTS += -DIVPREFIX=\"$(IVPREFIX)\"
+LCOPTS += -DIVPREFIX=\"$(IVPREFIX)\"
+
+IVBINDIR = $(IVROOT)/$(IVPREFIX)/bin
+IVLIBDIR = $(IVROOT)/$(IVPREFIX)/lib
+ifeq ($(usingWin32), 1)
+IVDLIBDIR = $(IVLIBDIR)
+else
+IVDLIBDIR = $(IVLIBDIR)/InventorDebug
+endif
+IVHDRTOP = $(IVROOT)/$(IVPREFIX)/include/Inventor
+IVHDRDIR = $(IVHDRTOP)/$(HDRSUBDIR)
+IVMAN1DIR = $(IVROOT)/$(IVPREFIX)/man/man1
+IVMAN3DIR = $(IVROOT)/$(IVPREFIX)/man/man3
+IVHELPDIR = $(IVROOT)/$(IVPREFIX)/share/help
+IVDATADIR = $(IVROOT)/$(IVPREFIX)/share/data/models
+IVDEMODIR = $(IVROOT)/$(IVPREFIX)/demos
+IVDEMOBINDIR = $(IVDEMODIR)/Inventor
+IVDEMODATADIR = $(IVDEMODIR)/data/Inventor
+
+
+
+#
+# Locate installed Inventor libraries when linking applications.
+#
+
+ifneq (, $(findstring debug, $(LIBTYPE)))
+LLDDSOOPTS += -L$(IVDLIBDIR)
+LLDOPTS += -L$(IVDLIBDIR)
+CXXDSOOPTS += -L$(IVDLIBDIR)
+else
+LLDDSOOPTS += -L$(IVLIBDIR)
+LLDOPTS += -L$(IVLIBDIR)
+CXXDSOOPTS += -L$(IVLIBDIR)
+endif

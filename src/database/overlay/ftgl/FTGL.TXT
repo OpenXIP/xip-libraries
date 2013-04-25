@@ -1,0 +1,24 @@
+FTGL - http://homepages.paradise.net.nz/henryj/code/index.html
+
+
+FTGL
+
+FTGL is a free, open source library to enable developers to use arbitrary fonts
+in their OpenGL (www.opengl.org) applications. Unlike other OpenGL font libraries
+FTGL uses standard font file formats so doesn't need a preprocessing step to
+convert the high quality font data into a lesser quality, proprietary format.
+FTGL uses the Freetype (www.freetype.org) font library to open and 'decode' the
+fonts. It then takes that output and stores it in a format most efficient for
+OpenGL rendering. FTGL is designed to be used in commercial quality software.
+It has been written with performance, robustness and simplicity in mind.
+
+
+
+This software isn't fit for any particular purpose and I wont be held liable for
+any damages suffered as a result of using, modifying or distributing this software
+or its derivatives. It shouldn't be used in the operation of nuclear facilities,
+aircraft navigation or communication systems, air traffic control, direct life
+support machines, or weapons systems.
+
+If you use anything on this page I'd appreciate an email. If you make any changes
+(preferably improvements) I'd love to see them.

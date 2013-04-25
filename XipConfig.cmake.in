@@ -1,0 +1,60 @@
+# Find the Xip includes and library
+#
+# This file is configured by XIP and used by the UseXip.cmake module
+# to load Xip's settings for an external project.
+#
+# Xip_INCLUDE_DIR - where to find xip/include
+# Xip_LIBRARIES - list of fully qualified libraries to link against
+# Xip_FOUND - set to 1 if found
+
+@Xip_CONFIG_CODE@
+
+set(Xip_FOUND 1)
+
+set(Xip_INCLUDE_DIR "@Xip_INCLUDE@")
+
+set(Xip_LIBRARIES "@Xip_LIBRARY@")
+
+# The Xip include file directories.
+set(Xip_INCLUDE_DIRS "@Xip_INCLUDE_DIRS_CONFIG@")
+
+# The Xip library directories.
+set(Xip_LIBRARY_DIRS "@Xip_LIBRARY_DIRS_CONFIG@")
+
+# The C and C++ flags added by Xip to the cmake-configured flags.
+set(Xip_REQUIRED_C_FLAGS "@Xip_REQUIRED_C_FLAGS@")
+set(Xip_REQUIRED_CXX_FLAGS "@Xip_REQUIRED_CXX_FLAGS@")
+set(Xip_REQUIRED_LINK_FLAGS "@Xip_REQUIRED_LINK_FLAGS@")
+
+# The Xip version number
+set(Xip_VERSION_MAJOR "@Xip_VERSION_MAJOR@")
+set(Xip_VERSION_MINOR "@Xip_VERSION_MINOR@")
+set(Xip_VERSION_PATCH "@Xip_VERSION_PATCH@")
+
+# The location of the UseXip.cmake file.
+set(Xip_USE_FILE "@Xip_BINARY_DIR@/UseXip.cmake")
+
+# The build settings file.
+set(Xip_BUILD_SETTINGS_FILE "@Xip_BUILD_SETTINGS_FILE@")
+
+# The library dependencies file.
+set(Xip_LIBRARY_DEPENDS_FILE "@Xip_LIBRARY_DEPENDS_FILE@")
+
+# Whether Xip was built with shared libraries.
+set(Xip_BUILD_SHARED "@BUILD_SHARED_LIBS@")
+
+# A list of all libraries for Xip.  Those listed here should
+# automatically pull in their dependencies.
+set(Xip_LIBRARIES xipivcore xipivcoregl)
+
+# The Xip library dependencies.
+if(NOT Xip_NO_LIBRARY_DEPENDS AND
+    EXISTS "${Xip_LIBRARY_DEPENDS_FILE}")
+  include("${Xip_LIBRARY_DEPENDS_FILE}")
+endif(NOT Xip_NO_LIBRARY_DEPENDS AND
+  EXISTS "${Xip_LIBRARY_DEPENDS_FILE}")
+
+# Whether Xip was built using DCMTK, ITK and/or VTK.
+set(HAS_DCMTK "@HAS_DCMTK@")
+set(HAS_ITK "@HAS_ITK@")
+set(HAS_VTK "@HAS_VTK@")

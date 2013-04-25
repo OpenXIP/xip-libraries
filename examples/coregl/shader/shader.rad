@@ -1,0 +1,128 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	0.595 1.45 10.3156
+	nearDistance	-0
+	farDistance	20.6313
+	focalDistance	10.3156
+	height	14.78
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFNode node ]
+	    placement	6 2.1 8.09 2.9
+	    flags	()
+	    node		    DEF +0 SoXipDrawQuad {
+		fields [  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	4.5 0.6 6.55 1.4
+	    flags	()
+	    autoPanelPos	749 502 385 385
+	    node		    DEF +1 SoXipUniformInt {
+		fields [ SFString name,  ]
+		name	"texUnit"
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	1.8 -2.4 4.23 -1.6
+	    flags	()
+	    autoPanelPos	891 291 385 385
+	    node		    DEF loadShader_simple SoXipLoadShaders {
+		fields [ SFString fpFilename,  ]
+		fpFilename	"simple.glsl.frag.txt"
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	1.8 -3.6 4.89 -2.8
+	    flags	()
+	    autoPanelPos	653 455 385 385
+	    node		    DEF loadShader_edge_detect SoXipLoadShaders {
+		fields [ SFString fpFilename,  ]
+		fpFilename	"edgedetect.glsl.frag.txt"
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-4.2 3.9 -1.99 4.7
+	    flags	()
+	    autoPanelPos	385 307 385 385
+	    node		    DEF +2 SoXipTextureUnit {
+		fields [ SFInt32 textureStage,  ]
+		textureStage	0
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-2.4 2.1 -0.4 2.9
+	    flags	()
+	    autoPanelPos	532 348 385 385
+	    node		    DEF +3 SoXipTexture {
+		fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize ]
+		image	"DATA" =
+		    DEF +4 SoXipLoadRaw {
+			inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+				SFString file ]
+			voxelType	USHORT
+			width	256
+			height	256
+			depth	1
+			file	"..\..\data\lena.raw"
+			outputs [ SoXipSFDataImage output ]
+		    }
+		    . output
+
+		internalFormat	LUMINANCE16
+		textureSize	256 256 1
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-1.8 -3.6 0.79 -2.8
+	    flags	()
+	    autoPanelPos	653 455 385 385
+	    node		    DEF loadShader_emboss+5 SoXipLoadShaders {
+		fields [ SFString fpFilename,  ]
+		fpFilename	"emboss.glsl.frag.txt"
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFNode node ]
+	    placement	-1.2 6.9 1.2 7.7
+	    flags	()
+	    viewPos	536 201 433 385
+	    node		    Separator {
+		USE +2
+		USE +3
+		USE loadShader_emboss+5
+		USE +1
+		USE +0
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-5.08251 2.10257 -3.08251 2.90257
+	    flags	()
+	    autoPanelPos	284 283 0 0
+	    engine		    USE +4
+
+	}
+    }
+}

@@ -1,0 +1,150 @@
+#Inventor V2.1 ascii
+
+Separator {
+    OrthographicCamera {
+	position	-2.79843 7.18 9.41839
+	nearDistance	-0
+	farDistance	18.8368
+	focalDistance	9.41839
+	height	13.26
+    }
+    SoRadBuilderConnections {
+	fields [  ]
+    }
+    SoRadBuilderNodeSelection {
+	fields [  ]
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-3.98 7.36 -1.25 8.16
+	    flags	()
+	    autoPanelPos	159 364 385 392
+	    node		    DEF +0 SoXipDicomExaminer {
+		fields [ SoXipMFDataDicom images, SFShort imageIndex, SFShort sliceIndex, SFEnum mode ]
+		images	[  ] =
+		    DEF +1 SoXipLoadDicom {
+			inputs [ MFString name ]
+			name	""
+			outputs [ SoXipMFDataDicom dicom ]
+		    }
+		    . dicom
+
+		imageIndex	-1
+		sliceIndex	-1
+		mode	NONE
+	    }
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-0.17875 5.73 2.93125 6.53
+	    flags	()
+	    autoPanelPos	611 407 385 392
+	    engine		    SoXipSaveOverlayPState {
+		inputs [ MFNode overlays, SoXipSFDataDicom image, SFString pstateFile,  ]
+		overlays			DEF +2 SoXipShapeList {
+		    fields [ SFString label ]
+		    label	""
+		    Separator {
+			Label {
+			    label	"" =
+				USE +2
+				. label
+
+			}
+			Separator {
+			    SoXipEllipse {
+				fields [ SFEnum status, SFInt32 rank, SFString label, SFString caption,
+					SFVec3f textPosition, SFVec3f center, SFVec3f a, SFVec3f b,
+					 ]
+				status	NONE
+				rank	1
+				label	""
+				caption	""
+				textPosition	-92.9815 52.0828 -130
+				center	-64.5875 20.1007 -130
+				a	0 45.2295 0
+				b	36.5414 0 0
+			    }
+			}
+		    }
+		}
+ =
+		    DEF +3 SoXipOverlaySearch {
+			fields [ MFNode overlays, SFInt32 numOverlays ]
+			overlays				USE +2
+
+			numOverlays	1
+		    }
+		    . overlays
+
+		image	"NULL" =
+		    USE +1
+		    . dicom
+
+		pstateFile	""
+		outputs [ SFString status ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-0.531871 7.33 2.21813 8.13
+	    flags	()
+	    autoPanelPos	527 632 385 392
+	    node		    DEF +4 SoXipOverlayManager {
+		fields [ SFBool create,  ]
+		create	FALSE
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-6.58 7.3 -4.58 8.1
+	    flags	()
+	    autoPanelPos	222 493 385 392
+	    node		    DEF +5 SoXipLut {
+		fields [ SFEnum inputMode, SFEnum outputMode, SFShort bitsUsed, SFFloat rampWidth,
+			SFFloat rampCenter, MFColor arrayColor, MFFloat arrayAlpha ]
+		inputMode	TRAPEZOID
+		outputMode	COLOR
+		bitsUsed	12
+		rampWidth	0.9
+		rampCenter	0.1
+		arrayColor	[  ]
+		arrayAlpha	[  ]
+	    }
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFNode node ]
+	    placement	-9.63344 7.21 -7.06344 8.01
+	    flags	()
+	    autoPanelPos	61 503 385 392
+	    node		    USE +3
+
+	}
+	SoRadBuilderEngine {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f autoPanelPos, SFEngine engine ]
+	    placement	-3.5 5.68 -1.31 6.48
+	    flags	()
+	    autoPanelPos	454 625 385 392
+	    engine		    USE +1
+
+	}
+	SoRadBuilderNode {
+	    fields [ SFVec4f placement, SFBitMask flags, SFVec4f viewPos, SFVec4f autoPanelPos,
+		    SFNode node ]
+	    placement	-4.34 10.36 -2.34 11.16
+	    flags	()
+	    viewPos	9 576 508 418
+	    autoPanelPos	395 97 0 0
+	    node		    Separator {
+		USE +3
+		USE +5
+		USE +0
+		USE +4
+	    }
+
+	}
+    }
+}

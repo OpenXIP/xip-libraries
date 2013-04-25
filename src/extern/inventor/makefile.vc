@@ -1,0 +1,287 @@
+#
+# to build in relase call: nmake nodebug=1 /f makefile.vc
+#
+
+
+# Pull in standard variable definitions
+#!include makefile.inc
+!include <win32.mak>
+
+
+addincl = /I "../freetype-2.2.1/include" /I "../libiconv-1.11/include" /I "lib/database/include" /I "lib/xip/include" /I "lib/nodekits/include" /I "lib/interaction/include" /I "lib/mevis/include" /I "lib/database/src/so/nodes/nurbs/head" /I "libFL/src" /I "../jpeg-6b"
+CFLAGS  = $(cflags) $(cdebug) $(cvarsdll) $(addincl) -I. /DINVENTOR_EXPORTS /D__SGIOIV_BUILD_DLL /DLIBRARYBUILD /D_WINDOWS /D_WIN32_IE=0x0500
+LDFLAGS = $(ldebug) $(dlllflags) /OPT:REF 
+LIBS    = "../jpeg-6b/libjpeg.lib" "../freetype-2.2.1/freetype2.lib" "..\libiconv-1.11\lib\iconv.lib" wsock32.lib shell32.lib openGL32.lib glu32.lib
+
+# this works for VC6
+#LDFLAGS = /dll /OPT:REF /NODEFAULTLIB:MSVCRT
+
+
+!IFDEF NODEBUG
+TARGETBASE = $(OUTDIR)\xipinv240
+TARGET  = $(OUTDIR)\xipinv240.dll
+OUTDIR  = ..\..\..\..\xip-build\out\release
+!ELSE
+TARGETBASE = $(OUTDIR)\xipinv240d
+TARGET  = $(OUTDIR)\xipinv240d.dll
+OUTDIR  = ..\..\..\..\xip-build\out\debug
+!ENDIF
+
+
+
+
+# Template commands for compiling
+.SUFFIXES : .y .pp .exe .obj .c++ .c .rc
+
+.y.c++:
+	@bison -y -o $*.c++ $*.y
+
+.c.obj:
+	$(cc) $(CFLAGS) /Fo$*.obj $<
+
+.c++.obj:
+	$(cc) /TP $(CFLAGS) /Fo$*.obj $<
+
+.pp.obj:
+	@tools\ppp\ppp < $*.pp > $*.c++
+	$(cc) /TP $(CFLAGS) /Fo$*.obj $*.c++
+
+.rc.obj:
+	$(RC) $(RFLAGS) /fo$*.obj /r $*
+
+
+
+
+OBJECTS = \
+	./lib/initDll.obj \
+	./lib/database/src/sb/Sb.obj \
+	./lib/database/src/sb/projectors/SbProjectors.obj \
+	./lib/database/src/so/linux.obj \
+	./lib/database/src/so/So.obj \
+	./lib/database/src/so/SoState.obj \
+	./lib/database/src/so/actions/SoActions.obj \
+	./lib/database/src/so/bundles/SoBundles.obj \
+	./lib/database/src/so/caches/SoCaches.obj \
+	./lib/database/src/so/details/SoDetails.obj \
+	./lib/database/src/so/elements/SoElement.obj \
+	./lib/database/src/so/elements/SoElements.obj \
+	./lib/database/src/so/engines/SoConcatenate.obj \
+	./lib/database/src/so/engines/SoEngineInit.obj \
+	./lib/database/src/so/engines/SoEngines.obj \
+	./lib/database/src/so/engines/SoFieldConverters.obj \
+	./lib/database/src/so/engines/SoGate.obj \
+	./lib/database/src/so/engines/SoSelectOne.obj \
+	./lib/database/src/so/errors/SoErrorInit.obj \
+	./lib/database/src/so/errors/SoErrors.obj \
+	./lib/database/src/so/events/SoEventInit.obj \
+	./lib/database/src/so/events/SoEvents.obj \
+	./lib/database/src/so/fields/SoField.obj \
+	./lib/database/src/so/fields/SoFieldContainer.obj \
+	./lib/database/src/so/fields/SoFieldData.obj \
+	./lib/database/src/so/fields/SoFieldInit.obj \
+	./lib/database/src/so/fields/SoFields.obj \
+	./lib/database/src/so/fields/SoGlobalField.obj \
+	./lib/database/src/so/nodes/readGIF.obj \
+	./lib/database/src/so/nodes/SoAnnotation.obj \
+	./lib/database/src/so/nodes/SoArray.obj \
+	./lib/database/src/so/nodes/SoAsciiText.obj \
+	./lib/database/src/so/nodes/SoBaseColor.obj \
+	./lib/database/src/so/nodes/SoBlinker.obj \
+	./lib/database/src/so/nodes/SoCallback.obj \
+	./lib/database/src/so/nodes/SoCamera.obj \
+	./lib/database/src/so/nodes/SoClipPlane.obj \
+	./lib/database/src/so/nodes/SoColorIndex.obj \
+	./lib/database/src/so/nodes/SoComplexity.obj \
+	./lib/database/src/so/nodes/SoCone.obj \
+	./lib/database/src/so/nodes/SoCoordinate3.obj \
+	./lib/database/src/so/nodes/SoCoordinate4.obj \
+	./lib/database/src/so/nodes/SoCube.obj \
+	./lib/database/src/so/nodes/SoCylinder.obj \
+	./lib/database/src/so/nodes/SoDirectionalLight.obj \
+	./lib/database/src/so/nodes/SoDrawStyle.obj \
+	./lib/database/src/so/nodes/SoEnvironment.obj \
+	./lib/database/src/so/nodes/SoEventCallback.obj \
+	./lib/database/src/so/nodes/SoFaceSet.obj \
+	./lib/database/src/so/nodes/SoFile.obj \
+	./lib/database/src/so/nodes/SoFont.obj \
+	./lib/database/src/so/nodes/SoFontStyle.obj \
+	./lib/database/src/so/nodes/SoGroup.obj \
+	./lib/database/src/so/nodes/SoIndexedFaceSet.obj \
+	./lib/database/src/so/nodes/SoIndexedLineSet.obj \
+	./lib/database/src/so/nodes/SoIndexedNurbsCurve.obj \
+	./lib/database/src/so/nodes/SoIndexedNurbsSurface.obj \
+	./lib/database/src/so/nodes/SoIndexedShape.obj \
+	./lib/database/src/so/nodes/SoIndexedTriangleStripSet.obj \
+	./lib/database/src/so/nodes/SoInfo.obj \
+	./lib/database/src/so/nodes/SoLabel.obj \
+	./lib/database/src/so/nodes/SoLevelOfDetail.obj \
+	./lib/database/src/so/nodes/SoLight.obj \
+	./lib/database/src/so/nodes/SoLightModel.obj \
+	./lib/database/src/so/nodes/SoLinearProfile.obj \
+	./lib/database/src/so/nodes/SoLineSet.obj \
+	./lib/database/src/so/nodes/SoLocateHighlight.obj \
+	./lib/database/src/so/nodes/SoLOD.obj \
+	./lib/database/src/so/nodes/SoMaterial.obj \
+	./lib/database/src/so/nodes/SoMaterialBinding.obj \
+	./lib/database/src/so/nodes/SoMatrixTransform.obj \
+	./lib/database/src/so/nodes/SoMultipleCopy.obj \
+	./lib/database/src/so/nodes/SoNode.obj \
+	./lib/database/src/so/nodes/SoNodeInit.obj \
+	./lib/database/src/so/nodes/SoNonIndexedShape.obj \
+	./lib/database/src/so/nodes/SoNormal.obj \
+	./lib/database/src/so/nodes/SoNormalBinding.obj \
+	./lib/database/src/so/nodes/SoNurbsCurve.obj \
+	./lib/database/src/so/nodes/SoNurbsProfile.obj \
+	./lib/database/src/so/nodes/SoNurbsSurface.obj \
+	./lib/database/src/so/nodes/SoOrthographicCamera.obj \
+	./lib/database/src/so/nodes/SoPackedColor.obj \
+	./lib/database/src/so/nodes/SoPathSwitch.obj \
+	./lib/database/src/so/nodes/SoPendulum.obj \
+	./lib/database/src/so/nodes/SoPerspectiveCamera.obj \
+	./lib/database/src/so/nodes/SoPickStyle.obj \
+	./lib/database/src/so/nodes/SoPointLight.obj \
+	./lib/database/src/so/nodes/SoPointSet.obj \
+	./lib/database/src/so/nodes/SoProfile.obj \
+	./lib/database/src/so/nodes/SoProfileCoordinate2.obj \
+	./lib/database/src/so/nodes/SoProfileCoordinate3.obj \
+	./lib/database/src/so/nodes/SoQuadMesh.obj \
+	./lib/database/src/so/nodes/SoResetTransform.obj \
+	./lib/database/src/so/nodes/SoRotation.obj \
+	./lib/database/src/so/nodes/SoRotationXYZ.obj \
+	./lib/database/src/so/nodes/SoRotor.obj \
+	./lib/database/src/so/nodes/SoScale.obj \
+	./lib/database/src/so/nodes/SoSeparator.obj \
+	./lib/database/src/so/nodes/SoShape.obj \
+	./lib/database/src/so/nodes/SoShapeHints.obj \
+	./lib/database/src/so/nodes/SoShuttle.obj \
+	./lib/database/src/so/nodes/SoSphere.obj \
+	./lib/database/src/so/nodes/SoSpotLight.obj \
+	./lib/database/src/so/nodes/SoSwitch.obj \
+	./lib/database/src/so/nodes/SoText2.obj \
+	./lib/database/src/so/nodes/SoText3.obj \
+	./lib/database/src/so/nodes/SoTexture2.obj \
+	./lib/database/src/so/nodes/SoTexture2Transform.obj \
+	./lib/database/src/so/nodes/SoTextureCoordinate2.obj \
+	./lib/database/src/so/nodes/SoTextureCoordinateBinding.obj \
+	./lib/database/src/so/nodes/SoTextureCoordinateDefault.obj \
+	./lib/database/src/so/nodes/SoTextureCoordinateEnvironment.obj \
+	./lib/database/src/so/nodes/SoTextureCoordinateFunction.obj \
+	./lib/database/src/so/nodes/SoTextureCoordinatePlane.obj \
+	./lib/database/src/so/nodes/SoTransform.obj \
+	./lib/database/src/so/nodes/SoTransformation.obj \
+	./lib/database/src/so/nodes/SoTransformSeparator.obj \
+	./lib/database/src/so/nodes/SoTranslation.obj \
+	./lib/database/src/so/nodes/SoTriangleStripSet.obj \
+	./lib/database/src/so/nodes/SoUnits.obj \
+	./lib/database/src/so/nodes/SoUnknownNode.obj \
+	./lib/database/src/so/nodes/SoVertexProperty.obj \
+	./lib/database/src/so/nodes/SoVertexShape.obj \
+	./lib/database/src/so/nodes/SoWWWAnchor.obj \
+	./lib/database/src/so/nodes/SoWWWInline.obj \
+	./lib/database/src/so/nodes/nurbs/SoNurbs.obj \
+	./lib/database/src/so/nodes/nurbs/clients/nurbsClient.obj \
+	./lib/database/src/so/nodes/nurbs/libnurbs/libNurbs.obj \
+	./lib/database/src/so/sensors/SoSensors.obj \
+	./lib/database/src/so/upgraders/SoUpgrader.obj \
+	./lib/database/src/so/upgraders/SoUpgraderInit.obj \
+	./lib/database/src/so/upgraders/SoUpgraders.obj \
+	./lib/interaction/src/SoInteraction.obj \
+	./lib/interaction/src/SoSceneMgr.obj \
+	./lib/interaction/src/SoSelection.obj \
+	./lib/interaction/src/actions/SoBoxHL.obj \
+	./lib/interaction/src/actions/SoLineHL.obj \
+	./lib/interaction/src/draggers/SoCenterballDragger.obj \
+	./lib/interaction/src/draggers/SoDirectionalLightDragger.obj \
+	./lib/interaction/src/draggers/SoDragger.obj \
+	./lib/interaction/src/draggers/SoDraggerInit.obj \
+	./lib/interaction/src/draggers/SoDragPointDragger.obj \
+	./lib/interaction/src/draggers/SoHandleBoxDragger.obj \
+	./lib/interaction/src/draggers/SoJackDragger.obj \
+	./lib/interaction/src/draggers/SoPointLightDragger.obj \
+	./lib/interaction/src/draggers/SoRotateCylindricalDragger.obj \
+	./lib/interaction/src/draggers/SoRotateDiscDragger.obj \
+	./lib/interaction/src/draggers/SoRotateSphericalDragger.obj \
+	./lib/interaction/src/draggers/SoScale1Dragger.obj \
+	./lib/interaction/src/draggers/SoScale2Dragger.obj \
+	./lib/interaction/src/draggers/SoScale2UniformDragger.obj \
+	./lib/interaction/src/draggers/SoScaleUniformDragger.obj \
+	./lib/interaction/src/draggers/SoSpotLightDragger.obj \
+	./lib/interaction/src/draggers/SoTabBoxDragger.obj \
+	./lib/interaction/src/draggers/SoTabPlaneDragger.obj \
+	./lib/interaction/src/draggers/SoTrackballDragger.obj \
+	./lib/interaction/src/draggers/SoTransformBoxDragger.obj \
+	./lib/interaction/src/draggers/SoTransformerDragger.obj \
+	./lib/interaction/src/draggers/SoTranslate1Dragger.obj \
+	./lib/interaction/src/draggers/SoTranslate2Dragger.obj \
+	./lib/interaction/src/manips/SoManips.obj \
+	./lib/interaction/src/nodekits/SoInteractionKit.obj \
+	./lib/interaction/src/nodes/SoAntiSquish.obj \
+	./lib/interaction/src/nodes/SoSurroundScale.obj \
+	./lib/mevis/src/SoCatch.obj \
+	./lib/mevis/src/SoMeVis.obj \
+	./lib/mevis/src/SoTrace.obj \
+	./lib/mevis/src/utf8_filesupport_win32.obj \
+	./lib/mevis/src/elements/SoGLPolygonOffsetElement.obj \
+	./lib/mevis/src/elements/SoGLStencilBitsElement.obj \
+	./lib/mevis/src/elements/SoPolygonOffsetElement.obj \
+	./lib/mevis/src/elements/SoStencilBitsElement.obj \
+	./lib/mevis/src/fields/SoSFVec2s.obj \
+	./lib/mevis/src/fields/SoSFVec3s.obj \
+	./lib/mevis/src/nodes/SoPolygonOffset.obj \
+	./lib/nodekits/src/SoNodeKitPath.obj \
+	./lib/nodekits/src/details/SoNodeKitDetail.obj \
+	./lib/nodekits/src/nodekits/SoNodeKits.obj \
+	./lib/nodekits/src/upgraders/SoNodeKitUpgraders.obj \
+	./libFL/ang/fl.obj \
+	./libFL/ang/flclient.obj \
+	./libFL/ang/flfreetype.obj \
+	./libimage/close.obj \
+	./libimage/filbuf.obj \
+	./libimage/flsbuf.obj \
+	./libimage/name.obj \
+	./libimage/open.obj \
+	./libimage/pix.obj \
+	./libimage/rdwr.obj \
+	./libimage/rle.obj \
+	./libimage/row.obj \
+	./lib/xip/src/so/events/SoMouseWheelEvent.obj \
+	./lib/xip/src/SoXip.obj
+
+
+
+all: $(TARGET)
+
+$(TARGET): tools/ppp/ppp.exe lib/database/src/so/engines/SoCalcParse.c++ $(OBJECTS)
+	@!IF NOT EXIST $(OUTDIR)\. mkdir $(OUTDIR)
+	$(link) $(LDFLAGS) /OUT:"$(TARGET)" $(OBJECTS) $(LIBS)
+	mt.exe -manifest $(TARGET).manifest -outputresource:$(TARGET);2
+
+
+ppp:	tools/ppp/ppp.exe
+
+tools/ppp/ppp.exe:
+	@cl /Fe"tools/ppp/ppp.exe" /I "lib/mevis/include" /I "lib/database/include" /I "lib/xip/include" /D_INVENTOR_ /DWIN32 /DINVENTOR_API= /D__SGIOIV_BUILD_DLL /TP tools/ppp/ppp.c++
+
+cleanObj:
+	rm -f $(OBJECTS)
+
+clean:	cleanObj
+	rm -f lib/database/src/so/engines/SoCalcParse.c++
+	rm -f $(TARGET) $(TARGET).manifest $(TARGETBASE).lib $(TARGETBASE).pdb $(TARGETBASE).exp
+
+
+install:
+	cd lib\database\include
+	xcopy /s /y *.h "..\..\..\..\..\..\include\"
+	cd ..\..\interaction\include
+	xcopy /s /y *.h "..\..\..\..\..\..\include\"
+	cd ..\..\nodekits\include
+	xcopy /s /y *.h "..\..\..\..\..\..\include\"
+	cd ..\..\mevis\include
+	xcopy /s /y *.h "..\..\..\..\..\..\include\"
+	cd ..\..\xip\include
+	xcopy /s /y *.h "..\..\..\..\..\..\include\"
+	cd ..\..\..
+
+
+#!include makefile.targ.inc

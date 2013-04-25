@@ -1,0 +1,2985 @@
+<!--
+COPYRIGHT NOTICE.  Copyright (C) 2007 Siemens Corporate Research, 
+Inc. ("caBIG(tm) Participant"). The eXtensible Imaging Platform
+(XIP) was created with NCI funding and is part of the caBIG(tm) 
+initiative. The software subject to this notice and license 
+includes both human readable source code form and machine 
+readable, binary, object code form (the "caBIG(tm) Software").
+
+This caBIG(tm) Software License (the "License") is between 
+caBIG(tm) Participant and You.  "You (or "Your") shall mean a 
+person or an entity, and all other entities that control, are 
+controlled by, or are under common control with the entity.  
+"Control" for purposes of this definition means (i) the direct or 
+indirect power to cause the direction or management of such 
+entity, whether by contract or otherwise, or (ii) ownership of 
+fifty percent (50%) or more of the outstanding shares, or (iii) 
+beneficial ownership of such entity.
+
+LICENSE.  Provided that You agree to the conditions described 
+below, caBIG(tm) Participant grants You a non-exclusive, 
+worldwide, perpetual, fully-paid-up, no-charge, irrevocable, 
+transferable and royalty-free right and license in its rights in 
+the caBIG(tm) Software, including any copyright or patent rights 
+therein that may be infringed by the making, using, selling, 
+offering for sale, or importing of caBIG(tm) Software, to (i) 
+use, install, access, operate, execute, reproduce, copy, modify, 
+translate, market, publicly display, publicly perform, and 
+prepare derivative works of the caBIG(tm) Software; (ii) make, 
+have made, use, practice, sell, and offer for sale, and/or 
+otherwise dispose of caBIG(tm) Software (or portions thereof); 
+(iii) distribute and have distributed to and by third parties the 
+caBIG(tm) Software and any modifications and derivative works 
+thereof; and (iv) sublicense the foregoing rights set out in (i), 
+(ii) and (iii) to third parties, including the right to license 
+such rights to further third parties.  For sake of clarity, and 
+not by way of limitation, caBIG(tm) Participant shall have no 
+right of accounting or right of payment from You or Your 
+sublicensees for the rights granted under this License.  This 
+License is granted at no charge to You.  Your downloading, 
+copying, modifying, displaying, distributing or use of caBIG(tm) 
+Software constitutes acceptance of all of the terms and 
+conditions of this Agreement.  If you do not agree to such terms 
+and conditions, you have no right to download, copy, modify, 
+display, distribute or use the caBIG(tm) Software.
+
+1.	Your redistributions of the source code for the caBIG(tm) 
+    Software must retain the above copyright notice, this list 
+    of conditions and the disclaimer and limitation of 
+    liability of Article 6 below.  Your redistributions in 
+    object code form must reproduce the above copyright notice, 
+    this list of conditions and the disclaimer of Article 6 in 
+    the documentation and/or other materials provided with the 
+    distribution, if any.
+2.	Your end-user documentation included with the 
+    redistribution, if any, must include the following 
+    acknowledgment: "This product includes software developed 
+    by Siemens Corporate Research Inc."  If You do not include 
+    such end-user documentation, You shall include this 
+    acknowledgment in the caBIG(tm) Software itself, wherever 
+    such third-party acknowledgments normally appear.
+3.	You may not use the names "Siemens Corporate Research, 
+    Inc.", "The National Cancer Institute", "NCI", "Cancer 
+    Bioinformatics Grid" or "caBIG(tm)" to endorse or promote 
+    products derived from this caBIG(tm) Software.  This 
+    License does not authorize You to use any trademarks, 
+	service marks, trade names, logos or product names of 
+    either caBIG(tm) Participant, NCI or caBIG(tm), except as 
+    required to comply with the terms of this License.
+4.	For sake of clarity, and not by way of limitation, You may 
+    incorporate this caBIG(tm) Software into Your proprietary 
+    programs and into any third party proprietary programs.  
+    However, if You incorporate the caBIG(tm) Software into 
+    third party proprietary programs, You agree that You are 
+    solely responsible for obtaining any permission from such 
+    third parties required to incorporate the caBIG(tm) 
+    Software into such third party proprietary programs and for 
+    informing Your sublicensees, including without limitation 
+    Your end-users, of their obligation to secure any required 
+    permissions from such third parties before incorporating 
+    the caBIG(tm) Software into such third party proprietary 
+    software programs.  In the event that You fail to obtain 
+    such permissions, You agree to indemnify caBIG(tm) 
+    Participant for any claims against caBIG(tm) Participant by 
+    such third parties, except to the extent prohibited by law, 
+    resulting from Your failure to obtain such permissions.
+5.	For sake of clarity, and not by way of limitation, You may 
+    add Your own copyright statement to Your modifications and 
+    to the derivative works, and You may provide additional or 
+    different license terms and conditions in Your sublicenses 
+    of modifications of the caBIG(tm) Software, or any 
+    derivative works of the caBIG(tm) Software as a whole, 
+    provided Your use, reproduction, and distribution of the 
+    Work otherwise complies with the conditions stated in this 
+    License.
+6.	THIS caBIG(tm) SOFTWARE IS PROVIDED "AS IS" AND ANY 
+    EXPRESSED OR IMPLIED WARRANTIES (INCLUDING, BUT NOT LIMITED 
+    TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, NON-
+    INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE) ARE 
+    DISCLAIMED.  IN NO EVENT SHALL SIEMENS CORPORATE RESEARCH 
+    INC. OR ITS AFFILIATES BE LIABLE FOR ANY DIRECT, INDIRECT, 
+    INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+    GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+    BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
+    OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
+    THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<filter id = "ProcessObject">
+    <abstract/>
+       
+    <filter id = "MeshSource">
+    <abstract/>
+    
+        <arguments>        
+            <argument id = "OutputMeshType">
+                <type id = "Mesh">
+                    <argument id = "MeshPixelType">
+                        <type id = "float"/>
+                    </argument>
+                    <argument id = "MeshDimension">
+                        <type id = "2"/>
+                        <type id = "3"/>
+                    </argument>
+                </type>            
+            </argument>
+        </arguments>
+    
+        <output id = "Output" type = "ARG( OutputMeshType )"/>
+    
+        <filter id = "ImageToMeshFilter">
+        <abstract/>
+        
+            <arguments>
+                <argument id = "InputImageType">
+                    <type id = "Image">
+                        <use_argument ref = "MeshPixelType"/>
+                        <use_argument ref = "MeshDimension"/>
+                    </type>
+                </argument>
+                <use_argument ref = "OutputMeshType"/>
+            </arguments>
+            
+            <input id = "Input" type = "ARG( InputImageType )" multiple = "false"/>
+            <input id = "Input" access = "getType" type = "ARG( 0 )"/>
+            <input id = "Input" access = "getNumDimension" type = "ARG( 1 )"/>
+        
+            <filter id = "BinaryMaskToNarrowBandPointSetFilter">
+                <include id = "itkMesh.h"/>
+                <input id = "BandWidth" type = "float" value = "5"/>
+            
+            </filter>
+            
+        </filter>
+    </filter>
+
+    <filter id ="ImageRegistrationMethod" enabled = "false">
+        <arguments>
+            <argument id = "InputImageType">
+                <type id = "Image">
+                    <argument id = "InputPixelType">
+                        <type id = "float"/>
+                        <type id = "unsigned short"/>
+                    </argument>
+                    <argument id = "Dimension">
+                        <type id = "2"/>
+                        <type id = "3"/>
+                    </argument>
+                </type>
+            </argument>
+            <use_argument ref = "InputImageType" id = "OutputImageType"/>
+        </arguments>
+        
+        <declarations>
+            <argument id = "MetricType">
+                <type id = "ImageToImageMetric">
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "OutputImageType"/>
+                </type>
+            </argument>
+            
+            <argument id = "OptimizerType">
+                <type id = "SingleValuedNonLinearOptimizer" namespace = "itk"/>
+            </argument>
+            
+            <argument id = "TransformType">
+                <type id = "Transform">
+                    <argument id = "CoordinateRepresentationType">
+                        <type id = "double"/>
+                    </argument>
+                    <use_argument ref = "Dimension"/>
+                    <use_argument ref = "Dimension"/>
+                </type>
+            </argument>
+            
+            <argument id = "InterpolatorType">
+                <type id = "InterpolateImageFunction">
+                    <use_argument ref = "InputImageType"/>
+                    <argument id = "CoordinateRepresentationType">
+                        <type id = "double"/>
+                    </argument>
+                </type>
+            </argument>        
+            
+            <argument id = "ImageRegionType">
+                <type id = "ImageRegion">
+                    <use_argument ref = "Dimension"/>
+                </type>            
+            </argument>
+        </declarations>
+        
+        <input id = "FixedImage" type = "ARG( InputImageType )" multiple = "false"/>
+        <input id = "FixedImage" access = "getType" type = "ARG( 0 )"/>
+        <input id = "FixedImage" access = "getNumDimension" type = "ARG( 1 )"/>
+        <input id = "MovingImage" type = "ARG( InputImageType )" multiple = "false"/>
+        <input id = "MovingImage" access = "getType" type = "ARG( 0 )"/>
+        <input id = "MovingImage" access = "getNumDimension" type = "ARG( 1 )"/>
+        <input id = "FixedImageRegion" type = "ARG( ImageRegionType )"/>
+        <input id = "Metric" type = "ARG( MetricType )"/>
+        <input id = "Optimizer" type = "ARG( OptimizerType )"/>
+        <input id = "Transform" type = "ARG( TransformType )"/>
+        <input id = "Interpolator" type = "ARG( InterpolatorType )"/>
+    </filter>
+    
+    <filter id = "ImageSource">
+    <abstract/>
+    <arguments>
+		<argument id = "OutputImageType">
+			<type id = "Image">
+			<argument id = "OutputPixelType">
+				<type id = "float"/>
+				<type id = "unsigned short"/>
+			</argument>
+			<argument id = "Dimension">
+				<type id = "2"/>
+				<type id = "3"/>
+			</argument>
+			</type>
+		</argument>
+	</arguments>
+    
+    <declarations>
+
+        <argument id = "PointType">
+            <type id = "Point">
+                <argument id = "CoordType">
+                    <type id = "double"/>
+                </argument>
+                <use_argument ref = "Dimension"/>
+            </type>                
+        </argument>
+        
+        <argument id = "SizeType">
+            <type id = "Size">
+                <use_argument ref = "Dimension"/>
+            </type>
+        </argument>
+        
+        <argument id = "IndexType">
+            <type id = "Index">
+                <use_argument ref = "Dimension"/>
+            </type>
+        </argument>
+        
+        <argument id = "ImageRegionType">
+            <type id = "ImageRegion">
+                <use_argument ref = "Dimension"/>
+            </type>
+        </argument>
+
+        <argument id = "SeedType">
+            <type id = "Seed">
+                <use_argument ref = "Dimension"/>
+            </type>
+        </argument>
+        
+        <argument id = "SeedVectorType">
+            <type id = "Seeds">
+                <use_argument ref = "Dimension"/>
+            </type>
+        </argument>
+        
+        <argument id = "NodeContainerType">
+            <type id = "VectorContainer">
+                <argument id = "VectorIndexType">
+                    <type id = "unsigned int"/>
+                </argument>
+                <argument id = "NodeType">
+                    <type id = "LevelSetNode">
+                        <use_argument ref = "OutputPixelType" id = "NodePixelType"/>
+                        <use_argument ref = "Dimension"/>                                
+                    </type>
+                </argument>
+            </type>
+        </argument>
+        
+        <argument id = "KernelType">
+            <type id = "Neighborhood">
+                <use_argument ref = "OutputPixelType" id = "InputPixelType"/>
+                <use_argument ref = "Dimension"/>
+            </type>
+        </argument>
+        
+    </declarations>
+            
+	<output id = "Output" type = "ARG( OutputImageType )"/>
+    <filter id="ImageToImageFilter">
+		<abstract/>
+		<arguments>
+			<use_argument ref = "OutputImageType" id = "InputImageType"/>
+			<use_argument ref = "OutputImageType"/>
+		</arguments>
+        
+		<input id = "Input" type = "ARG( InputImageType )"/>
+		<input id = "Input" access = "getNumDimension" type = "ARG( 1 )"/>
+		<input id = "Input" access = "getType" type = "ARG( 0 )"/>
+        <filter id="SmoothingRecursiveGaussianImageFilter">        
+            <input id = "NormalizeAcrossScale" type = "bool" value = "false"/>
+            <input id = "Sigma" type = "float" value = ""/>
+        </filter>
+        <filter id="HConvexImageFilter">
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Height" type = "float" value = "2"/>
+        </filter>
+        <filter id="WhiteTopHatImageFilter">
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>    
+            </arguments>
+            <input id = "Kernel" type = "ARG( KernelType )" value = ""/>
+        </filter>
+        <filter id="ResampleImageFilter">
+            <arguments>
+                <use_argument ref = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+            </arguments>
+            
+            <declarations>              
+                <argument id = "TransformType">
+                    <type id = "Transform">
+                        <argument id = "CoordinateRepresentationType">
+                            <type id = "double"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                        <use_argument ref = "Dimension"/>
+                    </type>
+                </argument>
+                <argument id = "MatrixType">
+                    <type id = "Matrix">
+                        <argument id = "ValueType">
+                            <type id = "double"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                        <use_argument ref = "Dimension"/>
+                    </type>                
+                </argument>
+            </declarations>
+            
+            <input id = "Transform" type = "ARG( TransformType )"/>
+            <input id = "DefaultPixelValue" type = "float" value = "0"/>
+            <input id = "OutputDirection" type = "ARG( MatrixType )"/>
+            <input id = "OutputOrigin" type = "ARG( PointType )"/>
+            <input id = "OutputSpacing" type = "double" value = "1.0"/>
+            <input id = "OutputStartIndex" type = "ARG( IndexType )"/>
+            <input id = "Size" type = "ARG( SizeType )"/>
+            <input id = "OutputParametersFromImage" type = "typename" value = "" enabled = "false"/>
+            <input id = "UseReferenceImage" type = "bool" value = "false"/>
+        </filter>
+        <filter id="LaplacianRecursiveGaussianImageFilter">
+            <input id = "NormalizeAcrossScale" type = "bool" value = "false"/>
+            <input id = "Sigma" type = "float" value = ""/>
+        </filter>
+        <filter id="MedianImageFilter">
+            <input id = "Radius" type = "ARG( SizeType )" value = ""/>
+        </filter>
+        <filter id="GradientImageToBloxBoundaryPointImageFilter" enabled = "false">
+            <input id = "BloxResolution" type = "float" value = ""/>
+            <input id = "Threshold" type = "double" value = "128"/>
+        </filter>
+        <filter id="VectorExpandImageFilter" enabled = "false">
+            <input id = "EdgePaddingValue" type = "float" value = "value"/>
+            <input id = "ExpandFactors" type = "unsigned" value = ""/>
+        </filter>
+        <filter id="BloxBoundaryProfileImageToBloxCoreAtomImageFilter" enabled = "false">
+            <input id = "DistanceMax" type = "double" value = "12"/>
+            <input id = "DistanceMin" type = "double" value = "8"/>
+            <input id = "Epsilon" type = "double" value = "0"/>
+            <input id = "Input1" type = "SourceImageType" value = ""/>
+            <input id = "Input2" type = "BoundaryProfileImageType" value = ""/>
+            <input id = "Polarity" type = "bool" value = "0"/>
+        </filter>
+        <filter id="PermuteAxesImageFilter">
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                <argument id = "OrderArrayType">
+                    <type id = "FixedArray">
+                        <argument id = "ValueType">
+                            <type id = "unsigned int"/>
+                        </argument>
+                    </type>
+                </argument>            
+            </declarations>
+            
+            <input id = "Order" type = "ARG( OrderArrayType )"/>
+        </filter>
+        
+        <filter id="AdaptiveHistogramEqualizationImageFilter">
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+            </declarations>
+            
+            <input id = "Alpha" type = "float" value = ".3"/>
+            <input id = "Beta" type = "float" value = ".3"/>
+            <input id = "Radius" type = "ARG( SizeType )"/>
+            <input id = "UseLookupTable" type = "bool" value = "false"/>
+        </filter>
+        
+        <filter id="ReinitializeLevelSetImageFilter" enabled = "false">
+            <input id = "InputNarrowBandwidth" type = "double" value = "0"/>
+            <input id = "OutputNarrowBandwidth" type = "double" value = "0"/>
+            <input id = "InputNarrowBand" type = "SoItkSFNodeContainer" value = ""/>
+            <input id = "LevelSetValue" type = "double" value = "0.0"/>
+            <input id = "NarrowBanding" type = "bool" value = "false"/>
+            <input id = "NarrowBandwidth" type = "double" value = ""/>
+            <input id = "OutputNarrowBand" type = "SoItkSFNodeContainer" value = "" enabled = "false"/>
+            <filter id="ExtensionVelocitiesImageFilter" enabled = "false">
+
+                <input id = "InputVelocityImage" type = "ARG( InputImageType )" value = ""/>
+                <input id = "InputVelocityImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+                <input id = "InputVelocityImage" access = "getType" type = "ARG( 0 )" value = ""/>
+            </filter>
+        </filter>
+        <filter id="StatisticsImageFilter">
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+            
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                
+                <argument id = "PixelObjectType">
+                    <type id = "SimpleDataObjectDecorator">
+                        <use_argument ref = "OutputPixelType"/>
+                    </type>                
+                </argument>
+                <argument id = "RealObjectType">
+                    <type id = "SimpleDataObjectDecorator">
+                        <argument id = "RealPixelType">
+                            <type id = "double"/>
+                        </argument>
+                    </type>                
+                </argument>
+            </declarations>
+            
+            <output id = "Minimum" type = "float"/>
+            <output id = "MinimumOutput" type = "ARG( PixelObjectType )"/>
+            <output id = "Maximum" type = "float"/>
+            <output id = "MaximumOutput" type = "ARG( PixelObjectType )"/>
+            <output id = "Mean" type = "float"/>
+            <output id = "MeanOutput" type = "ARG( PixelObjectType )"/>
+            <output id = "Sigma" type = "float"/>
+            <output id = "SigmaOutput" type = "ARG( PixelObjectType )"/>
+            <output id = "Variance" type = "float"/>
+            <output id = "VarianceOutput" type = "ARG( PixelObjectType )"/>
+            <output id = "Sum" type = "float"/>
+            <output id = "SumOutput" type = "ARG( PixelObjectType )"/>
+  
+        </filter>
+        <filter id="ObjectMorphologyImageFilter">
+            <abstract/>
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>    
+            </arguments>
+            
+            <input id = "Kernel" type = "ARG( KernelType )" value = ""/>
+            <input id = "ObjectValue" type = "float" value = "0"/>
+            <input id = "UseBoundaryCondition" type = "bool" value = "false"/>
+            
+            <filter id="DilateObjectMorphologyImageFilter">
+            </filter>
+            
+            <filter id="ErodeObjectMorphologyImageFilter">
+                <input id = "BackgroundValue" type = "OutputPixelType" value = ""/>
+            </filter>            
+        </filter>
+        
+        <filter id="BloxBoundaryPointImageToBloxBoundaryProfileImageFilter" enabled = "false">
+            <input id = "Input1" type = "SourceImageType" value = ""/>
+            <input id = "Input2" type = "BoundaryPointImageType" value = ""/>
+        </filter>
+        <filter id="LabelStatisticsImageFilter" enabled = "false">
+            <input id = "HistogramParameters" type = "int" value = "" enabled = "false"/>
+            <input id = "LabelImage" type = "ARG( InputImageType )" value = ""/>
+            <input id = "LabelImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "LabelImage" access = "getType" type = "ARG( 0 )" value = ""/>
+            <input id = "UseHistograms" type = "bool" value = "false" enabled = "false"/>
+        </filter>
+        <filter id="ReflectImageFilter">
+            <input id = "Direction" type = "unsigned int" value = "0"/>
+        </filter>
+        <filter id="HoughTransform2DCirclesImageFilter" enabled = "false">
+            <input id = "DiscRadiusRatio" type = "float" value = "1"/>
+            <input id = "MaximumRadius" type = "double" value = "10"/>
+            <input id = "MinimumRadius" type = "double" value = "0"/>
+            <input id = "NumberOfCircles" type = "unsigned int" value = "1"/>
+            <input id = "Radius" type = "double" value = ""/>
+            <input id = "SigmaGradient" type = "double" value = "1"/>
+            <input id = "SweepAngle" type = "float" value = "0.0"/>
+            <input id = "Threshold" type = "double" value = "0"/>
+            <input id = "Variance" type = "float" value = "10"/>
+        </filter>
+        <filter id="DifferenceOfGaussiansGradientImageFilter" enabled = "false">
+            <input id = "Width" type = "unsigned int" value = "2"/>
+        </filter>
+        <filter id="PadImageFilter">
+            <input id = "PadLowerBound" type = "unsigned long" num = "Dimension"/>
+            <input id = "PadUpperBound" type = "unsigned long" num = "Dimension"/>
+            <filter id="MirrorPadImageFilter">
+            </filter>
+            <filter id="WrapPadImageFilter">
+            </filter>
+            <filter id="ConstantPadImageFilter">
+                <input id = "Constant" type = "float" value = "0"/>
+            </filter>
+        </filter>
+        <filter id="WarpImageFilter" enabled = "false">
+            <input id = "DeformationField" type = "DeformationFieldType" value = ""/>
+            <input id = "EdgePaddingValue" type = "OutputPixelType" value = "0"/>
+            <input id = "OutputOrigin" type = "double" value = "0.0"/>
+            <input id = "OutputSpacing" type = "double" value = "1.0"/>
+        </filter>
+        <filter id="ScalarImageKmeansImageFilter">
+        
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+            </declarations>
+        
+            <input id = "ImageRegion" type = "ARG( ImageRegionType )"/>
+            <input id = "UseNonContiguousLabels" type = "bool" value = "false"/>
+        </filter>
+        <filter id="RegionGrowImageFilter">
+            <abstract/>
+            <input id = "GridSize" type = "ARG( SizeType )" value = ""/>
+            <input id = "MaximumNumberOfRegions" type = "unsigned int" value = "0"/>
+            <filter id="KLMRegionGrowImageFilter" enabled = "false">
+                <declarations>
+                    <argument id = "LabelImageType">
+                        <type id = "Image">
+                            <argument id = "RegionLabelType">
+                                <type id = "unsigned int"/>
+                            </argument>
+                        </type>
+                    </argument>
+                    <use_argument ref = "Dimension"/>
+                </declarations>                
+                <input id = "MaximumLambda" type = "double" value = ""/>
+                <input id = "NumberOfRegions" type = "unsigned int" value = "1"/>
+                <output id = "LabelledImage" type = "ARG( LabelImageType )"/>
+            </filter>
+        </filter>
+        <filter id="ChangeInformationImageFilter">
+        
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                
+                <argument id = "MatrixType">
+                    <type id = "Matrix">
+                        <argument id = "ValueType">
+                            <type id = "double"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                        <use_argument ref = "Dimension"/>
+                    </type>                
+                </argument>
+                
+                <argument id = "SpacingVectorType">
+                    <type id = "Vector">
+                        <argument id = "ValueType">
+                            <type id = "double"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                    </type>
+                </argument>
+                
+            </declarations>
+        
+            <input id = "CenterImage" type = "bool" value = "false"/>
+            <input id = "ChangeDirection" type = "bool" value = "false"/>
+            <input id = "ChangeOrigin" type = "bool" value = "false"/>
+            <input id = "ChangeRegion" type = "bool" value = "false"/>
+            <input id = "ChangeSpacing" type = "bool" value = "false"/>
+            <input id = "OutputDirection" type = "ARG( MatrixType )"/>
+            <input id = "OutputOrigin" type = "ARG( PointType )"/>
+            <input id = "OutputSpacing" type = "ARG( SpacingVectorType )"/>
+            <input id = "ReferenceImage" type = "ARG( InputImageType )"/>
+            <input id = "UseReferenceImage" type = "bool" value = "false"/>
+        </filter>
+        <filter id="BayesianClassifierImageFilter" enabled = "false">
+        </filter>
+        <filter id="FastChamferDistanceImageFilter" enabled = "false">
+            <input id = "MaximumDistance" type = "float" value = "10.0"/>
+            <input id = "NarrowBand" type = "NarrowBandType" value = "0"/>
+            <input id = "RegionToProcess" type = "ARG( ImageRegionType )" value = ""/>
+        </filter>
+        <filter id="VotingBinaryImageFilter">
+            <input id = "BackgroundValue" type = "float" value = "0"/>
+            <input id = "BirthThreshold" type = "float" value = "1" enabled = "false"/>
+            <input id = "ForegroundValue" type = "float" value = "65535"/>
+            <input id = "Radius" type = "ARG( SizeType )" value = ""/>
+            <input id = "SurvivalThreshold" type = "float" value = "1" enabled = "false"/>
+            <filter id="VotingBinaryHoleFillingImageFilter">
+                <input id = "BirthThreshold" type = "float" value = "" enabled = "false"/>
+                <input id = "MajorityThreshold" type = "unsigned int" value = "1"/>
+                <input id = "SurvivalThreshold" type = "float" value = "" enabled = "false"/>
+            </filter>
+        </filter>
+        <filter id="VectorResampleImageFilter" enabled = "false">
+            <input id = "DefaultPixelValue" type = "float" value = "0"/>
+            <input id = "OutputOrigin" type = "double" value = "0.0"/>
+            <input id = "OutputSpacing" type = "double" value = "1.0"/>
+            <input id = "OutputStartIndex" type = "float" value = "0"/>
+            <input id = "Size" type = "ARG( SizeType )" value = "0"/>
+        </filter>
+        <filter id="NeighborhoodConnectedImageFilter">
+            <input id = "Lower" type = "float" value = "0"/>
+            <input id = "Radius" type = "ARG( SizeType )"/>
+            <input id = "ReplaceValue" type = "float" value = "1"/>
+            <input id = "Seed" type = "ARG( SeedVectorType )"/>
+            <input id = "Upper" type = "float" value = "65535"/>
+        </filter>
+        <filter id="ContourDirectedMeanDistanceImageFilter">
+            <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="SignedDanielssonDistanceMapImageFilter">
+            <input id = "InsideIsPositive" type = "bool" value = "false"/>
+            <input id = "SquaredDistance" type = "bool" value = "false"/>
+            <input id = "UseImageSpacing" type = "bool" value = "false"/>
+        </filter>
+        <filter id="LaplacianImageFilter">
+            <input id = "UseImageSpacing" type = "bool" value = "true"/>
+        </filter>
+        <filter id="TobogganImageFilter">
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+            </declarations>
+        </filter>
+        <filter id="MultiResolutionPyramidImageFilter">
+            <declarations>
+                <argument id = "Array2DType">
+                    <type id = "Array2D">
+                        <argument id = "ValueType">
+                            <type id = "unsigned int"/>
+                        </argument>
+                    </type>
+                </argument>
+            </declarations>
+            <input id = "MaximumError" type = "double" value = "0.1"/>
+            <input id = "NumberOfLevels" type = "unsigned" value = "0"/>
+            <input id = "Schedule" type = "ARG( Array2DType )"/>
+            <input id = "StartingShrinkFactors" type = "unsigned" value = ""/>
+            
+            <filter id="RecursiveMultiResolutionPyramidImageFilter" enabled = "false">
+            </filter>
+        </filter>
+        <filter id="ZeroCrossingImageFilter">
+            <input id = "BackgroundValue" type = "float" value = "0"/>
+            <input id = "ForegroundValue" type = "float" value = "1"/>
+        </filter>
+        <filter id="VectorFuzzyConnectednessImageFilter" enabled = "false">
+            <input id = "HomogeneityMatrix" type = "DoubleMatrixType" value = ""/>
+            <input id = "NumberOfObjects" type = "int" value = ""/>
+            <input id = "ObjectsMatrix" type = "DoubleMatrixType" value = ""/>
+            <input id = "ObjectsMean" type = "DoubleVectorType" value = ""/>
+            <input id = "ObjectsSeed" type = "IndexType" value = ""/>
+            <input id = "SuppressBckgFlag" type = "int" value = "flag"/>
+            <input id = "Threshold" type = "float" value = "threshold"/>
+        </filter>
+        <filter id="MinimumMaximumImageFilter">
+        
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                
+                <argument id = "PixelObjectType">
+                    <type id = "SimpleDataObjectDecorator">
+                        <use_argument ref = "OutputPixelType"/>
+                    </type>                
+                </argument>                
+            </declarations>
+            
+            <output id = "Minimum" type = "float"/>
+            <output id = "MinimumOutput" type = "ARG( PixelObjectType )"/>
+            <output id = "Maximum" type = "float"/>
+            <output id = "MaximumOutput" type = "ARG( PixelObjectType )"/>          
+            
+        </filter>
+        <filter id="VectorGradientMagnitudeImageFilter" enabled = "false">
+            <input id = "DerivativeWeights" type = "float" value = ""/>
+            <input id = "NeighborhoodRadius" type = "SoItkSFSize" value = ""/>
+            <input id = "UseImageSpacing" type = "bool" value = "false"/>
+            <input id = "UsePrincipleComponents" type = "bool" value = "true"/>
+        </filter>
+        <filter id="CannyEdgeDetectionImageFilter">
+            <input id = "LowerThreshold" type = "float" value = "0"/>
+            <input id = "MaximumError" type = "float" value = "0.01"/>
+            <input id = "OutsideValue" type = "float" value = "0"/>
+            <input id = "Threshold" type = "float" value = "0"/>
+            <input id = "UpperThreshold" type = "float" value = "0"/>
+            <input id = "Variance" type = "float" value = "0.0"/>
+        </filter>
+        <filter id="NormalizeImageFilter">
+        </filter>
+        <filter id="AccumulateImageFilter">
+            <input id = "AccumulateDimension" type = "unsigned int" value = ""/>
+            <input id = "Average" type = "bool" value = "false"/>
+        </filter>
+        <filter id="RecursiveSeparableImageFilter">
+            <abstract/>
+            <input id = "Direction" type = "unsigned int" value = "0"/>
+            <input id = "Up" type = "float" value = "" enabled = "false"/>
+            <filter id="RecursiveGaussianImageFilter">
+                <enum id = "OrderEnumType">
+                    <item id = "ZeroOrder"/>
+                    <item id = "FirstOrder"/>
+                    <item id = "SecondOrder"/>
+                </enum>
+                <input id = "NormalizeAcrossScale" type = "bool" value = "false"/>
+                <input id = "Order" type = "OrderEnumType" value = "ZeroOrder"/>
+                <input id = "Sigma" type = "float" value = "1.0"/>
+                <input id = "Up" type = "float" value = "" enabled = "false"/>
+            </filter>
+        </filter>
+        <filter id="MRFImageFilter" enabled = "false">
+            <input id = "Classifier" type = "typename" value = ""/>
+            <input id = "ErrorTolerance" type = "double" value = ""/>
+            <input id = "MRFNeighborhoodWeight" type = "std" value = ""/>
+            <input id = "MaximumNumberOfIterations" type = "unsigned int" value = ""/>
+            <input id = "NeighborhoodRadius" type = "unsigned" value = ""/>
+            <input id = "NumberOfClasses" type = "unsigned int" value = ""/>
+            <input id = "SmoothingFactor" type = "double" value = ""/>
+        </filter>
+        <filter id="WatershedImageFilter">
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+            </declarations>
+            <input id = "Level" type = "double" value = ""/>
+            <input id = "Threshold" type = "double" value = ""/>
+        </filter>
+        <filter id="STAPLEImageFilter">
+            
+                
+                
+            
+            <input id = "ConfidenceWeight" type = "double" value = "1.0"/>
+            <input id = "ForegroundValue" type = "float" value = "1"/>
+            <input id = "MaximumIterations" type = "unsigned int" value = "65535"/>
+        </filter>
+        <filter id="SimpleFuzzyConnectednessImageFilterBase">
+        
+            <declarations>
+                <argument id = "FuzzySceneImageType">
+                    <type id = "Image">
+                        <argument id = "FuzzyPixelType">
+                            <type id = "unsigned short"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                    </type>
+                </argument>
+            
+            </declarations>
+            
+                
+                
+            
+            <abstract/>
+            <input id = "InsideValue" type = "float" value = ""/>
+            <input id = "ObjectSeed" type = "ARG( SeedType )" value = ""/>
+            <input id = "OutsideValue" type = "float" value = ""/>
+            <input id = "Threshold" type = "double" value = "1.0"/>
+            <input id = "Weight" type = "double" value = "1.0"/>
+            <output id = "FuzzyScene" type = "ARG( FuzzySceneImageType )"/>
+            
+            
+            <filter id="SimpleFuzzyConnectednessRGBImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "Diff_Variance" type = "double" value = ""/>
+                <input id = "Variance" type = "double" value = ""/>
+            </filter>
+            <filter id="SimpleFuzzyConnectednessScalarImageFilter">              
+                                       
+                
+                <input id = "Diff_Mean" type = "double" value = "0.0"/>
+                <input id = "Diff_Variance" type = "double" value = "0.0"/>
+                <input id = "Mean" type = "double" value = "0.0"/>
+                <input id = "Parameters" type = "double" value = "" enabled = "false"/>
+                <input id = "Variance" type = "double" value = "0.0"/>
+            </filter>
+        </filter>
+        <filter id="GrayscaleMorphologicalOpeningImageFilter">
+
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>    
+            </arguments>
+            
+            <input id = "Kernel" type = "ARG( KernelType )" value = ""/>
+        </filter>
+        <filter id="SimilarityIndexImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "Input1" type = "InputImage1Type" value = ""/>
+            <input id = "Input2" type = "InputImage2Type" value = ""/>
+        </filter>
+        <filter id="GrayscaleGrindPeakImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+        </filter>
+        <filter id="GrayscaleGeodesicDilateImageFilter">
+            
+                
+                
+             <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "MarkerImage" type = "ARG( InputImageType )" value = ""/>
+            <input id = "MarkerImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "MarkerImage" access = "getType" type = "ARG( 0 )" value = ""/>
+            <input id = "RunOneIteration" type = "bool" value = "false"/>
+        </filter>
+        <filter id="ReconstructionByErosionImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "MarkerImage" type = "ARG( InputImageType )" value = ""/>
+            <input id = "MarkerImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "MarkerImage" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="NonThreadedShrinkImageFilter">                
+            
+            <input id = "ShrinkFactor" type = "unsigned" value = "" enabled = "false"/>
+            <input id = "ShrinkFactors" type = "unsigned" value = ""/>
+        </filter>
+        <filter id="BlackTopHatImageFilter">
+            
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>    
+            </arguments>
+            
+            <input id = "Kernel" type = "ARG( KernelType )"/>
+        </filter>
+        <filter id="CollidingFrontsImageFilter">
+            
+                
+                
+            
+            <input id = "ApplyConnectivity" type = "bool" value = "true"/>
+            <input id = "NegativeEpsilon" type = "double" value = ""/>
+            <input id = "SeedPoints1" type = "ARG( NodeContainerType )" value = "NULL"/>
+            <input id = "SeedPoints2" type = "ARG( NodeContainerType )" value = "NULL"/>
+        </filter>
+        <filter id="EigenAnalysis2DImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+            <input id = "Input3" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input3" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input3" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="TileImageFilter">            
+        
+            <declarations>
+                <argument id = "LayoutArrayType">
+                    <type id = "FixedArray">
+                        <argument id = "ValueType">
+                            <type id = "unsigned int"/>
+                        </argument>
+                    </type>
+                </argument>
+            </declarations>
+                
+            <input id = "DefaultPixelValue" type = "OutputPixelType" value = "0"/>
+            <input id = "Layout" type = "ARG( LayoutArrayType )"/>
+        </filter>
+        
+        <filter id="InterpolateImageFilter">
+            
+                
+             <input id = "Distance" type = "double" value = "0"/>
+             <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="ScalarToArrayCastImageFilter" enabled = "false">
+            
+                
+                
+            
+        </filter>
+        <filter id="GradientImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "UseImageSpacing" type = "bool" value = "true"/>
+        </filter>
+        <filter id="ContourMeanDistanceImageFilter">
+            
+                
+                
+            
+            <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="VectorConfidenceConnectedImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "InitialNeighborhoodRadius" type = "unsigned int" value = "1"/>
+            <input id = "Multiplier" type = "double" value = "2.5"/>
+            <input id = "NumberOfIterations" type = "unsigned int" value = "4"/>
+            <input id = "ReplaceValue" type = "float" value = "1"/>
+            <input id = "Seed" type = "SoItkSFSeed" value = ""/>
+        </filter>
+        <filter id="BinaryMedianImageFilter">
+            
+                
+                
+            
+            <input id = "BackgroundValue" type = "float" value = "0"/>
+            <input id = "ForegroundValue" type = "float" value = "65535"/>
+            <input id = "Radius" type = "ARG( SizeType )" value = "1"/>
+        </filter>
+        <filter id="ConnectedComponentImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+        </filter>
+        <filter id="FFTComplexConjugateToRealImageFilter" enabled = "false">
+            
+                
+                
+            
+            <filter id="FFTWComplexConjugateToRealImageFilter" enabled = "false">
+                
+                    
+                    
+                
+            </filter>
+            <filter id="VnlFFTComplexConjugateToRealImageFilter" enabled = "false">
+                
+                    
+                    
+                
+            </filter>
+            <filter id="SCSLComplexConjugateToRealImageFilter" enabled = "false">
+                
+                    
+                    
+                
+            </filter>
+        </filter>
+        <filter id="LabelVotingImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "LabelForUndecidedPixels" type = "float" value = ""/>
+        </filter>
+        <filter id="ShiftScaleImageFilter">
+            
+                
+                
+            
+            <input id = "Scale" type = "float" value = "1"/>
+            <input id = "Shift" type = "float" value = "0"/>
+        </filter>
+        <filter id="DirectedHausdorffDistanceImageFilter">
+            
+                
+                
+            
+            <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="NeighborhoodOperatorImageFilter">
+            <declarations>
+                <use_argument ref = "KernelType"/>
+            </declarations>
+
+            <input id = "Operator" type = "ARG( KernelType )"/>
+            
+            <filter id="NormalizedCorrelationImageFilter">
+            
+                <arguments>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "OutputImageType"/>
+                </arguments>
+                
+                <input id = "MaskImage" type = "ARG( InputImageType )"/>
+                <input id = "Template" type = "ARG( KernelType )"/>
+            </filter>
+            
+            <filter id="MaskNeighborhoodOperatorImageFilter">
+            
+                <arguments>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "OutputImageType"/>
+                </arguments>
+                
+                <input id = "DefaultValue" type = "OutputPixelType"/>
+                <input id = "MaskImage" type = "ARG( InputImageType )"/>
+            </filter>
+            
+        </filter>
+        
+        <filter id="VotingBinaryIterativeHoleFillingImageFilter">
+        
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+            </declarations>
+            
+            <input id = "BackgroundValue" type = "float" value = "0"/>
+            <input id = "CurrentNumberOfIterations" type = "unsigned int" value = "0"/>
+            <input id = "ForegroundValue" type = "float" value = "65535"/>
+            <input id = "MajorityThreshold" type = "unsigned int" value = "1"/>
+            <input id = "MaximumNumberOfIterations" type = "unsigned int" value = "10"/>
+            <input id = "Radius" type = "ARG( SizeType )" value = ""/>
+            
+        </filter>
+        <filter id="HoughTransform2DLinesImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "AngleResolution" type = "float" value = "500"/>
+            <input id = "DiscRadius" type = "float" value = "10"/>
+            <input id = "NumberOfLines" type = "unsigned int" value = "1"/>
+            <input id = "Threshold" type = "float" value = "0"/>
+            <input id = "Variance" type = "float" value = "5"/>
+        </filter>
+        <filter id="GrayscaleFillholeImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+        </filter>
+        <filter id="PolylineMask2DImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "Input1" type = "InputImageType" value = ""/>
+            <input id = "Input2" type = "PolylineType" value = ""/>
+        </filter>
+        <filter id="DiffusionTensor3DReconstructionImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "Threshold" type = "float" value = ""/>
+        </filter>
+        <filter id="HessianRecursiveGaussianImageFilter" enabled = "false">
+        
+            
+                
+                
+            
+            <input id = "NormalizeAcrossScale" type = "bool" value = "false"/>
+            <input id = "Sigma" type = "float" value = ""/>
+        </filter>
+        <filter id="ExpandImageFilter">
+            
+                
+                
+            
+            <input id = "EdgePaddingValue" type = "float" value = "0"/>
+            <input id = "ExpandFactors" type = "unsigned" value = ""/>
+        </filter>
+        <filter id="FFTRealToComplexConjugateImageFilter" enabled = "false">
+            
+                
+                
+            
+            <filter id="SCSLRealToComplexConjugateImageFilter" enabled = "false">
+                
+                    
+                    
+                
+            </filter>
+            <filter id="VnlFFTRealToComplexConjugateImageFilter" enabled = "false">
+                
+                    
+                    
+                
+            </filter>
+            <filter id="FFTWRealToComplexConjugateImageFilter" enabled = "false">
+                
+                    
+                    
+                
+            </filter>
+        </filter>
+        <filter id="CheckerBoardImageFilter">
+        
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                
+                <argument id = "FixedArrayType">
+                    <type id = "FixedArray">
+                        <argument id = "ValueType">
+                            <type id = "unsigned int"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                    </type>
+                </argument>
+            </declarations>           
+                            
+            <input id = "CheckerPattern" type = "ARG( FixedArrayType )"/>
+            <input id = "Input2" type = "ARG( InputImageType )"/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )"/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )"/>
+        </filter>
+        <filter id="GrayscaleMorphologicalClosingImageFilter">
+        
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>    
+            </arguments>
+            
+            <input id = "Kernel" type = "ARG( KernelType )"/>
+        </filter>
+        <filter id="FlipImageFilter">       
+        
+            <arguments>
+                <use_argument ref = "OutputImageType"/>
+            </arguments>
+            <declarations>
+                <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                
+                <argument id = "FixedArrayType">
+                    <type id = "FixedArray">
+                        <argument id = "ValueType">
+                            <type id = "bool"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                    </type>
+                </argument>
+            </declarations>
+            
+            <input id = "FlipAboutOrigin" type = "bool" value = "true"/>
+            <input id = "FlipAxes" type = "ARG( FixedArrayType )" value = ""/>
+        </filter>
+        <filter id="BinomialBlurImageFilter">
+            
+                
+                
+            
+            <input id = "Repetitions" type = "unsigned int" value = "1"/>
+        </filter>
+        <filter id="BSplineDecompositionImageFilter">
+            
+                
+                
+            
+            <input id = "InitialAntiCausalCoefficient" type = "double" value = "" enabled = "false"/>
+            <input id = "InitialCausalCoefficient" type = "double" value = "" enabled = "false"/>
+            <input id = "SplineOrder" type = "unsigned" value = "0"/>
+        </filter>
+        <filter id="MorphologyImageFilter">
+            <abstract/>
+        
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>    
+            </arguments>
+            
+            <input id = "Kernel" type = "ARG( KernelType )" value = ""/>
+            
+            <filter id="GrayscaleFunctionErodeImageFilter">
+               
+            </filter>
+            <filter id="GrayscaleErodeImageFilter">
+                
+            </filter>
+            <filter id="BinaryDilateImageFilter">
+                
+                <input id = "DilateValue" type = "OutputPixelType" value = "0"/>
+            </filter>
+            
+            <filter id="GrayscaleDilateImageFilter">
+            </filter>
+            <filter id="GrayscaleFunctionDilateImageFilter">
+                
+            </filter>
+            <filter id="BinaryErodeImageFilter">
+                
+                <input id = "ErodeValue" type = "OutputPixelType" value = "0"/>
+            </filter>
+        </filter>
+        <filter id="GradientMagnitudeImageFilter">
+            
+                
+                
+            
+            <input id = "UseImageSpacing" type = "bool" value = "true"/>
+        </filter>
+        <filter id="LaplacianSharpeningImageFilter">
+            
+                
+                
+            
+            <input id = "UseImageSpacing" type = "bool" value = "true"/>
+        </filter>
+        <filter id="RegionOfInterestImageFilter">
+            
+                
+                
+            
+            <input id = "RegionOfInterest" type = "ARG( ImageRegionType )" value = ""/>
+        </filter>
+        <filter id="HConcaveImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Height" type = "float" value = "2"/>
+        </filter>
+        <filter id="ApproximateSignedDistanceMapImageFilter">
+            
+                
+                
+            
+            <input id = "InsideValue" type = "float" value = ""/>
+            <input id = "OutsideValue" type = "float" value = ""/>
+        </filter>
+        <filter id="Hessian3DToVesselnessMeasureImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "Alpha1" type = "double" value = "0.5"/>
+            <input id = "Alpha2" type = "double" value = "2.0"/>
+        </filter>
+        <filter id="FastMarchingImageFilter">
+              
+            <input id = "TrialPoints" type = "ARG( NodeContainerType )"/>
+            <input id = "AlivePoints" type = "ARG( NodeContainerType )"/>
+            <input id = "SpeedConstant" type = "double" value = "1.0"/>
+            <input id = "StoppingValue" type = "double" value = ""/>
+            <input id = "NormalizationFactor" type = "double" value = "1.0"/>
+            <input id = "OutputOrigin" type = "ARG( PointType )"/>
+            <input id = "OutputRegion" type = "ARG( ImageRegionType )"/>
+            <input id = "OutputSize" type = "ARG( SizeType )" value = ""/>
+            <input id = "OutputSpacing" type = "float" value = "1.0"/>
+            <input id = "OverrideOutputInformation" type = "bool" value = "false"/>
+            <input id = "Axis" type = "int" value = "" enabled = "false"/>
+            <input id = "CollectPoints" type = "bool" value = "false"/>
+            
+            <filter id="FastMarchingUpwindGradientImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "GenerateGradientImage" type = "bool" value = "false"/>
+                <input id = "TargetOffset" type = "double" value = "1.0"/>
+                <input id = "TargetPoints" type = "NodeContainer" value = "NULL"/>
+                <input id = "TargetReachedMode" type = "int" value = "OneTarget"/>
+            </filter>
+            <filter id="FastMarchingExtensionImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "AuxiliaryAliveValues" type = "AuxValueContainer" value = ""/>
+                <input id = "AuxiliaryTrialValues" type = "AuxValueContainer" value = ""/>
+            </filter>
+        </filter>
+        <filter id="DifferenceImageFilter">
+            
+                
+                
+            
+            <input id = "DifferenceThreshold" type = "float" value = "0"/>
+            <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+            <input id = "ToleranceRadius" type = "int" value = "0"/>
+        </filter>
+        <filter id="VoronoiSegmentationImageFilterBase" enabled = "false">
+            
+                
+                
+            
+            <abstract/>
+            <input id = "InteractiveSegmentation" type = "bool" value = "false"/>
+            <input id = "MeanDeviation" type = "double" value = "0.8"/>
+            <input id = "MinRegion" type = "int" value = "20"/>
+            <input id = "NumberOfSeeds" type = "int" value = "200"/>
+            <input id = "OutputBoundary" type = "bool" value = "false"/>
+            <input id = "Seeds" type = "int" value = ""/>
+            <input id = "Steps" type = "int" value = "0"/>
+            <input id = "UseBackgroundInAPrior" type = "bool" value = "false"/>
+            <filter id="VoronoiSegmentationImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "Mean" type = "double" value = ""/>
+                <input id = "MeanPercentError" type = "double" value = ""/>
+                <input id = "MeanTolerance" type = "double" value = ""/>
+                <input id = "STD" type = "double" value = ""/>
+                <input id = "STDPercentError" type = "double" value = ""/>
+                <input id = "STDTolerance" type = "double" value = ""/>
+            </filter>
+            <filter id="VoronoiSegmentationRGBImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "Input" type = "InputImageType" value = ""/>
+                <input id = "MaxValueOfRGB" type = "double" value = "256"/>
+                <input id = "Mean" type = "double" value = ""/>
+                <input id = "MeanPercentError" type = "double" value = ""/>
+                <input id = "STD" type = "double" value = ""/>
+                <input id = "STDPercentError" type = "double" value = ""/>
+                <input id = "TestMean" type = "unsigned" value = ""/>
+                <input id = "TestSTD" type = "unsigned" value = ""/>
+            </filter>
+            <filter id="VoronoiPartitioningImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "SigmaThreshold" type = "double" value = ""/>
+            </filter>
+        </filter>
+        <filter id="ShrinkImageFilter">
+            
+                
+                
+            
+            <input id = "ShrinkFactor" type = "unsigned" value = "" enabled = "false"/>
+            <input id = "ShrinkFactors" type = "unsigned" value = ""/>
+        </filter>
+        <filter id="NoiseImageFilter">
+            
+                
+                
+            
+            <input id = "Radius" type = "ARG( SizeType )" value = "1"/>
+        </filter>
+        <filter id="ConfidenceConnectedImageFilter">
+            
+                
+                
+            
+            <input id = "InitialNeighborhoodRadius" type = "unsigned int" value = "1"/>
+            <input id = "Multiplier" type = "double" value = "2.5"/>
+            <input id = "NumberOfIterations" type = "unsigned int" value = "4"/>
+            <input id = "ReplaceValue" type = "OutputImagePixelType" value = "1"/>
+            <input id = "Seed" type = "ARG( SeedType )" value = ""/>
+        </filter>
+        <filter id="HausdorffDistanceImageFilter">
+            
+                
+                
+            
+             <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+            <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="WarpVectorImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "DeformationField" type = "DeformationFieldType" value = ""/>
+            <input id = "EdgePaddingValue" type = "OutputPixelType" value = ""/>
+            <input id = "OutputOrigin" type = "double" value = "0.0"/>
+            <input id = "OutputSpacing" type = "double" value = "1.0"/>
+        </filter>
+        <filter id="PolylineMaskImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "CameraCenterPoint" type = "PointType" value = "0"/>
+            <input id = "FocalDistance" type = "double" value = "0.0"/>
+            <input id = "FocalPoint" type = "ProjPlanePointType" value = "0.0"/>
+            <input id = "Input1" type = "InputImageType" value = ""/>
+            <input id = "Input2" type = "PolylineType" value = ""/>
+            <input id = "UpVector" type = "VectorType" value = "1"/>
+            <input id = "ViewVector" type = "VectorType" value = "1"/>
+        </filter>
+        <filter id="StreamingImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "NumberOfStreamDivisions" type = "unsigned int" value = "10"/>
+        </filter>
+        <filter id="HistogramMatchingImageFilter">
+            
+                
+                
+  
+            <input id = "NumberOfHistogramLevels" type = "unsigned long" value = "256"/>
+            <input id = "NumberOfMatchPoints" type = "unsigned long" value = "1"/>
+            <input id = "ReferenceImage" type = "ARG( InputImageType )" value = ""/>
+            <input id = "ReferenceImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "ReferenceImage" access = "getType" type = "ARG( 0 )" value = ""/>
+            <input id = "ThresholdAtMeanIntensity" type = "bool" value = "true"/>
+        </filter>
+        <filter id="OtsuThresholdImageFilter">
+            
+                
+                
+            <input id = "NumberOfHistogramBins" type = "float" value = "1"/>
+            <input id = "InsideValue" type = "float" value = "65535"/>
+            <input id = "OutsideValue" type = "float" value = "0"/>
+        </filter>
+        <filter id="GetAverageSliceImageFilter">
+            
+                
+                
+            
+            <input id = "AveragedOutDimension" type = "int" value = "0"/>
+            <input id = "Direction" type = "unsigned int" value = "0"/>
+        </filter>
+        <filter id="MidsagittalPlaneExtractionImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "Direction" type = "unsigned int" value = "0"/>
+        </filter>
+        <filter id="IsolatedWatershedImageFilter">
+            
+                
+                
+            
+            <input id = "IsolatedValueTolerance" type = "double" value = "0.001"/>
+            <input id = "ReplaceValue1" type = "float" value = "1"/>
+            <input id = "ReplaceValue2" type = "float" value = "0"/>
+            <input id = "Seed1" type = "ARG( SeedType )" value = "0"/>
+            <input id = "Seed2" type = "ARG( SeedType )" value = "0"/>
+            <input id = "Threshold" type = "double" value = "0"/>
+            <input id = "UpperValueLimit" type = "double" value = "1.0"/>
+        </filter>
+        <filter id="BSplineResampleImageFilterBase">
+        
+            <filter id="BSplineDownsampleImageFilter">
+
+            </filter>
+            
+            <filter id="BSplineUpsampleImageFilter">
+
+            </filter>                                         
+            
+            <abstract/>
+            <input id = "SplineOrder" type = "int" value = "1"/>
+            <filter id="BSplineCenteredResampleImageFilterBase">
+                
+                    
+                    
+                
+                <abstract/>
+                <filter id="BSplineCenteredL2ResampleImageFilterBase">
+                    
+                        
+                        
+                    
+                    <abstract/>
+                </filter>
+            </filter>
+            <filter id="BSplineL2ResampleImageFilterBase" enabled = "false">
+                
+                    
+                    
+                
+                <abstract/>
+            </filter>
+        </filter>
+        <filter id="VectorNeighborhoodOperatorImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "Operator" type = "Neighborhood" value = "p"/>
+        </filter>
+        <filter id="InPlaceImageFilter">
+            
+                
+                
+            
+            <abstract/>
+            <input id = "InPlace" type = "bool" value = ""/>
+            <filter id="UnaryFunctorImageFilter">
+                
+                    
+                    
+                
+                <abstract/>
+                <input id = "Functor" type = "FunctorType" value = "functor" enabled = "false"/>
+                <filter id="SigmoidImageFilter">
+                    
+                        
+                        
+                    
+                    <input id = "Alpha" type = "double" value = "1.0"/>
+                    <input id = "Beta" type = "double" value = "0.0"/>
+                    <input id = "OutputMaximum" type = "float" value = ""/>
+                    <input id = "OutputMinimum" type = "float" value = ""/>
+                </filter>
+                <filter id="ExpImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="LogImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="AcosImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="VectorIndexSelectionCastImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                    <input id = "Index" type = "unsigned" value = "0"/>
+                </filter>
+                <filter id="CastImageFilter">
+                   
+                <arguments>
+                    <argument id = "InputImageType">
+                        <type id = "Image">
+                        <argument id = "InputPixelType">
+                            <type id = "float"/>
+                            <type id = "unsigned short"/>
+                            <type id = "bool"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                        </type>
+                    </argument>
+                    <argument id = "OutputImageType">
+                        <type id = "Image">
+                        <argument id = "OutputPixelType">
+                            <type id = "float"/>
+                            <type id = "unsigned short"/>
+                            <type id = "bool"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                        </type>
+                    </argument>
+                </arguments>
+                <enum id = "OutputPixelTypeEnum" type = "ARG( OutputPixelType )">
+                    <item id = "FLOAT" value = "float"/>
+                    <item id = "UNSIGNED_SHORT" value = "unsigned short"/>
+                    <item id = "BOOL" value = "bool"/>
+                </enum>                              
+                <input id = "OutputPixelType" type = "OutputPixelTypeEnum" value = "FLOAT"/>
+                </filter>
+                <filter id="ComplexToRealImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="CosImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="GradientToMagnitudeImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="ChangeLabelImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                    <input id = "Change" type = "InputPixelType" value = ""/>
+                    <input id = "ChangeMap" type = "ChangeMapType" value = "changeMap"/>
+                </filter>
+                <filter id="ComplexToPhaseImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="AdaptImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                    <input id = "Accessor" type = "AccessorType" value = "accessor"/>
+                </filter>
+                <filter id="SquareImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="BoundedReciprocalImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="ExpNegativeImageFilter">
+                    
+                        
+                        
+                    
+                    <input id = "Factor" type = "double" value = "1.0"/>
+                </filter>
+                <filter id="SinImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="VectorRescaleIntensityImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                    <input id = "Factor" type = "float" value = ""/>
+                    <input id = "OutputMaximumMagnitude" type = "float" value = ""/>
+                </filter>
+                <filter id="AbsImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="TensorRelativeAnisotropyImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="Log10ImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="EdgePotentialImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="NotImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="ThresholdLabelerImageFilter" enabled = "false">
+                    
+                        
+                        
+                    <input id = "LabelOffset" type = "float" value = "0"/>
+                    <input id = "LabelOffset" type = "TOutput" value = "0"/>
+                    <input id = "Thresholds" type = "ThresholdVector" value = "thresholds"/>
+                </filter>
+                <filter id="IntensityWindowingImageFilter">                        
+                    
+                    <input id = "OutputMaximum" type = "float" value = "65535"/>
+                    <input id = "OutputMinimum" type = "float" value = "0"/>
+                    <input id = "WindowLevel" type = "float" value = "" enabled = "false"/>
+                    <input id = "WindowMaximum" type = "float" value = "65535"/>
+                    <input id = "WindowMinimum" type = "float" value = "0"/>
+                </filter>
+                <filter id="BinaryThresholdImageFilter">
+                    
+                        
+                        
+                    
+                    <input id = "InsideValue" type = "float" value = "65535"/>
+                    <input id = "LowerThreshold" type = "float" value = "0"/>
+                    <input id = "LowerThresholdInput" type = "float" value = "" enabled = "false"/>
+                    <input id = "OutsideValue" type = "float" value = "0"/>
+                    <input id = "UpperThreshold" type = "float" value = ""/>
+                    <input id = "UpperThresholdInput" type = "float" value = "" enabled = "false"/>
+                </filter>
+                <filter id="AsinImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="TensorFractionalAnisotropyImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="SqrtImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="TanImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="RGBToLuminanceImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="ComplexToModulusImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="VectorCastImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="RescaleIntensityImageFilter">
+
+                    <arguments>
+                        <argument id = "InputImageType">
+                            <type id = "Image">
+                            <argument id = "InputPixelType">
+                                <type id = "float"/>
+                                <type id = "unsigned short"/>
+                            </argument>
+                            <use_argument ref = "Dimension"/>
+                            </type>
+                        </argument>
+                        <argument id = "OutputImageType">
+                            <type id = "Image">
+                            <argument id = "OutputPixelType">
+                                <type id = "float"/>
+                                <type id = "unsigned short"/>
+                            </argument>
+                            <use_argument ref = "Dimension"/>
+                            </type>
+                        </argument>
+                    </arguments>
+                    <enum id = "OutputPixelTypeEnum" type = "ARG( OutputPixelType )">
+                        <item id = "FLOAT" value = "float"/>
+                        <item id = "UNSIGNED_SHORT" value = "unsigned short"/>
+                    </enum>
+                    
+                        
+                    <input id = "OutputPixelType" type = "OutputPixelTypeEnum" value = "FLOAT"/>
+                    <input id = "Factor" type = "float" value = "" enabled = "false"/>
+                    <input id = "Maximum" type = "float" value = "" enabled = "false"/>
+                    <input id = "Minimum" type = "float" value = "0" enabled = "false"/>
+                    <input id = "Offset" type = "float" value = "" enabled = "false"/>
+                    <input id = "OutputMaximum" type = "float" value = "65535"/>
+                    <input id = "OutputMinimum" type = "float" value = "0"/>
+                </filter>
+                <filter id="AtanImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="SymmetricEigenAnalysisImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                    <input id = "Dimension" type = "unsigned" value = ""/>
+                </filter>
+                <filter id="ComplexToImaginaryImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                </filter>
+            </filter>
+            <filter id="BinaryFunctorImageFilter">
+                <arguments>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "OutputImageType"/>
+                </arguments>
+                
+                <abstract/>
+                <input id = "Functor" type = "FunctorType" value = "functor" enabled = "false"/>
+                <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+                <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+                <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+                <filter id="Compose2DCovariantVectorImageFilter" enabled = "false">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="JoinImageFilter" enabled = "false">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="BinaryMagnitudeImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="SquaredDifferenceImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="OrImageFilter">
+                
+                    <arguments>
+                        <argument id = "BooleanImageType">
+                            <type id = "Image">
+                                <argument id = "InputPixelType">
+                                    <type id = "bool"/>
+                                </argument>
+                                <use_argument ref = "Dimension"/>
+                            </type>
+                        </argument>
+                        <use_argument ref = "BooleanImageType"/>
+                        <use_argument ref = "BooleanImageType" id = "OutputImageType"/>
+                    </arguments>
+                    <declarations>
+                        <use_argument ref = "BooleanImageType" id = "InputImageType"/>
+                    </declarations>
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="AbsoluteValueDifferenceImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="Compose2DVectorImageFilter" enabled = "false">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="Atan2ImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="DivideImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="AddImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="MaskImageFilter">
+                    
+                        
+                        
+                        
+                    
+                    <input id = "OutsideValue" type = "typename" value = "0"/>
+                </filter>
+                <filter id="MultiplyImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="ConstrainedValueAdditionImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="AndImageFilter">
+
+                    <arguments>
+                        <argument id = "BooleanImageType">
+                            <type id = "Image">
+                                <argument id = "InputPixelType">
+                                    <type id = "bool"/>
+                                </argument>
+                                <use_argument ref = "Dimension"/>
+                            </type>
+                        </argument>
+                        <use_argument ref = "BooleanImageType"/>
+                        <use_argument ref = "BooleanImageType" id = "OutputImageType"/>
+                    </arguments>
+                    <declarations>
+                        <use_argument ref = "BooleanImageType" id = "InputImageType"/>
+                    </declarations>
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="ConstrainedValueDifferenceImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="MaximumImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="XorImageFilter">
+                    <arguments>
+                        <argument id = "BooleanImageType">
+                            <type id = "Image">
+                                <argument id = "InputPixelType">
+                                    <type id = "bool"/>
+                                </argument>
+                                <use_argument ref = "Dimension"/>
+                            </type>
+                        </argument>
+                        <use_argument ref = "BooleanImageType"/>
+                        <use_argument ref = "BooleanImageType" id = "OutputImageType"/>
+                    </arguments>
+                    <declarations>
+                        <use_argument ref = "BooleanImageType" id = "InputImageType"/>
+                    </declarations>
+                    
+                </filter>
+                <filter id="SubtractImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="MinimumImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="MaskNegatedImageFilter">
+                    
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="WeightedAddImageFilter">
+                    
+                        
+                        
+                        
+                    
+                    <input id = "Alpha" type = "RealType" value = "0"/>
+                </filter>
+            </filter>
+            
+            <filter id="PasteImageFilter">
+            
+                <arguments>
+                    <use_argument ref = "OutputImageType"/>
+                </arguments>
+                <declarations>
+                    <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                </declarations>
+                                
+                <input id = "DestinationImage" type = "ARG( InputImageType )"/>
+                <input id = "DestinationImage" access = "getNumDimension" type = "ARG( 1 )"/>
+                <input id = "DestinationImage" access = "getType" type = "ARG( 0 )"/>
+                <input id = "DestinationIndex" type = "ARG( IndexType )"/>
+                <input id = "SourceRegion" type = "ARG( ImageRegionType )"/>
+                
+            </filter>
+            
+            <filter id="GradientMagnitudeRecursiveGaussianImageFilter">
+                
+                    
+                    
+                
+                <input id = "NormalizeAcrossScale" type = "bool" value = "false"/>
+                <input id = "Sigma" type = "float" value = "1"/>
+            </filter>
+            <filter id="ThresholdImageFilter">
+            
+                <arguments>
+                    <use_argument ref = "OutputImageType"/>
+                </arguments>
+                <declarations>
+                    <use_argument ref = "OutputImageType" id = "InputImageType"/>
+                </declarations>
+                
+                <input id = "OutsideValue" type = "float" value = "0"/>
+            </filter>
+            <filter id="ShiftScaleInPlaceImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "Scale" type = "RealType" value = "1"/>
+                <input id = "Shift" type = "RealType" value = "0"/>
+            </filter>
+            <filter id="RelabelComponentImageFilter">
+                
+                    
+                    
+                
+                <input id = "MinimumObjectSize" type = "unsigned long" value = ""/>
+                <input id = "NumberOfObjectsToPrint" type = "unsigned long" value = ""/>
+                <output id = "NumberOfObjects" type = "float"/>
+                <output id = "OriginalNumberOfObjects" type = "float"/>
+            </filter>
+            <filter id="FiniteDifferenceImageFilter">
+            
+                <arguments>
+                    <argument id = "InputImageType">
+                        <type id = "Image">
+                            <argument id = "InputPixelType">
+                                <type id = "float"/>
+                            </argument>
+                            <use_argument ref = "Dimension"/>
+                        </type>
+                    </argument>
+                    <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                </arguments>
+                
+                    
+                    
+                
+                <abstract/>
+                <input id = "ElapsedIterations" type = "unsigned int" value = "0" enabled = "false"/>
+                <input id = "ManualReinitialization" type = "bool" value = "false"/>
+                <input id = "MaximumRMSError" type = "double" value = "0.0"/>
+                <input id = "NumberOfIterations" type = "unsigned int" value = "10"/>
+                <input id = "RMSChange" type = "double" value = "0.0"/>
+                <input id = "State" type = "FilterStateType" value = "UNINITIALIZED" enabled = "false"/>
+                <input id = "UseImageSpacing" type = "bool" value = "false"/>
+                <filter id="NarrowBandImageFilterBase" enabled = "false">
+                    
+                        
+                        
+                    
+                    <abstract/>
+                    <input id = "IsoSurfaceValue" type = "ValueType" value = "0.0"/>
+                    <input id = "NarrowBand" type = "NarrowBandType" value = "ptr"/>
+                    <input id = "NarrowBandInnerRadius" type = "float" value = ""/>
+                    <input id = "NarrowBandTotalRadius" type = "float" value = ""/>
+                    <filter id="NarrowBandLevelSetImageFilter" enabled = "false">
+                        
+                            
+                            
+                        
+                        <input id = "AdvectionScaling" type = "ValueType" value = ""/>
+                        <input id = "CurvatureScaling" type = "ValueType" value = ""/>
+                        <input id = "FeatureImage" type = "FeatureImageType" value = ""/>
+                        <input id = "FeatureScaling" type = "ValueType" value = ""/>
+                        <input id = "InitialImage" type = "InputImageType" value = ""/>
+                        <input id = "MaximumIterations" type = "unsigned" value = ""/>
+                        <input id = "MaximumRMSError" type = "double" value = ""/>
+                        <input id = "PropagationScaling" type = "ValueType" value = ""/>
+                        <input id = "ReverseExpansionDirection" type = "bool" value = "false"/>
+                        <input id = "SegmentationFunction" type = "SegmentationFunctionType" value = "0"/>
+                        <input id = "UseNegativeFeatures" type = "bool" value = ""/>
+                        <filter id="NarrowBandThresholdSegmentationLevelSetImageFilter" enabled = "false">
+                            
+                                
+                                
+                            
+                            <input id = "EdgeWeight" type = "ValueType" value = ""/>
+                            <input id = "LowerThreshold" type = "ValueType" value = ""/>
+                            <input id = "SmoothingConductance" type = "ValueType" value = ""/>
+                            <input id = "SmoothingIterations" type = "int" value = ""/>
+                            <input id = "SmoothingTimeStep" type = "ValueType" value = ""/>
+                            <input id = "UpperThreshold" type = "ValueType" value = ""/>
+                        </filter>
+                        <filter id="NarrowBandCurvesLevelSetImageFilter" enabled = "false">
+                            
+                                
+                                
+                            
+                            <input id = "DerivativeSigma" type = "float" value = ""/>
+                        </filter>
+                    </filter>
+                </filter>
+                <filter id="FiniteDifferenceSparseImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                    <input id = "PrecomputeFlag" type = "bool" value = "false"/>
+                    <input id = "SparseFunction" type = "SparseFunctionType" value = "0" enabled = "false"/>
+                </filter>
+                <filter id="ParallelSparseFieldLevelSetImageFilter" enabled = "false">
+                    
+                        
+                        
+                    
+                    <input id = "IsoSurfaceValue" type = "float" value = "0"/>
+                    <input id = "NumberOfLayers" type = "float" value = "2"/>
+                </filter>
+                <filter id="DenseFiniteDifferenceImageFilter">
+                    
+                        
+                        
+                    
+                    <abstract/>
+                    <filter id="CurvatureFlowImageFilter">
+                        
+                            
+                            
+                        
+                        <input id = "TimeStep" type = "float" value = "0.05f"/>
+                        
+                        <filter id="MinMaxCurvatureFlowImageFilter">
+                            
+                            <input id = "StencilRadius" type = "unsigned long"/>
+                            
+                            <filter id="BinaryMinMaxCurvatureFlowImageFilter">
+                                
+                                    
+                                    
+                                
+                                <input id = "Threshold" type = "double" value = "0.0"/>
+                            </filter>
+                        </filter>
+                    </filter>
+                    <filter id="AnisotropicDiffusionImageFilter">
+                        
+                            
+                            
+                        
+                        <abstract/>
+                        <input id = "ConductanceParameter" type = "double" value = "1.0"/>
+                        <input id = "ConductanceScalingParameter" type = "double" value = "1.0"/>
+                        <input id = "ConductanceScalingUpdateInterval" type = "unsigned int" value = "1"/>
+                        <input id = "FixedAverageGradientMagnitude" type = "double" value = "0.0"/>
+                        <input id = "TimeStep" type = "float" value = ""/>
+                        <filter id="CurvatureAnisotropicDiffusionImageFilter">
+                            
+                                
+                                
+                            
+                        </filter>
+                        <filter id="VectorCurvatureAnisotropicDiffusionImageFilter" enabled = "false">
+                            
+                                
+                                
+                            
+                        </filter>
+                        <filter id="VectorGradientAnisotropicDiffusionImageFilter" enabled = "false">
+                            
+                                
+                                
+                            
+                        </filter>
+                        <filter id="GradientAnisotropicDiffusionImageFilter">
+                            
+                                
+                                
+                            
+                        </filter>
+                    </filter>
+                </filter>
+                <filter id="SparseFieldLevelSetImageFilter">               
+
+                                        
+                    <abstract/>
+                    <input id = "InterpolateSurfaceLocation" type = "bool" value = "true"/>
+                    <input id = "IsoSurfaceValue" type = "float" value = "0"/>
+                    <input id = "NumberOfLayers" type = "unsigned int" value = "2"/>
+                    
+                    <filter id="SparseFieldFourthOrderLevelSetImageFilter">
+                        
+                        <abstract/>
+                        <input id = "CurvatureBandWidth" type = "float"/>
+                        <input id = "LevelSetFunction" type = "LevelSetFunctionType" value = "0" enabled = "false"/>
+                        <input id = "MaxNormalIteration" type = "unsigned int" value = "25"/>
+                        <input id = "MaxRefitIteration" type = "unsigned int" value = "100"/>
+                        <input id = "NormalProcessConductance" type = "float" value = "0"/>
+                        <input id = "NormalProcessType" type = "int" value = "0"/>
+                        <input id = "NormalProcessUnsharpFlag" type = "bool" value = "false"/>
+                        <input id = "NormalProcessUnsharpWeight" type = "float" value = "0"/>
+                        <input id = "NumberOfLayers" type = "unsigned" value = ""/>
+                        <input id = "RMSChangeNormalProcessTrigger" type = "float" value = "0"/>
+                        <filter id="IsotropicFourthOrderLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                            <input id = "MaxFilterIteration" type = "unsigned int" value = "1000"/>
+                        </filter>
+                        <filter id="AnisotropicFourthOrderLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                            <input id = "MaxFilterIteration" type = "unsigned int" value = "1000"/>
+                        </filter>
+                        <filter id="UnsharpMaskLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                            <input id = "MaxFilterIteration" type = "unsigned int" value = "99"/>
+                        </filter>
+                    </filter>
+                    <filter id="SegmentationLevelSetImageFilter">
+                        
+                            
+                            
+                        
+                        <abstract/>
+                        <input id = "FeatureImage" type = "ARG( InputImageType )" multiple = "false"/>
+                        <input id = "FeatureImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+                        <input id = "FeatureImage" access = "getType" type = "ARG( 0 )" value = ""/>                        
+                        
+                        <input id = "FeatureScaling" type = "float" value = "1"/>
+                        <input id = "CurvatureScaling" type = "float" value = "1"/>
+                        <input id = "AdvectionScaling" type = "float" value = "0"/>                        
+                        <input id = "PropagationScaling" type = "float" value = "0"/>
+                        
+                        <input id = "MaximumCurvatureTimeStep" type = "double" value = "0"/>
+                        <input id = "MaximumPropagationTimeStep" type = "double" value = "0"/>
+                        <input id = "ReverseExpansionDirection" type = "bool" value = "false"/>
+                        <input id = "UseMinimalCurvature" type = "bool" value = "false"/>
+                        
+                        <filter id="ShapePriorSegmentationLevelSetImageFilter">
+                        <abstract/>
+                            
+                                
+                                
+                            
+                            <input id = "InitialParameters" type = "ParametersType" value = ""/>
+                            <input id = "ShapePriorScaling" type = "ValueType" value = ""/>
+                            <input id = "ShapeFunction" type = "ShapeFunctionType" value = "NULL" enabled = "false"/>
+                            <input id = "ShapePriorSegmentationFunction" type = "ShapePriorSegmentationFunctionType" value = "NULL" enabled = "false"/>
+                            
+                            <filter id="GeodesicActiveContourShapePriorLevelSetImageFilter">
+                                
+                                    
+                                    
+                                
+                                <input id = "DerivativeSigma" type = "float" value = ""/>
+                            </filter>
+                        </filter>
+                        <filter id="ShapeDetectionLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                        </filter>
+                        <filter id="CurvesLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                            <input id = "DerivativeSigma" type = "float" value = ""/>
+                        </filter>
+                        <filter id="CannySegmentationLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                            <input id = "Threshold" type = "float" value = ""/>
+                            <input id = "Variance" type = "double" value = ""/>
+                        </filter>
+                        <filter id="GeodesicActiveContourLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                            <input id = "DerivativeSigma" type = "float" value = ""/>
+                        </filter>
+                        <filter id="LaplacianSegmentationLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                        </filter>
+                        <filter id="ThresholdSegmentationLevelSetImageFilter">
+                            
+                                
+                                
+                            
+                            <input id = "EdgeWeight" type = "float" value = ""/>
+                            <input id = "LowerThreshold" type = "float" value = ""/>
+                            <input id = "SmoothingConductance" type = "float" value = ""/>
+                            <input id = "SmoothingIterations" type = "int" value = ""/>
+                            <input id = "SmoothingTimeStep" type = "float" value = ""/>
+                            <input id = "UpperThreshold" type = "float" value = ""/>
+                        </filter>
+                        <filter id="VectorThresholdSegmentationLevelSetImageFilter" enabled = "false">
+                            
+                                
+                                
+                            
+                            <input id = "Covariance" type = "CovarianceMatrixType" value = ""/>
+                            <input id = "Mean" type = "MeanVectorType" value = ""/>
+                            <input id = "Threshold" type = "ScalarValueType" value = ""/>
+                        </filter>
+                    </filter>
+                    <filter id="AntiAliasBinaryImageFilter">
+                        
+                        <input id = "MaximumIterations" type = "unsigned" value = ""/>
+                    </filter>
+                </filter>
+            </filter>
+            <filter id="NaryFunctorImageFilter">
+                
+                    
+                    
+                
+                <abstract/>
+                <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+                <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+                <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+                <input id = "Functor" type = "FunctorType" value = "functor" enabled = "false"/>
+                <filter id="NaryMaximumImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+                <filter id="NaryAddImageFilter">
+                    
+                        
+                        
+                    
+                </filter>
+            </filter>
+            <filter id="TernaryFunctorImageFilter">
+            
+                <arguments>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "InputImageType"/>
+                    <use_argument ref = "OutputImageType"/>
+                </arguments>
+                
+                    
+                    
+                    
+                    
+                
+                <abstract/>
+                <input id = "Functor" type = "FunctorType" value = "functor" enabled = "false"/>
+                <input id = "Input2" type = "ARG( InputImageType )" value = ""/>
+                <input id = "Input2" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+                <input id = "Input2" access = "getType" type = "ARG( 0 )" value = ""/>
+                <input id = "Input3" type = "ARG( InputImageType )" value = ""/>
+                <input id = "Input3" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+                <input id = "Input3" access = "getType" type = "ARG( 0 )" value = ""/>
+                <filter id="Compose3DCovariantVectorImageFilter" enabled = "false">
+                    
+                        
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="TernaryMagnitudeImageFilter">
+                    
+                        
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="TernaryAddImageFilter">
+                    
+                        
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="TernaryMagnitudeSquaredImageFilter">
+                    
+                        
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="ComposeRGBImageFilter" enabled = "false">
+                    
+                        
+                        
+                        
+                        
+                    
+                </filter>
+                <filter id="Compose3DVectorImageFilter" enabled = "false">
+                    
+                        
+                        
+                        
+                        
+                    
+                </filter>
+            </filter>
+        </filter>
+        <filter id="OrientImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "DesiredCoordinateOrientation" type = "CoordinateOrientationCode" value = "newCode"/>
+            <input id = "GivenCoordinateOrientation" type = "CoordinateOrientationCode" value = "newCode"/>
+            <input id = "UseImageDirection" type = "bool" value = ""/>
+        </filter>
+        <filter id="ReconstructionByDilationImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "MarkerImage" type = "ARG( InputImageType )" value = ""/>
+            <input id = "MarkerImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "MarkerImage" access = "getType" type = "ARG( 0 )" value = ""/>
+        </filter>
+        <filter id="ZeroCrossingBasedEdgeDetectionImageFilter">
+            
+                
+                
+            
+            <input id = "BackgroundValue" type = "float" value = "0"/>
+            <input id = "ForegroundValue" type = "float" value = "1"/>
+            <input id = "MaximumError" type = "float" value = "0.01"/>
+            <input id = "Variance" type = "float" value = "1.0"/>
+        </filter>
+        <filter id="ImageAndPathToImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "ImageInput" type = "TInputImage" value = ""/>
+            <input id = "PathInput" type = "TInputPath" value = ""/>
+            <filter id="ExtractOrthogonalSwath2DImageFilter" enabled = "false">
+                
+                    
+                    
+                
+                <input id = "DefaultPixelValue" type = "ImagePixelType" value = "0"/>
+                <input id = "Origin" type = "float" value = ""/>
+                <input id = "Size" type = "ARG( SizeType )" value = ""/>
+                <input id = "Spacing" type = "float" value = ""/>
+            </filter>
+        </filter>
+        <filter id="GrayscaleConnectedOpeningImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Seed" type = "ARG( SeedType )" value = ""/>
+        </filter>
+        <filter id="GrayscaleConnectedClosingImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Seed" type = "ARG( SeedType )" value = ""/>
+        </filter>
+        <filter id="LazyEdgeDetectionImageFilter3D">
+            
+                
+                
+            
+            <input id = "Direction" type = "unsigned int" value = "0"/>
+            <input id = "EdgeDetectorMaximumError" type = "double" value = ""/>
+            <input id = "EdgeDetectorOutsideValue" type = "double" value = ""/>
+            <input id = "EdgeDetectorThreshold" type = "double" value = ""/>
+            <input id = "EdgeDetectorVariance" type = "double" value = ""/>
+        </filter>
+        <filter id="DerivativeImageFilter">
+            <arguments>
+                <argument id = "InputImageType">
+                    <type id = "Image">
+                        <argument id = "InputPixelType">
+                            <type id = "float"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                    </type>
+                </argument>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+            </arguments>                                
+            
+            <input id = "Direction" type = "unsigned int" value = "0"/>
+            <input id = "Order" type = "unsigned int" value = "1"/>
+            <input id = "UseImageSpacing" type = "bool" value = "true"/>
+        </filter>
+        <filter id="OpeningByReconstructionImageFilter">
+        
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>    
+            </arguments>           
+           
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Kernel" type = "ARG( KernelType )"/>
+        </filter>
+        <filter id="GradientRecursiveGaussianImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "NormalizeAcrossScale" type = "bool" value = "false"/>
+            <input id = "Sigma" type = "RealType" value = ""/>
+        </filter>
+        <filter id="DanielssonDistanceMapImageFilter">
+            
+                
+                
+            
+            <input id = "InputIsBinary" type = "bool" value = "false"/>
+            <input id = "SquaredDistance" type = "bool" value = "false"/>
+            <input id = "UseImageSpacing" type = "bool" value = "false"/>
+        </filter>
+        <filter id="FastIncrementalBinaryDilateImageFilter">
+        
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>
+            </arguments>
+                        
+            <input id = "BackgroundValue" type = "OutputPixelType" value = "0"/>
+            <input id = "DilateValue" type = "InputPixelType" value = "65535"/>
+            <input id = "Kernel" type = "ARG( KernelType )" value = "kernel"/>
+        </filter>
+        <filter id="BinaryPruningImageFilter">
+            
+                
+                
+            
+            <input id = "Iteration" type = "unsigned int" value = "3"/>
+        </filter>
+        <filter id="DoubleThresholdImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "InsideValue" type = "float" value = "65535"/>
+            <input id = "OutsideValue" type = "float" value = "0"/>
+            <input id = "Threshold1" type = "float" value = "0"/>
+            <input id = "Threshold2" type = "float" value = "0"/>
+            <input id = "Threshold3" type = "float" value = "65535"/>
+            <input id = "Threshold4" type = "float" value = "65535"/>
+        </filter>
+        <filter id="HMaximaImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Height" type = "float" value = "2"/>
+        </filter>
+        <filter id="InverseDeformationFieldImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "OutputOrigin" type = "double" value = "0.0"/>
+            <input id = "OutputSpacing" type = "double" value = "1.0"/>
+            <input id = "Size" type = "ARG( SizeType )" value = ""/>
+            <input id = "SubsamplingFactor" type = "unsigned int" value = "16"/>
+        </filter>
+        <filter id="BinaryThinningImageFilter">
+            
+                
+                
+            
+        </filter>
+        <filter id="ExtractImageFilter">
+            
+                
+                
+            
+            <input id = "ExtractionRegion" type = "ARG( ImageRegionType )" value = ""/>
+            <filter id="CropImageFilter">
+                
+                    
+                    
+                
+                <input id = "LowerBoundaryCropSize" type = "ARG( SizeType )" value = "0"/>
+                <input id = "UpperBoundaryCropSize" type = "ARG( SizeType )" value = "0"/>
+            </filter>
+        </filter>
+        <filter id="ConnectedThresholdImageFilter">
+            <declarations>                
+                <argument id = "PixelObjectType">                    
+                    <type id = "SimpleDataObjectDecorator">                        
+                        <use_argument ref = "OutputPixelType"/>                        
+                    </type>
+                </argument>
+            </declarations>                
+            
+            <input id = "Lower" type = "float" value = "0"/>
+            <input id = "Upper" type = "float" value = "65535"/>
+            <input id = "LowerInput" type = "ARG( PixelObjectType )"/>
+            <input id = "UpperInput" type = "ARG( PixelObjectType )"/>
+            <input id = "ReplaceValue" type = "float" value = "1"/>
+            <input id = "Seed" type = "ARG( SeedVectorType )" value = ""/>
+        </filter>
+        <filter id="HMinimaImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Height" type = "float" value = "2"/>
+        </filter>
+        <filter id="GrayscaleGeodesicErodeImageFilter">
+            
+                
+                
+            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "MarkerImage" type = "ARG( InputImageType )" value = ""/>
+            <input id = "MarkerImage" access = "getNumDimension" type = "ARG( 1 )" value = ""/>
+            <input id = "MarkerImage" access = "getType" type = "ARG( 0 )" value = ""/>
+            <input id = "RunOneIteration" type = "bool" value = "false"/>
+        </filter>
+        <filter id="ClosingByReconstructionImageFilter">
+        
+            <arguments>
+                <use_argument ref = "InputImageType" id = "InputImageType"/>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+                <use_argument ref = "KernelType"/>
+            </arguments>
+                            
+            <input id = "FullyConnected" type = "bool" value = "false"/>
+            <input id = "Kernel" type = "ARG( KernelType )"/>
+        </filter>
+        <filter id="JoinSeriesImageFilter">
+            
+                
+                
+            
+            <input id = "Origin" type = "double" value = "0.0"/>
+            <input id = "Spacing" type = "double" value = "1.0"/>
+        </filter>
+        <filter id="BloxBoundaryPointToCoreAtomImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "DistanceMax" type = "double" value = "12"/>
+            <input id = "DistanceMin" type = "double" value = "8"/>
+            <input id = "Epsilon" type = "double" value = "0"/>
+            <input id = "Polarity" type = "bool" value = "0"/>
+        </filter>
+        <filter id="DiscreteGaussianImageFilter">
+            
+                
+                
+            
+            <input id = "FilterDimensionality" type = "unsigned int" value = "2"/>
+            <input id = "MaximumError" type = "float" value = "0.01"/>
+            <input id = "MaximumKernelWidth" type = "int" value = "32"/>
+            <input id = "UseImageSpacing" type = "bool" value = "true"/>
+            <input id = "Variance" type = "float" value = "0.0"/>
+        </filter>
+        <filter id="GradientVectorFlowImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "IterationNum" type = "int" value = "2"/>
+            <input id = "LaplacianFilter" type = "LaplacianFilterPointer" value = ""/>
+            <input id = "NoiseLevel" type = "double" value = "200"/>
+            <input id = "TimeStep" type = "double" value = "0.001"/>
+        </filter>
+        <filter id="IsoContourDistanceImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "FarValue" type = "float" value = ""/>
+            <input id = "LevelSetValue" type = "float" value = "0"/>
+            <input id = "NarrowBand" type = "NarrowBandType" value = "NULL"/>
+            <input id = "NarrowBanding" type = "bool" value = "false"/>
+        </filter>
+        <filter id="IterativeInverseDeformationFieldImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "NumberOfIterations" type = "unsigned int" value = "5"/>
+            <input id = "StopValue" type = "double" value = "0"/>
+        </filter>
+        <filter id="BilateralImageFilter">
+            
+                
+                
+            
+            <input id = "AutomaticKernelSize" type = "bool" value = "true"/>
+            <input id = "DomainSigma" type = "double" value = "4.0"/>
+            <input id = "FilterDimensionality" type = "unsigned int" value = "2"/>
+            <input id = "NumberOfRangeGaussianSamples" type = "unsigned long" value = "100"/>
+            <input id = "Radius" type = "unsigned" value = "1"/>
+            <input id = "RangeSigma" type = "double" value = "50.0"/>
+        </filter>
+        <filter id="TwoOutputExampleImageFilter" enabled = "false">
+            
+                
+                
+            
+            <input id = "InverseOutput" type = "OutputImageType" value = ""/>
+            <input id = "OutsideValue" type = "float" value = "0"/>
+        </filter>
+        <filter id="HardConnectedComponentImageFilter">
+            <arguments>
+                <argument id = "InputImageType">
+                    <type id = "Image">
+                        <argument id = "InputPixelType">
+                            <type id = "unsigned short"/>
+                        </argument>
+                        <use_argument ref = "Dimension"/>
+                    </type>
+                </argument>
+                <use_argument ref = "InputImageType" id = "OutputImageType"/>
+            </arguments>
+            
+            <input id = "ObjectSeed" type = "ARG( SeedType )" value = ""/>
+        </filter>
+        <filter id="OtsuMultipleThresholdsImageFilter">
+            
+        <input id = "NumberOfHistogramBins" type = "float" value = "1"/>        
+        <input id = "NumberOfThresholds" type = "float" value = "1"/>        
+        <input id = "LabelOffset" type = "float" value = "0"/>                        
+            
+        </filter>
+        <filter id="IsolatedConnectedImageFilter">
+            
+                
+                
+            
+            <input id = "FindUpperThreshold" type = "bool" value = "true"/>
+            <input id = "IsolatedValueTolerance" type = "float" value = "1"/>
+            <input id = "Lower" type = "float" value = "0"/>
+            <input id = "ReplaceValue" type = "float" value = "1"/>
+            <input id = "Seed1" type = "ARG( SeedType )" value = ""/>
+            <input id = "Seed2" type = "ARG( SeedType )" value = ""/>
+            <input id = "Upper" type = "float" value = "65535"/>
+            <input id = "UpperValueLimit" type = "float" value = ""/>
+        </filter>
+        <filter id="MeanImageFilter">
+            
+                
+                
+            
+            <input id = "Radius" type = "ARG( SizeType )" value = ""/>
+        </filter>
+        <filter id="SimpleContourExtractorImageFilter">
+            
+                
+                
+            
+            <input id = "InputBackgroundValue" type = "float" value = "0"/>
+            <input id = "InputForegroundValue" type = "float" value = "65535"/>
+            <input id = "OutputBackgroundValue" type = "float" value = "0"/>
+            <input id = "OutputForegroundValue" type = "float" value = "65535"/>
+            <input id = "Radius" type = "ARG( SizeType )" value = ""/>
+        </filter>
+        <filter id="SobelEdgeDetectionImageFilter">
+            
+                
+                
+            
+        </filter>
+    </filter>
+    <filter id="ExtractImageFilterRegionCopier" enabled = "false">
+        
+            
+        
+    </filter>
+    <filter id="PathToImageFilter" enabled = "false">
+        
+            
+        
+        <input id = "BackgroundValue" type = "float" value = "0"/>
+        <input id = "Input" type = "unsigned" value = ""/>
+        <input id = "Origin" type = "float" value = ""/>
+        <input id = "PathValue" type = "float" value = "1"/>
+        <input id = "Size" type = "ARG( SizeType )" value = ""/>
+        <input id = "Spacing" type = "float" value = ""/>
+    </filter>
+    <filter id="SpatialObjectToImageFilter" enabled = "false">
+        
+            
+        
+        <input id = "ChildrenDepth" type = "unsigned int" value = "1"/>
+        <input id = "Input" type = "unsigned" value = ""/>
+        <input id = "InsideValue" type = "ValueType" value = "0"/>
+        <input id = "Origin" type = "float" value = ""/>
+        <input id = "OutsideValue" type = "ValueType" value = "0"/>
+        <input id = "Size" type = "SizeType" value = "0"/>
+        <input id = "Spacing" type = "float" value = ""/>
+        <input id = "UseObjectValue" type = "bool" value = "false"/>
+    </filter>
+    <filter id="TriangleMeshToBinaryImageFilter" enabled = "false">
+        
+            
+        
+        <input id = "Index" type = "IndexType" value = "0"/>
+        <input id = "Input" type = "InputMeshType" value = ""/>
+        <input id = "InsideValue" type = "ValueType" value = "1"/>
+        <input id = "Origin" type = "float" value = ""/>
+        <input id = "OutsideValue" type = "ValueType" value = "0"/>
+        <input id = "Size" type = "ARG( SizeType )" value = "0"/>
+        <input id = "Spacing" type = "float" value = ""/>
+        <input id = "Tolerance" type = "double" value = ""/>
+    </filter>
+    <filter id="ImportImageFilter" enabled = "false">
+        
+            
+        
+        <input id = "ImportPointer" type = "TPixel" value = "0"/>
+        <input id = "Origin" type = "OriginType" value = ""/>
+        <input id = "Region" type = "RegionType" value = "region"/>
+        <input id = "Spacing" type = "SpacingType" value = ""/>
+    </filter>
+    <filter id="PointSetToImageFilter" enabled = "false">
+        
+            
+        
+        <input id = "Input" type = "unsigned" value = ""/>
+        <input id = "InsideValue" type = "float" value = "1"/>
+        <input id = "Origin" type = "float" value = "0.0"/>
+        <input id = "OutsideValue" type = "float" value = "0"/>
+        <input id = "Size" type = "ARG( SizeType )" value = ""/>
+        <input id = "Spacing" type = "float" value = "1.0"/>
+    </filter>
+    
+    <filter id="ImageToImageFilterDetail" enabled = "false">
+        
+            
+        
+    </filter>
+    <filter id="HistogramToImageFilter" enabled = "false">
+        
+            
+        
+        <input id = "Functor" type = "FunctorType" value = "functor"/>
+        <input id = "Input" type = "InputHistogramObjectType" value = ""/>
+        <input id = "Origin" type = "double" value = "0.0"/>
+        <input id = "Spacing" type = "double" value = "1.0"/>
+        <input id = "TotalFrequency" type = "unsigned" value = ""/>
+        <filter id="HistogramToEntropyImageFilter" enabled = "false">
+            
+                
+            
+            <input id = "TotalFrequency" type = "unsigned" value = "n"/>
+        </filter>
+        <filter id="HistogramToLogProbabilityImageFilter" enabled = "false">
+            
+                
+            
+            <input id = "TotalFrequency" type = "unsigned" value = "n"/>
+        </filter>
+        <filter id="HistogramToIntensityImageFilter" enabled = "false">
+            
+                
+            
+            <input id = "TotalFrequency" type = "unsigned" value = "n"/>
+        </filter>
+        <filter id="HistogramToProbabilityImageFilter" enabled = "false">
+            
+                
+            
+            <input id = "TotalFrequency" type = "unsigned" value = "n"/>
+        </filter>
+    </filter>
+    </filter>
+</filter>
