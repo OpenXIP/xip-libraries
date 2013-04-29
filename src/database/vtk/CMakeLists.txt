@@ -3,7 +3,7 @@
 project(vtk)
 
 #--------------------------------------------------------------------
-# Header files.
+# Header files
 #
 set(HEADERS
   SoVtkActor.h
@@ -313,8 +313,8 @@ set(HEADERS
   generated/SoVtkVolumeTextureMapper2D.h)
  
 #--------------------------------------------------------------------
-# Source files.
-#  
+# Source files
+#
 set(SOURCES
   SoSFVtkAlgorithmOutput.cpp
   SoSFVtkObject.cpp
@@ -627,7 +627,7 @@ set(SOURCES
   generated/SoVtkVolumeTextureMapper2D.cpp)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Definitions
 #
 if(WIN32)
   add_definitions(-DXIPIVVTK_EXPORTS)
@@ -636,36 +636,18 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Find VTK package
-#
-if(UNIX)
-  find_package(VTK REQUIRED)
-  include(${VTK_USE_FILE})
-endif(UNIX)
-
-#--------------------------------------------------------------------
 # Include directories
 #
 include_directories(
   ${PROJECT_SOURCE_DIR}
   generated
   ../../../include
-  ${OIV_PATH}/include)
-
-if(WIN32)
-  include_directories(${VTK_PATH}/include/vtk-5.0)
-else(WIN32)
-  include_directories(${VTK_INCLUDE_DIRS})
-endif(WIN32)
-
+  ${VTK_INCLUDE_DIRS})
+  
 #--------------------------------------------------------------------
 # Link directories
 #
-if(WIN32)
-  link_directories(${VTK_PATH}/lib)
-else(WIN32)
-  link_directories(${LIBRARY_OUTPUT_PATH} ${VTK_LIBRARY_DIRS})
-endif(WIN32)
+link_directories(${VTK_DIR}/..)
 
 #--------------------------------------------------------------------
 # Compile library
@@ -673,36 +655,20 @@ endif(WIN32)
 add_library(xipivvtk SHARED ${HEADERS} ${SOURCES})
 
 set_target_properties(xipivvtk
-  PROPERTIES VERSION ${Xip_VERSION_STRING}
-  SOVERSION ${Xip_VERSION_STRING})
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
 # Link library
 #
 target_link_libraries(xipivvtk
   xipivcore
-  vtkCommon
-  vtkDICOMParser
-  vtkexoIIc
-  vtkexpat
-  vtkFiltering
-  vtkfreetype
-  vtkftgl
-  vtkGenericFiltering
-  vtkGraphics
   vtkHybrid
-  vtkIO
-  vtkImaging
-  vtkjpeg
-  vtkNetCDF
   vtkParallel
   vtkRendering
   vtkVolumeRendering
-  vtkWidgets
-  vtkpng
-  vtksys
-  vtktiff
-  vtkzlib)
+  vtkGenericFiltering
+  vtkIO)
 
 #--------------------------------------------------------------------
 # Install library
@@ -722,52 +688,52 @@ if(WIN32)
     DESTINATION bin/debug CONFIGURATIONS Debug)
 
   install(FILES
-    ${VTK_PATH}/bin/vtkCommon.dll
-    ${VTK_PATH}/bin/vtkDICOMParser.dll
-    ${VTK_PATH}/bin/vtkexoIIc.dll
-    ${VTK_PATH}/bin/vtkexpat.dll
-    ${VTK_PATH}/bin/vtkFiltering.dll
-    ${VTK_PATH}/bin/vtkfreetype.dll
-    ${VTK_PATH}/bin/vtkftgl.dll
-    ${VTK_PATH}/bin/vtkGenericFiltering.dll
-    ${VTK_PATH}/bin/vtkGraphics.dll
-    ${VTK_PATH}/bin/vtkHybrid.dll
-    ${VTK_PATH}/bin/vtkImaging.dll
-    ${VTK_PATH}/bin/vtkIO.dll
-    ${VTK_PATH}/bin/vtkjpeg.dll
-    ${VTK_PATH}/bin/vtkNetCDF.dll
-    ${VTK_PATH}/bin/vtkParallel.dll
-    ${VTK_PATH}/bin/vtkpng.dll
-    ${VTK_PATH}/bin/vtkRendering.dll
-    ${VTK_PATH}/bin/vtkVolumeRendering.dll
-    ${VTK_PATH}/bin/vtksys.dll
-    ${VTK_PATH}/bin/vtktiff.dll
-    ${VTK_PATH}/bin/vtkWidgets.dll
-    ${VTK_PATH}/bin/vtkzlib.dll
+    ${VTK_DIR}/../../bin/vtkCommon.dll
+    ${VTK_DIR}/../../bin/vtkDICOMParser.dll
+    ${VTK_DIR}/../../bin/vtkexoIIc.dll
+    ${VTK_DIR}/../../bin/vtkexpat.dll
+    ${VTK_DIR}/../../bin/vtkFiltering.dll
+    ${VTK_DIR}/../../bin/vtkfreetype.dll
+    ${VTK_DIR}/../../bin/vtkftgl.dll
+    ${VTK_DIR}/../../bin/vtkGenericFiltering.dll
+    ${VTK_DIR}/../../bin/vtkGraphics.dll
+    ${VTK_DIR}/../../bin/vtkHybrid.dll
+    ${VTK_DIR}/../../bin/vtkImaging.dll
+    ${VTK_DIR}/../../bin/vtkIO.dll
+    ${VTK_DIR}/../../bin/vtkjpeg.dll
+    ${VTK_DIR}/../../bin/vtkNetCDF.dll
+    ${VTK_DIR}/../../bin/vtkParallel.dll
+    ${VTK_DIR}/../../bin/vtkpng.dll
+    ${VTK_DIR}/../../bin/vtkRendering.dll
+    ${VTK_DIR}/../../bin/vtkVolumeRendering.dll
+    ${VTK_DIR}/../../bin/vtksys.dll
+    ${VTK_DIR}/../../bin/vtktiff.dll
+    ${VTK_DIR}/../../bin/vtkWidgets.dll
+    ${VTK_DIR}/../../bin/vtkzlib.dll
     DESTINATION bin/debug CONFIGURATIONS Debug)
 
   install(FILES
-    ${VTK_PATH}/bin/vtkCommon.dll
-    ${VTK_PATH}/bin/vtkDICOMParser.dll
-    ${VTK_PATH}/bin/vtkexoIIc.dll
-    ${VTK_PATH}/bin/vtkexpat.dll
-    ${VTK_PATH}/bin/vtkFiltering.dll
-    ${VTK_PATH}/bin/vtkfreetype.dll
-    ${VTK_PATH}/bin/vtkftgl.dll
-    ${VTK_PATH}/bin/vtkGenericFiltering.dll
-    ${VTK_PATH}/bin/vtkGraphics.dll
-    ${VTK_PATH}/bin/vtkHybrid.dll
-    ${VTK_PATH}/bin/vtkImaging.dll
-    ${VTK_PATH}/bin/vtkIO.dll
-    ${VTK_PATH}/bin/vtkjpeg.dll
-    ${VTK_PATH}/bin/vtkNetCDF.dll
-    ${VTK_PATH}/bin/vtkParallel.dll
-    ${VTK_PATH}/bin/vtkpng.dll
-    ${VTK_PATH}/bin/vtkRendering.dll
-    ${VTK_PATH}/bin/vtkVolumeRendering.dll
-    ${VTK_PATH}/bin/vtksys.dll
-    ${VTK_PATH}/bin/vtktiff.dll
-    ${VTK_PATH}/bin/vtkWidgets.dll
-    ${VTK_PATH}/bin/vtkzlib.dll
+    ${VTK_DIR}/../../bin/vtkCommon.dll
+    ${VTK_DIR}/../../bin/vtkDICOMParser.dll
+    ${VTK_DIR}/../../bin/vtkexoIIc.dll
+    ${VTK_DIR}/../../bin/vtkexpat.dll
+    ${VTK_DIR}/../../bin/vtkFiltering.dll
+    ${VTK_DIR}/../../bin/vtkfreetype.dll
+    ${VTK_DIR}/../../bin/vtkftgl.dll
+    ${VTK_DIR}/../../bin/vtkGenericFiltering.dll
+    ${VTK_DIR}/../../bin/vtkGraphics.dll
+    ${VTK_DIR}/../../bin/vtkHybrid.dll
+    ${VTK_DIR}/../../bin/vtkImaging.dll
+    ${VTK_DIR}/../../bin/vtkIO.dll
+    ${VTK_DIR}/../../bin/vtkjpeg.dll
+    ${VTK_DIR}/../../bin/vtkNetCDF.dll
+    ${VTK_DIR}/../../bin/vtkParallel.dll
+    ${VTK_DIR}/../../bin/vtkpng.dll
+    ${VTK_DIR}/../../bin/vtkRendering.dll
+    ${VTK_DIR}/../../bin/vtkVolumeRendering.dll
+    ${VTK_DIR}/../../bin/vtksys.dll
+    ${VTK_DIR}/../../bin/vtktiff.dll
+    ${VTK_DIR}/../../bin/vtkWidgets.dll
+    ${VTK_DIR}/../../bin/vtkzlib.dll
     DESTINATION bin/release CONFIGURATIONS Release)
 endif(WIN32)

@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_TRANSFORM_H_
 # define SO_ITK_TRANSFORM_H_
 
 # include <xip/inventor/itk/xipivitk.h>
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 class SoItkDataTransform;
 

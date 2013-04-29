@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_FLIPIMAGEFILTER_H_
 # define SO_ITK_FLIPIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoMFFloat.h>
-# include <Inventor/Fields/SoSFBool.h>
+# include <Inventor/fields/SoMFFloat.h>
+# include <Inventor/fields/SoSFBool.h>
 # include "SoItkImageToImageFilter.h"
 
 class XIPIVITK_API SoItkFlipImageFilter : public SoItkImageToImageFilter

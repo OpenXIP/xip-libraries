@@ -108,14 +108,15 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_OPTIMIZER_H_
 # define SO_ITK_OPTIMIZER_H_
 
 # include <xip/inventor/itk/xipivitk.h>
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoSFFloat.h>
-# include <Inventor/Fields/SoMFFloat.h>
+# include <Inventor/engines/SoSubEngine.h>
+# include <Inventor/fields/SoSFFloat.h>
+# include <Inventor/fields/SoMFFloat.h>
 
 class SoItkDataOptimizer;
 

@@ -1,5 +1,8 @@
+// Sylvain Jaume 2008
+
 #include <iostream>
 #include <fstream>
+#include <cstring>
 
 int main (int argc, char *argv[])
 {
@@ -10,7 +13,7 @@ int main (int argc, char *argv[])
 	{
 		std::cout << "argv[" << i << "] " << argv[i] << std::endl;
 	}
-    return EXIT_FAILURE;
+    return 1;//EXIT_FAILURE;
 	}
 
   const char *testedFileName = argv[1];
@@ -40,7 +43,7 @@ int main (int argc, char *argv[])
   if (!testedFile.is_open())
   {
 	  std::cout << "ERROR: cannot open tested file " << testedFileName << std::endl;
-	  return EXIT_FAILURE;
+	  return 1;//EXIT_FAILURE;
   }
 
   begin = testedFile.tellg();
@@ -60,7 +63,7 @@ int main (int argc, char *argv[])
   if (!expectedFile.is_open())
   {
 	  std::cout << "ERROR: cannot open expected file " << expectedFileName << std::endl;
-	  return EXIT_FAILURE;
+	  return 1;//EXIT_FAILURE;
   }
 
   begin = expectedFile.tellg();
@@ -78,7 +81,7 @@ int main (int argc, char *argv[])
   if( testedFileSize == expectedFileSize )
   {
 	  std::cout << "SUCCESS: testedFileSize == expectedFileSize" << std::endl;
-	  return EXIT_SUCCESS;
+	  return 0;//EXIT_SUCCESS;
   }
 
   char alternativeExpectedFileName[256];
@@ -107,12 +110,12 @@ int main (int argc, char *argv[])
   if( testedFileSize == expectedFileSize )
   {
 	  std::cout << "SUCCESS: testedFileSize == expectedFileSize" << std::endl;
-	  return EXIT_SUCCESS;
+	  return 0;//EXIT_SUCCESS;
   }
   else
   {
 	  std::cout << "ERROR: testedFileSize != expectedFileSize" << std::endl;
-	  return EXIT_FAILURE;
+	  return 1;//EXIT_FAILURE;
   }
 #if 0
   if( filesize1 == filesize2 )
@@ -123,7 +126,7 @@ int main (int argc, char *argv[])
 	xmlfile << "<result>PASSED</result>" << std::endl;
     xmlfile << "</newtest>" << std::endl;
     xmlfile.close();
-	return EXIT_SUCCESS;
+	return 0;//EXIT_SUCCESS;
   }
   else
   {
@@ -135,7 +138,8 @@ int main (int argc, char *argv[])
 	xmlfile << "<result>FAILED</result>" << std::endl;
     xmlfile << "</newtest>" << std::endl;
     xmlfile.close();
-	return EXIT_FAILURE;
+	return 1;//EXIT_FAILURE;
   }
 #endif
 }
+

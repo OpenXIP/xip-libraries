@@ -108,15 +108,16 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_RESAMPLEIMAGEFILTER_H_
 # define SO_ITK_RESAMPLEIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoMFFloat.h>
-# include <Inventor/Fields/SoMFInt32.h>
-# include <Inventor/Fields/SoSFBool.h>
-# include <Inventor/Fields/SoSFFloat.h>
-# include <Inventor/Fields/SoSFMatrix.h>
+# include <Inventor/fields/SoMFFloat.h>
+# include <Inventor/fields/SoMFInt32.h>
+# include <Inventor/fields/SoSFBool.h>
+# include <Inventor/fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFMatrix.h>
 # include <xip/inventor/itk/SoItkSFDataTransform.h>
 # include "SoItkImageToImageFilter.h"
 

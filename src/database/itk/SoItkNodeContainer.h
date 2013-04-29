@@ -108,17 +108,18 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_NODE_CONTAINER_H
 # define SO_ITK_NODE_CONTAINER_H
 
 # include <xip/inventor/itk/xipivitk.h>
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoMFVec3f.h>
-# include <Inventor/Fields/SoMFFloat.h>
-# include <Inventor/Fields/SoSFFloat.h>
-# include <Inventor/Fields/SoSFShort.h>
-# include <Inventor/Fields/SoSFEnum.h>
+# include <Inventor/engines/SoSubEngine.h>
+# include <Inventor/fields/SoMFVec3f.h>
+# include <Inventor/fields/SoMFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFShort.h>
+# include <Inventor/fields/SoSFEnum.h>
 
 class SoItkNodeContainer : public SoEngine
 {

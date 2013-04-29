@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_GRAYSCALEGEODESICERODEIMAGEFILTER_H_
 # define SO_ITK_GRAYSCALEGEODESICERODEIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFBool.h>
+# include <Inventor/fields/SoSFBool.h>
 # include <xip/inventor/itk/SoItkSFDataImage.h>
 # include "SoItkImageToImageFilter.h"
 

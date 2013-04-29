@@ -9,8 +9,12 @@ cmake_minimum_required(VERSION 2.6)
 find_package(OpenGL REQUIRED)
 
 if(UNIX)
+  find_library(ICONV_LIBRARY iconv
+    ${Xip_SOURCE_DIR}/../xipext-win32-vs8/lib
+    ${Xip_SOURCE_DIR}/../xipext-mac-xcode/lib
+    ${Xip_SOURCE_DIR}/../xipext-linux-gcc/lib
+    /usr/lib)
   find_package(JPEG REQUIRED)
-  find_library(ICONV_LIBRARY iconv)
 endif(UNIX)
 
 #--------------------------------------------------------------------
@@ -36,7 +40,9 @@ include_directories(
   nodekits/include
   mevis/include
   xip/include
-  ../libFL/src)
+  ../libFL/src
+  ../../jpeg-6b
+  ../../libiconv-1.11/include)
 
 if(WIN32)
   include_directories(
@@ -48,24 +54,21 @@ if(WIN32)
     database/src/so/nodes/nurbs/libnurbs
     interaction/src/draggers
     ../libFL/ang
-    ../../libiconv-1.11/include
-    ../../jpeg-6b
     ../../../../include)
 endif(WIN32)
 
 if(UNIX)
   include_directories(
-    ${OPENGL_INCLUDE_DIR}
-    ${JPEG_INCLUDE_DIR})
+    ${OPENGL_INCLUDE_DIR})
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# link directories
+# Link directories
 #
 link_directories(${inventor_BINARY_DIR}/libFL)
 
 #--------------------------------------------------------------------
-#  MeVis extensions to Open Inventor
+# MeVis extensions to Open Inventor
 #
 set(HEADERS
   mevis/include/Inventor/SoCatch.h
@@ -106,7 +109,7 @@ if(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-#  SGI Open Inventor 2.1.x
+# SGI Open Inventor 2.1.x
 #
 set(HEADERS ${HEADERS}
   database/include/Inventor/Sb.h
@@ -1216,13 +1219,13 @@ set(HEADERS ${HEADERS}
 set(SOURCES ${SOURCES}
   database/src/so/engines/SoCalcParse_yacc.cpp)
 
-if(UNIX AND !${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(UNIX AND NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(HEADERS ${HEADERS}
     database/include/Inventor/SoOffscreenRenderer.h)
 
   set(SOURCES ${SOURCES}
     database/src/so/SoOffscreenRenderer.c++)
-endif(UNIX AND !${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+endif(UNIX AND NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 if(WIN32)
   set(SOURCES ${SOURCES} initDll.c++)
@@ -1474,20 +1477,19 @@ endif(UNIX)
 #
 target_link_libraries(xipinv240
   ${OPENGL_LIBRARIES}
+  ${JPEG_LIBRARIES}
   FL
   image)
 
 if(WIN32)
   target_link_libraries(xipinv240
-    Ws2_32)
-    #shell32) # needed ???
-  target_link_libraries(xipinv240 FL jpeg image freetype2 libiconv
-    Ws2_32 shell32 opengl32 glu32)
+    jpeg freetype2 libiconv Ws2_32)
+#opengl32 glu32)
 else(WIN32)
   target_link_libraries(xipinv240
-    ${JPEG_LIBRARIES}
     ${ICONV_LIBRARY})
 endif(WIN32)
+#shell32
 
 #--------------------------------------------------------------------
 # Install

@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_PROCESSOBJECT_H_
 # define SO_ITK_PROCESSOBJECT_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 # include <xip/inventor/itk/xipivitk.h>
 
 class XIPIVITK_API SoItkProcessObject : public SoEngine

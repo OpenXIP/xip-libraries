@@ -121,7 +121,7 @@
 #include <xip/inventor/itk/SoItkSFDataDecorator.h>
 #include <xip/inventor/itk/SoItkSFDataPointSet.h>
 #include <xip/inventor/itk/SoItkMFDataImage.h>
-#include "generated/ItkWrapInit.h"
+#include "generated/itkWrapInit.h"
 
 #include "SoItkConvertItkImageToXipImage.h"
 #include "SoItkConvertXipImageToItkImage.h"
@@ -257,7 +257,7 @@ int XIPIVITK_API xipivitk_init()
 	return 1;
 }
 
-
+#if(WIN32)
 BOOL APIENTRY DllMain(HANDLE, DWORD reason, LPVOID)
 {
 	if ( reason == DLL_PROCESS_ATTACH )
@@ -271,3 +271,4 @@ BOOL APIENTRY DllMain(HANDLE, DWORD reason, LPVOID)
 
 	return TRUE;
 }
+#endif(WIN32)

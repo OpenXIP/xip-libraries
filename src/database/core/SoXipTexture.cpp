@@ -108,10 +108,8 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-#ifndef linux
 #include <xip/system/GL/gl.h>
 #include <xip/system/GL/glext.h>
-#endif // linux
 
 #include <xip/inventor/core/SbXipImageAdaptor.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
@@ -126,22 +124,18 @@
 
 #ifdef linux
 
-#include <stdlib.h>
 #include <GL/glx.h>
-
+#include <xip/system/standard.h>
+#include <algorithm>
 #define glTexImage3D glTexImage3Dext
 #define glTexSubImage3D glTexSubImage3Dext
-
 #define glActiveTextureARB glActiveTextureARBext
-#ifdef GLX_VERSION_1_4
-  #define xipGlGetProcAddress(x) glXGetProcAddressARB((const GLubyte*)x)
-#else
-  #define xipGlGetProcAddressARB(x) glXGetProcAddress((const GLubyte*)x)
-#endif
 
 #endif
 
+//#ifndef linux
 #define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress(#F)
+//#endif
 
 #ifndef DARWIN
 static PFNGLTEXIMAGE3DEXTPROC		glTexImage3D = 0;

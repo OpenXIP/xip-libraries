@@ -2,10 +2,6 @@
 
 project(dicom)
 
-if(UNIX)
-  find_package(DCMTK REQUIRED)
-endif(UNIX)
-
 #--------------------------------------------------------------------
 # Source files
 #
@@ -65,7 +61,7 @@ set(HEADERS
   XipDicomSortUtil.h)
 
 #--------------------------------------------------------------------
-# Definitions
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVDICOM_EXPORTS)
@@ -76,31 +72,12 @@ endif(WIN32)
 #--------------------------------------------------------------------
 # Include directories
 #
-if(WIN32)
- include_directories(${XIPEXT}/dcmtk/include)
-endif(WIN32)
-
-if(UNIX)
-  set(DCMTK_INCLUDE_DIRS ${DCMTK_INCLUDE_DIRS}
-    ${DCMTK_config_INCLUDE_DIR}
-    ${DCMTK_dcmdata_INCLUDE_DIR}
-    ${DCMTK_dcmimgle_INCLUDE_DIR}
-    ${DCMTK_ofstd_INCLUDE_DIR}
-    ${DCMTK_dcmdata_INCLUDE_DIR}
-    ${DCMTK_dcmimgle_INCLUDE_DIR})
-  include_directories(
-    ${DCMTK_INCLUDE_DIRS}
-    /usr/local/dicom/include)
-endif(UNIX)
+include_directories(${DCMTK_INCLUDE_DIR})
 
 #--------------------------------------------------------------------
 # Link directories
 #
-if(WIN32)
-  link_directories(${XIPEXT}/dcmtk/lib)
-else(WIN32)
-  link_directories(/usr/local/dicom/lib)
-endif(WIN32)
+link_directories(${DCMTK_DIR})
 
 #--------------------------------------------------------------------
 # Compile library
@@ -108,8 +85,8 @@ endif(WIN32)
 add_library(xipivdicom SHARED ${SOURCES} ${HEADERS})
 
 set_target_properties(xipivdicom
-  PROPERTIES VERSION ${Xip_VERSION_STRING}
-  SOVERSION ${Xip_VERSION_STRING})
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
 # Link library

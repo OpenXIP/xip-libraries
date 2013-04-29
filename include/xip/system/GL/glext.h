@@ -41,7 +41,6 @@
   #include <xip/system/GL/standard/glext.h>
   #include <xip/system/GL/wglext.h>
   #define xipGlGetProcAddress(x) wglGetProcAddress(x)
-  #define XipGlGetProcAddress(x) wglGetProcAddress(x)
 
 #elif defined(linux)
 
@@ -53,9 +52,9 @@
   #include <GL/glx.h>
   #define glActiveTextureARB glActiveTextureARBext
   #ifdef GLX_VERSION_1_4
-    #define xipGlGetProcAddress(x) glXGetProcAddressARB((const GLubyte*)x)
+    #define xipGlGetProcAddress(x) glXGetProcAddress((const GLubyte*)x)
   #else
-    #define xipGlGetProcAddressARB(x) glXGetProcAddress((const GLubyte*)x)
+    #define xipGlGetProcAddress(x) glXGetProcAddress((const GLubyte*)x)
   #endif
 
 #elif defined(DARWIN)

@@ -221,10 +221,10 @@ protected:
 	SoMFUInt32			*mSwapBuffersInfo;
 	#ifdef WIN32
 	unsigned __int64	mLastSwapCount;
+	#elif linux
+	uint64_t                mLastSwapCount;
 	#else
-//	#ifdef linux
-	uint64_t	mLastSwapCount;
-//	#endif
+	uint64_t                mLastSwapCount;
 	#endif
 
 	unsigned int		mMinValues[TIME_MAX_VALUES];
@@ -243,3 +243,5 @@ protected:
 };
 
 #endif // SOXIPPERFORMANCE_H
+
+

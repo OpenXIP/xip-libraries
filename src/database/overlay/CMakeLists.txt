@@ -3,7 +3,7 @@
 project(overlay)
 
 #--------------------------------------------------------------------
-# Find packages.
+# Find Freetype library
 #
 if(WIN32)
   set(FREETYPE_LIBRARIES freetype2)
@@ -12,12 +12,97 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Subdirectories.
+# First build FTGL project
 #
 add_subdirectory(ftgl)
 
 #--------------------------------------------------------------------
-# Source files.
+# Header files
+#
+set(HEADERS
+  SbXipSearchTree.h
+  SoXipAngle.h
+  SoXipAnnotation.h
+  SoXipBSpline.h
+  SoXipBox.h
+  SoXipContour.h
+  SoXipDisplayImageText.h
+  SoXipDropShadowElement.h
+  SoXipDropShadowStyle.h
+  #SoXipEllipse.h
+  SoXipFontAutoScale.h
+  SoXipFontType.h
+  ../../../include/xip/inventor/overlay/SoXipHandlerShape.h
+  SoXipHermiteSpline.h
+  SoXipIcon.h
+  SoXipIconsResource.h
+  SoXipImageOverlayAdd.h
+  SoXipImageOverlayClear.h
+  SoXipImageOverlayManager.h
+  SoXipImageOverlaySearch.h
+  SoXipImageTextColor.h
+  SoXipLine.h
+  SoXipLineMeasurement.h
+  SoXipLoadOverlay.h
+  SoXipLoadOverlayPState.h
+  SoXipLutColorBar.h
+  SoXipMarkerSet.h
+  SoXipMeasDistance.h
+  SoXipMeasPixelLens.h
+  SoXipMenu.h
+  SoXipMenuBase.h
+  SoXipMenuItem.h
+  SoXipMenuItemBase.h
+  SoXipMenuItemSeparator.h
+  SoXipMenuStyle.h
+  SoXipMenuStyleElement.h
+  SoXipOverlayActions.h
+  #SoXipOverlayColor.h
+  SoXipOverlayColorElement.h
+  SoXipOverlayDrawStyle.h
+  SoXipOverlayDrawStyleElement.h
+  SoXipOverlayExtractContour.h
+  SoXipOverlayFilter.h
+  SoXipOverlayFilterElement.h
+  SoXipOverlayHandlerManip.h
+  SoXipOverlayManager.h
+  SoXipOverlayManips.h
+  #SoXipOverlayManipulatedElement.h
+  SoXipOverlayProperties.h
+  SoXipOverlaySearch.h
+  SoXipOverlaySearchContour.h
+  SoXipOverlaySelectionFrame.h
+  SoXipOverlaySelectionManip.h
+  SoXipOverlaySettings.h
+  SoXipOverlayTransformBoxManip.h
+  SoXipOverlayTranslationManip.h
+  SoXipPlot2Area.h
+  SoXipPlot2Columns.h
+  SoXipPlot2Curve.h
+  SoXipPlot2Extent.h
+  SoXipPlot2Grid.h
+  SoXipPlot2Histogram.h
+  SoXipPlot2Legend.h
+  SoXipPlot2Ruler.h
+  SoXipPlot2Samples.h
+  SoXipPoint.h
+  SoXipPolyLine.h
+  SoXipPolygon.h
+  SoXipPolygonArea.h
+  SoXipRectangle.h
+  SoXipSaveOverlay.h
+  SoXipSaveOverlayPState.h
+  SoXipScaleBar.h
+  SoXipShapeGroup.h
+  SoXipShapeList.h
+  SoXipWidgetCamera.h
+  XipBSpline.h
+  XipHermiteSpline.h
+  fontutils.h
+  geomutils.h)
+
+#--------------------------------------------------------------------
+# Source files
 #
 set(SOURCES
   SbXipMarkerShapes.cpp
@@ -117,92 +202,7 @@ set(SOURCES
   init.cpp)
 
 #--------------------------------------------------------------------
-# Header files.
-#
-set(HEADERS
-  SbXipSearchTree.h
-  SoXipAngle.h
-  SoXipAnnotation.h
-  SoXipBSpline.h
-  SoXipBox.h
-  SoXipContour.h
-  SoXipDisplayImageText.h
-  SoXipDropShadowElement.h
-  SoXipDropShadowStyle.h
-  #SoXipEllipse.h
-  SoXipFontAutoScale.h
-  SoXipFontType.h
-  ../../../include/xip/inventor/overlay/SoXipHandlerShape.h
-  SoXipHermiteSpline.h
-  SoXipIcon.h
-  SoXipIconsResource.h
-  SoXipImageOverlayAdd.h
-  SoXipImageOverlayClear.h
-  SoXipImageOverlayManager.h
-  SoXipImageOverlaySearch.h
-  SoXipImageTextColor.h
-  SoXipLine.h
-  SoXipLineMeasurement.h
-  SoXipLoadOverlay.h
-  SoXipLoadOverlayPState.h
-  SoXipLutColorBar.h
-  SoXipMarkerSet.h
-  SoXipMeasDistance.h
-  SoXipMeasPixelLens.h
-  SoXipMenu.h
-  SoXipMenuBase.h
-  SoXipMenuItem.h
-  SoXipMenuItemBase.h
-  SoXipMenuItemSeparator.h
-  SoXipMenuStyle.h
-  SoXipMenuStyleElement.h
-  SoXipOverlayActions.h
-  #SoXipOverlayColor.h
-  SoXipOverlayColorElement.h
-  SoXipOverlayDrawStyle.h
-  SoXipOverlayDrawStyleElement.h
-  SoXipOverlayExtractContour.h
-  SoXipOverlayFilter.h
-  SoXipOverlayFilterElement.h
-  SoXipOverlayHandlerManip.h
-  SoXipOverlayManager.h
-  SoXipOverlayManips.h
-  #SoXipOverlayManipulatedElement.h
-  SoXipOverlayProperties.h
-  SoXipOverlaySearch.h
-  SoXipOverlaySearchContour.h
-  SoXipOverlaySelectionFrame.h
-  SoXipOverlaySelectionManip.h
-  SoXipOverlaySettings.h
-  SoXipOverlayTransformBoxManip.h
-  SoXipOverlayTranslationManip.h
-  SoXipPlot2Area.h
-  SoXipPlot2Columns.h
-  SoXipPlot2Curve.h
-  SoXipPlot2Extent.h
-  SoXipPlot2Grid.h
-  SoXipPlot2Histogram.h
-  SoXipPlot2Legend.h
-  SoXipPlot2Ruler.h
-  SoXipPlot2Samples.h
-  SoXipPoint.h
-  SoXipPolyLine.h
-  SoXipPolygon.h
-  SoXipPolygonArea.h
-  SoXipRectangle.h
-  SoXipSaveOverlay.h
-  SoXipSaveOverlayPState.h
-  SoXipScaleBar.h
-  SoXipShapeGroup.h
-  SoXipShapeList.h
-  SoXipWidgetCamera.h
-  XipBSpline.h
-  XipHermiteSpline.h
-  fontutils.h
-  geomutils.h)
-
-#--------------------------------------------------------------------
-# Definitions.
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVOVERLAY_EXPORTS -DFTGL_LIBRARY_STATIC)
@@ -211,14 +211,16 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
-include_directories(ftgl/include)
+include_directories(
+  ftgl/include
+  ${DCMTK_INCLUDE_DIR})
 
 if(WIN32)
   include_directories(
     ../../../include
-    ${XIPEXT}/freetype2/include)
+    ../../extern/freetype-2.2.1/include)
 else(WIN32)
   include_directories(
     ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
@@ -230,17 +232,16 @@ endif(WIN32)
 #--------------------------------------------------------------------
 # Link directories
 #
-if(WIN32)
-  link_directories(
-    ${XIPEXT}/freetype2/lib
-    ${XIPEXT}/dcmtk/lib)
-else(WIN32)
-  link_directories(
-    ${src_BINARY_DIR}/database/core
-    ${Xip_BINARY_DIR}/database/dicom
-    ${xipivoverlay_BINARY_DIR}/ftgl
-    /usr/local/dicom/lib)
-endif(WIN32)
+link_directories(${DCMTK_DIR})
+#if(WIN32)
+#link_directories(${XIPEXT}/freetype2/lib)
+#else(WIN32)
+#  link_directories(
+#    ${src_BINARY_DIR}/database/core
+#    ${Xip_BINARY_DIR}/database/dicom
+#    ${xipivoverlay_BINARY_DIR}/ftgl
+#    /usr/local/dicom/lib)
+#endif(WIN32)
 
 #--------------------------------------------------------------------
 # Compile the library
@@ -248,8 +249,8 @@ endif(WIN32)
 add_library(xipivoverlay SHARED ${SOURCES} ${HEADERS})
 
 set_target_properties(xipivoverlay
-  PROPERTIES VERSION ${Xip_VERSION_STRING}
-  SOVERSION ${Xip_VERSION_STRING})
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
 # Link the library

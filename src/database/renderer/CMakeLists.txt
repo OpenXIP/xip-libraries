@@ -38,16 +38,14 @@ endif(UNIX)
 add_library(xipivrenderer SHARED ${SOURCES} ${HEADERS})
 
 set_target_properties(xipivrenderer
-  PROPERTIES VERSION ${Xip_VERSION_STRING}
-  SOVERSION ${Xip_VERSION_STRING})
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
 # Link library
 #
 target_link_libraries(xipivrenderer
-  xipivcore
-  xipivcoregl
-  ${OPENGL_LIBRARIES})
+  xipivcoregl)
 
 #--------------------------------------------------------------------
 # Install library

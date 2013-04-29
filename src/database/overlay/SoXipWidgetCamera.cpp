@@ -116,6 +116,7 @@
 #include <Inventor/nodes/SoScale.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 #include "SoXipWidgetCamera.h"
+#include <algorithm>
 
 SO_NODE_SOURCE( SoXipWidgetCamera );
 
@@ -188,3 +189,4 @@ SoXipWidgetCamera::handleEvent( SoHandleEventAction* action )
 
 	SoXipKit::handleEvent( action );
 }
+

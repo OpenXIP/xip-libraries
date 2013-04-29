@@ -108,15 +108,16 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_ARRAY_H
 # define SO_ITK_ARRAY_H
 
 # include <xip/inventor/itk/xipivitk.h>
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoSFEnum.h>
-# include <Inventor/Fields/SoSFShort.h>
-# include <Inventor/Fields/SoMFFloat.h>
+# include <Inventor/engines/SoSubEngine.h>
+# include <Inventor/fields/SoSFEnum.h>
+# include <Inventor/fields/SoSFShort.h>
+# include <Inventor/fields/SoMFFloat.h>
 
 class SoItkDataArray;
 

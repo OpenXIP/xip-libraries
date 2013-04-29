@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_IMAGEREGISTRATIONMETHOD_H_
 # define SO_ITK_IMAGEREGISTRATIONMETHOD_H_
 
-# include <Inventor/Fields/SoMFFloat.h>
-# include <Inventor/Fields/SoSFTrigger.h>
+# include <Inventor/fields/SoMFFloat.h>
+# include <Inventor/fields/SoSFTrigger.h>
 # include <xip/inventor/itk/SoItkSFDataTransform.h>
 # include <xip/inventor/itk/SoItkSFDataImage.h>
 # include <xip/inventor/itk/SoItkSFDataImageMetric.h>

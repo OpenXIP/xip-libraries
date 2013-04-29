@@ -3,7 +3,7 @@
 project(itk)
 
 #--------------------------------------------------------------------
-# Header files.
+# Header files
 #
 set(HEADERS
   SoItkArray.h
@@ -245,7 +245,7 @@ set(HEADERS
   generated/itkWrapInit.h)
 
 #--------------------------------------------------------------------
-# Source files.
+# Source files
 #
 set(SOURCES
   SbItkNodeContainer.cpp
@@ -511,7 +511,22 @@ set(SOURCES
   generated/itkWrapInit.cpp)
 
 #--------------------------------------------------------------------
-# Definitions
+# Find Insight Toolkit package
+#
+find_package(ITK)
+
+if(ITK_FOUND)
+  include(${ITK_USE_FILE})
+else(ITK_FOUND)
+  find_path(ITK_DIR ITKConfig.cmake
+    ../../../../xipext-win32-vs8/lib/InsightToolkit
+    ../../../../xipext-mac-xcode/lib/InsightToolkit
+    ../../../../xipext-linux-gcc/lib/InsightToolkit
+    "Directory where ITK is installed")
+endif(ITK_FOUND)
+
+#--------------------------------------------------------------------
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVITK_EXPORTS)
@@ -522,31 +537,12 @@ endif(WIN32)
 #--------------------------------------------------------------------
 # Include directories
 #
-if(WIN32)
-  include_directories(
-    generated
-    ${ITK_PATH}/include/InsightToolkit
-    ${ITK_PATH}/include/InsightToolkit/Algorithms
-    ${ITK_PATH}/include/InsightToolkit/BasicFilters
-    ${ITK_PATH}/include/InsightToolkit/Common
-    ${ITK_PATH}/include/InsightToolkit/IO
-    ${ITK_PATH}/include/InsightToolkit/Numerics
-    ${ITK_PATH}/include/InsightToolkit/Numerics/Statistics
-    ${ITK_PATH}/include/InsightToolkit/Patented
-    ${ITK_PATH}/include/InsightToolkit/SpatialObject
-    ${ITK_PATH}/include/InsightToolkit/Utilities
-    ${ITK_PATH}/include/InsightToolkit/Utilities/vxl/core
-    ${ITK_PATH}/include/InsightToolkit/Utilities/vxl/vcl)
-else(WIN32)
-  include_directories(${ITK_INCLUDE_DIRS})
-endif(WIN32)
+include_directories(${ITK_INCLUDE_DIRS})
 
 #--------------------------------------------------------------------
 # Link directories
 #
-if(WIN32)
-  link_directories(${ITK_PATH}/lib)
-endif(WIN32)
+link_directories(${ITK_LIBRARY_DIRS})
 
 #--------------------------------------------------------------------
 # Compile library
@@ -554,50 +550,24 @@ endif(WIN32)
 add_library(xipivitk SHARED ${HEADERS} ${SOURCES})
 
 set_target_properties(xipivitk
-    PROPERTIES VERSION ${Xip_VERSION_STRING}
-    SOVERSION ${Xip_VERSION_STRING})
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
 # Link library
 #
 target_link_libraries(xipivitk
   xipivcore
-  ITKAlgorithms
-  ITKBasicFilters
-  ITKCommon
-  ITKDICOMParser
-  ITKEXPAT
-  ITKFEM
-  ITKIO
-  ITKMetaIO
-  ITKNrrdIO
-  ITKNumerics
-  ITKSpatialObject
-  ITKStatistics
-  ITKniftiio
-  ITKznz
-  itkgdcm
-  itkjpeg12
-  itkjpeg16
-  itkjpeg8
-  itknetlib
-  itkpng
-  itksys
-  itktiff
-  itkvcl
-  itkvnl
-  itkvnl_algo
-  itkvnl_inst
-  itkzlib)
+  debug xipinv240d
+  optimized xipinv240
+  ${ITK_LIBRARIES})
 
-if(WIN32)
-  if(NOT BORLAND)
-    target_link_libraries(xipivitk
-      Ws2_32
-      wsock32
-      Snmpapi)
-  endif(NOT BORLAND)
-endif(WIN32)
+if(WIN32 AND NOT BORLAND)
+  target_link_libraries(xipivitk
+    Ws2_32
+    wsock32
+    Snmpapi)
+endif(WIN32 AND NOT BORLAND)
 
 #--------------------------------------------------------------------
 # Install library

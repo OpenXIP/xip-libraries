@@ -179,10 +179,8 @@ SoV1Text2::convertToUTF8(const SbString &strng)
     size_t inbytes = strng.getLength();
     size_t outbytes = 2*inbytes;
     char* output = (char*)UCSBuf;    
-#if defined(WIN32)
+#if defined(WIN32) || defined(DARWIN)
     if ((iconv(codeConvert1, const_cast<const char**>(&input), &inbytes, &output, &outbytes) != NULL)){
-#elif defined(DARWIN)
-	if ((iconv(codeConvert1, const_cast<char**>(&input), &inbytes, &output, &outbytes) != NULL)){
 #else
     if ((iconv(codeConvert1, &input, &inbytes, &output, &outbytes) != NULL)){
 #endif
@@ -195,10 +193,8 @@ SoV1Text2::convertToUTF8(const SbString &strng)
     outbytes = 2*strng.getLength()+1;
     inbytes = 2*strng.getLength();
     output = (char*)UTFBuf;    
-#if defined(WIN32)
+#if defined(WIN32) || defined(DARWIN)
     if ((iconv(codeConvert2, const_cast<const char**>(&input), &inbytes, &output, &outbytes) != 0)){
-#elif defined(DARWIN)
-	if ((iconv(codeConvert2, const_cast<char**>(&input), &inbytes, &output, &outbytes) != 0)){
 #else
     if ((iconv(codeConvert2, &input, &inbytes, &output, &outbytes) != 0)){
 #endif

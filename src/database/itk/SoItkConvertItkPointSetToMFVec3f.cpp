@@ -108,10 +108,11 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
-#include <ItkPointSet.h>
+#include <itkPointSet.h>
 #include <Inventor/SoDB.h>
-#include <Inventor/Fields/SoMFVec3f.h>
+#include <Inventor/fields/SoMFVec3f.h>
 #include "SoItkConvertItkPointSetToMFVec3f.h"
 
 SO_ENGINE_SOURCE( SoItkConvertItkPointSetToMFVec3f );

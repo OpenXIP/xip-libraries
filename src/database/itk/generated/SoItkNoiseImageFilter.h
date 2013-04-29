@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_NOISEIMAGEFILTER_H_
 # define SO_ITK_NOISEIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoMFInt32.h>
+# include <Inventor/fields/SoMFInt32.h>
 # include "SoItkImageToImageFilter.h"
 
 class XIPIVITK_API SoItkNoiseImageFilter : public SoItkImageToImageFilter

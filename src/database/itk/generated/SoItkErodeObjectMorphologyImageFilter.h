@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_ERODEOBJECTMORPHOLOGYIMAGEFILTER_H_
 # define SO_ITK_ERODEOBJECTMORPHOLOGYIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkObjectMorphologyImageFilter.h"
 
 class XIPIVITK_API SoItkErodeObjectMorphologyImageFilter : public SoItkObjectMorphologyImageFilter

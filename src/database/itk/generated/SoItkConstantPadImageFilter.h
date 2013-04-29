@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_CONSTANTPADIMAGEFILTER_H_
 # define SO_ITK_CONSTANTPADIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkPadImageFilter.h"
 
 class XIPIVITK_API SoItkConstantPadImageFilter : public SoItkPadImageFilter

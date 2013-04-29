@@ -108,13 +108,14 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_NEIGHBORHOODCONNECTEDIMAGEFILTER_H_
 # define SO_ITK_NEIGHBORHOODCONNECTEDIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoMFInt32.h>
-# include <Inventor/Fields/SoMFVec3f.h>
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoMFInt32.h>
+# include <Inventor/fields/SoMFVec3f.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkImageToImageFilter.h"
 
 class XIPIVITK_API SoItkNeighborhoodConnectedImageFilter : public SoItkImageToImageFilter

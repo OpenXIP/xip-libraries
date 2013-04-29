@@ -108,6 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_IMAGE_TO_IMAGE_METRIC_H_
 # define SO_ITK_IMAGE_TO_IMAGE_METRIC_H_
@@ -116,9 +117,9 @@
 # include <xip/inventor/itk/SoItkSFDataImage.h>
 # include <xip/inventor/itk/SoItkSFDataInterpolator.h>
 # include <xip/inventor/itk/SoItkSFDataTransform.h>
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoSFEnum.h>
-# include <Inventor/Fields/SoSFShort.h>
+# include <Inventor/engines/SoSubEngine.h>
+# include <Inventor/fields/SoSFEnum.h>
+# include <Inventor/fields/SoSFShort.h>
 
 class SoItkDataImageMetric;
 

@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_PASTEIMAGEFILTER_H_
 # define SO_ITK_PASTEIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoMFInt32.h>
+# include <Inventor/fields/SoMFInt32.h>
 # include <xip/inventor/itk/SoItkSFDataImage.h>
 # include "SoItkInPlaceImageFilter.h"
 

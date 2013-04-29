@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_REGULAR_STEP_GRADIENT_DESCENT_BASE_OPTIMIZER_H_
 # define SO_ITK_REGULAR_STEP_GRADIENT_DESCENT_BASE_OPTIMIZER_H_
 
-# include <Inventor/Fields/SoSFBool.h>
+# include <Inventor/fields/SoSFBool.h>
 # include "SoItkSingleValuedNonLinearOptimizer.h"
 
 class SoItkRegularStepGradientDescentBaseOptimizer : 	

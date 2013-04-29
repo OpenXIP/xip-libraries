@@ -350,4 +350,5 @@
 		} \
 	}
 
-#endif SO_ITK_UTILS_H_
+#endif // SO_ITK_UTILS_H_
+

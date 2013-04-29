@@ -1,10 +1,10 @@
 # Sylvain Jaume 2007
 
-project(Xip)
+project(XIP)
 cmake_minimum_required(VERSION 2.6)
 
 #--------------------------------------------------------------------
-# Testing configuration.
+# Testing configuration
 #
 option(BUILD_TESTING "Create the testing framework" OFF)
 mark_as_advanced(BUILD_TESTING)
@@ -17,39 +17,70 @@ include(Dart)
 mark_as_advanced(DART_ROOT)
 
 #--------------------------------------------------------------------
-# Xip version number.  An even minor number corresponds to releases.
+# Set build type to Release
 #
-set(Xip_VERSION_MAJOR "0")
-set(Xip_VERSION_MINOR "1")
-set(Xip_VERSION_PATCH "0")
+mark_as_advanced(CMAKE_BUILD_TYPE
+  CMAKE_CONFIGURATION_TYPES
+  CMAKE_OSX_ARCHITECTURES
+  CMAKE_OSX_SYSROOT)
 
-# Version string should not include patch level.  The major.minor is
-# enough to distinguish available features of the toolkit.
-set(Xip_VERSION_STRING "${Xip_VERSION_MAJOR}.${Xip_VERSION_MINOR}")
+if(NOT WIN32 AND NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING
+  "Choose the type of build, options are: Debug Release 
+  RelWithDebInfo MinSizeRel." FORCE)
+endif(NOT WIN32 AND NOT CMAKE_BUILD_TYPE)
 
 #--------------------------------------------------------------------
-# Set up CPack support, to be able to distribute Xip binary packages.
-# It will be particulary useful to distributed prebuilt Xip witk extended
-# languages support enable.
+# Set up CPack support, to be able to distribute XIP binary packages.
+# It will be particulary useful to distributed prebuilt XIP witk
+# extended languages support enable. An even minor version number
+# corresponds to releases.
 #
 include(InstallRequiredSystemLibraries)
+
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "eXtensible Imaging Platorm")
-set(CPACK_PACKAGE_VENDOR "Siemens Corporate Research")
-set(CPACK_PACKAGE_VERSION_MAJOR "${Xip_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${Xip_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH "${Xip_VERSION_PATCH}")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "xip-${Xip_VERSION_STRING}")
-set(CPACK_RESOURCE_FILE_LICENSE ${Xip_SOURCE_DIR}/LICENSE.txt)
-set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_CURRENT_SOURCE_DIR}/README.txt)
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "xip-${Xip_VERSION_STRING}-src"
+set(CPACK_PACKAGE_VENDOR "Siemens Corporate Research Inc.")
+
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "1")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+
+set(XIP_VERSION_STRING ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
+
+set(CPACK_PACKAGE_INSTALL_DIRECTORY
+  "xip-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "xip-${XIP_VERSION_STRING}-src"
   CACHE INTERNAL "compressed file containing all source code")
+
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_CURRENT_SOURCE_DIR}/README.txt)
+
+if(WIN32)
+  string(REGEX REPLACE "/" "\\\\\\\\" CPACK_PACKAGE_ICON
+    "${CMAKE_CURRENT_SOURCE_DIR}/doc/xip_logo.bmp")
+
+  set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
+  set(CPACK_NSIS_HELP_LINK "https://collab01a.scr.siemens.com/xipwiki/")
+  set(CPACK_NSIS_URL_INFO_ABOUT "http://www.openxip.org")
+  set(CPACK_NSIS_CONTACT "sylvain.jaume@siemens.com")
+endif(WIN32)
+
 if(WIN32)
   set(CPACK_GENERATOR NSIS)
   set(CPACK_SOURCE_GENERATOR NSIS)
-else(WIN32)
+endif(WIN32)
+
+if(APPLE)
+  set(CPACK_GENERATOR PackageMaker)
+  set(CPACK_SOURCE_GENERATOR TZ)
+endif(APPLE)
+
+if(UNIX AND NOT APPLE)
   set(CPACK_GENERATOR TZ)
   set(CPACK_SOURCE_GENERATOR TZ)
-endif(WIN32)
+endif(UNIX AND NOT APPLE)
 
 # The following components are regex's to match anywhere (unless anchored)
 # in absolute path + filename to find files or directories to be excluded
@@ -73,120 +104,113 @@ else("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.6$")
 endif("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.6$")
 
 #--------------------------------------------------------------------
-# Doxygen configuration rules.
+# Rules to configure the Doxygen documentation
 #
-configure_file(${Xip_SOURCE_DIR}/build/doxygen.config.in
-               ${Xip_BINARY_DIR}/doxygen.config)
+configure_file(${XIP_SOURCE_DIR}/build/doxygen.config.in
+               ${XIP_BINARY_DIR}/doxygen.config)
 
-configure_file(${Xip_SOURCE_DIR}/build/doxygen.pl.in
-               ${Xip_BINARY_DIR}/doxygen.pl)
+configure_file(${XIP_SOURCE_DIR}/build/doxygen.pl.in
+               ${XIP_BINARY_DIR}/doxygen.pl)
 
-configure_file(${Xip_SOURCE_DIR}/build/Doxyfile.in
-               ${Xip_BINARY_DIR}/Doxyfile)
+configure_file(${XIP_SOURCE_DIR}/build/Doxyfile.in
+               ${XIP_BINARY_DIR}/Doxyfile)
 
 #--------------------------------------------------------------------
 # Options to build with third party libraries.
 #
-option(HAS_DCMTK "Compile with the DICOM library DCMTK" ON)
-option(HAS_VTK   "Compile with the Visualization Toolkit" ON)
+option(HAS_DCMTK "Build the DICOM module. Requires the external library
+  DCMTK found in the xipext zip file." ON)
 
-if(WIN32)
-  option(HAS_ITK "Compile with the Insight Toolkit" ON)
-else(WIN32)
-  option(HAS_ITK "Compile with the Insight Toolkit" OFF)
-endif(WIN32)
+option(HAS_ITK "Build the ITK module. Requires the external libraries
+  the Insight Toolkit found in the xipext zip file." ON)
 
-mark_as_advanced(CMAKE_INSTALL_PREFIX)
+option(HAS_VTK "Build the VTK module. Requires the external libraries of
+  the Visualization Toolkit found in the xipext zip file." ON)
 
-#--------------------------------------------------------------------
-# DCMTK variables
-#
-if(UNIX AND HAS_DCMTK)
-  set(DCMTK_config_INCLUDE_DIR /usr/local/dicom/include/dcmtk/config)
-  set(DCMTK_dcmdata_INCLUDE_DIR /usr/local/dicom/include/dcmtk/dcmdata)
-  set(DCMTK_dcmimgle_INCLUDE_DIR /usr/local/dicom/include/dcmtk/dcmimgle)
-  set(DCMTK_ofstd_INCLUDE_DIR /usr/local/dicom/include/dcmtk/ofstd)
-  find_library(DCMTK_dcmdata_LIBRARY dcmdata /usr/local/dicom/lib)
-  find_library(DCMTK_dcmimgle_LIBRARY dcmimgle /usr/local/dicom/lib)
-  find_library(DCMTK_dcmnet_LIBRARY dcmnet /usr/local/dicom/lib)
-  find_library(DCMTK_imagedb_LIBRARY dcmimage /usr/local/dicom/lib)
-  find_library(DCMTK_ofstd_LIBRARY ofstd /usr/local/dicom/lib)
-endif(UNIX AND HAS_DCMTK)
+mark_as_advanced(CMAKE_INSTALL_PREFIX
+  HAS_DCMTK
+  HAS_ITK
+  HAS_VTK)
 
 #--------------------------------------------------------------------
-# VTK variables
-#
-mark_as_advanced(VTK_GLEXT_FILE)
-mark_as_advanced(VTK_GLXEXT_FILE)
-mark_as_advanced(VTK_WGLEXT_FILE)
-
-#--------------------------------------------------------------------
-# Options to build OpenInventor.
+# Options to build OpenInventor
 #
 option(BUILD_INVENTOR "Build the Open Inventor library" ON)
+mark_as_advanced(BUILD_INVENTOR)
 
 #--------------------------------------------------------------------
 # Generate the Doxygen documentation
 #
 option(BUILD_DOCUMENTATION "Generate the Doxygen documentation" OFF)
 mark_as_advanced(BUILD_DOCUMENTATION)
+
 if(BUILD_DOCUMENTATION)
   find_package(Doxygen)
 endif(BUILD_DOCUMENTATION)
 
 #--------------------------------------------------------------------
-# Find xipext directory
+# Find external libraries
 #
-if(WIN32)
-  if(HAS_DCMTK OR HAS_ITK OR HAS_VTK)
-    find_path(XIPEXT inventor/bin/xipinv240.dll ${Xip_SOURCE_DIR}/../xipext
-      "Directory where Xip external libraries are installed")
-  endif(HAS_DCMTK OR HAS_ITK OR HAS_VTK)
-endif(WIN32)
-
 if(NOT BUILD_INVENTOR)
-  find_path(OIV_PATH bin/xipinv240.dll ${XIPEXT}/inventor
+  find_path(OIV_PATH bin/xipinv240.dll
+    ../xipext-win32-vs8/inventor
+    ../xipext-mac-xcode/inventor
+    ../xipext-linux-gcc/inventor
     "Directory where Open Inventor is installed")
 endif(NOT BUILD_INVENTOR)
 
-if(WIN32 AND HAS_ITK)
-  find_path(ITK_PATH include/InsightToolkit/itkConfigure.h ${XIPEXT}/itk
-    "Directory where ITK is installed")
-endif(WIN32 AND HAS_ITK)
+#--------------------------------------------------------------------
+# Find VTK libraries
+#
+if(HAS_VTK)
 
-if(WIN32 AND HAS_VTK)
-  find_path(VTK_PATH bin/vtkCommon.dll ${XIPEXT}/vtk
-    "Directory where VTK is installed")
-endif(WIN32 AND HAS_VTK)
+  find_package(VTK)
+
+  if(VTK)
+    include(${VTK_USE_FILE})
+  else(VTK)
+    find_path(VTK_DIR VTKConfig.cmake
+      ${XIP_SOURCE_DIR}/../xipext-win32-vs8/lib/vtk-5.0
+      ${XIP_SOURCE_DIR}/../xipext-mac-xcode/lib/vtk-5.0
+      ${XIP_SOURCE_DIR}/../xipext-linux-gcc/lib/vtk-5.0
+      "Directory where VTK is installed")
+  endif(VTK)
+
+  mark_as_advanced(
+    VTK_GLEXT_FILE
+    VTK_GLXEXT_FILE
+    VTK_WGLEXT_FILE)
+
+endif(HAS_VTK)
 
 #--------------------------------------------------------------------
-# Output directories.
+# Output directories
 #
 if(NOT EXECUTABLE_OUTPUT_PATH)
-  set(EXECUTABLE_OUTPUT_PATH ${Xip_BINARY_DIR}/bin CACHE PATH
+  set(EXECUTABLE_OUTPUT_PATH ${XIP_BINARY_DIR}/bin CACHE PATH
     "Single output directory for building all executables.")
 endif(NOT EXECUTABLE_OUTPUT_PATH)
 
 if(NOT LIBRARY_OUTPUT_PATH)
-  set(LIBRARY_OUTPUT_PATH ${Xip_BINARY_DIR}/bin CACHE PATH
+  set(LIBRARY_OUTPUT_PATH ${XIP_BINARY_DIR}/bin CACHE PATH
     "Single output directory for building all libraries.")
 endif(NOT LIBRARY_OUTPUT_PATH)
 
 mark_as_advanced(EXECUTABLE_OUTPUT_PATH LIBRARY_OUTPUT_PATH)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Define compiler flags
 #
 if(WIN32)
-  add_definitions(-DXIPCOMMON_EXPORTS) # for XipException.h
+  add_definitions(-DXIPCOMMON_EXPORTS) # for XIPException.h
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Disable deprecation warnings for standard C functions.
+# Disable deprecation warnings for standard C functions
 #
-if(UNIX)
-  add_definitions(-Wno-deprecated)
-endif(UNIX)
+if(UNIX AND NOT APPLE)
+  add_definitions(-DGL_EXT_timer_query)
+endif(UNIX AND NOT APPLE)
 
 if(CMAKE_COMPILER_2005)
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
@@ -197,14 +221,14 @@ endif(CMAKE_COMPILER_2005)
 #
 if(BUILD_TESTING)
   find_file(XIP_BUILDER_DEBUG xipbuilder.exe
-    "C:/Program Files/Xip/Debug")
+    "C:/Program Files/XIP/Debug")
   find_file(XIP_BUILDER_RELEASE xipbuilder.exe
-    "C:/Program Files/Xip/release")
+    "C:/Program Files/XIP/release")
   mark_as_advanced(XIP_BUILDER_DEBUG XIP_BUILDER_RELEASE)
 endif(BUILD_TESTING)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
 include_directories(include)
 
@@ -213,24 +237,24 @@ if(OIV_PATH)
 endif(OIV_PATH)
 
 #--------------------------------------------------------------------
-# Link directories.
+# Link directories
 #
 link_directories(
   ${LIBRARY_OUTPUT_PATH}
-  .) # Put "." in the rpath of all Xip shared libraries.
+  .) # Put "." in the rpath of all XIP shared libraries.
 
 if(XIPEXT)
   link_directories(${XIPEXT}/inventor/lib)
 endif(XIPEXT)
 
 #--------------------------------------------------------------------
-# Enter subdirectories
+# Build projects inside subdirectories
 #
 add_subdirectory(src)
 add_subdirectory(test)
 
 #--------------------------------------------------------------------
-# Copy xipbuilder to the install directory
+# Install the xipbuilder executable
 #
 if(XIP_BUILDER_DEBUG)
   install(FILES ${XIP_BUILDER_DEBUG}
@@ -281,60 +305,44 @@ if(INSTALL_QT)
 endif(INSTALL_QT)
 
 #--------------------------------------------------------------------
-# Install libraries and header files.
+# Install header files located in include directory
 #
-file(GLOB_RECURSE FILES_IN_DIRECTORY include *.h)
+file(GLOB_RECURSE FILES_IN_DIRECTORY RELATIVE ${XIP_SOURCE_DIR} include/*.h)
 
 foreach(HEADER_FILE ${FILES_IN_DIRECTORY})
-  if(${HEADER_FILE} MATCHES "h$")
 
-    #
-    # Install include directory
-    #
-    if(${HEADER_FILE} MATCHES "${Xip_SOURCE_DIR}/include")
-      string(REGEX REPLACE "${Xip_SOURCE_DIR}/" ""
-        INSTALL_PATH ${HEADER_FILE})
-      get_filename_component(INSTALL_PATH ${INSTALL_PATH} PATH)
-      if(HEADER_FILE MATCHES "[^src]")
-        install(FILES ${HEADER_FILE} DESTINATION ${INSTALL_PATH})
-      endif(HEADER_FILE MATCHES "[^src]")
-    endif(${HEADER_FILE} MATCHES "${Xip_SOURCE_DIR}/include")
+  get_filename_component(INSTALL_PATH ${HEADER_FILE} PATH)
+  install(FILES ${HEADER_FILE} DESTINATION ${INSTALL_PATH})
 
-    #
-    # Install src/extern/inventor/lib/database
-    #
-    if(${HEADER_FILE} MATCHES
-      "${Xip_SOURCE_DIR}/src/extern/inventor/lib/database/include")
-      string(REGEX REPLACE
-	"${Xip_SOURCE_DIR}/src/extern/inventor/lib/database/" ""
-       	INSTALL_PATH ${HEADER_FILE})
-      get_filename_component(INSTALL_PATH ${INSTALL_PATH} PATH)
-      if(HEADER_FILE MATCHES "[^src]")
-        install(FILES ${HEADER_FILE} DESTINATION ${INSTALL_PATH})
-      endif(HEADER_FILE MATCHES "[^src]")
-    endif(${HEADER_FILE} MATCHES
-      "${Xip_SOURCE_DIR}/src/extern/inventor/lib/database/include")
-
-    #
-    # Install src/extern/inventor/lib/mevis
-    #
-    if(${HEADER_FILE} MATCHES
-      "${Xip_SOURCE_DIR}/src/extern/inventor/lib/mevis/include")
-      string(REGEX REPLACE
-	"${Xip_SOURCE_DIR}/src/extern/inventor/lib/mevis/"
-        "" INSTALL_PATH ${HEADER_FILE})
-      get_filename_component(INSTALL_PATH ${INSTALL_PATH} PATH)
-      if(HEADER_FILE MATCHES "[^src]")
-        install(FILES ${HEADER_FILE} DESTINATION ${INSTALL_PATH})
-      endif(HEADER_FILE MATCHES "[^src]")
-    endif(${HEADER_FILE} MATCHES
-      "${Xip_SOURCE_DIR}/src/extern/inventor/lib/mevis/include")
-
-  endif(${HEADER_FILE} MATCHES "h$")
 endforeach(HEADER_FILE ${FILES_IN_DIRECTORY})
 
 #--------------------------------------------------------------------
-# Rad examples
+# Install header files located in src/extern/inventor/lib/
+#
+file(GLOB_RECURSE FILES_IN_DIRECTORY RELATIVE
+  ${XIP_SOURCE_DIR}/src/extern/inventor/lib/ src/extern/inventor/lib/*.h)
+
+foreach(HEADER_FILE ${FILES_IN_DIRECTORY})
+
+  get_filename_component(INSTALL_PATH ${HEADER_FILE} PATH)
+
+  if(${INSTALL_PATH} MATCHES "src")
+  else(${INSTALL_PATH} MATCHES "src")
+
+    string(REGEX REPLACE "database/"    "" INSTALL_PATH ${INSTALL_PATH})
+    string(REGEX REPLACE "interaction/" "" INSTALL_PATH ${INSTALL_PATH})
+    string(REGEX REPLACE "mevis/"       "" INSTALL_PATH ${INSTALL_PATH})
+    string(REGEX REPLACE "nodekits/"    "" INSTALL_PATH ${INSTALL_PATH})
+    string(REGEX REPLACE "xip/"         "" INSTALL_PATH ${INSTALL_PATH})
+
+    install(FILES src/extern/inventor/lib/${HEADER_FILE}
+      DESTINATION ${INSTALL_PATH})
+  endif(${INSTALL_PATH} MATCHES "src")
+ 
+endforeach(HEADER_FILE ${FILES_IN_DIRECTORY})
+
+#--------------------------------------------------------------------
+# RAD examples
 #
 set(EXAMPLES
 "examples/core/display_raw_image.rad"
@@ -473,7 +481,7 @@ set(EXAMPLES
 "examples/renderer/slicer/slicer.rad"
 "examples/renderer/slicer/slicerWithLut.rad"
 "examples/renderer/slicer/slicerWithLutShaded.rad"
-"examples/vtk/Converters/XipImageToVtk.rad"
+"examples/vtk/Converters/XIPImageToVtk.rad"
 "examples/vtk/DICOM/VolumeRendering.rad"
 "examples/vtk/Tutorial/ConeSource.rad"
 "examples/vtk/VisualizationAlgorithms/ClipCow.rad"
@@ -484,7 +492,7 @@ set(EXAMPLES
 "examples/vtk/VolumeRendering/VolumeRendering.rad")
 
 #--------------------------------------------------------------------
-# Xip examples
+# XIP examples
 #
 set(EXAMPLES ${EXAMPLES}
 "examples/coregl/TransparentGeometry/transparent_geometry_none.xip"
@@ -630,61 +638,56 @@ endforeach(EXAMPLE ${EXAMPLES} ${GLSL_FILES})
 # Install the documentation
 #
 install(FILES
-  doc/XipOverview.ppt
-  doc/XipStarterGuide.doc
+  doc/XIPOverview.ppt
+  doc/XIPStarterGuide.doc
   doc/xip_logo.png
   doc/xipbuilder_logo.png
   DESTINATION doc)
 
 #--------------------------------------------------------------------
-# Xip Library
+# XIP Library
 #
-#get_target_property(Xip_LIBRARY Xip LOCATION)
 
-# add the install path to the library name
-#set(Xip_LIBRARY
-#  ${CMAKE_INSTALL_PREFIX}/lib/${Xip_INSTALL_LIBRARY})
-
-# configure the file for the built version of Xip
+# Create the file for the built version of XIP
 configure_file(
-  "${PROJECT_SOURCE_DIR}/XipConfig.cmake.in"
-  "${PROJECT_BINARY_DIR}/XipConfig.cmake")
+  "${PROJECT_SOURCE_DIR}/XIPConfig.cmake.in"
+  "${PROJECT_BINARY_DIR}/XIPConfig.cmake")
 
-# configure the file for the installed version of Xip
+# Create the file for the installed version of XIP
 configure_file(
-  "${PROJECT_SOURCE_DIR}/XipConfig.cmake.in"
-  "${PROJECT_BINARY_DIR}/InstallFiles/XipConfig.cmake")
+  "${PROJECT_SOURCE_DIR}/XIPConfig.cmake.in"
+  "${PROJECT_BINARY_DIR}/InstallFiles/XIPConfig.cmake")
 
-# Configure the file describing how to use Xip
+# Create the file describing how to link to XIP
 configure_file(
-  ${Xip_SOURCE_DIR}/XipConfig.cmake.in
-  ${Xip_BINARY_DIR}/XipConfig.cmake
+  ${XIP_SOURCE_DIR}/XIPConfig.cmake.in
+  ${XIP_BINARY_DIR}/XIPConfig.cmake
   @ONLY)
 
 configure_file(
-  ${Xip_SOURCE_DIR}/UseXip.cmake.in
-  ${Xip_BINARY_DIR}/UseXip.cmake
+  ${XIP_SOURCE_DIR}/UseXIP.cmake.in
+  ${XIP_BINARY_DIR}/UseXIP.cmake
   @ONLY)
 
 # Export the build settings and library dependencies
 include(CMakeExportBuildSettings)
 
-cmake_export_build_settings(${Xip_BINARY_DIR}/XipBuildSettings.cmake)
+cmake_export_build_settings(${XIP_BINARY_DIR}/XIPBuildSettings.cmake)
 
-export_library_dependencies(${Xip_BINARY_DIR}/XipLibraryDepends.cmake)
+export_library_dependencies(${XIP_BINARY_DIR}/XIPLibraryDepends.cmake)
 
-# Install the packaging files for use by find_package(Xip)
+# Install the packaging files for use by find_package(XIP)
 install(FILES
-  ${Xip_BINARY_DIR}/UseXip.cmake
-  ${Xip_BINARY_DIR}/XipConfig.cmake
-  ${Xip_BINARY_DIR}/XipBuildSettings.cmake
-  ${Xip_BINARY_DIR}/XipLibraryDepends.cmake
+  ${XIP_BINARY_DIR}/UseXIP.cmake
+  ${XIP_BINARY_DIR}/XIPConfig.cmake
+  ${XIP_BINARY_DIR}/XIPBuildSettings.cmake
+  ${XIP_BINARY_DIR}/XIPLibraryDepends.cmake
   DESTINATION lib)
 
 #--------------------------------------------------------------------
 # Write config.xml
 #
-file(WRITE ${Xip_BINARY_DIR}/config/config.xml
+file(WRITE ${XIP_BINARY_DIR}/config/config.xml
 "<XMLConfig>
     <section name=\"General\" >
         <setting key=\"x\" >-3</setting>
@@ -705,15 +708,15 @@ file(WRITE ${Xip_BINARY_DIR}/config/config.xml
     <section name=\"Recent Scene Graphs\" />
 
     <section name=\"Environment\">
-      <setting key=\"XipHOME\" >../..</setting>
-      <setting key=\"PATH\" path append|prepend>$XipHOME/xipext/vtk/bin</setting>
+      <setting key=\"XIPHOME\" >../..</setting>
+      <setting key=\"PATH\" path append|prepend>$XIPHOME/xipext/vtk/bin</setting>
   </section>
 </XMLConfig>")
 
 #--------------------------------------------------------------------
 # Write extensions.xml
 #
-file(WRITE ${Xip_BINARY_DIR}/config/extensions.xml
+file(WRITE ${XIP_BINARY_DIR}/config/extensions.xml
 "<XMLConfig>
     <section name=\"libraries\" >
         <setting key=\"library\">xipivcore</setting>
@@ -733,7 +736,7 @@ file(WRITE ${Xip_BINARY_DIR}/config/extensions.xml
 #--------------------------------------------------------------------
 # Write favorites.xml
 #
-file(WRITE ${Xip_BINARY_DIR}/config/favorites.xml
+file(WRITE ${XIP_BINARY_DIR}/config/favorites.xml
 "<XMLConfig>
   <section name="favorites" />
 </XMLConfig>")
@@ -741,31 +744,31 @@ file(WRITE ${Xip_BINARY_DIR}/config/favorites.xml
 #--------------------------------------------------------------------
 # Write help.xml
 #
-file(WRITE ${Xip_BINARY_DIR}/config/help.xml
+file(WRITE ${XIP_BINARY_DIR}/config/help.xml
 "<XMLConfig>
   <section name=\"references\" >
     <setting key=\"^SoItk[A-Z]\">http://www.itk.org/Doxygen/html/classitk_1_1HELPID(5).html</setting>
     <setting key=\"^So[A-Z]\">https://collab01a.scr.siemens.com/xipwiki/index.php/HELPID()</setting>
-    <setting key=\":help\">https://collab01a.scr.siemens.com/xipwiki/index.php/XipBuilder</setting>
+    <setting key=\":help\">https://collab01a.scr.siemens.com/xipwiki/index.php/XIPBuilder</setting>
     <setting key=\".\">http://techpubs.sgi.com/library/tpl/cgi-bin/getdoc.cgi?coll=0650&amp;db=man&amp;fname=/usr/share/catman/p_man/cat3/Inventor_c/SoHELPID().z</setting>
   </section>
 </XMLConfig>")
 
 #--------------------------------------------------------------------
-# Install config files for XipBuilder
+# Install config files for XIPBuilder
 #
 install(FILES
-  ${Xip_BINARY_DIR}/config/config.xml
-  ${Xip_BINARY_DIR}/config/extensions.xml
-  ${Xip_BINARY_DIR}/config/favorites.xml
-  ${Xip_BINARY_DIR}/config/help.xml
+  ${XIP_BINARY_DIR}/config/config.xml
+  ${XIP_BINARY_DIR}/config/extensions.xml
+  ${XIP_BINARY_DIR}/config/favorites.xml
+  ${XIP_BINARY_DIR}/config/help.xml
   DESTINATION config)
 
 #--------------------------------------------------------------------
 # Testing
 #
 if(BUILD_TESTING)
-set(TESTING_DIR ${Xip_BINARY_DIR}/Testing/Temporary)
+set(TESTING_DIR ${XIP_BINARY_DIR}/Testing/Temporary)
 
 foreach(EXAMPLE ${EXAMPLES})
   get_filename_component(SHORT_FILENAME ${EXAMPLE} NAME_WE)
@@ -776,15 +779,15 @@ foreach(EXAMPLE ${EXAMPLES})
   set(RENDER_FILE ${TESTING_DIR}/${SHORT_FILENAME}.txt)
 
   set(EXPECTED_SCREENSHOT
-	 ${Xip_SOURCE_DIR}/test/expected/${SHORT_FILENAME}.png)
+	 ${XIP_SOURCE_DIR}/test/expected/${SHORT_FILENAME}.png)
   set(EXPECTED_ACCURACY
-	  ${Xip_SOURCE_DIR}/test/expected/${SHORT_FILENAME}.txt)
+	  ${XIP_SOURCE_DIR}/test/expected/${SHORT_FILENAME}.txt)
 
   if(EXISTS ${EXPECTED_SCREENSHOT})
     file(WRITE ${RENDER_FILE}
 	    "render(256,256,\"" ${TESTED_SCREENSHOT} "\");")
     add_test(${SHORT_FILENAME}Screenshot
-      ${XIP_BUILDER_RELEASE} ${EXAMPLE} /config=${Xip_BINARY_DIR}/config
+      ${XIP_BUILDER_RELEASE} ${EXAMPLE} /config=${XIP_BINARY_DIR}/config
       /cmd=${RENDER_FILE})
 #ADD_TEST(${SHORT_FILENAME}FileCompare
 #${EXECUTABLE_OUTPUT_PATH}/fileCompare ${TESTED_SCREENSHOT}
@@ -803,7 +806,7 @@ endforeach(EXAMPLE ${EXAMPLES})
 
     #add_test(${SHORT_FILENAME}Dummy
     #  ${EXECUTABLE_OUTPUT_PATH}/dummy ${TESTED_SCREENSHOT}
-    #  -T ${Xip_BINARY_DIR}/Testing/Temporary
+    #  -T ${XIP_BINARY_DIR}/Testing/Temporary
     #  -V ${EXPECTED_SCREENSHOT})
 
 endif(BUILD_TESTING)

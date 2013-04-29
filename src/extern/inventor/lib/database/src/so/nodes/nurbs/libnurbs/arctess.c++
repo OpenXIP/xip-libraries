@@ -380,7 +380,7 @@ ArcTessellator::tessellateNonlinear( Arc *arc, REAL geo_stepsize, REAL arc_steps
 
 	/* strength reduction on p = dp * step would introduce error */
 	int step;
-	int ocanremove = 0;
+	//int ocanremove = 0;
     	register long order =  bezierArc->order;
 	for( step=1, ++vert; step<nsteps; step++, vert++ ) {
 	    register REAL p = dp * step;
@@ -441,7 +441,7 @@ ArcTessellator::tessellateNonlinear( Arc *arc, REAL geo_stepsize, REAL arc_steps
 
 	/* strength reduction on p = dp * step would introduce error */
 	int step;
-	int ocanremove = 0;
+	//int ocanremove = 0;
     	register long order =  bezierArc->order;
 	for( step=1, ++vert; step<nsteps; step++, vert++ ) {
 	    register REAL p = dp * step;

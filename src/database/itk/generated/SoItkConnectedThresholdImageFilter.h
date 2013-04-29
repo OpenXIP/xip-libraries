@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_CONNECTEDTHRESHOLDIMAGEFILTER_H_
 # define SO_ITK_CONNECTEDTHRESHOLDIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoMFVec3f.h>
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoMFVec3f.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include <xip/inventor/itk/SoItkSFDataDecorator.h>
 # include "SoItkImageToImageFilter.h"
 

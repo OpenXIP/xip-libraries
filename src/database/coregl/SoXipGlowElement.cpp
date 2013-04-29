@@ -116,8 +116,9 @@
 	#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress(#F)
 #else
 #ifdef linux
+#include <xip/system/GL/gl.h>
 	#include <GL/glx.h>
-	#define INIT_EXT(PF, F) F = (PF) glXGetProcAddressARB((const GLubyte*)#F)
+	#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress((const GLubyte*)#F)
 #endif
 #endif //WIN32
 
@@ -137,9 +138,10 @@ bool GLOW_EXT_timer_query = false;
 bool GLOW_ARB_occlusion_query = false;
 
 #ifndef DARWIN
+#ifndef linux
 PFNGLGETQUERYOBJECTI64VEXTPROC	glGetQueryObjecti64vEXT = 0;
 PFNGLGETQUERYOBJECTUI64VEXTPROC	glGetQueryObjectui64vEXT = 0;
-
+#endif
 PFNGLGENQUERIESARBPROC			glGenQueriesARB = 0;
 PFNGLDELETEQUERIESARBPROC		glDeleteQueriesARB = 0;
 PFNGLBEGINQUERYARBPROC			glBeginQueryARB = 0;
@@ -315,12 +317,13 @@ void SoXipGLOW::init()
 
 
 #ifndef DARWIN
+#ifndef linux
 	// Timer query
 	INIT_EXT(PFNGLGETQUERYOBJECTI64VEXTPROC,	glGetQueryObjecti64vEXT);
 	INIT_EXT(PFNGLGETQUERYOBJECTUI64VEXTPROC,	glGetQueryObjectui64vEXT);
-
 	// Occlusion query
 	INIT_EXT(PFNGLGENQUERIESARBPROC,		glGenQueriesARB);
+#endif // linux
 	INIT_EXT(PFNGLDELETEQUERIESARBPROC,		glDeleteQueriesARB);
 	INIT_EXT(PFNGLBEGINQUERYARBPROC,		glBeginQueryARB);
 	INIT_EXT(PFNGLENDQUERYARBPROC,			glEndQueryARB);

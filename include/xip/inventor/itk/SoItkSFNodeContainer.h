@@ -113,7 +113,7 @@
 # define SO_ITK_SF_NODE_CONTAINER_H
 
 # include <xip/inventor/itk/xipivitk.h>
-# include <Inventor/Fields/SoSubField.h>
+# include <Inventor/fields/SoSubField.h>
 # include "SbItkNodeContainer.h"
 
 class XIPIVITK_API SoItkSFNodeContainer : public SoField
@@ -128,3 +128,4 @@ public:
 };
 
 #endif // SO_ITK_SF_NODE_CONTAINER_H_
+

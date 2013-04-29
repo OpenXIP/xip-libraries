@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_GEODESICACTIVECONTOURSHAPEPRIORLEVELSETIMAGEFILTER_H_
 # define SO_ITK_GEODESICACTIVECONTOURSHAPEPRIORLEVELSETIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkShapePriorSegmentationLevelSetImageFilter.h"
 
 class XIPIVITK_API SoItkGeodesicActiveContourShapePriorLevelSetImageFilter : public SoItkShapePriorSegmentationLevelSetImageFilter

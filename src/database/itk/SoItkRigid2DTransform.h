@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_RIGID_2D_TRANSFORM_H_
 # define SO_ITK_RIGID_2D_TRANSFORM_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkMatrixOffsetTransformBase.h"
 
 class SoItkRigid2DTransform : public SoItkMatrixOffsetTransformBase

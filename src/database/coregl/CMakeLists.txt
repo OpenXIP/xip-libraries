@@ -84,8 +84,8 @@ endif(UNIX)
 add_library(xipivcoregl SHARED ${SOURCES})
 
 set_target_properties(xipivcoregl
-  PROPERTIES VERSION ${Xip_VERSION_STRING}
-  SOVERSION ${Xip_VERSION_STRING})
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
 # Link library

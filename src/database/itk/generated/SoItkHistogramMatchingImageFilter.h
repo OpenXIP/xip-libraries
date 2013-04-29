@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_HISTOGRAMMATCHINGIMAGEFILTER_H_
 # define SO_ITK_HISTOGRAMMATCHINGIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFBool.h>
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFBool.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include <xip/inventor/itk/SoItkSFDataImage.h>
 # include "SoItkImageToImageFilter.h"
 

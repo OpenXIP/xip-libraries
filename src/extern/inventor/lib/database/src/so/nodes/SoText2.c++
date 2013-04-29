@@ -464,7 +464,7 @@ SoText2::rayPick(SoRayPickAction *action)
 
     SbViewportRegion vpr = SoViewportRegionElement::get(state);
     // font size in pixels
-    float fontSize   = SoFontSizeElement::get(state) *
+    //float fontSize   = SoFontSizeElement::get(state) *
 	vpr.getPixelsPerPoint();
 
     // The origin of the text on the screen is the object-space point
@@ -624,7 +624,7 @@ SoText2::computeBBox(SoAction *action, SbBox3f &box, SbVec3f &center)
     SbViewportRegion vpr = SoViewportRegionElement::get(state);
 
     // font size in pixels
-    float fontSize   = SoFontSizeElement::get(state) *
+    //float fontSize   = SoFontSizeElement::get(state) *
 	vpr.getPixelsPerPoint();
 
     // The origin of the text on the screen is the object-space point
@@ -776,10 +776,8 @@ SoBitmapFontCache::convertToUCS(uint32_t nodeid,
 	size_t outbytes = 2*inbytes+2;
 	char* output = (char*)UCSStrings[i];
     
-#if defined(WIN32)
+#if defined(WIN32) || defined(DARWIN)
 	if ((iconv(conversionCode, const_cast<const char**>(&input), &inbytes, &output, &outbytes) == (size_t)-1)){
-#elif defined(DARWIN)
-		if ((iconv(conversionCode, const_cast<char**>(&input), &inbytes, &output, &outbytes) == (size_t)-1)){
 #else
 	if ((iconv(conversionCode, &input, &inbytes, &output, &outbytes) == (size_t)-1)){
 #endif

@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #include <itkImageFileReader.h>
 #include <itkRGBPixel.h>
 #include <itkRGBAPixel.h>
 #include <xip/inventor/itk/SoItkSFDataImage.h>
-#include <Inventor/Fields/SoMFShort.h>
+#include <Inventor/fields/SoMFShort.h>
 #include "SoItkImageFileReader.h"
 
 SO_ENGINE_SOURCE( SoItkImageFileReader );

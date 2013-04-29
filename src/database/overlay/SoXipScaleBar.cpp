@@ -21,6 +21,7 @@
 #include <xip/system/GL/gl.h>
 #include <xip/system/GL/glu.h>
 #include <xip/inventor/overlay/SoXipText2.h>
+#include <algorithm>
 
 SO_NODE_SOURCE(SoXipScaleBar);
 
@@ -254,3 +255,5 @@ void SoXipScaleBar::getBoundingBox(SoGetBoundingBoxAction *action)
 {
 	// scale bar does not affect bounding box
 }
+
+

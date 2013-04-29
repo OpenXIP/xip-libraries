@@ -108,14 +108,15 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_POINT_SET_H_
 # define SO_ITK_POINT_SET_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoSFEnum.h>
-# include <Inventor/Fields/SoSFShort.h>
-# include <Inventor/Fields/SoMFVec3f.h>
+# include <Inventor/engines/SoSubEngine.h>
+# include <Inventor/fields/SoSFEnum.h>
+# include <Inventor/fields/SoSFShort.h>
+# include <Inventor/fields/SoMFVec3f.h>
 # include <xip/inventor/itk/xipivitk.h>
 
 class SoItkPointSet : public SoEngine

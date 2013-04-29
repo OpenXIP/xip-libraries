@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_RESCALEINTENSITYIMAGEFILTER_H_
 # define SO_ITK_RESCALEINTENSITYIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFEnum.h>
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFEnum.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkUnaryFunctorImageFilter.h"
 
 class XIPIVITK_API SoItkRescaleIntensityImageFilter : public SoItkUnaryFunctorImageFilter

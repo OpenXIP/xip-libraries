@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_INPLACEIMAGEFILTER_H_
 # define SO_ITK_INPLACEIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFBool.h>
+# include <Inventor/fields/SoSFBool.h>
 # include "SoItkImageToImageFilter.h"
 
 class XIPIVITK_API SoItkInPlaceImageFilter : public SoItkImageToImageFilter

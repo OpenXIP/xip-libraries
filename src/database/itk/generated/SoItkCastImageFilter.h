@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_CASTIMAGEFILTER_H_
 # define SO_ITK_CASTIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFEnum.h>
+# include <Inventor/fields/SoSFEnum.h>
 # include "SoItkUnaryFunctorImageFilter.h"
 
 class XIPIVITK_API SoItkCastImageFilter : public SoItkUnaryFunctorImageFilter

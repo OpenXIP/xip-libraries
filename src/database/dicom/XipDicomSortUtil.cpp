@@ -115,7 +115,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
-
+#include <iostream>
 
 class XipDicomSortImageList : public std::vector<const XipDicomSortImage*> { };
 class XipDicomSortVolumeList : public std::vector<XipDicomSortImageList> { };

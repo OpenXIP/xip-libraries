@@ -259,11 +259,12 @@ void SoXipMultiTextureElement::setUnitGL(GLuint unit) {
 //	FUNCID("unit = %d", unit);
 #ifndef DARWIN
 	if (!glActiveTextureARB)
-	    glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC) xipGlGetProcAddress("glActiveTextureARB");
+	  glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)
+            xipGlGetProcAddress("glActiveTextureARB");
 #endif // DARWIN
     if (glActiveTextureARB)
     {
-		glActiveTextureARB((unsigned int) GL_TEXTURE0 + unit);
+	glActiveTextureARB((unsigned int) GL_TEXTURE0 + unit);
     }
 }
 

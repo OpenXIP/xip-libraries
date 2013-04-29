@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_VECTOR_IMAGE_H_
-# define SO_ITK_VECTOR_IMAGE_H_
+#define SO_ITK_VECTOR_IMAGE_H_
 
-# include <xip/inventor/itk/SoItkSFDataImage.h>
-# include <Inventor/Nodes/SoShape.h>
+#include <xip/inventor/itk/SoItkSFDataImage.h>
+#include <Inventor/nodes/SoShape.h>
 
 class SoItkVectorImage : public SoShape
 {

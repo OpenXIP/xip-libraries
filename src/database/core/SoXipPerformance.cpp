@@ -253,12 +253,14 @@ void SoXipPerformance::GLRender(SoGLRenderAction * action)
 				// Accumulate time between calls to SwapBuffers
 				unsigned __int64 swapCount = *((unsigned __int64*)&val[2]);
 				unsigned int musec = (1000000 * (swapCount - mLastSwapCount)) / mPerfFreq;
-				#else //WIN32
-//				#ifdef linux
+				#elif linux
 					// Accumulate time between calls to SwapBuffers
 					uint64_t swapCount = *((uint64_t *)&val[2]);
 					unsigned int musec = (1000000 * (swapCount - mLastSwapCount));    
-//				#endif
+				#else
+					// Accumulate time between calls to SwapBuffers
+					uint64_t swapCount = *((uint64_t *)&val[2]);
+					unsigned int musec = (1000000 * (swapCount - mLastSwapCount));    
 				#endif /* WIN32 */
 
 				updateValue(TIME_SWAPEND_TO_SWAPEND, musec);
@@ -300,3 +302,5 @@ void SoXipPerformance::GLRender(SoGLRenderAction * action)
 		}
 	}
 }
+
+

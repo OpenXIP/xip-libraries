@@ -1,3 +1,5 @@
+// Sylvain Jaume 2008
+
 #include <iostream>
 #include <fstream>
 
@@ -10,7 +12,7 @@ int main (int argc, char *argv[])
 	{
 		std::cout << "argv[" << i << "] " << argv[i] << std::endl;
 	}
-    return EXIT_FAILURE;
+    return 1;//EXIT_FAILURE;
 	}
 
   const char *filename1 = argv[1];
@@ -47,7 +49,7 @@ int main (int argc, char *argv[])
 	xmlfile << "<result>FAILED</result>" << std::endl;
     xmlfile << "</newtest>" << std::endl;
     xmlfile.close();
-	return EXIT_FAILURE;
+	return 1;//EXIT_FAILURE;
   }
 
   begin = file1.tellg();
@@ -66,7 +68,7 @@ int main (int argc, char *argv[])
 	xmlfile << "<result>FAILED</result>" << std::endl;
     xmlfile << "</newtest>" << std::endl;
     xmlfile.close();
-	return EXIT_FAILURE;
+	return 1;//EXIT_FAILURE;
   }
 
   begin = file2.tellg();
@@ -83,7 +85,7 @@ int main (int argc, char *argv[])
 	xmlfile << "<result>PASSED</result>" << std::endl;
     xmlfile << "</newtest>" << std::endl;
     xmlfile.close();
-	return EXIT_SUCCESS;
+	return 0;//EXIT_SUCCESS;
   }
   else
   {
@@ -95,6 +97,6 @@ int main (int argc, char *argv[])
 	xmlfile << "<result>FAILED</result>" << std::endl;
     xmlfile << "</newtest>" << std::endl;
     xmlfile.close();
-	return EXIT_FAILURE;
+	return 1;//EXIT_FAILURE;
   }
 }

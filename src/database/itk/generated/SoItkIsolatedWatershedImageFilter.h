@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_ISOLATEDWATERSHEDIMAGEFILTER_H_
 # define SO_ITK_ISOLATEDWATERSHEDIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
-# include <Inventor/Fields/SoSFVec3f.h>
+# include <Inventor/fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFVec3f.h>
 # include "SoItkImageToImageFilter.h"
 
 class XIPIVITK_API SoItkIsolatedWatershedImageFilter : public SoItkImageToImageFilter

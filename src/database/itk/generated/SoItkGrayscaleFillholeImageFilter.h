@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_GRAYSCALEFILLHOLEIMAGEFILTER_H_
 # define SO_ITK_GRAYSCALEFILLHOLEIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFBool.h>
+# include <Inventor/fields/SoSFBool.h>
 # include "SoItkImageToImageFilter.h"
 
 class XIPIVITK_API SoItkGrayscaleFillholeImageFilter : public SoItkImageToImageFilter

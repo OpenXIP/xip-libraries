@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_INTERPOLATE_IMAGE_FUNCTION_H_
 # define SO_ITK_INTERPOLATE_IMAGE_FUNCTION_H_
 
-# include <Inventor/Fields/SoSFEnum.h>
-# include <Inventor/Fields/SoSFShort.h>
+# include <Inventor/fields/SoSFEnum.h>
+# include <Inventor/fields/SoSFShort.h>
 # include "SoItkImageFunction.h"
 
 class SoItkInterpolateImageFunction : public SoItkImageFunction

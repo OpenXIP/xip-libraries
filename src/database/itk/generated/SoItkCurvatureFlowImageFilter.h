@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_CURVATUREFLOWIMAGEFILTER_H_
 # define SO_ITK_CURVATUREFLOWIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkDenseFiniteDifferenceImageFilter.h"
 
 class XIPIVITK_API SoItkCurvatureFlowImageFilter : public SoItkDenseFiniteDifferenceImageFilter

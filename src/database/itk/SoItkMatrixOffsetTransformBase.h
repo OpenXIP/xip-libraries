@@ -108,14 +108,15 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_MATRIX_OFFSET_TRANSFORM_BASE_H_
 # define SO_ITK_MATRIX_OFFSET_TRANSFORM_BASE_H_
 
 # include <xip/inventor/itk/SoItkSFDataMatrix.h>
-# include <Inventor/Fields/SoSFBool.h>
-# include <Inventor/Fields/SoMFFloat.h>
-# include <Inventor/Fields/SoSFMatrix.h>
+# include <Inventor/fields/SoSFBool.h>
+# include <Inventor/fields/SoMFFloat.h>
+# include <Inventor/fields/SoSFMatrix.h>
 # include "SoItkTransform.h"
 
 class SoItkMatrixOffsetTransformBase : public SoItkTransform

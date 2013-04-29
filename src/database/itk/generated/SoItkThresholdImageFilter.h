@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_THRESHOLDIMAGEFILTER_H_
 # define SO_ITK_THRESHOLDIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkInPlaceImageFilter.h"
 
 class XIPIVITK_API SoItkThresholdImageFilter : public SoItkInPlaceImageFilter

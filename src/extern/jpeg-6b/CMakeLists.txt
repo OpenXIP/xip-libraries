@@ -7,7 +7,7 @@ if(WIN32)
 endif(WIN32)
 
 if(APPLE)
-  add_definitions(-DUSE_MAC_MEMMGR)
+#  add_definitions(-DUSE_MAC_MEMMGR)
 endif(APPLE)
 
 set(HEADERS

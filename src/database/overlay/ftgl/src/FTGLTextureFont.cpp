@@ -53,7 +53,7 @@ FTGLTextureFont::FTGLTextureFont( const unsigned char *pBufferBytes, size_t buff
 
 FTGLTextureFont::~FTGLTextureFont()
 {
-	const GLuint* salut = (const GLuint*)&textureIDList[0];
+	//const GLuint* salut = (const GLuint*)&textureIDList[0];
     glDeleteTextures( textureIDList.size(), (const GLuint*)&textureIDList[0]);
 }
 

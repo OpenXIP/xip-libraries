@@ -108,14 +108,15 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_SEED_IMAGE_H_
 # define SO_ITK_SEED_IMAGE_H_
 
 # include <xip/inventor/itk/xipivitk.h>
 # include <xip/inventor/itk/SoItkSFDataImage.h>
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoMFVec3f.h>
+# include <Inventor/engines/SoSubEngine.h>
+# include <Inventor/fields/SoMFVec3f.h>
 
 class SoItkSeedImage : public SoEngine
 {	

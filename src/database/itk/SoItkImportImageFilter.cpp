@@ -108,10 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #include <itkImportImageFilter.h>
 #include <xip/inventor/itk/SoItkSFDataImage.h>
 #include "SoItkImportImageFilter.h"
+#include <fstream>
 
 SO_ENGINE_SOURCE( SoItkImportImageFilter );
 
@@ -167,10 +169,10 @@ SoItkImportImageFilter::loadBuffer()
 		return 0;
 	}
 
-	long fileSize;	
-	fileSize = fileIn.tellg();
+	long fileSize = fileIn.tellg();
 	fileIn.seekg( 0, std::ios::end );
-	fileSize = fileIn.tellg() - fileSize;
+	long endPos = fileIn.tellg();
+	fileSize = endPos - fileSize;
 	fileIn.seekg( 0, std::ios::beg );
 
 	long numElements = imageWidth * imageHeight;

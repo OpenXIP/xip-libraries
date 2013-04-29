@@ -2,44 +2,38 @@
 
 project(imageCompare)
 
+#--------------------------------------------------------------------
+# Include directories
+#
 include_directories(../../include)
 
+if(HAS_VTK)
+  include_directories(${VTK_INCLUDE_DIRS})
+endif(HAS_VTK)
+
+#--------------------------------------------------------------------
+# Link directories
+#
+if(HAS_VTK)
+  link_directories(${VTK_DIR}/..)
+endif(HAS_VTK)
+
+#--------------------------------------------------------------------
+# Compile executables
+#
 add_executable(fileCompare fileCompare.cpp)
 add_executable(smartFileCompare smartFileCompare.cpp)
 
 if(HAS_VTK)
-  if(WIN32)
-    include_directories(${XIPEXT}/vtk/include/vtk-5.0)
-    link_directories(${XIPEXT}/vtk/lib)
-  else(WIN32)
-    find_package(VTK REQUIRED)
-    include_directories(${VTK_INCLUDE_DIRS})
-  endif(WIN32)
-
   add_executable(color-utils color-utils.cpp)
-  #add_executable(dummy dummy.cpp)
+endif(HAS_VTK)
 
+#--------------------------------------------------------------------
+# Link executable
+#
+if(HAS_VTK)
   target_link_libraries(color-utils
-    vtkCommon
-    vtkDICOMParser
-    vtkexoIIc
-    vtkexpat
     vtkFiltering
-    vtkfreetype
-    vtkftgl
-    vtkGenericFiltering
-    vtkGraphics
-    vtkHybrid
     vtkIO
-    vtkImaging
-    vtkjpeg
-    vtkNetCDF
-    vtkRendering
-    vtkpng)
-
-#target_link_libraries(dummy
-#   vtkCommon)
-
-#else(HAS_VTK)
-#message("Warning: HAS_VTK is OFF. Tests cannot be built.")
+    vtkImaging)
 endif(HAS_VTK)

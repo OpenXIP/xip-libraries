@@ -108,13 +108,14 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #include <itkCenteredRigid2DTransform.h>
 #include <xip/inventor/itk/SoItkSFDataArray.h>
 #include <xip/inventor/itk/SoItkSFDataTransform.h>
 #include <xip/inventor/itk/SoItkUtils.h>
-#include <Inventor/Fields/SoMFFloat.h>
-#include <Inventor/Fields/SoSFFloat.h>
+#include <Inventor/fields/SoMFFloat.h>
+#include <Inventor/fields/SoSFFloat.h>
 #include "SoItkCenteredRigid2DTransform.h"
 
 

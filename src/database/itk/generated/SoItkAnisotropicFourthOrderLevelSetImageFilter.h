@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_ANISOTROPICFOURTHORDERLEVELSETIMAGEFILTER_H_
 # define SO_ITK_ANISOTROPICFOURTHORDERLEVELSETIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkSparseFieldFourthOrderLevelSetImageFilter.h"
 
 class XIPIVITK_API SoItkAnisotropicFourthOrderLevelSetImageFilter : public SoItkSparseFieldFourthOrderLevelSetImageFilter

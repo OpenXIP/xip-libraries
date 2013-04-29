@@ -108,14 +108,15 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_IMAGE_FILE_READER_H_
 # define SO_ITK_IMAGE_FILE_READER_H_
 
 # include <xip/inventor/itk/xipivitk.h>
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoSFEnum.h>
-# include <Inventor/Fields/SoSFString.h>
+# include <Inventor/engines/SoSubEngine.h>
+# include <Inventor/fields/SoSFEnum.h>
+# include <Inventor/fields/SoSFString.h>
 
 class SoItkDataImage;
 

@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #include <itkMatrixOffsetTransformBase.h>
 #include <xip/inventor/itk/SoItkUtils.h>
 #include <xip/inventor/itk/SoItkSFDataTransform.h>
-#include <Inventor/Fields/SoMFFloat.h>
-#include <Inventor/Fields/SoSFFloat.h>
+#include <Inventor/fields/SoMFFloat.h>
+#include <Inventor/fields/SoSFFloat.h>
 #include "SoItkMatrixOffsetTransformBase.h"
 
 SO_ENGINE_SOURCE( SoItkMatrixOffsetTransformBase )

@@ -108,16 +108,17 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_IMAGE_FILE_WRITER_H_
-# define SO_ITK_IMAGE_FILE_WRITER_H_
+#define SO_ITK_IMAGE_FILE_WRITER_H_
 
-# include <xip/inventor/itk/xipivitk.h>
-# include <xip/inventor/itk/SoItkSFDataImage.h>
-# include <Inventor/Engines/SoSubEngine.h>
-# include <Inventor/Fields/SoSFString.h>
-# include <Inventor/Fields/SoSFTrigger.h>
-# include <Inventor/Sensors/SoFieldSensor.h>
+#include <xip/inventor/itk/xipivitk.h>
+#include <xip/inventor/itk/SoItkSFDataImage.h>
+#include <Inventor/engines/SoSubEngine.h>
+#include <Inventor/fields/SoSFString.h>
+#include <Inventor/fields/SoSFTrigger.h>
+#include <Inventor/sensors/SoFieldSensor.h>
 
 class SoItkImageFileWriter : public SoEngine
 {	

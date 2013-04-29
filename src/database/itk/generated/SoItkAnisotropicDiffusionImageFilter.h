@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_ANISOTROPICDIFFUSIONIMAGEFILTER_H_
 # define SO_ITK_ANISOTROPICDIFFUSIONIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoSFFloat.h>
+# include <Inventor/fields/SoSFFloat.h>
 # include "SoItkDenseFiniteDifferenceImageFilter.h"
 
 class XIPIVITK_API SoItkAnisotropicDiffusionImageFilter : public SoItkDenseFiniteDifferenceImageFilter

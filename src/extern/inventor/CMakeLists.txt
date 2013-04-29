@@ -26,7 +26,7 @@ include_directories(
   ../../../include)
 
 #--------------------------------------------------------------------
-# Executable creation
+# Compile executable
 #
 if(WIN32)
   add_custom_command(TARGET xipinv240
@@ -38,7 +38,7 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Subdirectories
+# Build projects inside subdirectories
 #
 add_subdirectory(libFL)
 add_subdirectory(libimage)

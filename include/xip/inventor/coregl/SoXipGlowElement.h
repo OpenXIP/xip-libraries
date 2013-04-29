@@ -113,8 +113,12 @@
 #define SO_XIP_GLOW_ELEMENT_H
 
 #ifdef linux
-#include <GL/gl.h>
-#include <GL/glext.h>
+#include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
+#include <xip/system/GL/glext.h>
+#include <xip/system/GL/glxext.h>
+//#include <GL/gl.h>
+//#include <GL/glext.h>
 #else /* linux */
 #include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
@@ -144,9 +148,10 @@ extern XIPIVCOREGL_API bool GLOW_EXT_timer_query;
 extern XIPIVCOREGL_API bool GLOW_ARB_occlusion_query;
 
 #ifndef DARWIN
+#ifndef linux
 extern XIPIVCOREGL_API PFNGLGETQUERYOBJECTI64VEXTPROC	glGetQueryObjecti64vEXT;
 extern XIPIVCOREGL_API PFNGLGETQUERYOBJECTUI64VEXTPROC	glGetQueryObjectui64vEXT;
-
+#endif
 extern XIPIVCOREGL_API PFNGLGENQUERIESARBPROC			glGenQueriesARB;
 extern XIPIVCOREGL_API PFNGLDELETEQUERIESARBPROC		glDeleteQueriesARB;
 extern XIPIVCOREGL_API PFNGLBEGINQUERYARBPROC			glBeginQueryARB;

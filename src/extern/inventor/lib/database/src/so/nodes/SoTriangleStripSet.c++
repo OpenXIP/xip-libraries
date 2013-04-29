@@ -607,7 +607,7 @@ SoTriangleStripSet::computeBBox(SoAction *action,
     int	numStrips = (int) numVertices.getNum();
     int numVerts = 0;
 
-    SoState *state = action->getState();
+    //SoState *state = action->getState();
     if (numStrips && numVertices[numStrips-1] < 0) {
 	numVerts = -1;
     } else for (int i = 0; i < numStrips; i++) {

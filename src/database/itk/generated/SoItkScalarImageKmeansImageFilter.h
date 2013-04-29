@@ -108,12 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #ifndef SO_ITK_SCALARIMAGEKMEANSIMAGEFILTER_H_
 # define SO_ITK_SCALARIMAGEKMEANSIMAGEFILTER_H_
 
-# include <Inventor/Fields/SoMFInt32.h>
-# include <Inventor/Fields/SoSFBool.h>
+# include <Inventor/fields/SoMFInt32.h>
+# include <Inventor/fields/SoSFBool.h>
 # include "SoItkImageToImageFilter.h"
 
 class XIPIVITK_API SoItkScalarImageKmeansImageFilter : public SoItkImageToImageFilter

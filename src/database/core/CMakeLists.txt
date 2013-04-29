@@ -7,9 +7,9 @@ project(core)
 #
 find_package(OpenGL)
 
-if(WIN32 AND NOT OPENGL_FOUND)
+if(WIN32 AND OPENGL-NOTFOUND)
   set(OPENGL_LIBRARIES opengl32 glu32)
-endif(WIN32 AND NOT OPENGL_FOUND)
+endif(WIN32 AND OPENGL-NOTFOUND)
 
 #--------------------------------------------------------------------
 # Source files
@@ -205,8 +205,8 @@ link_directories(${LIBRARY_OUTPUT_PATH})
 add_library(xipivcore SHARED ${SOURCES} ${HEADERS})
 
 set_target_properties(xipivcore
-  PROPERTIES VERSION ${Xip_VERSION_STRING}
-  SOVERSION ${Xip_VERSION_STRING})
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
 # Link library
