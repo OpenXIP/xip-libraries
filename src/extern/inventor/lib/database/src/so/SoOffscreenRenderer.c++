@@ -100,12 +100,13 @@ extern void iclose(IMAGE *);
 // Offscreen renderings will always be rendered as RGB images
 // Currently the OpenGL does not support storing alpha channel information
 // in the offscreen pixmap.
-
-//static int attributeList[] = { GLX_RGBA, GLX_RED_SIZE, 1, GLX_GREEN_SIZE, 1,
-//                               GLX_BLUE_SIZE, 1, GLX_DEPTH_SIZE, 1, None };
+#ifdef linux
+static int attributeList[] = { GLX_RGBA, GLX_RED_SIZE, 1, GLX_GREEN_SIZE, 1,
+                               GLX_BLUE_SIZE, 1, GLX_DEPTH_SIZE, 1, None };
+#else
 static int attributeList[] = { GL_RGBA, GL_RED_SIZE, 1, GL_GREEN_SIZE, 1,
                                GL_BLUE_SIZE, 1, GL_DEPTH_SIZE, 1, None };
-
+#endif
 //
 // KLUDGE!!!!!
 // In order to keep caches from being blown away when the contexts

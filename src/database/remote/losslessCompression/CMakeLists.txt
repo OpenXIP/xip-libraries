@@ -3,7 +3,7 @@
 project(losslessCompression)
 
 #--------------------------------------------------------------------
-# Source files.
+# Source files
 #
 set(SOURCES
   cpuID.cpp
@@ -11,7 +11,7 @@ set(SOURCES
   rleCoder.cpp)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVREMOTE_EXPORTS)
@@ -20,15 +20,17 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Library creation.
+# Compile library
 #
 add_library(losslessCompression STATIC ${SOURCES})
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
+if(FALSE)
 install(TARGETS losslessCompression
   ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS losslessCompression
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release)
+endif(FALSE)

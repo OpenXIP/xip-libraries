@@ -15,7 +15,7 @@ endif(HAS_VTK)
 # Link directories
 #
 if(HAS_VTK)
-  link_directories(${VTK_DIR}/..)
+  link_directories(${VTK_LIBRARY_DIRS})
 endif(HAS_VTK)
 
 #--------------------------------------------------------------------

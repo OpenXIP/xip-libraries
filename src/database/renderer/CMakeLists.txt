@@ -2,13 +2,9 @@
 
 project(xipivrenderer)
 
-set(SOURCES
-  SoXipMprRender.cpp
-  SoXipSlicer.cpp
-  SoXipSlicerVolRender.cpp
-  SoXipCPUMprRender.cpp
-  init.cpp)
-	
+#--------------------------------------------------------------------
+# Header files
+#
 set(HEADERS
   SoXipMprRender.h
   SoXipSlicer.h
@@ -16,7 +12,17 @@ set(HEADERS
   SoXipCPUMprRender.h)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Source files
+#
+set(SOURCES
+  SoXipMprRender.cpp
+  SoXipSlicer.cpp
+  SoXipSlicerVolRender.cpp
+  SoXipCPUMprRender.cpp
+  init.cpp)
+
+#--------------------------------------------------------------------
+# Compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVRENDERER_EXPORTS)
@@ -36,6 +42,7 @@ endif(UNIX)
 # Compile library
 #
 add_library(xipivrenderer SHARED ${SOURCES} ${HEADERS})
+set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivrenderer)
 
 set_target_properties(xipivrenderer
   PROPERTIES VERSION ${XIP_VERSION_STRING}

@@ -1,60 +1,60 @@
-# - Find an Xip installation or build tree.
+# - Find an XIP installation or build tree.
 
-# When Xip is found, the XipConfig.cmake file is sourced to setup the
-# location and configuration of Xip.  Please read this file, or
-# XipConfig.cmake.in from the Xip source tree for the full list of
-# definitions.  Of particular interest is Xip_USE_FILE, a CMake source file
+# When XIP is found, the XIPConfig.cmake file is sourced to setup the
+# location and configuration of XIP.  Please read this file, or
+# XIPConfig.cmake.in from the XIP source tree for the full list of
+# definitions.  Of particular interest is XIP_USE_FILE, a CMake source file
 # that can be included to set the include directories, library directories,
 # and preprocessor macros.  In addition to the variables read from
-# XipConfig.cmake, this find module also defines
-#  Xip_DIR  - The directory containing XipConfig.cmake.  
+# XIPConfig.cmake, this find module also defines
+#  XIP_DIR  - The directory containing XIPConfig.cmake.  
 #             This is either the root of the build tree, 
 #             or the lib/InsightToolkit directory.  
 #             This is the only cache entry.
 #   
-#  Xip_FOUND - Whether Xip was found.  If this is true, 
-#              Xip_DIR is okay.
+#  XIP_FOUND - Whether XIP was found.  If this is true, 
+#              XIP_DIR is okay.
 #
-#  USE_Xip_FILE - The full path to the UseXip.cmake file.  
+#  USE_XIP_FILE - The full path to the UseXIP.cmake file.  
 #                 This is provided for backward 
-#                 compatability.  Use Xip_USE_FILE
+#                 compatability.  Use XIP_USE_FILE
 #                 instead.
 
 
-SET(Xip_DIR_STRING "directory containing XipConfig.cmake.  This is either the root of the build tree, or PREFIX/lib/Xip for an installation.")
+SET(XIP_DIR_STRING "directory containing XIPConfig.cmake.  This is either the root of the build tree, or PREFIX/lib/XIP for an installation.")
 
 # Search only if the location is not already known.
-IF(NOT Xip_DIR)
+IF(NOT XIP_DIR)
   # Get the system search path as a list.
   IF(UNIX)
-    STRING(REGEX MATCHALL "[^:]+" Xip_DIR_SEARCH1 "$ENV{PATH}")
+    STRING(REGEX MATCHALL "[^:]+" XIP_DIR_SEARCH1 "$ENV{PATH}")
   ELSE(UNIX)
-    STRING(REGEX REPLACE "\\\\" "/" Xip_DIR_SEARCH1 "$ENV{PATH}")
+    STRING(REGEX REPLACE "\\\\" "/" XIP_DIR_SEARCH1 "$ENV{PATH}")
   ENDIF(UNIX)
-  STRING(REGEX REPLACE "/;" ";" Xip_DIR_SEARCH2 ${Xip_DIR_SEARCH1})
+  STRING(REGEX REPLACE "/;" ";" XIP_DIR_SEARCH2 ${XIP_DIR_SEARCH1})
 
   # Construct a set of paths relative to the system search path.
-  SET(Xip_DIR_SEARCH "")
-  FOREACH(dir ${Xip_DIR_SEARCH2})
-    SET(Xip_DIR_SEARCH ${Xip_DIR_SEARCH} "${dir}/../lib/Xip")
+  SET(XIP_DIR_SEARCH "")
+  FOREACH(dir ${XIP_DIR_SEARCH2})
+    SET(XIP_DIR_SEARCH ${XIP_DIR_SEARCH} "${dir}/../lib/XIP")
   ENDFOREACH(dir)
 
   #
   # Look for an installation or build tree.
   #
-  FIND_PATH(Xip_DIR XipConfig.cmake
-    # Look for an environment variable Xip_DIR.
-    $ENV{Xip_DIR}
+  FIND_PATH(XIP_DIR XIPConfig.cmake
+    # Look for an environment variable XIP_DIR.
+    $ENV{XIP_DIR}
 
     # Look in places relative to the system executable search path.
-    ${Xip_DIR_SEARCH}
+    ${XIP_DIR_SEARCH}
 
     # Look in standard UNIX install locations.
-    /usr/local/lib/Xip
-    /usr/lib/Xip
+    /usr/local/lib/XIP
+    /usr/lib/XIP
 
     # Read from the CMakeSetup registry entries.  It is likely that
-    # Xip will have been recently built.
+    # XIP will have been recently built.
     [HKEY_CURRENT_USER\\Software\\Siemens\\CMakeSetup\\Settings\\StartPath;WhereBuild1]
     [HKEY_CURRENT_USER\\Software\\Siemens\\CMakeSetup\\Settings\\StartPath;WhereBuild2]
     [HKEY_CURRENT_USER\\Software\\Siemens\\CMakeSetup\\Settings\\StartPath;WhereBuild3]
@@ -67,20 +67,20 @@ IF(NOT Xip_DIR)
     [HKEY_CURRENT_USER\\Software\\Siemens\\CMakeSetup\\Settings\\StartPath;WhereBuild10]
 
     # Help the user find it if we cannot.
-    DOC "The ${Xip_DIR_STRING}"
+    DOC "The ${XIP_DIR_STRING}"
   )
-ENDIF(NOT Xip_DIR)
+ENDIF(NOT XIP_DIR)
 
-# If Xip was found, load the configuration file to get the rest of the
+# If XIP was found, load the configuration file to get the rest of the
 # settings.
-IF(Xip_DIR)
-  SET(Xip_FOUND 1)
-  INCLUDE(${Xip_DIR}/XipConfig.cmake)
+IF(XIP_DIR)
+  SET(XIP_FOUND 1)
+  INCLUDE(${XIP_DIR}/XIPConfig.cmake)
 
-  message("Xip_USE_FILE "${Xip_USE_FILE})
-ELSE(Xip_DIR)
-  SET(Xip_FOUND 0)
-  IF(Xip_FIND_REQUIRED)
-    MESSAGE(FATAL_ERROR "Please set Xip_DIR to the ${Xip_DIR_STRING}")
-  ENDIF(Xip_FIND_REQUIRED)
-ENDIF(Xip_DIR)
+  message("XIP_USE_FILE "${XIP_USE_FILE})
+ELSE(XIP_DIR)
+  SET(XIP_FOUND 0)
+  IF(XIP_FIND_REQUIRED)
+    MESSAGE(FATAL_ERROR "Please set XIP_DIR to the ${XIP_DIR_STRING}")
+  ENDIF(XIP_FIND_REQUIRED)
+ENDIF(XIP_DIR)

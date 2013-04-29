@@ -173,7 +173,7 @@ set(HEADERS
   SoXipWindowSize.h)	
 
 #--------------------------------------------------------------------
-# Definitions
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVCORE_EXPORTS)
@@ -188,7 +188,6 @@ if(UNIX)
   include_directories(
     ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
     ${OIV_PATH}/include/
-    ${Xip_SOURCE_DIR}/include
     ../../../include
     /usr/include 
     /usr/include/libxml2/) 

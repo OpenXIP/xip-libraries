@@ -82,6 +82,7 @@ endif(UNIX)
 # Create library
 #
 add_library(xipivcoregl SHARED ${SOURCES})
+set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivcoregl)
 
 set_target_properties(xipivcoregl
   PROPERTIES VERSION ${XIP_VERSION_STRING}

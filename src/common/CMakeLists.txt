@@ -3,13 +3,13 @@
 project(common)
 
 #--------------------------------------------------------------------
-# Source files.
+# Source files
 #
 set(SOURCES
   XipException.cpp)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVCOMMON_EXPORTS)
@@ -18,21 +18,21 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Library creation.
+# Compile library
 #
 add_library(xipcommon SHARED ${SOURCES})
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
 install(TARGETS xipcommon
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipcommon
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

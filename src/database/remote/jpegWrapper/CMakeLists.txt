@@ -3,7 +3,7 @@
 project(jpegWrapper)
 
 #--------------------------------------------------------------------
-# Source files.
+# Source files
 #
 set(SOURCES
   bufferImage.cpp
@@ -12,7 +12,7 @@ set(SOURCES
   memoryObj.cpp)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Definitions
 #
 add_definitions(-D_LIB -D__DISABLE_WARNING -DXMD_H)
 
@@ -21,20 +21,22 @@ if(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
 include_directories(../../../extern/jpeg-6b)
 
 #--------------------------------------------------------------------
-# Library creation.
+# Compile library
 #
 add_library(jpegWrapper STATIC ${SOURCES})
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
+if(FALSE)
 install(TARGETS jpegWrapper
   ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS jpegWrapper
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release)
+endif(FALSE)

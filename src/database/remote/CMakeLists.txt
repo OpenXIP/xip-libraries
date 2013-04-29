@@ -3,7 +3,7 @@
 project(remote)
 
 #--------------------------------------------------------------------
-# Header files.
+# Header files
 #
 set(HEADERS
   PreciseTimer.h
@@ -16,7 +16,7 @@ set(HEADERS
   SoXipRemoteVolume.h)
 
 #--------------------------------------------------------------------
-# Source files.
+# Source files
 #
 set(SOURCES
   PreciseTimer.cpp
@@ -29,14 +29,14 @@ set(SOURCES
   init.cpp)
 
 #--------------------------------------------------------------------
-# Subdirectories.
+# Build subprojects
 #
 add_subdirectory(jpegWrapper)
 add_subdirectory(losslessCompression)
 add_subdirectory(stream)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Define compiler flags
 #
 add_definitions(-DNDEBUG -D_LIB -D__DISABLE_WARNING -DXMD_H)
 
@@ -47,10 +47,9 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
 include_directories(
-  ${Xip_SOURCE_DIR}/include
   ../../extern/jpeg-6b)
 
 if(UNIX)
@@ -62,6 +61,7 @@ endif(UNIX)
 # Compile library
 #
 add_library(xipivremote SHARED ${HEADERS} ${SOURCES})
+set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivremote)
 
 set_target_properties(xipivremote
   PROPERTIES VERSION ${XIP_VERSION_STRING}

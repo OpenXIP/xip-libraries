@@ -519,9 +519,9 @@ if(ITK_FOUND)
   include(${ITK_USE_FILE})
 else(ITK_FOUND)
   find_path(ITK_DIR ITKConfig.cmake
-    ../../../../xipext-win32-vs8/lib/InsightToolkit
-    ../../../../xipext-mac-xcode/lib/InsightToolkit
-    ../../../../xipext-linux-gcc/lib/InsightToolkit
+    ../../../../xipext-win32-vs8/ITK/lib/InsightToolkit
+    ../../../../xipext-mac-xcode/ITK/lib/InsightToolkit
+    ../../../../xipext-linux-gcc/ITK/lib/InsightToolkit
     "Directory where ITK is installed")
 endif(ITK_FOUND)
 
@@ -548,6 +548,7 @@ link_directories(${ITK_LIBRARY_DIRS})
 # Compile library
 #
 add_library(xipivitk SHARED ${HEADERS} ${SOURCES})
+set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivitk)
 
 set_target_properties(xipivitk
   PROPERTIES VERSION ${XIP_VERSION_STRING}

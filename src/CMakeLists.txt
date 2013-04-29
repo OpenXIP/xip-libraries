@@ -26,7 +26,7 @@ include_directories(
   /opt/local/include) # Used for Macports
 
 #--------------------------------------------------------------------
-# Subdirectories.
+# Subdirectories
 #
 add_subdirectory(common)
 add_subdirectory(database)

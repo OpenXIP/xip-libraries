@@ -247,6 +247,7 @@ link_directories(${DCMTK_DIR})
 # Compile the library
 #
 add_library(xipivoverlay SHARED ${SOURCES} ${HEADERS})
+set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivoverlay)
 
 set_target_properties(xipivoverlay
   PROPERTIES VERSION ${XIP_VERSION_STRING}

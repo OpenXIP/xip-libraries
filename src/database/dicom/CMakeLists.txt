@@ -83,6 +83,7 @@ link_directories(${DCMTK_DIR})
 # Compile library
 #
 add_library(xipivdicom SHARED ${SOURCES} ${HEADERS})
+set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivdicom)
 
 set_target_properties(xipivdicom
   PROPERTIES VERSION ${XIP_VERSION_STRING}

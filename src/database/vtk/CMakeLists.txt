@@ -647,12 +647,13 @@ include_directories(
 #--------------------------------------------------------------------
 # Link directories
 #
-link_directories(${VTK_DIR}/..)
+link_directories(${VTK_LIBRARY_DIRS})
 
 #--------------------------------------------------------------------
 # Compile library
 #
 add_library(xipivvtk SHARED ${HEADERS} ${SOURCES})
+set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivvtk)
 
 set_target_properties(xipivvtk
   PROPERTIES VERSION ${XIP_VERSION_STRING}
@@ -686,54 +687,4 @@ install(TARGETS xipivvtk
 if(WIN32)
   install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivvtk.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
-
-  install(FILES
-    ${VTK_DIR}/../../bin/vtkCommon.dll
-    ${VTK_DIR}/../../bin/vtkDICOMParser.dll
-    ${VTK_DIR}/../../bin/vtkexoIIc.dll
-    ${VTK_DIR}/../../bin/vtkexpat.dll
-    ${VTK_DIR}/../../bin/vtkFiltering.dll
-    ${VTK_DIR}/../../bin/vtkfreetype.dll
-    ${VTK_DIR}/../../bin/vtkftgl.dll
-    ${VTK_DIR}/../../bin/vtkGenericFiltering.dll
-    ${VTK_DIR}/../../bin/vtkGraphics.dll
-    ${VTK_DIR}/../../bin/vtkHybrid.dll
-    ${VTK_DIR}/../../bin/vtkImaging.dll
-    ${VTK_DIR}/../../bin/vtkIO.dll
-    ${VTK_DIR}/../../bin/vtkjpeg.dll
-    ${VTK_DIR}/../../bin/vtkNetCDF.dll
-    ${VTK_DIR}/../../bin/vtkParallel.dll
-    ${VTK_DIR}/../../bin/vtkpng.dll
-    ${VTK_DIR}/../../bin/vtkRendering.dll
-    ${VTK_DIR}/../../bin/vtkVolumeRendering.dll
-    ${VTK_DIR}/../../bin/vtksys.dll
-    ${VTK_DIR}/../../bin/vtktiff.dll
-    ${VTK_DIR}/../../bin/vtkWidgets.dll
-    ${VTK_DIR}/../../bin/vtkzlib.dll
-    DESTINATION bin/debug CONFIGURATIONS Debug)
-
-  install(FILES
-    ${VTK_DIR}/../../bin/vtkCommon.dll
-    ${VTK_DIR}/../../bin/vtkDICOMParser.dll
-    ${VTK_DIR}/../../bin/vtkexoIIc.dll
-    ${VTK_DIR}/../../bin/vtkexpat.dll
-    ${VTK_DIR}/../../bin/vtkFiltering.dll
-    ${VTK_DIR}/../../bin/vtkfreetype.dll
-    ${VTK_DIR}/../../bin/vtkftgl.dll
-    ${VTK_DIR}/../../bin/vtkGenericFiltering.dll
-    ${VTK_DIR}/../../bin/vtkGraphics.dll
-    ${VTK_DIR}/../../bin/vtkHybrid.dll
-    ${VTK_DIR}/../../bin/vtkImaging.dll
-    ${VTK_DIR}/../../bin/vtkIO.dll
-    ${VTK_DIR}/../../bin/vtkjpeg.dll
-    ${VTK_DIR}/../../bin/vtkNetCDF.dll
-    ${VTK_DIR}/../../bin/vtkParallel.dll
-    ${VTK_DIR}/../../bin/vtkpng.dll
-    ${VTK_DIR}/../../bin/vtkRendering.dll
-    ${VTK_DIR}/../../bin/vtkVolumeRendering.dll
-    ${VTK_DIR}/../../bin/vtksys.dll
-    ${VTK_DIR}/../../bin/vtktiff.dll
-    ${VTK_DIR}/../../bin/vtkWidgets.dll
-    ${VTK_DIR}/../../bin/vtkzlib.dll
-    DESTINATION bin/release CONFIGURATIONS Release)
 endif(WIN32)
