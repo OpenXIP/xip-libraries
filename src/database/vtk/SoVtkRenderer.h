@@ -113,35 +113,34 @@
  * \file SoVtkRenderer.h
  *
  * \brief SoVtkRenderer class description.
- *
+ * \author Sylvain Jaume, Francois Huguet
  */
 
 #ifndef SO_VTKRENDERER_H
 #define SO_VTKRENDERER_H
 
-# include <vector>
-# include <Inventor/nodes/SoGroup.h>
-# include <Inventor/misc/SoState.h>
+#include <vector>
+#include <Inventor/nodes/SoGroup.h>
+#include <Inventor/misc/SoState.h>
 
 #include <Inventor/actions/SoGLRenderAction.h>
 
-# include <Inventor/Fields/SoSFVec4f.h>
-# include <Inventor/fields/SoSFVec3f.h>
-# include <Inventor/Fields/SoSFVec2f.h>
-# include <Inventor/Fields/SoSFFloat.h>
-# include <Inventor/Fields/SoSFEnum.h>
-# include <Inventor/Fields/SoSFBool.h>
-# include <Inventor/fields/SoSFInt32.h>
+#include <Inventor/fields/SoSFVec4f.h>
+#include <Inventor/fields/SoSFVec3f.h>
+#include <Inventor/fields/SoSFVec2f.h>
+#include <Inventor/fields/SoSFFloat.h>
+#include <Inventor/fields/SoSFEnum.h>
+#include <Inventor/fields/SoSFBool.h>
+#include <Inventor/fields/SoSFInt32.h>
 
-# include "xip/inventor/vtk/SoSFVtkObject.h"
+#include "xip/inventor/vtk/SoSFVtkObject.h"
 
-# include "vtkOpenGLRenderer.h"
-# include "vtkWin32OpenGLRenderWindow.h"
+#include "vtkOpenGLRenderer.h"
+#include "vtkRenderWindow.h"
 
-# include <xip/system/GL/gl.h>	// Header File For The OpenGL32 Library
-# include <xip/system/GL/glu.h>	// Header File For The GLu32 Library
-//# include <gl\glaux.h>		// Header File For The Glaux Library
-
+#include <xip/system/GL/gl.h>	// Header File For The OpenGL32 Library
+#include <xip/system/GL/glu.h>	// Header File For The GLu32 Library
+//#include <gl\glaux.h>		// Header File For The Glaux Library
 
 /*!
  * \brief
@@ -156,63 +155,64 @@
  * \see SoVtkImageActor
  * \see SoVtkActor2D
  * \see SoVtkVolume
- *
  */
 class SoVtkRenderer : public SoGroup
 {
-	SO_NODE_HEADER( SoVtkRenderer );
+  SO_NODE_HEADER( SoVtkRenderer );
 
 public:
-	/// Constructor.
-	SoVtkRenderer();
+  /// Constructor.
+  SoVtkRenderer();
 
-	/// Class initialization.
-	static void initClass();
+  /// Class initialization.
+  static void initClass();
 
-	/// Get XIP camera information and update the VTK camera.
-	void		updateCamera(SoState *state);
+  /// Get XIP camera information and update the VTK camera.
+  void	updateCamera(SoState *state);
 
-	/// Get directly all the children of the renderer.
-	void updateChildren();
+  /// Get directly all the children of the renderer.
+  void updateChildren();
 
+  enum StereoModeEnum
+  {
+	Anaglyph,
+	CrystalEyes,
+	Dresden,
+	Interlaced,
+	Left,
+	RedBlue,
+	Right
+  };
 
-	enum StereoModeEnum
-	{
-		Anaglyph,
-		CrystalEyes,
-		Dresden,
-		Interlaced,
-		Left,
-		RedBlue,
-		Right
-	};
+  SoSFEnum	StereoMode;
+  SoSFBool	StereoRender;
+  SoSFVec3f	Background;
 
-	SoSFEnum	StereoMode;
-	SoSFBool	StereoRender;
-	SoSFVec3f	Background;
+  void normalize(SbVec3f& );
 
-	void normalize(SbVec3f& );
-
-	vtkOpenGLRenderer * getRenderer() const;
-	vtkWin32OpenGLRenderWindow * getRenderWindow() const;
-	virtual void	GLRender( SoGLRenderAction* action );
+  vtkOpenGLRenderer * getRenderer() const;
+  vtkRenderWindow * getRenderWindow() const;
+  virtual void	GLRender( SoGLRenderAction* action );
 
 protected:
-	/// Destructor.
-	~SoVtkRenderer();
+  /// Destructor.
+  ~SoVtkRenderer();
 
-	
-	vtkOpenGLRenderer		*mRen;
-	vtkWin32OpenGLRenderWindow *mRenWin;
+  vtkOpenGLRenderer  *mRen;
+  vtkRenderWindow    *mRenWin;
 
-	/// Update the stereo render mode.
-	void				updateStereoMode();
-	/// Update the window size of the vtk window.
-	void				updateRenderWindowSize(SoState *state);
-
-	HGLRC				mRC;
-	int				lastStereo;
-	int mNodeId;
+  /// Update the stereo render mode.
+  void		updateStereoMode();
+  /// Update the window size of the vtk window.
+  void		updateRenderWindowSize(SoState *state);
+#ifdef WIN32
+  HGLRC		mRC;
+#endif // WIN32
+  int lastStereo;
+  int mNodeId;
 };
 
 #endif //  SO_VTKRENDERER_H
+
+
+

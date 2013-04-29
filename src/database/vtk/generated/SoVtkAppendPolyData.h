@@ -108,20 +108,26 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
- 
- 
- 
-# ifndef SO_VTK_APPENDPOLYDATA_H_
-# define SO_VTK_APPENDPOLYDATA_H_
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
-# include <Inventor/Engines/SoSubEngine.h>
+ /*
+  * \class SoVtkAppendPolyData.h
+  * \author Sylvain Jaume, Francois Huguet
+  */
 
-# include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
-# include "xip/inventor/vtk/SoSFVtkObject.h"
+#ifndef SO_VTK_APPENDPOLYDATA_H_
+#define SO_VTK_APPENDPOLYDATA_H_
 
-# include "vtkAppendPolyData.h"
+#include <Inventor/engines/SoSubEngine.h>
+#include <Inventor/fields/SoSFInt32.h>
 
-# include "Inventor/Fields/SoSFInt32.h"
+#include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
+#include "xip/inventor/vtk/SoSFVtkObject.h"
+
+#include "vtkAppendPolyData.h"
 
 class SoVtkAppendPolyData : public SoEngine
 {
@@ -181,3 +187,5 @@ private:
 };
 
 #endif // SO_VTK_APPENDPOLYDATA_H_
+
+

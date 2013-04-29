@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include "SoXipDecomposeMFInt32.h"
 
 SO_ENGINE_SOURCE(SoXipDecomposeMFInt32);
@@ -248,3 +248,5 @@ void SoXipDecomposeMFInt32::evaluate()
             SO_ENGINE_OUTPUT(int7, SoSFInt32, setValue(intMF[7]));
     }
 }
+
+

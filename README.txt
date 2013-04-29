@@ -25,9 +25,15 @@ Go one level above Xip dir: C:/home/sylvain
 mkdir xip-build
 cd xip-build
 cmake ../xip -G "Visual Studio 8 2005" -DXIPEXT:PATH=C:/home/sylvain/xipext -DXIPBUILDER:PATH=C:/home/sylvain/xipbuilder/bin/release
-!!! You need the new Xipbuilder (Jan 2007) that takes the parameter:
-!!! /cmd=filename
 (optional) in cygwin, go to xip-build and type ctest -D ExperimentalSubmit -VV
+
+To compile on Mac and Linux, you need to build Open Inventor.
+Inventor has dependencies on third party libraries.
+You need to install the following tools in order to build Open Inventor:
+
+    * libjpeg  -- http://www.ijg.org/
+    * freetype -- http://www.freetype.org/
+    * iconv    -- http://www.gnu.org/software/libiconv/ 
 
 
 Submitting to the dashboard

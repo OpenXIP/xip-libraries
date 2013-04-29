@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include "SoXipClearBuffer.h"
 
 SO_NODE_SOURCE(SoXipClearBuffer);
@@ -177,3 +177,5 @@ void SoXipClearBuffer::GLRender(SoGLRenderAction* action)
 		glClearDepth(savedDepth);
 	}
 }
+
+

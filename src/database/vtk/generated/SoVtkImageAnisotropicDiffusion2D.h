@@ -108,21 +108,25 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_IMAGEANISOTROPICDIFFUSION2D_H_
 # define SO_VTK_IMAGEANISOTROPICDIFFUSION2D_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkImageAnisotropicDiffusion2D.h"
 
-# include "Inventor/Fields/SoSFInt32.h"
-# include "Inventor/Fields/SoSFFloat.h"
+# include "Inventor/fields/SoSFInt32.h"
+# include "Inventor/fields/SoSFFloat.h"
 
 class SoVtkImageAnisotropicDiffusion2D : public SoEngine
 {
@@ -192,3 +196,4 @@ private:
 };
 
 #endif // SO_VTK_IMAGEANISOTROPICDIFFUSION2D_H_
+

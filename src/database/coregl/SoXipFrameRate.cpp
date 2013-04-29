@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipFrameRate.h>
 
 SO_NODE_SOURCE(SoXipFrameRate);
@@ -160,7 +160,7 @@ void SoXipFrameRate::GLRender(SoGLRenderAction* action) {
 #else 
 #ifdef linux
 
-glFinish();
+        glFinish();
 
 	struct timeval now;
 
@@ -179,3 +179,5 @@ glFinish();
 #endif
 #endif
 }
+
+

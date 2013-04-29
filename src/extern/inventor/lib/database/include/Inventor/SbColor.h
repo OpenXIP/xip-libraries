@@ -58,6 +58,7 @@
 
 #include <Inventor/system/SbSystem.h>
 #include <Inventor/SbLinear.h>
+#include <xip/system/standard.h>
 
 
 //////////////////////////////////////////////////////////////////////////////

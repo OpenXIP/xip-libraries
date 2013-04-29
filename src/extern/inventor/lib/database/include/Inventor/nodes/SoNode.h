@@ -61,6 +61,7 @@
 #include <Inventor/SoLists.h>
 #include <Inventor/SbString.h>
 #include <Inventor/SoType.h>
+#include <xip/system/standard.h>
 
 class SoAction;
 class SoCallbackAction;

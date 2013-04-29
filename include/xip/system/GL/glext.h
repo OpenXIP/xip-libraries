@@ -38,26 +38,32 @@
 
 #if defined(WIN32)
 
-#  include <xip/system/GL/standard/glext.h>
-#  include <xip/system/GL/wglext.h>
-#  define xipGlGetProcAddress(x) wglGetProcAddress(x)
-#  define XipGlGetProcAddress(x) wglGetProcAddress(x)
+  #include <xip/system/GL/standard/glext.h>
+  #include <xip/system/GL/wglext.h>
+  #define xipGlGetProcAddress(x) wglGetProcAddress(x)
+  #define XipGlGetProcAddress(x) wglGetProcAddress(x)
 
 #elif defined(linux)
 
-#  include <xip/system/GL/standard/glext.h>
-#  include <xip/system/GL/glxext.h>
-#  define xipGlGetProcAddress(x) glXGetProcAddress((const GLubyte*)x)
-#  define XipGlGetProcAddress(x) glXGetProcAddress((const GLubyte*)x)
+  #include <X11/Xlib.h>
+  #include <X11/Xmd.h>
+  #include <xip/system/GL/standard/glext.h>
+  #include <xip/system/GL/glxext.h>
+
+  #include <GL/glx.h>
+  #define glActiveTextureARB glActiveTextureARBext
+  #ifdef GLX_VERSION_1_4
+    #define xipGlGetProcAddress(x) glXGetProcAddressARB((const GLubyte*)x)
+  #else
+    #define xipGlGetProcAddressARB(x) glXGetProcAddress((const GLubyte*)x)
+  #endif
 
 #elif defined(DARWIN)
 
-#  include <OpenGL/glext.h>
-// #  define xipGlGetProcAddress(x) aglGetProcAddress(x)
-// #  define XipGlGetProcAddress(x) aglGetProcAddress(x)
+  #include <OpenGL/glext.h>
+  //#define xipGlGetProcAddress(x) aglGetProcAddress(x)
 
-#endif /* Platform selection */
-
+#endif // Platform selection
 
 /*
  *  COPYRIGHT NOTICE.  Copyright (C) 2005 Siemens Corporate Research, 

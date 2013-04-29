@@ -31,7 +31,11 @@
  */
 
 
+#ifdef WIN32
 #include <Inventor/events/SoMouseWheelEvent.h>
+#else
+#include "../../../include/Inventor/events/SoMouseWheelEvent.h"
+#endif
 
 SO_EVENT_SOURCE(SoMouseWheelEvent);
 

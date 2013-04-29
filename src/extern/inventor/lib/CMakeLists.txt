@@ -1,72 +1,71 @@
 # Sylvain Jaume 2008
 
-project(lib)
-
-# build a framework bundle on Mac OS X
-#IF(APPLE)
-#  ADD_DEFINITIONS(-Dlib_bundle)
-#ENDIF
+project(xipinv240)
+cmake_minimum_required(VERSION 2.6)
 
 #--------------------------------------------------------------------
-# Find packages.
+# Find external packages
 #
-if(NOT WIN32)
-  find_package(OpenGL REQUIRED)
+find_package(OpenGL REQUIRED)
+
+if(UNIX)
   find_package(JPEG REQUIRED)
   find_library(ICONV_LIBRARY iconv)
-endif(NOT WIN32)
+endif(UNIX)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Definitions
 #
-add_definitions(-Ddll -Dexceptions -Dshared -Dthread -Divgensources
-  -Dopengl -DlibFL -Dlibimage -Djpeg_static -Diconv -Dfreetype
-  -DLIBRARYBUILD)
+add_definitions(-DLIBRARYBUILD -D__SGIOIV_BUILD_DLL)
 
 if(WIN32)
-  add_definitions(-DWIN32 -DINVENTOR_EXPORTS -D__SGIOIV_BUILD_DLL
-    -DHAVE_BOOLEAN)
+  add_definitions(-Ddll -Dexceptions -Dshared -Dthread -Divgensources
+  -Dopengl -DlibFL -Dlibimage -Djpeg_static -Diconv -Dfreetype)
+  add_definitions(-DWIN32 -DINVENTOR_EXPORTS -DHAVE_BOOLEAN)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
 include_directories(
   database/include
-  database/src/so
-  database/src/so/engines
-  database/src/so/fields
-  database/src/so/upgraders
-  interaction/include
-  interaction/src/draggers
-  ../libFL/ang
-  nodekits/include
-  mevis/include
-  ../../libiconv-1.11/include
-  ../../jpeg-6b
-  ${Xip_SOURCE_DIR}/include
-
-  # nurbs
   database/src/so/nodes
   database/src/so/nodes/nurbs
   database/src/so/nodes/nurbs/head
-  database/src/so/nodes/nurbs/clients
-  database/src/so/nodes/nurbs/libnurbs)
+  interaction/include
+  nodekits/include
+  mevis/include
+  xip/include
+  ../libFL/src)
 
-# TODO: ensure the local inttypes.h is found last
-if(!APPLE AND UNIX)
-  include_directories(lib/mevis/include)
-endif(!APPLE AND UNIX)
+if(WIN32)
+  include_directories(
+    database/src/so
+    database/src/so/engines
+    database/src/so/fields
+    database/src/so/upgraders
+    database/src/so/nodes/nurbs/clients
+    database/src/so/nodes/nurbs/libnurbs
+    interaction/src/draggers
+    ../libFL/ang
+    ../../libiconv-1.11/include
+    ../../jpeg-6b
+    ../../../../include)
+endif(WIN32)
+
+if(UNIX)
+  include_directories(
+    ${OPENGL_INCLUDE_DIR}
+    ${JPEG_INCLUDE_DIR})
+endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link directories.
+# link directories
 #
-if(!APPLE AND UNIX)
-  link_directories(${inventor_BINARY_DIR}/libFL)
-endif(!APPLE AND UNIX)
+link_directories(${inventor_BINARY_DIR}/libFL)
 
 #--------------------------------------------------------------------
-# Header files: MeVis extensions to Open Inventor
+#  MeVis extensions to Open Inventor
 #
 set(HEADERS
   mevis/include/Inventor/SoCatch.h
@@ -83,212 +82,235 @@ set(HEADERS
   mevis/include/Inventor/system/SbConfig.h
   mevis/include/Inventor/system/SbSystem.h)
 
+set(SOURCES
+  mevis/src/SoCatch.c++
+  mevis/src/SoMeVis.c++
+  mevis/src/SoTrace.c++
+  mevis/src/elements/SoGLPolygonOffsetElement.c++
+  mevis/src/elements/SoGLStencilBitsElement.c++
+  mevis/src/elements/SoPolygonOffsetElement.c++
+  mevis/src/elements/SoStencilBitsElement.c++
+  mevis/src/fields/SoSFVec2s.c++
+  mevis/src/fields/SoSFVec3s.c++
+  mevis/src/nodes/SoPolygonOffset.c++)
+
+if(WIN32)
+  set(HEADERS ${HEADERS}
+    mevis/include/SoWinEnterScope.h
+    mevis/include/SoWinLeaveScope.h
+    mevis/include/inttypes.h
+    mevis/src/utf8_filesupport_win32.h)
+	
+  set(SOURCES ${SOURCES}
+    mevis/src/utf8_filesupport_win32.c++)
+endif(WIN32)
+
 #--------------------------------------------------------------------
-# Header files: Open Inventor 2.1.x
+#  SGI Open Inventor 2.1.x
 #
 set(HEADERS ${HEADERS}
   database/include/Inventor/Sb.h
-  database/include/Inventor/SbBasic.h 
-  database/include/Inventor/SbBox.h 
-  database/include/Inventor/SbColor.h 
-  database/include/Inventor/SbDict.h 
+  database/include/Inventor/SbBasic.h
+  database/include/Inventor/SbBox.h
+  database/include/Inventor/SbColor.h
+  database/include/Inventor/SbDict.h
   database/include/Inventor/SbLinear.h
-  database/include/Inventor/SbPList.h 
-  database/include/Inventor/SbString.h 
-  database/include/Inventor/SbTime.h 
-  database/include/Inventor/SbViewportRegion.h 
-  database/include/Inventor/So.h 
-  database/include/Inventor/SoDB.h 
-  database/include/Inventor/SoInput.h 
+  database/include/Inventor/SbPList.h
+  database/include/Inventor/SbString.h
+  database/include/Inventor/SbTime.h
+  database/include/Inventor/SbViewportRegion.h
+  database/include/Inventor/So.h
+  database/include/Inventor/SoDB.h
+  database/include/Inventor/SoInput.h
   database/include/Inventor/SoLists.h
-  database/include/Inventor/SoOutput.h 
-  database/include/Inventor/SoPath.h 
-  database/include/Inventor/SoPickedPoint.h 
-  database/include/Inventor/SoPrimitiveVertex.h 
-  database/include/Inventor/SoType.h 
-  database/include/Inventor/actions/SoAction.h 
-  database/include/Inventor/actions/SoActions.h 
-  database/include/Inventor/actions/SoCallbackAction.h 
-  database/include/Inventor/actions/SoGLRenderAction.h 
-  database/include/Inventor/actions/SoGetBoundingBoxAction.h 
-  database/include/Inventor/actions/SoGetMatrixAction.h 
-  database/include/Inventor/actions/SoHandleEventAction.h 
-  database/include/Inventor/actions/SoPickAction.h 
-  database/include/Inventor/actions/SoRayPickAction.h 
-  database/include/Inventor/actions/SoSearchAction.h 
-  database/include/Inventor/actions/SoSubAction.h 
-  database/include/Inventor/actions/SoWriteAction.h 
-  database/include/Inventor/bundles/SoBundle.h 
-  database/include/Inventor/bundles/SoMaterialBundle.h 
-  database/include/Inventor/bundles/SoNormalBundle.h 
-  database/include/Inventor/bundles/SoTextureCoordinateBundle.h 
-  database/include/Inventor/caches/SoBoundingBoxCache.h 
-  database/include/Inventor/caches/SoCache.h 
-  database/include/Inventor/caches/SoGLCacheList.h 
-  database/include/Inventor/caches/SoGLRenderCache.h 
-  database/include/Inventor/caches/SoNormalCache.h 
-  database/include/Inventor/details/SoConeDetail.h 
-  database/include/Inventor/details/SoCubeDetail.h 
-  database/include/Inventor/details/SoCylinderDetail.h 
-  database/include/Inventor/details/SoDetail.h 
-  database/include/Inventor/details/SoDetails.h 
-  database/include/Inventor/details/SoFaceDetail.h 
-  database/include/Inventor/details/SoLineDetail.h 
-  database/include/Inventor/details/SoPointDetail.h 
-  database/include/Inventor/details/SoSubDetail.h 
-  database/include/Inventor/details/SoTextDetail.h 
-  database/include/Inventor/elements/SoAccumulatedElement.h 
-  database/include/Inventor/elements/SoAmbientColorElement.h 
-  database/include/Inventor/elements/SoBBoxModelMatrixElement.h 
-  database/include/Inventor/elements/SoCacheElement.h 
-  database/include/Inventor/elements/SoClipPlaneElement.h 
-  database/include/Inventor/elements/SoComplexityElement.h 
-  database/include/Inventor/elements/SoComplexityTypeElement.h 
-  database/include/Inventor/elements/SoCoordinateElement.h 
-  database/include/Inventor/elements/SoCreaseAngleElement.h 
-  database/include/Inventor/elements/SoCullVolumeElement.h 
-  database/include/Inventor/elements/SoCurrentGLMaterialElement.h 
-  database/include/Inventor/elements/SoDiffuseColorElement.h 
-  database/include/Inventor/elements/SoDrawStyleElement.h 
-  database/include/Inventor/elements/SoElement.h 
-  database/include/Inventor/elements/SoElements.h 
-  database/include/Inventor/elements/SoEmissiveColorElement.h 
-  database/include/Inventor/elements/SoFloatElement.h 
-  database/include/Inventor/elements/SoFocalDistanceElement.h 
-  database/include/Inventor/elements/SoFontNameElement.h 
-  database/include/Inventor/elements/SoFontSizeElement.h 
-  database/include/Inventor/elements/SoGLAmbientColorElement.h 
-  database/include/Inventor/elements/SoGLCacheContextElement.h 
-  database/include/Inventor/elements/SoGLClipPlaneElement.h 
-  database/include/Inventor/elements/SoGLColorIndexElement.h 
-  database/include/Inventor/elements/SoGLCoordinateElement.h 
-  database/include/Inventor/elements/SoGLDiffuseColorElement.h 
-  database/include/Inventor/elements/SoGLDrawStyleElement.h 
-  database/include/Inventor/elements/SoGLEmissiveColorElement.h 
-  database/include/Inventor/elements/SoGLLazyElement.h 
-  database/include/Inventor/elements/SoGLLightIdElement.h 
-  database/include/Inventor/elements/SoGLLightModelElement.h 
-  database/include/Inventor/elements/SoGLLinePatternElement.h 
-  database/include/Inventor/elements/SoGLLineWidthElement.h 
-  database/include/Inventor/elements/SoGLModelMatrixElement.h 
-  database/include/Inventor/elements/SoGLNormalElement.h 
-  database/include/Inventor/elements/SoGLPointSizeElement.h 
-  database/include/Inventor/elements/SoGLPolygonStippleElement.h 
-  database/include/Inventor/elements/SoGLProjectionMatrixElement.h 
-  database/include/Inventor/elements/SoGLRenderPassElement.h 
-  database/include/Inventor/elements/SoGLShapeHintsElement.h 
-  database/include/Inventor/elements/SoGLShininessElement.h 
-  database/include/Inventor/elements/SoGLSpecularColorElement.h 
-  database/include/Inventor/elements/SoGLTextureBlendColorElement.h 
-  database/include/Inventor/elements/SoGLTextureCoordinateElement.h 
-  database/include/Inventor/elements/SoGLTextureEnabledElement.h 
-  database/include/Inventor/elements/SoGLTextureImageElement.h 
-  database/include/Inventor/elements/SoGLTextureMatrixElement.h 
-  database/include/Inventor/elements/SoGLTextureModelElement.h 
-  database/include/Inventor/elements/SoGLTextureQualityElement.h 
-  database/include/Inventor/elements/SoGLTextureWrapSElement.h 
-  database/include/Inventor/elements/SoGLTextureWrapTElement.h 
-  database/include/Inventor/elements/SoGLUpdateAreaElement.h 
-  database/include/Inventor/elements/SoGLViewingMatrixElement.h 
-  database/include/Inventor/elements/SoGLViewportRegionElement.h 
-  database/include/Inventor/elements/SoInt32Element.h 
-  database/include/Inventor/elements/SoLazyElement.h 
-  database/include/Inventor/elements/SoLightAttenuationElement.h 
-  database/include/Inventor/elements/SoLightModelElement.h 
-  database/include/Inventor/elements/SoLinePatternElement.h 
-  database/include/Inventor/elements/SoLineWidthElement.h 
-  database/include/Inventor/elements/SoLocalBBoxMatrixElement.h 
-  database/include/Inventor/elements/SoLongElement.h 
-  database/include/Inventor/elements/SoMaterialBindingElement.h 
-  database/include/Inventor/elements/SoModelMatrixElement.h 
-  database/include/Inventor/elements/SoNormalBindingElement.h 
-  database/include/Inventor/elements/SoNormalElement.h 
-  database/include/Inventor/elements/SoOverrideElement.h 
-  database/include/Inventor/elements/SoPickRayElement.h 
-  database/include/Inventor/elements/SoPickStyleElement.h 
-  database/include/Inventor/elements/SoPointSizeElement.h 
-  database/include/Inventor/elements/SoProfileCoordinateElement.h 
-  database/include/Inventor/elements/SoProfileElement.h 
-  database/include/Inventor/elements/SoProjectionMatrixElement.h 
-  database/include/Inventor/elements/SoReplacedElement.h 
-  database/include/Inventor/elements/SoShapeHintsElement.h 
-  database/include/Inventor/elements/SoShapeStyleElement.h 
-  database/include/Inventor/elements/SoShininessElement.h 
-  database/include/Inventor/elements/SoSpecularColorElement.h 
-  database/include/Inventor/elements/SoSubElement.h 
-  database/include/Inventor/elements/SoSwitchElement.h 
-  database/include/Inventor/elements/SoTextureBlendColorElement.h 
-  database/include/Inventor/elements/SoTextureCoordinateBindingElement.h 
-  database/include/Inventor/elements/SoTextureCoordinateElement.h 
-  database/include/Inventor/elements/SoTextureImageElement.h 
-  database/include/Inventor/elements/SoTextureMatrixElement.h 
-  database/include/Inventor/elements/SoTextureModelElement.h 
-  database/include/Inventor/elements/SoTextureQualityElement.h 
-  database/include/Inventor/elements/SoTextureWrapSElement.h 
-  database/include/Inventor/elements/SoTextureWrapTElement.h 
-  database/include/Inventor/elements/SoTransparencyElement.h 
-  database/include/Inventor/elements/SoUnitsElement.h 
-  database/include/Inventor/elements/SoViewVolumeElement.h 
-  database/include/Inventor/elements/SoViewingMatrixElement.h 
-  database/include/Inventor/elements/SoViewportRegionElement.h 
-  database/include/Inventor/elements/SoWindowElement.h 
-  database/include/Inventor/engines/SoBoolOperation.h 
-  database/include/Inventor/engines/SoCalculator.h 
-  database/include/Inventor/engines/SoCompose.h 
-  database/include/Inventor/engines/SoComputeBoundingBox.h 
-  database/include/Inventor/engines/SoConcatenate.h 
-  database/include/Inventor/engines/SoCounter.h 
-  database/include/Inventor/engines/SoElapsedTime.h 
-  database/include/Inventor/engines/SoEngine.h 
-  database/include/Inventor/engines/SoEngines.h 
-  database/include/Inventor/engines/SoFieldConverter.h 
-  database/include/Inventor/engines/SoGate.h 
-  database/include/Inventor/engines/SoInterpolate.h 
-  database/include/Inventor/engines/SoOnOff.h 
-  database/include/Inventor/engines/SoOneShot.h 
-  database/include/Inventor/engines/SoOutputData.h 
-  database/include/Inventor/engines/SoSelectOne.h 
-  database/include/Inventor/engines/SoSubEngine.h 
-  database/include/Inventor/engines/SoTimeCounter.h 
-  database/include/Inventor/engines/SoTransformVec3f.h 
-  database/include/Inventor/engines/SoTriggerAny.h 
-  database/include/Inventor/errors/SoDebugError.h 
-  database/include/Inventor/errors/SoError.h 
-  database/include/Inventor/errors/SoErrors.h 
-  database/include/Inventor/errors/SoMemoryError.h 
-  database/include/Inventor/errors/SoReadError.h 
-  database/include/Inventor/events/SoButtonEvent.h 
-  database/include/Inventor/events/SoEvent.h 
-  database/include/Inventor/events/SoEvents.h 
-  database/include/Inventor/events/SoKeyboardEvent.h 
-  database/include/Inventor/events/SoLocation2Event.h 
-  database/include/Inventor/events/SoMotion3Event.h 
-  database/include/Inventor/events/SoMouseButtonEvent.h 
-  database/include/Inventor/events/SoSpaceballButtonEvent.h 
-  database/include/Inventor/events/SoSubEvent.h 
-  database/include/Inventor/fields/SoField.h 
-  database/include/Inventor/fields/SoFieldContainer.h 
-  database/include/Inventor/fields/SoFieldData.h 
-  database/include/Inventor/fields/SoFields.h 
-  database/include/Inventor/fields/SoMFBitMask.h 
-  database/include/Inventor/fields/SoMFBool.h 
-  database/include/Inventor/fields/SoMFColor.h 
-  database/include/Inventor/fields/SoMFEngine.h 
-  database/include/Inventor/fields/SoMFEnum.h 
-  database/include/Inventor/fields/SoMFFloat.h 
-  database/include/Inventor/fields/SoMFInt32.h 
-  database/include/Inventor/fields/SoMFLong.h 
-  database/include/Inventor/fields/SoMFMatrix.h 
-  database/include/Inventor/fields/SoMFName.h 
-  database/include/Inventor/fields/SoMFNode.h 
-  database/include/Inventor/fields/SoMFPath.h 
-  database/include/Inventor/fields/SoMFPlane.h 
-  database/include/Inventor/fields/SoMFRotation.h 
-  database/include/Inventor/fields/SoMFShort.h 
-  database/include/Inventor/fields/SoMFString.h 
-  database/include/Inventor/fields/SoMFTime.h 
-  database/include/Inventor/fields/SoMFUInt32.h 
-  database/include/Inventor/fields/SoMFULong.h 
+  database/include/Inventor/SoOutput.h
+  database/include/Inventor/SoPath.h
+  database/include/Inventor/SoPickedPoint.h
+  database/include/Inventor/SoPrimitiveVertex.h
+  database/include/Inventor/SoType.h
+  database/include/Inventor/actions/SoAction.h
+  database/include/Inventor/actions/SoActions.h
+  database/include/Inventor/actions/SoCallbackAction.h
+  database/include/Inventor/actions/SoGLRenderAction.h
+  database/include/Inventor/actions/SoGetBoundingBoxAction.h
+  database/include/Inventor/actions/SoGetMatrixAction.h
+  database/include/Inventor/actions/SoHandleEventAction.h
+  database/include/Inventor/actions/SoPickAction.h
+  database/include/Inventor/actions/SoRayPickAction.h
+  database/include/Inventor/actions/SoSearchAction.h
+  database/include/Inventor/actions/SoSubAction.h
+  database/include/Inventor/actions/SoWriteAction.h
+  database/include/Inventor/bundles/SoBundle.h
+  database/include/Inventor/bundles/SoMaterialBundle.h
+  database/include/Inventor/bundles/SoNormalBundle.h
+  database/include/Inventor/bundles/SoTextureCoordinateBundle.h
+  database/include/Inventor/caches/SoBoundingBoxCache.h
+  database/include/Inventor/caches/SoCache.h
+  database/include/Inventor/caches/SoGLCacheList.h
+  database/include/Inventor/caches/SoGLRenderCache.h
+  database/include/Inventor/caches/SoNormalCache.h
+  database/include/Inventor/details/SoConeDetail.h
+  database/include/Inventor/details/SoCubeDetail.h
+  database/include/Inventor/details/SoCylinderDetail.h
+  database/include/Inventor/details/SoDetail.h
+  database/include/Inventor/details/SoDetails.h
+  database/include/Inventor/details/SoFaceDetail.h
+  database/include/Inventor/details/SoLineDetail.h
+  database/include/Inventor/details/SoPointDetail.h
+  database/include/Inventor/details/SoSubDetail.h
+  database/include/Inventor/details/SoTextDetail.h
+  database/include/Inventor/elements/SoAccumulatedElement.h
+  database/include/Inventor/elements/SoAmbientColorElement.h
+  database/include/Inventor/elements/SoBBoxModelMatrixElement.h
+  database/include/Inventor/elements/SoCacheElement.h
+  database/include/Inventor/elements/SoClipPlaneElement.h
+  database/include/Inventor/elements/SoComplexityElement.h
+  database/include/Inventor/elements/SoComplexityTypeElement.h
+  database/include/Inventor/elements/SoCoordinateElement.h
+  database/include/Inventor/elements/SoCreaseAngleElement.h
+  database/include/Inventor/elements/SoCullVolumeElement.h
+  database/include/Inventor/elements/SoCurrentGLMaterialElement.h
+  database/include/Inventor/elements/SoDiffuseColorElement.h
+  database/include/Inventor/elements/SoDrawStyleElement.h
+  database/include/Inventor/elements/SoElement.h
+  database/include/Inventor/elements/SoElements.h
+  database/include/Inventor/elements/SoEmissiveColorElement.h
+  database/include/Inventor/elements/SoFloatElement.h
+  database/include/Inventor/elements/SoFocalDistanceElement.h
+  database/include/Inventor/elements/SoFontNameElement.h
+  database/include/Inventor/elements/SoFontSizeElement.h
+  database/include/Inventor/elements/SoGLAmbientColorElement.h
+  database/include/Inventor/elements/SoGLCacheContextElement.h
+  database/include/Inventor/elements/SoGLClipPlaneElement.h
+  database/include/Inventor/elements/SoGLColorIndexElement.h
+  database/include/Inventor/elements/SoGLCoordinateElement.h
+  database/include/Inventor/elements/SoGLDiffuseColorElement.h
+  database/include/Inventor/elements/SoGLDrawStyleElement.h
+  database/include/Inventor/elements/SoGLEmissiveColorElement.h
+  database/include/Inventor/elements/SoGLLazyElement.h
+  database/include/Inventor/elements/SoGLLightIdElement.h
+  database/include/Inventor/elements/SoGLLightModelElement.h
+  database/include/Inventor/elements/SoGLLinePatternElement.h
+  database/include/Inventor/elements/SoGLLineWidthElement.h
+  database/include/Inventor/elements/SoGLModelMatrixElement.h
+  database/include/Inventor/elements/SoGLNormalElement.h
+  database/include/Inventor/elements/SoGLPointSizeElement.h
+  database/include/Inventor/elements/SoGLPolygonStippleElement.h
+  database/include/Inventor/elements/SoGLProjectionMatrixElement.h
+  database/include/Inventor/elements/SoGLRenderPassElement.h
+  database/include/Inventor/elements/SoGLShapeHintsElement.h
+  database/include/Inventor/elements/SoGLShininessElement.h
+  database/include/Inventor/elements/SoGLSpecularColorElement.h
+  database/include/Inventor/elements/SoGLTextureBlendColorElement.h
+  database/include/Inventor/elements/SoGLTextureCoordinateElement.h
+  database/include/Inventor/elements/SoGLTextureEnabledElement.h
+  database/include/Inventor/elements/SoGLTextureImageElement.h
+  database/include/Inventor/elements/SoGLTextureMatrixElement.h
+  database/include/Inventor/elements/SoGLTextureModelElement.h
+  database/include/Inventor/elements/SoGLTextureQualityElement.h
+  database/include/Inventor/elements/SoGLTextureWrapSElement.h
+  database/include/Inventor/elements/SoGLTextureWrapTElement.h
+  database/include/Inventor/elements/SoGLUpdateAreaElement.h
+  database/include/Inventor/elements/SoGLViewingMatrixElement.h
+  database/include/Inventor/elements/SoGLViewportRegionElement.h
+  database/include/Inventor/elements/SoInt32Element.h
+  database/include/Inventor/elements/SoLazyElement.h
+  database/include/Inventor/elements/SoLightAttenuationElement.h
+  database/include/Inventor/elements/SoLightModelElement.h
+  database/include/Inventor/elements/SoLinePatternElement.h
+  database/include/Inventor/elements/SoLineWidthElement.h
+  database/include/Inventor/elements/SoLocalBBoxMatrixElement.h
+  database/include/Inventor/elements/SoLongElement.h
+  database/include/Inventor/elements/SoMaterialBindingElement.h
+  database/include/Inventor/elements/SoModelMatrixElement.h
+  database/include/Inventor/elements/SoNormalBindingElement.h
+  database/include/Inventor/elements/SoNormalElement.h
+  database/include/Inventor/elements/SoOverrideElement.h
+  database/include/Inventor/elements/SoPickRayElement.h
+  database/include/Inventor/elements/SoPickStyleElement.h
+  database/include/Inventor/elements/SoPointSizeElement.h
+  database/include/Inventor/elements/SoProfileCoordinateElement.h
+  database/include/Inventor/elements/SoProfileElement.h
+  database/include/Inventor/elements/SoProjectionMatrixElement.h
+  database/include/Inventor/elements/SoReplacedElement.h
+  database/include/Inventor/elements/SoShapeHintsElement.h
+  database/include/Inventor/elements/SoShapeStyleElement.h
+  database/include/Inventor/elements/SoShininessElement.h
+  database/include/Inventor/elements/SoSpecularColorElement.h
+  database/include/Inventor/elements/SoSubElement.h
+  database/include/Inventor/elements/SoSwitchElement.h
+  database/include/Inventor/elements/SoTextureBlendColorElement.h
+  database/include/Inventor/elements/SoTextureCoordinateBindingElement.h
+  database/include/Inventor/elements/SoTextureCoordinateElement.h
+  database/include/Inventor/elements/SoTextureImageElement.h
+  database/include/Inventor/elements/SoTextureMatrixElement.h
+  database/include/Inventor/elements/SoTextureModelElement.h
+  database/include/Inventor/elements/SoTextureQualityElement.h
+  database/include/Inventor/elements/SoTextureWrapSElement.h
+  database/include/Inventor/elements/SoTextureWrapTElement.h
+  database/include/Inventor/elements/SoTransparencyElement.h
+  database/include/Inventor/elements/SoUnitsElement.h
+  database/include/Inventor/elements/SoViewVolumeElement.h
+  database/include/Inventor/elements/SoViewingMatrixElement.h
+  database/include/Inventor/elements/SoViewportRegionElement.h
+  database/include/Inventor/elements/SoWindowElement.h
+  database/include/Inventor/engines/SoBoolOperation.h
+  database/include/Inventor/engines/SoCalculator.h
+  database/include/Inventor/engines/SoCompose.h
+  database/include/Inventor/engines/SoComputeBoundingBox.h
+  database/include/Inventor/engines/SoConcatenate.h
+  database/include/Inventor/engines/SoCounter.h
+  database/include/Inventor/engines/SoElapsedTime.h
+  database/include/Inventor/engines/SoEngine.h
+  database/include/Inventor/engines/SoEngines.h
+  database/include/Inventor/engines/SoFieldConverter.h
+  database/include/Inventor/engines/SoGate.h
+  database/include/Inventor/engines/SoInterpolate.h
+  database/include/Inventor/engines/SoOnOff.h
+  database/include/Inventor/engines/SoOneShot.h
+  database/include/Inventor/engines/SoOutputData.h
+  database/include/Inventor/engines/SoSelectOne.h
+  database/include/Inventor/engines/SoSubEngine.h
+  database/include/Inventor/engines/SoTimeCounter.h
+  database/include/Inventor/engines/SoTransformVec3f.h
+  database/include/Inventor/engines/SoTriggerAny.h
+  database/include/Inventor/errors/SoDebugError.h
+  database/include/Inventor/errors/SoError.h
+  database/include/Inventor/errors/SoErrors.h
+  database/include/Inventor/errors/SoMemoryError.h
+  database/include/Inventor/errors/SoReadError.h
+  database/include/Inventor/events/SoButtonEvent.h
+  database/include/Inventor/events/SoEvent.h
+  database/include/Inventor/events/SoEvents.h
+  database/include/Inventor/events/SoKeyboardEvent.h
+  database/include/Inventor/events/SoLocation2Event.h
+  database/include/Inventor/events/SoMotion3Event.h
+  database/include/Inventor/events/SoMouseButtonEvent.h
+  database/include/Inventor/events/SoSpaceballButtonEvent.h
+  database/include/Inventor/events/SoSubEvent.h
+  database/include/Inventor/fields/SoField.h
+  database/include/Inventor/fields/SoFieldContainer.h
+  database/include/Inventor/fields/SoFieldData.h
+  database/include/Inventor/fields/SoFields.h
+  database/include/Inventor/fields/SoMFBitMask.h
+  database/include/Inventor/fields/SoMFBool.h
+  database/include/Inventor/fields/SoMFColor.h
+  database/include/Inventor/fields/SoMFEngine.h
+  database/include/Inventor/fields/SoMFEnum.h
+  database/include/Inventor/fields/SoMFFloat.h
+  database/include/Inventor/fields/SoMFInt32.h
+  database/include/Inventor/fields/SoMFLong.h
+  database/include/Inventor/fields/SoMFMatrix.h
+  database/include/Inventor/fields/SoMFName.h
+  database/include/Inventor/fields/SoMFNode.h
+  database/include/Inventor/fields/SoMFPath.h
+  database/include/Inventor/fields/SoMFPlane.h
+  database/include/Inventor/fields/SoMFRotation.h
+  database/include/Inventor/fields/SoMFShort.h
+  database/include/Inventor/fields/SoMFString.h
+  database/include/Inventor/fields/SoMFTime.h
+  database/include/Inventor/fields/SoMFUInt32.h
+  database/include/Inventor/fields/SoMFULong.h
   database/include/Inventor/fields/SoMFUShort.h
   database/include/Inventor/fields/SoMFVec2f.h
   database/include/Inventor/fields/SoMFVec3f.h
@@ -547,6 +569,7 @@ set(HEADERS ${HEADERS}
   database/src/so/nodes/nurbs/head/types.h
   database/src/so/nodes/nurbs/head/uarray.h
   database/src/so/nodes/nurbs/head/varray.h
+  database/src/so/nodes/readGIF.h
   database/src/so/upgraders/SoUpgraders.h
   database/src/so/upgraders/SoV1DrawStyle.h
   database/src/so/upgraders/SoV1Environment.h
@@ -687,29 +710,8 @@ set(HEADERS ${HEADERS}
   nodekits/include/Inventor/nodekits/SoSeparatorKit.h
   nodekits/include/Inventor/nodekits/SoShapeKit.h
   nodekits/include/Inventor/nodekits/SoSubKit.h
-  nodekits/include/Inventor/nodekits/SoWrapperKit.h
-  xip/include/Inventor
-  xip/include/Inventor/events
-  xip/include/Inventor/system)
+  nodekits/include/Inventor/nodekits/SoWrapperKit.h)
 
-#--------------------------------------------------------------------
-# Source files: MeVis extensions to Open Inventor.
-#
-set(SOURCES
-  mevis/src/SoCatch.c++
-  mevis/src/SoMeVis.c++
-  mevis/src/SoTrace.c++
-  mevis/src/elements/SoGLPolygonOffsetElement.c++
-  mevis/src/elements/SoGLStencilBitsElement.c++
-  mevis/src/elements/SoPolygonOffsetElement.c++
-  mevis/src/elements/SoStencilBitsElement.c++
-  mevis/src/fields/SoSFVec2s.c++
-  mevis/src/fields/SoSFVec3s.c++
-  mevis/src/nodes/SoPolygonOffset.c++)
-
-#--------------------------------------------------------------------
-# Source files.
-#
 set(SOURCES ${SOURCES}
   database/src/sb/SbBox.c++
   database/src/sb/SbColor.c++
@@ -958,7 +960,7 @@ set(SOURCES ${SOURCES}
   database/src/so/nodes/SoColorIndex.c++
   database/src/so/nodes/SoComplexity.c++
   database/src/so/nodes/SoCoordinate3.c++
-  database/src/so/nodes/SoCoordinate4.c++  
+  database/src/so/nodes/SoCoordinate4.c++
   database/src/so/nodes/SoDirectionalLight.c++
   database/src/so/nodes/SoDrawStyle.c++
   database/src/so/nodes/SoEnvironment.c++
@@ -1179,19 +1181,9 @@ set(SOURCES ${SOURCES}
   nodekits/src/upgraders/SoV1VtxShapeKit.c++
   nodekits/src/upgraders/SoV1WrapperKit.c++)
 
-if(WIN32)
-  set(HEADERS ${HEADERS}
-    mevis/include/SoWinEnterScope.h
-    mevis/include/SoWinLeaveScope.h
-    mevis/include/inttypes.h
-    mevis/src/utf8_filesupport_win32.h)
-
-  set(SOURCES ${SOURCES}
-    mevis/src/utf8_filesupport_win32.c++
-    initDll.c++)
-endif(WIN32)
-
-# PPP Generated sources
+#--------------------------------------------------------------------
+# PPP generated sources
+#
 set(SOURCES ${SOURCES}
   database/src/so/nodes/SoCone.c++
   database/src/so/nodes/SoCube.c++
@@ -1207,15 +1199,13 @@ set(SOURCES ${SOURCES}
   database/src/so/nodes/SoTriangleStripSet.c++)
 
 # image loaders
-set(HEADERS ${HEADERS}
-  database/src/so/nodes/readGIF.h)
 set(SOURCES ${SOURCES}
   database/src/so/nodes/readGIF.c)
 	
 set(SOURCES ${SOURCES}
   xip/src/so/events/SoMouseWheelEvent.c++
   xip/src/SoXip.c++)
-
+	
 # FIXME: Which yacc files should we consider?
 #SET(YACCSOURCES
 #  database/src/so/engines/SoCalcParse.y)
@@ -1234,8 +1224,12 @@ if(UNIX AND !${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     database/src/so/SoOffscreenRenderer.c++)
 endif(UNIX AND !${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
+if(WIN32)
+  set(SOURCES ${SOURCES} initDll.c++)
+endif(WIN32)
+
 #--------------------------------------------------------------------
-# Object files.
+# Object files
 #
 set(OBJECTS
   initDll.obj
@@ -1385,7 +1379,7 @@ set(OBJECTS
   interaction/src/draggers/SoPointLightDragger.obj 
   interaction/src/draggers/SoRotateCylindricalDragger.obj 
   interaction/src/draggers/SoRotateDiscDragger.obj 
-  interaction/src/draggers/SoRotateSphericalDragger.obj 
+  interaction/src/draggers/SoRotateSphericalDragger.obj
   interaction/src/draggers/SoScale1Dragger.obj 
   interaction/src/draggers/SoScale2Dragger.obj
   interaction/src/draggers/SoScale2UniformDragger.obj 
@@ -1432,82 +1426,83 @@ set(OBJECTS
   xip/src/so/events/SoMouseWheelEvent.obj 
   xip/src/SoXip.obj)
 
-#foreach(target ${OBJECTS}
-#  ${EXECUTABLE_OUTPUT_DIR}/ppp.exe
-#  ${lib_SOURCE_DIR}/database/src/so/engines/SoCalcParse.c++ ${target})
+#foreach(target ${OBJECTS})
+#  message("${EXECUTABLE_OUTPUT_PATH}/ppp.exe"
+#  ${xipinv_SOURCE_DIR}/database/src/so/engines/SoCalcParse.c++ ${target})
+  #	@!IF NOT EXIST $(OUTDIR)\. mkdir $(OUTDIR)
+  #	$(link) $(LDFLAGS) /OUT:"$(TARGET)" $(OBJECTS) $(LIBS)
+  #	mt.exe -manifest $(TARGET).manifest -outputresource:$(TARGET);2
 #endforeach(target ${OBJECTS})
 
+#tools/ppp/ppp.exe:
+#	@cl /Fe"tools/ppp/ppp.exe" /I "lib/mevis/include" /I "lib/database/include" /I "lib/xip/include" /D_INVENTOR_ /DWIN32 /DINVENTOR_API= /D__SGIOIV_BUILD_DLL /TP tools/ppp/ppp.c++
+
+
 #--------------------------------------------------------------------
-# Library creation.
+# Create library
 #
 # rename c++ files with cpp extension
 # and copy them to the binary directory
-make_directory(${CMAKE_CURRENT_BINARY_DIR}/cpp_files)
+if(WIN32)
+  make_directory(${CMAKE_CURRENT_BINARY_DIR}/cpp_files)
 
-foreach(filename ${SOURCES})
-  get_filename_component(filename_we ${filename} NAME_WE)
-  get_filename_component(filepath ${filename} PATH)
+  foreach(filename ${SOURCES})
+    get_filename_component(filename_we ${filename} NAME_WE)
+    get_filename_component(filepath ${filename} PATH)
 
-  set(filename_cpp ${CMAKE_CURRENT_BINARY_DIR}/cpp_files/${filename_we}.cpp)
-  configure_file(${filename} ${filename_cpp} COPYONLY)
+    set(filename_cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/cpp_files/${filename_we}.cpp)
+    configure_file(${filename} ${filename_cpp} COPYONLY)
 
-  set(CPP_FILES ${CPP_FILES} ${filename_cpp})
-endforeach(filename ${SOURCES})
+    set(CPP_FILES ${CPP_FILES} ${filename_cpp})
+  endforeach(filename ${SOURCES})
+
+  set(SOURCES ${CPP_FILES})
+endif(WIN32)
 
 set(CMAKE_DEBUG_POSTFIX d)
 
-add_library(xipinv240 SHARED ${HEADERS} ${CPP_FILES})
-
-set_target_properties(xipinv240
-  PROPERTIES VERSION 2.40 SOVERSION 2.40)
-
-link_directories(${Xip_BINARY_DIR}/out)
-
-target_link_libraries(xipinv240
-    FL
-    image)
-
-if(WIN32)
-  target_link_libraries(xipinv240
-    jpeg
-    freetype
-    libiconv
-    Ws2_32
-    shell32
-    opengl32
-    glu32)
-else(WIN32)
-  target_link_libraries(xipinv240
-    ${OPENGL_LIBRARIES}
-    ${JPEG_LIBRARIES}
-    ${ICONV_LIBRARIES})
-endif(WIN32)
-
-#if(APPLE)
-#  target_link_libraries(${LIBRARY_NAME} framework Carbon)
-#endif(APPLE)
+add_library(xipinv240 SHARED ${SOURCES} ${HEADERS})
 
 if(UNIX)
- add_dependencies(xipinv240 ppp)
+  set_target_properties(xipinv240
+    PROPERTIES VERSION 2.40 SOVERSION 2.40)
 endif(UNIX)
 
-#-----------------------------------------------------------------------------
-# Install.
+#--------------------------------------------------------------------
+# Link library
 #
+target_link_libraries(xipinv240
+  ${OPENGL_LIBRARIES}
+  FL
+  image)
+
 if(WIN32)
-  install(TARGETS xipinv240
-    RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-    ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug)
+  target_link_libraries(xipinv240
+    Ws2_32)
+    #shell32) # needed ???
+  target_link_libraries(xipinv240 FL jpeg image freetype2 libiconv
+    Ws2_32 shell32 opengl32 glu32)
+else(WIN32)
+  target_link_libraries(xipinv240
+    ${JPEG_LIBRARIES}
+    ${ICONV_LIBRARY})
+endif(WIN32)
 
-  install(TARGETS xipinv240
-    RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-    ARCHIVE DESTINATION bin/release CONFIGURATIONS Release)
+#--------------------------------------------------------------------
+# Install
+#
+install(TARGETS xipinv240
+  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipinv240d.pdb
+install(TARGETS xipinv240
+  RUNTIME DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+
+if(WIN32)
+  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/xipinv240d.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
-
-  if(EXISTS ${LIBRARY_OUTPUT_PATH}/release/xipinv240.pdb)
-    install(FILES ${LIBRARY_OUTPUT_PATH}/release/xipinv240.pdb
-      DESTINATION bin/release CONFIGURATIONS Release)
-  endif(EXISTS ${LIBRARY_OUTPUT_PATH}/release/xipinv240.pdb)
 endif(WIN32)

@@ -306,7 +306,7 @@ SoCompactPathList::compactPaths(int curSlot, int depth,
 ////////////////////////////////////////////////////////////////////////
 {
     int		nextSlot;
-    int		curIndex, prevIndex, nextIndex;
+    int		curIndex, prevIndex=-1, nextIndex;
     int		firstPathWithChild, numPathsWithChild, curPath, lastPath;
     int		numChildren, curChild;
 
@@ -318,7 +318,6 @@ SoCompactPathList::compactPaths(int curSlot, int depth,
     }
 
     // First, count the number of distinct children at the current depth
-    prevIndex   = -1;
     numChildren = 0;
     for (curPath = 0; curPath < numPaths; curPath++) {
 	curIndex = GET_PATH(list, firstPath + curPath)->getIndex(depth);
@@ -342,6 +341,7 @@ SoCompactPathList::compactPaths(int curSlot, int depth,
     // Start with first child (from first path)
     curChild  = 0;
     curIndex = GET_PATH(list, firstPath)->getIndex(depth);
+    nextIndex = curIndex;
     firstPathWithChild = firstPath;
     lastPath = firstPath + numPaths - 1;
 

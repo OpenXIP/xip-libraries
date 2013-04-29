@@ -112,7 +112,7 @@
 #include "SoXipHermiteSpline.h"
 #include "XipHermiteSpline.h"
 #include <xip/inventor/overlay/XipOverlayUtils.h>
-#include "geomUtils.h"
+#include "geomutils.h"
 
 SO_NODE_SOURCE( SoXipHermiteSpline );
 
@@ -152,8 +152,9 @@ SoXipHermiteSpline::extractGeometries( SoMFVec3f& point, SoMFInt32& coordIndex, 
 	closed = this->closed.getValue();
 
 	SoMFVec3f cleanPoints;
+#if !defined(linux)
 	removeClosePoints( this->point, cleanPoints, 0.001 );
-
+#endif // !defined(linux)
 	XipHermiteSpline spline( cleanPoints, closed );
 	spline.interpolateContour( alpha.getValue(), point );
 
@@ -166,3 +167,5 @@ SoXipHermiteSpline::getPreviousControlPoint( int id ) const
 {
 	return id / alpha.getValue();
 }
+
+

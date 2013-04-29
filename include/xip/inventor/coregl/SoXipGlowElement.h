@@ -112,16 +112,21 @@
 #ifndef SO_XIP_GLOW_ELEMENT_H
 #define SO_XIP_GLOW_ELEMENT_H
 
+#ifdef linux
+#include <GL/gl.h>
+#include <GL/glext.h>
+#else /* linux */
 #include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include <xip/system/GL/glext.h>
+#endif /* linux */
 #include <Inventor/elements/SoSubElement.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
 #ifdef linux
-      #define glCopyTexSubImage3D glCopyTexSubImage3Dext
-      #define glTexImage3D glTexImage3Dext
-      #define glTexSubImage3D glTexSubImage3Dext
-      #define glActiveTexture glActiveTextureext
+  #define glCopyTexSubImage3D glCopyTexSubImage3Dext
+  #define glTexImage3D glTexImage3Dext
+  #define glTexSubImage3D glTexSubImage3Dext
+  #define glActiveTexture glActiveTextureext
 #endif
 
 extern XIPIVCOREGL_API bool GLOW_init;
@@ -150,8 +155,8 @@ extern XIPIVCOREGL_API PFNGLGETQUERYIVARBPROC			glGetQueryivARB;
 extern XIPIVCOREGL_API PFNGLGETQUERYOBJECTIVARBPROC		glGetQueryObjectivARB;
 extern XIPIVCOREGL_API PFNGLGETQUERYOBJECTUIVARBPROC	glGetQueryObjectuivARB;
 
-extern XIPIVCOREGL_API PFNGLTEXIMAGE3DEXTPROC				glTexImage3D;
-extern XIPIVCOREGL_API PFNGLTEXSUBIMAGE3DEXTPROC			glTexSubImage3D;
+extern XIPIVCOREGL_API PFNGLTEXIMAGE3DEXTPROC glTexImage3D;
+extern XIPIVCOREGL_API PFNGLTEXSUBIMAGE3DEXTPROC glTexSubImage3D;
 extern XIPIVCOREGL_API PFNGLCOPYTEXSUBIMAGE3DPROC			glCopyTexSubImage3D;
 
 extern XIPIVCOREGL_API PFNGLACTIVETEXTUREPROC				glActiveTexture;
@@ -287,7 +292,7 @@ extern XIPIVCOREGL_API PFNGLGETHANDLEARBPROC							glGetHandleARB;
 extern XIPIVCOREGL_API PFNGLSTRINGMARKERGREMEDYPROC						glStringMarkerGREMEDY;
 
 extern XIPIVCOREGL_API PFNGLDEPTHBOUNDSEXTPROC							glDepthBoundsEXT;
-#endif /* DARWIN */
+#endif // DARWIN
 
 class XIPIVCOREGL_API SoXipGLOWElement : public SoElement {
 	SO_ELEMENT_HEADER(SoXipGLOWElement);
@@ -312,3 +317,4 @@ public:
 int	XIPIVCOREGL_API getPackAlignment(int width);
 
 #endif // SO_XIP_GLOW_ELEMENT_H
+

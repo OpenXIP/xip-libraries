@@ -202,3 +202,4 @@ protected:
 };
 
 #endif // XIPEXCEPTION_H
+

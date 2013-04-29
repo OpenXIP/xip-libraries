@@ -115,8 +115,7 @@
 #include "vtkAlgorithmOutput.h"
 #include "vtkImageViewer.h"
 
-#include <inventor/SoDB.h>
-
+#include <Inventor/SoDB.h>
 #include "SoVtkUtils.h"
 
 SO_ENGINE_SOURCE( SoVtkConvertXipImageToVtkAlgorithmOutput );
@@ -330,3 +329,5 @@ SoVtkConvertXipImageToVtkAlgorithmOutput::getOutput( SoType type )
   SoDebugError::post( __FILE__, "SoVtkConvertXipImageToVtkAlgorithmOutput::getOutput() : unresolved output" );
   return 0;
 }
+
+

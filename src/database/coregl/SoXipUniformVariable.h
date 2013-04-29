@@ -133,16 +133,11 @@
 #include <Inventor/fields/SoMFInt32.h>
 #include <Inventor/fields/SoSFMatrix.h>
 #include <Inventor/fields/SoMFVec3f.h>
-#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
-
 
 #if !defined(WINDOWS) && !defined(_WIN32)
 #include <X11/Xmd.h>
 #endif
-
-#include <xip/system/standard.h>
-
 
 /**
  *	Node class for setting uniform variables
@@ -350,3 +345,5 @@ private:
 };
 
 #endif //_SO_XIP_UNIFORM_VARIABLE_H_
+
+

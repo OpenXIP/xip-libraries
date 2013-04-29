@@ -108,6 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
+#include <xip/system/standard.h>
 #include "SoXipTransparentGeometryRenderer.h"
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/actions/SoCallbackAction.h>
@@ -119,7 +120,6 @@
 #include <Inventor/misc/SoChildList.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
-
 
 SO_NODE_SOURCE(SoXipTransparentGeometryRenderer);
 
@@ -863,3 +863,5 @@ void SoXipTransparentGeometryRenderer::GLRenderTexture2D(SoGLRenderAction * acti
 }
 
 #endif
+
+

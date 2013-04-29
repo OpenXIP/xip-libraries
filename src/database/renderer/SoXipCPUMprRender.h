@@ -9,10 +9,9 @@
 #include <Inventor/fields/SoSFVec2s.h>
 #include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/sensors/SoSensor.h>
-#include <xip/inventor/core/SoXIPDataImage.h>
-#include <xip/inventor/core/SoXIPSFDataImage.h>
-#include <xip/inventor/core/SbXIPImage.h>
-
+#include <xip/inventor/core/SoXipDataImage.h>
+#include <xip/inventor/core/SoXipSFDataImage.h>
+#include <xip/inventor/core/SbXipImage.h>
 
 #define PI 3.1415926535897932384626433
 #define MAX(A, B) ((A) > (B) ? (A) : (B))

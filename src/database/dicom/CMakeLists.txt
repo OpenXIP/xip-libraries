@@ -2,8 +2,12 @@
 
 project(dicom)
 
+if(UNIX)
+  find_package(DCMTK REQUIRED)
+endif(UNIX)
+
 #--------------------------------------------------------------------
-# Source files.
+# Source files
 #
 set(SOURCES
   SoXipConvertDicom.cpp
@@ -36,7 +40,7 @@ set(SOURCES
   SoXipDicomSort3D.cpp)
 
 #--------------------------------------------------------------------
-# Header files.
+# Header files
 #
 set(HEADERS
   SbXipDicomProviderDcmtk.h
@@ -61,7 +65,7 @@ set(HEADERS
   XipDicomSortUtil.h)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Definitions
 #
 if(WIN32)
   add_definitions(-DXIPIVDICOM_EXPORTS)
@@ -70,35 +74,45 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
 if(WIN32)
  include_directories(${XIPEXT}/dcmtk/include)
 endif(WIN32)
 
 if(UNIX)
-  include_directories(${DCMTK_INCLUDE_DIRS}
-    ${DCMTK_PATH}/include)
+  set(DCMTK_INCLUDE_DIRS ${DCMTK_INCLUDE_DIRS}
+    ${DCMTK_config_INCLUDE_DIR}
+    ${DCMTK_dcmdata_INCLUDE_DIR}
+    ${DCMTK_dcmimgle_INCLUDE_DIR}
+    ${DCMTK_ofstd_INCLUDE_DIR}
+    ${DCMTK_dcmdata_INCLUDE_DIR}
+    ${DCMTK_dcmimgle_INCLUDE_DIR})
+  include_directories(
+    ${DCMTK_INCLUDE_DIRS}
+    /usr/local/dicom/include)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link directories.
+# Link directories
 #
 if(WIN32)
- link_directories(${XIPEXT}/dcmtk/lib)
+  link_directories(${XIPEXT}/dcmtk/lib)
+else(WIN32)
+  link_directories(/usr/local/dicom/lib)
 endif(WIN32)
 
-if(UNIX)
-  link_directories(${DCMTK_PATH}/lib)
-endif(UNIX)
-
 #--------------------------------------------------------------------
-# Library creation.
+# Compile library
 #
 add_library(xipivdicom SHARED ${SOURCES} ${HEADERS})
 
+set_target_properties(xipivdicom
+  PROPERTIES VERSION ${Xip_VERSION_STRING}
+  SOVERSION ${Xip_VERSION_STRING})
+
 #--------------------------------------------------------------------
-# Linking.
+# Link library
 #
 target_link_libraries(xipivdicom
   xipivcore
@@ -119,16 +133,16 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
 install(TARGETS xipivdicom
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipivdicom
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

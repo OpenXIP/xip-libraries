@@ -108,12 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include "SoXipUniformVariable.h"
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
-#include <xip/system/GL/glext.h>
-
 
 SO_NODE_SOURCE(SoXipUniformVariable);
 
@@ -361,3 +359,5 @@ void SoXipUniformMatrix3::doAction(SoAction *action)
 		SoDebugError::postInfo(__FUNCTION__, "Requires 9 floats");
 	}
 }
+
+

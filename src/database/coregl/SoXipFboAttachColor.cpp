@@ -108,13 +108,11 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include "SoXipFboAttachColor.h"
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
-
 
 SO_NODE_SOURCE(SoXipFboAttachColor);
 
@@ -481,3 +479,5 @@ void SoXipFboAttachColor::sensorOutCB(void *usr, SoSensor *sensor) {
     SoXipFboAttachColor * thisObj = reinterpret_cast<SoXipFboAttachColor *>(usr);
     thisObj->syncOutput();
 }
+
+

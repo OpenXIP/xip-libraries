@@ -59,7 +59,8 @@
 
 #elif defined(linux)
 
-#  include <xip/system/GL/standard/gl.h>
+//#  include <xip/system/GL/standard/gl.h>
+#include <GL/gl.h>
 
 #elif defined(DARWIN)
 

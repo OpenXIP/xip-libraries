@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipFramebufferElement.h>
 #include <xip/inventor/coregl/SoXipFramebufferFlip.h>
 
@@ -127,3 +127,5 @@ void SoXipFramebufferFlip::initClass() {
 void SoXipFramebufferFlip::GLRender(SoGLRenderAction* action) {
 	SoXipFramebufferElement::flip(action->getState());
 }
+
+

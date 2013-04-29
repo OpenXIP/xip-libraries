@@ -108,21 +108,25 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_EARTHSOURCE_H_
 # define SO_VTK_EARTHSOURCE_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkEarthSource.h"
 
-# include "Inventor/Fields/SoSFFloat.h"
-# include "Inventor/Fields/SoSFInt32.h"
+# include "Inventor/fields/SoSFFloat.h"
+# include "Inventor/fields/SoSFInt32.h"
 
 class SoVtkEarthSource : public SoEngine
 {
@@ -182,3 +186,4 @@ private:
 };
 
 #endif // SO_VTK_EARTHSOURCE_H_
+

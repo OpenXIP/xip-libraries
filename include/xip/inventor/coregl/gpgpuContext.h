@@ -111,8 +111,26 @@
 #ifndef __WIN32_GPGPU_WINDOW_H__
 #define __WIN32_GPGPU_WINDOW_H__
 
-#include <windows.h>
-#include <GL/gl.h>
+#include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
+#include <xip/system/GL/glu.h>
+#include <xip/system/GL/xipglwindow.h>
+
+#ifdef linux
+#include<stdlib.h>
+#include<iostream>
+#include<X11/Xlib.h>
+#endif
+
+#ifdef linux
+
+  #include<stdlib.h>
+  #include<iostream>
+  #include<X11/Xlib.h>
+  #include<GL/glx.h>
+  #include<GL/glu.h>
+
+#endif // linux
 
 #include <Inventor/errors/SoError.h>
 #include <Inventor/fields/SoSFInt32.h>
@@ -126,18 +144,32 @@
 */
 
 class WinGpgpuWindow{
+
 private:
-	HWND                    m_hWnd;
-	WNDCLASSEX              m_wc;
-	static HDC			hDC;		// private GDI Device Context
-	static HGLRC		hRC;		// Rendering Context
-	HWND		hWnd;		// handle to window
-	HINSTANCE	hInstance;		//application instance
+#ifdef WIN32
+		HWND                    m_hWnd;
+		WNDCLASSEX              m_wc;
+		static HDC		hDC;		// private GDI Device Context
+		static HGLRC		hRC;		// Rendering Context
+		HWND			hWnd;		// handle to window
+		HINSTANCE		hInstance;	//application instance
+#endif // WIN32 
+#ifdef linux
+		static Display                 * dpy;
+		static Window                  win;
+		static GLXContext              cx;
 
+		static int dblBuf[];
+		static int snglBuf[];
+#endif //linux
+#ifdef DARWIN
+	static AGLContext  ctx;
+	// FIXME: OpenGL context stuff
+#endif // DARWIN
 	static bool instanceFlag;
-    static WinGpgpuWindow *theWinGpgpuWindow;
+    	static WinGpgpuWindow *theWinGpgpuWindow;
 
-		WinGpgpuWindow();
+	WinGpgpuWindow();
 	//kills the window and returns an error if something goes wrong
 	int KillGLWindow(void);
 	//creates the window, window does not show up, though
@@ -157,19 +189,51 @@ public:
 public:
 
 	static WinGpgpuWindow* Instance();
-	HGLRC		getGLContext()
+#ifdef WIN32
+		HGLRC		getGLContext()
+		{
+			return hRC;
+		}
+		HDC			getDeviceContext()
+		{
+			return hDC;
+		}
+		void makeCurrent()
+		{
+			wglMakeCurrent(hDC,hRC);
+		}
+#endif // WIN32 
+#ifdef linux
+		GLXContext		getGLContext()
+		{
+			return cx;
+		}
+		Display*		getDeviceDisplay()
+		{
+			return dpy;
+		}
+		Window		getWindow()
+		{
+			return win;
+		}
+		void makeCurrent()
+		{
+			glXMakeCurrent(dpy, win, cx);
+		}
+
+#endif //linux
+		
+#ifdef DARWIN
+	// FIXME: OpenGL context stuff
+	AGLContext	getGLContext()
 	{
-		return hRC;
-	}
-	HDC			getDeviceContext()
-	{
-		return hDC;
+		return ctx;
 	}
 	void makeCurrent()
 	{
-		wglMakeCurrent(hDC,hRC);
-	}
-
+		aglSetCurrentContext(ctx);
+	}	
+#endif // DARWIN
 	const static int errorCreate_NoError=0;
 	const static int errorCreate_Register=1;
 	const static int errorCreate_Create=2;
@@ -179,10 +243,10 @@ public:
 	const static int errorCreate_SetPixelFormat=6;
 	const static int errorCreate_CreateRenderingContext=7;
 	const static int errorCreate_MakeCurrent=8;
-
-
-	
-
-
 };
-#endif
+
+#endif // __WIN32_GPGPU_WINDOW_H__
+
+
+
+

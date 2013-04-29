@@ -108,13 +108,11 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include "SoXipFboAttachColor3D.h"
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
-
 
 SO_NODE_SOURCE(SoXipFboAttachColor3D);
 
@@ -471,3 +469,5 @@ void SoXipFboAttachColor3D::sensorOutCB(void *usr, SoSensor *sensor) {
     SoXipFboAttachColor3D * thisObj = reinterpret_cast<SoXipFboAttachColor3D *>(usr);
     thisObj->syncOutput();
 }
+
+

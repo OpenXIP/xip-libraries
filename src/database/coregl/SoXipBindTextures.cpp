@@ -108,13 +108,20 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#ifndef DARWIN
+#include <xip/system/standard.h>
+#endif // DARWIN
 
 #include "SoXipBindTextures.h"
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 
+#ifndef DARWIN
+#include <xip/inventor/coregl/FramebufferObject.h>
+#include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
+#include <xip/inventor/coregl/SoXipFboElement.h>
+#endif // DARWIN
 
 const GLenum SoXipBindTextures::avaliableColorTargets[16] = 
         { GL_COLOR_ATTACHMENT0_EXT,  GL_COLOR_ATTACHMENT1_EXT,
@@ -178,9 +185,10 @@ void SoXipBindTextures::initClass()
     SO_NODE_INIT_CLASS(SoXipBindTextures, SoNode, "Node");
 	SO_ENABLE(SoGLRenderAction, SoXipMultiTextureElement);
 	SO_ENABLE(SoGLRenderAction, SoXipGLOWElement);
-
-//    SO_ENABLE(SoGLRenderAction, SoXipFboElement);
-//    SO_ENABLE(SoGLRenderAction, SoXipDrawBuffersElement);
+#ifndef DARWIN
+    SO_ENABLE(SoGLRenderAction, SoXipFboElement);
+    SO_ENABLE(SoGLRenderAction, SoXipDrawBuffersElement);
+#endif // DARWIN
 }
 
 
@@ -189,9 +197,10 @@ void SoXipBindTextures::initClass()
  */
 void SoXipBindTextures::assignTextures(SoGLRenderAction* action)
 {
+#ifdef DARWIN
     GLuint unit     = 0;
     GLuint texture  = 0;
-
+#endif // DARWIN
     for (int i = 0; i < mNumTextures; i++)
     {
         if (mTexHandles[i] != attachmentHandles[i])
@@ -317,3 +326,7 @@ void SoXipBindTextures::GLRender(SoGLRenderAction* action)
     }
 #endif
 }
+
+
+
+

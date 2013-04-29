@@ -108,6 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipOffscreenRenderer.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/core/SbXipImage.h>
@@ -118,7 +119,7 @@
 #include <Inventor/errors/SoError.h>
 #include <xip/system/GL/gl.h>
 #include <xip/system/GL/glu.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 #define FUNCID(...) //SoError::post(__FUNCTION__,"");
 
@@ -253,8 +254,9 @@ void SoXipOffscreenRenderer::evaluateSW(){
 			SbXipImage *img = new SbXipImage(
 				SbXipImageDimensions(mWidth, mHeight),
 				SbXipImage::UNSIGNED_BYTE, 8, 3, SbXipImage::INTERLEAVED, SbXipImage::RGB, modelMatrix);
-
+#if !defined(DARWIN)
 			unsigned char* buffer = (unsigned char *) img->refBufferPtr();
+#endif // DARWIN
 #ifdef WIN32
 			unsigned char *src = (unsigned char *) mPixelBuffer;
 
@@ -918,3 +920,5 @@ SbBool SoXipOffscreenRenderer::renderFBO(){
 	glPopMatrix();
 	return TRUE;
 }
+
+

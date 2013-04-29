@@ -119,15 +119,15 @@
 #ifndef SO_VTK_VOLUME_H_
 # define SO_VTK_VOLUME_H_
 
-#include <Inventor/Nodes/SoNode.h>
-#include <Inventor/Nodes/SoSubNode.h>
+#include <Inventor/nodes/SoNode.h>
+#include <Inventor/nodes/SoSubNode.h>
 
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 
-#include "xip/inventor/vtk/SoSFVtkObject.h"
 #include <Inventor/fields/SoSFVec3f.h>
 
+#include "xip/inventor/vtk/SoSFVtkObject.h"
 #include "vtkVolume.h"
 
 /*!
@@ -186,3 +186,6 @@ private :
 };
 
 #endif // SO_VTK_VOLUME_H_
+
+
+

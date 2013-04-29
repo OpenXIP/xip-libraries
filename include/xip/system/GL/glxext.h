@@ -33,6 +33,12 @@ extern "C" {
 #include <windows.h>
 #endif
 
+#ifdef linux
+#include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
+#include <xip/system/GL/glext.h>
+#endif // linux
+
 #ifndef APIENTRY
 #define APIENTRY
 #endif

@@ -108,15 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
-
+#include <xip/system/standard.h>
 #include "SoXipGLSLUseProgram.h"
 #include "ShaderProgramManager.h"
 
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
-
 
 #undef DEBUG
 #ifdef DEBUG
@@ -219,3 +217,5 @@ void SoXipGLSLUseProgram::GLRender(SoGLRenderAction *action)
 	SoXipGLSLShaderProgramElement::set(action->getState(), mProgramHandle);
 #endif
 }
+
+

@@ -67,7 +67,7 @@
       know about them.  */
    enum yytokentype {
      LEXERR = 258,
-     CONST = 259,
+     CONSTANT = 259,
      FUNC = 260,
      INPUT = 261,
      OUTPUT = 262,
@@ -82,7 +82,7 @@
 #endif
 /* Tokens.  */
 #define LEXERR 258
-#define CONST 259
+#define CONSTANT 259
 #define FUNC 260
 #define INPUT 261
 #define OUTPUT 262
@@ -146,7 +146,7 @@ static const struct {
     { "M_SQRT2",	M_SQRT2 },
     { "M_SQRT1_2",	M_SQRT1_2 },
 };
-#define NCONSTANTS (sizeof(Constants)/sizeof(Constants[0]))
+#define NCONSTANTANTS (sizeof(Constants)/sizeof(Constants[0]))
 
 static const struct {
     const char *name;
@@ -547,7 +547,7 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "LEXERR", "CONST", "FUNC", "INPUT",
+  "$end", "error", "$undefined", "LEXERR", "CONSTANT", "FUNC", "INPUT",
   "OUTPUT", "VAR", "OROR", "ANDAND", "GEQ", "LEQ", "EQEQ", "NEQ", "';'",
   "'='", "'['", "']'", "'('", "')'", "','", "'-'", "'!'", "'*'", "'/'",
   "'%'", "'+'", "'<'", "'>'", "'?'", "':'", "$accept", "asgnlist", "asgn",
@@ -1759,7 +1759,7 @@ yyerrorlab:
   /* Pacify compilers like GCC when the user code never invokes
      YYERROR and the label yyerrorlab therefore never appears in user
      code.  */
-  if (/*CONSTCOND*/ 0)
+  if (/*CONSTANTCOND*/ 0)
      goto yyerrorlab;
 
   /* Do not reclaim the symbols of the rule which action triggered
@@ -1921,7 +1921,7 @@ initFuncs()
 static Const *
 isConst(const char *nm)
 {
-    for (int i=0; i<NCONSTANTS; i++)
+    for (int i=0; i<NCONSTANTANTS; i++)
 	if (strcmp(nm, Constants[i].name)==0)
 	    return new Const(Constants[i].val);
     return NULL;
@@ -2013,7 +2013,7 @@ int yylex()
 	In--;	// push back last character "read"
 
 	yylval.expr = new Const(atof(buf));
-	return CONST;
+	return CONSTANT;
     }
 
     if (isalpha(In[0])) {
@@ -2024,7 +2024,7 @@ int yylex()
 	*cp = 0;
 
 	if (yylval.expr = isConst(buf))
-	    return CONST;
+	    return CONSTANT;
 
 	if (yylval.expr = isFunc(buf))
 	    return FUNC;

@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 
@@ -160,3 +160,5 @@ void SoXipTextureUnit::GLRender(SoGLRenderAction *action)
 #endif
 	SoXipMultiTextureElement::setUnit(action->getState(), textureStage.getValue());
 }
+
+

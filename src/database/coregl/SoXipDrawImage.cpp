@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipDrawImage.h>
 
 SO_NODE_SOURCE(SoXipDrawImage);
@@ -182,3 +182,5 @@ void SoXipDrawImage::drawImage(SbXipImage *image) {
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glDrawPixels(dim[0], dim[1], format.getValue(), dataType, image->refBufferPtr());
 }
+
+

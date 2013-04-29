@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipSetTransform.h>
 #include <Inventor/elements/SoViewingMatrixElement.h>
 #include <Inventor/elements/SoModelMatrixElement.h>
@@ -172,4 +172,6 @@ void SoXipSetTransform::GLRender(SoGLRenderAction* action) {
 			break;
 	}
 }
+
+
 

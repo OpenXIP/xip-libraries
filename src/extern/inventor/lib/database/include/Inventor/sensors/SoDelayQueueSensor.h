@@ -72,6 +72,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <Inventor/sensors/SoSensor.h>
+#include <xip/system/standard.h>
 
 // C-api: prefix=SoDelQSens
 class INVENTOR_API SoDelayQueueSensor : public SoSensor {

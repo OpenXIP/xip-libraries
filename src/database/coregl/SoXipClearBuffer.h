@@ -119,9 +119,7 @@
 #include <Inventor/SbViewportRegion.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
-#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
-
 
 class XIPIVCOREGL_API SoXipClearBuffer : public SoNode
 {
@@ -144,3 +142,5 @@ protected:
 };
 
 #endif // SO_XIP_CLEAR_BUFFER_H
+
+

@@ -1,15 +1,12 @@
+#include <xip/system/standard.h>
 #include "SoXipLogGLState.h"
 
 #include <Inventor/actions/SoGLRenderAction.h>
-
+#ifndef linux
 #include <xip/system/GL/gl.h>
 #include <xip/system/GL/glext.h>
+#endif
 #include <xip/inventor/coregl/SoXipGlowElement.h>
-
-#include <xip/system/standard.h>
-
-//#include <fstream>
-//#include <sstream>
 
 #if defined(WINDOWS) || defined(_MSC_VER)
 # pragma warning(disable:4996)
@@ -238,3 +235,5 @@ void SoXipLogGLState::GLRender(SoGLRenderAction * action)
 		mCount++;
 	}
 }
+
+

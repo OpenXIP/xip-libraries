@@ -108,21 +108,26 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
+/*
+ * \author Sylvain Jaume, Francois Huguet
+ */
+#ifndef SO_VTK_BYUREADER_H_
+#define SO_VTK_BYUREADER_H_
 
-# ifndef SO_VTK_BYUREADER_H_
-# define SO_VTK_BYUREADER_H_
+#include <Inventor/engines/SoSubEngine.h>
 
+#include <Inventor/fields/SoSFInt32.h>
+#include <Inventor/fields/SoMFString.h>
 
-# include <Inventor/Engines/SoSubEngine.h>
+#include <xip/inventor/vtk/SoSFVtkAlgorithmOutput.h>
+#include <xip/inventor/vtk/SoSFVtkObject.h>
+#include <xip/inventor/core/SoSFVariant.h>
 
-# include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
-# include "xip/inventor/vtk/SoSFVtkObject.h"
-
-# include "vtkBYUReader.h"
-
-# include "Inventor/Fields/SoSFInt32.h"
-# include "Inventor/Fields/SoMFString.h"
-# include <xip/inventor/core/SoSFVariant.h>
+#include "vtkBYUReader.h"
 
 class SoVtkBYUReader : public SoEngine
 {
@@ -190,3 +195,5 @@ private:
 };
 
 #endif // SO_VTK_BYUREADER_H_
+
+

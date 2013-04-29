@@ -1,13 +1,13 @@
 #include    "FTVectoriser.h"
-#include    "FTGL.h"
+
 
 #ifndef CALLBACK
 #define CALLBACK
 #endif
 
-#ifdef __APPLE_CC__    
-    typedef GLvoid (*GLUTesselatorFunction)(...);
-#elif defined( __mips ) || defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __OpenBSD__ ) || defined( __sun ) || defined (__CYGWIN__)
+//#ifdef __APPLE_CC__    
+//    typedef GLvoid (*GLUTesselatorFunction)(...);
+#if defined( __mips ) || defined( __linux__ ) || defined( __FreeBSD__ ) || defined( __OpenBSD__ ) || defined( __sun ) || defined (__CYGWIN__) || defined (__APPLE__)
     typedef GLvoid (*GLUTesselatorFunction)();
 #elif defined ( WIN32)
     typedef GLvoid (CALLBACK *GLUTesselatorFunction)( );

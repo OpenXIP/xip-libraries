@@ -50,6 +50,9 @@
  ______________  S I L I C O N   G R A P H I C S   I N C .  ____________
  _______________________________________________________________________
  */
+
+#if !defined(WIN32) && !(defined(__APPLE__) && !defined(APPLE_GLX))
+
 #include <stdio.h>
 #include <assert.h>
 #include <Inventor/SbLinear.h>
@@ -97,8 +100,11 @@ extern void iclose(IMAGE *);
 // Offscreen renderings will always be rendered as RGB images
 // Currently the OpenGL does not support storing alpha channel information
 // in the offscreen pixmap.
-static int attributeList[] = { GLX_RGBA, GLX_RED_SIZE, 1, GLX_GREEN_SIZE, 1,
-                               GLX_BLUE_SIZE, 1, GLX_DEPTH_SIZE, 1, None };
+
+//static int attributeList[] = { GLX_RGBA, GLX_RED_SIZE, 1, GLX_GREEN_SIZE, 1,
+//                               GLX_BLUE_SIZE, 1, GLX_DEPTH_SIZE, 1, None };
+static int attributeList[] = { GL_RGBA, GL_RED_SIZE, 1, GL_GREEN_SIZE, 1,
+                               GL_BLUE_SIZE, 1, GL_DEPTH_SIZE, 1, None };
 
 //
 // KLUDGE!!!!!
@@ -905,4 +911,6 @@ SoOffscreenRenderer::getFormat( GLenum &format ) const
             break;
     }
 }
+
+#endif
 

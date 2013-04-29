@@ -57,6 +57,7 @@
 #define  _SO_BYTE_STREAM_
 
 #include <Inventor/SbBasic.h>
+#include <xip/system/standard.h>
 
 class SoNode;
 class SoPath;

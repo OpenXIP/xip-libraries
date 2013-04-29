@@ -219,9 +219,9 @@ class INVENTOR_API SoKeyboardEvent : public SoButtonEvent {
 	SCROLL_LOCK = 0xff14, 
 	ESCAPE = 0xff1b, 
 	DELETE = 0xffff, 
-#ifdef WIN32
+//#ifdef WIN32
 	KEY_DELETE = DELETE,	// Added for TGS Open Inventor compatibility
-#endif
+//#endif
 	PRINT = 0xff61, 
 	INSERT = 0xff63, 
 	NUM_LOCK = 0xff7f, 
@@ -281,3 +281,4 @@ class INVENTOR_API SoKeyboardEvent : public SoButtonEvent {
 #endif
 
 #endif /* _SO_KEYBOARD_EVENT_ */
+

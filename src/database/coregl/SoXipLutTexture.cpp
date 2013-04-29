@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 #include <xip/inventor/core/SoXipLutElement.h>
@@ -117,7 +117,6 @@
 #include <Inventor/elements/SoComplexityElement.h>
 #include <Inventor/errors/SoErrors.h>
 #include "SoXipLutTexture.h"
-
 
 SO_NODE_SOURCE(SoXipLutTexture);
 
@@ -329,4 +328,6 @@ void	SoXipLutTexture::updateTexture(SbXipImage *image)
 	// Restore unpack alignment
 	glPixelStorei(GL_UNPACK_ALIGNMENT, align);
 }
+
+
 

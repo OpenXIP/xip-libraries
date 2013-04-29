@@ -117,8 +117,9 @@
  *  Description     : A node that checks for OpenGL Error.
  *                    Allows quick check whether a network/node produces OpenGL errors 
  *
- *  Copyright ï¿½ Siemens AG 2006-2008. All Rights Reserved.
+ *  Copyright © Siemens AG 2006-2008. All Rights Reserved.
  */
+#include <xip/system/standard.h>
 #include "SoXipOpenGLError.h"
 #include <Inventor/errors/SoError.h>
 #include <Inventor/errors/SoDebugError.h>
@@ -155,5 +156,9 @@ void SoXipOpenGLError::GLRender(SoGLRenderAction *action) {
 		
 	}
 }
+
+
+
+
 
 

@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include "SoXipImage.h"
 #include "SoXipSFDataImageToSFImage.h"
 
@@ -305,23 +305,18 @@ SoXipImage::~SoXipImage()
 		mImageSensor = 0;
 	}
 
-	if (mTexture)
-	{
-		mTexture->unref();
-		mTexture = 0;
-	}
-
 	if (mCurrentImage)
 	{
 		mCurrentImage->unref();
 		mCurrentImage = 0;
 	}
 
+	if (mTexture)
+		mTexture->unref();
+
 	if (mMatrixTransform)
-	{
 		mMatrixTransform->unref();
-		mMatrixTransform = 0;
-	}
+
 }
 
 void SoXipImage::initClass()
@@ -506,25 +501,23 @@ void SoXipImage::GLRender(SoGLRenderAction * action)
 {
     try
     {
-		((SoAction*)action)->getState()->push();
+		if (image.getValue())
+	    {
+		    ((SoAction*)action)->getState()->push();
 
-		if (mTexture)
-		{
-			updateTexture(action);
-			mTexture->GLRender(action);
+		    if (mTexture)
+		    {
+			    updateTexture(action);
+			    mTexture->GLRender(action);
+		    }
+
+			if (mMatrixTransform)
+			    mMatrixTransform->GLRender(action);
+
+		    SoShape::GLRender(action);
+
+		    ((SoAction*)action)->getState()->pop();
 		}
-
-		if (mMatrixTransform)
-		{			
-			mMatrixTransform->GLRender(action);
-		}
-
-		if (mCurrentImage)
-		{
-			SoShape::GLRender(action);
-		}
-
-		((SoAction*)action)->getState()->pop();
 	}
 	catch (...)
     {
@@ -626,3 +619,6 @@ void SoXipImage::fieldSensorCBFunc(void *user, SoSensor *sensor)
 {
 	((SoXipImage*) user)->imageChanged();
 }
+
+
+

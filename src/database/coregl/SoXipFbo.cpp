@@ -108,8 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include "SoXipFbo.h"
 #include <Inventor/actions/SoGLRenderAction.h>
@@ -748,3 +747,5 @@ void SoXipFbo::sensorOutCB(void *usr, SoSensor *sensor) {
     SoXipFbo * fbo = reinterpret_cast<SoXipFbo *>(usr);
     fbo->syncOutputHandles();
 }
+
+

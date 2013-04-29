@@ -108,20 +108,24 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_FACETWRITER_H_
 # define SO_VTK_FACETWRITER_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkFacetWriter.h"
 
-# include "Inventor/Fields/SoMFString.h"
+# include "Inventor/fields/SoMFString.h"
 
 class SoVtkFacetWriter : public SoEngine
 {
@@ -177,3 +181,4 @@ private:
 };
 
 #endif // SO_VTK_FACETWRITER_H_
+

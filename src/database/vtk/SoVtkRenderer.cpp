@@ -113,11 +113,10 @@
  * \file SoVtkRenderer.cpp
  *
  * \brief SoVtkRenderer class implementation.
- *
+ * \author Sylvain Jaume, Francois Huguet
  */
 
 #include "SoVtkRenderer.h"
-
 
 #include <Inventor/elements/SoViewVolumeElement.h>
 #include <Inventor/elements/SoFocalDistanceElement.h>
@@ -134,6 +133,9 @@
 #include "SoVtkUtils.h"
 
 #include "vtkCamera.h"
+#ifdef WIN32
+#include "vtkWin32OpenGLRenderWindow.h"
+#endif // WIN32
 
 #define pi 3.14159265358979323846
 
@@ -141,48 +143,48 @@ SO_NODE_SOURCE( SoVtkRenderer );
 
 SoVtkRenderer::SoVtkRenderer()
 {
-	SO_NODE_CONSTRUCTOR( SoVtkRenderer );
+  SO_NODE_CONSTRUCTOR( SoVtkRenderer );
 
-	mRen = vtkOpenGLRenderer::New();
-	mRen->Register(0);
-	mRen->SetAllocatedRenderTime(10);
+  mRen = vtkOpenGLRenderer::New();
+  mRen->Register(0);
+  mRen->SetAllocatedRenderTime(10);
 
-	mRenWin = vtkWin32OpenGLRenderWindow::New();
-	mRenWin->Register(0);
-	mRenWin->AddRenderer(mRen);
+  mRenWin = vtkRenderWindow::New();
+  mRenWin->Register(0);
+  mRenWin->AddRenderer(mRen);
 
-	/* FIXME : The stereo render modifies the camera. */
+  /* FIXME : The stereo render modifies the camera. */
 
-	//SO_NODE_ADD_FIELD( StereoRender, (FALSE) );
+  //SO_NODE_ADD_FIELD( StereoRender, (FALSE) );
 
-	//SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Anaglyph);
-	//SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, CrystalEyes);
-	//SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Dresden);
-	//SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Interlaced);
-	//SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Left);
-	//SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, RedBlue);
-	//SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Right);
-	//SO_NODE_SET_SF_ENUM_TYPE(StereoMode, StereoModeEnum);
+  //SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Anaglyph);
+  //SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, CrystalEyes);
+  //SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Dresden);
+  //SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Interlaced);
+  //SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Left);
+  //SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, RedBlue);
+  //SO_NODE_DEFINE_ENUM_VALUE(StereoModeEnum, Right);
+  //SO_NODE_SET_SF_ENUM_TYPE(StereoMode, StereoModeEnum);
 
-	//SO_NODE_ADD_FIELD( StereoMode, (Interlaced) );
+  //SO_NODE_ADD_FIELD( StereoMode, (Interlaced) );
 	
-	SO_NODE_ADD_FIELD(Background,(0,0,0));
-
-	mRC = 0;
-	mNodeId = 0;
+  SO_NODE_ADD_FIELD(Background,(0,0,0));
+#ifdef WIN32
+  mRC = 0;
+#endif // WIN32
+  mNodeId = 0;
 }
-
 
 SoVtkRenderer::~SoVtkRenderer()
 {
-	// Rmq: we don't delete the renderer since it is done by the renderWindow.
+  // Rmq: we don't delete the renderer since it is done by the renderWindow.
 	
-	if (mRenWin)
-	{
-		mRenWin->UnRegister(0);
-		mRenWin->Delete();
-		mRenWin = 0;
-	}
+  if (mRenWin)
+  {
+  mRenWin->UnRegister(0);
+  mRenWin->Delete();
+  mRenWin = 0;
+  }
 }
 
 void
@@ -207,21 +209,22 @@ SoVtkRenderer::GLRender( SoGLRenderAction* action )
 		mNodeId = getNodeId();
 		updateChildren();
 	}
-
+#ifdef WIN32
 	// Update graphics/rendering context
 	HGLRC currentContext = ::wglGetCurrentContext();
 	if (mRC != currentContext)
 	{
-		mRC = currentContext;
-		if (mRenWin)
-		{
-			mRenWin->SetDeviceContext(::wglGetCurrentDC());
-			mRenWin->SetContextId(currentContext);
-			mRenWin->SetSwapBuffers(0);
+	  mRC = currentContext;
+	  vtkWin32OpenGLRenderWindow *win32RenderWindow = vtkWin32OpenGLRenderWindow::SafeDownCast(mRenWin);
+	  if(win32RenderWindow)
+	    {
+	    win32RenderWindow->SetDeviceContext(::wglGetCurrentDC());
+	    win32RenderWindow->SetContextId(currentContext);
+		mRenWin->SetSwapBuffers(0);
+		win32RenderWindow->OpenGLInit();
 		}
-		mRenWin->OpenGLInit();
 	}
-
+#endif // WIN32
 	// Update the size of both vtk viewport and window
 	this->updateRenderWindowSize(action->getState());
 
@@ -383,7 +386,7 @@ SoVtkRenderer::updateCamera(SoState *state)
 }
 
 
-             ////////////// UPDATE METHODS /////////////
+////////////// UPDATE METHODS /////////////
 
 
 void SoVtkRenderer::updateRenderWindowSize(SoState *state)
@@ -470,14 +473,15 @@ void SoVtkRenderer::updateStereoMode()
 	}
 }
 
-vtkOpenGLRenderer *
-SoVtkRenderer::getRenderer() const
+vtkOpenGLRenderer *SoVtkRenderer::getRenderer() const
 {
 	return mRen;
 }
 
-vtkWin32OpenGLRenderWindow *
-SoVtkRenderer::getRenderWindow() const
+vtkRenderWindow *SoVtkRenderer::getRenderWindow() const
 {
 	return mRenWin;
 }
+
+
+

@@ -24,13 +24,14 @@
 
 #  include <GL/glu.h>
 
-#elif defined(LINUX)
+#elif defined(linux)
 
 #  include <GL/glu.h>
 
 #elif defined(DARWIN)
 
-#  include <OpenGL/glu.h>
+#include <OpenGL/glu.h>
+//#include <GL/glu.h>
 
 #endif /* Platform selection */
 

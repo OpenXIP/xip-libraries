@@ -253,9 +253,9 @@ SoXipPlot2Samples::GLRender( SoGLRenderAction* action )
 {
 	if( data.getNum() )
 	{
-		float pointSize = SoPointSizeElement::get( action->getState() );
-		float lineWidth = SoLineWidthElement::get( action->getState() );
-		unsigned short linePattern = SoLinePatternElement::get( action->getState() );
+		//float pointSize = SoPointSizeElement::get( action->getState() );
+		//float lineWidth = SoLineWidthElement::get( action->getState() );
+		//unsigned short linePattern = SoLinePatternElement::get( action->getState() );
 
 		SoXipPlot2Element::add(
 			action->getState(),
@@ -301,3 +301,4 @@ SoXipPlot2Samples::extractMarkerCoords()
 		markerCoord->point.finishEditing();
 	}
 }
+

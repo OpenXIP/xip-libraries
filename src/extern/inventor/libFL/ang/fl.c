@@ -33,18 +33,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef WIN32
-#include <windows.h>
-#include <shlobj.h>
-#include <io.h>
-#ifndef R_OK
-#define R_OK 4
-#endif
+# include <windows.h>
+# include <shlobj.h>
+# include <io.h>
+# ifndef R_OK
+#  define R_OK 4
+# endif
 #else
-#include <unistd.h>
-#endif
+# include <unistd.h>
+#endif /* WIN32 */
+
 #if defined(__APPLE__)
-#include <ApplicationServices/ApplicationServices.h>
-#endif
+# include <ApplicationServices/ApplicationServices.h>
+# include <CFString.h>
+#endif /* __APPLE__ */
+
 #include <string.h>
 #include "fl.h"
 

@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/elements/SoViewportRegionElement.h>
@@ -417,3 +417,5 @@ void SoXipFramebufferGroup::deallocate() {
 void SoXipFramebufferGroup::sensorCB(void *usr, SoSensor *sensor) {
 	((SoXipFramebufferGroup*)usr)->mNeedsUpdate = true;
 }
+
+

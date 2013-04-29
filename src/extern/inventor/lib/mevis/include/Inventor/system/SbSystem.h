@@ -124,16 +124,15 @@
 #define OPENGL_GL_H  <OpenGL/gl.h>
 #define OPENGL_GLU_H <OpenGL/glu.h>
 
-#define OPENGL_CALLBACKFUNC GLvoid (CALLBACK *)(...)
-
 #else   // not __APPLE__
 
 #define OPENGL_GL_H  <GL/gl.h>
 #define OPENGL_GLU_H <GL/glu.h>
 
+#endif	// __APPLE__
+
 #define OPENGL_CALLBACKFUNC GLvoid (CALLBACK *)()
 
-#endif	// __APPLE__
 
 // Font system settings
 

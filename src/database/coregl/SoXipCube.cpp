@@ -1,14 +1,10 @@
+#include <xip/system/standard.h>
 #include "SoXipCube.h"
-
-
 
 #ifdef NEW_SHAPE_IMPLEMENTATION
 
-
-
-
-#include <inventor/SbBox.h>
-#include <inventor/SoPrimitiveVertex.h>
+#include <Inventor/SbBox.h>
+#include <Inventor/SoPrimitiveVertex.h>
 
 SO_NODE_SOURCE(SoXipCube);
 
@@ -229,3 +225,5 @@ void SoXipCube::GLRender(SoGLRenderAction* action) {
 }
 
 #endif
+
+

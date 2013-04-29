@@ -170,7 +170,7 @@ SoXipOverlayActions::evaluate()
 {
 	int numOverlays = overlays.getNum();
 
-	for( int i = 0; i < overlays.getNum(); ++ i )
+	for( int i = 0; i < numOverlays; ++ i )
 	{
 		SoXipShapeList* shapeList = (SoXipShapeList *) overlays[i];
 
@@ -188,3 +188,4 @@ SoXipOverlayActions::evaluate()
 	mActionTrigger = 0;
 	status.enable( FALSE );
 }
+

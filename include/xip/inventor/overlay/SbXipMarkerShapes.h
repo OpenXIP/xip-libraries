@@ -110,10 +110,11 @@
  */
 
 /**
-*	@file    SbXipMarkerShapes.h
-*	@brief   Declaration of the SbXipMarkerShapes class
-*	@author  Julien Gein
-*	@author  Thomas Moeller
+*	@file   SbXipMarkerShapes.h
+*	@brief  Declaration of the SbXipMarkerShapes class
+*	@author Julien Gein
+*	@author Thomas Moeller
+*	@author Sylvain Jaume
 **/
 
 #ifndef SBXIPMARKERSHAPES_H
@@ -149,4 +150,5 @@ private:
 	static const char * mShapes[][3];
 };
 
-#endif SBXIPMARKERSHAPES_H
+#endif // SBXIPMARKERSHAPES_H
+

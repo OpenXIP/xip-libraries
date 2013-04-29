@@ -108,21 +108,25 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_CYLINDER_H_
 # define SO_VTK_CYLINDER_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkCylinder.h"
 
-# include "Inventor/Fields/SoSFFloat.h"
-# include "Inventor/Fields/SoSFVec3f.h"
+# include "Inventor/fields/SoSFFloat.h"
+# include "Inventor/fields/SoSFVec3f.h"
 
 class SoVtkCylinder : public SoEngine
 {
@@ -173,3 +177,4 @@ private:
 };
 
 #endif // SO_VTK_CYLINDER_H_
+

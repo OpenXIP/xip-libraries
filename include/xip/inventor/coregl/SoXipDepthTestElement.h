@@ -116,7 +116,7 @@
 #include <xip/inventor/coregl/xipivcoregl.h>
 #include <Inventor/elements/SoSubElement.h>
 
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 class  XIPIVCOREGL_API SoXipDepthTestElement : public SoElement {
 	SO_ELEMENT_HEADER(SoXipDepthTestElement);
@@ -150,3 +150,7 @@ private:
 };
 
 #endif // SO_RAD_DEPTH_TEST_ELEMENT_H
+
+
+
+

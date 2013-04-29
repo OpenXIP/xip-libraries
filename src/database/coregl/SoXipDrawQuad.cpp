@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipDrawQuad.h>
 
 SO_NODE_SOURCE(SoXipDrawQuad);
@@ -212,3 +212,5 @@ void SoXipDrawQuad::GLRender(SoGLRenderAction* action) {
 
 	glPopAttrib();
 }
+
+

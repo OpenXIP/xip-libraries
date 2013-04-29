@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 
@@ -501,3 +501,5 @@ void SoXipGLOWElement::init(SoState *state)
 {
 	SoXipGLOW::init();
 }
+
+

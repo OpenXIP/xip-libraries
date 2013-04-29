@@ -101,7 +101,7 @@
  *      INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
  *      (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
  *      GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
- *      BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+ *      BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
  *      LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
@@ -112,9 +112,8 @@
 /*!
  * \file SoVtkImageViewer2.cpp
  * \brief Implementation of the SoVtkImageViewer2 node
- * \author Francois Huguet
+ * \author Sylvain Jaume, Francois Huguet
  */
-#include "SoVtkImageViewer2.h"
 
 #include <Inventor/elements/SoViewVolumeElement.h>
 #include <Inventor/elements/SoFocalDistanceElement.h>
@@ -124,11 +123,14 @@
 
 #include "xip/inventor/vtk/SoVtkAlgorithmOutput.h"
 #include "xip/inventor/vtk/SoVtkObject.h"
+#include <xip/system/GL/gl.h>
 
 #include "vtkImageData.h"
 #include "vtkImageActor.h"
 #include "vtkCamera.h"
 #include "vtkRenderer.h"
+
+#include "SoVtkImageViewer2.h"
 
 #define pi 3.14159265358979323846
 
@@ -136,50 +138,50 @@ SO_NODE_SOURCE(SoVtkImageViewer2);
 
 SoVtkImageViewer2::SoVtkImageViewer2()
 {
-	SO_NODE_CONSTRUCTOR(SoVtkImageViewer2);
+  SO_NODE_CONSTRUCTOR(SoVtkImageViewer2);
 
-	// Initializations
-	mViewer = vtkImageViewer2::New();
-	mViewer->Register(0);
+  // Initializations
+  mViewer = vtkImageViewer2::New();
+  mViewer->Register(0);
 
-	mRenWin = new myRenderWindow;
-	mRenWin->Register(0);
-	// We need to give the viewer the render window from Rad to draw in the same context as Rad
-	mViewer->SetRenderWindow(mRenWin);
+  mRenWin = new myRenderWindow;
+  mRenWin->Register(0);
+  // We need to give the viewer the render window from Rad to draw in the same context as Rad
+  mViewer->SetRenderWindow(mRenWin);
 
+  SO_NODE_ADD_FIELD( InputConnection, (0) );
+  SO_NODE_ADD_FIELD( Input, (0) );
+  SO_NODE_ADD_FIELD( BitsUsed, (8));
+  SO_NODE_ADD_FIELD( Window, (0) );
+  SO_NODE_ADD_FIELD( Level, (0) );
 
-	SO_NODE_ADD_FIELD( InputConnection  , (0) );
-	SO_NODE_ADD_FIELD( Input  , (0) );
-	SO_NODE_ADD_FIELD( BitsUsed , (8));
-	SO_NODE_ADD_FIELD( Window , (0) );
-	SO_NODE_ADD_FIELD( Level , (0) );
+  SO_NODE_DEFINE_ENUM_VALUE( SliceOrientationEnum, XY );
+  SO_NODE_DEFINE_ENUM_VALUE( SliceOrientationEnum, XZ );
+  SO_NODE_DEFINE_ENUM_VALUE( SliceOrientationEnum, YZ );
 
-    SO_NODE_DEFINE_ENUM_VALUE( SliceOrientationEnum, XY );
-    SO_NODE_DEFINE_ENUM_VALUE( SliceOrientationEnum, XZ );
-    SO_NODE_DEFINE_ENUM_VALUE( SliceOrientationEnum, YZ );
-
-    SO_NODE_SET_SF_ENUM_TYPE( SliceOrientation, SliceOrientationEnum );
-    SO_NODE_ADD_FIELD( SliceOrientation, (XY) );
+  SO_NODE_SET_SF_ENUM_TYPE( SliceOrientation, SliceOrientationEnum );
+  SO_NODE_ADD_FIELD( SliceOrientation, (XY) );
 	
-	SO_NODE_ADD_FIELD( SliceIndex , (0) );
-	SO_NODE_ADD_FIELD( NextSlice , () );
-	SO_NODE_ADD_FIELD( PreviousSlice, () );
+  SO_NODE_ADD_FIELD( SliceIndex , (0) );
+  SO_NODE_ADD_FIELD( NextSlice , () );
+  SO_NODE_ADD_FIELD( PreviousSlice, () );
 	
+  mNextSensor = new SoFieldSensor( &onNextCallback, this );
+  mNextSensor->attach( &NextSlice );
+  mNextSensor->setPriority(0);
 
-	mNextSensor = new SoFieldSensor( &onNextCallback, this );
-	mNextSensor->attach( &NextSlice );
-	mNextSensor->setPriority(0);
+  mPreviousSensor = new SoFieldSensor( &onPreviousCallback, this );
+  mPreviousSensor->attach( &PreviousSlice );
+  mPreviousSensor->setPriority(0);
 
-	mPreviousSensor = new SoFieldSensor( &onPreviousCallback, this );
-	mPreviousSensor->attach( &PreviousSlice );
-	mPreviousSensor->setPriority(0);
-
-	mMin = 0;
-	mMax = 0;
-	mRC = 0;
+  mMin = 0;
+  mMax = 0;
+#ifdef WIN32
+  mRC = 0;
+#endif // WIN32
 }
 
-             ////////////// CALLBACKS METHODS /////////////
+////////////// CALLBACKS METHODS /////////////
 
 void
 SoVtkImageViewer2::onNextCallback( void* user, SoSensor* sensor )
@@ -250,79 +252,79 @@ void SoVtkImageViewer2::getBoundingBox(SoGetBoundingBoxAction *action)
 
 void SoVtkImageViewer2::GLRender(SoGLRenderAction *action)
 {
-	try
+  try
+    {
+    // Get the 2 inputs
+    SoVtkObject *inputPtr = Input.getValue();
+
+    if (inputPtr && inputPtr->getPointer()->IsA("vtkImageData"))
+      {
+      mViewer->SetInput(vtkImageData::SafeDownCast(inputPtr->getPointer()));
+      }
+
+    SoVtkAlgorithmOutput *inputPortPtr = InputConnection.getValue();
+
+    if (inputPortPtr)
+      {
+      mViewer->SetInputConnection(inputPortPtr->getPointer());
+      }
+#ifdef WIN32
+    // Update graphics/rendering context
+    HGLRC currentContext = ::wglGetCurrentContext();
+
+    if (mRC != currentContext)
+    {
+	mRC = currentContext;
+	if (mViewer->GetRenderWindow())
 	{
-
-		// Get the 2 inputs
-		SoVtkObject *inputPtr = Input.getValue();
-		
-		if (inputPtr && inputPtr->getPointer()->IsA("vtkImageData"))
-			mViewer->SetInput(vtkImageData::SafeDownCast(inputPtr->getPointer()));
-
-		SoVtkAlgorithmOutput *inputPortPtr = InputConnection.getValue();
-		if (inputPortPtr)
-			mViewer->SetInputConnection(inputPortPtr->getPointer());
-
-
-		// Update graphics/rendering context
-		HGLRC currentContext = ::wglGetCurrentContext();
-		if (mRC != currentContext)
-		{
-			mRC = currentContext;
-			if (mViewer->GetRenderWindow())
-			{
-				mRenWin->SetDeviceContext(::wglGetCurrentDC());
-				mRenWin->SetContextId(currentContext);
-				mRenWin->SetSwapBuffers(0);
-			}
-			mRenWin->OpenGLInit();
-		}
-
-
-		// Get the slice range
-		mMin = mViewer->GetSliceMin();
-		mMax = mViewer->GetSliceMax();
-
-		// Update the slice orientation
-		switch( SliceOrientation.getValue() )
-		{
-			case XY:
-			{
-				mViewer->SetSliceOrientationToXY();
-			}
-			break ;
-
-			case XZ:
-			{
-				mViewer->SetSliceOrientationToXZ();
-			}
-			break ;
-
-			case YZ:
-			{
-				mViewer->SetSliceOrientationToYZ();
-			}
-			break ;
-		}
-
-		// Set the slice index
-		mViewer->SetSlice(SliceIndex.getValue());
-
-		// Update the vtk camera according to the inventor state
-		updateCamera(action->getState());
-
-		// Render
-		mRenWin->GLRender();
-
+		mRenWin->SetDeviceContext(::wglGetCurrentDC());
+		mRenWin->SetContextId(currentContext);
+		mRenWin->SetSwapBuffers(0);
 	}
-	catch(...)
+	mRenWin->OpenGLInit();
+    }
+#endif // WIN32
+    // Get the slice range
+    mMin = mViewer->GetSliceMin();
+    mMax = mViewer->GetSliceMax();
+
+    // Update the slice orientation
+    switch( SliceOrientation.getValue() )
+    {
+	case XY:
 	{
-		SoDebugError::post( __FILE__, "Unknown Exception" );
-		return ;
+	mViewer->SetSliceOrientationToXY();
 	}
+	break ;
+	case XZ:
+	{
+	mViewer->SetSliceOrientationToXZ();
+	}
+	break ;
+	case YZ:
+	{
+	mViewer->SetSliceOrientationToYZ();
+	}
+	break ;
+    }
+
+    // Set the slice index
+    mViewer->SetSlice(SliceIndex.getValue());
+
+    // Update the vtk camera according to the inventor state
+    updateCamera(action->getState());
+
+    // Render
+    mRenWin->GLRender();
+    }
+    catch(...)
+    {
+    SoDebugError::post( __FILE__, "Unknown Exception" );
+    return ;
+    }
 }
 
-             ////////////// UPDATE METHODS ////////////
+////////////// UPDATE METHODS ////////////
 
 void SoVtkImageViewer2::updateCamera(SoState *state)
 {
@@ -370,6 +372,8 @@ void SoVtkImageViewer2::updateCamera(SoState *state)
 	// Set the size of the vtkRenderWindow.
 	int x = floor(X + 0.5f);
 	int y = floor(Y + 0.5f);
-	mViewer->GetRenderWindow()->SetSize( x, y);
-  
+	mViewer->GetRenderWindow()->SetSize(x, y);  
 }
+
+
+

@@ -108,12 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
-
+#include <xip/system/standard.h>
 #include "SoXipPingPong.h"
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
-
 
 SO_NODE_SOURCE(SoXipPingPong);
 
@@ -554,3 +552,5 @@ void SoXipPingPong::sensorOutCB(void *usr, SoSensor *sensor) {
     thisObj->syncHandleOutput();
     thisObj->syncUnitOutput();
 }
+
+

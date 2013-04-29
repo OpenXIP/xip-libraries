@@ -1,4 +1,3 @@
-
 /*
 *  COPYRIGHT NOTICE.  Copyright (C) 2005 Siemens Corporate Research, 
 *  Inc. ("caBIG(tm) Participant"). eXtensible Imaging Platform (XIP)
@@ -109,6 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipDepthTestElement.h>
 #include <Inventor/errors/SoDebugError.h>
 
@@ -218,3 +218,5 @@ void SoXipDepthTestElement::setDepthFuncGL() {
 //
 //	return elt;
 //}
+
+

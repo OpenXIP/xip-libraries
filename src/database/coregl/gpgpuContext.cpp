@@ -467,8 +467,9 @@ void WinGpgpuWindow::destroyWindow(){
 		if (globalCacheDeviceContextField){
 			int val=globalCacheDeviceContextField->getValue();
 			hdc=  (HDC) (unsigned __int64)val;
-
+#ifdef DARWIN
 			PIXELFORMATDESCRIPTOR  pfd;
+#endif // DARWIN
 			int  iPixelFormat;
 
 			// get the current pixel format index 
@@ -550,4 +551,6 @@ void WinGpgpuWindow::destroyWindow(){
 	// FIXME: OpenGL context stuff
 #endif /* DARWIN */
 }
+
+
 

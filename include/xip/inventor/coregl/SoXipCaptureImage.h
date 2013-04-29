@@ -124,7 +124,7 @@
 #include <xip/inventor/core/SoXipDataImage.h>
 #include <xip/inventor/core/SoXipSFDataImage.h>
 #include <Inventor/actions/SoGLRenderAction.h>
-#include <GL/gl.h>
+#include <xip/system/GL/gl.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
 
 class XIPIVCOREGL_API SoXipCaptureImage : public SoNode {
@@ -182,3 +182,6 @@ private:
 
 
 #endif 
+
+
+

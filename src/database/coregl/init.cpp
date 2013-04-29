@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 
 #include <xip/inventor/core/SoXipData.h>
@@ -131,7 +131,7 @@
 #include <xip/inventor/coregl/SoXipFramebufferFlip.h>
 #include <xip/inventor/coregl/SoXipGetTransform.h>
 #include <xip/inventor/coregl/SoXipMultiplyMatrices.h>
-#include  <xip/inventor/coregl/SoXipOffscreenRenderer.h>
+#include <xip/inventor/coregl/SoXipOffscreenRenderer.h>
 
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
@@ -276,3 +276,5 @@ void __attribute__ ((destructor)) _fini(void)
 }
 
 #endif /* WIN32 */
+
+

@@ -111,9 +111,12 @@
 #ifndef SO_XIP_FRAMEBUFFER_ELEMENT_H
 #define SO_XIP_FRAMEBUFFER_ELEMENT_H
 
+//#include <xip/system/GL/gl.h>
+//#include <xip/system/GL/glext.h>
+
 #include <Inventor/elements/SoSubElement.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 class XIPIVCOREGL_API SoXipFramebufferElement : public SoElement {
 	SO_ELEMENT_HEADER(SoXipFramebufferElement);
@@ -152,3 +155,7 @@ private:
 };
 
 #endif 
+
+
+
+

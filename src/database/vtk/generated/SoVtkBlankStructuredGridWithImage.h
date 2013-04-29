@@ -108,13 +108,17 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_BLANKSTRUCTUREDGRIDWITHIMAGE_H_
 # define SO_VTK_BLANKSTRUCTUREDGRIDWITHIMAGE_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
@@ -181,3 +185,4 @@ private:
 };
 
 #endif // SO_VTK_BLANKSTRUCTUREDGRIDWITHIMAGE_H_
+

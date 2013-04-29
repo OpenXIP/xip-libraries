@@ -2,16 +2,19 @@
 
 project(imageCompare)
 
-include_directories(${Xip_SOURCE_DIR}/include)
+include_directories(../../include)
 
 add_executable(fileCompare fileCompare.cpp)
 add_executable(smartFileCompare smartFileCompare.cpp)
 
 if(HAS_VTK)
-
-  include_directories(${XIPEXT}/vtk/include/vtk-5.0)
-
-  link_directories(${XIPEXT}/vtk/lib)
+  if(WIN32)
+    include_directories(${XIPEXT}/vtk/include/vtk-5.0)
+    link_directories(${XIPEXT}/vtk/lib)
+  else(WIN32)
+    find_package(VTK REQUIRED)
+    include_directories(${VTK_INCLUDE_DIRS})
+  endif(WIN32)
 
   add_executable(color-utils color-utils.cpp)
   #add_executable(dummy dummy.cpp)
@@ -37,6 +40,6 @@ if(HAS_VTK)
 #target_link_libraries(dummy
 #   vtkCommon)
 
-else(HAS_VTK)
-  message("Warning: HAS_VTK is OFF. Tests cannot be built.")
+#else(HAS_VTK)
+#message("Warning: HAS_VTK is OFF. Tests cannot be built.")
 endif(HAS_VTK)

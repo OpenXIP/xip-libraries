@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include "SoXipDepthTest.h"
 #include <xip/inventor/coregl/SoXipDepthTestElement.h>
 
@@ -145,3 +145,5 @@ void SoXipDepthTest::GLRender(SoGLRenderAction *action) {
 	SoXipDepthTestElement::setEnabled(action->getState(), enableDepthTest.getValue());
 	SoXipDepthTestElement::setDepthFunc(action->getState(), depthFunc.getValue());
 }
+
+

@@ -108,8 +108,8 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/system/standard.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 #include "SoXipGLStringMarker.h"
 
 SO_NODE_SOURCE(SoXipGLStringMarker);
@@ -127,12 +127,14 @@ void SoXipGLStringMarker::initClass() {
 }
 
 void SoXipGLStringMarker::GLRender(SoGLRenderAction* action) {
-	if (GLOW_GREMEDY_string_marker) {
-		if (string.getValue().getLength() > 0) {
+  if (GLOW_GREMEDY_string_marker) {
+    if (string.getValue().getLength() > 0) {
 #ifndef DARWIN
-			glStringMarkerGREMEDY(string.getValue().getLength(), string.getValue().getString());
+      glStringMarkerGREMEDY(string.getValue().getLength(), string.getValue().getString());
 #endif /* DARWIN */
-		}
-	}
+    }
+  }
 }
+
+
 

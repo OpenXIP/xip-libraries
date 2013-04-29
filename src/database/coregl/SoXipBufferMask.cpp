@@ -108,6 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipBufferMaskElement.h>
 #include "SoXipBufferMask.h"
 
@@ -134,3 +135,5 @@ void SoXipBufferMask::GLRender(SoGLRenderAction *action) {
 	SoXipBufferMaskElement::setColorMask(action->getState(), maskRed.getValue(), maskGreen.getValue(), maskBlue.getValue(), maskAlpha.getValue());
 	SoXipBufferMaskElement::setDepthMask(action->getState(), maskDepth.getValue());
 }
+
+

@@ -108,20 +108,24 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_GEOMETRICERRORMETRIC_H_
 # define SO_VTK_GEOMETRICERRORMETRIC_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkGeometricErrorMetric.h"
 
-# include "Inventor/Fields/SoSFFloat.h"
+# include "Inventor/fields/SoSFFloat.h"
 
 class SoVtkGeometricErrorMetric : public SoEngine
 {
@@ -179,3 +183,4 @@ private:
 };
 
 #endif // SO_VTK_GEOMETRICERRORMETRIC_H_
+

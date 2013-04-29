@@ -108,92 +108,92 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \author Sylvain Jaume, Francois Huguet
+ */
+#ifndef SO_VTK_POLYDATA_H_
+#define SO_VTK_POLYDATA_H_
 
-# ifndef SO_VTK_POLYDATA_H_
-# define SO_VTK_POLYDATA_H_
+#include <Inventor/engines/SoSubEngine.h>
+#include <Inventor/fields/SoSFInt32.h>
 
+#include <xip/inventor/vtk/SoSFVtkAlgorithmOutput.h>
+#include <xip/inventor/vtk/SoSFVtkObject.h>
+#include <xip/inventor/core/SoSFVariant.h>
 
-# include <Inventor/Engines/SoSubEngine.h>
-
-# include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
-# include "xip/inventor/vtk/SoSFVtkObject.h"
-
-# include "vtkPolyData.h"
-
-# include "Inventor/Fields/SoSFInt32.h"
-# include <xip/inventor/core/SoSFVariant.h>
+#include "vtkPolyData.h"
 
 class SoVtkPolyData : public SoEngine
 {
-	SO_ENGINE_HEADER( SoVtkPolyData );
+  SO_ENGINE_HEADER( SoVtkPolyData );
 
 public:
+  /// Constructor
+  SoVtkPolyData();
 
-	/// Constructor
-	SoVtkPolyData();
+  /// Class Initialization
+  static void initClass();
 
-	/// Class Initialization
-	static void initClass();
-	
-	// Inputs
-	/// Input object of type PolyData
-	SoSFVtkObject Input;
-	/// ExtentTranslator of type vtkExtentTranslator
-	SoSFVtkObject ExtentTranslator;
-	/// MaximumNumberOfPieces
-	SoSFInt32 MaximumNumberOfPieces;
-	/// RequestExactExtent
-	SoSFInt32 RequestExactExtent;
-	/// UpdatePiece
-	SoSFInt32 UpdatePiece;
-	/// WholeBoundingBox
-	SoSFVariant WholeBoundingBox;
-	/// UpdateGhostLevel
-	SoSFInt32 UpdateGhostLevel;
-	/// UpdateNumberOfPieces
-	SoSFInt32 UpdateNumberOfPieces;
-	/// Lines of type vtkCellArray
-	SoSFVtkObject Lines;
-	/// Strips of type vtkCellArray
-	SoSFVtkObject Strips;
-	/// Source of type vtkSource
-	SoSFVtkObject Source;
-	/// PipelineInformation of type vtkInformation
-	SoSFVtkObject PipelineInformation;
-	/// FieldData of type vtkFieldData
-	SoSFVtkObject FieldData;
-	/// Polys of type vtkCellArray
-	SoSFVtkObject Polys;
-	/// UpdateExtent
-	SoSFVariant UpdateExtent;
-	/// WholeExtent
-	SoSFVariant WholeExtent;
-	/// Points of type vtkPoints
-	SoSFVtkObject Points;
-	/// Verts of type vtkCellArray
-	SoSFVtkObject Verts;
-
-	
-	// Outputs
-	/// SoSFVtkObject of type vtkPolyData
-	SoEngineOutput Output;
+  // Inputs
+  /// Input object of type PolyData
+  SoSFVtkObject Input;
+  /// ExtentTranslator of type vtkExtentTranslator
+  SoSFVtkObject ExtentTranslator;
+  /// MaximumNumberOfPieces
+  SoSFInt32 MaximumNumberOfPieces;
+  /// RequestExactExtent
+  SoSFInt32 RequestExactExtent;
+  /// UpdatePiece
+  SoSFInt32 UpdatePiece;
+  /// WholeBoundingBox
+  SoSFVariant WholeBoundingBox;
+  /// UpdateGhostLevel
+  SoSFInt32 UpdateGhostLevel;
+  /// UpdateNumberOfPieces
+  SoSFInt32 UpdateNumberOfPieces;
+  /// Lines of type vtkCellArray
+  SoSFVtkObject Lines;
+  /// Strips of type vtkCellArray
+  SoSFVtkObject Strips;
+  /// Source of type vtkSource
+  SoSFVtkObject Source;
+  /// PipelineInformation of type vtkInformation
+  SoSFVtkObject PipelineInformation;
+  /// FieldData of type vtkFieldData
+  SoSFVtkObject FieldData;
+  /// Polys of type vtkCellArray
+  SoSFVtkObject Polys;
+  /// UpdateExtent
+  SoSFVariant UpdateExtent;
+  /// WholeExtent
+  SoSFVariant WholeExtent;
+  /// Points of type vtkPoints
+  SoSFVtkObject Points;
+  /// Verts of type vtkCellArray
+  SoSFVtkObject Verts;
+  	
+  // Outputs
+  /// SoSFVtkObject of type vtkPolyData
+  SoEngineOutput Output;
 
 protected:
+  /// Destructor
+  ~SoVtkPolyData();
 
-	/// Destructor
-	~SoVtkPolyData();
+  /// Evaluate Function
+  virtual void evaluate();
 
-	/// Evaluate Function
-	virtual void evaluate();
-
-	virtual void inputChanged(SoField *);
+  virtual void inputChanged(SoField *);
 	
-	/// vtkPolyData
-	SoVtkObject *mOutput;
+  /// vtkPolyData
+  SoVtkObject *mOutput;
 
 private:
 
-	vtkPolyData* mObject;
+  vtkPolyData* mObject;
 };
 
 #endif // SO_VTK_POLYDATA_H_
+
+
+

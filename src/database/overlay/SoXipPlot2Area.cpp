@@ -178,7 +178,7 @@ static void computeAxisParams( float minDistance, float minVal, float span, floa
 
 		if( tickSpacingPixels <= 0 )
 		{
-			int breakhere =0;
+			//int breakhere =0;
 		}
 			
 		float startPlot = minVal;
@@ -1223,4 +1223,6 @@ SoXipPlot2Area::handleEvent(SoHandleEventAction *action)
 	// Restore the viewport
 	action->setViewportRegion( viewportRegion );
 }
+
+
 

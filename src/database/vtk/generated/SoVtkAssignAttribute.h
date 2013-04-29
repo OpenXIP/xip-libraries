@@ -108,20 +108,24 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_ASSIGNATTRIBUTE_H_
 # define SO_VTK_ASSIGNATTRIBUTE_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkAssignAttribute.h"
 
-# include "Inventor/Fields/SoSFEnum.h"
+# include "Inventor/fields/SoSFEnum.h"
 
 class SoVtkAssignAttribute : public SoEngine
 {
@@ -213,3 +217,4 @@ private:
 };
 
 #endif // SO_VTK_ASSIGNATTRIBUTE_H_
+

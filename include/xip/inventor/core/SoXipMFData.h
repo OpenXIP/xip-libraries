@@ -142,7 +142,7 @@ protected:
 	virtual SbBool read1Value( SoInput* in, int index );
 	virtual void write1Value( SoOutput* out, int index ) const;
 	virtual void countWriteRefs( SoOutput* out ) const;
-	void SoXipMFData::set1Value_( int index, const SoXipData* constNewValue );
+	void set1Value_( int index, const SoXipData* constNewValue );
 
     SoXipData **values;
 };
@@ -240,4 +240,5 @@ protected:
 
 
 #endif	// SOXIPMFDATA_H
+
 

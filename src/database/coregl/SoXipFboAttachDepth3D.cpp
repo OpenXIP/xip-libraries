@@ -108,13 +108,11 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include "SoXipFboAttachDepth3D.h"
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
-
 
 SO_NODE_SOURCE(SoXipFboAttachDepth3D);
 
@@ -390,3 +388,5 @@ void SoXipFboAttachDepth3D::sensorOutCB(void *usr, SoSensor *sensor) {
     SoXipFboAttachDepth3D * thisObj = reinterpret_cast<SoXipFboAttachDepth3D *>(usr);
     thisObj->syncOutput();
 }
+
+

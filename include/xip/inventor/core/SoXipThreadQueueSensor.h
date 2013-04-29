@@ -129,6 +129,6 @@ public:
 	virtual SbBool isBefore(const SoSensor *s) const;
 };
 
+#endif // SOXIPTHREADQUEUESENSOR_H
 
-#endif SOXIPTHREADQUEUESENSOR_H
 

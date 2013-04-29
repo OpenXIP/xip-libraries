@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include "SoXipGLSLPrograms.h"
 #include "ShaderProgramManager.h"
@@ -584,7 +584,7 @@ void SoXipGLSLPrograms::updateSingleShader(ShaderBatch * batch, GLenum shaderTyp
 void SoXipGLSLPrograms::updateSingleProgram(ShaderBatch * batch)
 {
     // If handle exists then release the program
-    GLuint oldP = batch->prgHandle;
+    //GLuint oldP = batch->prgHandle;
     if (glIsProgram(batch->prgHandle))
         glDeleteProgram(batch->prgHandle);
     // Set flags
@@ -1014,3 +1014,5 @@ void SoXipGLSLPrograms::toggleAutoCB(void *data, SoSensor *sensor)
                              : thisObj->mAutoUpdateTimerSensor->unschedule();
     }
 }
+
+

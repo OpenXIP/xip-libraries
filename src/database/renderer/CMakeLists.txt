@@ -33,17 +33,16 @@ if(UNIX)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link directories.
-#
-link_directories(${Xip_BINARY_DIR}/out)
-
-#--------------------------------------------------------------------
-# Create library.
+# Compile library
 #
 add_library(xipivrenderer SHARED ${SOURCES} ${HEADERS})
 
+set_target_properties(xipivrenderer
+  PROPERTIES VERSION ${Xip_VERSION_STRING}
+  SOVERSION ${Xip_VERSION_STRING})
+
 #--------------------------------------------------------------------
-# Link library.
+# Link library
 #
 target_link_libraries(xipivrenderer
   xipivcore
@@ -51,16 +50,16 @@ target_link_libraries(xipivrenderer
   ${OPENGL_LIBRARIES})
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
 install(TARGETS xipivrenderer
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipivrenderer
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

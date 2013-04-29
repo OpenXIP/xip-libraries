@@ -636,33 +636,48 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Find VTK package
+#
+if(UNIX)
+  find_package(VTK REQUIRED)
+  include(${VTK_USE_FILE})
+endif(UNIX)
+
+#--------------------------------------------------------------------
+# Include directories
 #
 include_directories(
-  ${vtk_SOURCE_DIR}
+  ${PROJECT_SOURCE_DIR}
   generated
   ../../../include
-  ${VTK_PATH}/include/vtk-5.0
   ${OIV_PATH}/include)
 
-if(NOT WIN32)
+if(WIN32)
+  include_directories(${VTK_PATH}/include/vtk-5.0)
+else(WIN32)
   include_directories(${VTK_INCLUDE_DIRS})
-endif(NOT WIN32)
+endif(WIN32)
 
 #--------------------------------------------------------------------
-# Link directories.
+# Link directories
 #
-link_directories(
-  ${LIBRARY_OUTPUT_PATH}
-  ${VTK_PATH}/lib)
+if(WIN32)
+  link_directories(${VTK_PATH}/lib)
+else(WIN32)
+  link_directories(${LIBRARY_OUTPUT_PATH} ${VTK_LIBRARY_DIRS})
+endif(WIN32)
 
 #--------------------------------------------------------------------
-# Library creation.
+# Compile library
 #
 add_library(xipivvtk SHARED ${HEADERS} ${SOURCES})
- 
+
+set_target_properties(xipivvtk
+  PROPERTIES VERSION ${Xip_VERSION_STRING}
+  SOVERSION ${Xip_VERSION_STRING})
+
 #--------------------------------------------------------------------
-# Linking.
+# Link library
 #
 target_link_libraries(xipivvtk
   xipivcore
@@ -687,20 +702,19 @@ target_link_libraries(xipivvtk
   vtkpng
   vtksys
   vtktiff
-  vtkzlib
-  opengl32)
+  vtkzlib)
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
 install(TARGETS xipivvtk
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipivvtk
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

@@ -127,7 +127,7 @@
 
 #include <Inventor/elements/SoReplacedElement.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 #include "FramebufferObject.h"
 
 
@@ -167,3 +167,7 @@ private:
 };
 
 #endif 
+
+
+
+

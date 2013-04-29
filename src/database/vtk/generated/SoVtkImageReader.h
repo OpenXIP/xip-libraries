@@ -108,24 +108,28 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_IMAGEREADER_H_
 # define SO_VTK_IMAGEREADER_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkImageReader.h"
 
-# include "Inventor/Fields/SoSFVec3f.h"
-# include "Inventor/Fields/SoMFInt32.h"
-# include "Inventor/Fields/SoMFString.h"
-# include "Inventor/Fields/SoSFInt32.h"
-# include "Inventor/Fields/SoSFULong.h"
+# include "Inventor/fields/SoSFVec3f.h"
+# include "Inventor/fields/SoMFInt32.h"
+# include "Inventor/fields/SoMFString.h"
+# include "Inventor/fields/SoSFInt32.h"
+# include "Inventor/fields/SoSFULong.h"
 
 class SoVtkImageReader : public SoEngine
 {
@@ -222,3 +226,4 @@ private:
 };
 
 #endif // SO_VTK_IMAGEREADER_H_
+

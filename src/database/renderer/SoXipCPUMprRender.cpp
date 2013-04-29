@@ -1,5 +1,5 @@
 #include "SoXipCPUMprRender.h"
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/core/SoXipDataImage.h>
 #include <xip/inventor/core/SbXipImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>
@@ -18,96 +18,42 @@
 #include <assert.h>
 #include <limits>
 
-
 SO_NODE_SOURCE(SoXipCPUMprRender);
-
-
-// Fast Ceil
-inline int ceil_int (float x)
-{
-	const float round_towards_p_i = -0.5f;
-	int i;
-#ifndef __POWERPC__ // FIXME: We must code for PPC arch
-	__asm
-	{
-		fld x
-		fadd st, st (0)
-		fsubr round_towards_p_i
-		fistp i
-		sar i, 1
-	}
-#endif /* __POWERPC__ */
-	return (-i);
-}
-
-// Fast Floor
-inline int floor_int (float x)
-{
-	const float round_towards_m_i = -0.5f;
-	int i;
-
-#ifndef __POWERPC__ // FIXME: We must code for PPC arch
-	__asm
-	{
-		fld x
-		fadd st, st (0)
-		fadd round_towards_m_i
-		fistp i
-		sar i, 1
-	}
-#endif /* __POWERPC__ */
-	return (i);
-}
 
 // Fast Floor for 3 values
 inline void floor_int3 (float x, float y, float z, int &xi, int &yi, int &zi)
 {
-	const float round_towards_m_i = -0.5f;
-	int rx, ry, rz;
-	
-#ifndef __POWERPC__ // FIXME: We must code for PPC arch
-	__asm
-	{
-		fld x
-		fadd st, st (0)
-		fadd round_towards_m_i
-		fistp rx
-		sar rx, 1
-		fld y
-		fadd st, st (0)
-		fadd round_towards_m_i
-		fistp ry
-		sar ry, 1
-		fld z
-		fadd st, st (0)
-		fadd round_towards_m_i
-		fistp rz
-		sar rz, 1
-	}
-#endif /* __POWERPC__ */
-	xi = rx;
-	yi = ry;
-	zi = rz;
-}
-
-
-// Fast Round
-inline int round_int (float x)
-{
-	const float round_to_nearest = 0.5f;
-	int i;
-
-#ifndef __POWERPC__ // FIXME: We must code for PPC arch
-	__asm
-	{
-		fld x
-		fadd st, st (0)
-		fadd round_to_nearest
-		fistp i
-		sar i, 1
-	}
-#endif /* __POWERPC__ */
-	return (i);
+#ifdef WIN32
+  const float round_towards_m_i = -0.5f;
+  int rx, ry, rz;
+//#ifndef __POWERPC__ // FIXME: We must code for PPC arch
+  __asm
+    {
+	fld x
+	fadd st, st (0)
+	fadd round_towards_m_i
+	fistp rx
+	sar rx, 1
+	fld y
+	fadd st, st (0)
+	fadd round_towards_m_i
+	fistp ry
+	sar ry, 1
+	fld z
+	fadd st, st (0)
+	fadd round_towards_m_i
+	fistp rz
+	sar rz, 1
+    }
+//#endif /* __POWERPC__ */
+  xi = rx;
+  yi = ry;
+  zi = rz;
+#else // WIN32
+  xi = int(x);
+  yi = int(y);
+  zi = int(z);
+#endif // WIN32
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

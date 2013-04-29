@@ -108,8 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
 
@@ -602,3 +601,5 @@ void SoXipFboElement::renderToSliceElt(int layer)
 	glFramebufferTexture3DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
 		GL_TEXTURE_3D, mActiveFB.depthHandle, 0, layer);
 }
+
+

@@ -109,7 +109,7 @@
  *  
  */
 
-//#include <Xip/License/XipLicense.h>
+#include <xip/system/standard.h>
 #include <stdlib.h>
 
 // Converter
@@ -271,10 +271,14 @@ SAFE_INIT_CLASS(SoVtkVolumeTextureMapper2D);
 return 1;
 }
 
+#if WIN32
 BOOL APIENTRY DllMain(HANDLE, DWORD reason, LPVOID)
 {
-if ( reason == DLL_PROCESS_ATTACH )
-init();
-
-return TRUE;
+  if ( reason == DLL_PROCESS_ATTACH )
+    {
+    init();
+    }
+  return TRUE;
 }
+#endif // WIN32
+

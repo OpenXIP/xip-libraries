@@ -511,7 +511,7 @@ set(SOURCES
   generated/itkWrapInit.cpp)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Definitions
 #
 if(WIN32)
   add_definitions(-DXIPIVITK_EXPORTS)
@@ -520,7 +520,7 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
 if(WIN32)
   include_directories(
@@ -542,19 +542,23 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Link directories.
+# Link directories
 #
 if(WIN32)
   link_directories(${ITK_PATH}/lib)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Library creation.
+# Compile library
 #
 add_library(xipivitk SHARED ${HEADERS} ${SOURCES})
 
+set_target_properties(xipivitk
+    PROPERTIES VERSION ${Xip_VERSION_STRING}
+    SOVERSION ${Xip_VERSION_STRING})
+
 #--------------------------------------------------------------------
-# Linking.
+# Link library
 #
 target_link_libraries(xipivitk
   xipivcore
@@ -596,16 +600,16 @@ if(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
 install(TARGETS xipivitk
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
   
 install(TARGETS xipivitk
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

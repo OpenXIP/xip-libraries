@@ -7,12 +7,12 @@ project(core)
 #
 find_package(OpenGL)
 
-if(NOT OPENGL_FOUND)
+if(WIN32 AND NOT OPENGL_FOUND)
   set(OPENGL_LIBRARIES opengl32 glu32)
-endif(NOT OPENGL_FOUND)
+endif(WIN32 AND NOT OPENGL_FOUND)
 
 #--------------------------------------------------------------------
-# Sources
+# Source files
 #
 set(SOURCES
   SbVariant.cpp
@@ -105,12 +105,16 @@ set(SOURCES
   SoXipVolGroup.cpp
   SoXipVolGroupElement.cpp
   SoXipWindowLevelManip.cpp
+  SoXipWindowLevelElement.cpp
   SoXipWindowSize.cpp
   XipGeomUtils.cpp
   XipInventorUtils.cpp
   XipStringUtils.cpp
   init.cpp)
-  
+
+#--------------------------------------------------------------------
+# Header files
+#
 set(HEADERS
   SoXipAnchor.h
   SoXipAntiAliasing.h
@@ -168,7 +172,6 @@ set(HEADERS
   SoXipWindowLevelManip.h
   SoXipWindowSize.h)	
 
-
 #--------------------------------------------------------------------
 # Definitions
 #
@@ -179,9 +182,8 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include & link directories
+# Include directories
 #
-
 if(UNIX)
   include_directories(
     ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
@@ -193,40 +195,39 @@ if(UNIX)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Library creation
+# Link directories
 #
-add_library(xipivcore SHARED ${SOURCES} ${HEADERS})
-set_target_properties(xipivcore
-    PROPERTIES VERSION 1.2 SOVERSION 1.2)
+link_directories(${LIBRARY_OUTPUT_PATH})
 
 #--------------------------------------------------------------------
-# Linking
+# Compile library
+#
+add_library(xipivcore SHARED ${SOURCES} ${HEADERS})
+
+set_target_properties(xipivcore
+  PROPERTIES VERSION ${Xip_VERSION_STRING}
+  SOVERSION ${Xip_VERSION_STRING})
+
+#--------------------------------------------------------------------
+# Link library
 #
 target_link_libraries(xipivcore
   xipcommon
+  debug xipinv240d
+  optimized xipinv240
   ${OPENGL_LIBRARIES})
 
-if(WIN32)
-  target_link_libraries(xipivcore
-  debug xipinv240d
-  optimized xipinv240)
-else(WIN32)
-  target_link_libraries(xipivcore
-  debug xipinvd
-  optimized xipinv)
-endif(WIN32)
-
 #--------------------------------------------------------------------
-# Install
+# Install library
 #
 install(TARGETS xipivcore
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipivcore
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

@@ -114,22 +114,6 @@
  *
  * \brief SoVtkActor2D class description.
  *
- */
-
-#ifndef SO_VTK_ACTOR2D_H_
-# define SO_VTK_ACTOR2D_H_
-
-#include <Inventor/Nodes/SoSubNode.h>
-#include <Inventor/Nodes/SoNode.h>
-#include <Inventor/actions/SoGLRenderAction.h>
-#include "xip/inventor/vtk/SoSFVtkObject.h"
-#include "vtkActor2D.h"
-#include "Inventor/actions/SoGetBoundingBoxAction.h"
-
-/*!
- * \brief
- * SoVtkActor2D class description.
- *
  * A vtkActor2D has a mapper as input.
  * You have then to connect it to a SoVtkRenderer.
  *
@@ -137,7 +121,20 @@
  * \see SoVtkActor
  * \see SoVtkAssembly
  * \see SoVtkImageActor
+ *
+ * \author Sylvain Jaume, Francois Huguet
  */
+#ifndef SO_VTK_ACTOR2D_H_
+# define SO_VTK_ACTOR2D_H_
+
+#include <Inventor/nodes/SoSubNode.h>
+#include <Inventor/nodes/SoNode.h>
+#include <Inventor/actions/SoGLRenderAction.h>
+#include <Inventor/actions/SoGetBoundingBoxAction.h>
+
+#include <xip/inventor/vtk/SoSFVtkObject.h>
+#include <vtkActor2D.h>
+
 class SoVtkActor2D : public SoNode
 {
 	SO_NODE_HEADER(SoVtkActor2D);
@@ -173,3 +170,5 @@ private:
 };
 
 #endif // SO_VTK_ACTOR2D_H_
+
+

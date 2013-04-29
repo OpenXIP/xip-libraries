@@ -115,7 +115,6 @@
 #include <xip/inventor/core/xipivcore.h>
 #include <Inventor/sensors/SoSensor.h>
 
-
 // simple thread
 class XIPIVCORE_API SbXipThread
 {
@@ -157,6 +156,6 @@ protected:
 	SoSensor *mNotifySensor;
 };
 
+#endif // SBXIPTHREAD_H
 
-#endif SBXIPTHREAD_H
 

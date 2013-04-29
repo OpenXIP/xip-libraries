@@ -131,11 +131,13 @@
 
 #include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
+#if !defined(linux)
 #include <xip/system/GL/glext.h>
+#endif // !defined(linux)
 
 #ifndef DARWIN
-# include <GL/glu.h>
-#endif /* DARWIN */
+#include <xip/system/GL/glu.h>
+#endif // DARWIN
 
 #ifndef TGS_VERSION
 class SoGLDisplayList;
@@ -463,9 +465,13 @@ private:
 
 	bool	mHasPBOs;
 	unsigned int mPBOId;
-	unsigned int	mPBOBufSize;
+        unsigned int mPBOBufSize;
 
 	bool	mQueryExtensions;
 };
 
 #endif // SO_XIP_TEXTURE_H
+
+
+
+

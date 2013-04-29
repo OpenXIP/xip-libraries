@@ -1,6 +1,6 @@
 # Sylvain Jaume 2008
 
-project(freetype)
+project(freetype2)
 
 add_definitions(-DFT2_BUILD_LIBRARY)
 
@@ -385,4 +385,4 @@ set(SOURCES
   src/winfonts/winfnt.c
   src/gzip/zutil.c)
 
-add_library(freetype STATIC ${HEADERS} ${SOURCES})
+add_library(freetype2 STATIC ${HEADERS} ${SOURCES})

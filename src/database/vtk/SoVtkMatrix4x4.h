@@ -115,17 +115,13 @@
  * 
  */
 #ifndef SO_VTK_MATRIX4x4_H_
-# define SO_VTK_MATRIX4x4_H_
+#define SO_VTK_MATRIX4x4_H_
 
-
-#include <Inventor/Engines/SoSubEngine.h>
+#include <Inventor/engines/SoSubEngine.h>
+#include <Inventor/fields/SoSFMatrix.h>
 
 #include "vtkMatrix4x4.h"
-
 #include "xip/inventor/vtk/SoSFVtkObject.h"
-
-#include <Inventor/Fields/SoSFMatrix.h>
-
 
 /*!
  * \brief
@@ -133,9 +129,9 @@
  * 
  * From VTK:
  * Represent and manipulate 4x4 transformation matrices.
- * vtkMatrix4x4 is a class used to represent and manipulate 4x4 matrices. Specifically, it is designed to work on 4x4 transformation matrices found in 3D rendering using homogeneous coordinates [x y z w].
- * 
- * 
+ * vtkMatrix4x4 is a class used to represent and manipulate 4x4 matrices.
+ * Specifically, it is designed to work on 4x4 transformation matrices found
+ * in 3D rendering using homogeneous coordinates [x y z w].
  * 
  * \see
  * SoVtkTransform
@@ -170,3 +166,6 @@ private :
 };
 
 #endif // SO_VTK_MATRIX4x4_H_
+
+
+

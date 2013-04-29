@@ -120,9 +120,12 @@
 #include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/fields/SoSFColor.h>
 #include <Inventor/SbLinear.h>
-#include <windows.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+
+#include <xip/system/standard.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/coregl/gpgpuContext.h>
+
+
 class SoXipDataImage;
 
 
@@ -140,8 +143,6 @@ public:
 	SoSFColor	background;
 	SoSFTrigger	apply;
 	SoSFBool	autoApply;
-	SoSFBool	flipHorizontal;
-	
 
 	SoEngineOutput image;
 
@@ -185,11 +186,28 @@ protected:
 	SoXipDataImage *mDepthImageData;
 	SbBool mNeedUpdate;
 
+#ifdef WIN32
 	HDC mDC;
 	HGLRC mRC;
 	void *mPixelBuffer;
 	HANDLE mBMP;
 	HBITMAP mOldBMP;
+#endif /* WIN32 */
+
+#ifdef linux
+	Display                 *mdpy;
+	Window                  mwin;
+	GLXContext              mcx;
+	static Pixmap mXPix ;
+	static GLXPixmap mGPix;
+#endif /* linux */
+	
+#ifdef DARWIN
+	// FIXME: OpenGL context stuff
+	AGLContext	ctx;
+#endif /* DARWIN */
+	
+
 	int mWidth;
 	int mHeight;
 	SbViewVolume mViewVolume;
@@ -206,4 +224,8 @@ protected:
 };
 
 #endif // SoXipOffscreenRenderer_H
+
+
+
+
 

@@ -115,9 +115,9 @@
 #include <Inventor/fields/SoSFFloat.h>
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/actions/SoGLRenderAction.h>
-#include <GL/gl.h>
-
+#include <xip/system/GL/gl.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
+
 class XIPIVCOREGL_API SoXipFrameRate : public SoNode {
 	SO_NODE_HEADER(SoXipFrameRate);
 
@@ -131,10 +131,17 @@ public:
 private:
 	SoSFFloat frameRate;
 	SoSFBool printOutput;
+#ifdef WIN32
 	LARGE_INTEGER last;
 	LARGE_INTEGER freq;
-
+#else // WIN32
+	struct timeval  last;
+	struct timezone tz;
+#endif // WIN32
 };
 
-
 #endif // SO_FRAME_RATE_H
+
+
+
+

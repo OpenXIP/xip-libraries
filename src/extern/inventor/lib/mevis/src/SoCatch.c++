@@ -24,7 +24,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Contact information: MeVis, Center for Medical Diagnostic Systems and
- *  Visualization GmbH, Universitätsallee 29, D-28359 Bremen, GERMANY, or:
+ *  Visualization GmbH, Universitâ€°tsallee 29, D-28359 Bremen, GERMANY, or:
  *
  *  http://www.mevis.de
  *

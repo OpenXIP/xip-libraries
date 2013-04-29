@@ -108,17 +108,17 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
-#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include <xip/system/GL/glext.h>
-
 #ifndef DARWIN
 static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = 0;
-#endif /* DARWIN */
+#endif // DARWIN
+
+
 
 /*
 #undef DEBUG
@@ -257,11 +257,10 @@ void SoXipMultiTextureElement::setUnitElt(GLuint unit) {
 
 void SoXipMultiTextureElement::setUnitGL(GLuint unit) {
 //	FUNCID("unit = %d", unit);
-
 #ifndef DARWIN
 	if (!glActiveTextureARB)
 	    glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC) xipGlGetProcAddress("glActiveTextureARB");
-#endif /* DARWIN */
+#endif // DARWIN
     if (glActiveTextureARB)
     {
 		glActiveTextureARB((unsigned int) GL_TEXTURE0 + unit);
@@ -287,15 +286,14 @@ void SoXipMultiTextureElement::bindTextureCurrUnit(SoState *state) {
 }
 
 void SoXipMultiTextureElement::bindTextureElt(GLenum target, GLuint id) {
-
-	if (target != 0)
+	if ( target )
 	{
-		textures[currentUnit].target = target;
-		textures[currentUnit].id = id;
+	textures[currentUnit].target = target;
+	textures[currentUnit].id = id;
 
-		bindTextureGL(currentUnit);
+	bindTextureGL(currentUnit);
 
-		unitsChanged |= 1 << currentUnit;
+	unitsChanged |= 1 << currentUnit;
 	}
 }
 
@@ -343,3 +341,4 @@ GLuint SoXipMultiTextureElement::getCurrentUnit(SoState *state) {
 GLuint SoXipMultiTextureElement::getCurrentUnitElt() const {
 	return currentUnit;
 }
+

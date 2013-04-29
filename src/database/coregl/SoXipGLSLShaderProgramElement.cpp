@@ -23,8 +23,7 @@
 /**
  *      Element class for GLSL shaders
  */
-
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 
@@ -278,3 +277,5 @@ int SoXipGLSLShaderProgramElement::getProgramID(SoState * const state,
 //   c-basic-offset: 4
 //   c-indentation-style: k&r
 // End:
+
+

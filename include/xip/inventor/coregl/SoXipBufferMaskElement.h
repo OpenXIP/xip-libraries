@@ -117,7 +117,7 @@
 
 #include <Inventor/elements/SoSubElement.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 class XIPIVCOREGL_API SoXipBufferMaskElement : public SoElement {
 	SO_ELEMENT_HEADER(SoXipBufferMaskElement);
@@ -151,3 +151,7 @@ private:
 };
 
 #endif // SO_RAD_BUFFER_MASK_ELEMENT_H
+
+
+
+

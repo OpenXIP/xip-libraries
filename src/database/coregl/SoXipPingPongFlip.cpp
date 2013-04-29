@@ -108,13 +108,11 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
-
+#include <xip/system/standard.h>
 #include "SoXipPingPongFlip.h"
 #include <xip/inventor/coregl/FramebufferObject.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
-
 
 SO_NODE_SOURCE(SoXipPingPongFlip);
 
@@ -167,3 +165,5 @@ void SoXipPingPongFlip::GLRender(SoGLRenderAction* action)
     // Render children
 	SoGroup::GLRender(action);
 }
+
+

@@ -59,6 +59,9 @@
 #ifndef  _SO_OFFSCREEN_RENDERER_
 #define  _SO_OFFSCREEN_RENDERER_
 
+#include <Inventor/SbViewportRegion.h>
+#include <Inventor/actions/SoGLRenderAction.h>
+
 #if defined(WIN32) || (defined(__APPLE__) && !defined(APPLE_GLX))
 # pragma message("SoOffscreenRenderer not yet ported to the WIN32 and native Mac OS X platform, using stubs!")
 
@@ -89,7 +92,6 @@ class SoOffscreenRenderer {
 #include <stdio.h>
 #include <GL/glx.h>
 #include <Inventor/SbColor.h>
-#include <Inventor/SbViewportRegion.h>
 #include <Inventor/SbLinear.h>
 #include <X11/Xlib.h>
 

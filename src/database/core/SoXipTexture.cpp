@@ -108,11 +108,13 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#ifndef linux
+#include <xip/system/GL/gl.h>
+#include <xip/system/GL/glext.h>
+#endif // linux
 
 #include <xip/inventor/core/SbXipImageAdaptor.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
-
 
 #include <Inventor/elements/SoGLTextureEnabledElement.h>
 #include <Inventor/elements/SoTextureQualityElement.h>
@@ -120,12 +122,11 @@
 #include <Inventor/elements/SoGLCacheContextElement.h>
 #endif
 #include <Inventor/SbBox.h>
-#include <xip/system/GL/gl.h>
-#include <xip/system/GL/glext.h>
 #include "SoXipTexture.h"
 
 #ifdef linux
 
+#include <stdlib.h>
 #include <GL/glx.h>
 
 #define glTexImage3D glTexImage3Dext
@@ -133,9 +134,9 @@
 
 #define glActiveTextureARB glActiveTextureARBext
 #ifdef GLX_VERSION_1_4
-  #define glGetProcAddress(x) glXGetProcAddressARB((const GLubyte*)x)
+  #define xipGlGetProcAddress(x) glXGetProcAddressARB((const GLubyte*)x)
 #else
-  #define glXGetProcAddressARB(x) glXGetProcAddress((const GLubyte*)x)
+  #define xipGlGetProcAddressARB(x) glXGetProcAddress((const GLubyte*)x)
 #endif
 
 #endif
@@ -145,13 +146,13 @@
 #ifndef DARWIN
 static PFNGLTEXIMAGE3DEXTPROC		glTexImage3D = 0;
 static PFNGLTEXSUBIMAGE3DEXTPROC	glTexSubImage3D = 0;
-static PFNGLGENBUFFERSPROC			glGenBuffers = 0;
+static PFNGLGENBUFFERSPROC		glGenBuffers = 0;
 static PFNGLDELETEBUFFERSPROC		glDeleteBuffers = 0;
-static PFNGLBINDBUFFERPROC			glBindBuffer = 0;
-static PFNGLBUFFERDATAPROC			glBufferData = 0;
+static PFNGLBINDBUFFERPROC		glBindBuffer = 0;
+static PFNGLBUFFERDATAPROC		glBufferData = 0;
 static PFNGLBUFFERSUBDATAPROC		glBufferSubData = 0;
-static PFNGLMAPBUFFERPROC			glMapBuffer = 0;
-static PFNGLUNMAPBUFFERPROC			glUnmapBuffer = 0;
+static PFNGLMAPBUFFERPROC		glMapBuffer = 0;
+static PFNGLUNMAPBUFFERPROC		glUnmapBuffer = 0;
 #endif /* DARWIN */
 
 GLint  SoXipTexture::maxTextureSize = -1;
@@ -316,7 +317,6 @@ SoXipTexture::SoXipTexture()
 	mQueryExtensions = true;
 	mGLTexture = 0;
 	mPBOId = 0;
-	mPBOBufSize = 0;
 }
 
 /**
@@ -509,15 +509,18 @@ bool SoXipTexture::validateImage()
 		// or let the module decide for us
 		const int formatIndex = mNewImageData->get()->getComponents() - 1;
 		mNewTextureInternalFormat = dataTypeInfo[mNewTextureDataType].defaultFormat[formatIndex];
-		if ((GLenum)internalFormat.getValue() != mNewTextureInternalFormat)
-		    internalFormat.setValue(mNewTextureInternalFormat);
+		internalFormat.setValue(mNewTextureInternalFormat);
 		mCriticalSensors[0]->unschedule();
 	}
 
 	SbVec3f texSize = SbVec3f(mNewTextureSize[0], mNewTextureSize[1], mNewTextureSize[2]);
-	if (texSize != textureSize.getValue())
-		textureSize.setValue(texSize);
-	mPBOBufSize = texSize[0] * texSize[1] * texSize[2] * mNewImageData->get()->getComponents() * mNewImageData->get()->getBitsStored() / 8;
+	if(texSize != textureSize.getValue())
+	{
+	textureSize.setValue(texSize);
+	}
+	mPBOBufSize = texSize[0] * texSize[1] * texSize[2] *
+		mNewImageData->get()->getComponents() *
+		mNewImageData->get()->getBitsStored() / 8;
 
 	return true;
 }
@@ -700,8 +703,8 @@ void SoXipTexture::createTexture()
 #ifndef DARWIN
 			if (!glTexImage3D)
 				glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC)xipGlGetProcAddress("glTexImage3DEXT");
-#endif /* DARWIN */
-			
+#endif // DARWIN
+
 			if (glTexImage3D)
 			{
 				glTexImage3D(
@@ -856,11 +859,10 @@ void SoXipTexture::updateTexture()
 			if (mHasPBOs && usePBO.getValue())
 			{
 				glBindBuffer(GL_PIXEL_UNPACK_BUFFER, mPBOId);				
-				glBufferData(GL_PIXEL_UNPACK_BUFFER, mPBOBufSize, NULL, GL_STREAM_DRAW);
 				unsigned char *buf = (unsigned char*) glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
-				memcpy(buf, imageBuffer, mPBOBufSize);
+				memcpy(buf, imageBuffer, dim[0] * dim[1]);
 				glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
-				//glBufferSubData(GL_PIXEL_UNPACK_BUFFER, 0, mPBOBufSize, imageBuffer);
+				//glBufferSubData(GL_PIXEL_UNPACK_BUFFER, 0, dim[0] * dim[1], imageBuffer);
 				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, dim[0], dim[1], baseFormats[formatIndex], dataTypeInfo[mTextureDataType].type, 0);
 				glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 			}
@@ -882,13 +884,12 @@ void SoXipTexture::updateTexture()
 #ifndef DARWIN
 			if (!glTexSubImage3D)
 				glTexSubImage3D = (PFNGLTEXSUBIMAGE3DEXTPROC)xipGlGetProcAddress("glTexSubImage3DEXT");
-#endif /* DARWIN */
-			
+#endif // DARWIN
 			if (glTexSubImage3D)
 			{
 				if (mHasPBOs && usePBO.getValue())
 				{
-					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, mPBOId);
+					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, mPBOId);				
 					glBufferData(GL_PIXEL_UNPACK_BUFFER, mPBOBufSize, NULL, GL_STREAM_DRAW);
 					unsigned char *buf = (unsigned char*) glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
 					memcpy(buf, imageBuffer, mPBOBufSize);
@@ -1022,7 +1023,7 @@ void SoXipTexture::GLRender(SoGLRenderAction *action)
 				INIT_EXT(PFNGLBUFFERSUBDATAPROC,			glBufferSubData);
 				INIT_EXT(PFNGLMAPBUFFERPROC,				glMapBuffer);
 				INIT_EXT(PFNGLUNMAPBUFFERPROC,				glUnmapBuffer);
-#endif /* DARWIN */
+#endif // DARWIN
 			}
 			mQueryExtensions = false;
 		}
@@ -1166,4 +1167,6 @@ SbBool SoXipTexture::hasNonPowerOfTwoExtensions() const
 	const GLubyte* extensionsString = glGetString(GL_EXTENSIONS);
 	return (strstr((const char*) extensionsString, "GL_ARB_texture_non_power_of_two") != 0);
 }
+
+
 

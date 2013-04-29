@@ -117,7 +117,6 @@ SoActionMethodList::addMethod(SoType nodeType, SoActionMethod method)
 
 void
 SoActionMethodList::setUp()
-//
 ////////////////////////////////////////////////////////////////////////
 {
     if (numValidTypes == SoType::getNumTypes())

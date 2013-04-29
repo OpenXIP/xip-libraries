@@ -5,9 +5,11 @@ project(overlay)
 #--------------------------------------------------------------------
 # Find packages.
 #
-if(NOT WIN32)
+if(WIN32)
+  set(FREETYPE_LIBRARIES freetype2)
+else(WIN32)
   find_package(Freetype)
-endif(NOT WIN32)
+endif(WIN32)
 
 #--------------------------------------------------------------------
 # Subdirectories.
@@ -211,59 +213,65 @@ endif(WIN32)
 #--------------------------------------------------------------------
 # Include directories.
 #
+include_directories(ftgl/include)
+
 if(WIN32)
   include_directories(
     ../../../include
-    ftgl/include
     ${XIPEXT}/freetype2/include)
 else(WIN32)
-  include_directories(${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
+  include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
     ${FREETYPE_INCLUDE_DIRS}
-    ftgl/include)
+    /usr/local/dicom/include
+    .)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Link directories.
+# Link directories
 #
 if(WIN32)
   link_directories(
-    ${XIP_BUILD}/out
     ${XIPEXT}/freetype2/lib
-    ${XIPEXT}/dcmtk/lib
-    ${Xip_BINARY_DIR}/out)
+    ${XIPEXT}/dcmtk/lib)
 else(WIN32)
-  link_directories(${src_BINARY_DIR}/database/core
-    ${xipivoverlay_BINARY_DIR}/ftgl
+  link_directories(
+    ${src_BINARY_DIR}/database/core
     ${Xip_BINARY_DIR}/database/dicom
-    ${DCMTK_PATH}/lib)
+    ${xipivoverlay_BINARY_DIR}/ftgl
+    /usr/local/dicom/lib)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Library creation.
+# Compile the library
 #
 add_library(xipivoverlay SHARED ${SOURCES} ${HEADERS})
 
+set_target_properties(xipivoverlay
+  PROPERTIES VERSION ${Xip_VERSION_STRING}
+  SOVERSION ${Xip_VERSION_STRING})
+
 #--------------------------------------------------------------------
-# Linking.
+# Link the library
 #
 target_link_libraries(xipivoverlay
   xipivcore
   xipivdicom
   ftgl
-  ${OPENGL_LIBRARIES}
+  #${OPENGL_LIBRARIES}
   ${FREETYPE_LIBRARIES})
 
 #--------------------------------------------------------------------
-# Install.
+# Install the library
 #
 install(TARGETS xipivoverlay
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipivoverlay
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

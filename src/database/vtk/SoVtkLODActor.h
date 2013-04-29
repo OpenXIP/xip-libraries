@@ -116,21 +116,19 @@
  */
 
 #ifndef SO_VTK_LODACTOR_H_
-# define SO_VTK_LODACTOR_H_
+#define SO_VTK_LODACTOR_H_
 
-#include <Inventor/Nodes/SoSubNode.h>
-#include <Inventor/Nodes/SoNode.h>
+#include <Inventor/nodes/SoSubNode.h>
+#include <Inventor/nodes/SoNode.h>
 
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 
-#include "xip/inventor/vtk/SoSFVtkObject.h"
 #include <Inventor/fields/SoSFVec3f.h>
 #include <Inventor/fields/SoSFInt32.h>
 
+#include "xip/inventor/vtk/SoSFVtkObject.h"
 #include "vtkLODActor.h"
-
-
 
 /*!
  * \brief
@@ -215,3 +213,5 @@ private:
 };
 
 #endif // SO_VTK_LODACTOR_H_
+
+

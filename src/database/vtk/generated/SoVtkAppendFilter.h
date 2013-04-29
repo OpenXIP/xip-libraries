@@ -108,19 +108,24 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
- 
+/*
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
 # ifndef SO_VTK_APPENDFILTER_H_
 # define SO_VTK_APPENDFILTER_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkAppendFilter.h"
-
 
 class SoVtkAppendFilter : public SoEngine
 {
@@ -179,3 +184,5 @@ private:
 };
 
 #endif // SO_VTK_APPENDFILTER_H_
+
+

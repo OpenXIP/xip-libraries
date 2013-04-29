@@ -112,7 +112,7 @@
 /**
  *	Element class for shaders
  */
-
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 
 SO_ELEMENT_SOURCE(SoXipShaderProgramElement);
@@ -160,3 +160,5 @@ void SoXipShaderProgramElement::set(SoState * const state, const int tmp)
 {
 	set(state, NULL, tmp);
 }
+
+

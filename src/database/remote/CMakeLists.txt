@@ -59,19 +59,23 @@ if(UNIX)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Library creation.
+# Compile library
 #
 add_library(xipivremote SHARED ${HEADERS} ${SOURCES})
 
+set_target_properties(xipivremote
+    PROPERTIES VERSION ${Xip_VERSION_STRING}
+    SOVERSION ${Xip_VERSION_STRING})
+
 #--------------------------------------------------------------------
-# Linking.
+# Link library
 #
 target_link_libraries(xipivremote
   xipivcore
   jpegWrapper
   losslessCompression
   stream
-  opengl32)
+  ${OPENGL_LIBRARIES})
 
 if(WIN32)
   target_link_libraries(xipivremote
@@ -79,16 +83,16 @@ if(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Install.
+# Install library
 #
 install(TARGETS xipivremote
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipivremote
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

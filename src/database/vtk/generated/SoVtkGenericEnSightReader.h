@@ -108,23 +108,27 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
 # ifndef SO_VTK_GENERICENSIGHTREADER_H_
 # define SO_VTK_GENERICENSIGHTREADER_H_
 
-# include <Inventor/Engines/SoSubEngine.h>
+# include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
 
 # include "vtkGenericEnSightReader.h"
 
-# include "Inventor/Fields/SoSFEnum.h"
-# include "Inventor/Fields/SoSFInt32.h"
-# include "Inventor/Fields/SoSFFloat.h"
-# include "Inventor/Fields/SoMFString.h"
+# include "Inventor/fields/SoSFEnum.h"
+# include "Inventor/fields/SoSFInt32.h"
+# include "Inventor/fields/SoSFFloat.h"
+# include "Inventor/fields/SoMFString.h"
 # include "xip/inventor/core/SbVariant.h"
 # include "xip/inventor/core/SoMFVariant.h"
 
@@ -203,3 +207,4 @@ private:
 };
 
 #endif // SO_VTK_GENERICENSIGHTREADER_H_
+

@@ -111,7 +111,7 @@
 
 /*!
  * \file SoVtkAssembly.h
- * \author Francois Huguet (francois.huguet.ext@siemens.com)
+ * \author Francois Huguet, Sylvain Jaume
  * \brief SoVtkAssembly class description.
  *
  */
@@ -119,10 +119,9 @@
 #ifndef SO_VTK_ASSEMBLY_H_
 # define SO_VTK_ASSEMBLY_H_
 
-#include <Inventor/Nodes/SoGroup.h>
+#include <Inventor/nodes/SoGroup.h>
 #include <Inventor/actions/SoGLRenderAction.h>
-
-#include <Inventor/Fields/SoSFVec3f.h>
+#include <Inventor/fields/SoSFVec3f.h>
 
 #include "vtkAssembly.h"
 
@@ -158,8 +157,11 @@ public :
 	vtkAssembly * getAssembly() const;
 	
 	/// Get directly all the children of the assembly.
+#ifdef linux
+	void updateChildren();
+#else // linux
 	void SoVtkAssembly::updateChildren();
-
+#endif // linux
 protected :
 
 	/// Destructor.
@@ -176,3 +178,5 @@ private :
 };
 
 #endif // SO_VTK_ASSEMBLY_H_
+
+

@@ -109,15 +109,12 @@
  *  
  */
 
-
 #ifndef SBXIPDIRTYFIELDLIST_H
 #define SBXIPDIRTYFIELDLIST_H
-
 
 #include <Inventor/SoLists.h>
 #include <Inventor/sensors/SoDelayQueueSensor.h>
 #include <xip/inventor/core/xipivcore.h>
-
 
 // this util is exported for use in other libraries but should not be made public yet
 // until we have confirmed there are no side effects
@@ -135,5 +132,6 @@ private:
 	static SoDelayQueueSensor mDirtySensor;
 };
 
+#endif // SBXIPDIRTYFIELDLIST_H
 
-#endif SBXIPDIRTYFIELDLIST_H
+

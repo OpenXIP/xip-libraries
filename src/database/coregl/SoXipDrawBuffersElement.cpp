@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 
@@ -315,3 +315,5 @@ void SoXipDrawBuffersElement::drawBuffersGL()
     else
         glDrawBuffers(mNumBuffers, mSubBuffers);
 }
+
+

@@ -112,8 +112,7 @@
 /**
  *	Node class for shader programs
  */
-
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
@@ -422,3 +421,5 @@ void SoXipLoadShaders::GLRender(SoGLRenderAction *action)
     
 	SoXipGLSLShaderProgramElement::set(action->getState(), mProgramHandle);
 }
+
+

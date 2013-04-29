@@ -1,6 +1,7 @@
 # Sylvain Jaume 2007
 
 project(coregl)
+cmake_minimum_required(VERSION 2.6)
 
 #--------------------------------------------------------------------
 # Source files
@@ -72,35 +73,38 @@ if(UNIX)
     ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
     ${OIV_PATH}/include/
     ../../../include
+    ../../extern/inventor/lib/mevis/include
+    ../../extern/inventor/lib/xip/include
     .)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link directories.
-#
-link_directories(${XIP_BINARY_DIR}/core)
-
-#--------------------------------------------------------------------
-# Library creation.
+# Create library
 #
 add_library(xipivcoregl SHARED ${SOURCES})
 
-#--------------------------------------------------------------------
-# Linking.
-#
-target_link_libraries(xipivcoregl xipivcore ${OPENGL_LIBRARIES})
+set_target_properties(xipivcoregl
+  PROPERTIES VERSION ${Xip_VERSION_STRING}
+  SOVERSION ${Xip_VERSION_STRING})
 
 #--------------------------------------------------------------------
-# Install.
+# Link library
+#
+target_link_libraries(xipivcoregl
+  xipivcore
+  ${OPENGL_LIBRARIES})
+
+#--------------------------------------------------------------------
+# Copy library to install directory
 #
 install(TARGETS xipivcoregl
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION bin/debug CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
 
 install(TARGETS xipivcoregl
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
-  ARCHIVE DESTINATION bin/release CONFIGURATIONS Release
+  ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)

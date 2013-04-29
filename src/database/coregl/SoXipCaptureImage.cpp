@@ -108,7 +108,8 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-#include  <xip/inventor/coregl/SoXipCaptureImage.h>
+#include <xip/system/standard.h>
+#include <xip/inventor/coregl/SoXipCaptureImage.h>
 
 SO_NODE_SOURCE(SoXipCaptureImage);
 
@@ -295,4 +296,6 @@ void SoXipCaptureImage::captureImage() {
 void SoXipCaptureImage::sensorCaptureCB(void *usr, SoSensor *sensor) {
 	((SoXipCaptureImage*)usr)->mNeedCapture = true;
 }
+
+
 

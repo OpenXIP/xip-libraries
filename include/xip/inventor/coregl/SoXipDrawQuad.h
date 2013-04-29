@@ -117,7 +117,7 @@
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/fields/SoMFVec3f.h>
 #include <Inventor/actions/SoGLRenderAction.h>
-#include <GL/gl.h>
+#include <xip/system/GL/gl.h>
 
 
 class  XIPIVCOREGL_API SoXipDrawQuad : public SoNode {
@@ -145,3 +145,6 @@ public:
 
 
 #endif // SO_DRAW_QUAD_H
+
+
+

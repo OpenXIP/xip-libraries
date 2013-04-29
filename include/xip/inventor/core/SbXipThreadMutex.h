@@ -112,9 +112,9 @@
 #ifndef SBXIPTHREADMUTEX_H
 #define SBXIPTHREADMUTEX_H
 
+#include <xip/system/standard.h>
 #include <xip/inventor/core/xipivcore.h>
-#include <Inventor/SoDB.h>	// for windows.h
-
+//#include <Inventor/SoDB.h>	// for windows.h
 
 // wrapper for pthread_mutex_t / CriticalSection
 class XIPIVCORE_API SbXipThreadMutex
@@ -134,5 +134,6 @@ protected:
 #endif
 };
 
-#endif SBXIPTHREADMUTEX_H
+#endif // SBXIPTHREADMUTEX_H
+
 

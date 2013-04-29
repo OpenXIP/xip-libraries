@@ -108,6 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
+#include <xip/system/standard.h>
 #include <xip/inventor/coregl/SoXipMultiplyMatrices.h>
 
 SO_ENGINE_SOURCE(SoXipMultiplyMatrices);
@@ -131,3 +132,5 @@ void SoXipMultiplyMatrices::evaluate() {
 	result.multRight(right.getValue());
 	SO_ENGINE_OUTPUT(output, SoSFMatrix, setValue(result));
 }
+
+

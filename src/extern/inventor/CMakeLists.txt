@@ -1,9 +1,10 @@
 # Sylvain Jaume 2008
 
 project(inventor)
+cmake_minimum_required(VERSION 2.6)
 
 #--------------------------------------------------------------------
-# Definitions.
+# Definitions
 #
 if(WIN32)
   add_definitions(-DINVENTOR_EXPORTS)
@@ -14,17 +15,18 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 #--------------------------------------------------------------------
-# Include directories.
+# Include directories
 #
 include_directories(
   lib/database/include
   lib/interaction/include
   lib/mevis/include
   lib/nodekits/include
-  lib/xip/include)
+  lib/xip/include
+  ../../../include)
 
 #--------------------------------------------------------------------
-# Executable creation.
+# Executable creation
 #
 if(WIN32)
   add_custom_command(TARGET xipinv240
@@ -33,11 +35,13 @@ else(WIN32)
   add_executable(ppp tools/ppp/ppp.c++)
   add_custom_command(TARGET xipinv240
     PRE_BUILD COMMAND gensources.sh)
-ENDIF(WIN32)
+endif(WIN32)
 
 #--------------------------------------------------------------------
-# Subdirectories.
+# Subdirectories
 #
 add_subdirectory(libFL)
 add_subdirectory(libimage)
 add_subdirectory(lib)
+
+#add_dependencies(xipinv240 ppp)

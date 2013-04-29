@@ -112,7 +112,7 @@
 #ifndef SOXIPSFDATA_H
 #define SOXIPSFDATA_H
 
-#include <Inventor/Fields/SoSubField.h>
+#include <Inventor/fields/SoSubField.h>
 #include <xip/inventor/core/xipivcore.h>
 
 class SoXipData;
@@ -167,4 +167,5 @@ protected:
 	}
 
 #endif	// SOXIPSFDATA_H
+
 

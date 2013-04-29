@@ -37,8 +37,6 @@
 #include "fl.h"
 #include "flendian.h"
 #include "flfreetype.h"
-#include <freetype/internal/internal.h>
-#include <freetype/internal/ftobjs.h>
 #include <freetype/ftoutln.h>
 
 

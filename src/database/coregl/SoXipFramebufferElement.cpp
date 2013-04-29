@@ -108,7 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
@@ -284,3 +284,5 @@ void SoXipFramebufferElement::bindTex(SoState *state) {
 	// Do not use the element, since we want our binds from flips to be preserved across separators
 	glBindTexture(GL_TEXTURE_2D, mColorBufferTex[(mCurrentFramebuffer + 1) % 2]);
 }
+
+

@@ -119,13 +119,12 @@
 #ifndef SO_VTK_IMAGE_ACTOR_H_
 # define SO_VTK_IMAGE_ACTOR_H_
 
-#include <Inventor/Nodes/SoSubNode.h>
-#include <Inventor/Nodes/SoNode.h>
+#include <Inventor/nodes/SoSubNode.h>
+#include <Inventor/nodes/SoNode.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 
 #include "xip/inventor/vtk/SoSFVtkObject.h"
-
 #include "vtkImageActor.h"
 
 
@@ -183,3 +182,5 @@ private :
 };
 
 #endif // SO_VTK_IMAGE_ACTOR_H_
+
+

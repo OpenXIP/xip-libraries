@@ -112,60 +112,72 @@
 /*!
  * \file SoVtkImageViewer2.h
  * \brief Declaration of the SoVtkImageViewer2 node
- * \author Francois Huguet
+ * \author Francois Huguet, Sylvain Jaume
  */
 #ifndef SO_VTK_IMAGEVIEWER2_H
 #define SO_VTK_IMAGEVIEWER2_H
 
-
 #include <Inventor/nodes/SoGroup.h>
-#include <Inventor/Nodes/SoNode.h>
-#include <Inventor/misc/SoState.h>
+#include <Inventor/nodes/SoNode.h>
 
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 
-#include "vtkWin32OpenGLRenderWindow.h"
-#include "vtkImageViewer2.h"
+#include <Inventor/fields/SoSFInt32.h>
+#include <Inventor/fields/SoSFFloat.h>
+#include <Inventor/fields/SoSFEnum.h>
+#include <Inventor/fields/SoSFTrigger.h>
+
+#include <Inventor/sensors/SoFieldSensor.h>
+#include <Inventor/misc/SoState.h>
 
 #include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 #include "xip/inventor/vtk/SoSFVtkObject.h"
 
-#include <Inventor/Fields/SoSFInt32.h>
-#include <Inventor/Fields/SoSFFloat.h>
-#include <Inventor/Fields/SoSFEnum.h>
-#include <Inventor/Fields/SoSFTrigger.h>
+#include <xip/system/GL/gl.h>
+#include <xip/system/GL/glu.h>
 
-#include <Inventor/Sensors/SoFieldSensor.h>
+#include "vtkImageViewer2.h"
 
+#ifdef WIN32
+#include "vtkWin32OpenGLRenderWindow.h"
 class myRenderWindow : public vtkWin32OpenGLRenderWindow
+#elif linux
+#include "vtkXOpenGLRenderWindow.h"
+class myRenderWindow : public vtkXOpenGLRenderWindow
+#elif DARWIN
+#include "vtkCarbonRenderWindow.h"
+class myRenderWindow : public vtkCarbonRenderWindow
+#endif
 {
 public:
+  void Render()
+  {
+  // notify Inventor instead of rendering...
+  //SoDebugError::postInfo("myRenderWindow::Render", "called");
+  }
 
-	virtual void Render()
-	{
-		// notify Inventor instead of rendering...
-		//SoDebugError::postInfo("myRenderWindow::Render", "called");
-	}
-
-	virtual void GLRender()
-	{
-		// vtk multiplies to the current modelview matrix, therefore set it to identity
-		glLoadIdentity();
-		// really does render (called by GLRender method of Inventor node)
-		vtkWin32OpenGLRenderWindow::Render();
-	}
+  void GLRender()
+  {
+  // vtk multiplies to the current modelview matrix, therefore set it to identity
+  glLoadIdentity();
+  // really does render (called by GLRender method of Inventor node)
+  vtkRenderWindow::Render();
+  }
 };
 
 /*!
  * \brief
- * SoVtkImageViewer2 wraps vtkImageViewer2. Display a 2D image.
+ * SoVtkImageViewer2 wraps vtkImageViewer2. Displays a 2D image.
  * 
  * From VTK:
- * vtkImageViewer2 is a convenience class for displaying a 2D image. It packages up the functionality found in vtkRenderWindow, vtkRenderer, vtkImageActor and vtkImageMapToWindowLevelColors into a single easy to use class. 
- * The image is placed in the 3D scene at a depth based on the z-coordinate of the particular image slice. Each call to Next/PreviousSlice() changes the image data (slice) displayed AND changes the depth of the displayed slice in the 3D scene.
- *
- * 
+ * vtkImageViewer2 is a convenience class for displaying a 2D image. It
+ * packages up the functionality found in vtkRenderWindow, vtkRenderer,
+ * vtkImageActor and vtkImageMapToWindowLevelColors into a single easy to use
+ * class. The image is placed in the 3D scene at a depth based on the
+ * z-coordinate of the particular image slice. Each call to
+ * Next/PreviousSlice() changes the image data (slice) displayed AND changes
+ * the depth of the displayed slice in the 3D scene.
  * 
  * \see
  * SoVtkWin32OpenGLRenderWindow | SoVtkRenderer | SoVtkImageActor 
@@ -241,15 +253,15 @@ private:
 
 	/// Slice max
 	int mMax;
-
+#ifdef WIN32
 	/// Current context
-	HGLRC				mRC;
-
+	HGLRC		mRC;
+#endif
 	/// OpenGL render Window
 	myRenderWindow *mRenWin;
 
 	/// Image Viewer
-	vtkImageViewer2		*mViewer;
+	vtkImageViewer2	*mViewer;
 
 	SoFieldSensor*	mNextSensor;
 	SoFieldSensor*	mPreviousSensor;
@@ -257,3 +269,6 @@ private:
 };
 
 #endif // SO_VTK_IMAGEVIEWER2_H
+
+
+

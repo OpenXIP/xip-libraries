@@ -108,7 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
+#include <xip/system/standard.h>
 #include "SoXipClearFbo.h"
 #include <xip/inventor/coregl/FramebufferObject.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
@@ -246,3 +246,7 @@ void SoXipClearFbo::GLRender(SoGLRenderAction* action)
 
     clear(action);
 }
+
+
+
+
