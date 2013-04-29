@@ -521,7 +521,7 @@ else(ITK_FOUND)
   find_path(ITK_DIR ITKConfig.cmake
     ../../../../xipext-win32-vs8/ITK/lib/InsightToolkit
     ../../../../xipext-mac-xcode/ITK/lib/InsightToolkit
-    ../../../../xipext-linux-gcc/ITK/lib/InsightToolkit
+    ../../../../xipext-linux-32bit/ITK/lib/InsightToolkit
     "Directory where ITK is installed")
 endif(ITK_FOUND)
 

@@ -230,7 +230,6 @@ install(TARGETS xipivcore
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)
-  install(FILES 
-    ${EXECUTABLE_OUTPUT_PATH}/debug/xipivcore.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivcore.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

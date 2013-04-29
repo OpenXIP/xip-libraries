@@ -28,7 +28,7 @@ if(HAS_DCMTK)
   find_library(DCMTK_dcmdata_LIBRARY dcmdata
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/lib/release
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
     /usr/local/dicom/lib)
 
   if(DCMTK_dcmdata_LIBRARY)
@@ -39,60 +39,52 @@ if(HAS_DCMTK)
     ${DCMTK_DIR}
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/lib/release
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
     /usr/local/dicom/lib)
 
   mark_as_advanced(DCMTK_dcmnet_LIBRARY)
-  #dcmnet
-  #  ${DCMTK_DIR}
-  #  ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
-  #  ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-  #  ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/lib/release
-  #  /usr/local/dicom/lib)
 
   find_library(DCMTK_imagedb_LIBRARY dcmimage
     ${DCMTK_DIR}
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/lib/release
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
     /usr/local/dicom/lib)
 
   find_library(DCMTK_ofstd_LIBRARY ofstd
     ${DCMTK_DIR}
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/lib/release
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
     /usr/local/dicom/lib)
 
   find_path(DCMTK_config_INCLUDE_DIR osconfig.h
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/config
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/config
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/include/dcmtk/config
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/config
     /usr/local/dicom/include/dcmtk/config)
 
   find_path(DCMTK_dcmdata_INCLUDE_DIR dcmetinf.h
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/dcmdata
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/dcmdata
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/include/dcmtk/dcmdata
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/dcmdata
     /usr/local/dicom/include/dcmtk/dcmdata)
 
   find_path(DCMTK_dcmimgle_INCLUDE_DIR dcmimage.h
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/dcmimgle
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/dcmimgle
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/include/dcmtk/dcmimgle
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/dcmimgle
     /usr/local/dicom/include/dcmtk/dcmimgle)
 
   find_path(DCMTK_ofstd_INCLUDE_DIR ofstd.h
     ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/ofstd
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/ofstd
-    ${XIP_SOURCE_DIR}/../xipext-linux-gcc/dcmtk/include/dcmtk/ofstd
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/ofstd
     /usr/local/dicom/include/dcmtk/ofstd)
 
   # Go two directories up
-  get_filename_component(DCMTK_INCLUDE_DIR ${DCMTK_config_INCLUDE_DIR}
-    PATH)
-  get_filename_component(DCMTK_INCLUDE_DIR ${DCMTK_INCLUDE_DIR} PATH)
-  
+  set(DCMTK_INCLUDE_DIR ${DCMTK_config_INCLUDE_DIR}/../..)
+ 
   # build DICOM module
   add_subdirectory(dicom)
 

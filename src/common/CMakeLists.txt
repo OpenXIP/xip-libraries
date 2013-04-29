@@ -22,6 +22,10 @@ endif(WIN32)
 #
 add_library(xipcommon SHARED ${SOURCES})
 
+set_target_properties(xipcommon
+  PROPERTIES VERSION ${XIP_VERSION_STRING}
+  SOVERSION ${XIP_VERSION_STRING})
+
 #--------------------------------------------------------------------
 # Install library
 #

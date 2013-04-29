@@ -56,8 +56,9 @@ set(HAS_DCMTK "@HAS_DCMTK@")
 set(HAS_ITK   "@HAS_ITK@"  )
 set(HAS_VTK   "@HAS_VTK@"  )
 
-# List of XIP examples
+# List of XIP examples, data files and GLSL files
 set(XIP_EXAMPLES     "@XIP_EXAMPLES@"    )
+set(XIP_DATA_FILES   "@XIP_DATA_FILES@"  )
 set(XIP_GLSL_FILES   "@XIP_GLSL_FILES@"  )
 set(XIP_EXAMPLES_DIR "@XIP_EXAMPLES_DIR@")
 

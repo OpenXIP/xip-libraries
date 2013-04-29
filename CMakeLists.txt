@@ -136,28 +136,22 @@ else("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.6$")
 endif("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.6$")
 
 #--------------------------------------------------------------------
-# Rules to configure the Doxygen documentation
-#
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build/doxygen.config.in
-               ${CMAKE_BINARY_DIR}/doxygen.config)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build/doxygen.pl.in
-               ${CMAKE_BINARY_DIR}/doxygen.pl)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build/Doxyfile.in
-               ${CMAKE_BINARY_DIR}/Doxyfile)
-
-#--------------------------------------------------------------------
 # Options to build with third party libraries.
 #
-option(HAS_DCMTK "Build the DICOM module. Requires the external library
-  DCMTK found in the xipext zip file." ON)
+option(HAS_DCMTK "Build the DICOM module. Requires the external
+  library DCMTK found in the xipext zip file." ON)
 
-option(HAS_ITK "Build the ITK module. Requires the external libraries
-  the Insight Toolkit found in the xipext zip file." ON)
+option(HAS_ITK "Build the ITK module. Requires the external
+  libraries the Insight Toolkit found in the xipext zip file." ON)
 
-option(HAS_VTK "Build the VTK module. Requires the external libraries of
-  the Visualization Toolkit found in the xipext zip file." ON)
+option(HAS_VTK "Build the VTK module. Requires the external libraries
+  of the Visualization Toolkit found in the xipext zip file." ON)
+
+if(${CMAKE_GENERATOR} MATCHES MSYS)
+  set(HAS_DCMTK OFF)
+  set(HAS_ITK OFF)
+  set(HAS_VTK OFF)
+endif(${CMAKE_GENERATOR} MATCHES MSYS)
 
 mark_as_advanced(
   CMAKE_INSTALL_PREFIX
@@ -194,6 +188,7 @@ endif(BUILD_DOCUMENTATION)
 #
 set(XIP_LIBRARIES
   xipinv240
+  xipcommon
   xipivcore
   xipivcoregl
   xipivremote
@@ -218,7 +213,7 @@ if(NOT BUILD_INVENTOR)
   find_path(OIV_PATH bin/xipinv240.dll
     ../xipext-win32-vs8/inventor
     ../xipext-mac-xcode/inventor
-    ../xipext-linux-gcc/inventor
+    ../xipext-linux-32bit/inventor
     "Directory where Open Inventor is installed")
 endif(NOT BUILD_INVENTOR)
 
@@ -226,7 +221,6 @@ endif(NOT BUILD_INVENTOR)
 # Find VTK libraries
 #
 if(HAS_VTK)
-
   find_package(VTK)
 
   if(VTK)
@@ -235,7 +229,7 @@ if(HAS_VTK)
     find_path(VTK_DIR VTKConfig.cmake
       ${CMAKE_CURRENT_SOURCE_DIR}/../xipext-win32-vs8/VTK/lib/vtk-5.0
       ${CMAKE_CURRENT_SOURCE_DIR}/../xipext-mac-xcode/VTK/lib/vtk-5.0
-      ${CMAKE_CURRENT_SOURCE_DIR}/../xipext-linux-gcc/VTK/lib/vtk-5.0
+      ${CMAKE_CURRENT_SOURCE_DIR}/../xipext-linux-32bit/VTK/lib/vtk-5.0
       "Directory where VTK is installed")
   endif(VTK)
 
@@ -243,7 +237,6 @@ if(HAS_VTK)
     VTK_GLEXT_FILE
     VTK_GLXEXT_FILE
     VTK_WGLEXT_FILE)
-
 endif(HAS_VTK)
 
 #--------------------------------------------------------------------
@@ -370,8 +363,6 @@ endif(INSTALL_QT)
 #--------------------------------------------------------------------
 # Install header files located in include directory
 #
-set(XIP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(XIP_HEADER_FILES
 include/xip/common/XipCommon.h
 include/xip/common/XipException.h
@@ -1226,7 +1217,7 @@ set(XIP_EXAMPLES
 "renderer/slicer/slicer.rad"
 "renderer/slicer/slicerWithLut.rad"
 "renderer/slicer/slicerWithLutShaded.rad"
-"vtk/Converters/XIPImageToVtk.rad"
+"vtk/Converters/XipImageToVtk.rad"
 "vtk/DICOM/VolumeRendering.rad"
 "vtk/Tutorial/ConeSource.rad"
 "vtk/VisualizationAlgorithms/ClipCow.rad"
@@ -1372,20 +1363,46 @@ tftk/shaders/test_fp.glsl
 tftk/shaders/test_vp.glsl)
 
 #--------------------------------------------------------------------
+# Data in the examples directory
+#
+set(XIP_DATA_FILES
+  data/24884367.dcm
+  data/BrainProtonDensitySlice.PNG
+  data/combq.bin
+  data/combxyz.bin
+  data/coronary/coronary_0.IMA
+  data/coronary/coronary_1.IMA
+  data/coronary/coronary_2.IMA
+  data/coronary/coronary_3.IMA
+  data/coronary/coronary_4.IMA
+  data/coronary/coronary_5.IMA
+  data/coronary/coronary_6.IMA
+  data/coronary/coronary_7.IMA
+  data/cow.g
+  data/cthead1.png
+  data/CT_WHOLE.img
+  data/CT_WHOLE.txt
+  data/ironProt.vtk
+  data/lena.raw
+  data/mummy.128.vtk
+  data/office.binary.vtk
+  data/test.raw)
+
+#--------------------------------------------------------------------
 # Install the XIP examples and GLSL files
 #
-foreach(EXAMPLE ${XIP_EXAMPLES} ${XIP_GLSL_FILES})
+foreach(EXAMPLE ${XIP_EXAMPLES} ${XIP_GLSL_FILES} ${XIP_DATA_FILES})
   get_filename_component(INSTALL_PATH ${EXAMPLE} PATH)
   install(FILES ${XIP_EXAMPLES_DIR}/${EXAMPLE}
-	  DESTINATION examples/${INSTALL_PATH})
-endforeach(EXAMPLE ${XIP_EXAMPLES} ${XIP_GLSL_FILES})
+    DESTINATION examples/${INSTALL_PATH})
+endforeach(EXAMPLE ${XIP_EXAMPLES} ${XIP_GLSL_FILES} ${XIP_DATA_FILES})
 
 #--------------------------------------------------------------------
 # Install the documentation
 #
 install(FILES
-  doc/XIPOverview.ppt
-  doc/XIPStarterGuide.doc
+  doc/XipOverview.ppt
+  doc/XipStarterGuide.doc
   doc/xip_logo.png
   doc/xipbuilder_logo.png
   DESTINATION doc)
@@ -1559,3 +1576,15 @@ endforeach(EXAMPLE ${XIP_EXAMPLES})
     #  -V ${EXPECTED_SCREENSHOT})
 
 endif(BUILD_TESTING)
+
+#--------------------------------------------------------------------
+# Rules to configure the Doxygen documentation
+#
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build/doxygen.config.in
+               ${CMAKE_BINARY_DIR}/doxygen.config)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build/doxygen.pl.in
+               ${CMAKE_BINARY_DIR}/doxygen.pl)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build/Doxyfile.in
+               ${CMAKE_BINARY_DIR}/Doxyfile)
