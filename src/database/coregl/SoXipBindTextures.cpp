@@ -169,7 +169,6 @@ SoXipBindTextures::SoXipBindTextures()
     }
 
     mNodeId = 0;
-    mNeedsUpdate = true;
     mNeedsSync = true;
 }
 
@@ -303,10 +302,6 @@ void SoXipBindTextures::GLRender(SoGLRenderAction* action)
         {
             mNumTextures = attachmentHandles.getNum();
 	        assignTextures(action);
-            bindTextures(action);
-            syncOutput();
-            mNeedsUpdate = false;
-            mNeedsSync = true;
             dbgPrint = true;
         }
     }

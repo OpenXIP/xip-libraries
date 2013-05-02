@@ -871,7 +871,7 @@ SoXipIvQtUiViewer {
     }
     DEF Popup SoXipIvQtUiViewer {
 	fields [ MFString script, SFString ui,  ]
-	script	"ui/renderWidgetPopup.js"
-	ui	"ui/renderWidgetPopup.ui"
+	script	"qt/renderWidgetPopup.js"
+	ui	"qt/renderWidgetPopup.ui"
     }
 }

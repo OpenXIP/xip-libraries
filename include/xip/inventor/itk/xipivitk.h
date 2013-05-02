@@ -108,6 +108,8 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+#ifndef XIPIVITK_H
+#define XIPIVITK_H
 
 #ifdef WIN32
 	#ifdef  XIPIVITK_EXPORTS
@@ -118,4 +120,8 @@
 #else
 	// no export needed for non-Windows platforms
 	#define XIPIVITK_API 
+#endif
+
+int XIPIVITK_API xipivitk_init();
+
 #endif

@@ -111,6 +111,9 @@
 
 // use XIPIVOVERLAY_API only for classes that are needed in other libraries
 
+#ifndef XIPOVERLAY_H
+#define XIPOVERLAY_H
+
 #ifdef WIN32
 	#ifdef  XIPIVOVERLAY_EXPORTS
 		#define XIPIVOVERLAY_API __declspec(dllexport)
@@ -121,3 +124,10 @@
 	// no export needed for non-Windows platforms
 	#define XIPIVOVERLAY_API 
 #endif
+
+int XIPIVOVERLAY_API xipivoverlay_init();
+
+#endif
+
+
+

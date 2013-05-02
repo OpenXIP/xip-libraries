@@ -367,7 +367,7 @@ Separator {
 						      "DATA" ] =
 					SoXipLoadDicom {
 					    inputs [ MFString name ]
-					    name	"data\CTHead"
+					    name	"..\data\CTHead"
 					    outputs [ SoXipMFDataDicom dicom ]
 					}
 					. dicom

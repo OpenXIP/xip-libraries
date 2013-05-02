@@ -1,0 +1,288 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	78 -27.9 80 -27.1
+    flags	()
+    autoPanelPos	711 52 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 7"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	70.5 -30.9 73.0284 -30.1
+    flags	()
+    autoPanelPos	0 219 0 0
+    node	    SoXipGLSLPrograms {
+	fields [ MFString prgTags, MFString vpFilenames, MFString gpFilenames, MFString fpFilenames,
+		MFString vpDefines, MFString gpDefines, MFString fpDefines, SFInt32 maxEmittedVertices ]
+	prgTags	[ "vol",
+			  "slicer" ]
+	vpFilenames	[ "red_texture_vp.glsl",
+			  "" ]
+	gpFilenames	[ "geom.glsl",
+			  "" ]
+	fpFilenames	[ "red_texture_fp.glsl",
+			  "slicer_fp.glsl" ]
+	vpDefines	[ "",
+			  "" ]
+	gpDefines	[ "",
+			  "" ]
+	fpDefines	[ "USEVlOL",
+			  "" ]
+	maxEmittedVertices	3
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	75 -30.9 77 -30.1
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "2" "3 4 6"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	70.5 -34.8 73.3209 -34
+    flags	()
+    autoPanelPos	0 345 0 0
+    node	    SoXipGLSLUseProgram {
+	fields [ SFString prgTag ]
+	prgTag	"vol"
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	73.8 -37.8 75.8 -37
+    flags	()
+    autoPanelPos	331 478 0 0
+    node	    SoXipTexture {
+	fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize,  ]
+	image	"NULL"
+	internalFormat	LUMINANCE8
+	textureSize	160 430 183
+    }
+
+}
+#connect "image@4" "output@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	70.8 -37.8 72.8 -37
+    flags	()
+    autoPanelPos	263 487 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFShort width, SFShort height, SFShort depth, SFMatrix modelMatrix,
+		SFString file ]
+	width	160
+	height	430
+	depth	183
+	modelMatrix	160 0 0 0
+		0 430 0 0
+		0 0 183 0
+		0 0 0 1
+	file	"..\..\data\CT_WHOLE.img"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	76.2 -36.6 79.5642 -35.8
+    flags	()
+    autoPanelPos	258 394 0 0
+    node	    SoXipGpuProcessTextureKit {
+	fields [ MFInt32 colorHandlesOutput, SFShort outputTextureSizeX, SFShort outputTextureSizeY, SFShort outputTextureSizeZ,
+		SFNode iterator, SFNode attachColor3D, SFNode xipFbo, SFNode switchDimension ]
+	colorHandlesOutput	4
+	outputTextureSizeX	160
+	outputTextureSizeY	430
+	outputTextureSizeZ	183
+	iterator		SoXipGpuProcessTexture {
+	    fields [ SFEnum textureDimension, SFBool useGeomShader, SFTrigger reload ]
+	    textureDimension	TEXTURE_3D
+	    useGeomShader	FALSE
+	}
+
+	attachColor3D		DEF +0 SoXipFboAttachColor3D {
+	    fields [ SFInt32 multiplicity, SFInt32 sizeX, SFInt32 sizeY, SFInt32 sizeZ,
+		    SFEnum filter, MFInt32 handleOutput ]
+	    multiplicity	1
+	    sizeX	160
+	    sizeY	430
+	    sizeZ	183
+	    filter	LINEAR
+	    handleOutput	4
+	}
+
+	xipFbo		SoXipFbo {
+	    fields [ SFInt32 width, SFInt32 height, SFBool autoSize, SFInt32 colorAttachments,
+		    SFBool useDepthBuffer,  ]
+	    width	160
+	    height	430
+	    autoSize	FALSE
+	    colorAttachments	0
+	    useDepthBuffer	FALSE
+	    DEF +1 Switch {
+		whichChild	0
+		USE +0
+	    }
+	}
+
+	switchDimension		USE +1
+
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	81.6 -30.9 84 -30.1
+    flags	()
+    autoPanelPos	789 259 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "7" "8 9 10 11 12"
+
+### 8 ###
+SoXipBuilderNode {
+    placement	79.2 -33.9 81.2 -33.1
+    flags	()
+    autoPanelPos	327 263 0 0
+    node	    SoXipExaminer {
+	mode	ROTATE
+	autoSpin	TRUE
+	plane	4.56312e-009 -9.70668e-008 1  0.5
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	    viewportMapping	ADJUST_CAMERA
+	    position	-46.5415 225.173 -120.352
+	    orientation	0.962587 0.0604918 -0.264134  3.21761
+	    aspectRatio	1
+	    nearDistance	-0
+	    farDistance	493.952
+	    focalDistance	246.976
+	    height	840.516
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    viewportMapping	ADJUST_CAMERA
+	    position	-1.04822 -0.902925 0.578974
+	    orientation	0.669432 0.259454 -0.696092  2.61948
+	    aspectRatio	1
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	79.5 -35.4 82.3209 -34.6
+    flags	()
+    autoPanelPos	340 360 0 0
+    node	    SoXipGLSLUseProgram {
+	fields [ SFString prgTag ]
+	prgTag	"slicer"
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	81.3 -36.6 83.5985 -35.8
+    flags	()
+    autoPanelPos	577 417 0 0
+    node	    SoXipBindTextures {
+	fields [ SFEnum textureDimension, MFInt32 attachmentHandles, SFInt32 texture0Output, SFInt32 texture1Output,
+		SFInt32 texture2Output, SFInt32 texture3Output, SFInt32 texture4Output, SFInt32 texture5Output,
+		SFInt32 texture6Output, SFInt32 texture7Output ]
+	textureDimension	TEXTURE_3D
+	attachmentHandles	4
+	texture0Output	0
+	texture1Output	0
+	texture2Output	0
+	texture3Output	0
+	texture4Output	0
+	texture5Output	0
+	texture6Output	0
+	texture7Output	0
+    }
+
+}
+#connect "attachmentHandles@10" "colorHandlesOutput@6"
+
+### 11 ###
+SoXipBuilderNode {
+    placement	84 -36.6 86 -35.8
+    flags	()
+    autoPanelPos	18 245 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name,  ]
+	name	"volume"
+    }
+
+}
+#connect "value@11" "texture0Output@10"
+
+### 12 ###
+SoXipBuilderNode {
+    placement	85.5 -35.1 87.5 -34.3
+    flags	()
+    autoPanelPos	874 588 0 0
+    node	    SoXipSlicer {
+	fields [ SFInt32 numSlicesX, SFInt32 numSlicesY, SFInt32 numSlicesZ, SFInt32 numSlices,
+		SFEnum mode,  ]
+	numSlicesX	160
+	numSlicesY	430
+	numSlicesZ	183
+	numSlices	500
+	mode	MAXIP
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9, 10, 11, 12 ]
+    position	77.9492 -32.6323 1
+    height	15.7277
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

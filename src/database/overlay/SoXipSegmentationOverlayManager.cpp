@@ -218,7 +218,7 @@ int SoXipSegmentationOverlayManager::SetupOverlayOption ( SoXipShape *pshape, So
 
 	const SbString& classname = shapeClassName.getValue();
 
-	int sh, i, j, len ;
+	int sh, len ;
 	SbString *pstr ;
 	char *sz, szTemp[256] ;
 	char *szPrefix =  "SoXip" ;
@@ -284,8 +284,6 @@ int SoXipSegmentationOverlayManager::SetupOverlayAction ( SoHandleEventAction* a
 	char *szName = (char*)classname.getString () ;
 	if (szName == NULL) return ( 0 ) ;
 
-	char *sz ;
-
 	SoDebugError::postInfo ( szName, "test" ) ;
 
 	SbVec3f pos;
@@ -324,3 +322,5 @@ int SoXipSegmentationOverlayManager::SetupOverlayAction ( SoHandleEventAction* a
 
 	return ( 1 ) ;
 }
+
+

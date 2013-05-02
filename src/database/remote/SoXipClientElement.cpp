@@ -147,7 +147,7 @@ void SoXipClientElement::set(SoState *state, SoNode *node, bool hasChanged)
 
 bool SoXipClientElement::get(SoState *state)
 {
-    return (bool)SoInt32Element::get(classStackIndex, state);
+    return SoInt32Element::get(classStackIndex, state) != 0;
 }
 
 bool SoXipClientElement::getDefault()

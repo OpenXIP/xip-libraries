@@ -1,0 +1,274 @@
+RELEASE NOTES FOR XIP Libraries, version 0.2.2
+
+This release builds on previous release 0.2.1
+
+Copyright (c) 2009, Siemens Corporate Research Inc.
+
+============================================
+Release 0.2.2
+============================================
+
+New Features in XIP Builder
+---------------------------
+
+  - The new SoXipProxy node is specifically detected and colored blue.
+
+  - Added an "Open File Browser" menu item to the context menu of
+  every field of type SoSFString or SoMFString.  The user can choose
+  whether the selected files/folders will be appended to the current
+  field value or replace it.
+
+  - Implemented a new file format (.xsg) which is XML based and does
+  not use Open Inventor's methods for loading and saving scene
+  objects.  This allows a more flexible way to deal with scene object
+  differences in various versions of the same library.  Further, every
+  scene object now has a unique id which helps tracking changes during
+  scene graph development.
+
+
+Bug fixes and changes in XIP Builder
+------------------------------------
+	
+  - Correct installation of Microsoft Runtime Libraries
+
+  - Installer: Desktop icon creation, adding correct application
+  folder to system PATH
+
+  - Unloading of previous scene graph before loading a new file
+
+
+New Features in XIP Libraries
+-----------------------------
+
+  - New node SoXipProxy in xipivcore.  The node will traverse and
+  execute named node, simply described as a form of gosub command.
+  May produce a recursive loop if the proxy node is given the name of
+  a parent node.
+
+  - The SoXipMultiTexturElement now supports assigning multiple
+  texture units at once.  [C++ API update]
+
+  - SoXipGlowElement now sets up the glDrawRangeLements extension
+  pointer.
+
+  - Library initialization functions are now exported such that
+  libraries can be linked directly with an application (implicit
+  dynamic loading).  The init functions will also initialize libraries
+  they are depending on, for instance, coregl will initialize core
+  library.  Each library will also initialize Inventor, in case it is
+  not already done.
+
+  - Minor fixes to remove compilation warnings.
+
+  - Added tool to compare Inventor database classes, to support
+  higher-level diffs between XIP Library versions.  Output is produced
+  and stored under build/xipivdb as XML files.
+
+  - Added tool to create developer packages, zip-files, with header
+  files and both precompiled Debug and Release versions of the XIP
+  Libraries, Inventor package, DCMTK, and external packages
+  (freetype2, FTGL, zlib, EasyBMP).
+
+  - Changed name to SoXipIvHtmlViewer from SoXipHtmlViewer in HTML UI
+  Viewer library.
+
+  - Qt UI Viewer examples, scripts are now located in qt subdirectory.
+
+  - Qt UI Viewer node supports loading QT extensions in the Qt plugin
+  directory.
+
+  - Documentation updated for Qt and HTML Viewer nodes.
+
+
+Bug Fixes and Changes in XIP Libraries
+--------------------------------------
+
+  - SoXipTexture: PBO Buffer size incorrectly computed, caused
+  incorrect size for bits used non-multiples of 8, e.g. 12 bits did
+  not allocate enough space.  [Tracker Item 1268]
+
+  - SoXipViewportGroup: An incorrect size reduction of (1,1) was
+  previously applied to each viewport.  This has been removed.
+  [Tracker Item 504]
+
+  - SoXipBindTextures: The node would bind its textures twice (to
+  separate texture stages) on the first change.  [Tracker Item 1711]
+
+  - SoXipMultiTextureElement: Destructor could cause an access
+  violation.  [Tracker Item 1709]
+
+  - Fix in CMakeLists for dcmtk, .pdb files are not created and the
+  INSTALL target will not try to copy files.
+
+
+New Examples
+------------
+
+  - Examples for SoXipGpuProcess3D node is now provided in
+  examples/renderer/process3D.
+
+
+
+============================================
+Release 0.2.1
+============================================
+
+XipBuilder bug fixes and changes:
+---------------------------------
+
+	Feature: 	Changed saving methods to use QT for getting the system time and creating 
+						directories to ensure cross platform compatibility. Also changed it to store backup and temp files 
+						in a "bak" subdirectory
+	Feature: 	Show scene object's name (when set) in connect button tool tip
+	
+	Fix: 	Prevented the user from saving scenes that have packages with empty outside connections (since this cannot 
+				be handled correctly with the current file format. Empty inside connections are OK though)
+	Fix: 	Corrupted package connections when one end of the connection is not connected
+	Fix: 	Wrong assignment of package connections when saving empty inside connections
+	Fix: 	A segmentation fault happens if the user presses and holds BOTH mouse buttons and tries to load a scene graph 
+				using recent graphs option
+	Fix: 	Moving the window when pressing left mouse button on close/minimize/restore or tool bar buttons and moving
+				it before releasing the mouse button
+	Fix: 	Removed unnecessary linking of Qt Ax libs
+	Fix: 	Pressing tab key in field panels jumps two fields instead of one
+	Fix: 	Crash on mouse click on "Properties" bottom bar's "Field" label when no scene graph is loaded
+	Fix: 	Correctly load corrupted scene graphs:
+				Made sure inventor does not jump to eof on error and set the file ptr to the end of the object which 
+				caused the read error by counting braces. This has to be done since SoBase::flushInput(SoInput *in) 
+				(which is called by inventor in case of a read error) counts the braces in a wrong way if the error 
+				occurs at the "node/engine" field of XIP Builder nodes
+	Fix: 	Memory leak caused by incorrect deletion of render views: When a render view 
+				was closed manually, the render view widget object was not deleted, just it's reference in 
+				the corresponding vector
+	
+	Minor change: Removed the node list item's icons
+
+
+New experimental Features:	
+---------------------------------
+
+These features are in beta status and not yet fully tested. They should not be used for productive development!
+
+Qt Ui Viewer Node:
+	New node SoXipIvQtUiViewer loads a scene graph into a customized GUI. The GUI is specified by a .ui file that can 
+	easily be created with the Qt Designer. The functionality can be defined in one or more Qt Script files (.js/.qs) 
+	that are also responsible for the interaction with the scene graph.
+	
+	In order to be able to load the scene graph it is necessary to add a widget to the .ui file and promote it to 
+	"QXipIvRenderWidget" with the object name "widget".
+	
+	An example for the use of the Qt Ui Viewer can be found in examples/qtuiviewer.
+
+HTML Viewer Node:
+	New node XipHtmlViewer, which allows embedding a scene graph renderer into an HTML page. Back-and-forth communication 
+	between the scene graph and the HTML page is available through Javascript. The HTML rendering engine is QtWebKit, a wrapper 
+	around the open source engine WebKit.
+	
+	An example for the use of the HTML Viewer can be found in examples/htmlview.
+	The interface to the scene graph is provided by the SoXipHtmlViewer node. It works like a group node, any nodes below will 
+	be rendered in the HTML render area. On its show trigger, it will open a QtWebkit window that will display the configured 
+	html file.
+	
+	The interface on the HTML-side consists of two parts that concern rendering the scene graph on the one hand and interacting 
+	with it from Javascript on the other hand. 
+
+Standalone Viewer:
+	The standalone application views the scene graph in a GUI defined by either an HTML or a Qt Ui 
+	file, that is given as an argument by running standaloneviewer.exe. If it is run without 
+	an argument it will try to find and open "html/main.html" by default.
+	
+	Besides the dlls that are specified in the extensions.xml additional dlls can be loaded, either 
+	by providing their single names or an xml file (like extensions.xml) inside the HTML file.
+	
+	Also in the HTML or UI file, the scene graph which is to be loaded, has to be specified. The 
+	standalone application can only handle .iv files. The UI files also have to specify the Qt Script 
+	file(s) that ought to be loaded. Therefore at the bottom of the HTML or UI file the following 
+	needs to be added:
+	
+	<!--LoadIVFile scenegraph.iv-->
+	<!--LoadScriptFiles script1,js,script2.js--> (only in UI files)
+	<!--LoadDLL xipivcorepro,xipivutils,xipivvtk--> (optional)
+	<!--LoadDLLConfigFile extensions.xml--> (optional)
+	
+	The scene graph itself does not need to contain a SoXipHtmlViewer or SoXipIvQtUiViewer node as 	
+	it wraps the functionality of the core of either one around the whole scene graph.
+	
+	For your projects please create a directory "html" for the html content or "ui" for the ui and
+	script content on the same level that contains the IV file.
+
+
+Xip node changes from 0.2.0 to 0.2.1:
+---------------------------------
+
+xipivcore:
+	New Nodes:
+		- SoXipCheckGLStacks
+		- SoXipDisableTexturing
+		
+xipivcoregl:
+	Changed Nodes:
+		- SoXipBindTextures:
+				Fields added: textureDimension (Texture_2d)
+
+xipivrenderer:
+	New Nodes:
+		- SoXipClipPlanesShaderSetup
+		- SoXipDirectRaycaster
+		- SoXipGpuProcessTexture
+		- SoXipGpuProcessTextureKit
+
+
+============================================
+Release 0.2.0
+============================================
+
+XipBuilder bug fixes and changes:
+---------------------------------
+
+	Feature: 	Added a visible hint to indicate that status- and property bars can be opened
+	Feature: 	Added a menu bar
+	Feature: 	Added a tool bar
+	Feature: 	Added an "Info" Dialog showing the loaded (XIP) Modules
+	Feature: 	"Cut" functionality for scene graph objects
+	Feature: 	Re-sizable field panels
+	Feature: 	Pasted node position is now offset from the original
+	Feature: 	Short-cut key (Ctrl+H) to hide/unhide all field panels 
+	Feature: 	Redesigned left-hand utility widget (can be opened/closed via Ctrl+F short-cut)
+	
+	Fix: 	Possibility to move field panels (not completely) out of the window
+	Fix: 	Positioning of field panels when loading file via command line
+	Fix: 	HTML Export didn't create images when there was no "imageSize" key in config.xml
+	Fix: 	Field connect lines now show after copy-paste
+	Fix: 	Pressing return in a field in the panel updates the node/engine field
+
+	
+Xip node changes from 0.1.2 to 0.2.0:
+---------------------------------
+
+xipivcore:
+	Deleted Nodes:
+		- SoXipHtmlView
+		
+xipivcoregl:
+	New Nodes:
+		- SoXipBlendFunc
+		- SoXipBlendFuncElement
+		- SoXipClipPlaneKit
+		- SoXipDrawClipPlane
+		- SoXipGLSLUniformGroup
+		- SoXipGetCameraProperties
+	
+	Changed Nodes:
+		- SoXipClearBuffer:
+				Fields added: clearOnlyCurrentViewport (Bool)
+		- SoXipClearFbo:
+				Fields added: clearOnlyCurrentViewport (Bool)
+
+xipivoverlay:
+	New Nodes:
+		- SoXipDicomOverlayManager
+
+xipivrenderer:
+	New Nodes:
+		- SoXipSimpleVolumeRenderKit
+		- SoXipSlicerShader

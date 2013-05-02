@@ -109,6 +109,8 @@
  *  
  */
 
+#include <xip/inventor/core/xipivcore.h>
+
 #include <xip/inventor/itk/SoItkSFNodeContainer.h>
 #include <xip/inventor/itk/SoItkSFDataArray.h>
 #include <xip/inventor/itk/SoItkSFDataMatrix.h>
@@ -177,6 +179,13 @@
 
 int XIPIVITK_API xipivitk_init()
 {
+	static bool isInit = false;
+	if(isInit)
+		return 1;
+	isInit = true;
+
+	xipivcore_init();
+
 	// Data Objects
 	SoItkDataArray::initClass();
 	SoItkDataMatrix::initClass();
@@ -261,13 +270,7 @@ int XIPIVITK_API xipivitk_init()
 BOOL APIENTRY DllMain(HANDLE, DWORD reason, LPVOID)
 {
 	if ( reason == DLL_PROCESS_ATTACH )
-	{
-		if (SoDB::isInitialized())
-		{
-			// automatic initialization for dynamic loading
-			xipivitk_init();
-		}
-	}
+		xipivitk_init();
 
 	return TRUE;
 }

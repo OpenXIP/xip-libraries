@@ -1,0 +1,521 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipComposeMFDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipComposeMFDicom.cpp" Macrocalls="13" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipMFDataDicom.h" />
+      <Include Path="SoXipComposeMFDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input0" />
+      <Input defaultValue="0" Inputname="input1" />
+      <Input defaultValue="0" Inputname="input2" />
+      <Input defaultValue="0" Inputname="input3" />
+      <Input defaultValue="0" Inputname="input4" />
+      <Input defaultValue="0" Inputname="input5" />
+      <Input defaultValue="0" Inputname="input6" />
+      <Input defaultValue="0" Inputname="input7" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipMFDataDicom" />
+      <Output Outputname="output" Type="SoXipMFDataDicom" Code="copyFrom(tmp)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="FieldConverter" Type="ENGINE" Name="SoXipConvertMFDicomToMFImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipConvertDicomToXipImage.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+      <Include Path="SoXipConvertDicomToXipImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipMFDataImage" />
+      <Output Outputname="output" Type="SoXipMFDataImage" Code="setNum(0)" />
+      <Output Outputname="output" Type="SoXipMFDataImage" Code="copyFrom( mData )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="FieldConverter" Type="ENGINE" Name="SoXipConvertMFDicomToSFDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipConvertDicom.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="xip/inventor/dicom/SoXipSFDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="SoXipConvertDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+      <Input defaultValue="0" Inputname="index" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipSFDataDicom" />
+      <Output Outputname="output" Type="SoXipSFDataDicom" Code="setValue(out)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="FieldConverter" Type="ENGINE" Name="SoXipConvertMFDicomToSFImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipConvertDicomToXipImage.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+      <Include Path="SoXipConvertDicomToXipImage.h" />
+    </Includes>
+  </class>
+  <class Type="ENGINE" Name="SoXipConvertMFDicomToXipImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipConvertDicomToXipImage.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+      <Include Path="SoXipConvertDicomToXipImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+      <Input defaultValue="0" Inputname="index" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipSFDataImage" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(mOutputImage)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="FieldConverter" Type="ENGINE" Name="SoXipConvertSFDicomToMFDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipConvertDicom.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="xip/inventor/dicom/SoXipSFDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="SoXipConvertDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipMFDataDicom" />
+      <Output Outputname="output" Type="SoXipMFDataDicom" Code="setValue(out)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="FieldConverter" Type="ENGINE" Name="SoXipConvertSFDicomToSFImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipConvertDicomToXipImage.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+      <Include Path="SoXipConvertDicomToXipImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipSFDataImage" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(mOutputImage)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoXipDataDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDataDicom.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="dcmtk/dcmdata/dctk.h" />
+      <Include Path="Inventor/SbPList.h" />
+      <Include Path="Inventor/fields/SoMFString.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoElement" Type="ELEMENT" Name="SoXipDataDicomElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDataDicomElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipDataDicomElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipDecomposeMFDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDecomposeMFDicom.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipSFDataDicom.h" />
+      <Include Path="SoXipDecomposeMFDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+      <Input defaultValue="-1" Inputname="index" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipSFDataDicom" />
+      <Output Outputname="output" Type="SoXipSFDataDicom" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoXipSFDataDicom" Code="setValue( input[id] )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipDicomExaminer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDicomExaminer.cpp" Macrocalls="25" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDicomExaminer.h" />
+      <Include Path="dcmtk/dcmdata/dctk.h" />
+      <Include Path="Inventor/fields/SoSFInt32.h" />
+      <Include Path="Inventor/nodes/SoOrthographicCamera.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoWriteAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/dicom/SoXipSFDatadicom.h" />
+      <Include Path="xip/inventor/core/SoXipDataImageElement.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicomElement.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="SoXipConvertDicom.h" />
+      <Include Path="SoXipDicomExtractSlice.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="drawImage" defaultValue="TRUE" />
+      <Field Fieldname="images" defaultValue="0" />
+      <Field Fieldname="imageIndex" defaultValue="0" />
+      <Field Fieldname="previousImage" defaultValue="" />
+      <Field Fieldname="nextImage" defaultValue="" />
+      <Field Fieldname="sliceIndex" defaultValue="-1" />
+      <Field Fieldname="previousSlice" defaultValue="" />
+      <Field Fieldname="nextSlice" defaultValue="" />
+      <Field Fieldname="viewAll" defaultValue="" />
+      <Field Fieldname="viewAllScale" defaultValue="0.8" />
+      <Field Fieldname="mode" defaultValue="NONE" />
+      <Field Fieldname="boundingBox" defaultValue="SbMatrix::identity()" />
+      <Field Fieldname="viewBoundingBox" defaultValue="" />
+      <Field Fieldname="planeSlice" defaultValue="SbPlane(SbVec3f(1, 0, 0), 0)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipDicomExtractSlice" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDicomExtractSlice.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDicomExtractSlice.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="dcmtk/dcmdata/dctk.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="-1" Inputname="sliceIndex" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipSFDataImage" />
+      <Output Outputname="numSlices" Type="SoSFShort" />
+      <Output Outputname="numSlices" Type="SoSFShort" Code="setValue(nSlices)" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(mOutput)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipDicomSort3D" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDicomSort3D.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDicomSort3D.h" />
+      <Include Path="XipDicomSortUtil.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="images" />
+      <Input defaultValue="0" Inputname="volumeIndex" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="imagesInVolume" Type="SoMFString" />
+      <Output Outputname="numberOfVolumes" Type="SoSFShort" />
+      <Output Outputname="numberOfVolumes" Type="SoSFShort" Code="setValue(0)" />
+      <Output Outputname="imagesInVolume" Type="SoMFString" Code="setNum(0)" />
+      <Output Outputname="numberOfVolumes" Type="SoSFShort" Code="setValue(sorter.getNumVolumes())" />
+      <Output Outputname="imagesInVolume" Type="SoMFString" Code="setValues(0, imageList.getNum(), imageList.getValues(0)); _eng_out_temp->setNum(imageList.getNum())" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipDicomWindowLevel" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDicomWindowLevel.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="Inventor/fields/SoSFFloat.h" />
+      <Include Path="Inventor/fields/SoSFShort.h" />
+      <Include Path="SoXipDicomWindowLevel.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="window" Type="SoSFFloat" />
+      <Output Outputname="level" Type="SoSFFloat" />
+      <Output Outputname="bitsStored" Type="SoSFShort" />
+      <Output Outputname="window" Type="SoSFFloat" Code="setValue(width)" />
+      <Output Outputname="level" Type="SoSFFloat" Code="setValue(center)" />
+      <Output Outputname="bitsStored" Type="SoSFShort" Code="setValue(bitsUsed)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipGetDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGetDicom.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipGetDicom.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoPickAction.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicomElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="image" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipGetDicomReference" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGetDicomReference.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="SoXipGetDicomReference.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="image" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" />
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" Code="setNum(0)" />
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" Code="copyFrom(tmp)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipGetDicomString" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGetDicomString.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/fields/SoMFString.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="SoXipGetDicomString.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="dicom" />
+      <Input defaultValue="DATASET" Inputname="item" />
+      <Input defaultValue="0" Inputname="group" />
+      <Input defaultValue="0" Inputname="element" />
+      <Input defaultValue="TRUE" Inputname="searchIntoSub" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="string" Type="SoMFString" />
+      <Output Outputname="string" Type="SoMFString" Code="setValues(0, results.getNum(), results.getValues(0)); _eng_out_temp->setNum(results.getNum())" />
+      <Output Outputname="string" Type="SoMFString" Code="setNum(0)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipLoadDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLoadDicom.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipLoadDicom.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="dcmtk/dcmdata/dctk.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="name" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" />
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" Code="copyFrom(mLoadedData)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipLoadPState" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLoadPState.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipLoadPState.h" />
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="xip/inventor/dicom/SoXipSFPState.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipPState.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="&quot;&quot;" Inputname="pstateFile" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="presentationstate" Type="SoXipSFPState" />
+      <Output Outputname="presentationstate" Type="SoXipSFPState" Code="setValue(0)" />
+      <Output Outputname="presentationstate" Type="SoXipSFPState" Code="setValue(mPState)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipDataDicom" Type="MFDATA" Name="SoXipMFDataDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMFDataDicom.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipMFDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoXipPState" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPState.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="dcmtk/dcmpstat/dvpstx.h" />
+      <Include Path="dcmtk/dcmpstat/dvpsgr.h" />
+      <Include Path="dcmtk/dcmpstat/dvpstat.h" />
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="xip/inventor/dicom/SoXipPState.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipDataDicom" Type="SFDATA" Name="SoXipSFDataDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSFDataDicom.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipSFDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipPState" Type="SFDATA" Name="SoXipSFPState" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSFPState.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipSFPState.h" />
+      <Include Path="xip/inventor/dicom/SoXipPState.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipSaveDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSaveDicom.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipSaveDicom.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="dcmtk/dcmdata/dctk.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="0" Inputname="referenceImage" />
+      <Input defaultValue="&quot;&quot;" Inputname="storage" />
+      <Input defaultValue="0" Inputname="seriesNumber" />
+      <Input defaultValue="0" Inputname="imageNumber" />
+      <Input defaultValue="" Inputname="apply" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="id" Type="SoSFString" />
+      <Output Outputname="id" Type="SoSFString" Code="setValue(&quot;&quot;)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipSortDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSortDicom.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="map" />
+      <Include Path="vector" />
+      <Include Path="dcmtk/dcmdata/dctk.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="SoXipSortDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipMFDataDicom" />
+      <Output Outputname="output" Type="SoXipMFDataDicom" Code="setNum(0)" />
+      <Output Outputname="output" Type="SoXipMFDataDicom" Code="setValues(0, n, (const SoXipDataDicom**) &amp;sortedData[0]); _eng_out_temp->setNum(n)" />
+      <Output Outputname="output" Type="SoXipMFDataDicom" Code="setNum(0)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipSwitchMFDataDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSwitchMFDataDicom.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipSwitchMFDataDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="dicom1" />
+      <Input defaultValue="0" Inputname="dicom2" />
+      <Input defaultValue="0" Inputname="dicom3" />
+      <Input defaultValue="0" Inputname="dicom4" />
+      <Input defaultValue="-1" Inputname="index" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" />
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" Code="setNum(0)" />
+      <Output Outputname="dicom" Type="SoXipMFDataDicom" Code="copyFrom(*dicomFields[index.getValue()])" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipVolumeDicom" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipVolumeDicom.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipVolumeDicom.h" />
+      <Include Path="Inventor/errors/SoMemoryError.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+      <Include Path="dcmtk/dcmdata/dctk.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipSFDataImage" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(mOutputImage)" />
+    </Outputs>
+  </class>
+</classes>

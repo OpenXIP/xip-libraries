@@ -56,6 +56,13 @@ set(SOURCES
   libsrc/oftime.cxx)
 
 #--------------------------------------------------------------------
+# Define the include directories
+#
+include_directories(
+  include
+	)
+	
+#--------------------------------------------------------------------
 # Compile the library
 #
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
@@ -81,7 +88,7 @@ install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug
   BUNDLE  DESTINATION lib/debug CONFIGURATIONS Debug)
 
-if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/${PROJECT_NAME}${CMAKE_DEBUG_POSTFIX}.pdb
-    DESTINATION bin/debug CONFIGURATIONS Debug)
-endif(WIN32)
+#if(WIN32)
+#  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/${PROJECT_NAME}${CMAKE_DEBUG_POSTFIX}.pdb
+#    DESTINATION bin/debug CONFIGURATIONS Debug)
+#endif(WIN32)

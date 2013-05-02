@@ -136,18 +136,19 @@ public:
 	void push(SoState *state);
 	void pop(SoState *state, const SoElement *prevTopElement);
 
-	static void setUnit(SoState *state, unsigned int unit);
-	static void bindTexture(SoState *state, unsigned int target, unsigned int id);
+	static void         setUnit(SoState *state, unsigned int unit);
+	static void         bindTexture(SoState *state, unsigned int target, unsigned int id);
 	static unsigned int getFreeUnit(SoState *state);
+    static unsigned int getFreeUnits(SoState *state, unsigned int num, unsigned int *units);
 	static unsigned int getCurrentUnit(SoState *state);
-
-  static void bindTextureCurrUnit(SoState *state);
+    static void         bindTextureCurrUnit(SoState *state);
 
 protected:
-	void setUnitElt(unsigned int unit);
-	void bindTextureElt(unsigned int target, unsigned int id);
-	unsigned int getFreeUnitElt() const;
-	unsigned int getCurrentUnitElt() const;
+	void                setUnitElt(unsigned int unit);
+	void                bindTextureElt(unsigned int target, unsigned int id);
+	unsigned int        getFreeUnitElt() const;
+    unsigned int        getFreeUnitsElt(unsigned int num, unsigned int *units) const;
+	unsigned int        getCurrentUnitElt() const;
 
 private:
 	virtual ~SoXipMultiTextureElement();
@@ -164,11 +165,11 @@ private:
 	void bindTextureGL(unsigned int unit);
 	void unbindTextureGL(unsigned int unit);
 
-	int numUnits;
-	textureInfo *textures;
-	unsigned int currentUnit;
-	unsigned int unitsChanged;
-	bool initChild;
+	static int      mMaxUnits;
+	textureInfo     mTextures[32];
+	unsigned int    mCurrentUnit;
+	unsigned int    mUnitsChanged;
 };
 
 #endif
+

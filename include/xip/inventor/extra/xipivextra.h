@@ -108,6 +108,9 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef XIPIVEXTRA_H
+#define XIPIVEXTRA_H
+
 // use XIPIVEXTRAGL_API only for classes that are needed in other
 // libraries
 
@@ -121,3 +124,7 @@
 	// no export needed for non-Windows platforms
 	#define XIPIVEXTRA_API 
 #endif
+
+int XIPIVEXTRA_API xipivextra_init();
+
+#endif // XIPIVEXTRA_H

@@ -1,0 +1,244 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipCPUMprRender" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipCPUMprRender.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipCPUMprRender.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipLutElement.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/elements/SoGLLazyElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/SbLinear.h" />
+      <Include Path="Inventor/SbBox.h" />
+      <Include Path="assert.h" />
+      <Include Path="limits" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="minMaxSize" defaultValue="SbVec2s(128, 1024)" />
+      <Field Fieldname="volume" defaultValue="NULL" />
+      <Field Fieldname="blendOn" defaultValue="FALSE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipClipPlanesShaderSetup" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipClipPlanesShaderSetup.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipClipPlanesShaderSetup.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/SbLinear.h" />
+      <Include Path="xip/inventor/core/SoXipClipPlaneElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="stdio.h" />
+      <Include Path="stdlib.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="mUniformName" defaultValue="SbString(&quot;xipVRClipPlanes&quot;)" />
+      <Field Fieldname="mUniformNumName" defaultValue="SbString(&quot;xipNumVRClipPlanes&quot;)" />
+      <Field Fieldname="mUniformMaxName" defaultValue="SbString(&quot;xipMaxVRClipPlanes&quot;)" />
+      <Field Fieldname="mMaxClipPlanes" defaultValue="uint32_t(16)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="SoShape" Type="NODE" Name="SoXipDirectRaycaster" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDirectRaycaster.cpp" Macrocalls="32" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDirectRaycaster.h" />
+      <Include Path="xip/utils/XipBasicOperators.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="xip/inventor/core/SoXipClipPlaneElement.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/elements/SoComplexityElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="stdio.h" />
+      <Include Path="stdlib.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="scale" defaultValue="SbVec3f(1, 1, 1)" />
+      <Field Fieldname="pivot" defaultValue="SbVec3f(0, 0, 0)" />
+      <Field Fieldname="cropMin" defaultValue="SbVec3f(0, 0, 0)" />
+      <Field Fieldname="cropMax" defaultValue="SbVec3f(1, 1, 1)" />
+      <Field Fieldname="sampleSpacing" defaultValue="float(0.01)" />
+      <Field Fieldname="opacityUnitLength" defaultValue="float(0.01)" />
+      <Field Fieldname="opacity" defaultValue="float(1.0)" />
+      <Field Fieldname="ertThreshold" defaultValue="float(0.98)" />
+      <Field Fieldname="useComplexity" defaultValue="false" />
+      <Field Fieldname="fboMode" defaultValue="FBO_NONE" />
+      <Field Fieldname="fboDepth" defaultValue="SbBool(false)" />
+      <Field Fieldname="minMaxSize" defaultValue="SbVec2s(32, 2048)" />
+      <Field Fieldname="rayOrigin" defaultValue="FACES_FRONT" />
+      <Field Fieldname="depthClipping" defaultValue="SbBool(false)" />
+      <Field Fieldname="compositeProgramTag" defaultValue="SbString(&quot;&quot;)" />
+      <Field Fieldname="compositeDepthTest" defaultValue="SbBool(false)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipGpuProcessTexture" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGpuProcessTexture.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/system/GL/glu.h" />
+      <Include Path="SoXipGpuProcessTexture.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="textureDimension" defaultValue="TEXTURE_3D" />
+      <Field Fieldname="reload" defaultValue="" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipGpuProcessTextureKit" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGpuProcessTextureKit.cpp" Macrocalls="14" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/elements/SoGLTextureEnabledElement.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+      <Include Path="SoXipGpuProcessTextureKit.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="textureDimension" defaultValue="AUTO" />
+      <Field Fieldname="colorHandlesOutput" defaultValue="0" />
+      <Field Fieldname="autoSize" defaultValue="TRUE" />
+      <Field Fieldname="outputTextureSizeX" defaultValue="1" />
+      <Field Fieldname="outputTextureSizeY" defaultValue="1" />
+      <Field Fieldname="outputTextureSizeZ" defaultValue="1" />
+      <Field Fieldname="colorAttachments" defaultValue="1" />
+      <Field Fieldname="detail" defaultValue="1" />
+      <Field Fieldname="useGeomShader" defaultValue="FALSE" />
+      <Field Fieldname="reload" defaultValue="" />
+    </Fields>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipMprRender" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMprRender.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipMprRender.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/SbLinear.h" />
+      <Include Path="Inventor/SbBox.h" />
+      <Include Path="assert.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipSimpleVolumeRenderKit" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSimpleVolumeRenderKit.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/misc/SoChildList.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/fields/SoSFMatrix.h" />
+      <Include Path="SoXipSimpleVolumeRenderKit.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="volumeData" defaultValue="NULL" />
+      <Field Fieldname="lutData" defaultValue="NULL" />
+      <Field Fieldname="useComplexity" defaultValue="false" />
+      <Field Fieldname="samplingFrequency" defaultValue="512" />
+      <Field Fieldname="selfShading" defaultValue="false" />
+      <Field Fieldname="gradLighting" defaultValue="false" />
+    </Fields>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipSlicer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSlicer.cpp" Macrocalls="17" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/renderer/xipivrenderer.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/elements/SoBBoxModelMatrixElement.h" />
+      <Include Path="Inventor/SbBox.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoGLTextureEnabledElement.h" />
+      <Include Path="Inventor/elements/SoComplexityElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SoXipClipPlaneElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="SoXipSlicer.h" />
+      <Include Path="algorithm" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="numSlicesX" defaultValue="256" />
+      <Field Fieldname="numSlicesY" defaultValue="256" />
+      <Field Fieldname="numSlicesZ" defaultValue="256" />
+      <Field Fieldname="numSlices" defaultValue="256" />
+      <Field Fieldname="useComplexity" defaultValue="TRUE" />
+      <Field Fieldname="slicing" defaultValue="VIEW_ALIGNED" />
+      <Field Fieldname="mode" defaultValue="VRT" />
+      <Field Fieldname="compositing" defaultValue="BACK_TO_FRONT" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipSlicerShader" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSlicerShader.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="SoXipSlicerShader.h" />
+      <Include Path="string" />
+      <Include Path="vector" />
+      <Include Path="fstream" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="volumeUnit" defaultValue="0" />
+      <Field Fieldname="lutUnit" defaultValue="0" />
+      <Field Fieldname="shading" defaultValue="TRUE" />
+      <Field Fieldname="lighting" defaultValue="TRUE" />
+      <Field Fieldname="volsize" defaultValue="SbVec3f(0.0,0.0,0.0)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipSlicerVolRender" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSlicerVolRender.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/fields/SoSFMatrix.h" />
+      <Include Path="SoXipSlicerVolRender.h" />
+      <Include Path="SoXipSlicer.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="numSlices" defaultValue="512" />
+      <Field Fieldname="compositing" defaultValue="BACK_TO_FRONT" />
+      <Field Fieldname="mode" defaultValue="VRT" />
+    </Fields>
+  </class>
+</classes>

@@ -111,7 +111,8 @@
 
 // use XIPIVREMOTE_API only for classes that are needed in other libraries
 
-#pragma once
+#ifndef XIPIVREMOTE_H
+#define XIPIVREMOTE_H
 
 #ifdef WIN32
 	#ifdef  XIPIVREMOTE_EXPORTS
@@ -122,4 +123,8 @@
 #else
 	// no export needed for non-Windows platforms
 	#define XIPIVREMOTE_API 
+#endif
+
+int XIPIVREMOTE_API xipivremote_init();
+
 #endif

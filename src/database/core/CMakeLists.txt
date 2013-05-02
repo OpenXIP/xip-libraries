@@ -52,6 +52,7 @@ set(HEADERS
   SoXipPerformance.h
   SoXipPickAction.h
   SoXipPlaneManipBase.h
+	SoXipProxy.h
   SoXipRenderMode.h
   SoXipSFDataImageToSFImage.h
   SoXipStringConcatenate.h
@@ -142,6 +143,7 @@ set(SOURCES
   SoXipPickAction.cpp
   SoXipPickRadiusElement.cpp
   SoXipPlaneManipBase.cpp
+	SoXipProxy.cpp
   SoXipRenderMode.cpp
   SoXipRenderModeElement.cpp
   SoXipSFData.cpp

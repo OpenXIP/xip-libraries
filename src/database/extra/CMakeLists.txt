@@ -7,17 +7,20 @@ project(extra)
 # Define the header files
 #
 set(HEADERS
+  ../../../include/xip/inventor/extra/xipivextra.h
   ../../../include/xip/inventor/extra/SoSFDouble.h
   ../../../include/xip/inventor/extra/SoMFDouble.h
-	SoDoubleCalculator.h)
+#  SoDoubleCalculator.h
+)
 
 #--------------------------------------------------------------------
 # Define the source files
 #
 set(SOURCES
   SoSFDouble.cpp
-  SoMFDouble.cpp)
-	#SoDoubleCalculator.cpp)
+  SoMFDouble.cpp
+#  SoDoubleCalculator.cpp
+  init.cpp)
 
 #--------------------------------------------------------------------
 # Define the compiler flags

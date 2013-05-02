@@ -44,7 +44,7 @@ set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/XIP_LICENSE.txt)
 
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "2")
-set(CPACK_PACKAGE_VERSION_PATCH "1")
+set(CPACK_PACKAGE_VERSION_PATCH "2")
 
 set(XIP_VERSION_STRING ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 
@@ -538,6 +538,10 @@ endif(OIV_PATH)
 link_directories(
   ${LIBRARY_OUTPUT_PATH}
   .) # Put "." in the rpath of all XIP shared libraries.
+	
+if(OIV_PATH)
+  link_directories(${OIV_PATH}/lib)
+endif(OIV_PATH)
 
 #--------------------------------------------------------------------
 # Build projects inside subdirectories
@@ -1300,69 +1304,69 @@ set(XIP_EXAMPLES_DIR
 #
 if(HAS_ITK)
 set(RAD_EXAMPLES
-"itk/Functor Filters/Binary Functor Filters/itkDivideImageFilter.rad"
-"itk/Functor Filters/Binary Functor Filters/itkInterpolateImageFilter.rad"
-"itk/Functor Filters/Binary Functor Filters/itkMaskImageFilter.rad"
-"itk/Functor Filters/Binary Functor Filters/itkMaskNegatedImageFilter.rad"
-"itk/Functor Filters/Binary Functor Filters/itkMaximumImageFilter.rad"
-"itk/Functor Filters/Binary Functor Filters/itkMultiplyImageFilter.rad"
-"itk/Functor Filters/Binary Functor Filters/itkSquaredDifferenceImageFilter.rad"
-"itk/Functor Filters/Binary Functor Filters/itkSubtractImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/Atan2ImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/BSpline Filters/BSplineDecompositionImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/BSpline Filters/BSplineDownsampleImageFilter.xip"
-"itk/Functor Filters/Unary Functor Filters/BSpline Filters/BSplineUpsampleImageFilter.xip"
-"itk/Functor Filters/Unary Functor Filters/ExpNegativeImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/GetAverageSliceImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/Log10ImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/LogImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/NormalizeImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/NotImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/SigmoidImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/SinImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/SqrtImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/SquareImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/TanImageFilter.rad"
-"itk/Functor Filters/Unary Functor Filters/TrigoImageFilters.rad"
-"itk/Neighborhood Filters/BlackTopHatImageFilter.xip"
-"itk/Neighborhood Filters/ConnectedComponentImageFilter.xip"
-"itk/Neighborhood Filters/HardConnectedImageFilter.xip"
-"itk/Neighborhood Filters/MeanImageFilter.rad"
-"itk/Neighborhood Filters/MedianImageFilter.rad"
-"itk/Neighborhood Filters/Morphology Image Filters/BinaryMedianImageFilter.rad"
-"itk/Neighborhood Filters/Morphology Image Filters/BinaryPrunningImageFilter.rad"
-"itk/Neighborhood Filters/Morphology Image Filters/BinaryThinningImageFilter.rad"
-"itk/Neighborhood Filters/Morphology Image Filters/MaskNeighborhoodOperatorImageFilter.xip"
-"itk/Neighborhood Filters/Morphology Image Filters/NeighborhoodOperatorImageFilter.rad"
-"itk/Neighborhood Filters/Voting Filters/VotingBinaryHoleFillingImageFilter.rad"
-"itk/Neighborhood Filters/Voting Filters/VotingBinaryImageFilter.rad"
-"itk/Neighborhood Filters/Voting Filters/VotingBinaryIterativeHoleFillingImageFilter.rad"
-"itk/Neighborhood Filters/WhiteTopHatImageFilter.xip"
-"itk/Neighborhood Filters/ZeroCrossingImageFilter.rad"
-"itk/Reading and Writing/ImageFileReader.rad"
-"itk/Reading and Writing/ImageFileWriter.xip"
-"itk/Reading and Writing/ImportImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkDivideImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkInterpolateImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkMaskImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkMaskNegatedImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkMaximumImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkMultiplyImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkSquaredDifferenceImageFilter.rad"
+"itk/FunctorFilters/BinaryFunctorFilters/itkSubtractImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/Atan2ImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/BSplineFilters/BSplineDecompositionImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/BSplineFilters/BSplineDownsampleImageFilter.xip"
+"itk/FunctorFilters/UnaryFunctorFilters/BSplineFilters/BSplineUpsampleImageFilter.xip"
+"itk/FunctorFilters/UnaryFunctorFilters/ExpNegativeImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/GetAverageSliceImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/Log10ImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/LogImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/NormalizeImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/NotImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/SigmoidImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/SinImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/SqrtImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/SquareImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/TanImageFilter.rad"
+"itk/FunctorFilters/UnaryFunctorFilters/TrigoImageFilters.rad"
+"itk/NeighborhoodFilters/BlackTopHatImageFilter.xip"
+"itk/NeighborhoodFilters/ConnectedComponentImageFilter.xip"
+"itk/NeighborhoodFilters/HardConnectedImageFilter.xip"
+"itk/NeighborhoodFilters/MeanImageFilter.rad"
+"itk/NeighborhoodFilters/MedianImageFilter.rad"
+"itk/NeighborhoodFilters/MorphologyImageFilters/BinaryMedianImageFilter.rad"
+"itk/NeighborhoodFilters/MorphologyImageFilters/BinaryPrunningImageFilter.rad"
+"itk/NeighborhoodFilters/MorphologyImageFilters/BinaryThinningImageFilter.rad"
+"itk/NeighborhoodFilters/MorphologyImageFilters/MaskNeighborhoodOperatorImageFilter.xip"
+"itk/NeighborhoodFilters/MorphologyImageFilters/NeighborhoodOperatorImageFilter.rad"
+"itk/NeighborhoodFilters/VotingFilters/VotingBinaryHoleFillingImageFilter.rad"
+"itk/NeighborhoodFilters/VotingFilters/VotingBinaryImageFilter.rad"
+"itk/NeighborhoodFilters/VotingFilters/VotingBinaryIterativeHoleFillingImageFilter.rad"
+"itk/NeighborhoodFilters/WhiteTopHatImageFilter.xip"
+"itk/NeighborhoodFilters/ZeroCrossingImageFilter.rad"
+"itk/ReadingAndWriting/ImageFileReader.rad"
+"itk/ReadingAndWriting/ImageFileWriter.xip"
+"itk/ReadingAndWriting/ImportImageFilter.rad"
 "itk/Registration/2DRigidRegistration.xip"
-"itk/Segmentation/Level sets/CannySegmentationLevelSetImageFilter.rad"
+"itk/Segmentation/LevelSets/CannySegmentationLevelSetImageFilter.rad"
 "itk/Segmentation/StapleImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/AntiAliasBinaryFilter.rad"
-"itk/Smoothing, Derivatve Filters/BinaryMagnitudeImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/BinaryMinMaxCurvatureFlowImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/BinomialBlurImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/BSplineSmoothing.rad"
-"itk/Smoothing, Derivatve Filters/CurvatureFlowImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/DerivativeImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/DiscreteGaussianImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/GradientMagnitudeImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/GradientMagnitudeRecursiveGaussianImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/LaplacianImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/LaplacianRecursiveGaussianImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/LaplacianSharpeningImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/MinMaxCurvatureFlowImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/NoiseImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/RecursiveGaussianImageFilter.rad"
-"itk/Smoothing, Derivatve Filters/SmoothingRecursiveGaussianImageFilter.rad"
-"itk/Statistics, Informations Filters/StatisticsImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/AntiAliasBinaryFilter.rad"
+"itk/Smoothing_DerivatveFilters/BinaryMagnitudeImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/BinaryMinMaxCurvatureFlowImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/BinomialBlurImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/BSplineSmoothing.rad"
+"itk/Smoothing_DerivatveFilters/CurvatureFlowImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/DerivativeImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/DiscreteGaussianImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/GradientMagnitudeImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/GradientMagnitudeRecursiveGaussianImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/LaplacianImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/LaplacianRecursiveGaussianImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/LaplacianSharpeningImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/MinMaxCurvatureFlowImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/NoiseImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/RecursiveGaussianImageFilter.rad"
+"itk/Smoothing_DerivatveFilters/SmoothingRecursiveGaussianImageFilter.rad"
+"itk/Statistics_InformationsFilters/StatisticsImageFilter.rad"
 itk/Threshold/BinaryThresholdImageFilter.rad
 itk/Threshold/DoubleThresholdImageFilter.rad)
 endif(HAS_ITK)
@@ -1409,7 +1413,13 @@ set(XIP_EXAMPLES ${RAD_EXAMPLES}
   overlay/plotting_3.xip
   overlay/plotting_4.xip
   overlay/plotting_5.xip
-  overlay/shape_measurements.xip)
+  overlay/shape_measurements.xip
+  renderer/process3D/LAO_Scattering.xip
+  renderer/process3D/processImage.xip
+  renderer/process3D/processImageGeometry.xip
+  renderer/process3D/processImageKit.xip
+  renderer/process3D/Documentation.doc
+  )
   
 if(HAS_DCMTK)
 set(XIP_EXAMPLES ${XIP_EXAMPLES}
@@ -1424,75 +1434,75 @@ endif(HAS_DCMTK)
 
 if(HAS_ITK)
 set(XIP_EXAMPLES ${XIP_EXAMPLES}
-  "itk/Casting, Intensity Mapping/itkAdaptiveHistogramEqualizationImageFilter.xip"
-  "itk/Casting, Intensity Mapping/itkCastImageFilter.xip"
-  "itk/Casting, Intensity Mapping/itkHistogramMatchingImageFilter.xip"
-  "itk/Casting, Intensity Mapping/itkIntensityWindowingImageFilter.xip"
-  "itk/Casting, Intensity Mapping/itkRelabelComponentImageFilter.xip"
-  "itk/Casting, Intensity Mapping/itkRescaleIntensityImageFilter.xip"
-  "itk/Distance Map/itkApproximateSignedDistanceMapImageFilter.xip"
-  "itk/Distance Map/itkDanielssonDistanceMapImageFilter.xip"
-  "itk/Distance Map/itkSignedDanielssonDistanceMapImageFilter.xip"
-  "itk/Edge Detection/itkCannyEdgeDetectionImageFilters.xip"
-  "itk/Edge Detection/itkSimpleContourExtractorImageFilter.xip"
-  "itk/Edge Detection/itkZeroCrossingBasedEdgeDetectionImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/Binary Images Filters/itkAndImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/Binary Images Filters/itkNotImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/Binary Images Filters/itkOrImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/Binary Images Filters/itkXorImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/itkAbsoluteValueDifferenceImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/itkAddImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/itkConstrainedValueAdditionImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/itkConstrainedValueDifferenceImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/itkDifferenceImageFilter.xip"
-  "itk/Functor Filters/Binary Functor Filters/itkWeightedAddImageFilter.xip"
-  "itk/Functor Filters/Ternary Functor Filters/itkTernaryAddImageFilter.xip"
-  "itk/Functor Filters/Ternary Functor Filters/itkTernaryMagnitudeImageFilter.xip"
-  "itk/Functor Filters/Ternary Functor Filters/itkTernaryMagnitudeSquaredImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/AccumulateImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/AcosImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/AsinImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/AtanImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/BoundedReciprocalImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/CosImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/ExpImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/HConcaveImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/HConvexImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/HMaximalImageFilter.xip"
-  "itk/Functor Filters/Unary Functor Filters/HMinimalImageFilter.xip"
-  "itk/Geometric Transformations/itkCheckerBoardImageFilter.xip"
-  "itk/Geometric Transformations/itkCropImageFilter.xip"
-  "itk/Geometric Transformations/itkExtractImageFilter.xip"
-  "itk/Geometric Transformations/itkFlipImageFilter.xip"
-  "itk/Geometric Transformations/itkMultiResolutionPyramidImageFilter.xip"
-  "itk/Geometric Transformations/itkNonThreadedShrinkImageFilter.xip"
-  "itk/Geometric Transformations/itkPasteImageFilter.xip"
-  "itk/Geometric Transformations/itkPermuteAxesImageFilter.xip"
-  "itk/Geometric Transformations/itkReflectImageFilter.xip"
-  "itk/Geometric Transformations/itkRegionOfInterestImageFilter.xip"
-  "itk/Geometric Transformations/itkShiftScaleImageFilter.xip"
-  "itk/Geometric Transformations/itkShrinkImageFilter.xip"
-  "itk/Geometric Transformations/itkTileImageFilter.xip"
-  "itk/Geometric Transformations/Padding Image Filters/itkConstantPadImageFilter.xip"
-  "itk/Geometric Transformations/Padding Image Filters/itkMirrorPadImageFilter.xip"
-  "itk/Geometric Transformations/Padding Image Filters/itkPadImageFilters.xip"
-  "itk/Geometric Transformations/Padding Image Filters/itkWrapPadImageFilter.xip"
-  itk/PointSet/BinaryMaskToNarrowBandPointSetFilter.xip
-  "itk/Segmentation/Level sets/ShapeDetectionLevelSetImageFilter.xip"
-  "itk/Segmentation/Region Growth/CollidingFrontsImageFilter.xip"
-  "itk/Segmentation/Region Growth/ConfidenceConnectedImageFilter.xip"
-  "itk/Segmentation/Region Growth/ConnectedThresholdImageFilter.xip"
-  "itk/Segmentation/Region Growth/IsolatedConnectedImageFilters.xip"
-  itk/Segmentation/Watershed/IsolatedWatershedImageFilter.xip
-  renderer/MPR/CPUmpr.xip
-  renderer/MPR/mpr.xip
-  renderer/MPR/mpr_loadraw.xip
-  renderer/MPR/mpr_loadraw_multiple.xip
-  renderer/MPR/simple_mpr.xip
-  renderer/slicer/dicomSlicer.xip
-  renderer/slicer/slicer.xip
-  renderer/slicer/slicerWithLut.xip
-  renderer/slicer/slicerWithLutShaded.xip)
+  "itk/Casting_IntensityMapping/itkAdaptiveHistogramEqualizationImageFilter.xip"
+  "itk/Casting_IntensityMapping/itkCastImageFilter.xip"
+  "itk/Casting_IntensityMapping/itkHistogramMatchingImageFilter.xip"
+  "itk/Casting_IntensityMapping/itkIntensityWindowingImageFilter.xip"
+  "itk/Casting_IntensityMapping/itkRelabelComponentImageFilter.xip"
+  "itk/Casting_IntensityMapping/itkRescaleIntensityImageFilter.xip"
+  "itk/DistanceMap/itkApproximateSignedDistanceMapImageFilter.xip"
+  "itk/DistanceMap/itkDanielssonDistanceMapImageFilter.xip"
+  "itk/DistanceMap/itkSignedDanielssonDistanceMapImageFilter.xip"
+  "itk/EdgeDetection/itkCannyEdgeDetectionImageFilters.xip"
+  "itk/EdgeDetection/itkSimpleContourExtractorImageFilter.xip"
+  "itk/EdgeDetection/itkZeroCrossingBasedEdgeDetectionImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/BinaryImagesFilters/itkAndImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/BinaryImagesFilters/itkNotImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/BinaryImagesFilters/itkOrImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/BinaryImagesFilters/itkXorImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/itkAbsoluteValueDifferenceImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/itkAddImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/itkConstrainedValueAdditionImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/itkConstrainedValueDifferenceImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/itkDifferenceImageFilter.xip"
+  "itk/FunctorFilters/BinaryFunctorFilters/itkWeightedAddImageFilter.xip"
+  "itk/FunctorFilters/TernaryFunctorFilters/itkTernaryAddImageFilter.xip"
+  "itk/FunctorFilters/TernaryFunctorFilters/itkTernaryMagnitudeImageFilter.xip"
+  "itk/FunctorFilters/TernaryFunctorFilters/itkTernaryMagnitudeSquaredImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/AccumulateImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/AcosImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/AsinImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/AtanImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/BoundedReciprocalImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/CosImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/ExpImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/HConcaveImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/HConvexImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/HMaximalImageFilter.xip"
+  "itk/FunctorFilters/UnaryFunctorFilters/HMinimalImageFilter.xip"
+  "itk/GeometricTransformations/itkCheckerBoardImageFilter.xip"
+  "itk/GeometricTransformations/itkCropImageFilter.xip"
+  "itk/GeometricTransformations/itkExtractImageFilter.xip"
+  "itk/GeometricTransformations/itkFlipImageFilter.xip"
+  "itk/GeometricTransformations/itkMultiResolutionPyramidImageFilter.xip"
+  "itk/GeometricTransformations/itkNonThreadedShrinkImageFilter.xip"
+  "itk/GeometricTransformations/itkPasteImageFilter.xip"
+  "itk/GeometricTransformations/itkPermuteAxesImageFilter.xip"
+  "itk/GeometricTransformations/itkReflectImageFilter.xip"
+  "itk/GeometricTransformations/itkRegionOfInterestImageFilter.xip"
+  "itk/GeometricTransformations/itkShiftScaleImageFilter.xip"
+  "itk/GeometricTransformations/itkShrinkImageFilter.xip"
+  "itk/GeometricTransformations/itkTileImageFilter.xip"
+  "itk/GeometricTransformations/PaddingImageFilters/itkConstantPadImageFilter.xip"
+  "itk/GeometricTransformations/PaddingImageFilters/itkMirrorPadImageFilter.xip"
+  "itk/GeometricTransformations/PaddingImageFilters/itkPadImageFilters.xip"
+  "itk/GeometricTransformations/PaddingImageFilters/itkWrapPadImageFilter.xip"
+  "itk/PointSet/BinaryMaskToNarrowBandPointSetFilter.xip"
+  "itk/Segmentation/LevelSets/ShapeDetectionLevelSetImageFilter.xip"
+  "itk/Segmentation/RegionGrowth/CollidingFrontsImageFilter.xip"
+  "itk/Segmentation/RegionGrowth/ConfidenceConnectedImageFilter.xip"
+  "itk/Segmentation/RegionGrowth/ConnectedThresholdImageFilter.xip"
+  "itk/Segmentation/RegionGrowth/IsolatedConnectedImageFilters.xip"
+  "itk/Segmentation/Watershed/IsolatedWatershedImageFilter.xip"
+  "renderer/MPR/CPUmpr.xip"
+  "renderer/MPR/mpr.xip"
+  "renderer/MPR/mpr_loadraw.xip"
+  "renderer/MPR/mpr_loadraw_multiple.xip"
+  "renderer/MPR/simple_mpr.xip"
+  "renderer/slicer/dicomSlicer.xip"
+  "renderer/slicer/slicer.xip"
+  "renderer/slicer/slicerWithLut.xip"
+  "renderer/slicer/slicerWithLutShaded.xip")
 endif(HAS_ITK)
 
 #if(WIN32)
@@ -1519,44 +1529,53 @@ endif(HAS_VTK)
 # GLSL files
 #
 set(XIP_GLSL_FILES
-coregl/FboManagement/shaders/color_fp.glsl
-coregl/FboManagement/shaders/color_vp.glsl
-coregl/FboManagement/shaders/mask_fp.glsl
-coregl/FboManagement/shaders/mask_vp.glsl
-coregl/FboManagement/shaders/slicer_fp.glsl
-coregl/FboManagement/shaders/slicer_vp.glsl
-coregl/FboManagement/shaders/tex_fp.glsl
-coregl/FboManagement/shaders/tex_vp.glsl
-coregl/ShaderManagement/shaders/slicer1_fp.glsl
-coregl/ShaderManagement/shaders/slicer2_fp.glsl
-coregl/ShaderManagement/shaders/slicer3_fp.glsl
-coregl/ShaderManagement/shaders/slicer_vp.glsl
-coregl/TransparentGeometry/shaders/composite_frag.glsl
-coregl/TransparentGeometry/shaders/composite_texture3D_frag.glsl
-coregl/TransparentGeometry/shaders/transparent_geometry_frag.glsl
-coregl/TransparentGeometry/shaders/transparent_geometry_texture3D_frag.glsl
-renderer/MPR/mpr_fp.glsl
-renderer/MPR/mpr_vp.glsl
-renderer/MPR/slicerfp.glsl
-renderer/slicer/simpleLut_tf_fp.glsl
-renderer/slicer/slicer_fp.glsl
-renderer/slicer/slicer_lut_shading_fp.glsl
-renderer/slicer/slicer_lut_shading_vp.glsl
-renderer/slicer/dicomSlicer_simple_tf_fp.glsl
-renderer/slicer/dicomSlicer_simple_vp.glsl
-coregl/offscreenRenderer/red.glsl.frag.txt
-coregl/shader/edgedetect.glsl.frag.txt
-coregl/shader/emboss.glsl.frag.txt
-coregl/shader/engrave.glsl.frag.txt
-coregl/shader/mean.glsl.frag.txt
-coregl/shader/sharpness.glsl.frag.txt
-coregl/shader/simple.glsl.frag.txt
-data/CT_WHOLE.txt
-data/head_ct256.txt
-overlay/overlays.txt
-renderer/MPR/SplineShaded.txt
-renderer/slicer/ctAbdomen.txt
-renderer/slicer/default.txt)
+  coregl/FboManagement/shaders/color_fp.glsl
+  coregl/FboManagement/shaders/color_vp.glsl
+  coregl/FboManagement/shaders/mask_fp.glsl
+  coregl/FboManagement/shaders/mask_vp.glsl
+  coregl/FboManagement/shaders/slicer_fp.glsl
+  coregl/FboManagement/shaders/slicer_vp.glsl
+  coregl/FboManagement/shaders/tex_fp.glsl
+  coregl/FboManagement/shaders/tex_vp.glsl
+  coregl/ShaderManagement/shaders/slicer1_fp.glsl
+  coregl/ShaderManagement/shaders/slicer2_fp.glsl
+  coregl/ShaderManagement/shaders/slicer3_fp.glsl
+  coregl/ShaderManagement/shaders/slicer_vp.glsl
+  coregl/TransparentGeometry/shaders/composite_frag.glsl
+  coregl/TransparentGeometry/shaders/composite_texture3D_frag.glsl
+  coregl/TransparentGeometry/shaders/transparent_geometry_frag.glsl
+  coregl/TransparentGeometry/shaders/transparent_geometry_texture3D_frag.glsl
+  renderer/MPR/mpr_fp.glsl
+  renderer/MPR/mpr_vp.glsl
+  renderer/MPR/slicerfp.glsl
+  renderer/slicer/simpleLut_tf_fp.glsl
+  renderer/slicer/slicer_fp.glsl
+  renderer/slicer/slicer_lut_shading_fp.glsl
+  renderer/slicer/slicer_lut_shading_vp.glsl
+  renderer/slicer/dicomSlicer_simple_tf_fp.glsl
+  renderer/slicer/dicomSlicer_simple_vp.glsl
+  coregl/offscreenRenderer/red.glsl.frag.txt
+  coregl/shader/edgedetect.glsl.frag.txt
+  coregl/shader/emboss.glsl.frag.txt
+  coregl/shader/engrave.glsl.frag.txt
+  coregl/shader/mean.glsl.frag.txt
+  coregl/shader/sharpness.glsl.frag.txt
+  coregl/shader/simple.glsl.frag.txt
+  data/CT_WHOLE.txt
+  data/head_ct256.txt
+  overlay/overlays.txt
+  renderer/MPR/SplineShaded.txt
+  renderer/slicer/ctAbdomen.txt
+  renderer/slicer/default.txt
+  renderer/process3D/geom.glsl
+  renderer/process3D/Loa_fp.glsl
+  renderer/process3D/occl.glsl
+  renderer/process3D/red_texture_fp.glsl
+  renderer/process3D/red_texture_vp.glsl
+  renderer/process3D/scattering_fp.glsl
+  renderer/process3D/slicer_fp.glsl
+  renderer/process3D/slicer_Lao_fp.glsl
+)
 
 #if(WIN32)
 #set(XIP_GLSL_FILES ${XIP_GLSL_FILES}
@@ -1853,14 +1872,12 @@ endforeach(EXAMPLE ${XIP_EXAMPLES} ${XIP_GLSL_FILES} ${XIP_DATA_FILES})
 set(XIP_EXTRA_FILES_TO_INSTALL
   HELP.html
   #README.txt
-  #RELEASE_0.1.2.txt
-  RELEASE_0.2.1.txt
+  RELEASE_0.2.2.txt
   XIP_LICENSE.txt
   doc/XIPOverview.ppt
-  doc/XIPStarterGuide.doc
-  doc/xip_logo.bmp
+  doc/ViewerNodes.pdf
+  #doc/XIPStarterGuide.doc
   doc/xip_logo.png
-  doc/xipbuilder_logo.png
   plugin/CMakeLists.txt
   plugin/README.txt
   plugin/SoXipPluginSlicer.cpp

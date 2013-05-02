@@ -110,12 +110,16 @@
  */
 
 #include <Inventor/SoDB.h>
+
+#include <xip/inventor/core/xipivcore.h>
+
 #include <xip/inventor/dicom/SoXipDataDicom.h>
 #include <xip/inventor/dicom/SoXipPState.h>
 #include <xip/inventor/dicom/SoXipSFDataDicom.h>
 #include <xip/inventor/dicom/SoXipMFDataDicom.h>
 #include <xip/inventor/dicom/SoXipSFPState.h>
 #include <xip/inventor/dicom/SoXipDataDicomElement.h>
+
 #include "SoXipLoadDicom.h"
 #include "SoXipLoadPState.h"
 #include "SoXipSortDicom.h"
@@ -137,6 +141,13 @@
 
 int XIPIVDICOM_API xipivdicom_init()
 {
+	static bool isInit = false;
+	if(isInit)
+		return 1;
+	isInit = true;
+
+	xipivcore_init();
+
 	SoXipDataDicom::initClass();
 	SoXipPState::initClass();
 	SoXipDataDicomElement::initClass();
@@ -176,13 +187,7 @@ int XIPIVDICOM_API xipivdicom_init()
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
 	if (reason == DLL_PROCESS_ATTACH)
-	{
-		if (SoDB::isInitialized())
-		{
-			// automatic initialization for dynamic loading
-			xipivdicom_init();
-		}
-	}
+		xipivdicom_init();
 
 	return TRUE;
 }

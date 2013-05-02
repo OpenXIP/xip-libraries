@@ -1,0 +1,77 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class Type="ENGINE" Name="SoDoubleCalculator" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoDoubleCalculator.cpp" Macrocalls="43" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="assert.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="SoCalcExpr.h" />
+      <Include Path="SoEngineUtil.h" />
+      <Include Path="SoDoubleCalculator.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="a" />
+      <Input defaultValue="0" Inputname="b" />
+      <Input defaultValue="0" Inputname="c" />
+      <Input defaultValue="0" Inputname="d" />
+      <Input defaultValue="0" Inputname="e" />
+      <Input defaultValue="0" Inputname="f" />
+      <Input defaultValue="0" Inputname="g" />
+      <Input defaultValue="0" Inputname="h" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="A" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="B" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="C" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="D" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="E" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="F" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="G" />
+      <Input defaultValue="SbVec3f(0,0,0)" Inputname="H" />
+      <Input defaultValue="&quot;&quot;" Inputname="expression" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="oa" Type="SoMFDouble" />
+      <Output Outputname="ob" Type="SoMFDouble" />
+      <Output Outputname="oc" Type="SoMFDouble" />
+      <Output Outputname="od" Type="SoMFDouble" />
+      <Output Outputname="oA" Type="SoMFVec3f" />
+      <Output Outputname="oB" Type="SoMFVec3f" />
+      <Output Outputname="oC" Type="SoMFVec3f" />
+      <Output Outputname="oD" Type="SoMFVec3f" />
+      <Output Outputname="oa" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="ob" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="oc" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="od" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="oA" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="oB" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="oC" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="oD" Type="SoMFDouble" Code="setNum(nout)" />
+      <Output Outputname="oa" Type="SoMFDouble" Code="set1Value(i, ova)" />
+      <Output Outputname="ob" Type="SoMFDouble" Code="set1Value(i, ovb)" />
+      <Output Outputname="oc" Type="SoMFDouble" Code="set1Value(i, ovc)" />
+      <Output Outputname="od" Type="SoMFDouble" Code="set1Value(i, ovd)" />
+      <Output Outputname="oA" Type="SoMFVec3f" Code="set1Value(i, ovA)" />
+      <Output Outputname="oB" Type="SoMFVec3f" Code="set1Value(i, ovB)" />
+      <Output Outputname="oC" Type="SoMFVec3f" Code="set1Value(i, ovC)" />
+      <Output Outputname="oD" Type="SoMFVec3f" Code="set1Value(i, ovD)" />
+    </Outputs>
+  </class>
+  <class ValueType="double" Type="MFIELD" Name="SoMFDouble" ValueRef="double" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoMFDouble.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/extra/SoMFDouble.h" />
+      <Include Path="stdlib.h" />
+    </Includes>
+  </class>
+  <class ValueType="double" Type="SFIELD" Name="SoSFDouble" ValueRef="double" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoSFDouble.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/extra/SoSFDouble.h" />
+    </Includes>
+  </class>
+</classes>

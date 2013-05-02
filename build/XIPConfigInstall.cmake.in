@@ -13,6 +13,7 @@ set(XIP_FOUND   1)
 set(XIP_INSTALL 1)
 
 # XIP source directory and paths needed to link with XIP
+set(XIP_SOURCE_DIR     "@CMAKE_SOURCE_DIR@")
 set(XIP_INCLUDE_DIRS   "@CMAKE_INSTALL_PREFIX@/include")
 set(XIP_LIBRARY_DIR    "@CMAKE_INSTALL_PREFIX@/lib")
 set(XIP_EXECUTABLE_DIR "@CMAKE_INSTALL_PREFIX@/bin")

@@ -108,9 +108,14 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*!
+* \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
+*/
 
 #include <xip/system/standard.h>
 #include <stdlib.h>
+
+#include <xip/inventor/core/xipivcore.h>
 
 // Converter
 #include "SoVtkConvertXipImageToVtkAlgorithmOutput.h"
@@ -192,93 +197,98 @@ if( className::getClassTypeId().isBad() ) \
 SoDebugError::post( __FILE__, "Could not init class '#className'" ); \
 }
 
-int init()
+int xipivvtk_init()
 {
+	static bool isInit = false;
+	if(isInit)
+		return 1;
+	isInit = true;
 
-// Converter
-SAFE_INIT_CLASS(SoVtkConvertXipImageToVtkAlgorithmOutput);
+	xipivcore_init();
 
-// Useful class
-SAFE_INIT_CLASS(SoVtkImageViewer2);
+	// Converter
+	SAFE_INIT_CLASS(SoVtkConvertXipImageToVtkAlgorithmOutput);
 
-// Data classes
-SAFE_INIT_CLASS(SoVtkObject);
-SAFE_INIT_CLASS(SoSFVtkObject);
-SAFE_INIT_CLASS(SoVtkAlgorithmOutput);
-SAFE_INIT_CLASS(SoSFVtkAlgorithmOutput);
+	// Useful class
+	SAFE_INIT_CLASS(SoVtkImageViewer2);
 
-// Rendering classes
-SAFE_INIT_CLASS(SoVtkRenderer);
-SAFE_INIT_CLASS(SoVtkActor);
-SAFE_INIT_CLASS(SoVtkLODActor);
-SAFE_INIT_CLASS(SoVtkActor2D);
-SAFE_INIT_CLASS(SoVtkImageActor);
-SAFE_INIT_CLASS(SoVtkVolume);
-SAFE_INIT_CLASS(SoVtkAssembly);
+	// Data classes
+	SAFE_INIT_CLASS(SoVtkObject);
+	SAFE_INIT_CLASS(SoSFVtkObject);
+	SAFE_INIT_CLASS(SoVtkAlgorithmOutput);
+	SAFE_INIT_CLASS(SoSFVtkAlgorithmOutput);
 
-// Generated classes
-//SAFE_INIT_CLASS(SoVtk3DSImporter);
-//SAFE_INIT_CLASS(SoVtkAppendPolyData);
-//SAFE_INIT_CLASS(SoVtkAppendFilter);
-SAFE_INIT_CLASS(SoVtkArrowSource);
-SAFE_INIT_CLASS(SoVtkAxes);
-//SAFE_INIT_CLASS(SoVtkBox);
-SAFE_INIT_CLASS(SoVtkBMPReader);
-SAFE_INIT_CLASS(SoVtkButterflySubdivisionFilter);
-SAFE_INIT_CLASS(SoVtkBYUReader);
-SAFE_INIT_CLASS(SoVtkClipPolyData);
-SAFE_INIT_CLASS(SoVtkColorTransferFunction);
-//SAFE_INIT_CLASS(SoVtkCone);
-SAFE_INIT_CLASS(SoVtkConeSource);
-SAFE_INIT_CLASS(SoVtkConnectivityFilter);
-SAFE_INIT_CLASS(SoVtkContourFilter);
-SAFE_INIT_CLASS(SoVtkCutter);
-SAFE_INIT_CLASS(SoVtkDelaunay2D);
-SAFE_INIT_CLASS(SoVtkDiskSource);
-SAFE_INIT_CLASS(SoVtkDICOMImageReader);
-SAFE_INIT_CLASS(SoVtkExtractGrid);
-SAFE_INIT_CLASS(SoVtkGlyph3D);
-SAFE_INIT_CLASS(SoVtkImageReader2);
-SAFE_INIT_CLASS(SoVtkLookupTable);
-SAFE_INIT_CLASS(SoVtkMatrix4x4);
-SAFE_INIT_CLASS(SoVtkOutlineFilter);
-SAFE_INIT_CLASS(SoVtkPiecewiseFunction);
-SAFE_INIT_CLASS(SoVtkPlane);
-SAFE_INIT_CLASS(SoVtkPLOT3DReader);
-SAFE_INIT_CLASS(SoVtkPolyData);
-SAFE_INIT_CLASS(SoVtkPolyDataMapper);
-SAFE_INIT_CLASS(SoVtkPolyDataNormals);
-SAFE_INIT_CLASS(SoVtkProperty);
-SAFE_INIT_CLASS(SoVtkRungeKutta4);
-SAFE_INIT_CLASS(SoVtkSphereSource);
-SAFE_INIT_CLASS(SoVtkStreamLine);
-SAFE_INIT_CLASS(SoVtkStripper);
-SAFE_INIT_CLASS(SoVtkStructuredGridGeometryFilter);
-SAFE_INIT_CLASS(SoVtkStructuredGridOutlineFilter);
-SAFE_INIT_CLASS(SoVtkStructuredGridReader);
-SAFE_INIT_CLASS(SoVtkStructuredPointsReader);
-SAFE_INIT_CLASS(SoVtkTransform);
-SAFE_INIT_CLASS(SoVtkTriangleFilter);
-SAFE_INIT_CLASS(SoVtkTubeFilter);
-SAFE_INIT_CLASS(SoVtkVolume16Reader);
-SAFE_INIT_CLASS(SoVtkVolumeProperty);
-SAFE_INIT_CLASS(SoVtkVolumeRayCastCompositeFunction);
-SAFE_INIT_CLASS(SoVtkVolumeRayCastIsosurfaceFunction);
-SAFE_INIT_CLASS(SoVtkVolumeRayCastMapper);
-SAFE_INIT_CLASS(SoVtkVolumeRayCastMIPFunction);
-SAFE_INIT_CLASS(SoVtkVolumeTextureMapper2D);
+	// Rendering classes
+	SAFE_INIT_CLASS(SoVtkRenderer);
+	SAFE_INIT_CLASS(SoVtkActor);
+	SAFE_INIT_CLASS(SoVtkLODActor);
+	SAFE_INIT_CLASS(SoVtkActor2D);
+	SAFE_INIT_CLASS(SoVtkImageActor);
+	SAFE_INIT_CLASS(SoVtkVolume);
+	SAFE_INIT_CLASS(SoVtkAssembly);
 
-return 1;
+	// Generated classes
+	//SAFE_INIT_CLASS(SoVtk3DSImporter);
+	//SAFE_INIT_CLASS(SoVtkAppendPolyData);
+	//SAFE_INIT_CLASS(SoVtkAppendFilter);
+	SAFE_INIT_CLASS(SoVtkArrowSource);
+	SAFE_INIT_CLASS(SoVtkAxes);
+	//SAFE_INIT_CLASS(SoVtkBox);
+	SAFE_INIT_CLASS(SoVtkBMPReader);
+	SAFE_INIT_CLASS(SoVtkButterflySubdivisionFilter);
+	SAFE_INIT_CLASS(SoVtkBYUReader);
+	SAFE_INIT_CLASS(SoVtkClipPolyData);
+	SAFE_INIT_CLASS(SoVtkColorTransferFunction);
+	//SAFE_INIT_CLASS(SoVtkCone);
+	SAFE_INIT_CLASS(SoVtkConeSource);
+	SAFE_INIT_CLASS(SoVtkConnectivityFilter);
+	SAFE_INIT_CLASS(SoVtkContourFilter);
+	SAFE_INIT_CLASS(SoVtkCutter);
+	SAFE_INIT_CLASS(SoVtkDelaunay2D);
+	SAFE_INIT_CLASS(SoVtkDiskSource);
+	SAFE_INIT_CLASS(SoVtkDICOMImageReader);
+	SAFE_INIT_CLASS(SoVtkExtractGrid);
+	SAFE_INIT_CLASS(SoVtkGlyph3D);
+	SAFE_INIT_CLASS(SoVtkImageReader2);
+	SAFE_INIT_CLASS(SoVtkLookupTable);
+	SAFE_INIT_CLASS(SoVtkMatrix4x4);
+	SAFE_INIT_CLASS(SoVtkOutlineFilter);
+	SAFE_INIT_CLASS(SoVtkPiecewiseFunction);
+	SAFE_INIT_CLASS(SoVtkPlane);
+	SAFE_INIT_CLASS(SoVtkPLOT3DReader);
+	SAFE_INIT_CLASS(SoVtkPolyData);
+	SAFE_INIT_CLASS(SoVtkPolyDataMapper);
+	SAFE_INIT_CLASS(SoVtkPolyDataNormals);
+	SAFE_INIT_CLASS(SoVtkProperty);
+	SAFE_INIT_CLASS(SoVtkRungeKutta4);
+	SAFE_INIT_CLASS(SoVtkSphereSource);
+	SAFE_INIT_CLASS(SoVtkStreamLine);
+	SAFE_INIT_CLASS(SoVtkStripper);
+	SAFE_INIT_CLASS(SoVtkStructuredGridGeometryFilter);
+	SAFE_INIT_CLASS(SoVtkStructuredGridOutlineFilter);
+	SAFE_INIT_CLASS(SoVtkStructuredGridReader);
+	SAFE_INIT_CLASS(SoVtkStructuredPointsReader);
+	SAFE_INIT_CLASS(SoVtkTransform);
+	SAFE_INIT_CLASS(SoVtkTriangleFilter);
+	SAFE_INIT_CLASS(SoVtkTubeFilter);
+	SAFE_INIT_CLASS(SoVtkVolume16Reader);
+	SAFE_INIT_CLASS(SoVtkVolumeProperty);
+	SAFE_INIT_CLASS(SoVtkVolumeRayCastCompositeFunction);
+	SAFE_INIT_CLASS(SoVtkVolumeRayCastIsosurfaceFunction);
+	SAFE_INIT_CLASS(SoVtkVolumeRayCastMapper);
+	SAFE_INIT_CLASS(SoVtkVolumeRayCastMIPFunction);
+	SAFE_INIT_CLASS(SoVtkVolumeTextureMapper2D);
+
+	return 1;
 }
 
 #if WIN32
 BOOL APIENTRY DllMain(HANDLE, DWORD reason, LPVOID)
 {
-  if ( reason == DLL_PROCESS_ATTACH )
-    {
-    init();
-    }
-  return TRUE;
+	if ( reason == DLL_PROCESS_ATTACH )
+		xipivvtk_init();
+
+	return TRUE;
 }
 #endif // WIN32
 

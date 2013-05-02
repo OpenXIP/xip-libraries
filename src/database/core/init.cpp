@@ -145,6 +145,8 @@
  *  \sa README.txt and LICENSE.txt in the source directory.
  */
 
+#include <Inventor/SoInteraction.h>
+
 #include <xip/system/GL/gl.h>
 #include <xip/inventor/core/SoXipData.h>
 #include <xip/inventor/core/SoXipDataImage.h>
@@ -212,6 +214,7 @@
 #include "SoXipLut.h"
 #include "SoXipPerformance.h"
 #include "SoXipPerformanceCounter.h"
+#include "SoXipProxy.h"
 #include "SoXipConvertMatrixToPlane.h"
 #include "SoXipConvertToEnum.h"
 #include "SoXipAnchor.h"
@@ -233,6 +236,13 @@
 
 int XIPIVCORE_API xipivcore_init()
 {
+  static bool isInit = false;
+  if(isInit)
+    return 1;
+  isInit = true;
+
+  SoInteraction::init();
+
   //initialize elements first
   SoXipLutElement::initClass();
   //SoXipListActionElement::initClass();
@@ -295,7 +305,7 @@ int XIPIVCORE_API xipivcore_init()
   SoXipVolGroup::initClass();
   SoXipPickAction::initClass();
 
-    SoXipInvertMatrix::initClass();
+  SoXipInvertMatrix::initClass();
   SoXipLazyGroup::initClass();
 
   SoXipBoundingBox::initClass();
@@ -305,6 +315,7 @@ int XIPIVCORE_API xipivcore_init()
   SoXipClipPlane::initClass();
   SoXipPerformance::initClass();
   SoXipPerformanceCounter::initClass();
+	SoXipProxy::initClass();
   SoXipConvertMatrixToPlane::initClass();
   SoXipConvertToEnum::initClass();
   SoXipAutoScale::initClass();
@@ -323,15 +334,15 @@ int XIPIVCORE_API xipivcore_init()
   SoXipConvertSFImageToMFImage::initClass();
   SoXipImageOperation::initClass();
   SoXipSwitchMFDataImage::initClass();
-	SoXipConvertToTrigger::initClass();
-        SoXipCheckGLStacks::initClass();
+  SoXipConvertToTrigger::initClass();
+  SoXipCheckGLStacks::initClass();
 
-	// Register converters to trigger for all data types
-	SoType triggerType = SoType::fromName( "SoSFTrigger" );
-	SoType convType = SoType::fromName( "SoXipConvertToTrigger" );
+  // Register converters to trigger for all data types
+  SoType triggerType = SoType::fromName( "SoSFTrigger" );
+  SoType convType = SoType::fromName( "SoXipConvertToTrigger" );
 
-	SoDB::addConverter( SoXipSFDataImage::getClassTypeId(), triggerType, convType );
-	SoDB::addConverter( SoXipMFDataImage::getClassTypeId(), triggerType, convType );
+  SoDB::addConverter( SoXipSFDataImage::getClassTypeId(), triggerType, convType );
+  SoDB::addConverter( SoXipMFDataImage::getClassTypeId(), triggerType, convType );
 
   return 1;
 }
@@ -342,18 +353,15 @@ static int initted = FALSE;    // a little protection--probably unnecessary
 void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
 {
 
-    int err;
+	int err;
 
-  	
-	if (SoDB::isInitialized())
-        {
-            // automatic initialization for dynamic loading
-            xipivcore_init();
-        }
-    
 
-    initted = TRUE;
-    //return 0;
+
+	xipivcore_init();
+
+
+	initted = TRUE;
+	//return 0;
 }
 
 void __attribute__ ((destructor)) _fini(void)
@@ -366,13 +374,7 @@ void __attribute__ ((destructor)) _fini(void)
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
     if (reason == DLL_PROCESS_ATTACH)
-    {
-        if (SoDB::isInitialized())
-        {
-            // automatic initialization for dynamic loading
-            xipivcore_init();
-        }
-    }
+        xipivcore_init();
 
     return TRUE;
 }

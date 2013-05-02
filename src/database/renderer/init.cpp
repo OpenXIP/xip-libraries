@@ -109,6 +109,8 @@
  *  
  */
 
+#include <xip/inventor/core/xipivcore.h>
+#include <xip/inventor/coregl/xipivcoregl.h>
 #include <xip/inventor/renderer/xipivrenderer.h>
 
 #include <Inventor/fields/SoSubField.h>
@@ -125,6 +127,14 @@
 
 int XIPIVRENDERER_API xipivrenderer_init()
 {
+	static bool isInit = false;
+	if(isInit)
+		return 1;
+	isInit = true;
+	
+	xipivcore_init();
+	xipivcoregl_init();
+
     SoXipMprRender::initClass();
     SoXipSlicer::initClass();
     SoXipSlicerShader::initClass();
@@ -144,13 +154,7 @@ int XIPIVRENDERER_API xipivrenderer_init()
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
 	if (reason == DLL_PROCESS_ATTACH)
-	{
-		if (SoDB::isInitialized())
-		{
-			// automatic initialization for dynamic loading
-			xipivrenderer_init();
-		}
-	}
+		xipivrenderer_init();
 
 	return TRUE;
 }
@@ -160,16 +164,9 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 static int initted = FALSE;    // a little protection--probably unnecessary
 void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
 {
-	
     int err;
-	
-  	
-	if (SoDB::isInitialized())
-	{
-		// automatic initialization for dynamic loading
-		xipivrenderer_init();
-	}
-    
+
+	xipivrenderer_init();
 	
     initted = TRUE;
     //return 0;

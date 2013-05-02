@@ -1,0 +1,175 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class ParentClass="SoXipDataConnection" Type="SFDATA" Name="SFXipConnection" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDataConnection.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDataConnection.h" />
+    </Includes>
+  </class>
+  <class ParentPrintName="Engine" Type="ENGINE" Parent="SoEngine" Name="SoXipClientBase" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipClientBase.cpp" Macrocalls="13" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/remote/XipRenderActionParams.h" />
+      <Include Path="winsock2.h" />
+      <Include Path="string.h" />
+      <Include Path="sys/types.h" />
+      <Include Path="sys/socket.h" />
+      <Include Path="netinet/in.h" />
+      <Include Path="arpa/inet.h" />
+      <Include Path="sys/uio.h" />
+      <Include Path="unistd.h" />
+      <Include Path="errno.h" />
+      <Include Path="netdb.h" />
+      <Include Path="SoXipClientBase.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="serverAddress" />
+      <Input defaultValue="12121" Inputname="serverPort" />
+      <Input defaultValue="&quot;&quot;" Inputname="dataLocation" />
+      <Input defaultValue="DISCONNECTED" Inputname="connectionState" />
+      <Input defaultValue="LIMIT" Inputname="volumeTargetSize" />
+      <Input defaultValue="256" Inputname="volumeWidth" />
+      <Input defaultValue="256" Inputname="volumeHeight" />
+      <Input defaultValue="256" Inputname="volumeDepth" />
+      <Input defaultValue="" Inputname="volumeUpdate" />
+      <Input defaultValue="DATA_EMPTY" Inputname="dataState" />
+    </Inputs>
+  </class>
+  <class ParentClass="SoInt32Element" Type="ELEMENT" Name="SoXipClientElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipClientElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipClientElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoXipDataConnection" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDataConnection.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDataConnection.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipClientBase" ParentPrintName="SoXipClientBase" Type="ENGINE" Name="SoXipRemoteClient" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipRemoteClient.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipRemoteClient.h" />
+      <Include Path="Inventor/fields/SoSFMatrix.h" />
+      <Include Path="xip/inventor/remote/XipRenderActionParams.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="connectionOutput" Type="SFXipConnection" />
+      <Output Outputname="modelMatrixOutput" Type="SoSFMatrix" />
+      <Output Outputname="connectionOutput" Type="SFXipConnection" Code="setValue(volOutput)" />
+      <Output Outputname="modelMatrixOutput" Type="SoSFMatrix" Code="setValue(mat)" />
+      <Output Outputname="connectionOutput" Type="SFXipConnection" Code="setValue(NULL)" />
+      <Output Outputname="modelMatrixOutput" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipRemoteLut" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipRemoteLut.cpp" Macrocalls="21" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipRemoteLut.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="SoXipClientElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="inputMode" defaultValue="RAMP" />
+      <Field Fieldname="alphaMode" defaultValue="DEFAULT" />
+      <Field Fieldname="fileMode" defaultValue="BYTE_SPACE" />
+      <Field Fieldname="outputMode" defaultValue="COLOR_ALPHA" />
+      <Field Fieldname="bitsUsed" defaultValue="0" />
+      <Field Fieldname="rampWidth" defaultValue="1.f" />
+      <Field Fieldname="rampCenter" defaultValue="0.5f" />
+      <Field Fieldname="alphaFactor" defaultValue="1.f" />
+      <Field Fieldname="slopeWidth" defaultValue="1.f" />
+      <Field Fieldname="slopeCenter" defaultValue="0.5f" />
+      <Field Fieldname="colorBottom" defaultValue="SbColor(0, 0, 0)" />
+      <Field Fieldname="colorMiddle" defaultValue="SbColor(0.5, 0.5, 0.5)" />
+      <Field Fieldname="colorTop" defaultValue="SbColor(1, 1, 1)" />
+      <Field Fieldname="fileIn" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fileEntries" defaultValue="0" />
+      <Field Fieldname="lutName" defaultValue="SbString()" />
+      <Field Fieldname="connection" defaultValue="NULL" />
+    </Fields>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipRemoteVolRender" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipRemoteVolRender.cpp" Macrocalls="32" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipRemoteVolRender.h" />
+      <Include Path="SoXipClientElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoPickAction.h" />
+      <Include Path="Inventor/actions/SoRayPickAction.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/sensors/SoAlarmSensor.h" />
+      <Include Path="Inventor/elements/SoClipPlaneElement.h" />
+      <Include Path="Inventor/elements/SoComplexityElement.h" />
+      <Include Path="Inventor/elements/SoBBoxModelMatrixElement.h" />
+      <Include Path="Inventor/elements/SoProjectionMatrixElement.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoGLLightIdElement.h" />
+      <Include Path="Inventor/nodes/SoOrthographicCamera.h" />
+      <Include Path="xip/inventor/core/SoXipMprPlaneElement.h" />
+      <Include Path="xip/inventor/core/SoXipLutElement.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="PreciseTimer.h" />
+      <Include Path="math.h" />
+      <Include Path="sstream" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="mergeOpenGL" defaultValue="TRUE" />
+      <Field Fieldname="blend" defaultValue="TRUE" />
+      <Field Fieldname="volumeInput" defaultValue="0" />
+      <Field Fieldname="bitsUsed" defaultValue="12" />
+      <Field Fieldname="compQty" defaultValue="85" />
+      <Field Fieldname="planeId" defaultValue="0" />
+      <Field Fieldname="fps" defaultValue="&quot;fps 0.0&quot;" />
+      <Field Fieldname="compType" defaultValue="UNCOMPRESSED" />
+      <Field Fieldname="fullQualityMpr" defaultValue="FALSE" />
+      <Field Fieldname="smartMode" defaultValue="SMART_1" />
+      <Field Fieldname="smartFpsThreshold" defaultValue="11" />
+      <Field Fieldname="lowQualityThreshold" defaultValue="3.5" />
+    </Fields>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipRemoteVolume" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipRemoteVolume.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipRemoteVolume.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipSFDataDicom.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="volumeInput" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="modelMatrixOutput" Type="SoSFMatrix" />
+      <Output Outputname="bitsUsedOutput" Type="SoSFInt32" />
+      <Output Outputname="dicomHeader" Type="SoXipSFDataDicom" />
+      <Output Outputname="modelMatrixOutput" Type="SoSFMatrix" Code="setValue(SbMatrix (&#xa;        m[0], m[1], m[2], m[3],&#xa;        m[4], m[5], m[6], m[7], &#xa;        m[8], m[9], m[10], m[11],&#xa;        m[12], m[13], m[14], m[15]))" />
+      <Output Outputname="bitsUsedOutput" Type="SoSFInt32" Code="setValue(Bits)" />
+    </Outputs>
+  </class>
+</classes>

@@ -111,6 +111,9 @@
 
 // use XIPIVCOREGL_API only for classes that are needed in other libraries
 
+#ifndef XIPIVCORE_H
+#define XIPIVCORE_H
+
 #ifdef WIN32
 	#ifdef  XIPIVCORE_EXPORTS
 		#define XIPIVCORE_API __declspec(dllexport)
@@ -120,4 +123,8 @@
 #else
 	// no export needed for non-Windows platforms
 	#define XIPIVCORE_API 
+#endif
+
+int XIPIVCORE_API xipivcore_init();
+
 #endif

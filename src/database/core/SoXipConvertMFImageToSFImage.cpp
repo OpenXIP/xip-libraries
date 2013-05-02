@@ -119,7 +119,7 @@ SO_ENGINE_SOURCE( SoXipConvertMFImageToSFImage );
 SoXipConvertMFImageToSFImage::SoXipConvertMFImageToSFImage()
 {
    // Do standard constructor tasks
-   SO_ENGINE_CONSTRUCTOR( SoXipConvertMFDicomToXipImage );
+   SO_ENGINE_CONSTRUCTOR( SoXipConvertMFImageToSFImage );
 
    // Define input field and its default value
    SO_ENGINE_ADD_INPUT( input, (0) );
@@ -171,3 +171,4 @@ SoXipConvertMFImageToSFImage::getOutput( SoType )
 {
    return &output;
 }
+

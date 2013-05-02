@@ -111,6 +111,7 @@
 #include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
 
+#include <xip/inventor/core/xipivcore.h>
 #include <xip/inventor/core/SoXipData.h>
 #include <xip/inventor/core/SoXipDataImage.h>
 #include <xip/inventor/core/SoXipSFDataImage.h>
@@ -173,6 +174,12 @@
 
 int XIPIVCOREGL_API xipivcoregl_init()
 {
+	static bool isInit = false;
+	if(isInit)
+		return 1;
+	isInit = true;
+
+	xipivcore_init();
 
 	//initialize elements first
     SoXipGLOWElement::initClass();
@@ -250,13 +257,7 @@ int XIPIVCOREGL_API xipivcoregl_init()
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
 	if (reason == DLL_PROCESS_ATTACH)
-	{
-		if (SoDB::isInitialized())
-		{
-			// automatic initialization for dynamic loading
-			xipivcoregl_init();
-		}
-	}
+		xipivcoregl_init();
 
 	return TRUE;
 }
@@ -266,19 +267,12 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 static int initted = FALSE;    // a little protection--probably unnecessary
 void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
 {
-	
-    int err;
-	
-  	
-	if (SoDB::isInitialized())
-	{
-		// automatic initialization for dynamic loading
-		xipivcoregl_init();
-	}
-    
-	
-    initted = TRUE;
-    //return 0;
+	int err;
+
+	xipivcoregl_init();
+
+	initted = TRUE;
+	//return 0;
 }
 
 void __attribute__ ((destructor)) _fini(void)

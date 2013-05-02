@@ -1,0 +1,1672 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class ParentClass="SoXipShapeGroup" ParentPrintName="SoXipShapeGroup" Type="NODE" Name="SoXipAngle" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipAngle.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipAngle.h" />
+      <Include Path="SoXipLine.h" />
+      <Include Path="geomutils.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipLine" ParentPrintName="SoXipLine" Type="NODE" Name="SoXipAnnotation" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipAnnotation.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="geomutils.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoMatrixTransform.h" />
+      <Include Path="Inventor/nodes/SoDrawStyle.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipAnnotation.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipPolygon" ParentPrintName="SoXipPolygon" Type="NODE" Name="SoXipBSpline" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipBSpline.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipBSpline.h" />
+      <Include Path="XipBSpline.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="geomutils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="degree" defaultValue="3" />
+      <Field Fieldname="alpha" defaultValue="10" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipBox" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipBox.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/nodes/SoGroup.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="Inventor/nodes/SoPointSet.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="SoXipBox.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="showCenter" defaultValue="FALSE" />
+      <Field Fieldname="point" defaultValue="0, 0, 0" />
+      <Field Fieldname="padding" defaultValue="0, 0, 0" />
+      <Field Fieldname="volumeOfInterest" defaultValue="SbMatrix::identity()" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipPolygon" ParentPrintName="SoXipPolygon" Type="NODE" Name="SoXipContour" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipContour.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipContour.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipOverlayManager" ParentPrintName="SoXipOverlayManager" Type="NODE" Name="SoXipDicomOverlayManager" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDicomOverlayManager.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicomElement.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoRayPickAction.h" />
+      <Include Path="Inventor/actions/SoWriteAction.h" />
+      <Include Path="Inventor/actions/SoSearchAction.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoLabel.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/sensors/SoNodeSensor.h" />
+      <Include Path="Inventor/sensors/SoTimerSensor.h" />
+      <Include Path="SoXipDicomOverlayManager.h" />
+      <Include Path="xip/inventor/overlay/SoXipShape.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="store" defaultValue="" />
+      <Field Fieldname="update" defaultValue="" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipDisplayImageText" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDisplayImageText.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoFontSizeElement.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/fields/SoSFString.h" />
+      <Include Path="Inventor/fields/SoSFColor.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="xip/inventor/core/SoXipImageTextElement.h" />
+      <Include Path="xip/inventor/overlay/SoXipImageTextColorElement.h" />
+      <Include Path="SoXipDisplayImageText.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="dogEar" defaultValue="FALSE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipDropShadowElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDropShadowElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDropShadowElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipDropShadowStyle" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDropShadowStyle.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="SoXipDropShadowStyle.h" />
+      <Include Path="SoXipDropShadowElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="FALSE" />
+      <Field Fieldname="color" defaultValue="0, 0, 0" />
+      <Field Fieldname="transparency" defaultValue="0" />
+      <Field Fieldname="pixelOffset" defaultValue="1, -1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipText2" ParentPrintName="SoXipText2" Type="NODE" Name="SoXipEditText2" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipEditText2.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoKeyboardEvent.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="xip/inventor/overlay/SoXipEditText2.h" />
+      <Include Path="string.h" />
+      <Include Path="xip/system/defines.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="displayBBox" defaultValue="FALSE" />
+      <Field Fieldname="isEditing" defaultValue="FALSE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipManipulableShape" ParentPrintName="SoXipManipulableShape" Type="NODE" Name="SoXipEditableShape" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipEditableShape.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoPointSet.h" />
+      <Include Path="xip/inventor/overlay/SoXipEditableShape.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="geomutils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="closeOnDblClick" defaultValue="TRUE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipManipulableShape" ParentPrintName="SoXipManipulableShape" Type="NODE" Name="SoXipEllipse" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipEllipse.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoEvent.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="Inventor/fields/SoMFInt32.h" />
+      <Include Path="xip/inventor/overlay/SoXipEllipse.h" />
+      <Include Path="xip/inventor/overlay/SoXipText2.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipFontAutoScale" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFontAutoScale.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoFontSizeElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="SoXipFontAutoScale.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="relative" defaultValue="FALSE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipFontType" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFontType.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="SoXipFontType.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="type" defaultValue="BITMAP" />
+    </Fields>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipFontTypeElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFontTypeElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipFontTypeElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipManipulableShape" ParentPrintName="SoXipManipulableShape" Type="NODE" Name="SoXipHandlerShape" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipHandlerShape.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipHandlerShape.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipPolygon" ParentPrintName="SoXipPolygon" Type="NODE" Name="SoXipHermiteSpline" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipHermiteSpline.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipHermiteSpline.h" />
+      <Include Path="XipHermiteSpline.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="geomutils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="alpha" defaultValue="10" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipIcon" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipIcon.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/nodes/SoTexture2.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipIcon.h" />
+      <Include Path="SoXipIconsResource.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="icon" defaultValue="IC_NONE" />
+      <Field Fieldname="isTransparent" defaultValue="FALSE" />
+      <Field Fieldname="transparentColor" defaultValue="0, 0, 0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoXipImageOverlayAdd" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipImageOverlayAdd.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="map" />
+      <Include Path="Inventor/fields/SoSFString.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="SoXipImageOverlayAdd.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="0" Inputname="overlays" />
+      <Input defaultValue="TRUE" Inputname="overwrite" />
+      <Input defaultValue="" Inputname="add" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="status" Type="SoSFString" />
+      <Output Outputname="status" Type="SoSFString" Code="setValue( &quot;OK&quot; )" />
+      <Output Outputname="status" Type="SoSFString" Code="setValue( &quot;&quot; )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoXipImageOverlayClear" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipImageOverlayClear.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/fields/SoSFString.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="SoXipImageOverlayClear.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="" Inputname="clear" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="status" Type="SoSFString" />
+      <Output Outputname="status" Type="SoSFString" Code="setValue( &quot;OK&quot; )" />
+      <Output Outputname="status" Type="SoSFString" Code="setValue( &quot;&quot; )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipOverlayManager" ParentPrintName="SoXipOverlayManager" Type="NODE" Name="SoXipImageOverlayManager" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipImageOverlayManager.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImageElement.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoRayPickAction.h" />
+      <Include Path="Inventor/actions/SoWriteAction.h" />
+      <Include Path="Inventor/actions/SoSearchAction.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoLabel.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/sensors/SoNodeSensor.h" />
+      <Include Path="Inventor/sensors/SoTimerSensor.h" />
+      <Include Path="SoXipImageOverlayManager.h" />
+      <Include Path="xip/inventor/overlay/SoXipShape.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="store" defaultValue="" />
+      <Field Fieldname="update" defaultValue="" />
+    </Fields>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipImageOverlaySearch" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipImageOverlaySearch.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/fields/SoMFNode.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="SoXipImageOverlaySearch.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="&quot;&quot;" Inputname="label" />
+      <Input defaultValue="&quot;&quot;" Inputname="type" />
+      <Input defaultValue="&quot;&quot;" Inputname="caption" />
+      <Input defaultValue="" Inputname="search" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="overlays" Type="SoMFNode" />
+      <Output Outputname="overlays" Type="SoMFNode" Code="setNum(0)" />
+      <Output Outputname="overlays" Type="SoMFNode" Code="copyFrom(accum)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipImageTextColor" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipImageTextColor.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/inventor/overlay/SoXipImageTextColorElement.h" />
+      <Include Path="SoXipImageTextColor.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="position" defaultValue="TP_UPPER_LEFT" />
+      <Field Fieldname="color" defaultValue="0.8, 0.8, 0.8" />
+    </Fields>
+  </class>
+  <class ParentClass="SoAccumulatedElement" Type="ELEMENT" Name="SoXipImageTextColorElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipImageTextColorElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipImageTextColorElement.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipPolyLine" ParentPrintName="SoXipPolyLine" Type="NODE" Name="SoXipLine" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLine.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipLine.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipLine" ParentPrintName="SoXipLine" Type="NODE" Name="SoXipLineMeasurement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLineMeasurement.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="geomutils.h" />
+      <Include Path="SoXipLineMeasurement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipLoadOverlay" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLoadOverlay.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipLoadOverlay.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="filename" />
+      <Input defaultValue="" Inputname="load" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="overlays" Type="SoMFNode" />
+      <Output Outputname="overlays" Type="SoMFNode" Code="copyFrom( nodesTmp )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipLoadOverlayPState" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLoadOverlayPState.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="Inventor/fields/SoMFNode.h" />
+      <Include Path="xip/inventor/dicom/SoXipPState.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SbXipCoordinateTransform.h" />
+      <Include Path="xip/inventor/overlay/SoXipEditableShape.h" />
+      <Include Path="SoXipAnnotation.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="SoXipLoadOverlayPState.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="presentationstate" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="overlays" Type="SoMFNode" />
+      <Output Outputname="overlays" Type="SoMFNode" Code="setValue(mShapeList)" />
+      <Output Outputname="overlays" Type="SoMFNode" Code="setValue(mShapeList)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipLutColorBar" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLutColorBar.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SoXipLutElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/errors/SoMemoryError.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoOrthographicCamera.h" />
+      <Include Path="Inventor/nodes/SoTextureCoordinate2.h" />
+      <Include Path="Inventor/nodes/SoIndexedTriangleStripSet.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="SoXipLutColorBar.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="position" defaultValue="RIGHT" />
+      <Field Fieldname="origin" defaultValue="0, 0" />
+      <Field Fieldname="size" defaultValue="0, 0" />
+      <Field Fieldname="showAlpha" defaultValue="FALSE" />
+      <Field Fieldname="borderColor" defaultValue="1, 1, 1" />
+      <Field Fieldname="bottomLabel" defaultValue="&quot;&quot;" />
+      <Field Fieldname="topLabel" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipShape" ParentPrintName="SoXipShape" Type="NODE" Name="SoXipManipulableShape" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipManipulableShape.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="geomutils.h" />
+      <Include Path="xip/inventor/core/SoXipActiveViewportElement.h" />
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoKeyboardEvent.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoMatrixTransform.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoMaterial.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoDrawStyle.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="Inventor/SbTime.h" />
+      <Include Path="SoXipOverlayFilterElement.h" />
+      <Include Path="SoXipOverlayColorElement.h" />
+      <Include Path="SoXipOverlayDrawStyleElement.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayManipulatedElement.h" />
+      <Include Path="SoXipDropShadowElement.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="textAnchored" defaultValue="TRUE" />
+      <Field Fieldname="textPosition" defaultValue="0, 0, 0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipMarkerSet" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMarkerSet.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SbXipMarkerShapes.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoScale.h" />
+      <Include Path="Inventor/nodes/SoRotation.h" />
+      <Include Path="Inventor/nodes/SoFaceSet.h" />
+      <Include Path="Inventor/elements/SoCoordinateElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoPointSizeElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="SoXipMarkerSet.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="marker" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipMeasDistance" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMeasDistance.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="geomutils.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/elements/SoGLCoordinateElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="SoXipMeasDistance.h" />
+      <Include Path="xip/inventor/overlay/SoXipText2.h" />
+      <Include Path="SoXipDropShadowElement.h" />
+      <Include Path="xip/system/GL/gl.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="location" defaultValue="FOCAL_PLANE" />
+      <Field Fieldname="point" defaultValue="SbVec3f(0, 0, 0)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipMeasPixelLens" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMeasPixelLens.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoPickStyle.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/elements/SoGLCoordinateElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="Inventor/elements/SoBBoxModelMatrixElement.h" />
+      <Include Path="xip/inventor/core/SbXipCoordinateTransform.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="SoXipMeasPixelLens.h" />
+      <Include Path="xip/inventor/overlay/SoXipText2.h" />
+      <Include Path="SoXipDropShadowElement.h" />
+      <Include Path="geomutils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="image" defaultValue="0" />
+      <Field Fieldname="offset" defaultValue="0" />
+      <Field Fieldname="position" defaultValue="SbVec3f(0, 0, 0)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipMenuBase" ParentPrintName="SoXipMenuBase" Type="NODE" Name="SoXipMenu" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMenu.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="SoXipMenu.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipMenuBase" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMenuBase.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="SoXipMenuBase.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="FALSE" />
+      <Field Fieldname="position" defaultValue="0, 0" />
+      <Field Fieldname="itemFocused" defaultValue="-1" />
+      <Field Fieldname="itemClicked" defaultValue="-1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipMenuItemBase" ParentPrintName="SoXipMenuItemBase" Type="NODE" Name="SoXipMenuItem" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMenuItem.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/nodes/SoVertexProperty.h" />
+      <Include Path="Inventor/nodes/SoIndexedFaceSet.h" />
+      <Include Path="Inventor/nodes/SoTextureCoordinate2.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoMaterial.h" />
+      <Include Path="SoXipMenuStyleElement.h" />
+      <Include Path="SoXipMenuItem.h" />
+      <Include Path="SoXipIcon.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipMenuItemBase" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMenuItemBase.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/actions/SoRayPickAction.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="focused" defaultValue="FALSE" />
+      <Field Fieldname="enabled" defaultValue="TRUE" />
+      <Field Fieldname="caption" defaultValue="&quot;&quot;" />
+      <Field Fieldname="icon" defaultValue="IC_NONE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipMenuItemBase" ParentPrintName="SoXipMenuItemBase" Type="NODE" Name="SoXipMenuItemSeparator" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMenuItemSeparator.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/nodes/SoVertexProperty.h" />
+      <Include Path="Inventor/nodes/SoIndexedFaceSet.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="SoXipMenuItemSeparator.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipMenuStyle" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMenuStyle.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="SoXipMenuStyle.h" />
+      <Include Path="SoXipMenuStyleElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="color" defaultValue="0xccccccff" />
+      <Field Fieldname="focusedColor" defaultValue="0xffffaaff" />
+      <Field Fieldname="disabledColor" defaultValue="0xccccccff" />
+      <Field Fieldname="textColor" defaultValue="0, 0, 0" />
+      <Field Fieldname="focusedTextColor" defaultValue="0, 0, 0" />
+      <Field Fieldname="disabledTextColor" defaultValue="0.8, 0.8, 0.8" />
+    </Fields>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipMenuStyleElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMenuStyleElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipMenuStyleElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipOverlayActions" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayActions.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/fields/SoSFString.h" />
+      <Include Path="xip/inventor/overlay/SoXipShape.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="SoXipOverlayActions.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="overlays" />
+      <Input defaultValue="" Inputname="show" />
+      <Input defaultValue="" Inputname="hide" />
+      <Input defaultValue="" Inputname="select" />
+      <Input defaultValue="" Inputname="unselect" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="status" Type="SoSFString" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOverlayColor" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayColor.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayColor.h" />
+      <Include Path="SoXipOverlayColorElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+      <Field Fieldname="color" defaultValue="1, 1, 1" />
+      <Field Fieldname="transparency" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoAccumulatedElement" Type="ELEMENT" Name="SoXipOverlayColorElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayColorElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="SoXipOverlayColorElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOverlayDrawStyle" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayDrawStyle.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="SoXipOverlayDrawStyle.h" />
+      <Include Path="SoXipOverlayDrawStyleElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+      <Field Fieldname="pointSize" defaultValue="0" />
+      <Field Fieldname="lineWidth" defaultValue="0" />
+      <Field Fieldname="linePattern" defaultValue="0xffff" />
+    </Fields>
+  </class>
+  <class ParentClass="SoAccumulatedElement" Type="ELEMENT" Name="SoXipOverlayDrawStyleElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayDrawStyleElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="SoXipOverlayDrawStyleElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipOverlayElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipOverlayExtractContour" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayExtractContour.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/fields/SoMFVec3f.h" />
+      <Include Path="Inventor/fields/SoMFInt32.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipOverlayExtractContour.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="overlays" />
+      <Input defaultValue="" Inputname="extract" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="point" Type="SoMFVec3f" />
+      <Output Outputname="coordIndex" Type="SoMFInt32" />
+      <Output Outputname="point" Type="SoMFVec3f" Code="copyFrom( pointTmp )" />
+      <Output Outputname="coordIndex" Type="SoMFInt32" Code="copyFrom( coordIndexTmp )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOverlayFilter" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayFilter.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="SoXipOverlayFilter.h" />
+      <Include Path="SoXipOverlayFilterElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoAccumulatedElement" Type="ELEMENT" Name="SoXipOverlayFilterElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayFilterElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="SoXipOverlayFilterElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipOverlayManipBase" ParentPrintName="SoXipOverlayManipBase" Type="NODE" Name="SoXipOverlayHandlerManip" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayHandlerManip.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipActiveViewportElement.h" />
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoMatrixTransform.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="Inventor/nodes/SoPointSet.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoDrawStyle.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="xip/inventor/overlay/SoXipHandlerShape.h" />
+      <Include Path="SoXipOverlayHandlerManip.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayManipulatedElement.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="mode" defaultValue="NONE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipOverlayManager" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayManager.cpp" Macrocalls="13" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="algorithm" />
+      <Include Path="vector" />
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoRayPickAction.h" />
+      <Include Path="Inventor/actions/SoWriteAction.h" />
+      <Include Path="Inventor/actions/SoSearchAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoKeyboardEvent.h" />
+      <Include Path="Inventor/fields/SoSFFloat.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipOverlayManager.h" />
+      <Include Path="xip/inventor/overlay/SoXipEditableShape.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayManipBase.h" />
+      <Include Path="SoXipMenu.h" />
+      <Include Path="SoXipMenuItem.h" />
+      <Include Path="SoXipMenuItemSeparator.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="xip/system/defines.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="menuEnabled" defaultValue="FALSE" />
+      <Field Fieldname="create" defaultValue="FALSE" />
+      <Field Fieldname="shapeClassName" defaultValue="&quot;SoXipEllipse&quot;" />
+      <Field Fieldname="shapeLabel" defaultValue="&quot;&quot;" />
+      <Field Fieldname="shapeCaption" defaultValue="&quot;&quot;" />
+      <Field Fieldname="multipleShapes" defaultValue="TRUE" />
+      <Field Fieldname="overlays" defaultValue="0" />
+      <Field Fieldname="add" defaultValue="" />
+      <Field Fieldname="remove" defaultValue="" />
+      <Field Fieldname="clear" defaultValue="" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOverlayManipBase" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayManipBase.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoEvent.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayManipBase.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="numNodesUpToContainer" defaultValue="1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipOverlayManips" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayManips.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipOverlayManips.h" />
+      <Include Path="SoXipOverlayTransformBoxManip.h" />
+      <Include Path="SoXipOverlayTranslationManip.h" />
+      <Include Path="SoXipOverlayHandlerManip.h" />
+      <Include Path="SoXipOverlaySelectionManip.h" />
+      <Include Path="SoXipOverlaySelectionFrame.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="numNodesUpToContainer" defaultValue="2" />
+      <Field Fieldname="multipleSelection" defaultValue="FALSE" />
+      <Field Fieldname="enableSelection" defaultValue="TRUE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipOverlayManipulatedElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayManipulatedElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayManipulatedElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipOverlayProperties" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayProperties.cpp" Macrocalls="12" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipOverlayProperties.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/SoXipShape.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="overlays" />
+      <Input defaultValue="&quot;&quot;" Inputname="label" />
+      <Input defaultValue="" Inputname="addLabel" />
+      <Input defaultValue="" Inputname="clearLabel" />
+      <Input defaultValue="&quot;&quot;" Inputname="caption" />
+      <Input defaultValue="" Inputname="setCaption" />
+      <Input defaultValue="-1" Inputname="rank" />
+      <Input defaultValue="" Inputname="setRank" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="status" Type="SoSFString" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOverlaySearch" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlaySearch.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoSearchAction.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipOverlaySearch.h" />
+      <Include Path="xip/inventor/overlay/SoXipShape.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="numNodesUpToContainer" defaultValue="1" />
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+      <Field Fieldname="type" defaultValue="&quot;&quot;" />
+      <Field Fieldname="selected" defaultValue="FALSE" />
+      <Field Fieldname="searchAll" defaultValue="FALSE" />
+      <Field Fieldname="search" defaultValue="" />
+      <Field Fieldname="overlays" defaultValue="0" />
+      <Field Fieldname="numOverlays" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOverlaySearchContour" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlaySearchContour.cpp" Macrocalls="12" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoSearchAction.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipOverlaySearchContour.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="numNodesUpToContainer" defaultValue="1" />
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+      <Field Fieldname="type" defaultValue="&quot;&quot;" />
+      <Field Fieldname="closed" defaultValue="FALSE" />
+      <Field Fieldname="selected" defaultValue="FALSE" />
+      <Field Fieldname="searchAll" defaultValue="FALSE" />
+      <Field Fieldname="search" defaultValue="" />
+      <Field Fieldname="point" defaultValue="0, 0, 0" />
+      <Field Fieldname="coordIndex" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipOverlayManipBase" ParentPrintName="SoXipOverlayManipBase" Type="NODE" Name="SoXipOverlaySelectionFrame" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlaySelectionFrame.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SbBox.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/elements/SoCacheElement.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/nodes/SoDrawStyle.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoMaterial.h" />
+      <Include Path="Inventor/nodes/SoIndexedFaceSet.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="SoXipOverlaySelectionFrame.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="geomutils.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipOverlayManipBase" ParentPrintName="SoXipOverlayManipBase" Type="NODE" Name="SoXipOverlaySelectionManip" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlaySelectionManip.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+      <Include Path="SoXipOverlaySelectionManip.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOverlaySettings" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlaySettings.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="SoXipOverlaySettings.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="location" defaultValue="FOCAL_PLANE" />
+      <Field Fieldname="showAnnotation" defaultValue="TRUE" />
+      <Field Fieldname="showEnumeration" defaultValue="TRUE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipOverlayManipBase" ParentPrintName="SoXipOverlayManipBase" Type="NODE" Name="SoXipOverlayTransformBoxManip" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayTransformBoxManip.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipActiveViewportElement.h" />
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoMatrixTransform.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="Inventor/nodes/SoPointSet.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoDrawStyle.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+      <Include Path="xip/inventor/overlay/SoXipOverlayManipulatedElement.h" />
+      <Include Path="SoXipOverlayFilterElement.h" />
+      <Include Path="SoXipOverlayTransformBoxManip.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="geomutils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="mode" defaultValue="NONE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipOverlayManipBase" ParentPrintName="SoXipOverlayManipBase" Type="NODE" Name="SoXipOverlayTranslationManip" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOverlayTranslationManip.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="SoXipOverlayTranslationManip.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoXipPlot2Area" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Area.cpp" Macrocalls="14" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="vector" />
+      <Include Path="xip/inventor/overlay/SoXipPlot2Element.h" />
+      <Include Path="xip/inventor/overlay/SoXipPlot2AreaElement.h" />
+      <Include Path="xip/inventor/overlay/SbXipMarkerShapes.h" />
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="xip/inventor/core/SoXipActiveViewportElement.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoComplexityElement.h" />
+      <Include Path="Inventor/elements/SoFontSizeElement.h" />
+      <Include Path="Inventor/elements/SoLinePatternElement.h" />
+      <Include Path="Inventor/elements/SoLineWidthElement.h" />
+      <Include Path="Inventor/elements/SoLightModelElement.h" />
+      <Include Path="Inventor/nodes/SoOrthographicCamera.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoFaceSet.h" />
+      <Include Path="Inventor/nodes/SoScale.h" />
+      <Include Path="SoXipDropShadowElement.h" />
+      <Include Path="SoXipPlot2Area.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="title" defaultValue="&quot;&quot;" />
+      <Field Fieldname="labelX" defaultValue="&quot;&quot;" />
+      <Field Fieldname="labelY" defaultValue="&quot;&quot;" />
+      <Field Fieldname="flags" defaultValue="SCROLL_X | SCROLL_Y" />
+      <Field Fieldname="padding" defaultValue="SbVec4f(0, 0, 0, 0)" />
+      <Field Fieldname="scrollPosX" defaultValue="SbVec2f(0, 1)" />
+      <Field Fieldname="scrollPosY" defaultValue="SbVec2f(0, 1)" />
+      <Field Fieldname="legendPos" defaultValue="SbVec2f(1, 1)" />
+      <Field Fieldname="scrollColors" defaultValue="0.2, 0.2, 0.2" />
+    </Fields>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipPlot2AreaElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2AreaElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipPlot2AreaElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipPlot2Columns" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Columns.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipPlot2Element.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/nodes/SoMaterial.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoDrawStyle.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoFaceSet.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipPlot2Columns.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;Columns&quot;" />
+      <Field Fieldname="data" defaultValue="0" />
+      <Field Fieldname="faceColor" defaultValue="0.2, 0.2, 0.2" />
+      <Field Fieldname="faceTransparency" defaultValue="0" />
+      <Field Fieldname="borderColor" defaultValue="0, 0, 0" />
+      <Field Fieldname="borderWidth" defaultValue="1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipPlot2Curve" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Curve.cpp" Macrocalls="12" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipPlot2Element.h" />
+      <Include Path="xip/inventor/overlay/SoXipPlot2AreaElement.h" />
+      <Include Path="xip/inventor/overlay/SbXipMarkerShapes.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/elements/SoPointSizeElement.h" />
+      <Include Path="Inventor/elements/SoLineWidthElement.h" />
+      <Include Path="Inventor/elements/SoLinePatternElement.h" />
+      <Include Path="Inventor/elements/SoDrawStyleElement.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoMaterial.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="Inventor/nodes/SoIndexedFaceSet.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipPlot2Curve.h" />
+      <Include Path="XipBSpline.h" />
+      <Include Path="XipHermiteSpline.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;Line&quot;" />
+      <Field Fieldname="data" defaultValue="0, 0" />
+      <Field Fieldname="markerType" defaultValue="0" />
+      <Field Fieldname="markerColor" defaultValue="0, 0, 0" />
+      <Field Fieldname="markerTransparency" defaultValue="0" />
+      <Field Fieldname="lineColor" defaultValue="0, 0, 0" />
+      <Field Fieldname="lineSmoothing" defaultValue="NONE" />
+      <Field Fieldname="filled" defaultValue="FALSE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoAccumulatedElement" Type="ELEMENT" Name="SoXipPlot2Element" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Element.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipPlot2Element.h" />
+      <Include Path="xip/inventor/overlay/SbXipPlot2LegendInfo.h" />
+      <Include Path="Inventor/elements/SoLinePatternElement.h" />
+      <Include Path="Inventor/elements/SoLineWidthElement.h" />
+      <Include Path="Inventor/elements/SoPointSizeElement.h" />
+      <Include Path="Inventor/elements/SoLazyElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipPlot2Extent" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Extent.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/SbBox.h" />
+      <Include Path="SoXipPlot2Extent.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="xRange" defaultValue="0, 0" />
+      <Field Fieldname="yRange" defaultValue="0, 0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipPlot2Grid" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Grid.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipPlot2AreaElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="SoXipPlot2Grid.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipPlot2Histogram" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Histogram.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="vector" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoFaceSet.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipPlot2Histogram.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="values" defaultValue="0" />
+      <Field Fieldname="validRange" defaultValue="SbVec2f(0, 0)" />
+      <Field Fieldname="numBins" defaultValue="10" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipPlot2Legend" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Legend.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipPlot2Element.h" />
+      <Include Path="xip/inventor/overlay/SbXipMarkerShapes.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="SoXipPlot2Legend.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+      <Field Fieldname="lineWidth" defaultValue="0" />
+      <Field Fieldname="linePattern" defaultValue="0xffff" />
+      <Field Fieldname="lineColor" defaultValue="SbColor(0.8, 0.8, 0.8)" />
+      <Field Fieldname="marker" defaultValue="0" />
+      <Field Fieldname="markerSize" defaultValue="0" />
+      <Field Fieldname="markerColor" defaultValue="SbColor(0.8, 0.8, 0.8)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipPlot2Ruler" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Ruler.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipCursor.h" />
+      <Include Path="xip/inventor/overlay/SoXipPlot2AreaElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="SoXipPlot2Ruler.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="type" defaultValue="VERTICAL" />
+      <Field Fieldname="value" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipPlot2Samples" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPlot2Samples.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/overlay/SoXipPlot2Element.h" />
+      <Include Path="xip/inventor/overlay/SoXipPlot2AreaElement.h" />
+      <Include Path="xip/inventor/overlay/SbXipMarkerShapes.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/elements/SoPointSizeElement.h" />
+      <Include Path="Inventor/elements/SoLineWidthElement.h" />
+      <Include Path="Inventor/elements/SoLinePatternElement.h" />
+      <Include Path="Inventor/elements/SoDrawStyleElement.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoMaterial.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoLineSet.h" />
+      <Include Path="Inventor/nodes/SoIndexedFaceSet.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipPlot2Samples.h" />
+      <Include Path="XipBSpline.h" />
+      <Include Path="XipHermiteSpline.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;Line&quot;" />
+      <Field Fieldname="data" defaultValue="0, 0" />
+      <Field Fieldname="markerType" defaultValue="0" />
+      <Field Fieldname="markerColor" defaultValue="0, 0, 0" />
+      <Field Fieldname="markerTransparency" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipHandlerShape" ParentPrintName="SoXipHandlerShape" Type="NODE" Name="SoXipPoint" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPoint.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="geomutils.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="Inventor/nodes/SoMatrixTransform.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="SoXipPoint.h" />
+      <Include Path="xip/inventor/overlay/SoXipEditText2.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipHandlerShape" ParentPrintName="SoXipHandlerShape" Type="NODE" Name="SoXipPolyLine" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPolyLine.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="geomutils.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="SoXipPolyLine.h" />
+      <Include Path="xip/inventor/overlay/SoXipEditText2.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipEditableShape" ParentPrintName="SoXipEditableShape" Type="NODE" Name="SoXipPolygon" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPolygon.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/fields/SoMFInt32.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="SoXipPolygon.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipPolygonArea" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPolygonArea.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="geomutils.h" />
+      <Include Path="Inventor/fields/SoMFVec3f.h" />
+      <Include Path="Inventor/fields/SoMFInt32.h" />
+      <Include Path="Inventor/fields/SoSFFloat.h" />
+      <Include Path="SoXipPolygonArea.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0, 0, 0" Inputname="point" />
+      <Input defaultValue="0" Inputname="coordIndex" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="area" Type="SoSFFloat" />
+      <Output Outputname="area" Type="SoSFFloat" Code="setValue(0)" />
+      <Output Outputname="area" Type="SoSFFloat" Code="setValue( areaPolygon3D( point, coordIndex, normal ))" />
+      <Output Outputname="area" Type="SoSFFloat" Code="setValue( areaPolygon3D( point, normal ))" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipManipulableShape" ParentPrintName="SoXipManipulableShape" Type="NODE" Name="SoXipRectangle" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipRectangle.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoEvent.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="SoXipRectangle.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipSaveOverlay" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSaveOverlay.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="SoXipSaveOverlay.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="filename" />
+      <Input defaultValue="0" Inputname="overlays" />
+      <Input defaultValue="" Inputname="save" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="status" Type="SoSFString" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipSaveOverlayPState" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSaveOverlayPState.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
+      <Include Path="xip/inventor/dicom/SoXipPState.h" />
+      <Include Path="xip/inventor/dicom/xipivDicomUtils.h" />
+      <Include Path="xip/inventor/core/SbXipCoordinateTransform.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/SoXipManipulableShape.h" />
+      <Include Path="SoXipSaveOverlayPState.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="overlays" />
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="&quot;&quot;" Inputname="pstateFile" />
+      <Input defaultValue="" Inputname="save" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="status" Type="SoSFString" />
+      <Output Outputname="status" Type="SoSFString" Code="setValue(&quot;&quot;)" />
+      <Output Outputname="status" Type="SoSFString" Code="setValue(&quot;OK&quot;)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipScaleBar" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipScaleBar.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipScaleBar.h" />
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoOrthographicCamera.h" />
+      <Include Path="Inventor/nodes/SoScale.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoCoordinate3.h" />
+      <Include Path="Inventor/nodes/SoIndexedLineSet.h" />
+      <Include Path="Inventor/nodes/SoTranslation.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/elements/SoFontSizeElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="SoXipDropShadowElement.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="xip/system/GL/glu.h" />
+      <Include Path="xip/inventor/overlay/SoXipText2.h" />
+      <Include Path="algorithm" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipOverlayManager" ParentPrintName="SoXipOverlayManager" Type="NODE" Name="SoXipSegmentationOverlayManager" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSegmentationOverlayManager.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImageElement.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoRayPickAction.h" />
+      <Include Path="Inventor/actions/SoWriteAction.h" />
+      <Include Path="Inventor/actions/SoSearchAction.h" />
+      <Include Path="Inventor/nodes/SoSeparator.h" />
+      <Include Path="Inventor/nodes/SoSwitch.h" />
+      <Include Path="Inventor/nodes/SoBaseColor.h" />
+      <Include Path="Inventor/nodes/SoLabel.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/sensors/SoNodeSensor.h" />
+      <Include Path="Inventor/sensors/SoTimerSensor.h" />
+      <Include Path="SoXipSegmentationOverlayManager.h" />
+      <Include Path="xip/inventor/overlay/SoXipShape.h" />
+      <Include Path="SoXipContour.h" />
+      <Include Path="SoXipLine.h" />
+      <Include Path="SoXipShapeList.h" />
+      <Include Path="xip/inventor/overlay/XipOverlayUtils.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
+      <Include Path="Inventor/events/SoLocation2Event.h" />
+      <Include Path="Inventor/events/SoKeyboardEvent.h" />
+      <Include Path="xip/system/standard.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="OverlayOption" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipShape" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipShape.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipActiveViewportElement.h" />
+      <Include Path="Inventor/SoPickedPoint.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoEvent.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="xip/inventor/overlay/SoXipShape.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="status" defaultValue="CREATE" />
+      <Field Fieldname="order" defaultValue="-1" />
+      <Field Fieldname="rank" defaultValue="-1" />
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+      <Field Fieldname="caption" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipShape" ParentPrintName="SoXipShape" Type="NODE" Name="SoXipShapeGroup" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipShapeGroup.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoSearchAction.h" />
+      <Include Path="SoXipShapeGroup.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="childrenLinked" defaultValue="FALSE" />
+      <Field Fieldname="children" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoXipShapeList" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipShapeList.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipShapeList.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="label" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="SoShape" Type="NODE" Name="SoXipText2" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipText2.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/elements/SoCacheElement.h" />
+      <Include Path="Inventor/elements/SoProjectionMatrixElement.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoFontNameElement.h" />
+      <Include Path="Inventor/elements/SoFontSizeElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/projectors/SbPlaneProjector.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/SoPrimitiveVertex.h" />
+      <Include Path="FTLibrary.h" />
+      <Include Path="FTGLBitmapFont.h" />
+      <Include Path="FTGLPixmapFont.h" />
+      <Include Path="FTGLPolygonFont.h" />
+      <Include Path="FTGLTextureFont.h" />
+      <Include Path="SoXipDropShadowElement.h" />
+      <Include Path="xip/inventor/overlay/SoXipText2.h" />
+      <Include Path="fontutils.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="string" defaultValue="&quot;one test&quot;" />
+      <Field Fieldname="justification" defaultValue="LEFT" />
+      <Field Fieldname="vAlignment" defaultValue="TOP" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipWidgetCamera" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipWidgetCamera.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/nodes/SoScale.h" />
+      <Include Path="Inventor/nodes/SoOrthographicCamera.h" />
+      <Include Path="SoXipWidgetCamera.h" />
+      <Include Path="algorithm" />
+    </Includes>
+  </class>
+</classes>

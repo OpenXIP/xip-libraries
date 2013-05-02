@@ -111,6 +111,9 @@
 
 // use XIPIVDICOM_API only for classes that are needed in other libraries
 
+#ifndef XIPIVDICOM_H
+#define XIPIVDICOM_H
+
 #ifdef WIN32
 	#ifdef  XIPIVDICOM_EXPORTS
 		#define XIPIVDICOM_API __declspec(dllexport)
@@ -120,4 +123,8 @@
 #else
 	// no export needed for non-Windows platforms
 	#define XIPIVDICOM_API 
+#endif
+
+int XIPIVDICOM_API xipivdicom_init();
+
 #endif

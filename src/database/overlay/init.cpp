@@ -112,6 +112,10 @@
 // Disable the warning raised because of the std::map<>
 #pragma warning ( disable : 4786 )
 
+#include <xip/inventor/core/xipivcore.h>
+#include <xip/inventor/coregl/xipivcoregl.h>
+#include <xip/inventor/dicom/xipivdicom.h>
+
 #include <xip/inventor/overlay/SoXipFontTypeElement.h>
 #include "SoXipFontType.h"
 #include <xip/inventor/overlay/SoXipText2.h>
@@ -222,6 +226,15 @@
 
 int XIPIVOVERLAY_API xipivoverlay_init()
 {
+	static bool isInit = false;
+	if(isInit)
+		return 1;
+	isInit = true;
+
+	xipivcore_init();
+	xipivcoregl_init();
+	xipivdicom_init();
+
   // Elements and Style
   SoXipDropShadowElement::initClass();
   SoXipDropShadowStyle::initClass();
@@ -343,12 +356,7 @@ static int initted = FALSE;    // a little protection--probably unnecessary
 BOOL APIENTRY DllMain( HINSTANCE hinstDLL, DWORD reason, LPVOID )
 {
 	if( reason == DLL_PROCESS_ATTACH )
-	{
-		if (SoDB::isInitialized())
-		{
-			xipivoverlay_init();
-		}
-	}
+		xipivoverlay_init();
 
 	return TRUE;
 }
@@ -357,19 +365,12 @@ BOOL APIENTRY DllMain( HINSTANCE hinstDLL, DWORD reason, LPVOID )
 
 void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
 {
-	
-    int err;
-	
-  	
-	if (SoDB::isInitialized())
-	{
-		// automatic initialization for dynamic loading
-		xipivoverlay_init();
-	}
-    
-	
-    initted = TRUE;
-    //return 0;
+	int err;
+
+	xipivoverlay_init();
+
+	initted = TRUE;
+	//return 0;
 }
 
 void __attribute__ ((destructor)) _fini(void)

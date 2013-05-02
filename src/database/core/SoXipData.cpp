@@ -137,7 +137,7 @@ SbBool   SoXipData::instanceTracingEnabled = FALSE;
 
 void SoXipData::initClass()
 {
-	XIP_DATA_INIT_CLASS(SoXipData, SoBase, "Base");
+	XIP_DATA_INIT_CLASS(SoXipData, SoFieldContainer, "FieldContainer");
 }
 
 
@@ -296,4 +296,6 @@ void SoXipData::copyProperties(SoXipData *from)
 		}
 	}
 }
+
+
 

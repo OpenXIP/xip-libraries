@@ -108,13 +108,23 @@
 *      THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <xip/system/GL/gl.h>
-#include "SoDoubleCalculator"
+//#include <xip/system/GL/gl.h>
+// #include "SoDoubleCalculator.h"
+
+#include <xip/inventor/extra/xipivextra.h>
+#include <Inventor/SoDB.h>
 
 int XIPIVEXTRA_API xipivextra_init()
 {
+  static bool isInit = false;
+  if (isInit)
+    return 1;
+  isInit = true;
+
+  SoDB::init();
+
   //initialize elements
-  SoDoubleCalculator::initClass();
+  // SoDoubleCalculator::initClass();
 
   return 1;
 }
@@ -123,16 +133,13 @@ int XIPIVEXTRA_API xipivextra_init()
 
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
-  if (reason == DLL_PROCESS_ATTACH)
+    if (reason == DLL_PROCESS_ATTACH)
     {
-    if (SoDB::isInitialized())
-      {
-      // automatic initialization for dynamic loading
-      xipivextra_init();
-      }
+        // automatic initialization for dynamic loading
+        xipivextra_init();
     }
 
-  return TRUE;
+    return TRUE;
 }
 
 #else // WIN32
@@ -142,21 +149,16 @@ static int initted = FALSE; // a little protection--probably unnecessary
 void __attribute__ ((constructor)) _init(void)
 // don't write this if DllMain is to be used
 {
-  int err;
+    int err;
 
-	if (SoDB::isInitialized())
-    {
     // automatic initialization for dynamic loading
     xipivextra_init();
-    }
     
-  initted = TRUE;
-  //return 0;
+    initted = TRUE;
 }
 
 void __attribute__ ((destructor)) _fini(void)
 {
-   //printf ("fini print.\n");
 }
 
 #endif // WIN32

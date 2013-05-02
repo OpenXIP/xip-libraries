@@ -7,7 +7,7 @@ SoXipBuilderNode {
     placement	-4.2 9.9 -2.01734 10.7
     flags	SHOW_AUTOPANEL
     autoPanelPos	773 26 0 0
-    node	    SoXipHtmlViewer {
+    node	    SoXipIvHtmlViewer {
 	fields [ SFString file,  ]
 	file	"html/simple.html"
     }

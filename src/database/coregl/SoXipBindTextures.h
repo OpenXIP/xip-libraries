@@ -183,7 +183,6 @@ private:
     int             mTexHandles[16];
     int             mTexUnits[16];
 
-    bool            mNeedsUpdate;
     bool            mNeedsSync;
     unsigned int    mNodeId;
 };

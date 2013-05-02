@@ -1,0 +1,1019 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipBindTextures" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipBindTextures.cpp" Macrocalls="15" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipBindTextures.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="textureDimension" defaultValue="TEXTURE_2D" />
+      <Field Fieldname="attachmentHandles" defaultValue="0" />
+      <Field Fieldname="texture0Output" defaultValue="-1" />
+      <Field Fieldname="texture1Output" defaultValue="-1" />
+      <Field Fieldname="texture2Output" defaultValue="-1" />
+      <Field Fieldname="texture3Output" defaultValue="-1" />
+      <Field Fieldname="texture4Output" defaultValue="-1" />
+      <Field Fieldname="texture5Output" defaultValue="-1" />
+      <Field Fieldname="texture6Output" defaultValue="-1" />
+      <Field Fieldname="texture7Output" defaultValue="-1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipBlendFunc" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipBlendFunc.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipBlendFunc.h" />
+      <Include Path="xip/inventor/coregl/SoXipBlendFuncElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="enableBlending" defaultValue="true" />
+      <Field Fieldname="srcFunc" defaultValue="SRC_ALPHA" />
+      <Field Fieldname="dstFunc" defaultValue="ONE_MINUS_SRC_ALPHA" />
+    </Fields>
+  </class>
+  <class ParentClass="SoElement" Type="ELEMENT" Name="SoXipBlendFuncElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipBlendFuncElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/coregl/SoXipBlendFuncElement.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipBufferMask" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipBufferMask.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipBufferMaskElement.h" />
+      <Include Path="SoXipBufferMask.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="maskRed" defaultValue="true" />
+      <Field Fieldname="maskGreen" defaultValue="true" />
+      <Field Fieldname="maskBlue" defaultValue="true" />
+      <Field Fieldname="maskAlpha" defaultValue="true" />
+      <Field Fieldname="maskDepth" defaultValue="true" />
+    </Fields>
+  </class>
+  <class ParentClass="SoElement" Type="ELEMENT" Name="SoXipBufferMaskElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipBufferMaskElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipBufferMaskElement.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipCaptureImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipCaptureImage.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipCaptureImage.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="image" defaultValue="NULL" />
+      <Field Fieldname="format" defaultValue="RGB" />
+      <Field Fieldname="type" defaultValue="UNSIGNED_BYTE" />
+      <Field Fieldname="capture" defaultValue="" />
+      <Field Fieldname="autoCapture" defaultValue="false" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipClearBuffer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipClearBuffer.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipClearBuffer.h" />
+      <Include Path="xip/system/standard.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="clearColorBuffer" defaultValue="true" />
+      <Field Fieldname="clearOnlyCurrentViewport" defaultValue="true" />
+      <Field Fieldname="clearColor" defaultValue="0.0f, 0.0f, 0.0f, 0.0f" />
+      <Field Fieldname="clearDepthBuffer" defaultValue="false" />
+      <Field Fieldname="depthValue" defaultValue="1.0f" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipClearFbo" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipClearFbo.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipClearFbo.h" />
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/FramebufferObject.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="clearColorTargets" defaultValue="ALL" />
+      <Field Fieldname="clearColor" defaultValue="0.0, 0.0, 0.0, 0.0" />
+      <Field Fieldname="clearDepthBuffer" defaultValue="TRUE" />
+      <Field Fieldname="depthValue" defaultValue="1.0" />
+      <Field Fieldname="clearOnlyCurrentViewport" defaultValue="TRUE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipClipPlaneKit" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipClipPlaneKit.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="SoXipClipPlaneKit.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="plane" defaultValue="SbPlane(SbVec3f(0.0,0.0,1.0), 0.0)" />
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="draw" defaultValue="FALSE" />
+      <Field Fieldname="simMPR" defaultValue="FALSE" />
+      <Field Fieldname="widthMPR" defaultValue="0.1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipCube" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipCube.cpp" Macrocalls="12" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipCube.h" />
+      <Include Path="Inventor/SbBox.h" />
+      <Include Path="Inventor/SoPrimitiveVertex.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="scale" defaultValue="SbVec3f(1, 1, 1)" />
+      <Field Fieldname="offset" defaultValue="SbVec3f(-0.5, -0.5, -0.5)" />
+      <Field Fieldname="culling" defaultValue="NONE" />
+      <Field Fieldname="scale" defaultValue="SbVec3f(1, 1, 1)" />
+      <Field Fieldname="offset" defaultValue="SbVec3f(-0.5, -0.5, -0.5)" />
+      <Field Fieldname="culling" defaultValue="NONE" />
+    </Fields>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipDecomposeMFInt32" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDecomposeMFInt32.cpp" Macrocalls="84" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipDecomposeMFInt32.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="intMF" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="int0" Type="SoSFInt32" />
+      <Output Outputname="int1" Type="SoSFInt32" />
+      <Output Outputname="int2" Type="SoSFInt32" />
+      <Output Outputname="int3" Type="SoSFInt32" />
+      <Output Outputname="int4" Type="SoSFInt32" />
+      <Output Outputname="int5" Type="SoSFInt32" />
+      <Output Outputname="int6" Type="SoSFInt32" />
+      <Output Outputname="int7" Type="SoSFInt32" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(intMF[1])" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(intMF[1])" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(intMF[2])" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(intMF[1])" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(intMF[2])" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(intMF[3])" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(intMF[1])" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(intMF[2])" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(intMF[3])" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(intMF[4])" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(intMF[1])" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(intMF[2])" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(intMF[3])" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(intMF[4])" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(intMF[5])" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(intMF[1])" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(intMF[2])" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(intMF[3])" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(intMF[4])" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(intMF[5])" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(intMF[6])" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(0)" />
+      <Output Outputname="int0" Type="SoSFInt32" Code="setValue(intMF[0])" />
+      <Output Outputname="int1" Type="SoSFInt32" Code="setValue(intMF[1])" />
+      <Output Outputname="int2" Type="SoSFInt32" Code="setValue(intMF[2])" />
+      <Output Outputname="int3" Type="SoSFInt32" Code="setValue(intMF[3])" />
+      <Output Outputname="int4" Type="SoSFInt32" Code="setValue(intMF[4])" />
+      <Output Outputname="int5" Type="SoSFInt32" Code="setValue(intMF[5])" />
+      <Output Outputname="int6" Type="SoSFInt32" Code="setValue(intMF[6])" />
+      <Output Outputname="int7" Type="SoSFInt32" Code="setValue(intMF[7])" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipDepthTest" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDepthTest.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipDepthTest.h" />
+      <Include Path="xip/inventor/coregl/SoXipDepthTestElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="enableDepthTest" defaultValue="true" />
+      <Field Fieldname="depthFunc" defaultValue="LESS" />
+    </Fields>
+  </class>
+  <class ParentClass="SoElement" Type="ELEMENT" Name="SoXipDepthTestElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDepthTestElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipDepthTestElement.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipDrawBuffersElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDrawBuffersElement.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipDrawClipPlane" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDrawClipPlane.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipDrawClipPlane.h" />
+      <Include Path="GL/gl.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="plane" defaultValue="SbPlane(SbVec3f(0, 0, 1), 0)" />
+      <Field Fieldname="on" defaultValue="TRUE" />
+      <Field Fieldname="boundingBox" defaultValue="SbMatrix::identity()" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipDrawImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDrawImage.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawImage.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="inputImage" defaultValue="NULL" />
+      <Field Fieldname="format" defaultValue="RGB" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipDrawQuad" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDrawQuad.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawQuad.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="enableTexture" defaultValue="true" />
+      <Field Fieldname="filter" defaultValue="SAME" />
+      <Field Fieldname="blend" defaultValue="false" />
+      <Field Fieldname="colors" defaultValue="SbVec3f(1, 1, 1)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="SoGroup" Type="NODE" Name="SoXipFbo" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFbo.cpp" Macrocalls="14" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipFbo.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoGLTextureEnabledElement.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="width" defaultValue="0" />
+      <Field Fieldname="height" defaultValue="0" />
+      <Field Fieldname="autoSize" defaultValue="false" />
+      <Field Fieldname="colorAttachments" defaultValue="0" />
+      <Field Fieldname="colorFormat" defaultValue="RGBA" />
+      <Field Fieldname="colorInternal" defaultValue="RGBA8" />
+      <Field Fieldname="useDepthBuffer" defaultValue="true" />
+      <Field Fieldname="colorHandlesOutput" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipFboAttachColor" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFboAttachColor.cpp" Macrocalls="13" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="SoXipFboAttachColor.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="multiplicity" defaultValue="1" />
+      <Field Fieldname="bufferStorage" defaultValue="TEXTURE" />
+      <Field Fieldname="format" defaultValue="RGBA" />
+      <Field Fieldname="internalFormat" defaultValue="RGBA8" />
+      <Field Fieldname="wrap" defaultValue="CLAMP_TO_BORDER" />
+      <Field Fieldname="filter" defaultValue="NEAREST" />
+      <Field Fieldname="handleOutput" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipFboAttachColor3D" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFboAttachColor3D.cpp" Macrocalls="15" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipFboAttachColor3D.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="multiplicity" defaultValue="1" />
+      <Field Fieldname="sizeX" defaultValue="256" />
+      <Field Fieldname="sizeY" defaultValue="256" />
+      <Field Fieldname="sizeZ" defaultValue="256" />
+      <Field Fieldname="format" defaultValue="RGBA" />
+      <Field Fieldname="internalFormat" defaultValue="RGBA8" />
+      <Field Fieldname="wrap" defaultValue="CLAMP_TO_BORDER" />
+      <Field Fieldname="filter" defaultValue="NEAREST" />
+      <Field Fieldname="handleOutput" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipFboAttachDepth" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFboAttachDepth.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="SoXipFboAttachDepth.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="bufferStorage" defaultValue="TEXTURE" />
+      <Field Fieldname="internalFormat" defaultValue="DEPTH_COMPONENT24" />
+      <Field Fieldname="wrap" defaultValue="CLAMP_TO_BORDER" />
+      <Field Fieldname="filter" defaultValue="NEAREST" />
+      <Field Fieldname="handleOutput" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipFboAttachDepth3D" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFboAttachDepth3D.cpp" Macrocalls="14" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="SoXipFboAttachDepth3D.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="sizeX" defaultValue="256" />
+      <Field Fieldname="sizeY" defaultValue="256" />
+      <Field Fieldname="sizeZ" defaultValue="256" />
+      <Field Fieldname="bufferStorage" defaultValue="TEXTURE" />
+      <Field Fieldname="internalFormat" defaultValue="DEPTH_COMPONENT24" />
+      <Field Fieldname="wrap" defaultValue="CLAMP_TO_BORDER" />
+      <Field Fieldname="filter" defaultValue="NEAREST" />
+      <Field Fieldname="handleOutput" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipFboElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFboElement.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipFrameRate" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFrameRate.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipFrameRate.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="frameRate" defaultValue="0" />
+      <Field Fieldname="printOutput" defaultValue="false" />
+      <Field Fieldname="frameRate" defaultValue="0" />
+      <Field Fieldname="printOutput" defaultValue="false" />
+    </Fields>
+  </class>
+  <class ParentClass="SoElement" Type="ELEMENT" Name="SoXipFramebufferElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFramebufferElement.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="xip/inventor/coregl/SoXipFramebufferElement.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipFramebufferFlip" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFramebufferFlip.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipFramebufferElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFramebufferFlip.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="SoGroup" Type="NODE" Name="SoXipFramebufferGroup" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipFramebufferGroup.cpp" Macrocalls="19" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoGLTextureEnabledElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFramebufferElement.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="SoXipFramebufferGroup.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="width" defaultValue="0" />
+      <Field Fieldname="height" defaultValue="0" />
+      <Field Fieldname="autoSize" defaultValue="false" />
+      <Field Fieldname="format" defaultValue="RGBA" />
+      <Field Fieldname="internalFormat" defaultValue="RGBA8" />
+      <Field Fieldname="depthInternalFormat" defaultValue="DEPTH_COMPONENT24" />
+      <Field Fieldname="wrapS" defaultValue="CLAMP_TO_BORDER" />
+      <Field Fieldname="wrapT" defaultValue="CLAMP_TO_BORDER" />
+      <Field Fieldname="borderColor" defaultValue="SbVec4f(0, 0, 0, 0)" />
+      <Field Fieldname="filter" defaultValue="NEAREST" />
+      <Field Fieldname="needPingPong" defaultValue="false" />
+      <Field Fieldname="sharedDepth" defaultValue="false" />
+      <Field Fieldname="bindAllTextures" defaultValue="false" />
+    </Fields>
+  </class>
+  <class ParentClass="SoElement" Type="ELEMENT" Name="SoXipGLOWElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGlowElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="GL/glx.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLSLPrograms" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLSLPrograms.cpp" Macrocalls="18" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="SoXipGLSLPrograms.h" />
+      <Include Path="ShaderProgramManager.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="string" />
+      <Include Path="vector" />
+      <Include Path="fstream" />
+      <Include Path="sys/stat.h" />
+      <Include Path="time.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="prgTags" defaultValue="&quot;&quot;" />
+      <Field Fieldname="vpFilenames" defaultValue="&quot;&quot;" />
+      <Field Fieldname="gpFilenames" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fpFilenames" defaultValue="&quot;&quot;" />
+      <Field Fieldname="vpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="gpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="updateShaders" defaultValue="" />
+      <Field Fieldname="autoUpdate" defaultValue="false" />
+      <Field Fieldname="geometryInputType" defaultValue="IN_TRIANGLES" />
+      <Field Fieldname="geometryOutputType" defaultValue="OUT_TRIANGLE_STRIP" />
+      <Field Fieldname="maxEmittedVertices" defaultValue="1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipShaderProgramElement" Type="ELEMENT" Name="SoXipGLSLShaderProgramElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLSLShaderProgramElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="ShaderProgramManager.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoXipGLSLUniformGroup" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLSLUniformGroup.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipGLSLUniformGroup.h" />
+      <Include Path="Inventor/nodes/SoSubNode.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/misc/SoChildList.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLSLUseProgram" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLSLUseProgram.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipGLSLUseProgram.h" />
+      <Include Path="ShaderProgramManager.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="prgTag" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLStringMarker" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLStringMarker.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="SoXipGLStringMarker.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="string" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGetCameraProperties" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGetCameraProperties.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipGetCameraProperties.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="camPos" defaultValue="SbVec3f(0.0,0.0,0.0)" />
+      <Field Fieldname="camDir" defaultValue="SbVec3f(0.0,0.0,0.0)" />
+      <Field Fieldname="viewport" defaultValue="SbVec4f(0.0,0.0,0.0,0.0)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGetTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGetTransform.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipGetTransform.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/elements/SoProjectionMatrixElement.h" />
+      <Include Path="Inventor/elements/SoTextureMatrixElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="matrixType" defaultValue="MODELVIEW" />
+      <Field Fieldname="matrix" defaultValue="SbMatrix::identity()" />
+      <Field Fieldname="invert" defaultValue="false" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipLoadShaders" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLoadShaders.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="SoXipLoadShaders.h" />
+      <Include Path="string" />
+      <Include Path="vector" />
+      <Include Path="fstream" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="fpFilename" defaultValue="&quot;&quot;" />
+      <Field Fieldname="vpFilename" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="vpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="reload" defaultValue="" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipLogGLState" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLogGLState.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipLogGLState.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="xip/system/GL/glext.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="log" defaultValue="TRUE" />
+      <Field Fieldname="filename" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipLutTexture" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipLutTexture.cpp" Macrocalls="13" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="xip/inventor/core/SoXipLutElement.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="Inventor/elements/SoGLTextureEnabledElement.h" />
+      <Include Path="Inventor/elements/SoComplexityElement.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+      <Include Path="SoXipLutTexture.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="interpolation" defaultValue="TRUE" />
+      <Field Fieldname="preMultiplyRGB" defaultValue="TRUE" />
+      <Field Fieldname="opacityCorrection" defaultValue="TRUE" />
+      <Field Fieldname="samplingRate" defaultValue="1.0f" />
+      <Field Fieldname="useComplexity" defaultValue="FALSE" />
+      <Field Fieldname="textureSize" defaultValue="SbVec2s(0, 0)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipMultiplyMatrices" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipMultiplyMatrices.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipMultiplyMatrices.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="SbMatrix::identity()" Inputname="left" />
+      <Input defaultValue="SbMatrix::identity()" Inputname="right" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoSFMatrix" />
+      <Output Outputname="output" Type="SoSFMatrix" Code="setValue(result)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipOffscreenRenderer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOffscreenRenderer.cpp" Macrocalls="16" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipOffscreenRenderer.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/nodes/SoCamera.h" />
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="xip/system/GL/glu.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="iostream" />
+      <Include Path="fstream" />
+      <Include Path="string" />
+      <Include Path="sstream" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="UBYTE" Inputname="depthFormat" />
+      <Input defaultValue="0" Inputname="node" />
+      <Input defaultValue="512" Inputname="width" />
+      <Input defaultValue="512" Inputname="height" />
+      <Input defaultValue="0, 0, 0" Inputname="background" />
+      <Input defaultValue="" Inputname="apply" />
+      <Input defaultValue="FALSE" Inputname="autoApply" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="image" Type="SoXipSFDataImage" />
+      <Output Outputname="depthImage" Type="SoXipSFDataImage" />
+      <Output Outputname="image" Type="SoXipSFDataImage" Code="setValue(mImageData)" />
+      <Output Outputname="image" Type="SoXipSFDataImage" Code="setValue(mImageData)" />
+      <Output Outputname="depthImage" Type="SoXipSFDataImage" Code="setValue(mDepthImageData)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOpenGLError" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipOpenGLError.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipOpenGLError.h" />
+      <Include Path="Inventor/errors/SoError.h" />
+      <Include Path="Inventor/errors/SoDebugError.h" />
+      <Include Path="string" />
+      <Include Path="xip/system/GL/glu.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="raiseError" defaultValue="true" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipPingPong" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPingPong.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipPingPong.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="handleOutput" defaultValue="0" />
+      <Field Fieldname="opUnitOutput" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="SoGroup" Type="NODE" Name="SoXipPingPongFlip" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipPingPongFlip.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipPingPongFlip.h" />
+      <Include Path="xip/inventor/coregl/FramebufferObject.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipDrawBuffersElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipSetTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSetTransform.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipSetTransform.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="Inventor/elements/SoProjectionMatrixElement.h" />
+      <Include Path="Inventor/elements/SoTextureMatrixElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="matrixType" defaultValue="MODEL" />
+      <Field Fieldname="matrix" defaultValue="SbMatrix::identity()" />
+      <Field Fieldname="multiply" defaultValue="false" />
+    </Fields>
+  </class>
+  <class ParentClass="SoInt32Element" Type="ELEMENT" Name="SoXipShaderProgramElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipShaderProgramElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipTextureUnit" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipTextureUnit.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="SoXipTextureUnit.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="textureStage" defaultValue="0" />
+      <Field Fieldname="autoGenerate" defaultValue="true" />
+    </Fields>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipTransparentGeometryRenderer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipTransparentGeometryRenderer.cpp" Macrocalls="15" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipTransparentGeometryRenderer.h" />
+      <Include Path="Inventor/nodes/SoSubNode.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoPickAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="xip/inventor/core/SoXipTransparentGeometryGroupElement.h" />
+      <Include Path="xip/inventor/core/SoXipMultiTextureElement.h" />
+      <Include Path="Inventor/misc/SoChildList.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipFboElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="maxNumLayers" defaultValue="1" />
+      <Field Fieldname="firstLayer" defaultValue="1" />
+      <Field Fieldname="sourceFBO" defaultValue="0" />
+      <Field Fieldname="textureUnit" defaultValue="0" />
+      <Field Fieldname="textureName" defaultValue="&quot;&quot;" />
+      <Field Fieldname="mRenderMode" defaultValue="PING_PONG" />
+      <Field Fieldname="outputColorBufferHandle" defaultValue="0" />
+      <Field Fieldname="outputDepthBufferHandle" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipUniformVariable" ParentPrintName="SoXipUniformVariable" Type="NODE" Name="SoXipUniformFloat" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="value" defaultValue="0.0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipUniformVariable" ParentPrintName="SoXipUniformVariable" Type="NODE" Name="SoXipUniformInt" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="value" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipUniformVariable" ParentPrintName="SoXipUniformVariable" Type="NODE" Name="SoXipUniformMatrix3" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="value" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipUniformVariable" ParentPrintName="SoXipUniformVariable" Type="NODE" Name="SoXipUniformMatrix4" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="value" defaultValue="SbMatrix::identity()" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipUniformVariable" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="name" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipUniformVariable" ParentPrintName="SoXipUniformVariable" Type="NODE" Name="SoXipUniformVec2f" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="value" defaultValue="0.0,0.0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipUniformVariable" ParentPrintName="SoXipUniformVariable" Type="NODE" Name="SoXipUniformVec3f" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="value" defaultValue="0.0,0.0,0.0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipUniformVariable" ParentPrintName="SoXipUniformVariable" Type="NODE" Name="SoXipUniformVec4f" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipUniformVariable.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipUniformVariable.h" />
+      <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="value" defaultValue="0.0,0.0,0.0,0.0" />
+    </Fields>
+  </class>
+  <class Type="NODE" Name="XipGLSLUniformGroup" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLSLUniformGroup.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipGLSLUniformGroup.h" />
+      <Include Path="Inventor/nodes/SoSubNode.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/misc/SoChildList.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="prgTags" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+</classes>

@@ -396,8 +396,8 @@ SoXipImageExaminerBase::increaseSliceIndex( int count )
 	int newSliceIndex = sliceIndex.getValue();
 	int newImageIndex = imageIndex.getValue();
 
-	if( newImageIndex < 0 || newImageIndex >= getNumImages() ||
-		newSliceIndex < 0 || newSliceIndex >= getNumSlices( newImageIndex ) )
+	if( newImageIndex < 0 || newImageIndex >= (int)getNumImages() ||
+		newSliceIndex < 0 || newSliceIndex >= (int)getNumSlices( newImageIndex ) )
 	{
 		SoDebugError::post( __FILE__, "Invalid index" );
 		return ;
@@ -405,14 +405,14 @@ SoXipImageExaminerBase::increaseSliceIndex( int count )
 
 	while( count > 0 )
 	{
-		if( newSliceIndex < getNumSlices( newImageIndex ) - 1 )
+		if( newSliceIndex < int(getNumSlices( newImageIndex )) - 1 )
 			++ newSliceIndex;
 
 		else 
 		{			
 			// If in LOOP mode, look if there any image after we
 			// could switch to (and load its first slice)
-			if( newImageIndex < getNumImages() - 1 )
+			if( newImageIndex < int(getNumImages()) - 1 )
 			{
 				++ newImageIndex;
 			}
@@ -439,8 +439,8 @@ SoXipImageExaminerBase::decreaseSliceIndex( int count )
 	int newSliceIndex = sliceIndex.getValue();
 	int newImageIndex = imageIndex.getValue();
 
-	if( newImageIndex < 0 || newImageIndex >= getNumImages() ||
-		newSliceIndex < 0 || newSliceIndex >= getNumSlices( newImageIndex ) )
+	if( newImageIndex < 0 || newImageIndex >= (int)getNumImages() ||
+		newSliceIndex < 0 || newSliceIndex >= (int)getNumSlices( newImageIndex ) )
 	{
 		SoDebugError::post( __FILE__, "Invalid index" );
 		return ;
@@ -808,3 +808,4 @@ SoXipImageExaminerBase::saveViewInformation( SoHandleEventAction* action )
 		mPlaneProj.setPlane( mViewVolume.getPlane( mViewVolume.getNearDist() + distance ) );
 	}
 }
+

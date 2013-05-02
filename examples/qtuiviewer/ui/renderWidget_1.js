@@ -7,14 +7,17 @@ function Form(ui)
      ui.findChild("levelSlider").value = this.getParam('WindowLevelManip.level')*100;
      ui.findChild("windowSlider").value = this.getParam('WindowLevelManip.window')*100;
      
+     this.ui.lineEdit.text = 'Sliders: ';
+     
      // Add field sensors
      this.setParam('AddFieldSensor', 'WindowLevelManip.level');
+     this.setParam('AddFieldSensor', 'WindowLevelManip.window');
      this.setParam('AddFieldSensor', 'RenderArea.current');
      
      var current = 1; // current active render area
      
      // connect controls   
-     //this.ui.btnReset.clicked.connect(this, "reset");
+     this.ui.btnReset.clicked.connect(this, "reset");
      this.ui.btnPopup.clicked.connect(this, "popup");
      this.ui.findChild("levelSlider").valueChanged.connect(this, "setLevel");
      this.ui.findChild("windowSlider").valueChanged.connect(this, "setWindow");
@@ -74,30 +77,30 @@ Form.prototype.setWindow = function()
 } 
 
 // reset everything
-//Form.prototype.reset = function()
-//{
-//    this.ui.findChild("windowSlider").value = 42.9688;
-//    this.ui.findChild("levelSlider").value = 31.0059;
-//    this.setParam('MprExaminer0.orientation', 'FEET');
-//    this.setParam('MprExaminer0.viewOrientation', '');
-//	this.setParam('MprExaminer0.viewAll', '');
-//    this.setParam('MprExaminer1.orientation', 'LEFT');
-//    this.setParam('MprExaminer1.viewOrientation', '');
-//	this.setParam('MprExaminer1.viewAll', '');
-//    this.setParam('MprExaminer2.orientation', 'POSTERIOR');
-//    this.setParam('MprExaminer2.viewOrientation', '');
-//	this.setParam('MprExaminer2.viewAll', '');
-//    this.setParam('MprExaminer0.dogEar', 'TRUE');
-//    this.setParam('MprExaminer1.dogEar', 'TRUE');
-//    this.setParam('MprExaminer2.dogEar', 'TRUE');
-//    this.setParam('MprExaminer0.border', 'TRUE');
-//    this.setParam('MprExaminer1.border', 'TRUE');
-//    this.setParam('MprExaminer2.border', 'TRUE');
-//    this.setParam('MprExaminer0.orientationCube', 'TRUE');
-//    this.setParam('MprExaminer1.orientationCube', 'TRUE');
-//    this.setParam('MprExaminer2.orientationCube', 'TRUE');
-//    
-//}
+Form.prototype.reset = function()
+{
+    this.ui.findChild("windowSlider").value = 42.9688;
+    this.ui.findChild("levelSlider").value = 31.0059;
+    this.setParam('MprExaminer0.orientation', 'FEET');
+    this.setParam('MprExaminer0.viewOrientation', '');
+	this.setParam('MprExaminer0.viewAll', '');
+    this.setParam('MprExaminer1.orientation', 'LEFT');
+    this.setParam('MprExaminer1.viewOrientation', '');
+	this.setParam('MprExaminer1.viewAll', '');
+    this.setParam('MprExaminer2.orientation', 'POSTERIOR');
+    this.setParam('MprExaminer2.viewOrientation', '');
+	this.setParam('MprExaminer2.viewAll', '');
+    this.setParam('MprExaminer0.dogEar', 'TRUE');
+    this.setParam('MprExaminer1.dogEar', 'TRUE');
+    this.setParam('MprExaminer2.dogEar', 'TRUE');
+    this.setParam('MprExaminer0.border', 'TRUE');
+    this.setParam('MprExaminer1.border', 'TRUE');
+    this.setParam('MprExaminer2.border', 'TRUE');
+    this.setParam('MprExaminer0.orientationCube', 'TRUE');
+    this.setParam('MprExaminer1.orientationCube', 'TRUE');
+    this.setParam('MprExaminer2.orientationCube', 'TRUE');
+    
+}
 
 Form.prototype.popup = function()
 {

@@ -1,0 +1,269 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class ParentClass="SoVtkAlgorithmOutput" Type="SFDATA" Name="SoSFVtkAlgorithmOutput" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoSFVtkAlgorithmOutput.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/vtk/SoSFVtkAlgorithmOutput.h" />
+      <Include Path="xip/inventor/vtk/SoVtkAlgorithmOutput.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoVtkObject" Type="SFDATA" Name="SoSFVtkObject" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoSFVtkObject.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/vtk/SoSFVtkObject.h" />
+      <Include Path="xip/inventor/vtk/SoVtkObject.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoVtkActor" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkActor.cpp" Macrocalls="13" />
+      <Sourcefile Filename="SoVtkLODActor.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkActor.h" />
+      <Include Path="SoVtkUtils.h" />
+      <Include Path="vtkMapper.h" />
+      <Include Path="vtkTexture.h" />
+      <Include Path="vtkProperty.h" />
+      <Include Path="Inventor/elements/SoLocalBBoxMatrixElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="Mapper" defaultValue="0" />
+      <Field Fieldname="Property" defaultValue="0" />
+      <Field Fieldname="BackfaceProperty" defaultValue="0" />
+      <Field Fieldname="Texture" defaultValue="0" />
+      <Field Fieldname="Origin" defaultValue="0, 0, 0" />
+      <Field Fieldname="Orientation" defaultValue="0, 0, 0" />
+      <Field Fieldname="Position" defaultValue="0, 0, 0" />
+      <Field Fieldname="Scale" defaultValue="0, 0, 0" />
+      <Field Fieldname="Pickable" defaultValue="0" />
+      <Field Fieldname="Visibility" defaultValue="0" />
+      <Field Fieldname="Mapper" defaultValue="0" />
+      <Field Fieldname="Property" defaultValue="0" />
+      <Field Fieldname="BackfaceProperty" defaultValue="0" />
+      <Field Fieldname="Texture" defaultValue="0" />
+      <Field Fieldname="Origin" defaultValue="0, 0, 0" />
+      <Field Fieldname="Orientation" defaultValue="0, 0, 0" />
+      <Field Fieldname="Position" defaultValue="0, 0, 0" />
+      <Field Fieldname="Scale" defaultValue="0, 0, 0" />
+      <Field Fieldname="Pickable" defaultValue="0" />
+      <Field Fieldname="Visibility" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoVtkActor2D" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkActor2D.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkActor2D.h" />
+      <Include Path="vtkMapper2D.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="Mapper" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoVtkAlgorithmOutput" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkAlgorithmOutput.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/vtk/SoVtkAlgorithmOutput.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoVtkAssembly" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkAssembly.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkAssembly.h" />
+      <Include Path="Inventor/elements/SoLocalBBoxMatrixElement.h" />
+      <Include Path="SoVtkActor.h" />
+      <Include Path="SoVtkVolume.h" />
+      <Include Path="SoVtkActor2D.h" />
+      <Include Path="SoVtkImageActor.h" />
+      <Include Path="SoVtkLODActor.h" />
+      <Include Path="vtkProp3DCollection.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="Origin" defaultValue="vec3fInitValue" />
+      <Field Fieldname="Position" defaultValue="vec3fInitValue" />
+    </Fields>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="SoFieldConverter" Type="ENGINE" Name="SoVtkConvertXipImageToVtkAlgorithmOutput" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkConvertXipImageToVtkAlgorithmOutput.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkConvertXipImageToVtkAlgorithmOutput.h" />
+      <Include Path="vtkImageImport.h" />
+      <Include Path="vtkAlgorithmOutput.h" />
+      <Include Path="vtkImageViewer.h" />
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="SoVtkUtils.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="Input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="OutputPort" Type="SoSFVtkAlgorithmOutput" />
+      <Output Outputname="OutputPort" Type="SoSFVtkAlgorithmOutput" Code="setValue(0)" />
+      <Output Outputname="OutputPort" Type="SoSFVtkAlgorithmOutput" Code="setValue( mAlgorithmOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoVtkImageActor" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkImageActor.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkImageActor.h" />
+      <Include Path="xip/inventor/vtk/SoVtkObject.h" />
+      <Include Path="vtkImageData.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="Input" defaultValue="0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoVtkImageViewer2" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkImageViewer2.cpp" Macrocalls="12" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoFocalDistanceElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoComplexityElement.h" />
+      <Include Path="xip/inventor/vtk/SoVtkAlgorithmOutput.h" />
+      <Include Path="xip/inventor/vtk/SoVtkObject.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="vtkImageData.h" />
+      <Include Path="vtkImageActor.h" />
+      <Include Path="vtkCamera.h" />
+      <Include Path="vtkRenderer.h" />
+      <Include Path="SoVtkImageViewer2.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="InputConnection" defaultValue="0" />
+      <Field Fieldname="Input" defaultValue="0" />
+      <Field Fieldname="BitsUsed" defaultValue="8" />
+      <Field Fieldname="Window" defaultValue="0" />
+      <Field Fieldname="Level" defaultValue="0" />
+      <Field Fieldname="SliceOrientation" defaultValue="XY" />
+      <Field Fieldname="SliceIndex" defaultValue="0" />
+      <Field Fieldname="NextSlice" defaultValue="" />
+      <Field Fieldname="PreviousSlice" defaultValue="" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoVtkLODActor" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkLODActor.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkLODActor.h" />
+      <Include Path="SoVtkUtils.h" />
+      <Include Path="vtkMapper.h" />
+      <Include Path="vtkTexture.h" />
+      <Include Path="vtkProperty.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoVtkMatrix4x4" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkMatrix4x4.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkMatrix4x4.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="1,0,0,0,&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0,1,0,0,&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0,0,1,0,&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0,0,0,1" Inputname="Matrix" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoSFVtkObject" />
+      <Output Outputname="Output" Type="SoSFVtkObject" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoVtkObject" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkObject.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/vtk/SoVtkObject.h" />
+      <Include Path="vtkObject.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoVtkPolyData" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkPolyData.cpp" Macrocalls="23" />
+    </Sourcefiles>
+    <Includes/>
+    <Inputs>
+      <Input defaultValue="0" Inputname="Input" />
+      <Input defaultValue="0" Inputname="ExtentTranslator" />
+      <Input defaultValue="0" Inputname="MaximumNumberOfPieces" />
+      <Input defaultValue="0" Inputname="RequestExactExtent" />
+      <Input defaultValue="0" Inputname="UpdatePiece" />
+      <Input defaultValue="" Inputname="WholeBoundingBox" />
+      <Input defaultValue="0" Inputname="UpdateGhostLevel" />
+      <Input defaultValue="0" Inputname="UpdateNumberOfPieces" />
+      <Input defaultValue="0" Inputname="Lines" />
+      <Input defaultValue="0" Inputname="Strips" />
+      <Input defaultValue="0" Inputname="Source" />
+      <Input defaultValue="0" Inputname="PipelineInformation" />
+      <Input defaultValue="0" Inputname="FieldData" />
+      <Input defaultValue="0" Inputname="Polys" />
+      <Input defaultValue="" Inputname="UpdateExtent" />
+      <Input defaultValue="" Inputname="WholeExtent" />
+      <Input defaultValue="0" Inputname="Points" />
+      <Input defaultValue="0" Inputname="Verts" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoSFVtkObject" />
+      <Output Outputname="Output" Type="SoSFVtkObject" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoVtkRenderer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkRenderer.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkRenderer.h" />
+      <Include Path="Inventor/elements/SoViewVolumeElement.h" />
+      <Include Path="Inventor/elements/SoFocalDistanceElement.h" />
+      <Include Path="Inventor/elements/SoViewportRegionElement.h" />
+      <Include Path="Inventor/elements/SoViewingMatrixElement.h" />
+      <Include Path="Inventor/elements/SoComplexityElement.h" />
+      <Include Path="SoVtkAssembly.h" />
+      <Include Path="SoVtkActor.h" />
+      <Include Path="SoVtkActor2D.h" />
+      <Include Path="SoVtkImageActor.h" />
+      <Include Path="SoVtkLODActor.h" />
+      <Include Path="SoVtkVolume.h" />
+      <Include Path="SoVtkUtils.h" />
+      <Include Path="vtkCamera.h" />
+      <Include Path="vtkWin32OpenGLRenderWindow.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="Background" defaultValue="0,0,0" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoVtkVolume" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoVtkVolume.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoVtkVolume.h" />
+      <Include Path="SoVtkUtils.h" />
+      <Include Path="vtkAbstractVolumeMapper.h" />
+      <Include Path="vtkVolumeProperty.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="Mapper" defaultValue="0" />
+      <Field Fieldname="Property" defaultValue="0" />
+      <Field Fieldname="Origin" defaultValue="0,0,0" />
+      <Field Fieldname="Position" defaultValue="0,0,0" />
+    </Fields>
+  </class>
+</classes>

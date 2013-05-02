@@ -193,8 +193,8 @@ void SoXipLutTexture::GLRender(SoGLRenderAction *action)
 			    return;
 		    }
 			
-			bool preMultiply = static_cast<bool>(preMultiplyRGB.getValue());
-			bool alphaCorrection = static_cast<bool>(opacityCorrection.getValue());
+			bool preMultiply = preMultiplyRGB.getValue() == TRUE;
+			bool alphaCorrection = opacityCorrection.getValue() == TRUE;
 			float sRate = samplingRate.getValue();
 			if (useComplexity.getValue())
 			{

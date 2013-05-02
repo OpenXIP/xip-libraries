@@ -613,14 +613,14 @@ SbBool SoXipOffscreenRenderer::renderSWBuffer(){
 SbBool SoXipOffscreenRenderer::render()
 {
 
-	bool ret=false;
-	if(m_bUseFBO){
+	bool ret = false;
+	if (m_bUseFBO) {
 
-		ret=renderFBO();
+		ret = renderFBO() == TRUE;
 	}
-	else{
-		ret=renderSWBuffer();
-	};
+	else {
+		ret = renderSWBuffer() == TRUE;
+	}
 	return ret;
 
 }

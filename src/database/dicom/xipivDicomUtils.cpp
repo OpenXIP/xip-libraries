@@ -184,7 +184,7 @@ SbMatrix getModelMatrixFromDICOM(DcmDataset* dataSet)
 
 			if (element->ident() == EVR_DS)
 			{
-				for (int i = 0; i < element->getVM(); i++)
+				for (unsigned int i = 0; i < element->getVM(); i++)
 					element->getFloat64(spacing[i], i);
 			}
 		}
@@ -196,7 +196,7 @@ SbMatrix getModelMatrixFromDICOM(DcmDataset* dataSet)
 
 			if (element->ident() == EVR_DS)
 			{
-				for (int i = 0; i < element->getVM(); i++)
+				for (unsigned int i = 0; i < element->getVM(); i++)
 					element->getFloat64(imagePositionPatient[i], i);
 			}
 		}
@@ -208,7 +208,7 @@ SbMatrix getModelMatrixFromDICOM(DcmDataset* dataSet)
 
 			if (element->ident() == EVR_DS)
 			{
-				for (int i = 0; i < element->getVM(); i++)
+				for (unsigned int i = 0; i < element->getVM(); i++)
 					element->getFloat64(imageOrientationPatient[i], i);
 			}
 
@@ -461,7 +461,7 @@ SbXipImage* createImage( DcmDataset** dataset, unsigned int num )
 		// find the total number of slices
 		int depth = dicomAttributes.numberOfSlices;
 
-		for (int i = 1; i < num; i++)
+		for (unsigned int i = 1; i < num; i++)
 		{
 			if (!dataset[i])
 			{
@@ -492,7 +492,7 @@ SbXipImage* createImage( DcmDataset** dataset, unsigned int num )
 
 			if (element->ident() == EVR_DS)
 			{
-				for (int i = 0; i < element->getVM(); i++)
+				for (unsigned int i = 0; i < element->getVM(); i++)
 					element->getFloat64(imagePositionPatientFirst[i], i);
 			}
 		}
@@ -512,7 +512,7 @@ SbXipImage* createImage( DcmDataset** dataset, unsigned int num )
 
 			if (element->ident() == EVR_DS)
 			{
-				for (int i = 0; i < element->getVM(); i++)
+				for (unsigned int i = 0; i < element->getVM(); i++)
 					element->getFloat64(imagePositionPatientLast[i], i);
 			}
 		}
@@ -583,7 +583,7 @@ SbXipImage* createImage( DcmDataset** dataset, unsigned int num )
 			unsigned long pixelBufferSize = 0;
 			DcmPixelData *pixelData;
 
-			for (int i = 0; i < num; i++)
+			for (unsigned int i = 0; i < num; i++)
 			{
 				pixelBuffer = 0;
 				pixelBufferSize = 0;

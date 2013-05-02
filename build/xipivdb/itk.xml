@@ -1,0 +1,872 @@
+<!DOCTYPE XIP_Analyze Result>
+<classes>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoItkArray" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkArray.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkArray.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataArray.h" />
+      <Include Path="SoItkArray.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="FLOAT" Inputname="ValueType" />
+      <Input defaultValue="0" Inputname="Rows" />
+      <Input defaultValue="0" Inputname="Columns" />
+      <Input defaultValue="0" Inputname="Values" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataArray" />
+      <Output Outputname="Output" Type="SoItkSFDataArray" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataArray" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkNeighborhood" ParentPrintName="SoItkNeighborhood" Type="ENGINE" Name="SoItkBinaryBallStructuringElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkBinaryBallStructuringElement.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkBinaryBallStructuringElement.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataNeighborhood.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="SoItkBinaryBallStructuringElement.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataNeighborhood" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataNeighborhood" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkNeighborhood" ParentPrintName="SoItkNeighborhood" Type="ENGINE" Name="SoItkBinaryCrossStructuringElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkBinaryCrossStructuringElement.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkBinaryCrossStructuringElement.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataNeighborhood.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="SoItkBinaryCrossStructuringElement.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataNeighborhood" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataNeighborhood" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkRigid2DTransform" ParentPrintName="SoItkRigid2DTransform" Type="ENGINE" Name="SoItkCenteredRigid2DTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkCenteredRigid2DTransform.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkCenteredRigid2DTransform.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataArray.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataTransform.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="Inventor/fields/SoMFFloat.h" />
+      <Include Path="Inventor/fields/SoSFFloat.h" />
+      <Include Path="SoItkCenteredRigid2DTransform.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataTransform" Code="setValue( 0 )" />
+      <Output Outputname="NumberOfParameters" Type="SoSFFloat" Code="setValue( numberOfParameters )" />
+      <Output Outputname="OutputParameters" Type="SoMFFloat" Code="setValues( 0, numberOfParameters, parameters )" />
+      <Output Outputname="Output" Type="SoItkSFDataTransform" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoItkComposeMFDataImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkComposeMFDataImage.cpp" Macrocalls="13" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkMFDataImage.h" />
+      <Include Path="SoItkComposeMFDataImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input1" />
+      <Input defaultValue="0" Inputname="input2" />
+      <Input defaultValue="0" Inputname="input3" />
+      <Input defaultValue="0" Inputname="input4" />
+      <Input defaultValue="0" Inputname="input5" />
+      <Input defaultValue="0" Inputname="input6" />
+      <Input defaultValue="0" Inputname="input7" />
+      <Input defaultValue="0" Inputname="input8" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoItkMFDataImage" />
+      <Output Outputname="output" Type="SoItkMFDataImage" Code="copyFrom(tmp)" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="SoFieldConverter" Type="ENGINE" Name="SoItkConvertDicomToItkImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkConvertDicomToItkImage.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="ItkImportImageFilter.h" />
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="xip/inventor/core/SoRadDataDicom.h" />
+      <Include Path="Rad/Data/RadDataObjectBase.h" />
+      <Include Path="Rad/Data/RadDICOMTypes.h" />
+      <Include Path="SoItkConvertDicomToItkImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoItkSFDataImage" />
+      <Output Outputname="output" Type="SoItkSFDataImage" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoItkSFDataImage" Code="setValue( mItkImage )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="SoFieldConverter" Type="ENGINE" Name="SoItkConvertItkImageToXipImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkConvertItkImageToXipImage.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImage.h" />
+      <Include Path="itkRGBPixel.h" />
+      <Include Path="itkRGBAPixel.h" />
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="SoItkConvertItkImageToXipImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoXipSFDataImage" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoXipSFDataImage" Code="setValue( mXipImage )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="SoFieldConverter" Type="ENGINE" Name="SoItkConvertItkPointSetToMFVec3f" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkConvertItkPointSetToMFVec3f.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkPointSet.h" />
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="Inventor/fields/SoMFVec3f.h" />
+      <Include Path="SoItkConvertItkPointSetToMFVec3f.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="Input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoMFVec3f" />
+      <Output Outputname="Output" Type="SoMFVec3f" Code="setNum( numberOfPoints )" />
+      <Output Outputname="Output" Type="SoMFVec3f" Code="set1Value( count ++, point )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="SoFieldConverter" Type="ENGINE" Name="SoItkConvertMFDicomToItkImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkConvertMFDicomToItkImage.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="ItkImportImageFilter.h" />
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="xip/inventor/core/SoRadDataDicom.h" />
+      <Include Path="Rad/Data/RadDataObjectBase.h" />
+      <Include Path="Rad/Data/RadDICOMTypes.h" />
+      <Include Path="SoItkConvertMFDicomToItkImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoItkSFDataImage" />
+      <Output Outputname="output" Type="SoItkSFDataImage" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoItkSFDataImage" Code="setValue( mItkImage )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoFieldConverter" ParentPrintName="SoFieldConverter" Type="ENGINE" Name="SoItkConvertXipImageToItkImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkConvertXipImageToItkImage.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImportImageFilter.h" />
+      <Include Path="itkRGBPixel.h" />
+      <Include Path="itkRGBAPixel.h" />
+      <Include Path="Inventor/SoDB.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="SoItkConvertXipImageToItkImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="input" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="output" Type="SoItkSFDataImage" />
+      <Output Outputname="output" Type="SoItkSFDataImage" Code="setValue(0)" />
+      <Output Outputname="output" Type="SoItkSFDataImage" Code="setValue( mItkImage )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataArray" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataArray.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkArray.h" />
+      <Include Path="xip/inventor/itk/SoItkDataArray.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataDecorator" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataDecorator.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkSimpleDataObjectDecorator.h" />
+      <Include Path="xip/inventor/itk/SoItkDataDecorator.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataImage.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImageBase.h" />
+      <Include Path="xip/inventor/itk/SoItkDataImage.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataImageMetric" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataImageMetric.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImageToImageMetric.h" />
+      <Include Path="xip/inventor/itk/SoItkDataImageMetric.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataInterpolator" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataInterpolator.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkInterpolateImageFunction.h" />
+      <Include Path="xip/inventor/itk/SoItkDataInterpolator.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataMatrix" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataMatrix.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkMatrix.h" />
+      <Include Path="xip/inventor/itk/SoItkDataMatrix.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataNeighborhood" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataNeighborhood.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkDataNeighborhood.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataOptimizer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataOptimizer.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkOptimizer.h" />
+      <Include Path="xip/inventor/itk/SoItkDataOptimizer.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataPointSet" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataPointSet.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkPointSet.h" />
+      <Include Path="xip/inventor/itk/SoItkDataPointSet.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoXipData" ParentPrintName="SoXipData" Type="DATA" Name="SoItkDataTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkDataTransform.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkTransform.h" />
+      <Include Path="xip/inventor/itk/SoItkDataTransform.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkImageToImageFilter" ParentPrintName="SoItkImageToImageFilter" Type="ENGINE" Name="SoItkFastMarchingImageFilter" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkFastMarchingImageFilter.cpp" Macrocalls="19" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkFastMarchingImageFilter.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="SoItkFastMarchingImageFilter.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="FLOAT" Inputname="OutputPixelType" />
+      <Input defaultValue="2" Inputname="Dimension" />
+      <Input defaultValue="1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1" Inputname="ModelMatrix" />
+      <Input defaultValue="1.0" Inputname="NormalizationFactor" />
+      <Input defaultValue="0" Inputname="OutputRegion" />
+      <Input defaultValue="1.0" Inputname="OutputSpacing" />
+      <Input defaultValue="0" Inputname="OutputOrigin" />
+      <Input defaultValue="false" Inputname="CollectPoints" />
+      <Input defaultValue="" Inputname="TrialPoints" />
+      <Input defaultValue="" Inputname="AlivePoints" />
+      <Input defaultValue="false" Inputname="OverrideOutputInformation" />
+      <Input defaultValue="0" Inputname="OutputSize" />
+      <Input defaultValue="0" Inputname="StoppingValue" />
+      <Input defaultValue="1.0" Inputname="SpeedConstant" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataImage" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataImage" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentPrintName="Engine" Type="ENGINE" Parent="SoEngine" Name="SoItkFunctionBase" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkFunctionBase.cpp" Macrocalls="4" />
+      <Sourcefile Filename="SoItkImageFunction.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataInterpolator.h" />
+      <Include Path="SoItkFunctionBase.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataInterpolator" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoItkImageFileReader" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkImageFileReader.cpp" Macrocalls="14" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImageFileReader.h" />
+      <Include Path="itkRGBPixel.h" />
+      <Include Path="itkRGBAPixel.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataImage.h" />
+      <Include Path="Inventor/fields/SoMFShort.h" />
+      <Include Path="SoItkImageFileReader.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="File" />
+      <Input defaultValue="FLOAT" Inputname="Type" />
+      <Input defaultValue="TWO" Inputname="Dimension" />
+      <Input defaultValue="LUMINANCE" Inputname="ComponentLayout" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataImage" />
+      <Output Outputname="Dimensions" Type="SoMFShort" />
+      <Output Outputname="Output" Type="SoItkSFDataImage" Code="setValue( 0 )" />
+      <Output Outputname="Dimensions" Type="SoMFShort" Code="setNum( 0 )" />
+      <Output Outputname="Dimensions" Type="SoMFShort" Code="setNum(2)" />
+      <Output Outputname="Dimensions" Type="SoMFShort" Code="setValues( 0, 2, dims )" />
+      <Output Outputname="Output" Type="SoItkSFDataImage" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoItkImageFileWriter" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkImageFileWriter.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImage.h" />
+      <Include Path="itkImageFileWriter.h" />
+      <Include Path="itkRGBPixel.h" />
+      <Include Path="itkRGBAPixel.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataImage.h" />
+      <Include Path="SoItkImageFileWriter.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="File" />
+      <Input defaultValue="0" Inputname="Input" />
+      <Input defaultValue="" Inputname="Write" />
+    </Inputs>
+  </class>
+  <class ParentPrintName="SoItkFunctionBase" Type="ENGINE" Parent="SoItkFunctionBase" Name="SoItkImageFunction" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkImageFunction.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataInterpolator.h" />
+      <Include Path="SoItkImageFunction.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkProcessObject" ParentPrintName="SoItkProcessObject" Type="ENGINE" Name="SoItkImageRegistrationMethod" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkImageRegistrationMethod.cpp" Macrocalls="24" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImageRegistrationMethod.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="SoItkImageRegistrationMethod.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="InitialTransformParameters" />
+      <Input defaultValue="0" Inputname="Transform" />
+      <Input defaultValue="0" Inputname="FixedImage" />
+      <Input defaultValue="0" Inputname="MovingImage" />
+      <Input defaultValue="0" Inputname="Interpolator" />
+      <Input defaultValue="0" Inputname="Metric" />
+      <Input defaultValue="0" Inputname="FixedImageRegion" />
+      <Input defaultValue="0" Inputname="Optimizer" />
+      <Input defaultValue="" Inputname="Start" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="OutputOptimizer" Type="SoItkSFDataOptimizer" />
+      <Output Outputname="LastTransformParameters" Type="SoMFFloat" />
+      <Output Outputname="OutputOptimizer" Type="SoItkSFDataOptimizer" Code="setValue( 0 )" />
+      <Output Outputname="LastTransformParameters" Type="SoMFFloat" Code="setNum( 0 )" />
+      <Output Outputname="LastTransformParameters" Type="SoMFFloat" Code="setValues( 0, numberOfParameters, parameters )" />
+      <Output Outputname="OutputOptimizer" Type="SoItkSFDataOptimizer" Code="setValue( mOptimizer )" />
+      <Output Outputname="LastTransformParameters" Type="SoMFFloat" Code="setValues( 0, numberOfParameters, parameters )" />
+      <Output Outputname="OutputOptimizer" Type="SoItkSFDataOptimizer" Code="setValue( mOptimizer )" />
+      <Output Outputname="LastTransformParameters" Type="SoMFFloat" Code="setValues( 0, numberOfParameters, parameters )" />
+      <Output Outputname="OutputOptimizer" Type="SoItkSFDataOptimizer" Code="setValue( mOptimizer )" />
+      <Output Outputname="LastTransformParameters" Type="SoMFFloat" Code="setValues( 0, numberOfParameters, parameters )" />
+      <Output Outputname="OutputOptimizer" Type="SoItkSFDataOptimizer" Code="setValue( mOptimizer )" />
+    </Outputs>
+  </class>
+  <class ParentPrintName="Engine" Type="ENGINE" Parent="SoEngine" Name="SoItkImageToImageMetric" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkImageToImageMetric.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataImageMetric.h" />
+      <Include Path="SoItkImageToImageMetric.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="FLOAT" Inputname="PixelType" />
+      <Input defaultValue="2" Inputname="Dimension" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataImageMetric" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoItkImportImageFilter" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkImportImageFilter.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImportImageFilter.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataImage.h" />
+      <Include Path="SoItkImportImageFilter.h" />
+      <Include Path="fstream" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="&quot;&quot;" Inputname="File" />
+      <Input defaultValue="FLOAT" Inputname="Type" />
+      <Input defaultValue="0" Inputname="Width" />
+      <Input defaultValue="0" Inputname="Height" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataImage" />
+      <Output Outputname="Output" Type="SoItkSFDataImage" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataImage" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentPrintName="SoItkImageFunction" Type="ENGINE" Parent="SoItkImageFunction" Name="SoItkInterpolateImageFunction" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkInterpolateImageFunction.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataInterpolator.h" />
+      <Include Path="SoItkInterpolateImageFunction.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="FLOAT" Inputname="PixelType" />
+      <Input defaultValue="2" Inputname="Dimension" />
+    </Inputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoItkInterpolator" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkInterpolator.cpp" Macrocalls="6" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataInterpolator.h" />
+      <Include Path="SoItkInterpolator.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataInterpolator" />
+      <Output Outputname="Output" Type="SoItkSFDataInterpolator" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataInterpolator" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkInterpolateImageFunction" ParentPrintName="SoItkInterpolateImageFunction" Type="ENGINE" Name="SoItkLinearInterpolateImageFunction" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkLinearInterpolateImageFunction.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImage.h" />
+      <Include Path="itkLinearInterpolateImageFunction.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataInterpolator.h" />
+      <Include Path="SoItkLinearInterpolateImageFunction.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataInterpolator" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataInterpolator" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkDataImage" Type="MFDATA" Name="SoItkMFDataImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkMFDataImage.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkMFDataImage.h" />
+      <Include Path="xip/inventor/itk/SoItkDataImage.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoItkMatrix" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkMatrix.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkMatrix.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataMatrix.h" />
+      <Include Path="SoItkMatrix.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="FLOAT" Inputname="ValueType" />
+      <Input defaultValue="_2x2" Inputname="MatrixType" />
+      <Input defaultValue="0" Inputname="Values" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataMatrix" />
+      <Output Outputname="Output" Type="SoItkSFDataMatrix" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataMatrix" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkTransform" ParentPrintName="SoItkTransform" Type="ENGINE" Name="SoItkMatrixOffsetTransformBase" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkMatrixOffsetTransformBase.cpp" Macrocalls="12" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkMatrixOffsetTransformBase.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataTransform.h" />
+      <Include Path="Inventor/fields/SoMFFloat.h" />
+      <Include Path="Inventor/fields/SoSFFloat.h" />
+      <Include Path="SoItkMatrixOffsetTransformBase.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="Center" />
+      <Input defaultValue="0" Inputname="Translation" />
+      <Input defaultValue="FALSE" Inputname="UseMatrix" />
+      <Input defaultValue="1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1" Inputname="Matrix" />
+      <Input defaultValue="0" Inputname="Offset" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataTransform" Code="setValue( 0 )" />
+      <Output Outputname="NumberOfParameters" Type="SoSFFloat" Code="setValue( numberOfParameters )" />
+      <Output Outputname="OutputParameters" Type="SoMFFloat" Code="setValues( 0, numberOfParameters, parameters )" />
+      <Output Outputname="Output" Type="SoItkSFDataTransform" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkImageToImageMetric" ParentPrintName="SoItkImageToImageMetric" Type="ENGINE" Name="SoItkMeanSquaresImageToImageMetric" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkMeanSquaresImageToImageMetric.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkMeanSquaresImageToImageMetric.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataImageMetric.h" />
+      <Include Path="SoItkMeanSquaresImageToImageMetric.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataImageMetric" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataImageMetric" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoItkNeighborhood" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkNeighborhood.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkNeighborhood.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataNeighborhood.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="SoItkNeighborhood.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="FLOAT" Inputname="PixelType" />
+      <Input defaultValue="2" Inputname="Dimension" />
+      <Input defaultValue="0" Inputname="Radius" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataNeighborhood" />
+      <Output Outputname="Output" Type="SoItkSFDataNeighborhood" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataNeighborhood" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoItkNodeContainer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkNodeContainer.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFNodeContainer.h" />
+      <Include Path="SoItkNodeContainer.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="DefaultLabel" />
+      <Input defaultValue="0, 0, 0" Inputname="Seeds" />
+      <Input defaultValue="0" Inputname="Labels" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="NodeContainer" Type="SoItkSFNodeContainer" />
+      <Output Outputname="NodeContainer" Type="SoItkSFNodeContainer" Code="setValue( nodeContainer )" />
+      <Output Outputname="NodeContainer" Type="SoItkSFNodeContainer" Code="setValue( SbItkNodeContainer() )" />
+    </Outputs>
+  </class>
+  <class ParentPrintName="SoItkOptimizer" Type="ENGINE" Parent="SoItkOptimizer" Name="SoItkNonLinearOptimizer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkNonLinearOptimizer.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataOptimizer.h" />
+      <Include Path="SoItkNonLinearOptimizer.h" />
+    </Includes>
+  </class>
+  <class ParentPrintName="Engine" Type="ENGINE" Parent="SoEngine" Name="SoItkOptimizer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkOptimizer.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataOptimizer.h" />
+      <Include Path="SoItkOptimizer.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="Scales" />
+      <Input defaultValue="0" Inputname="InitialPosition" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="CurrentPosition" Type="SoSFFloat" />
+      <Output Outputname="Output" Type="SoItkSFDataOptimizer" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoItkPointSet" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkPointSet.cpp" Macrocalls="10" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkPointSet.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataPointSet.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="SoItkPointSet.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="FLOAT" Inputname="PixelType" />
+      <Input defaultValue="2" Inputname="Dimension" />
+      <Input defaultValue="0, 0, 0" Inputname="Points" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="PointSet" Type="SoItkSFDataPointSet" />
+      <Output Outputname="PointSet" Type="SoItkSFDataPointSet" Code="setValue( 0 )" />
+      <Output Outputname="PointSet" Type="SoItkSFDataPointSet" Code="setValue( 0 )" />
+      <Output Outputname="PointSet" Type="SoItkSFDataPointSet" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentPrintName="SoItkSingleValuedNonLinearOptimizer" Type="ENGINE" Parent="SoItkSingleValuedNonLinearOptimizer" Name="SoItkRegularStepGradientDescentBaseOptimizer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkRegularStepGradientDescentBaseOptimizer.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataOptimizer.h" />
+      <Include Path="SoItkRegularStepGradientDescentBaseOptimizer.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="TRUE" Inputname="Minimize" />
+      <Input defaultValue="1e-3" Inputname="MinimumStepLength" />
+      <Input defaultValue="1.f" Inputname="MaximumStepLength" />
+      <Input defaultValue="0.5f" Inputname="RelaxationFactor" />
+      <Input defaultValue="100" Inputname="NumberOfIterations" />
+      <Input defaultValue="1e-4" Inputname="GradientMagnitudeTolerance" />
+    </Inputs>
+  </class>
+  <class ParentClass="SoItkRegularStepGradientDescentBaseOptimizer" ParentPrintName="SoItkRegularStepGradientDescentBaseOptimizer" Type="ENGINE" Name="SoItkRegularStepGradientDescentOptimizer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkRegularStepGradientDescentOptimizer.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkRegularStepGradientDescentOptimizer.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataOptimizer.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="SoItkRegularStepGradientDescentOptimizer.h" />
+    </Includes>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataOptimizer" Code="setValue( 0 )" />
+      <Output Outputname="Output" Type="SoItkSFDataOptimizer" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkMatrixOffsetTransformBase" ParentPrintName="SoItkMatrixOffsetTransformBase" Type="ENGINE" Name="SoItkRigid2DTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkRigid2DTransform.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkRigid2DTransform.h" />
+      <Include Path="xip/inventor/itk/SoItkUtils.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataArray.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataTransform.h" />
+      <Include Path="Inventor/fields/SoSFFloat.h" />
+      <Include Path="Inventor/fields/SoMFFloat.h" />
+      <Include Path="SoItkRigid2DTransform.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="Angle" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="Output" Type="SoItkSFDataTransform" Code="setValue( 0 )" />
+      <Output Outputname="NumberOfParameters" Type="SoSFFloat" Code="setValue( numberOfParameters )" />
+      <Output Outputname="OutputParameters" Type="SoMFFloat" Code="setValues( 0, numberOfParameters, parameters )" />
+      <Output Outputname="Output" Type="SoItkSFDataTransform" Code="setValue( mOutput )" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoItkDataArray" Type="SFDATA" Name="SoItkSFDataArray" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataArray.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataArray.h" />
+      <Include Path="xip/inventor/itk/SoItkDataArray.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataDecorator" Type="SFDATA" Name="SoItkSFDataDecorator" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataDecorator.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataDecorator.h" />
+      <Include Path="xip/inventor/itk/SoItkDataDecorator.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataImage" Type="SFDATA" Name="SoItkSFDataImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataImage.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataImage.h" />
+      <Include Path="xip/inventor/itk/SoItkDataImage.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataImageMetric" Type="SFDATA" Name="SoItkSFDataImageMetric" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataImageMetric.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataImageMetric.h" />
+      <Include Path="xip/inventor/itk/SoItkDataImageMetric.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataInterpolator" Type="SFDATA" Name="SoItkSFDataInterpolator" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataInterpolator.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataInterpolator.h" />
+      <Include Path="xip/inventor/itk/SoItkDataInterpolator.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataMatrix" Type="SFDATA" Name="SoItkSFDataMatrix" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataMatrix.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataMatrix.h" />
+      <Include Path="xip/inventor/itk/SoItkDataMatrix.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataNeighborhood" Type="SFDATA" Name="SoItkSFDataNeighborhood" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataNeighborhood.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataNeighborhood.h" />
+      <Include Path="xip/inventor/itk/SoItkDataNeighborhood.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataOptimizer" Type="SFDATA" Name="SoItkSFDataOptimizer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataOptimizer.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataOptimizer.h" />
+      <Include Path="xip/inventor/itk/SoItkDataOptimizer.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataPointSet" Type="SFDATA" Name="SoItkSFDataPointSet" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataPointSet.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataPointSet.h" />
+      <Include Path="xip/inventor/itk/SoItkDataPointSet.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoItkDataTransform" Type="SFDATA" Name="SoItkSFDataTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFDataTransform.cpp" Macrocalls="1" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataTransform.h" />
+      <Include Path="xip/inventor/itk/SoItkDataTransform.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoSField" ValueType="SbItkNodeContainer" Type="SFIELD" Name="SoItkSFNodeContainer" ValueRef="const SbItkNodeContainer&amp;" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSFNodeContainer.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFNodeContainer.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoItkSeedImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSeedImage.cpp" Macrocalls="8" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="itkImage.h" />
+      <Include Path="SoItkSeedImage.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="ReferenceImage" />
+      <Input defaultValue="0, 0, 0" Inputname="Seeds" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="SeedImage" Type="SoItkSFDataImage" />
+      <Output Outputname="SeedImage" Type="SoItkSFDataImage" Code="setValue( 0 )" />
+      <Output Outputname="SeedImage" Type="SoItkSFDataImage" Code="setValue( mSeedImage )" />
+    </Outputs>
+  </class>
+  <class ParentPrintName="SoItkNonLinearOptimizer" Type="ENGINE" Parent="SoItkNonLinearOptimizer" Name="SoItkSingleValuedNonLinearOptimizer" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkSingleValuedNonLinearOptimizer.cpp" Macrocalls="3" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataOptimizer.h" />
+      <Include Path="SoItkSingleValuedNonLinearOptimizer.h" />
+    </Includes>
+  </class>
+  <class ParentPrintName="Engine" Type="ENGINE" Parent="SoEngine" Name="SoItkTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkTransform.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/itk/SoItkSFDataTransform.h" />
+      <Include Path="xip/inventor/itk/SoItkSFDataArray.h" />
+      <Include Path="Inventor/fields/SoSFFloat.h" />
+      <Include Path="Inventor/fields/SoMFFloat.h" />
+      <Include Path="SoItkTransform.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="0" Inputname="Parameters" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="NumberOfParameters" Type="SoSFFloat" />
+      <Output Outputname="OutputParameters" Type="SoMFFloat" />
+      <Output Outputname="Output" Type="SoItkSFDataTransform" />
+    </Outputs>
+  </class>
+  <class ParentClass="SoShape" ParentPrintName="SoShape" Type="NODE" Name="SoItkVectorImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoItkVectorImage.cpp" Macrocalls="4" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoItkVectorImage.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="Image" defaultValue="0" />
+    </Fields>
+  </class>
+</classes>

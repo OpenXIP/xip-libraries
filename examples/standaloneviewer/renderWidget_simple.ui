@@ -16,6 +16,12 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
+  <property name="ivFile" stdset="0">
+   <string>mpr_ui_simple.iv</string>
+  </property>
+  <property name="scriptFiles" stdset="0">
+   <string>qt/renderWidget.js</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0" rowspan="4">
     <widget class="QXipIvRenderWidget" name="widget" native="true">
@@ -197,5 +203,3 @@
  <resources/>
  <connections/>
 </ui>
-<!--LoadIVFile mpr_ui_simple.iv-->
-<!--LoadScriptFiles renderWidget.js-->

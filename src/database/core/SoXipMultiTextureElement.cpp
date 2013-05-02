@@ -131,7 +131,7 @@
 #ifndef DARWIN
 static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = 0;
 #endif // DARWIN
-
+int SoXipMultiTextureElement::mMaxUnits = 0;
 
 /*
 #undef DEBUG
@@ -145,19 +145,18 @@ static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = 0;
 
 SO_ELEMENT_SOURCE(SoXipMultiTextureElement);
 
-SoXipMultiTextureElement::~SoXipMultiTextureElement() {
-//	FUNCID("Deleting array, textures = %p", textures);
-	delete [] textures;
+SoXipMultiTextureElement::~SoXipMultiTextureElement()
+{
 }
 
-void SoXipMultiTextureElement::initClass() {
+void SoXipMultiTextureElement::initClass()
+{
 	SO_ELEMENT_INIT_CLASS(SoXipMultiTextureElement, SoElement);
 }
 
-SbBool SoXipMultiTextureElement::matches(const SoElement *element) const {
-//	FUNCID("");
-	return false;
-	//if (getTypeId() != element->getTypeId())
+SbBool SoXipMultiTextureElement::matches(const SoElement *element) const
+{
+    return false;
 	//	return FALSE;
 	//for(int i = NB_TEXTURE_MAX - 1; i >= 0; i--)
 	//{
@@ -169,191 +168,195 @@ SbBool SoXipMultiTextureElement::matches(const SoElement *element) const {
 	//return TRUE;
 }
 
-SoElement* SoXipMultiTextureElement::copyMatchInfo() const {
-//	FUNCID("");
-
+SoElement* SoXipMultiTextureElement::copyMatchInfo() const
+{
 	SoXipMultiTextureElement *element = (SoXipMultiTextureElement*)(getTypeId().createInstance());
-
 	//for(int i = NB_TEXTURE_MAX - 1; i >= 0; i--)
 	//	element->enabled[i]=this->enabled[i];
 	//element->last = this->last;
 	return (SoElement *)element;
 }
 
-void SoXipMultiTextureElement::init(SoState *state) {
-//	FUNCID("textures = %p", textures);
+void SoXipMultiTextureElement::init(SoState *state)
+{
+    if (dynamic_cast<SoGLRenderAction*>(state->getAction()))
+    {
+#ifndef DARWIN
+	    if (!glActiveTextureARB)
+            glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)xipGlGetProcAddress("glActiveTextureARB");
+#endif // DARWIN
 
-	//glGetIntegerv(GL_MAX_TEXTURE_UNITS, &numUnits);
-	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &numUnits);
-
+	    if (!mMaxUnits)
+        {
+	        glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &mMaxUnits);
 	//SoDebugError::postInfo(__FUNCTION__, "Max texture units: %d", numUnits);
+	        if (mMaxUnits <= 0)
+    		    mMaxUnits = 1;
+    	    else if (mMaxUnits > 32)
+		        mMaxUnits = 32;
+        }
+    }
 
-	if (numUnits <= 0) {
-		numUnits = 1;
-	}
-	else if (numUnits > 32) {
-		numUnits = 32;
-	}
-
-	textures = new textureInfo[numUnits];
-
-	for (int i = 0; i < numUnits; i++) {
-		textures[i] = textureInfo(0, 0);
-	}
-
-	currentUnit = 0;
-
-	// Tell pushed child to init
-	initChild = true;
+	for (int i = 0; i < mMaxUnits; ++i)
+		mTextures[i] = textureInfo(0, 0);
+	
+	mCurrentUnit = 0;
 }
 
-void SoXipMultiTextureElement::push(SoState *state) {
-//	FUNCID("");
+void SoXipMultiTextureElement::push(SoState *state)
+{
 	SoXipMultiTextureElement *prev = (SoXipMultiTextureElement*)(this->getNextInStack());
+    if (!prev)
+        return;
 
-	// This should run once per instance, as a constructor
-	if (prev->initChild) {
+	for (int i = 0; i < mMaxUnits; ++i)
+		mTextures[i] = prev->mTextures[i];
 		//FUNCID("Initting with textures = %p", textures);
 
-		numUnits = prev->numUnits;
-
-		textures = new textureInfo[numUnits];
-
-		// Tell pushed child to init
-		initChild = true;
-
-		// Done initializing this child
-		prev->initChild = false;
-	}
-
-	for (int i = 0; i < numUnits; i++) {
-		textures[i] = prev->textures[i];
-	}
-
-	currentUnit = prev->currentUnit;
-	unitsChanged = 0;
+	mCurrentUnit = prev->mCurrentUnit;
+	mUnitsChanged = 0;
 
 	//prev->capture(state);
 }
 
-void SoXipMultiTextureElement::pop(SoState *state, const SoElement *prevTopElement) {
-//	FUNCID("");
+void SoXipMultiTextureElement::pop(SoState *state, const SoElement *prevTopElement)
+{
 	SoXipMultiTextureElement *prev = (SoXipMultiTextureElement*)prevTopElement;
-
+    if (!prev)
+        return;
 	// only check for changed ones...
-	for (int i = 0; i < numUnits; i++) {
-		if (prev->unitsChanged & (1 << i)) {
-			//FUNCID("Restoring changed unit %d", i);
+	for (int i = 0; i < mMaxUnits; ++i)
+    {
+		if (prev->mUnitsChanged & (1 << i))
+        {
 			setUnitGL(i);
 			prev->unbindTextureGL(i);
-			if (textures[i].target != 0)
+			if (mTextures[i].target != 0)
 				bindTextureGL(i);
 		}
 	}
 
-	setUnitGL(currentUnit);
+	setUnitGL(mCurrentUnit);
 }
 
-void SoXipMultiTextureElement::setUnit(SoState *state, GLuint unit) {
+void SoXipMultiTextureElement::setUnit(SoState *state, GLuint unit)
+{
 	SoXipMultiTextureElement *element = (SoXipMultiTextureElement*)getElement(state, classStackIndex);
-
-	if (element) {
+	if (element)
 		element->setUnitElt(unit);
-	}
 }
 
-void SoXipMultiTextureElement::setUnitElt(GLuint unit) {
-	currentUnit = unit;
-
-	setUnitGL(currentUnit);
+void SoXipMultiTextureElement::setUnitElt(GLuint unit)
+{
+	mCurrentUnit = unit;
+	setUnitGL(mCurrentUnit);
 }
 
-void SoXipMultiTextureElement::setUnitGL(GLuint unit) {
-//	FUNCID("unit = %d", unit);
-#ifndef DARWIN
-	if (!glActiveTextureARB)
-	  glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)
-            xipGlGetProcAddress("glActiveTextureARB");
-#endif // DARWIN
+void SoXipMultiTextureElement::setUnitGL(GLuint unit)
+{
     if (glActiveTextureARB)
-    {
-	glActiveTextureARB((unsigned int) GL_TEXTURE0 + unit);
-    }
+        glActiveTextureARB((unsigned int) GL_TEXTURE0 + unit);
 }
 
-void SoXipMultiTextureElement::bindTexture(SoState *state, GLenum target, GLuint id) {
+void SoXipMultiTextureElement::bindTexture(SoState *state, GLenum target, GLuint id)
+{
 	SoXipMultiTextureElement *element = (SoXipMultiTextureElement*)getElement(state, classStackIndex);
-
-	if (element) {
+	if (element)
 		element->bindTextureElt(target, id);
-	}
 }
 
-void SoXipMultiTextureElement::bindTextureCurrUnit(SoState *state) {
-
-	SoXipMultiTextureElement *element = (SoXipMultiTextureElement*)getElement(state, classStackIndex);
-
-	if (element) {
-    element->bindTextureElt(element->textures[element->currentUnit].target, 
-                            element->textures[element->currentUnit].id);
-	}
+void SoXipMultiTextureElement::bindTextureCurrUnit(SoState *state)
+{
+    SoXipMultiTextureElement *element = (SoXipMultiTextureElement*)getElement(state, classStackIndex);
+	if (element)
+        element->bindTextureElt(element->mTextures[element->mCurrentUnit].target, 
+                                element->mTextures[element->mCurrentUnit].id);
 }
 
-void SoXipMultiTextureElement::bindTextureElt(GLenum target, GLuint id) {
-	if ( target )
-	if (target != 0)
-	{
-		textures[currentUnit].target = target;
-		textures[currentUnit].id = id;
+void SoXipMultiTextureElement::bindTextureElt(GLenum target, GLuint id)
+{
+    if (!target)
+    {
+        SoDebugError::post(__FUNCTION__, "target == 0, cannot bind texture!");
+        return;
+    }
+	
+	mTextures[mCurrentUnit].target = target;
+	mTextures[mCurrentUnit].id = id;
 
-		bindTextureGL(currentUnit);
+	bindTextureGL(mCurrentUnit);
 
-		unitsChanged |= 1 << currentUnit;
-	}
+	mUnitsChanged |= 1 << mCurrentUnit;
 }
 
-void SoXipMultiTextureElement::bindTextureGL(GLuint unit) {
-//	FUNCID("target = %d, id = %d", textures[unit].target, textures[unit].id);
-	glBindTexture(textures[unit].target, textures[unit].id);
+void SoXipMultiTextureElement::bindTextureGL(GLuint unit)
+{
+	glBindTexture(mTextures[unit].target, mTextures[unit].id);
 }
 
-void SoXipMultiTextureElement::unbindTextureGL(GLuint unit) {
-//	FUNCID("target = %d id = %d", textures[unit].target, textures[unit].id);
-	glBindTexture(textures[unit].target, 0);
+void SoXipMultiTextureElement::unbindTextureGL(GLuint unit)
+{
+	glBindTexture(mTextures[unit].target, 0);
 }
 
-GLuint SoXipMultiTextureElement::getFreeUnit(SoState *state) {
+GLuint SoXipMultiTextureElement::getFreeUnit(SoState *state)
+{
 	const SoXipMultiTextureElement *element = (const SoXipMultiTextureElement*)getConstElement(state, classStackIndex);
 
-	if (element) {
+	if (element)
 		return element->getFreeUnitElt();
-	}
-
 	return 0;
 }
 
-GLuint SoXipMultiTextureElement::getFreeUnitElt() const {
-	for (int i = 0; i < numUnits; i++) {
-		if (textures[i].target == 0) {
+GLuint SoXipMultiTextureElement::getFreeUnitElt() const
+{
+	for (int i = 0; i < mMaxUnits; i++)
+    {
+		if (mTextures[i].target == 0)
 			return i;
+	}
+
+	SoDebugError::post(__FUNCTION__, "Cannot find unused texture unit (max %d units used), defaulting to unit 0.", mMaxUnits);
+	return 0;
+}
+
+GLuint SoXipMultiTextureElement::getFreeUnits(SoState *state, unsigned int num, GLuint *units)
+{
+	const SoXipMultiTextureElement *element = (const SoXipMultiTextureElement*)getConstElement(state, classStackIndex);
+
+	if (!element)
+        return 0;
+
+	return element->getFreeUnitsElt(num, units);
+}
+
+GLuint SoXipMultiTextureElement::getFreeUnitsElt(unsigned int num, GLuint *units) const
+{
+	GLuint res = 0;
+    for (int i = 0; i < mMaxUnits && res < num; i++)
+    {
+		if (mTextures[i].target == 0)
+        {
+			units[res] = i;
+            res++;
 		}
 	}
-
-	SoDebugError::post(__FILE__, "Cannot find unused texture unit (max %d units used), defaulting to unit 0.", numUnits);
-	return 0;
+    if (res != num)
+        SoDebugError::post(__FUNCTION__, "Requested %d free units, but could only find %d.", num, res);
+	return res;
 }
 
-GLuint SoXipMultiTextureElement::getCurrentUnit(SoState *state) {
+GLuint SoXipMultiTextureElement::getCurrentUnit(SoState *state)
+{
 	const SoXipMultiTextureElement *element = (const SoXipMultiTextureElement*)getConstElement(state, classStackIndex);
 
-	if (element) {
+	if (element)
 		return element->getCurrentUnitElt();
-	}
-
 	return 0;
 }
 
-GLuint SoXipMultiTextureElement::getCurrentUnitElt() const {
-	return currentUnit;
+GLuint SoXipMultiTextureElement::getCurrentUnitElt() const
+{
+	return mCurrentUnit;
 }
 

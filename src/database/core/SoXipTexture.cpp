@@ -517,9 +517,10 @@ bool SoXipTexture::validateImage()
 	{
 	textureSize.setValue(texSize);
 	}
+        // getBitsStored() returns bits used, so it can be 12!!!
 	mPBOBufSize = texSize[0] * texSize[1] * texSize[2] *
-		mNewImageData->get()->getComponents() *
-		mNewImageData->get()->getBitsStored() / 8;
+            mNewImageData->get()->getComponents() *
+            ((mNewImageData->get()->getBitsStored() + 7) / 8);
 
 	return true;
 }
@@ -862,7 +863,7 @@ void SoXipTexture::updateTexture()
 				glBindBuffer(GL_PIXEL_UNPACK_BUFFER, mPBOId);				
 				glBufferData(GL_PIXEL_UNPACK_BUFFER, mPBOBufSize, NULL, GL_STREAM_DRAW);
 				unsigned char *buf = (unsigned char*) glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
-				memcpy(buf, imageBuffer, dim[0] * dim[1]);
+				memcpy(buf, imageBuffer, mPBOBufSize);
 				glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
 				//glBufferSubData(GL_PIXEL_UNPACK_BUFFER, 0, dim[0] * dim[1], imageBuffer);
 				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, dim[0], dim[1], baseFormats[formatIndex], dataTypeInfo[mTextureDataType].type, 0);

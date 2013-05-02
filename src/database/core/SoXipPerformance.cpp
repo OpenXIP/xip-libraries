@@ -261,6 +261,7 @@ void SoXipPerformance::GLRender(SoGLRenderAction * action)
 					// Accumulate time between calls to SwapBuffers
 					uint64_t swapCount = *((uint64_t *)&val[2]);
 					unsigned int musec = (1000000 * (swapCount - mLastSwapCount));    
+//				#endif
 				#endif /* WIN32 */
 
 				updateValue(TIME_SWAPEND_TO_SWAPEND, musec);
@@ -286,7 +287,8 @@ void SoXipPerformance::GLRender(SoGLRenderAction * action)
 
 		// If running timer goes over updateTime, compute and display stats
 		unsigned int elapsed = mFrameTimer.elapsed();
-		if (elapsed > updateTime.getValue() * 1000)
+		unsigned int timeout = updateTime.getValue() * 1000;
+		if (elapsed > timeout)
 		{	
 			computeAverages();
 			displayTimings();

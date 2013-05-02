@@ -323,11 +323,8 @@ void SoXipViewportGroup::doAction(SoAction * action)
 			}
 		}
 
-		// reduce viewport size by 1 pixel to avoid overlaps
-		SbVec2s origin = viewportRegion.getViewportOriginPixels();
-		SbVec2s size = viewportRegion.getViewportSizePixels() - SbVec2s(1, 1);
-		viewportRegion.setViewportPixels(origin, size);
-
+                // If the viewport is 0 sized, don't even bother traversing it
+		SbVec2s size = viewportRegion.getViewportSizePixels();
 		if ((size[0] <= 0) || (size[1] <= 0))
 			continue;
 

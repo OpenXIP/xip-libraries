@@ -548,7 +548,8 @@ void SoXipRemoteVolRender::deleteColorBuffer()
 */
 void SoXipRemoteVolRender::RGBAallocation(unsigned int colorBufferSize)
 {
-	if(!mIsAllocatedManually || (colorBufferSize > mSizeVolumeBuffer))
+	if (!mIsAllocatedManually ||
+	    (colorBufferSize > (unsigned int)mSizeVolumeBuffer))
 	{
 		deleteColorBuffer();
 		mVolumeBuffer = new unsigned char[colorBufferSize];

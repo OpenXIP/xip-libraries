@@ -109,6 +109,7 @@
  *  
  */
 
+#include <xip/inventor/core/xipivcore.h>
 #include <xip/inventor/remote/xipivremote.h>
 
 #include "SoXipClientBase.h"
@@ -120,6 +121,13 @@
 
 int XIPIVREMOTE_API xipivremote_init()
 {
+	static bool isInit = false;
+	if(isInit)
+		return 1;
+	isInit = true;
+
+	xipivcore_init();
+
     SoXipClientElement::initClass();
     SoXipClientBase::initClass();
 	SFXipConnection::initClass();
@@ -134,13 +142,7 @@ int XIPIVREMOTE_API xipivremote_init()
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
 	if (reason == DLL_PROCESS_ATTACH)
-	{
-		if (SoDB::isInitialized())
-		{
-			// automatic initialization for dynamic loading
-			xipivremote_init();
-		}
-	}
+		xipivremote_init();
 
 	return TRUE;
 }

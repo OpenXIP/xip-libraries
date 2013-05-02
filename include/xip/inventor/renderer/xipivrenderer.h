@@ -110,6 +110,8 @@
  */
 
 // use XIPIVRENDERER_API only for classes that are needed in other libraries
+#ifndef XIPIVRENDERER_H
+#define XIPIVRENDERER_H
 
 #ifdef WIN32
 	#ifdef  XIPIVRENDERER_EXPORTS
@@ -120,4 +122,8 @@
 #else
 	// no export needed for non-Windows platforms
 	#define XIPIVRENDERER_API 
+#endif
+
+int XIPIVRENDERER_API xipivrenderer_init();
+
 #endif
