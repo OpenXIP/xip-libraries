@@ -108,8 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-#include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
+
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/elements/SoViewportRegionElement.h>
 #include <Inventor/elements/SoGLTextureEnabledElement.h>
@@ -345,16 +344,22 @@ void SoXipFramebufferGroup::allocate() {
 	if (mNumDepthBuffers < 2)
 		mDepthBuffer[1] = mDepthBuffer[0];
 
+	int prevRenderBinding;
+	glGetIntegerv(GL_RENDERBUFFER_BINDING_EXT, &prevRenderBinding);
+
 	// Allocate depth buffers
 	for (int i = 0; i < mNumDepthBuffers; i++) {
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, mDepthBuffer[i]);
 		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, depthInternalFormat.getValue(), mWidth, mHeight);
 	}
 
-	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, prevRenderBinding);
 
 	// Allocate texture IDs
 	glGenTextures(mNumFrameBuffers, mColorBufferTex);
+
+	int prevTextureBinding;
+	glGetIntegerv(GL_TEXTURE_2D_BINDING_EXT, &prevTextureBinding);
 
 	// Allocate color buffers
 	for (int i = 0; i < mNumFrameBuffers; i++) {
@@ -368,12 +373,15 @@ void SoXipFramebufferGroup::allocate() {
 	}
 
 	// Maybe should save previous bound texture?
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, prevTextureBinding);
 
 	// Allocate framebuffer IDs
 	glGenFramebuffersEXT(mNumFrameBuffers, mFrameBuffer);
 	if (mNumFrameBuffers < 2)
 		mFrameBuffer[1] = 0;
+
+	int prevFboBinding;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &prevFboBinding);
 
 	// Allocate framebuffers
 	for (int i = 0; i < mNumFrameBuffers; i++) {
@@ -390,7 +398,7 @@ void SoXipFramebufferGroup::allocate() {
 			SoDebugError::post(__FUNCTION__, "Framebuffer %d not complete (%p)", i, status);
 	}
 
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, prevFboBinding);
 
 	mIsAllocated = true;
 
@@ -417,5 +425,3 @@ void SoXipFramebufferGroup::deallocate() {
 void SoXipFramebufferGroup::sensorCB(void *usr, SoSensor *sensor) {
 	((SoXipFramebufferGroup*)usr)->mNeedsUpdate = true;
 }
-
-

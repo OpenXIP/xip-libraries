@@ -4,6 +4,15 @@
 project(src)
 
 #--------------------------------------------------------------------
+# Set preprocessor definition for SbSystem.h to indicate whether 
+# to use the debug postfix
+#
+if(DEBUG_POSTFIX)
+	add_definitions(-D_DEBUG_POSTFIX)
+endif(DEBUG_POSTFIX)
+
+
+#--------------------------------------------------------------------
 # Define the compiler flags
 #
 if(WIN32)

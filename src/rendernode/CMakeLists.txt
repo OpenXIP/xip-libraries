@@ -25,7 +25,10 @@ set(SOURCES
 #
 add_executable(rendernode ${HEADERS} ${SOURCES})
 
-set_target_properties(rendernode PROPERTIES DEBUG_POSTFIX d)
+if(CMAKE_DEBUG_POSTFIX)
+  set_target_properties(rendernode PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+endif(CMAKE_DEBUG_POSTFIX)
+
 
 if(WIN32)
 #set_target_properties(rendernode PROPERTIES LINK_FLAGS
@@ -36,7 +39,8 @@ endif(WIN32)
 # Link the executable
 #
 target_link_libraries(rendernode
-  xipivcore
+	optimized xipivcore
+	debug xipivcore${CMAKE_DEBUG_POSTFIX}
   stream)
 
 if(NOT CMAKE_CL_64)
@@ -60,6 +64,6 @@ install(TARGETS rendernode
   RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/rendernoded.pdb
+  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/rendernode${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

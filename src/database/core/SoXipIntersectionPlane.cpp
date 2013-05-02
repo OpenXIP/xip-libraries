@@ -253,8 +253,10 @@ void SoXipIntersectionPlane::calculateVisibleParts(SoState *state)
 	SbMatrix vModelMatrix = SoModelMatrixElement::get(state);
 	SbVec3f camPoint = vVol.getProjectionPoint();
 	SbVec3f camProjPoint;
-	vModelMatrix.inverse().multVecMatrix(camPoint, camProjPoint);
-	vModelMatrix.inverse().multVecMatrix(camPoint, camProjPoint);
+	SbVec3f camProjVector;
+	const SbMatrix modelInverse(vModelMatrix.inverse());
+	modelInverse.multVecMatrix(camPoint, camProjPoint);
+	modelInverse.multDirMatrix(zCamVector, camProjVector);
 
 	int part = parts.getValue();
 	for (i = 0; i < n; i += 2)
@@ -267,7 +269,7 @@ void SoXipIntersectionPlane::calculateVisibleParts(SoState *state)
 		if(vVol.getProjectionType() == SbViewVolume::PERSPECTIVE)
 			angle = lineNormal.dot(dirCamFace);
 		else
-			angle = lineNormal.dot(zCamVector);
+			angle = lineNormal.dot(camProjVector);
 
 		if ((part == ALL) || ((part == FRONT) & (angle >= 0)) || ((part == BACK) & (angle < 0)))
 		{
@@ -425,6 +427,12 @@ bool SoXipIntersectionPlane::calculateLineIntersection(const SbPlane & plane,
 	SbVec3f tmpIntersectionPoint;
 	SbLine tmpLine(pA, pB);
 	float xA, xB, xP, yA, yB, yP, zA, zB, zP;
+
+	// check if plane and line are parallel and return false if this is the case.
+	// (TGS's SbPlane::intersect returns true if the line lies in the plane, but we don't want this)
+	SbVec3f normal = plane.getNormal();
+	if (abs(tmpLine.getDirection().dot(normal)) < 0.0001f)
+		return false;
 
 	// calculate the intersection point if exist
 	if(plane.intersect(tmpLine,tmpIntersectionPoint))

@@ -301,4 +301,9 @@ private:
     bool        mIsAutoOn;
 };
 
+#define NFO(str) SoDebugError::postInfo(__FUNCTION__, str)
+#define NFO1(str, a1) SoDebugError::postInfo(__FUNCTION__, str, a1)
+#define NFO2(str, a1, a2) SoDebugError::postInfo(__FUNCTION__, str, a1, a2)
+
 #endif // SO_RAD_LOAD_MULTIPLE_SHADERS
+

@@ -109,10 +109,8 @@
  *  
  */
 
-
 #ifndef SO_XIP_CLEAR_FBO_H
 #define SO_XIP_CLEAR_FBO_H
-
 
 /**
  *  Component       : XIP
@@ -127,7 +125,6 @@
  *
  *  Copyright © Siemens AG 2006-2007. All Rights Reserved.
  */
-
 
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/fields/SoSFEnum.h>
@@ -166,6 +163,7 @@ public:
     SoSFVec4f       clearColor;
     SoSFBool        clearDepthBuffer;
     SoSFFloat       depthValue;
+    SoSFBool        clearOnlyCurrentViewport;
 
 protected:
     virtual void    GLRender(SoGLRenderAction* action);
@@ -176,3 +174,6 @@ private:
 };
 
 #endif // SO_XIP_CLEAR_BUFFERS_H
+
+
+

@@ -108,8 +108,7 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-#include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
+
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/coregl/SoXipFramebufferElement.h>
@@ -155,6 +154,19 @@ void SoXipFramebufferElement::push(SoState *state) {
 	// Propogate values from previous
 
 	SoXipFramebufferElement *prev = (SoXipFramebufferElement*)(this->getNextInStack());
+
+	/*
+		FIXUP: The default element assumes FBO 0 is bound, this might not be the case
+		so one way of solving this is to check GL for the real FBO in use. This is
+		probably only needed when the current framebuffer is 0.
+	*/
+
+	if (prev->mFrameBuffer[prev->mCurrentFramebuffer] == 0)
+	{
+		int currentFbo;
+		glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &currentFbo);
+		prev->mFrameBuffer[prev->mCurrentFramebuffer] = currentFbo;
+	}
 
 	mFrameBuffer[0] = prev->mFrameBuffer[0];
 	mFrameBuffer[1] = prev->mFrameBuffer[1];
@@ -284,5 +296,3 @@ void SoXipFramebufferElement::bindTex(SoState *state) {
 	// Do not use the element, since we want our binds from flips to be preserved across separators
 	glBindTexture(GL_TEXTURE_2D, mColorBufferTex[(mCurrentFramebuffer + 1) % 2]);
 }
-
-

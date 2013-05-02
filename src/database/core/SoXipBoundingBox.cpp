@@ -220,6 +220,8 @@ SoXipBoundingBox::SoXipBoundingBox()
 	mBoundingBoxSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
 	mBoundingBoxSensor->setPriority(0);
 	mBoundingBoxSensor->attach(&boundingBox);
+
+	setCubeGeometry();
 }
 
 
@@ -377,7 +379,10 @@ void SoXipBoundingBox::calculateVisibleParts(SoState *state)
 	SbMatrix vModelMatrix = SoModelMatrixElement::get(state);
 	SbVec3f camPoint = vVol.getProjectionPoint();
 	SbVec3f camProjPoint;
-	vModelMatrix.inverse().multVecMatrix(camPoint, camProjPoint);
+	SbVec3f camProjVector;
+	const SbMatrix modelInverse(vModelMatrix.inverse());
+	modelInverse.multVecMatrix(camPoint, camProjPoint);
+	modelInverse.multDirMatrix(zCamVector, camProjVector);
 
 	// angle between normal and camera orientation
 	float angle;
@@ -393,7 +398,7 @@ void SoXipBoundingBox::calculateVisibleParts(SoState *state)
 		if(vVol.getProjectionType() == SbViewVolume::PERSPECTIVE)
 			angle = lineNormal.dot(dirCamFace);
 		else
-			angle = lineNormal.dot(zCamVector);
+			angle = lineNormal.dot(camProjVector);
 
 		if ((part == ALL) || ((part == FRONT) & (angle >= 0)) || ((part == BACK) & (angle < 0)))
 		{

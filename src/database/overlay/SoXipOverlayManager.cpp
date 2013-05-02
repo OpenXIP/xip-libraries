@@ -338,7 +338,8 @@ SoXipOverlayManager::handleEvent( SoHandleEventAction* action )
 		else if( keyEvent->getKey() == SoKeyboardEvent::KEY_DELETE )
 		{
 			mSelection = XipOverlayUtils::getTopLevelShapes( mShapeSwitch, TRUE );	
-			onDelete();
+			if (onDelete())
+				action->setHandled();
 		}
 	}
 
@@ -842,18 +843,25 @@ SoXipOverlayManager::getCurrentList()
 	return (SoXipShapeList *) mShapeList;
 }
 
-void
+bool
 SoXipOverlayManager::onDelete()
 {
 	SoXipShapeList* shapeList = getCurrentList();
+
+	bool isHandled = false;
 	
 	for( int i = 0; i < shapeList->getNumChildren(); ++ i )
 	{
 		SoXipShape* shape = (SoXipShape *) shapeList->getChild(i);
 
-		if( mSelection.find(shape) != -1 )		
+		if( mSelection.find(shape) != -1 )
+		{
 			shapeList->removeChild(i --);
+			isHandled = true;
+		}
 	}
+
+	return isHandled;
 }
 
 void
@@ -903,3 +911,5 @@ SoXipOverlayManager::clearOverlays()
 {
 	((SoXipShapeList *) mShapeList)->removeAllChildren();
 }
+
+

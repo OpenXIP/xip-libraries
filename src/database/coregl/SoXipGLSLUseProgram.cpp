@@ -206,7 +206,7 @@ void SoXipGLSLUseProgram::GLRender(SoGLRenderAction *action)
 #if 1
     int handle = SoXipGLSLShaderProgramElement::get(action->getState());
     updateProgramHandle();
-    if (handle != mProgramHandle)
+    if (handle != (int)mProgramHandle)
 	    SoXipGLSLShaderProgramElement::set(action->getState(), mProgramHandle);
 #else
 	if (mHasChanged)

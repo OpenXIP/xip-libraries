@@ -281,14 +281,17 @@ void SoXipGLSLPrograms::UpdateAction()
         prgTags.getNum() == fpDefines.getNum() &&
         prgTags.getNum() == gpDefines.getNum())
     {
-        if (mFieldBitmask) {
+        if (mFieldBitmask)
+        {
+            SoDebugError::postInfo("GLSLPrograms", "Updating programs");
 	        evaluateByTags();
             cleanAndSynchronize();
             mFieldBitmask = 0;
-            //SoDebugError::postInfo("SoXipGLSLPrograms", "shaders updated");
         }
         else
+        {
             evaluateByTimestamps();
+        }
     }
     else
     {
@@ -404,8 +407,8 @@ bool SoXipGLSLPrograms::readShadersFile(const char *filename, const char *define
  *	Compile a GLSL shader program
  */	
 GLuint SoXipGLSLPrograms::compileShader(const char	*filename, 
-									           const char	*defines,
-									           GLenum       type)
+									    const char	*defines,
+									    GLenum       type)
 {
 	GLint status = 0;
 
@@ -424,9 +427,9 @@ GLuint SoXipGLSLPrograms::compileShader(const char	*filename,
             SoDebugError::postWarning("SoXipGLSLPrograms::updateSingleProgram",
                 "Autoupdate suspended, trigger manually to reasume");
 		glDeleteShader(handle);
-        vpFilenames.touch();
-        gpFilenames.touch();
-        fpFilenames.touch();
+        //vpFilenames.touch();
+        //gpFilenames.touch();
+        //fpFilenames.touch();
 		return 0;
 	}
 
@@ -439,9 +442,9 @@ GLuint SoXipGLSLPrograms::compileShader(const char	*filename,
                 "Autoupdate suspended, trigger manually to reasume");
 		printShaderLog(handle);
 		glDeleteShader(handle);
-        vpFilenames.touch();
-        gpFilenames.touch();
-        fpFilenames.touch();
+        //vpFilenames.touch();
+        //gpFilenames.touch();
+        //fpFilenames.touch();
 		return 0;
 	}
 
@@ -487,9 +490,9 @@ GLuint SoXipGLSLPrograms::linkShaders(GLuint &vpHandle, GLuint &gpHandle, GLuint
         vpHandle = 0;
         gpHandle = 0;
         fpHandle = 0;
-        vpFilenames.touch();
-        gpFilenames.touch();
-        fpFilenames.touch();
+        //vpFilenames.touch();
+        //gpFilenames.touch();
+        //fpFilenames.touch();
         if (mIsAutoOn)
             SoDebugError::postWarning("SoXipGLSLPrograms::updateSingleProgram",
                 "Autoupdate suspended, trigger manually to reasume");
@@ -656,6 +659,8 @@ void SoXipGLSLPrograms::updateShaderBatchByFields(ShaderBatch * batch, int field
         updateSingleProgram(batch);
         batch->isDirty = true;
     }
+    else
+        updateShaderBatchByTimestamp(batch);
 }
 
 /**
@@ -725,15 +730,16 @@ void SoXipGLSLPrograms::updateManagerEntry(ShaderBatch * batch)
     {
         // Get manager instance
         ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-        unsigned int returnedHandle = manager->insertEntry(batch->tag.getString(), batch->prgHandle, 0);
+        //unsigned int returnedHandle = manager->insertEntry(batch->tag.getString(), batch->prgHandle, getNodeId());
+        unsigned int returnedHandle = manager->insertEntry(batch->tag.getString(), batch->prgHandle, batch->prgTimestamp);
 
         // Decipher return code
         if (returnedHandle == 0) {
             SoDebugError::postWarning("SoXipGLSLPrograms::updateManagerEntry",
-                "Returned value 0, possibly due to issue with tag\n");
+                "Entry \"%s\" returned value 0, possibly due to issue with tag\n", batch->tag.getString());
         }
         else if (returnedHandle != batch->prgHandle) {
-            SoDebugError::postInfo("Shader Manager", "Shader entry updated (replaced)");
+            SoDebugError::postInfo("Shader Manager", "Shader entry \"%s\" updated (replaced)", batch->tag.getString());
             //SoDebugError::postInfo("Shader Manager", "\"%s\" entry updated (replaced %d with %d)",
             //    batch->tag.getString(), returnedHandle, batch->prgHandle);
 #if 0
@@ -751,6 +757,8 @@ void SoXipGLSLPrograms::updateManagerEntry(ShaderBatch * batch)
             glDeleteProgram(returnedHandle);
 #endif
         }
+        else
+            SoDebugError::postInfo("Shader Manager", "Shader entry \"%s\" updated", batch->tag.getString());
     }
     mIsManagerUpdated = true;
 }
@@ -992,6 +1000,13 @@ void SoXipGLSLPrograms::updateSensorCB(void *data, SoSensor *sensor)
 	SoXipGLSLPrograms *thisObj = (SoXipGLSLPrograms*)data;
 	//thisObj->UpdateAction();
     thisObj->mHasChanged = true;
+
+    if (sensor == thisObj->mUpdateFieldSensor)
+    {
+        thisObj->vpFilenames.touch();
+        thisObj->gpFilenames.touch();
+        thisObj->fpFilenames.touch();
+    }
 }
 
 void SoXipGLSLPrograms::autoUpdateCB(void *data, SoSensor *sensor)

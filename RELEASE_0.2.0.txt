@@ -1,0 +1,156 @@
+RELEASE NOTES FOR XIP Libraries, version 0.2.0
+
+This release builds on previous release 0.1.2
+
+Copyright (c) 2009, Siemens Corporate Research Inc.
+
+
+Plan to integrate the following branches:
+
+Branch:        branches/toyonBackMerge
+Commits:       12
+Updated files: 26
+Revisions:     2277 (2008-12-03 14:32:27) through 2293 (2008-12-05 17:38:33)
+Users:         stefanwiesner
+Source branch: releases/0-1-2 @ 2270 (2008-11-26 15:40:24)
+Source revs:   2246 (2008-11-19 14:52:06) through 2270 (2008-11-26 15:40:24)
+
+Committed at revision: 2366
+
+Merged changes from the toyonBackMerge branch
+
+2281: Fixed initialization bug
+      src/database/core/SoXipBoundingBox.cpp
+      src/database/core/SoXipBoundingBox.h
+
+2282: Added comments
+      include/xip/inventor/core/SoXipActiveViewportElement.h
+      src/database/core/SoXipActiveViewportElement.cpp
+      src/database/core/SoXipAnchor.h
+
+2283: Fixed warnings (float - double conversion)
+      src/database/coregl/SoXipClearBuffer.cpp
+
+2284: Removed #include <xip/system/standard.h>
+      src/database/coregl/SoXipBufferMask.cpp
+      src/database/coregl/SoXipBufferMaskElement.cpp
+
+2285: Revert changes from revision 2284. #include
+<xip/system/standard.h> might be of importance for linux/mac. windows
+version compiles fine without it.
+      src/database/coregl/SoXipBufferMask.cpp
+      src/database/coregl/SoXipBufferMaskElement.cpp
+
+2286: Bug fix: if the frame buffer element is pushed and it is 0, we
+query the current FBO and set the element to it.
+      src/database/coregl/SoXipFramebufferElement.cpp
+
+2287: Added comments
+      include/xip/inventor/core/SoXipClipPlaneElement.h
+      src/database/core/SoXipClipPlane.h
+      src/database/core/SoXipConvertToEnum.cpp
+
+2290: (plg: Added Projection vector and modified computation.)
+      src/database/core/SoXipIntersectionPlane.cpp
+
+2291: Bug fix: Reset to previously bound FBO
+      src/database/coregl/SoXipFramebufferGroup.cpp
+
+2292: Added invisible gap for stub mode, so that the line can be
+picked like it is visible
+      src/database/core/SoXipMprIntersectionLine.cpp
+
+2293: Removed compiler warnings and added comments
+      include/xip/inventor/core/SoXipMprLockElement.h
+      src/database/core/SoXipMprActive.cpp
+      src/database/core/SoXipMprActive.h
+      src/database/core/SoXipMprLock.h
+      src/database/core/SoXipMprPlane.h
+      src/database/core/SoXipMprPlaneElement.cpp
+      src/database/coregl/SoXipGLSLUseProgram.cpp
+      src/database/coregl/SoXipLutTexture.cpp
+
+
+
+Branch:        branches/bugfixes-base-0.1.2
+Commits:       3
+Updated files: 6
+Revisions:     2337 (2009-01-19 16:46:10) through 2339 (2009-01-20 14:50:37)
+Users:         plg stordeur
+Source branch: tags/R0.1.2 @ 2336 (2009-01-19 16:38:30)
+Source revs:   2271 (2008-11-28 13:13:09) through 2271 (2008-11-28 13:13:09)
+
+Committed at revision: 2367
+
+2339 Improved error checking and support for float/double type?
+   Branches:
+      branches/bugfixes-base-0.1.2
+   Files:
+      src/database/renderer/SoXipCPUMprRender.cpp
+
+2338 Fixed bug with SCISSOR_TEST_BIT, Tracker #
+   Branches:
+      branches/bugfixes-base-0.1.2
+   Files:
+      src/database/coregl/SoXipClearBuffer.cpp
+      src/database/coregl/SoXipClearBuffer.h
+      src/database/coregl/SoXipClearFbo.cpp
+      src/database/coregl/SoXipClearFbo.h
+
+
+Branch:        branches/linux-mac-port-nond
+Commits:       2
+Updated files: 28
+Revisions:     2233 (2008-11-13 10:06:22) through 2238 (2008-11-14 16:07:15)
+Users:         plg
+Source branch: branches/linux-mac-port @ 2232 (2008-11-12 20:27:44)
+Source revs:   1614 (2008-08-07 22:33:06) through 2245 (2008-11-19 10:20:17)
+
+Committed at revision: ?
+
+These changes are not ready yet. There is likely a linker directive in
+the source code somewhere directing the linkage with inv240d.dll.
+
+
+
+
+Branches to merge/integrate based on main-dev
+
+Branch:        branches/dec08_build_jan_13
+Commits:       1
+Updated files: 1
+Revisions:     2330 (2009-01-13 10:36:11) through 2330 (2009-01-13 10:36:11)
+Users:         dyu
+Source branch: branches/dec08 @ 2329 (2009-01-12 13:02:09)
+Source revs:   2190 (2008-10-29 10:55:07) through 2328 (2009-01-12 11:46:12)
+
+
+
+Branch:        branches/dce-backmerge
+Commits:       1
+Updated files: 1
+Revisions:     2340 (2009-01-20 17:46:54) through 2340 (2009-01-20 17:46:54)
+Users:         plg
+Source branch: branches/main-dev @ 1982 (2008-10-08 17:52:37)
+Source revs:   1368 (2008-07-21 00:57:33) through 2363 (2009-02-01 08:49:31)
+
+
+Branch:        branches/wustl-dev
+Commits:       1
+Updated files: 395
+Revisions:     1988 (2008-10-08 23:13:35) through 1988 (2008-10-08 23:13:35)
+Users:         ltarbox
+
+
+
+Branch:        branches/main-dev
+Commits:       253
+Updated files: 2017
+Revisions:     1368 (2008-07-21 00:57:33) through 2363 (2009-02-01 08:49:31)
+Users:         plg sylvain tmoeller mcaylus stordeur christophvetter
+               gam babu stefanwiesner steli268 dyu weihong
+Source branch: trunk @ 1367 (2008-07-21 00:54:11)
+Source revs:   0 ( ) through 0 ( )
+
+Need to check what revisions on main-dev to merge, there is one
+up-merge already done at some version

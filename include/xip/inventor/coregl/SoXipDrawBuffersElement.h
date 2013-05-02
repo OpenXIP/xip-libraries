@@ -150,6 +150,8 @@ public:
 
 	static void     set(SoState *state, SoNode *node, int numBuffers);
 	void            setElt(int numBuffers);
+	static void     setBuffer(SoState *state, SoNode *node, int buffer);
+	void            setBufferElt(int buffer);
 
 	static int      getNum(SoState *state, SoNode *node);
 	int             getNumElt();

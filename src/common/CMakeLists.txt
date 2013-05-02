@@ -48,6 +48,6 @@ install(TARGETS xipcommon
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipcommond.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipcommon${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

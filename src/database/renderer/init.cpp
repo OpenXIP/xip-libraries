@@ -113,20 +113,31 @@
 
 #include <Inventor/fields/SoSubField.h>
 #include "SoXipSlicer.h"
+#include "SoXipSlicerShader.h"
 #include "SoXipSlicerVolRender.h"
+#include "SoXipSimpleVolumeRenderKit.h"
 #include "SoXipMprRender.h"
 #include "SoXipCPUMprRender.h"
-
+#include "SoXipGpuProcessTexture.h"
+#include "SoXipGpuProcessTextureKit.h"
+#include "SoXipDirectRaycaster.h"
+#include "SoXipClipPlanesShaderSetup.h"
 
 int XIPIVRENDERER_API xipivrenderer_init()
 {
-	SoXipMprRender::initClass();
-	SoXipSlicer::initClass();
-	SoXipSlicerVolRender::initClass();
-	SoXipCPUMprRender::initClass();
-	return 1;
-}
+    SoXipMprRender::initClass();
+    SoXipSlicer::initClass();
+    SoXipSlicerShader::initClass();
+    SoXipSlicerVolRender::initClass();
+    SoXipSimpleVolumeRenderKit::initClass();
+    SoXipCPUMprRender::initClass();
+    SoXipGpuProcessTexture::initClass();
+    SoXipGpuProcessTextureKit::initClass();
+    SoXipDirectRaycaster::initClass();
+    SoXipClipPlanesShaderSetup::initClass();
 
+    return 1;
+}
 
 #ifdef WIN32
 
@@ -170,3 +181,4 @@ void __attribute__ ((destructor)) _fini(void)
 }
 
 #endif /* WIN32 */
+

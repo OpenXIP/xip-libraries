@@ -108,11 +108,12 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-#include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
+
+
 #include "SoXipFboAttachColor3D.h"
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 #include <xip/inventor/coregl/SoXipFboElement.h>
+
 
 SO_NODE_SOURCE(SoXipFboAttachColor3D);
 
@@ -280,7 +281,7 @@ bool SoXipFboAttachColor3D::checkFramebufferStatus()
             SoDebugError::post("SoXipFboAttachColor3D", "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT");
             break;
         default:
-            SoDebugError::post("SoXipFboAttachColor3D", "UNKNWON frambuffer fault");
+            SoDebugError::post("SoXipFboAttachColor3D", "UNKNOWN frambuffer error %i", status);
     }
     return isOk;
 } 
@@ -434,8 +435,9 @@ void SoXipFboAttachColor3D::GLRender(SoGLRenderAction* action)
         mFboOut = mFboIn;
         mFboOut.colorStorage = GL_TEXTURE_3D;
         mFboOut.numColorAttachments = mNumAttachments;
-        mFboOut.width = sizeX.getValue();
+        mFboOut.width  = sizeX.getValue();
         mFboOut.height = sizeY.getValue();
+		mFboOut.depth  = sizeZ.getValue();
         mFboOut.colorFormat = format.getValue();
         mFboOut.internalColorFormat = internalFormat.getValue();
         mFboOut.colorWrap = wrap.getValue();
@@ -469,5 +471,3 @@ void SoXipFboAttachColor3D::sensorOutCB(void *usr, SoSensor *sensor) {
     SoXipFboAttachColor3D * thisObj = reinterpret_cast<SoXipFboAttachColor3D *>(usr);
     thisObj->syncOutput();
 }
-
-

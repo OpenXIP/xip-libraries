@@ -152,3 +152,8 @@ install(TARGETS ${PROJECT_NAME}
 # Install the config files
 #
 install(FILES etc/dcmpstat.cfg etc/printers.cfg DESTINATION doc)
+
+if(WIN32)
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/${PROJECT_NAME}${CMAKE_DEBUG_POSTFIX}.pdb
+    DESTINATION bin/debug CONFIGURATIONS Debug)
+endif(WIN32)

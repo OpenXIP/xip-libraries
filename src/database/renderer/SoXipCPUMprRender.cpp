@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <limits>
 
+
 SO_NODE_SOURCE(SoXipCPUMprRender);
 
 // Fast Floor for 3 values
@@ -147,6 +148,8 @@ SoXipCPUMprRender::SoXipCPUMprRender()
 	mLutBuf = 0;
 	mLutSize = 0;
 	mLutDataId = 0;
+    mTexInternalFormat = 0;
+    mTexType = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -314,7 +317,10 @@ void	SoXipCPUMprRender::resizeBuffers(SbVec2s &size)
 			volBytes = 8;
 			break;
 		default:
-			break;
+            mTexInternalFormat = 0;
+            mTexType = 0;
+            SoDebugError::postInfo("SoXipCPUMprRender::resizeBuffers", "Unsupported image type: %d!", mVolDataType);
+            return;
 		}
 		
 		
@@ -418,23 +424,40 @@ void	computeMPRCache(SoXipCPUMprRender *mprRender, T *volBuf, SoState *state)
 	mprRender->mNumCacheElems = cacheElem - mprRender->mMPRCache;
 }
 
-
-// Nearest neighbour LUT lookup
-template <class T>
-void sampleLut(float *mprVal, T val, float *lutBuf, unsigned int lutSize)
-{
 #ifdef min
 #undef min
 #endif
 #ifdef max
 #undef max
 #endif
-	// FIXME: does this work for every type of data?
-	double range = std::numeric_limits<T>::max() - std::numeric_limits<T>::min();
-	double texCoord = (val + std::numeric_limits<T>::min()) / range;
-	texCoord = MIN(MAX(texCoord, 0.0f), 1.0f);
+// Nearest neighbour LUT lookup
+template <class T>
+void sampleLut(float *mprVal, T val, float *lutBuf, unsigned int lutSize)
+{
+	double texCoord = val / (double)std::numeric_limits<T>::max();
+    texCoord = MIN(MAX(texCoord, 0.0f), 1.0f);
 
 	unsigned int lutIndex = texCoord * (lutSize - 1);
+	mprVal[0] = lutBuf[(lutIndex << 2) + 0];
+	mprVal[1] = lutBuf[(lutIndex << 2) + 1];
+	mprVal[2] = lutBuf[(lutIndex << 2) + 2];
+	mprVal[3] = lutBuf[(lutIndex << 2) + 3];
+}
+// Special cases for float and double, where we assume that range is between 0 and 1
+// Todo: add float min/max field in case people want to use float data with different range than 0..1
+template <>
+void sampleLut(float *mprVal, float val, float *lutBuf, unsigned int lutSize)
+{
+    unsigned int lutIndex = val * (lutSize - 1);
+	mprVal[0] = lutBuf[(lutIndex << 2) + 0];
+	mprVal[1] = lutBuf[(lutIndex << 2) + 1];
+	mprVal[2] = lutBuf[(lutIndex << 2) + 2];
+	mprVal[3] = lutBuf[(lutIndex << 2) + 3];
+}
+template <>
+void sampleLut(float *mprVal, double val, float *lutBuf, unsigned int lutSize)
+{
+    unsigned int lutIndex = val * (lutSize - 1);
 	mprVal[0] = lutBuf[(lutIndex << 2) + 0];
 	mprVal[1] = lutBuf[(lutIndex << 2) + 1];
 	mprVal[2] = lutBuf[(lutIndex << 2) + 2];
@@ -802,7 +825,12 @@ void SoXipCPUMprRender::GLRender(SoGLRenderAction * action)
 	{
 		resizeBuffers(vpSize);
 		mUpdateFlag |= UPDATE_MPRCACHE;
-	}	
+    }
+    
+    // Exit if unsupported image type
+    if (mTexInternalFormat == 0 ||
+        mTexType == 0)
+        return;
 
 	// Check if orientation has changed
 	SbVec3f	corners[4];
@@ -856,6 +884,7 @@ void SoXipCPUMprRender::GLRender(SoGLRenderAction * action)
 			mLutBuf ? computeMPRCacheLUT(this, (double*)mVolBuf, state) : computeMPRCache(this, (double*)mVolBuf, state);
 			break;
 		default:
+            // will never come here cause we already checked for it in resize
 			break;	
 		}
 		// Update mpr texture
@@ -891,6 +920,7 @@ void SoXipCPUMprRender::GLRender(SoGLRenderAction * action)
 			mLutBuf ? computeMPRLUT(this, (double*)mVolBuf) : computeMPR(this, (double*)mVolBuf);
 			break;
 		default:
+            // will never come here cause we already checked for it in resize
 			break;	
 		}
 		// Update mpr texture

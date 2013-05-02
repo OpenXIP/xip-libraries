@@ -39,12 +39,12 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "eXtensible Imaging Platorm")
 set(CPACK_PACKAGE_VENDOR "Siemens Corporate Research Inc.")
 
-set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/README.txt)
+#set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/README.txt)
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/XIP_LICENSE.txt)
 
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "1")
-set(CPACK_PACKAGE_VERSION_PATCH "2")
+set(CPACK_PACKAGE_VERSION_MINOR "2")
+set(CPACK_PACKAGE_VERSION_PATCH "1")
 
 set(XIP_VERSION_STRING ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 
@@ -98,7 +98,7 @@ if(WIN32)
   set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_NAME}")
   set(CPACK_NSIS_HELP_LINK "https://collab01a.scr.siemens.com/xipwiki/")
   set(CPACK_NSIS_URL_INFO_ABOUT "http://www.openxip.org")
-  set(CPACK_NSIS_CONTACT "sylvain.jaume@siemens.com")
+  set(CPACK_NSIS_CONTACT "tim.horz@siemens.com")
 
   set(CPACK_GENERATOR NSIS)
   set(CPACK_SOURCE_GENERATOR ZIP)
@@ -173,7 +173,18 @@ if(CMAKE_CL_64)
   add_definitions(-DWIN64)
 endif(CMAKE_CL_64)
 
-set(CMAKE_DEBUG_POSTFIX d)
+#--------------------------------------------------------------------
+# Set the debug postfix
+#
+option(DEBUG_POSTFIX "If this option is enabled, a \"d\" will be added as debug postfix." ON)
+mark_as_advanced(DEBUG_POSTFIX)
+
+if(DEBUG_POSTFIX)
+	set (CMAKE_DEBUG_POSTFIX d)
+else(DEBUG_POSTFIX)
+	set (CMAKE_DEBUG_POSTFIX )
+endif(DEBUG_POSTFIX)
+
 
 #--------------------------------------------------------------------
 # Options to build OpenInventor
@@ -213,59 +224,59 @@ set(XIP_INCLUDE_DIRS
 # Define the XIP libraries
 #
 set(XIP_COMMON_LIBRARY
-  optimized xipcommon
- 	debug xipcommond)
+	optimized xipcommon
+	debug xipcommon${CMAKE_DEBUG_POSTFIX})
 
 set(INVENTOR_LIBRARY
 	${OPENGL_LIBRARIES}
   ${XIP_COMMON_LIBRARY}
 	optimized xipinv240
- 	debug xipinv240d)
-
+ 	debug xipinv240${CMAKE_DEBUG_POSTFIX})
+	
 set(XIP_EXTRA_LIBRARY
 	${INVENTOR_LIBRARY}
-  optimized xipivextra
- 	debug xipivextrad)
+	optimized xipivextra
+	debug xipivextra${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_CORE_LIBRARY
 	${XIP_EXTRA_LIBRARY}
-  optimized xipivcore
- 	debug xipivcored)
+	optimized xipivcore
+	debug xipivcore${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_COREGL_LIBRARY
 	${XIP_CORE_LIBRARY}
-  optimized xipivcoregl
- 	debug xipivcoregld)
+	optimized xipivcoregl
+	debug xipivcoregl${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_RENDERER_LIBRARY
 	${XIP_COREGL_LIBRARY}
-  optimized xipivrenderer
- 	debug xipivrendererd)
+	optimized xipivrenderer
+	debug xipivrenderer${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_REMOTE_LIBRARY
   ${XIP_COREGL_LIBRARY}
 	optimized xipivremote
- 	debug xipivremoted)
+	debug xipivremote${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_DICOM_LIBRARY
 	${XIP_COREGL_LIBRARY}
-  optimized xipivdicom
-	debug xipivdicomd)
+	optimized xipivdicom
+	debug xipivdicom${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_OVERLAY_LIBRARY
 	${XIP_COREGL_LIBRARY}
-  optimized xipivoverlay
- 	debug xipivoverlayd)
+	optimized xipivoverlay
+	debug xipivoverlay${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_ITK_LIBRARY
 	${XIP_COREGL_LIBRARY}
-  optimized xipivitk
- 	debug xipivitkd)
+	optimized xipivitk
+	debug xipivitk${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_VTK_LIBRARY
 	${XIP_COREGL_LIBRARY}
-  optimized xipivvtk
- 	debug xipivvtkd)
+	optimized xipivvtk
+	debug xipivvtk${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_LIBRARIES ${XIP_RENDERER_LIBRARY})
 
@@ -288,7 +299,7 @@ endif(HAS_ITK)
 if(WIN32)
   set(XIP_EXECUTABLES
 	optimized rendernode
-	debug rendernoded)
+	debug rendernode${CMAKE_DEBUG_POSTFIX})
 endif(WIN32)
 
 #--------------------------------------------------------------------
@@ -296,29 +307,29 @@ endif(WIN32)
 #
 if(NOT BUILD_INVENTOR)
     if(CMAKE_CL_64)			
-			find_path(OIV_PATH bin/xipinv240.dll
-      ../xipext-win64-vs8-release/inventor
-      ../xipext-win64-vs8-debug/inventor
-      "Directory where Open Inventor is installed")
+		find_path(OIV_PATH bin/xipinv240.dll
+			../xipext-win64-vs8-release/inventor
+			../xipext-win64-vs8-debug/inventor
+			"Directory where Open Inventor is installed")
     endif(CMAKE_CL_64)
 
-		if(WIN32 AND NOT CMAKE_CL_64)
-      find_path(OIV_PATH bin/xipinv240.dll
-      ../xipext-win32-vs8-release/inventor
-      ../xipext-win32-vs8-debug/inventor
-      "Directory where Open Inventor is installed")
+	if(WIN32 AND NOT CMAKE_CL_64)
+		find_path(OIV_PATH bin/xipinv240.dll
+			../xipext-win32-vs8-release/inventor
+			../xipext-win32-vs8-debug/inventor
+			"Directory where Open Inventor is installed")
     endif(WIN32 AND NOT CMAKE_CL_64)
 	
     if(DARWIN)
-		  find_path(OIV_PATH bin/xipinv240.dll
-      ../xipext-mac-xcode/inventor
-      "Directory where Open Inventor is installed")	
+		find_path(OIV_PATH bin/xipinv240.dll
+			../xipext-mac-xcode/inventor
+			"Directory where Open Inventor is installed")	
     endif(DARWIN)
 
-		if(UNIX AND NOT DARWIN)
-      find_path(OIV_PATH bin/xipinv240.dll
-      ../xipext-linux-32bit/inventor
-      "Directory where Open Inventor is installed")
+	if(UNIX AND NOT DARWIN)
+		find_path(OIV_PATH bin/xipinv240.dll
+			../xipext-linux-32bit/inventor
+			"Directory where Open Inventor is installed")
     endif(UNIX AND NOT DARWIN)
 endif(NOT BUILD_INVENTOR)
 
@@ -328,7 +339,7 @@ endif(NOT BUILD_INVENTOR)
 if(HAS_VTK)
 
   set(XIP_LIBRARIES ${XIP_LIBRARIES}
-    optimized xipivvtk debug xipivvtkd)
+    optimized xipivvtk debug xipivvtk${CMAKE_DEBUG_POSTFIX})
 
 	if(${CMAKE_BINARY_DIR} MATCHES debug)
 	
@@ -460,12 +471,12 @@ set(XIP_INCLUDE_DIRS ${XIP_INCLUDE_DIRS} ${DCMTK_INCLUDE_DIRS})
 
 if(NOT DCMTK_LIBRARIES)
   set(DCMTK_LIBRARIES
-    optimized ofstd    debug ofstdd
-    optimized dcmdata  debug dcmdatad
-    optimized dcmimgle debug dcmimgled
-    optimized dcmimage debug dcmimaged
-    optimized dcmjpeg  debug dcmjpegd
-    optimized dcmpstat debug dcmpstatd)
+    optimized ofstd    debug ofstd${CMAKE_DEBUG_POSTFIX}
+    optimized dcmdata  debug dcmdata${CMAKE_DEBUG_POSTFIX}
+    optimized dcmimgle debug dcmimgle${CMAKE_DEBUG_POSTFIX}
+    optimized dcmimage debug dcmimage${CMAKE_DEBUG_POSTFIX}
+    optimized dcmjpeg  debug dcmjpeg${CMAKE_DEBUG_POSTFIX}
+    optimized dcmpstat debug dcmpstat${CMAKE_DEBUG_POSTFIX})
 endif(NOT DCMTK_LIBRARIES)
 
 #--------------------------------------------------------------------
@@ -507,7 +518,7 @@ endif(CMAKE_COMPILER_2005)
 # Find the xipbuilder executable, required for testing.
 #
 if(BUILD_TESTING)
-  find_file(XIP_BUILDER xipbuilder.exe
+  find_file(XIP_BUILDER xipbuilder${CMAKE_DEBUG_POSTFIX}.exe
     ${CPACK_PACKAGE_INSTALL_DIRECTORY})
   mark_as_advanced(XIP_BUILDER)
 endif(BUILD_TESTING)
@@ -1356,11 +1367,11 @@ itk/Threshold/BinaryThresholdImageFilter.rad
 itk/Threshold/DoubleThresholdImageFilter.rad)
 endif(HAS_ITK)
 
-if(WIN32)
-set(RAD_EXAMPLES ${RAD_EXAMPLES}
-  remote/mprclient.rad
-  remote/offline_renderer.rad)
-endif(WIN32)
+#if(WIN32)
+#set(RAD_EXAMPLES ${RAD_EXAMPLES}
+#  remote/mprclient.rad
+#  remote/offline_renderer.rad)
+#endif(WIN32)
 
 #--------------------------------------------------------------------
 # XIP examples
@@ -1484,12 +1495,12 @@ set(XIP_EXAMPLES ${XIP_EXAMPLES}
   renderer/slicer/slicerWithLutShaded.xip)
 endif(HAS_ITK)
 
-if(WIN32)
-set(XIP_EXAMPLES ${XIP_EXAMPLES}
-  remote/client.xip
-  remote/render.xip
-  remote/server.xip)
-endif(WIN32)
+#if(WIN32)
+#set(XIP_EXAMPLES ${XIP_EXAMPLES}
+#  remote/client.xip
+#  remote/render.xip
+#  remote/server.xip)
+#endif(WIN32)
 
 if(HAS_VTK)
 set(XIP_EXAMPLES ${XIP_EXAMPLES}
@@ -1547,17 +1558,17 @@ renderer/MPR/SplineShaded.txt
 renderer/slicer/ctAbdomen.txt
 renderer/slicer/default.txt)
 
-if(WIN32)
-set(XIP_GLSL_FILES ${XIP_GLSL_FILES}
-  remote/mpr_fp.glsl
-  remote/mpr_vp.glsl
-  remote/shade_tf_fp.glsl
-  remote/simpleLut_tf_fp.glsl
-  remote/simple_tf_fp.glsl
-  remote/simple_vp.glsl
-  remote/AngioRunOff.txt
-  remote/SplineShaded.txt)
-endif(WIN32)
+#if(WIN32)
+#set(XIP_GLSL_FILES ${XIP_GLSL_FILES}
+#  remote/mpr_fp.glsl
+#  remote/mpr_vp.glsl
+#  remote/shade_tf_fp.glsl
+#  remote/simpleLut_tf_fp.glsl
+#  remote/simple_tf_fp.glsl
+#  remote/simple_vp.glsl
+#  remote/AngioRunOff.txt
+#  remote/SplineShaded.txt)
+#endif(WIN32)
 
 #--------------------------------------------------------------------
 # Data in the examples directory
@@ -1841,8 +1852,9 @@ endforeach(EXAMPLE ${XIP_EXAMPLES} ${XIP_GLSL_FILES} ${XIP_DATA_FILES})
 #
 set(XIP_EXTRA_FILES_TO_INSTALL
   HELP.html
-  README.txt
+  #README.txt
   #RELEASE_0.1.2.txt
+  RELEASE_0.2.1.txt
   XIP_LICENSE.txt
   doc/XIPOverview.ppt
   doc/XIPStarterGuide.doc
@@ -1869,122 +1881,6 @@ foreach(MYFILE ${XIP_EXTRA_FILES_TO_INSTALL})
 	endif(MYPATH)
 endforeach(MYFILE ${XIP_EXTRA_FILES_TO_INSTALL})
 
-#--------------------------------------------------------------------
-# Write config.xml
-#
-file(WRITE ${CMAKE_BINARY_DIR}/config/config.xml
-"<XMLConfig>
-    <section name=\"General\" >
-        <setting key=\"x\">-3</setting>
-        <setting key=\"y\">-3</setting>
-        <setting key=\"width\">1036</setting>
-        <setting key=\"height\">780</setting>
-        <setting key=\"status\">normal</setting>
-        <setting key=\"html\">enabled</setting>
-    </section>
-    <section name=\"RenderArea\">
-        <setting key=\"indirect\">0</setting>
-    </section>
-    <section name=\"HtmlExport\">
-        <setting key=\"imageSize\">1024</setting>
-        <setting key=\"hideFields\">0</setting>
-        <setting key=\"hideTypeReferences\">0</setting>
-    </section>
-    <section name=\"Recent Scene Graphs\">
-    </section>
-    <section name=\"Environment\">
-    </section>
-</XMLConfig>")
-
-#--------------------------------------------------------------------
-# Write extensions.xml
-#
-file(WRITE ${CMAKE_BINARY_DIR}/config/extensions.xml
-"<XMLConfig>
- <section name=\"libraries\">
- <setting key=\"library\" configuration=\"debug\">xipivcored</setting>
- <setting key=\"library\" configuration=\"release\">xipivcore</setting>
- <setting key=\"library\" configuration=\"debug\">xipivcoregld</setting>
- <setting key=\"library\" configuration=\"release\">xipivcoregl</setting>
- <setting key=\"library\" configuration=\"release\">xipivrenderer</setting>
-")
-
-if(HAS_DCMTK)
-file(APPEND ${CMAKE_BINARY_DIR}/config/extensions.xml
-"<setting key=\"library\" configuration=\"debug\">xipivdicomd</setting>
- <setting key=\"library\" configuration=\"release\">xipivdicom</setting>
- <setting key=\"library\" configuration=\"debug\">xipivoverlayd</setting>
- <setting key=\"library\" configuration=\"release\">xipivoverlay</setting>
- <setting key=\"library\" configuration=\"debug\">xipivrendererd</setting>
- <setting key=\"library\" configuration=\"release\">xipivrenderer</setting>
-")
-endif(HAS_DCMTK)
-
-if(HAS_ITK)
-file(APPEND ${CMAKE_BINARY_DIR}/config/extensions.xml
-"  <setting key=\"library\" configuration=\"debug\">xipivitkd</setting>
-   <setting key=\"library\" configuration=\"release\">xipivitk</setting>
-")
-endif(HAS_ITK)
-
-if(HAS_VTK)
-file(APPEND ${CMAKE_BINARY_DIR}/config/extensions.xml
-"<setting key=\"library\" configuration=\"debug\">xipivvtkd</setting>
- <setting key=\"library\" configuration=\"release\">xipivvtk</setting>
-")
-endif(HAS_VTK)
-
-if(WIN32)
-file(APPEND ${CMAKE_BINARY_DIR}/config/extensions.xml
-"<setting key=\"library\" configuration=\"debug\">xipivremoted</setting>
- <setting key=\"library\" configuration=\"release\">xipivremote</setting>
-")
-endif(WIN32)
-
-file(APPEND ${CMAKE_BINARY_DIR}/config/extensions.xml
-"</section>
- <section name=\"templates\">
-   <setting key=\"directory\">../templates</setting>
- </section>
- </XMLConfig>")
-
-#--------------------------------------------------------------------
-# Write favorites.xml
-#
-file(WRITE ${CMAKE_BINARY_DIR}/config/favorites.xml
-"<XMLConfig>
-  <section name=\"favorites\">
-    <setting key=\"entry\">BaseColor</setting>
-    <setting key=\"entry\">Calculator</setting>
-    <setting key=\"entry\">Group</setting>
-    <setting key=\"entry\">Material</setting>
-    <setting key=\"entry\">Separator</setting>
-    <setting key=\"entry\">Switch</setting>
-  </section>
-</XMLConfig>")
-
-#--------------------------------------------------------------------
-# Write help.xml
-#
-file(WRITE ${CMAKE_BINARY_DIR}/config/help.xml
-"<XMLConfig>
-  <section name=\"references\" >
-    <setting key=\"^SoItk[A-Z]\">http://www.itk.org/Doxygen/html/classitk_1_1HELPID(5).html</setting>
-    <setting key=\"^So[A-Z]\">https://collab01a.scr.siemens.com/xipwiki/index.php/HELPID()</setting>
-    <setting key=\":help\">https://collab01a.scr.siemens.com/xipwiki/index.php/XIPBuilder</setting>
-    <setting key=\".\">http://techpubs.sgi.com/library/tpl/cgi-bin/getdoc.cgi?coll=0650&amp;db=man&amp;fname=/usr/share/catman/p_man/cat3/Inventor_c/SoHELPID().z</setting>
-  </section>
-</XMLConfig>")
-
-#--------------------------------------------------------------------
-# Install config files for XIPBuilder
-#
-install(FILES
-  ${CMAKE_BINARY_DIR}/config/config.xml
-  ${CMAKE_BINARY_DIR}/config/extensions.xml
-  ${CMAKE_BINARY_DIR}/config/favorites.xml
-  ${CMAKE_BINARY_DIR}/config/help.xml
-  DESTINATION config)
 
 #--------------------------------------------------------------------
 # Testing
@@ -2047,8 +1943,8 @@ configure_file(${CMAKE_SOURCE_DIR}/build/UseXIPInstall.cmake.in
 #--------------------------------------------------------------------
 # Configure text files and icons
 #
-configure_file(${CMAKE_SOURCE_DIR}/README.txt
-  ${CMAKE_BINARY_DIR}/README.txt COPYONLY)
+#configure_file(${CMAKE_SOURCE_DIR}/README.txt
+#  ${CMAKE_BINARY_DIR}/README.txt COPYONLY)
 
 configure_file(${CMAKE_SOURCE_DIR}/XIP_LICENSE.txt
   ${CMAKE_BINARY_DIR}/XIP_LICENSE.txt COPYONLY)

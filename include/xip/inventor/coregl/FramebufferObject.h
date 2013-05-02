@@ -133,6 +133,7 @@ struct FboSetup
     unsigned int    fboHandle;
     unsigned int    width;
     unsigned int    height;
+    unsigned int    depth;
 
     unsigned int    numColorAttachments;
     unsigned int    numDepthAttachments;
@@ -178,6 +179,7 @@ struct FboSetup
         fboHandle               = 0;
         width                   = 0;
         height                  = 0;
+		depth                   = 0;
 
         numColorAttachments     = 0;
         numDepthAttachments     = 0;
@@ -217,6 +219,7 @@ struct FboSetup
         fboHandle               = other.fboHandle;
         width                   = other.width;
         height                  = other.height;
+        depth                   = other.depth;
 
         numColorAttachments     = other.numColorAttachments;
         numDepthAttachments     = other.numDepthAttachments;
@@ -263,6 +266,7 @@ struct FboSetup
         return (fboHandle               == other.fboHandle              &&
                 width                   == other.width                  &&
                 height                  == other.height                 &&
+                depth                   == other.depth                  &&
 
                 numColorAttachments     == other.numColorAttachments    &&
                 numDepthAttachments     == other.numDepthAttachments    &&

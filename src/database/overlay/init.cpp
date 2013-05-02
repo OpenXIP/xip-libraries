@@ -161,6 +161,7 @@
 // Manager
 #include "SoXipOverlayManager.h"
 #include "SoXipImageOverlayManager.h"
+#include "SoXipDicomOverlayManager.h"
 #include "SoXipSegmentationOverlayManager.h"
 
 #include "SoXipImageOverlaySearch.h"
@@ -221,74 +222,74 @@
 
 int XIPIVOVERLAY_API xipivoverlay_init()
 {
-	// Elements and Style
-	SoXipDropShadowElement::initClass();
-	SoXipDropShadowStyle::initClass();
-	SoXipOverlayElement::initClass();
-	SoXipOverlayManipulatedElement::initClass();
-	SoXipOverlayColorElement::initClass();
-	SoXipOverlayDrawStyleElement::initClass();
-	SoXipOverlayColor::initClass();
-	SoXipOverlayDrawStyle::initClass();
-	SoXipOverlaySettings::initClass();
-    SoXipFontTypeElement::initClass();
-    SoXipOverlayFilterElement::initClass();
-        
-	SoXipBox::initClass();
-    SoXipFontType::initClass();
-	SoXipText2::initClass();
-	SoXipEditText2::initClass();
-	SoXipMeasDistance::initClass();
-	SoXipMeasPixelLens::initClass();
+  // Elements and Style
+  SoXipDropShadowElement::initClass();
+  SoXipDropShadowStyle::initClass();
+  SoXipOverlayElement::initClass();
+  SoXipOverlayManipulatedElement::initClass();
+  SoXipOverlayColorElement::initClass();
+  SoXipOverlayDrawStyleElement::initClass();
+  SoXipOverlayColor::initClass();
+  SoXipOverlayDrawStyle::initClass();
+  SoXipOverlaySettings::initClass();
+  SoXipFontTypeElement::initClass();
+  SoXipOverlayFilterElement::initClass();
 
-	// Shapes
-	SoXipShape::initClass();
-	SoXipShapeGroup::initClass();
-	SoXipManipulableShape::initClass();
-	SoXipEllipse::initClass();
-	SoXipRectangle::initClass();
-	SoXipHandlerShape::initClass();
-	SoXipPolyLine::initClass();
-	SoXipLine::initClass();
-	SoXipLineMeasurement::initClass();
-	SoXipPoint::initClass();
-	SoXipAnnotation::initClass();
-	SoXipAngle::initClass();
-	SoXipEditableShape::initClass();
-	SoXipPolygon::initClass();
-	SoXipContour::initClass();
-	SoXipBSpline::initClass();
-	SoXipHermiteSpline::initClass();
+  SoXipBox::initClass();
+  SoXipFontType::initClass();
+  SoXipText2::initClass();
+  SoXipEditText2::initClass();
+  SoXipMeasDistance::initClass();
+  SoXipMeasPixelLens::initClass();
 
-	SoXipShapeList::initClass();
+  // Shapes
+  SoXipShape::initClass();
+  SoXipShapeGroup::initClass();
+  SoXipManipulableShape::initClass();
+  SoXipEllipse::initClass();
+  SoXipRectangle::initClass();
+  SoXipHandlerShape::initClass();
+  SoXipPolyLine::initClass();
+  SoXipLine::initClass();
+  SoXipLineMeasurement::initClass();
+  SoXipPoint::initClass();
+  SoXipAnnotation::initClass();
+  SoXipAngle::initClass();
+  SoXipEditableShape::initClass();
+  SoXipPolygon::initClass();
+  SoXipContour::initClass();
+  SoXipBSpline::initClass();
+  SoXipHermiteSpline::initClass();
+  SoXipShapeList::initClass();
 
-	// Manipulators
-	SoXipOverlayManipBase::initClass();
-	SoXipOverlayTranslationManip::initClass();
-	SoXipOverlayTransformBoxManip::initClass();
-	SoXipOverlaySelectionManip::initClass();
-	SoXipOverlaySelectionFrame::initClass();
-	SoXipOverlayHandlerManip::initClass();
-	SoXipOverlayManips::initClass();
+  // Manipulators
+  SoXipOverlayManipBase::initClass();
+  SoXipOverlayTranslationManip::initClass();
+  SoXipOverlayTransformBoxManip::initClass();
+  SoXipOverlaySelectionManip::initClass();
+  SoXipOverlaySelectionFrame::initClass();
+  SoXipOverlayHandlerManip::initClass();
+  SoXipOverlayManips::initClass();
 
 	// Manager
 	SoXipOverlayManager::initClass();	
+	SoXipDicomOverlayManager::initClass();
 	SoXipImageOverlayManager::initClass();
 	SoXipImageOverlaySearch::initClass();
 	SoXipImageOverlayAdd::initClass();
 	SoXipImageOverlayClear::initClass();
 
-	// Segmentation
-	SoXipSegmentationOverlayManager::initClass();
+  // Segmentation
+  SoXipSegmentationOverlayManager::initClass();
 
-	// Utils
-	SoXipOverlayActions::initClass();
-	SoXipLoadOverlay::initClass();
-	SoXipSaveOverlay::initClass();
-	SoXipOverlayExtractContour::initClass();
-	SoXipOverlaySearch::initClass();
-	SoXipOverlaySearchContour::initClass();
-	SoXipOverlayProperties::initClass();
+  // Utils
+  SoXipOverlayActions::initClass();
+  SoXipLoadOverlay::initClass();
+  SoXipSaveOverlay::initClass();
+  SoXipOverlayExtractContour::initClass();
+  SoXipOverlaySearch::initClass();
+  SoXipOverlaySearchContour::initClass();
+  SoXipOverlayProperties::initClass();
 		
 	// Widgets
 	SoXipWidgetCamera::initClass();
@@ -328,7 +329,7 @@ int XIPIVOVERLAY_API xipivoverlay_init()
 	SoXipLutColorBar::initClass();
 	SoXipScaleBar::initClass();
 	SoXipDisplayImageText::initClass();
-    SoXipOverlayFilter::initClass();
+        SoXipOverlayFilter::initClass();
 
 	SoXipSegmentationOverlayManager::initClass();
 
@@ -377,3 +378,4 @@ void __attribute__ ((destructor)) _fini(void)
 }
 
 #endif /* WIN32 */
+

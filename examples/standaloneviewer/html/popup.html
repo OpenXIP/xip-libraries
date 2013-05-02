@@ -1,0 +1,45 @@
+<html>
+   <head>
+      <title>QtWebKit Popup</title>
+      <script type="text/javascript">
+          widget.connectJSSlot('stateChanged(const QString &, const QString &)', 'window.onStateChangedPopup');
+      
+          window.onStateChangedPopup = function onStateChangedPopup(p, v)
+          {
+                if (v == 'RenderArea.current')
+                {
+                    document.getElementById('output').innerText = "Current viewport: "+p;
+                }
+          }
+          function setParam(p, v)
+          {
+		        widget.setParam(p+","+v);
+          }
+          function onLoad()
+          {
+                setParam('AddFieldSensor', 'RenderArea.current');
+          }
+          function onOrientationDefault()
+		  {
+		        setParam('MprExaminer0.orientation', 'FEET');
+			    setParam('MprExaminer0.viewOrientation', '');
+			    setParam('MprExaminer0.viewAll', '');
+
+			    setParam('MprExaminer1.orientation', 'RIGHT');
+			    setParam('MprExaminer1.viewOrientation', '');
+			    setParam('MprExaminer1.viewAll', '');
+
+			    setParam('MprExaminer2.orientation', 'POSTERIOR');
+			    setParam('MprExaminer2.viewOrientation', '');
+			    setParam('MprExaminer2.viewAll', '');
+		  }
+      </script>
+      </head>
+      <body bgColor="#191A2F" onload="onLoad();">
+   	       <form>
+   	            <input type="button" value="Default Orientation" onClick="javascript:onOrientationDefault();"/>
+   	       </form>
+   	       <br /><br />
+   	       <span id='output' style="color:#FFF;">Current viewport:</span>
+      </body>
+</html>

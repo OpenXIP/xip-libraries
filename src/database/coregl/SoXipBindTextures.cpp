@@ -108,20 +108,18 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-#ifndef DARWIN
-#include <xip/system/standard.h>
-#endif // DARWIN
+
 
 #include "SoXipBindTextures.h"
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
+#include <xip/inventor/coregl/SoXipGLOWElement.h>
 
-#ifndef DARWIN
-#include <xip/inventor/coregl/FramebufferObject.h>
-#include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
-#include <xip/inventor/coregl/SoXipFboElement.h>
-#endif // DARWIN
+//#include <xip/inventor/coregl/FramebufferObject.h>
+//#include <xip/inventor/coregl/FramebufferObject.h>
+//#include <xip/inventor/coregl/SoXipFboElement.h>
+//#include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 
 const GLenum SoXipBindTextures::avaliableColorTargets[16] = 
         { GL_COLOR_ATTACHMENT0_EXT,  GL_COLOR_ATTACHMENT1_EXT,
@@ -143,7 +141,13 @@ SoXipBindTextures::SoXipBindTextures()
 {
     SO_NODE_CONSTRUCTOR(SoXipBindTextures);
 
+	SO_NODE_DEFINE_ENUM_VALUE(TextureDimension, TEXTURE_1D);
+	SO_NODE_DEFINE_ENUM_VALUE(TextureDimension, TEXTURE_2D);
+	SO_NODE_DEFINE_ENUM_VALUE(TextureDimension, TEXTURE_3D);
+	SO_NODE_SET_SF_ENUM_TYPE(textureDimension, TextureDimension);
+
     // add input fields
+    SO_NODE_ADD_FIELD(textureDimension,  (TEXTURE_2D));
     SO_NODE_ADD_FIELD(attachmentHandles, (0));
 
     // add output fields
@@ -185,10 +189,9 @@ void SoXipBindTextures::initClass()
     SO_NODE_INIT_CLASS(SoXipBindTextures, SoNode, "Node");
 	SO_ENABLE(SoGLRenderAction, SoXipMultiTextureElement);
 	SO_ENABLE(SoGLRenderAction, SoXipGLOWElement);
-#ifndef DARWIN
-    SO_ENABLE(SoGLRenderAction, SoXipFboElement);
-    SO_ENABLE(SoGLRenderAction, SoXipDrawBuffersElement);
-#endif // DARWIN
+
+//    SO_ENABLE(SoGLRenderAction, SoXipFboElement);
+//    SO_ENABLE(SoGLRenderAction, SoXipDrawBuffersElement);
 }
 
 
@@ -197,10 +200,9 @@ void SoXipBindTextures::initClass()
  */
 void SoXipBindTextures::assignTextures(SoGLRenderAction* action)
 {
-#ifdef DARWIN
     GLuint unit     = 0;
     GLuint texture  = 0;
-#endif // DARWIN
+
     for (int i = 0; i < mNumTextures; i++)
     {
         if (mTexHandles[i] != attachmentHandles[i])
@@ -225,7 +227,7 @@ void SoXipBindTextures::bindTextures(SoGLRenderAction* action)
         if (glIsTexture(mTexHandles[i])) {
             unit = SoXipMultiTextureElement::getFreeUnit(action->getState());
             SoXipMultiTextureElement::setUnit(action->getState(), unit);
-            SoXipMultiTextureElement::bindTexture(action->getState(), GL_TEXTURE_2D, mTexHandles[i]);
+            SoXipMultiTextureElement::bindTexture(action->getState(), textureDimension.getValue(), mTexHandles[i]);
             if (mTexUnits[i] != unit) {
                 mTexUnits[i] = unit;
                 mNeedsSync = true;
@@ -326,7 +328,3 @@ void SoXipBindTextures::GLRender(SoGLRenderAction* action)
     }
 #endif
 }
-
-
-
-

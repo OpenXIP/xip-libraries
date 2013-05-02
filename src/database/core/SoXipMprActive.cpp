@@ -111,13 +111,11 @@
 
 #include <xip/inventor/core/SoXipMprActiveElement.h>
 #include "SoXipMprActive.h"
-#include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/actions/SoCallbackAction.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/actions/SoPickAction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 #include <Inventor/actions/SoHandleEventAction.h>
-#include <Inventor/sensors/SoFieldSensor.h>
 
 
 SO_NODE_SOURCE(SoXipMprActive);
@@ -188,3 +186,5 @@ void SoXipMprActive::handleEvent(SoHandleEventAction *action)
 {
 	doAction(action);
 }
+
+

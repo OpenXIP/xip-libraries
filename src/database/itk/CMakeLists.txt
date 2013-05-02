@@ -603,7 +603,8 @@ set_target_properties(xipivitk
 # Link the library
 #
 target_link_libraries(xipivitk
-  xipivcore
+	optimized xipivcore
+	debug xipivcore${CMAKE_DEBUG_POSTFIX}
   ${ITK_LIBRARIES})
 
 if(WIN32 AND NOT BORLAND)
@@ -629,6 +630,6 @@ install(TARGETS xipivitk
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivitkd.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivitk${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

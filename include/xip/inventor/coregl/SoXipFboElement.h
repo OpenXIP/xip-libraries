@@ -177,6 +177,9 @@ public:
 	static void			renderToSlice(SoState *state, SoNode *node, int z);
 	void				renderToSliceElt(int z);
 
+	static void			reattachAs3D(SoState *state, SoNode *node);
+	void				reattachAs3DElt();
+
 private:
 	~SoXipFboElement();
 

@@ -109,7 +109,7 @@
 *  
 */
 #include <xip/inventor/core/SoXipMprPlaneElement.h>
-#include <xip/inventor/core/XipGeomUtils.h> // XipInventorUtils?
+#include <xip/inventor/core/XipGeomUtils.h>
 #include <Inventor/elements/SoModelMatrixElement.h>
 #include <Inventor/fields/SoSFMatrix.h>
 #include <Inventor/fields/SoSFVec3f.h>
@@ -215,8 +215,7 @@ int SoXipMprPlaneElement::getNum() const
 // Returns the nth plane matrix stored in an instance.
 const SbMatrix& SoXipMprPlaneElement::getMatrix(int index) const
 {
-// _DEBUG
-#ifdef DEBUG
+#ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
 		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
 			   "Index (%d) is out of range 0 - %d",
@@ -234,7 +233,7 @@ const SbColor& SoXipMprPlaneElement::getColor(int index) const
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
+		SoDebugError::post("SoXipMprPlaneElement::getColor",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
 #endif
@@ -250,7 +249,7 @@ const int SoXipMprPlaneElement::getId(int index) const
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
+		SoDebugError::post("SoXipMprPlaneElement::getId",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
 #endif
@@ -281,7 +280,7 @@ void SoXipMprPlaneElement::setMatrix(int index, const SbMatrix &matrix)
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
+		SoDebugError::post("SoXipMprPlaneElement::setMatrix",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
 #endif
@@ -318,7 +317,7 @@ void SoXipMprPlaneElement::setCenter(int index, const SbVec3f &center)
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
+		SoDebugError::post("SoXipMprPlaneElement::setCenter",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
 #endif
@@ -347,7 +346,7 @@ const SbVec3f& SoXipMprPlaneElement::getCenter(int index) const
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
+		SoDebugError::post("SoXipMprPlaneElement::getCenter",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
 #endif
@@ -363,7 +362,7 @@ SoSFMatrix * SoXipMprPlaneElement::getMatrixField(int index) const
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::getField",
+		SoDebugError::post("SoXipMprPlaneElement::getMatrixField",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
 #endif /* DEBUG */
@@ -378,7 +377,7 @@ SoSFVec3f * SoXipMprPlaneElement::getCenterField(int index) const
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::getField",
+		SoDebugError::post("SoXipMprPlaneElement::getCenterField",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
 #endif /* DEBUG */
@@ -406,5 +405,3 @@ void SoXipMprPlaneElement::addToElt(const SbMatrix &planeMatrix, const SbVec3f &
 		mMprPlanes.append(newPlane);
 	}
 }
-
-

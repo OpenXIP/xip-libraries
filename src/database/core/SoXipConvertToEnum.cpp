@@ -109,8 +109,6 @@
  *  
  */
 
-#include <stdlib.h>
-
 #include <Inventor/SoDB.h>
 #include "SoXipConvertToEnum.h"
 
@@ -247,3 +245,5 @@ SoType	SoXipConvertToEnum::getClassTypeId(void)
 }
 
 #endif
+
+

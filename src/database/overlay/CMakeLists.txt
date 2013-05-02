@@ -40,6 +40,7 @@ set(HEADERS
   SoXipImageOverlayAdd.h
   SoXipImageOverlayClear.h
   SoXipImageOverlayManager.h
+  SoXipDicomOverlayManager.h
   SoXipImageOverlaySearch.h
   SoXipImageTextColor.h
   SoXipLine.h
@@ -124,6 +125,7 @@ set(SOURCES
   SoXipHermiteSpline.cpp
   SoXipIcon.cpp
   SoXipImageOverlayManager.cpp
+  SoXipDicomOverlayManager.cpp
   SoXipImageOverlayAdd.cpp
   SoXipImageOverlayClear.cpp
   SoXipImageOverlaySearch.cpp
@@ -260,8 +262,7 @@ set_target_properties(xipivoverlay
 # Link the library
 #
 target_link_libraries(xipivoverlay
-  xipivcore
-  xipivdicom
+	${XIP_DICOM_LIBRARY}
   ftgl
   ${FREETYPE_LIBRARIES})
 
@@ -281,6 +282,6 @@ install(TARGETS xipivoverlay
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivoverlayd.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivoverlay${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

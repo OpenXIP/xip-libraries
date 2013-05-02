@@ -1,0 +1,185 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	3.3 3.6 5.3 4.4
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-0.3 1.8 1.84489 2.6
+    flags	()
+    autoPanelPos	101 521 0 0
+    node	    SoXipClearBuffer {
+	fields [ SFVec4f clearColor,  ]
+	clearColor	0.2 0.2 0.2 0
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-0.3 0.9 1.7 1.69999
+    flags	()
+    autoPanelPos	36 626 0 0
+    node	    SoXipExaminer {
+	mode	ROTATE
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	-1.04379 1.85092 0.903792
+	    orientation	0.302052 -0.589933 -0.748828  2.56239
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	1.8 -0.3 3.8 0.5
+    flags	()
+    autoPanelPos	91 474 0 0
+    node	    SoXipLut {
+	fields [ SoXipSFDataImage LUTDataImage, SFShort bitsUsed, SFFloat rampWidth, MFColor arrayColor,
+		MFFloat arrayAlpha ]
+	LUTDataImage	"NULL"
+	bitsUsed	8
+	rampWidth	0.5
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	5.4 -0.9 8.9814 -0.0999998
+    flags	()
+    autoPanelPos	455 444 0 0
+    node	    SoXipSimpleVolumeRenderKit {
+	fields [ SoXipSFDataImage volumeData, SoXipSFDataImage lutData, SFBool selfShading, SFNode volumeUnit,
+		SFNode volume, SFNode lutUnit, SFNode lut, SFNode shader,
+		SFNode slicer,  ]
+	volumeData	"NULL"
+	lutData	"NULL"
+	selfShading	TRUE
+	volumeUnit		DEF +0 SoXipTextureUnit {
+	    fields [ SFInt32 textureStage,  ]
+	}
+
+	volume		DEF +1 SoXipTexture {
+	    fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize,  ]
+	    image	"DATA"
+	    internalFormat	LUMINANCE8
+	    textureSize	160 430 183
+	}
+
+	lutUnit		DEF +2 SoXipTextureUnit {
+	    fields [ SFInt32 textureStage,  ]
+	    textureStage	1
+	}
+
+	lut		SoXipTexture {
+	    fields [ SoXipSFDataImage image, SFEnum textureDimension, SFEnum internalFormat, SFVec3f textureSize,
+		     ]
+	    image	"DATA"
+	    textureDimension	TEXTURE_2D
+	    internalFormat	RGBA16F_ARB
+	    textureSize	256 1 1
+	}
+
+	shader		SoXipSlicerShader {
+	    fields [ SFInt32 volumeUnit, SFInt32 lutUnit, SFBool shading, SFBool lighting,
+		    SFVec3f volsize ]
+	    volumeUnit	0 =
+		USE +0
+		. textureStage
+
+	    lutUnit	1 =
+		USE +2
+		. textureStage
+
+	    shading	TRUE
+	    lighting	FALSE
+	    volsize	160 430 183 =
+		USE +1
+		. textureSize
+
+	}
+
+	slicer		SoXipSlicer {
+	    fields [ SFInt32 numSlices, SFBool useComplexity, SFEnum slicing, SFEnum mode,
+		    SFEnum compositing ]
+	    numSlices	512
+	    useComplexity	FALSE
+	    slicing	VIEW_ALIGNED
+	    mode	VRT
+	    compositing	BACK_TO_FRONT
+	}
+
+    }
+
+}
+#connect "volumeData@4" "output@5"
+#connect "lutData@4" "LUTDataImage@3"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	1.8 -1.5 3.8 -0.7
+    flags	()
+    autoPanelPos	203 491 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFShort width, SFShort height, SFShort depth, SFMatrix modelMatrix,
+		SFString file ]
+	width	160
+	height	430
+	depth	183
+	modelMatrix	160 0 0 0
+		0 430 0 0
+		0 0 183 0
+		0 0 0 1
+	file	"..\..\data\CT_WHOLE.img"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5 ]
+    position	5.40454 -0.122057 1
+    height	12.8154
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

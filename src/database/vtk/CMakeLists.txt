@@ -679,6 +679,6 @@ install(TARGETS xipivvtk
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivvtkd.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivvtk${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

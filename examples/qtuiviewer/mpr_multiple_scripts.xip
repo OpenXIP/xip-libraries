@@ -1,0 +1,1627 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-2.4 9.9 -0.19515 10.6999
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	341 210 0 0
+    node	    SoXipIvQtUiViewer {
+	fields [ MFString script, SFString ui,  ]
+	script	[ "ui/renderWidget_1.js",
+			  "ui/renderWidget_2.js",
+			  "ui/renderWidget_3.js" ]
+	ui	"ui/renderWidget.ui"
+    }
+
+}
+#addChild "0" "1"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-4.2 8.4 -1.7793 9.2
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	24 28 0 0
+    node	    DEF RenderArea SoXipViewportGroup {
+	fields [ SFBool activateOnClick, MFVec4f viewports, SFInt32 current,  ]
+	activateOnClick	FALSE
+	viewports	[ 0 0 0.5 0.5,
+			  0 0.5 0.5 0.5,
+			  0.5 0.5 0.5 0.5,
+			  0.5 0 0.5 0.5 ]
+	current	2
+    }
+
+}
+#addChild "1" "2 15 19 23"
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-9 6.3 -7 7.1
+    flags	()
+    autoPanelPos	209 115 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "2" "3 7 8 11"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-9.9 2.1 -7.9 2.9
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "3" "4 5 6"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-5.4 -0.3 -3.4 0.5
+    flags	()
+    autoPanelPos	287 527 0 0
+    node	    SoXipMprPlane {
+	fields [ SFMatrix plane, SFVec3f center, SFColor color, SFInt32 id,
+		 ]
+	plane	-1 -5.04829e-008 1.91412e-008 0
+		-1.60725e-008 -4.09664e-007 1 0
+		-1.23065e-007 1 -3.79884e-007 0
+		0.5 0.5 0.5 1
+	center	0.5 0.5 0.5
+	color	0 0 1
+	id	2
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-7.5 -0.3 -5.5 0.5
+    flags	()
+    autoPanelPos	260 318 0 0
+    node	    SoXipMprPlane {
+	fields [ SFMatrix plane, SFVec3f center, SFColor color, SFInt32 id,
+		 ]
+	plane	5.4007e-008 1 1.53467e-008 0
+		-4.36492e-009 2.36323e-008 1 0
+		1 6.06871e-008 -3.64637e-009 0
+		0.5 0.5 0.5 1
+	center	0.5 0.5 0.5
+	color	0 1 0
+	id	1
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	-9.6 -0.3 -7.6 0.5
+    flags	()
+    autoPanelPos	41 381 0 0
+    node	    SoXipMprPlane {
+	fields [ SFMatrix plane, SFVec3f center, SFColor color,  ]
+	plane	0.999999 1.1289e-007 2.61558e-007 0
+		-1.13799e-007 -1 -1.79163e-007 0
+		-2.53702e-007 3.20914e-008 -1 0
+		0.5 0.5 0.5 1
+	center	0.5 0.5 0.5
+	color	1 0 0
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-10.1543 4.8 -7.93402 5.6
+    flags	()
+    autoPanelPos	0 164 0 0
+    node	    DEF MprExaminer0 SoXipMprExaminer {
+	mode	ROTATE
+	border	TRUE
+	dogEar	TRUE
+	camera		OrthographicCamera {
+	    position	0.5 0.5 0.5
+	    orientation	1 -6.69829e-010 3.51464e-009  3.14159
+	    nearDistance	-1
+	    farDistance	1
+	    focalDistance	0
+	    height	0.999999
+	}
+
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	intersectionManip		SoXipMprIntersectionManip {
+	    fields [ SFBool isManipulating, SFBool on, SFEnum mode,  ]
+	    isManipulating	FALSE
+	    on	TRUE
+	    mode	TRANSLATION
+	    SoXipMprIntersectionLine {
+		fields [ SFMatrix planeMatrix, SFMatrix intersectMatrix, SFVec3f centerPosition, SFBool centerGap,
+			SFBool stubs, SFFloat stubScale, SFNode transform, SFNode color,
+			SFNode drawStyle, SFNode lineCoord, SFNode lineSet, SFNode gapDrawStyle,
+			SFNode gapCoord, SFNode gapLineSet, SFNode arrowCoord, SFNode arrowLineSet,
+			 ]
+		planeMatrix	0.999999 1.1289e-007 2.61558e-007 0
+			-1.13799e-007 -1 -1.79163e-007 0
+			-2.53702e-007 3.20914e-008 -1 0
+			0.5 0.5 0.5 1
+		intersectMatrix	-1 -5.04829e-008 1.91412e-008 0
+			-1.60725e-008 -4.09664e-007 1 0
+			-1.23065e-007 1 -3.79884e-007 0
+			0.5 0.5 0.5 1
+		centerPosition	0.5 0.5 0.5
+		centerGap	TRUE
+		stubs	FALSE
+		stubScale	10
+		transform			MatrixTransform {
+		    matrix	0.999999 1.1289e-007 2.61558e-007 0
+			    -1.13799e-007 -1 -1.79163e-007 0
+			    -2.53702e-007 3.20914e-008 -1 0
+			    0.5 0.5 0.5 1
+		}
+
+		color			BaseColor {
+		    rgb	0 0 1
+		}
+
+		drawStyle			DrawStyle {
+		}
+
+		lineCoord			Coordinate3 {
+		    point	[ -0.04 1.11904e-008 0,
+				      -0.525 3.32862e-008 0,
+				      0.04 1.00037e-008 0,
+				      0.525 1.77102e-008 0 ]
+		}
+
+		lineSet			LineSet {
+		    numVertices	[ 2, 2 ]
+		}
+
+		gapDrawStyle			DrawStyle {
+		    style	INVISIBLE
+		}
+
+		gapCoord			Coordinate3 {
+		    point	[ -0.04 1.11904e-008 0,
+				      0.04 1.00037e-008 0 ]
+		}
+
+		gapLineSet			LineSet {
+		    numVertices	2
+		}
+
+		arrowCoord			Coordinate3 {
+		    point	[ -0.2625 1.4491e-008 0,
+				      -0.2625 -0.07 0,
+				      -0.2625 1.4491e-008 0,
+				      -0.2555 -0.021 0,
+				      -0.2625 1.4491e-008 0,
+				      -0.2695 -0.021 0,
+				      0.2625 6.70303e-009 0,
+				      0.2625 -0.07 0,
+				      0.2625 6.70303e-009 0,
+				      0.2695 -0.021 0,
+				      0.2625 6.70303e-009 0,
+				      0.2555 -0.021 0 ]
+		}
+
+		arrowLineSet			LineSet {
+		    numVertices	[ 2, 2, 2, 2, 2, 2 ]
+		}
+
+	    }
+	    SoXipMprIntersectionLine {
+		fields [ SFMatrix planeMatrix, SFMatrix intersectMatrix, SFVec3f centerPosition, SFBool centerGap,
+			SFBool stubs, SFFloat stubScale, SFNode transform, SFNode color,
+			SFNode drawStyle, SFNode lineCoord, SFNode lineSet, SFNode gapDrawStyle,
+			SFNode gapCoord, SFNode gapLineSet, SFNode arrowCoord, SFNode arrowLineSet,
+			 ]
+		planeMatrix	0.999999 1.1289e-007 2.61558e-007 0
+			-1.13799e-007 -1 -1.79163e-007 0
+			-2.53702e-007 3.20914e-008 -1 0
+			0.5 0.5 0.5 1
+		intersectMatrix	5.4007e-008 1 1.53467e-008 0
+			-4.36492e-009 2.36323e-008 1 0
+			1 6.06871e-008 -3.64637e-009 0
+			0.5 0.5 0.5 1
+		centerPosition	0.5 0.5 0.5
+		centerGap	TRUE
+		stubs	FALSE
+		stubScale	10
+		transform			MatrixTransform {
+		    matrix	0.999999 1.1289e-007 2.61558e-007 0
+			    -1.13799e-007 -1 -1.79163e-007 0
+			    -2.53702e-007 3.20914e-008 -1 0
+			    0.5 0.5 0.5 1
+		}
+
+		color			BaseColor {
+		    rgb	0 1 0
+		}
+
+		drawStyle			DrawStyle {
+		}
+
+		lineCoord			Coordinate3 {
+		    point	[ -4.10792e-008 -0.04 0,
+				      -1.28892e-007 -0.5 0,
+				      -2.8399e-008 0.04 0,
+				      2.9611e-008 0.5 0 ]
+		}
+
+		lineSet			LineSet {
+		    numVertices	[ 2, 2 ]
+		}
+
+		gapDrawStyle			DrawStyle {
+		    style	INVISIBLE
+		}
+
+		gapCoord			Coordinate3 {
+		    point	[ -4.10792e-008 -0.04 0,
+				      -2.8399e-008 0.04 0 ]
+		}
+
+		gapLineSet			LineSet {
+		    numVertices	2
+		}
+
+		arrowCoord			Coordinate3 {
+		    point	[ -7.43647e-008 -0.25 0,
+				      0.0699999 -0.25 0,
+				      -7.43647e-008 -0.25 0,
+				      0.0209999 -0.243 0,
+				      -7.43647e-008 -0.25 0,
+				      0.0209999 -0.257 0,
+				      4.88657e-009 0.25 0,
+				      0.07 0.25 0,
+				      4.88657e-009 0.25 0,
+				      0.021 0.257 0,
+				      4.88657e-009 0.25 0,
+				      0.021 0.243 0 ]
+		}
+
+		arrowLineSet			LineSet {
+		    numVertices	[ 2, 2, 2, 2, 2, 2 ]
+		}
+
+	    }
+	}
+
+	borderNode		DEF +0 SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	1 0 0
+	    inactiveColor	1 0 0
+	}
+
+	dogEarNode		DEF +1 SoXipDogEar {
+	    fields [  ]
+	}
+
+	orientationNode		SoXipOrientationCube {
+	    fields [  ]
+	}
+
+	borderSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	}
+
+	dogEarSwitch		Switch {
+	    whichChild	0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	7.8 -0.3 9.8 0.5
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "8" "9 10"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	5.4 -1.8 8.29868 -1
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	738 446 0 0
+    node	    DEF WindowLevelManip SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	window	0.876074
+	level	0.276348
+	mouse	BUTTON3
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	9.3 -2.4 11.3 -1.6
+    flags	()
+    autoPanelPos	544 422 0 0
+    node	    SoXipLut {
+	fields [ SoXipSFDataImage LUTDataImage, SFEnum alphaMode, SFEnum fileMode, SFShort bitsUsed,
+		SFFloat rampWidth, SFFloat rampCenter, SFColor colorMiddle, SFInt32 fileEntries,
+		MFColor arrayColor, MFFloat arrayAlpha ]
+	LUTDataImage	"NULL"
+	alphaMode	CONSTANT
+	fileMode	FLOAT_COMMA
+	bitsUsed	8
+	rampWidth	0.876074
+	rampCenter	0.276348
+	colorMiddle	0.7 0.5 0.3
+	fileEntries	4096
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+#connect "rampWidth@10" "window@9"
+#connect "rampCenter@10" "level@9"
+
+### 11 ###
+SoXipBuilderNode {
+    placement	-7.8 4.5 -5.17771 5.3
+    flags	()
+    autoPanelPos	173 185 0 0
+    node	    SoXipCPUMprRender {
+	fields [ SoXipSFDataImage volume,  ]
+	volume	"NULL"
+    }
+
+}
+#connect "volume@11" "output@12"
+
+### 12 ###
+SoXipBuilderEngine {
+    placement	0.106617 -2.7 2.3423 -1.9
+    flags	()
+    autoPanelPos	439 708 0 0
+    engine	    SoXipVolumeDicom {
+	inputs [ SoXipMFDataDicom input ]
+	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL" ]
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+#connect "input@12" "output@13"
+
+### 13 ###
+SoXipBuilderEngine {
+    placement	0.3 -3.9 2.3 -3.1
+    flags	()
+    autoPanelPos	400 453 0 0
+    engine	    SoXipSortDicom {
+	inputs [ SoXipMFDataDicom input ]
+	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL" ]
+	outputs [ SoXipMFDataDicom output ]
+    }
+
+}
+#connect "input@13" "dicom@14"
+
+### 14 ###
+SoXipBuilderEngine {
+    placement	0.3 -5.4 2.3 -4.6
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	144 458 0 0
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\data\CTHead"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### 15 ###
+SoXipBuilderNode {
+    placement	-3.6 6.3 -1.6 7.1
+    flags	()
+    autoPanelPos	421 62 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "15" "16 17 8 18"
+
+### 16 ###
+SoXipBuilderNode {
+    placement	-7.5 2.1 -5.5 2.9
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "16" "4 6 5"
+
+### 17 ###
+SoXipBuilderNode {
+    placement	-4.8 4.8 -2.57974 5.6
+    flags	()
+    autoPanelPos	111 159 0 0
+    node	    DEF MprExaminer1 SoXipMprExaminer {
+	orientation	LEFT
+	mode	ROTATE
+	border	TRUE
+	dogEar	TRUE
+	orientationCube	TRUE
+	camera		OrthographicCamera {
+	    position	0.5 0.5 0.5
+	    orientation	0.57735 0.57735 0.57735  2.0944
+	    nearDistance	-1
+	    farDistance	1
+	    focalDistance	0
+	    height	1
+	}
+
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	intersectionManip		SoXipMprIntersectionManip {
+	    fields [ SFBool isManipulating, SFBool on, SFEnum mode,  ]
+	    isManipulating	FALSE
+	    on	TRUE
+	    mode	TRANSLATION
+	    SoXipMprIntersectionLine {
+		fields [ SFMatrix planeMatrix, SFMatrix intersectMatrix, SFVec3f centerPosition, SFBool centerGap,
+			SFBool stubs, SFFloat stubScale, SFNode transform, SFNode color,
+			SFNode drawStyle, SFNode lineCoord, SFNode lineSet, SFNode gapDrawStyle,
+			SFNode gapCoord, SFNode gapLineSet, SFNode arrowCoord, SFNode arrowLineSet,
+			 ]
+		planeMatrix	5.4007e-008 1 1.53467e-008 0
+			-4.36492e-009 2.36323e-008 1 0
+			1 6.06871e-008 -3.64637e-009 0
+			0.5 0.5 0.5 1
+		intersectMatrix	-1 -5.04829e-008 1.91412e-008 0
+			-1.60725e-008 -4.09664e-007 1 0
+			-1.23065e-007 1 -3.79884e-007 0
+			0.5 0.5 0.5 1
+		centerPosition	0.5 0.5 0.5
+		centerGap	TRUE
+		stubs	FALSE
+		stubScale	10
+		transform			MatrixTransform {
+		    matrix	5.4007e-008 1 1.53467e-008 0
+			    -4.36492e-009 2.36323e-008 1 0
+			    1 6.06871e-008 -3.64637e-009 0
+			    0.5 0.5 0.5 1
+		}
+
+		color			BaseColor {
+		    rgb	0 0 1
+		}
+
+		drawStyle			DrawStyle {
+		}
+
+		lineCoord			Coordinate3 {
+		    point	[ -2.57172e-008 -0.04 0,
+				      -1.79355e-007 -0.5 0,
+				      1.00245e-009 0.04 0,
+				      1.5464e-007 0.5 0 ]
+		}
+
+		lineSet			LineSet {
+		    numVertices	[ 2, 2 ]
+		}
+
+		gapDrawStyle			DrawStyle {
+		    style	INVISIBLE
+		}
+
+		gapCoord			Coordinate3 {
+		    point	[ -2.57172e-008 -0.04 0,
+				      1.00245e-009 0.04 0 ]
+		}
+
+		gapLineSet			LineSet {
+		    numVertices	2
+		}
+
+		arrowCoord			Coordinate3 {
+		    point	[ -9.58563e-008 -0.25 0,
+				      0.0699999 -0.25 0,
+				      -9.58563e-008 -0.25 0,
+				      0.0209999 -0.243 0,
+				      -9.58563e-008 -0.25 0,
+				      0.0209999 -0.257 0,
+				      7.11415e-008 0.25 0,
+				      0.0700001 0.25 0,
+				      7.11415e-008 0.25 0,
+				      0.0210001 0.257 0,
+				      7.11415e-008 0.25 0,
+				      0.0210001 0.243 0 ]
+		}
+
+		arrowLineSet			LineSet {
+		    numVertices	[ 2, 2, 2, 2, 2, 2 ]
+		}
+
+	    }
+	    SoXipMprIntersectionLine {
+		fields [ SFMatrix planeMatrix, SFMatrix intersectMatrix, SFVec3f centerPosition, SFBool centerGap,
+			SFBool stubs, SFFloat stubScale, SFNode transform, SFNode color,
+			SFNode drawStyle, SFNode lineCoord, SFNode lineSet, SFNode gapDrawStyle,
+			SFNode gapCoord, SFNode gapLineSet, SFNode arrowCoord, SFNode arrowLineSet,
+			 ]
+		planeMatrix	5.4007e-008 1 1.53467e-008 0
+			-4.36492e-009 2.36323e-008 1 0
+			1 6.06871e-008 -3.64637e-009 0
+			0.5 0.5 0.5 1
+		intersectMatrix	0.999999 1.1289e-007 2.61558e-007 0
+			-1.13799e-007 -1 -1.79163e-007 0
+			-2.53702e-007 3.20914e-008 -1 0
+			0.5 0.5 0.5 1
+		centerPosition	0.5 0.5 0.5
+		centerGap	TRUE
+		stubs	FALSE
+		stubScale	10
+		transform			MatrixTransform {
+		    matrix	5.4007e-008 1 1.53467e-008 0
+			    -4.36492e-009 2.36323e-008 1 0
+			    1 6.06871e-008 -3.64637e-009 0
+			    0.5 0.5 0.5 1
+		}
+
+		color			BaseColor {
+		    rgb	1 0 0
+		}
+
+		drawStyle			DrawStyle {
+		}
+
+		lineCoord			Coordinate3 {
+		    point	[ -0.04 -6.93929e-009 0,
+				      -0.525 -5.24373e-009 0,
+				      0.04 -4.76104e-009 0,
+				      0.525 2.33457e-008 0 ]
+		}
+
+		lineSet			LineSet {
+		    numVertices	[ 2, 2 ]
+		}
+
+		gapDrawStyle			DrawStyle {
+		    style	INVISIBLE
+		}
+
+		gapCoord			Coordinate3 {
+		    point	[ -0.04 -6.93929e-009 0,
+				      0.04 -4.76104e-009 0 ]
+		}
+
+		gapLineSet			LineSet {
+		    numVertices	2
+		}
+
+		arrowCoord			Coordinate3 {
+		    point	[ -0.2625 -1.29975e-008 0,
+				      -0.2625 -0.07 0,
+				      -0.2625 -1.29975e-008 0,
+				      -0.2555 -0.021 0,
+				      -0.2625 -1.29975e-008 0,
+				      -0.2695 -0.021 0,
+				      0.2625 1.2972e-009 0,
+				      0.2625 -0.07 0,
+				      0.2625 1.2972e-009 0,
+				      0.2695 -0.021 0,
+				      0.2625 1.2972e-009 0,
+				      0.2555 -0.021 0 ]
+		}
+
+		arrowLineSet			LineSet {
+		    numVertices	[ 2, 2, 2, 2, 2, 2 ]
+		}
+
+	    }
+	}
+
+	borderNode		DEF +0 SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0 1 0
+	    inactiveColor	0 1 0
+	}
+
+	dogEarNode		DEF +1 SoXipDogEar {
+	    fields [  ]
+	}
+
+	orientationNode		DEF +2 SoXipOrientationCube {
+	    fields [  ]
+	}
+
+	borderSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	}
+
+	dogEarSwitch		Switch {
+	    whichChild	0
+	    USE +1
+	}
+
+	orientationSwitch		Switch {
+	    whichChild	0
+	    USE +2
+	}
+
+    }
+
+}
+
+### 18 ###
+SoXipBuilderNode {
+    placement	-2.1 4.8 0.52229 5.6
+    flags	()
+    autoPanelPos	165 212 0 0
+    node	    SoXipCPUMprRender {
+	fields [ SoXipSFDataImage volume,  ]
+	volume	"NULL"
+    }
+
+}
+#connect "volume@18" "output@12"
+
+### 19 ###
+SoXipBuilderNode {
+    placement	1.8 6.3 3.8 7.1
+    flags	()
+    autoPanelPos	421 62 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "19" "20 21 8 22"
+
+### 20 ###
+SoXipBuilderNode {
+    placement	-5.1 2.1 -3.1 2.9
+    flags	()
+    autoPanelPos	345 419 0 0
+    node	    Group {
+    }
+
+}
+#addChild "20" "6 5 4"
+
+### 21 ###
+SoXipBuilderNode {
+    placement	0.945712 4.8 3.16598 5.6
+    flags	()
+    autoPanelPos	486 0 0 0
+    node	    DEF MprExaminer2 SoXipMprExaminer {
+	orientation	POSTERIOR
+	mode	ROTATE
+	orientationCube	TRUE
+	camera		OrthographicCamera {
+	    position	0.5 0.5 0.5
+	    orientation	-3.05074e-008 0.707107 0.707107  3.14159
+	    nearDistance	-1
+	    farDistance	1
+	    focalDistance	0
+	    height	1
+	}
+
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	intersectionManip		SoXipMprIntersectionManip {
+	    fields [ SFBool isManipulating, SFBool on, SFEnum mode,  ]
+	    isManipulating	FALSE
+	    on	TRUE
+	    mode	TRANSLATION
+	    SoXipMprIntersectionLine {
+		fields [ SFMatrix planeMatrix, SFMatrix intersectMatrix, SFVec3f centerPosition, SFBool centerGap,
+			SFBool stubs, SFFloat stubScale, SFNode transform, SFNode color,
+			SFNode drawStyle, SFNode lineCoord, SFNode lineSet, SFNode gapDrawStyle,
+			SFNode gapCoord, SFNode gapLineSet, SFNode arrowCoord, SFNode arrowLineSet,
+			 ]
+		planeMatrix	-1 -5.04829e-008 1.91412e-008 0
+			-1.60725e-008 -4.09664e-007 1 0
+			-1.23065e-007 1 -3.79884e-007 0
+			0.5 0.5 0.5 1
+		intersectMatrix	0.999999 1.1289e-007 2.61558e-007 0
+			-1.13799e-007 -1 -1.79163e-007 0
+			-2.53702e-007 3.20914e-008 -1 0
+			0.5 0.5 0.5 1
+		centerPosition	0.5 0.5 0.5
+		centerGap	TRUE
+		stubs	FALSE
+		stubScale	10
+		transform			MatrixTransform {
+		    matrix	-1 -5.04829e-008 1.91412e-008 0
+			    -1.60725e-008 -4.09664e-007 1 0
+			    -1.23065e-007 1 -3.79884e-007 0
+			    0.5 0.5 0.5 1
+		}
+
+		color			BaseColor {
+		    rgb	1 0 0
+		}
+
+		drawStyle			DrawStyle {
+		}
+
+		lineCoord			Coordinate3 {
+		    point	[ -0.04 1.12464e-008 0,
+				      -0.525 -7.35603e-008 0,
+				      0.04 3.01509e-008 0,
+				      0.525 1.74562e-007 0 ]
+		}
+
+		lineSet			LineSet {
+		    numVertices	[ 2, 2 ]
+		}
+
+		gapDrawStyle			DrawStyle {
+		    style	INVISIBLE
+		}
+
+		gapCoord			Coordinate3 {
+		    point	[ -0.04 1.12464e-008 0,
+				      0.04 3.01509e-008 0 ]
+		}
+
+		gapLineSet			LineSet {
+		    numVertices	2
+		}
+
+		arrowCoord			Coordinate3 {
+		    point	[ -0.2625 -4.1332e-008 0,
+				      -0.2625 -0.07 0,
+				      -0.2625 -4.1332e-008 0,
+				      -0.2555 -0.021 0,
+				      -0.2625 -4.1332e-008 0,
+				      -0.2695 -0.021 0,
+				      0.2625 8.27293e-008 0,
+				      0.2625 -0.0699999 0,
+				      0.2625 8.27293e-008 0,
+				      0.2695 -0.0209999 0,
+				      0.2625 8.27293e-008 0,
+				      0.2555 -0.0209999 0 ]
+		}
+
+		arrowLineSet			LineSet {
+		    numVertices	[ 2, 2, 2, 2, 2, 2 ]
+		}
+
+	    }
+	    SoXipMprIntersectionLine {
+		fields [ SFMatrix planeMatrix, SFMatrix intersectMatrix, SFVec3f centerPosition, SFBool centerGap,
+			SFBool stubs, SFFloat stubScale, SFNode transform, SFNode color,
+			SFNode drawStyle, SFNode lineCoord, SFNode lineSet, SFNode gapDrawStyle,
+			SFNode gapCoord, SFNode gapLineSet, SFNode arrowCoord, SFNode arrowLineSet,
+			 ]
+		planeMatrix	-1 -5.04829e-008 1.91412e-008 0
+			-1.60725e-008 -4.09664e-007 1 0
+			-1.23065e-007 1 -3.79884e-007 0
+			0.5 0.5 0.5 1
+		intersectMatrix	5.4007e-008 1 1.53467e-008 0
+			-4.36492e-009 2.36323e-008 1 0
+			1 6.06871e-008 -3.64637e-009 0
+			0.5 0.5 0.5 1
+		centerPosition	0.5 0.5 0.5
+		centerGap	TRUE
+		stubs	FALSE
+		stubScale	10
+		transform			MatrixTransform {
+		    matrix	-1 -5.04829e-008 1.91412e-008 0
+			    -1.60725e-008 -4.09664e-007 1 0
+			    -1.23065e-007 1 -3.79884e-007 0
+			    0.5 0.5 0.5 1
+		}
+
+		color			BaseColor {
+		    rgb	0 1 0
+		}
+
+		drawStyle			DrawStyle {
+		}
+
+		lineCoord			Coordinate3 {
+		    point	[ 2.04811e-008 -0.04 0,
+				      2.78745e-008 -0.5 0,
+				      1.91953e-008 0.04 0,
+				      1.18019e-008 0.5 0 ]
+		}
+
+		lineSet			LineSet {
+		    numVertices	[ 2, 2 ]
+		}
+
+		gapDrawStyle			DrawStyle {
+		    style	INVISIBLE
+		}
+
+		gapCoord			Coordinate3 {
+		    point	[ 2.04811e-008 -0.04 0,
+				      1.91953e-008 0.04 0 ]
+		}
+
+		gapLineSet			LineSet {
+		    numVertices	2
+		}
+
+		arrowCoord			Coordinate3 {
+		    point	[ 2.38563e-008 -0.25 0,
+				      -0.07 -0.25 0,
+				      2.38563e-008 -0.25 0,
+				      -0.021 -0.243 0,
+				      2.38563e-008 -0.25 0,
+				      -0.021 -0.257 0,
+				      1.582e-008 0.25 0,
+				      -0.07 0.25 0,
+				      1.582e-008 0.25 0,
+				      -0.021 0.257 0,
+				      1.582e-008 0.25 0,
+				      -0.021 0.243 0 ]
+		}
+
+		arrowLineSet			LineSet {
+		    numVertices	[ 2, 2, 2, 2, 2, 2 ]
+		}
+
+	    }
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0 0 1
+	    inactiveColor	0 0 1
+	}
+
+	dogEarNode		SoXipDogEar {
+	    fields [  ]
+	}
+
+	orientationNode		DEF +0 SoXipOrientationCube {
+	    fields [  ]
+	}
+
+	orientationSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	}
+
+    }
+
+}
+
+### 22 ###
+SoXipBuilderNode {
+    placement	4.8 4.8 7.42229 5.6
+    flags	()
+    autoPanelPos	645 172 0 0
+    node	    SoXipCPUMprRender {
+	fields [ SoXipSFDataImage volume,  ]
+	volume	"NULL"
+    }
+
+}
+#connect "volume@22" "output@12"
+
+### 23 ###
+SoXipBuilderNode {
+    placement	5.9 7.8 10.7 8.6
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "23" "24 25 26 27 28 29 30 31 32 33 34"
+
+### 24 ###
+SoXipBuilderNode {
+    placement	-0.9 6.6 1.1 7.4
+    flags	()
+    autoPanelPos	186 177 0 0
+    node	    SoXipExaminer {
+	perspective	FALSE
+	orientation	LEFT
+	mode	ROTATE
+	plane	-0 -5.96046e-008 1  0.5
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	    viewportMapping	ADJUST_CAMERA
+	    position	0.364719 -0.337844 0.639248
+	    orientation	0.993571 -0.0838356 -0.0760754  1.378
+	    aspectRatio	1
+	    nearDistance	-0
+	    farDistance	1.73205
+	    focalDistance	0.866025
+	    height	1.24416
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 25 ###
+SoXipBuilderNode {
+    placement	-0.6 5.1 1.56718 5.9
+    flags	()
+    autoPanelPos	0 173 0 0
+    node	    SoXipTextureUnit {
+	fields [ SFBool autoGenerate ]
+	autoGenerate	FALSE
+    }
+
+}
+
+### 26 ###
+SoXipBuilderNode {
+    placement	0.3 4.2 2.3 5
+    flags	()
+    autoPanelPos	227 266 0 0
+    node	    SoXipTexture {
+	fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize,  ]
+	image	"NULL"
+	internalFormat	LUMINANCE16
+	textureSize	256 256 226
+    }
+
+}
+#connect "image@26" "output@12"
+
+### 27 ###
+SoXipBuilderNode {
+    placement	-1.68897 1.2 1.20971 2
+    flags	()
+    autoPanelPos	0 390 0 0
+    node	    SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	window	0.617188
+	level	0.421875
+	mouse	BUTTON3
+    }
+
+}
+
+### 28 ###
+SoXipBuilderNode {
+    placement	2.7 2.1 4.86718 2.9
+    flags	()
+    autoPanelPos	49 281 0 0
+    node	    SoXipTextureUnit {
+	fields [ SFInt32 textureStage, SFBool autoGenerate ]
+	textureStage	1
+	autoGenerate	FALSE
+    }
+
+}
+
+### 29 ###
+SoXipBuilderNode {
+    placement	2.7 0.9 4.7 1.7
+    flags	()
+    autoPanelPos	340 316 0 0
+    node	    SoXipLut {
+	fields [ SoXipSFDataImage LUTDataImage, SFShort bitsUsed, SFFloat rampWidth, SFFloat rampCenter,
+		SFColor colorMiddle, MFColor arrayColor, MFFloat arrayAlpha ]
+	LUTDataImage	"NULL"
+	bitsUsed	8
+	rampWidth	0.617188
+	rampCenter	0.421875
+	colorMiddle	0.7 0.5 0.3
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+#connect "rampWidth@29" "window@27"
+#connect "rampCenter@29" "level@27"
+
+### 30 ###
+SoXipBuilderNode {
+    placement	2.7 -0.3 4.7 0.499999
+    flags	()
+    autoPanelPos	94 339 0 0
+    node	    SoXipLutTexture {
+	fields [ SoSFVec2s textureSize ]
+	textureSize	256 1
+    }
+
+}
+
+### 31 ###
+SoXipBuilderNode {
+    placement	8.18182 2.1 10.4021 2.9
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	470 389 0 0
+    node	    SoXipLoadShaders {
+	fields [ SFString fpFilename,  ]
+	fpFilename	"slicerfp.glsl"
+    }
+
+}
+
+### 32 ###
+SoXipBuilderNode {
+    placement	11.7 0.6 13.7 1.4
+    flags	()
+    autoPanelPos	354 333 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name,  ]
+	name	"volume"
+    }
+
+}
+#connect "value@32" "textureStage@25"
+
+### 33 ###
+SoXipBuilderNode {
+    placement	12.9 1.8 14.9 2.6
+    flags	()
+    autoPanelPos	409 307 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"lut"
+	value	1
+    }
+
+}
+#connect "value@33" "textureStage@28"
+
+### 34 ###
+SoXipBuilderNode {
+    placement	13.8 5.1 15.8 5.9
+    flags	()
+    autoPanelPos	410 183 0 0
+    node	    SoXipSlicer {
+	fields [ SFBool useComplexity, SFEnum compositing ]
+	useComplexity	FALSE
+	compositing	FRONT_TO_BACK
+    }
+
+}
+
+### 35 ###
+SoXipBuilderNode {
+    placement	-0.3 8.4 1.90485 9.1999
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	846 82 0 0
+    node	    DEF Popup SoXipIvQtUiViewer {
+	fields [ MFString script, SFString ui,  ]
+	script	"ui/renderWidgetPopup.js"
+	ui	"ui/renderWidgetPopup.ui"
+    }
+
+}
+
+### 36 ###
+SoXipBuilderEngine {
+    placement	9 -5.7 11 -4.9
+    flags	()
+    autoPanelPos	876 716 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+		SFShort bitsUsed, SFString file ]
+	voxelType	USHORT
+	width	512
+	height	512
+	depth	551
+	bitsUsed	12
+	file	"C:\Data\abdomen.img"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	9.3 5.7 11.3 6.5
+    name	"VR"
+    members	[ 23, 24, 25, 26, 27, 28, 29, 30,
+		      31, 32, 33, 34 ]
+    position	9.29195 2.5 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	1.5 -4.2 3.5 -3.4
+    outputs	23
+    outputsPlacement	7.2 10 9.2 10.8
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
+		      7, 8, 9, 10, 11, 12, 13, 14,
+		      15, 16, 17, 18, 19, 20, 21, 22,
+		      35, 36 ]
+    position	-3.97556 -0.766592 1
+    height	17.6749
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

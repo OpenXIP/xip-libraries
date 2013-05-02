@@ -189,6 +189,7 @@ void SoXipLutTexture::GLRender(SoGLRenderAction *action)
 		    if (!image->isOfType(SoXipDataImage::getClassTypeId()))
 		    {
 			    SoDebugError::post(__FILE__, "Invalid Lut Image");
+				glPopAttrib();
 			    return;
 		    }
 			
@@ -231,6 +232,7 @@ void SoXipLutTexture::GLRender(SoGLRenderAction *action)
 					if (!totLutElements)
 					{
 						SoDebugError::postInfo(__FILE__, "Invalid LUT Image: 0 elements");
+						glPopAttrib();
 						return;
 					}
 					else if (totLutElements <= 4096)
@@ -240,6 +242,7 @@ void SoXipLutTexture::GLRender(SoGLRenderAction *action)
 					else
 					{
 						SoDebugError::postInfo(__FILE__, "Invalid LUT Image: %d elements", totLutElements);
+						glPopAttrib();
 						return;
 					}				
 

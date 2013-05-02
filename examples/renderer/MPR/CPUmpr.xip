@@ -1566,25 +1566,6 @@ SoXipBuilderNode {
 
 }
 
-### 34 ###
-SoXipBuilderEngine {
-    placement	9 -4.2 11 -3.4
-    flags	()
-    autoPanelPos	570 469 0 0
-    engine	    SoXipLoadRaw {
-	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
-		SFShort bitsUsed, SFString file ]
-	voxelType	USHORT
-	width	512
-	height	512
-	depth	551
-	bitsUsed	12
-	file	"C:\Data\abdomen.img"
-	outputs [ SoXipSFDataImage output ]
-    }
-
-}
-
 ### packages ###
 SoXipBuilderPackage {
     def	-1
@@ -1605,7 +1586,7 @@ SoXipBuilderPackage {
     def	0
     members	[ -1, 0, 1, 2, 3, 4, 5, 6,
 		      7, 8, 9, 10, 11, 12, 13, 14,
-		      15, 16, 17, 18, 19, 20, 21, 34 ]
+		      15, 16, 17, 18, 19, 20, 21 ]
     position	0.151172 2.48419 1
     height	17.6749
     inputs	[  ]

@@ -1,5 +1,6 @@
-# Copyright Siemens Corporate Research Inc. 2007
+# Copyright Siemens Corporate Research Inc. 2007, 2009
 # Author Sylvain Jaume <sylvain.jaume@siemens.com>
+
 
 project(xipivrenderer)
 
@@ -8,19 +9,33 @@ project(xipivrenderer)
 #
 set(HEADERS
   SoXipMprRender.h
+  SoXipSimpleVolumeRenderKit.h
   SoXipSlicer.h
+  SoXipSlicerShader.h
   SoXipSlicerVolRender.h
-  SoXipCPUMprRender.h)
+  SoXipCPUMprRender.h
+  SoXipGpuProcessTexture.h
+  SoXipGpuProcessTextureKit.h
+  SoXipDirectRaycaster.h
+  SoXipClipPlanesShaderSetup.h
+)
 
 #--------------------------------------------------------------------
 # Define the source files
 #
 set(SOURCES
   SoXipMprRender.cpp
+  SoXipSimpleVolumeRenderKit.cpp
   SoXipSlicer.cpp
+  SoXipSlicerShader.cpp
   SoXipSlicerVolRender.cpp
   SoXipCPUMprRender.cpp
-  init.cpp)
+  SoXipGpuProcessTexture.cpp
+  SoXipGpuProcessTextureKit.cpp
+  SoXipDirectRaycaster.cpp
+  SoXipClipPlanesShaderSetup.cpp
+  init.cpp
+)
 
 #--------------------------------------------------------------------
 # Define the compiler flags
@@ -56,7 +71,7 @@ set_target_properties(xipivrenderer
 # Link the library
 #
 target_link_libraries(xipivrenderer
-  xipivcoregl)
+	${XIP_COREGL_LIBRARY})
 
 #--------------------------------------------------------------------
 # Install the library
@@ -74,6 +89,6 @@ install(TARGETS xipivrenderer
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivrendererd.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivrenderer${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

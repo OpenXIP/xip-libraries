@@ -128,16 +128,26 @@
  */
 
 #include <Inventor/nodes/SoSubNode.h>
+#include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/fields/SoSFUInt32.h>
 #include <Inventor/fields/SoSFInt32.h>
 #include <Inventor/fields/SoMFInt32.h>
 #include <Inventor/sensors/SoFieldSensor.h>
-#include <xip/inventor/coregl/SoXipGlowElement.h>
+#include <xip/inventor/coregl/SoXipGLOWElement.h>
 
 
 class SoXipBindTextures : public SoNode
 {
     SO_NODE_HEADER(SoXipBindTextures);
+
+	/**	
+	 *	Enum for internal texture dimension
+	 */
+	enum TextureDimension {
+		TEXTURE_1D = GL_TEXTURE_1D,
+		TEXTURE_2D = GL_TEXTURE_2D,
+		TEXTURE_3D = GL_TEXTURE_3D
+	};
 
 public:
 
@@ -151,6 +161,7 @@ public:
     void syncOutput();
 
     // field variables
+	SoSFEnum    textureDimension;
     SoMFInt32   attachmentHandles;
     SoSFInt32   texture0Output;
     SoSFInt32   texture1Output;

@@ -205,7 +205,7 @@ bool XIPIVOVERLAY_API isInsideClosedContour(
 	const SbVec3f&			pt, 
 	const SoMFVec3f&		point );
 
-SbString formatLength( float length );
+SbString XIPIVOVERLAY_API formatLength( float length );
 
 SbMatrix extractRotationMatrix(	const SbMatrix& matrix );
 
@@ -216,3 +216,5 @@ void getScreenPixelVectors(
 	SbVec3f&				yPixelVec ) ;
 
 #endif // XIPGEOMUTILS_H
+
+

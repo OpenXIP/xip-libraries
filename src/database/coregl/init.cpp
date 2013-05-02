@@ -120,6 +120,7 @@
 #include <xip/inventor/core/SoXipKit.h>
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
+#include <xip/inventor/coregl/SoXipBlendFuncElement.h>
 #include <xip/inventor/coregl/SoXipDrawQuad.h>
 #include <xip/inventor/coregl/SoXipFrameRate.h>
 #include <xip/inventor/coregl/SoXipFramebufferElement.h>
@@ -137,11 +138,14 @@
 #include <xip/inventor/coregl/SoXipFboElement.h>
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>
 
+#include "SoXipClipPlaneKit.h"
+#include "SoXipBlendFunc.h"
 #include "SoXipBufferMask.h"
 #include "SoXipUniformVariable.h"
 #include "SoXipLoadShaders.h"
 #include "SoXipLogGLState.h"
 #include "SoXipDepthTest.h"
+#include "SoXipDrawClipPlane.h"
 #include "SoXipClearBuffer.h"
 #include "SoXipFramebufferGroup.h"
 #include "SoXipTextureUnit.h"
@@ -157,7 +161,9 @@
 #include "SoXipCube.h"
 #include "SoXipDecomposeMFInt32.h"
 #include "SoXipBindTextures.h"
+#include "SoXipGetCameraProperties.h"
 #include "SoXipGLSLPrograms.h"
+#include "SoXipGLSLUniformGroup.h"
 #include "SoXipGLSLUseProgram.h"
 #include "SoXipLutTexture.h"
 #include "SoXipOpenGLError.h"
@@ -173,6 +179,7 @@ int XIPIVCOREGL_API xipivcoregl_init()
 	SoXipShaderProgramElement::initClass();
 	SoXipGLSLShaderProgramElement::initClass();
     SoXipFramebufferElement::initClass();
+    SoXipBlendFuncElement::initClass();
     SoXipBufferMaskElement::initClass();
     SoXipDepthTestElement::initClass();
    	SoXipDrawBuffersElement::initClass();
@@ -190,13 +197,15 @@ int XIPIVCOREGL_API xipivcoregl_init()
 	SoXipUniformVec2f ::initClass();
 	SoXipUniformFloat::initClass();
 
-
+	SoXipClipPlaneKit::initClass();
+	SoXipDrawClipPlane::initClass();
 	SoXipDrawQuad::initClass();
 	SoXipFrameRate::initClass();
 	
 	SoXipFramebufferGroup::initClass();
 	SoXipSetTransform::initClass();
 	
+    SoXipBlendFunc::initClass();
 	SoXipBufferMask::initClass();
 	SoXipCaptureImage::initClass();
 	SoXipClearBuffer::initClass();
@@ -205,6 +214,7 @@ int XIPIVCOREGL_API xipivcoregl_init()
 	SoXipDrawImage::initClass();
 	SoXipFramebufferFlip::initClass();
 	SoXipGetTransform::initClass();
+    SoXipGetCameraProperties::initClass();
 	SoXipMultiplyMatrices::initClass();
 	SoXipOffscreenRenderer::initClass();
 	SoXipTransparentGeometryRenderer::initClass();
@@ -226,6 +236,7 @@ int XIPIVCOREGL_API xipivcoregl_init()
     SoXipBindTextures::initClass();
     SoXipGLSLPrograms::initClass();
     SoXipGLSLUseProgram::initClass();
+    SoXipGLSLUniformGroup::initClass();
 
 	SoXipLutTexture::initClass();
 	SoXipOpenGLError::initClass();

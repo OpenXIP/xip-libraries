@@ -76,7 +76,7 @@
 // from a DLL simpler. All files within this DLL are compiled with the INVENTOR_EXPORTS
 // symbol defined on the command line. this symbol should not be defined on any project
 // that uses this DLL. This way any other project whose source files include this file see
-// INVENTOR_API functions as being imported from a DLL, wheras this DLL sees symbols
+// INVENTOR_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 #ifndef INVENTOR_API
 #if defined(INVENTOR_EXPORTS) && !defined(INVENTOR_IMPORTS)
@@ -86,12 +86,15 @@
 #endif
 #endif
 
-#if defined (_DEBUG)
-# define SGIOIVDLL "xipinv240d.dll"
-# define SGIOIVLIB "xipinv240d.lib"
+#if defined(_DEBUG) && defined(_DEBUG_POSTFIX)
+#define SGIOIVLIB "xipinv240d.lib"	
+#define SGIOIVDLL "xipinv240d.dll"
+#elif defined(_DEBUG) && !defined(_DEBUG_POSTFIX)
+#define SGIOIVLIB "xipinv240.lib"
+#define SGIOIVDLL "xipinv240.dll"
 #else
-# define SGIOIVDLL "xipinv240.dll"
-# define SGIOIVLIB "xipinv240.lib"
+#define SGIOIVLIB "xipinv240.lib"
+#define SGIOIVDLL "xipinv240.dll"
 #endif
 
 // Tell MSVC which Open Inventor DLL to link against

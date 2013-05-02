@@ -15,7 +15,7 @@ vec4 tf1(float dens)
 void main()
 {
     vec4 data = texture3D(volume, texCoord0.xyz);
-
+ 
     data = tf1(data.x);
 
     data.rgb *= data.a;

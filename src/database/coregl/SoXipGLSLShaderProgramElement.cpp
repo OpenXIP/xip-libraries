@@ -160,6 +160,26 @@ int SoXipGLSLShaderProgramElement::getProgramID(SoState * const state,
     return prgHandle;
 }
 
+int SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
+                                                const SbString & prgTag)
+{
+    ShaderProgramManager * manager = ShaderProgramManager::getInstance();
+    int time = manager->getTimeStamp(prgTag.getString());
+
+    return time;
+}
+
+int SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
+                                                const char * prgTag)
+{
+    if (!prgTag) return 0;
+
+    ShaderProgramManager * manager = ShaderProgramManager::getInstance();
+    int time = manager->getTimeStamp(prgTag);
+
+    return time;
+}
+
 /*
 *  COPYRIGHT NOTICE.  Copyright (C) 2005 Siemens Corporate Research, 
 *  Inc. ("caBIG(tm) Participant"). eXtensible Imaging Platform (XIP)

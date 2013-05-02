@@ -195,8 +195,11 @@ void* SbXipDicomProviderDcmtk::open(const char *fileName, const char *options)
 
 void SbXipDicomProviderDcmtk::close(void *fileHandle)
 {
-	if (fileHandle)
-		delete fileHandle;
+    DcmFileFormat* fileFormat = (DcmFileFormat*) fileHandle;
+
+    if (fileFormat)
+        delete fileFormat;
+
 }
 
 SbBool SbXipDicomProviderDcmtk::save(void *fileHandle, const char *fileName, const char *options)

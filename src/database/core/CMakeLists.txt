@@ -12,6 +12,7 @@ set(HEADERS
   SoXipAutoScale.h
   SoXipBackground.h
   SoXipBoundingBox.h
+  SoXipCheckGLStacks.h
   SoXipClipPlane.h
   SoXipComposeMFImage.h
   SoXipComposeVec6.h
@@ -21,11 +22,11 @@ set(HEADERS
   SoXipConvertToEnum.h
   SoXipDecomposeMFImage.h
   SoXipDecomposeVec6.h
+  SoXipDisableTexturing.h
   SoXipDogEar.h
   ../../../include/xip/inventor/core/SoXipExaminer.h
   SoXipExtractSlice.h
   SoXipGetImage.h
-  SoXipHtmlView.h
   SoXipImage.h
   SoXipImageAttributes.h
   SoXipImageExaminer.h
@@ -73,7 +74,6 @@ set(SOURCES
   SbVariant.cpp
   SbXipCoordinateTransform.cpp
   SbXipDirtyFieldList.cpp
-  SoXipHtmlView.cpp
   SbXipImage.cpp
   SbXipImageFile.cpp
   SbXipThread.cpp
@@ -85,6 +85,7 @@ set(SOURCES
   SoXipAutoScale.cpp
   SoXipBackground.cpp
   SoXipBoundingBox.cpp
+  SoXipCheckGLStacks.cpp
   SoXipClipPlane.cpp
   SoXipClipPlaneElement.cpp
   SoXipComposeMFImage.cpp
@@ -100,6 +101,7 @@ set(SOURCES
   SoXipDataImageElement.cpp
   SoXipDecomposeMFImage.cpp
   SoXipDecomposeVec6.cpp
+  SoXipDisableTexturing.cpp
   SoXipDogEar.cpp
   SoXipExaminer.cpp
   SoXipExtractSlice.cpp
@@ -204,9 +206,10 @@ set_target_properties(xipivcore
 # Link the library
 #
 target_link_libraries(xipivcore
-  xipcommon
-  ${INVENTOR_LIBRARY}
-  ${OPENGL_LIBRARIES})
+	optimized xipcommon
+	debug xipcommon${CMAKE_DEBUG_POSTFIX}
+	${INVENTOR_LIBRARY}
+	${OPENGL_LIBRARIES})
 
 #--------------------------------------------------------------------
 # Install the library
@@ -224,7 +227,7 @@ install(TARGETS xipivcore
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivcored.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivcore${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)
 

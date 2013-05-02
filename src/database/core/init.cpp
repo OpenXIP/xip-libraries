@@ -176,8 +176,8 @@
 
 #include "SoXipAutoScale.h"
 #include "SoXipBackground.h"
-#include "SoXipHtmlView.h"
 #include "SoXipTexture.h"
+#include "SoXipDisableTexturing.h"
 #include "SoXipSFDataImageToSFImage.h"
 #include "SoXipImage.h"
 #include "SoXipGetImage.h"
@@ -229,6 +229,7 @@
 #include "SoXipConvertSFImageToMFImage.h"
 #include "SoXipImageOperation.h"
 #include "SoXipSwitchMFDataImage.h"
+#include "SoXipCheckGLStacks.h"
 
 int XIPIVCORE_API xipivcore_init()
 {
@@ -238,7 +239,6 @@ int XIPIVCORE_API xipivcore_init()
   //SoXipListActionEnableElement::initClass();
   SoXipActiveViewportElement::initClass();
   SoXipDataImageElement::initClass();
-  SoXipHtmlView::initClass();
   SoXipMultiTextureElement::initClass();
   SoXipRenderModeElement::initClass();
   SoXipMprPlaneElement::initClass();
@@ -275,6 +275,7 @@ int XIPIVCORE_API xipivcore_init()
   SoXipViewportGroup::initClass();
   SoXipLut::initClass();
   SoXipTexture::initClass();
+  SoXipDisableTexturing::initClass();
   SoXipTimerFunction::initClass();
   SoXipRenderMode::initClass();
   SoXipExaminer::initClass();
@@ -323,6 +324,7 @@ int XIPIVCORE_API xipivcore_init()
   SoXipImageOperation::initClass();
   SoXipSwitchMFDataImage::initClass();
 	SoXipConvertToTrigger::initClass();
+        SoXipCheckGLStacks::initClass();
 
 	// Register converters to trigger for all data types
 	SoType triggerType = SoType::fromName( "SoSFTrigger" );

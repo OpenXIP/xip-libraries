@@ -9,19 +9,24 @@ project(coregl)
 set(HEADERS
   ShaderProgramManager.h
   SoXipBindTextures.h
+  SoXipBlendFunc.h
   SoXipBufferMask.h
   SoXipClearBuffer.h
   SoXipClearFbo.h
+  SoXipClipPlaneKit.h
   SoXipCube.h
   SoXipDecomposeMFInt32.h
   SoXipDepthTest.h
+  SoXipDrawClipPlane.h
   SoXipFbo.h
   SoXipFboAttachColor.h
   SoXipFboAttachColor3D.h
   SoXipFboAttachDepth.h
   SoXipFboAttachDepth3D.h
   SoXipFramebufferGroup.h
+  SoXipGetCameraProperties.h
   SoXipGLSLPrograms.h
+  SoXipGLSLUniformGroup.h
   SoXipGLSLUseProgram.h
   SoXipGLStringMarker.h
   SoXipLoadShaders.h
@@ -42,16 +47,20 @@ set(SOURCES
   gpgpuContext.cpp
   ShaderProgramManager.cpp
   SoXipBindTextures.cpp
+  SoXipBlendFunc.cpp
+  SoXipBlendFuncElement.cpp
   SoXipBufferMask.cpp
   SoXipBufferMaskElement.cpp
   SoXipCaptureImage.cpp
   SoXipClearBuffer.cpp
   SoXipClearFbo.cpp
+  SoXipClipPlaneKit.cpp
   SoXipCube.cpp
   SoXipDecomposeMFInt32.cpp
   SoXipDepthTest.cpp
   SoXipDepthTestElement.cpp
   SoXipDrawBuffersElement.cpp
+  SoXipDrawClipPlane.cpp
   SoXipDrawImage.cpp
   SoXipDrawQuad.cpp
   SoXipFbo.cpp
@@ -64,10 +73,12 @@ set(SOURCES
   SoXipFramebufferFlip.cpp
   SoXipFramebufferGroup.cpp
   SoXipFrameRate.cpp
+  SoXipGetCameraProperties.cpp
   SoXipGetTransform.cpp
   SoXipGlowElement.cpp
   SoXipGLSLPrograms.cpp
   SoXipGLSLShaderProgramElement.cpp
+  SoXipGLSLUniformGroup.cpp
   SoXipGLSLUseProgram.cpp
   SoXipGLStringMarker.cpp
   SoXipLoadShaders.cpp
@@ -125,7 +136,8 @@ set_target_properties(xipivcoregl
 # Link the library
 #
 target_link_libraries(xipivcoregl
-  xipivcore
+	optimized xipivcore
+	debug xipivcore${CMAKE_DEBUG_POSTFIX}
   ${OPENGL_LIBRARIES})
 
 #--------------------------------------------------------------------
@@ -144,6 +156,6 @@ install(TARGETS xipivcoregl
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivcoregld.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivcoregl${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

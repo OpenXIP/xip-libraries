@@ -224,7 +224,7 @@ protected:
 	/// Call from the menu or when the user press CTRL+V
 	virtual void onPaste();
 	/// Call from the menu or when the user press CTRL+X
-	virtual void onDelete();
+	virtual bool onDelete();
 
 	virtual void addOverlays();
 	virtual void removeOverlays();
@@ -242,3 +242,4 @@ private:
 };
 
 #endif // SOXIPOVERLAYMANAGER_H
+

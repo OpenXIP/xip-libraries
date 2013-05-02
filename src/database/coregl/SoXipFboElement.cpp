@@ -108,15 +108,15 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-#include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
+
+
 #include <xip/inventor/coregl/SoXipFboElement.h>
 
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/elements/SoViewportRegionElement.h>
 //#include <Inventor/SoViewportRegion.h>
 #include <Inventor/errors/SoDebugError.h>
-#include <xip/inventor/coregl/SoXipGlowElement.h>
+#include <xip/inventor/coregl/SoXipGLOWElement.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 
 #undef DEBUG
@@ -590,7 +590,8 @@ void SoXipFboElement::renderToSliceElt(int layer)
         for (unsigned int i = 0; i < mActiveFB.numColorAttachments; i++)
 		{
             glFramebufferTexture3DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT+i,
-			GL_TEXTURE_3D, mActiveFB.colorHandles[i], 0, layer);
+				GL_TEXTURE_3D, mActiveFB.colorHandles[i], 0, layer);
+			//SoDebugError::postInfo("SoXipFboElement", "mActiveFB.colorHandle %i bound as layer %i", mActiveFB.colorHandles[i], layer);
 		}
 	}
 	else
@@ -598,8 +599,44 @@ void SoXipFboElement::renderToSliceElt(int layer)
 		SoDebugError::postInfo("SoXipFboElement", "mActiveFB.colorStorage != GL_TEXTURE_3D");
 	}
 
-	glFramebufferTexture3DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
-		GL_TEXTURE_3D, mActiveFB.depthHandle, 0, layer);
+	if (mActiveFB.depthStorage == GL_TEXTURE_3D)
+		glFramebufferTexture3DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
+			GL_TEXTURE_3D, mActiveFB.depthHandle, 0, layer);
+}
+
+/**
+* reattach as 3d
+*/
+void SoXipFboElement::reattachAs3D(SoState *state, SoNode *node)
+{
+	FUNCID("");
+
+    SoXipFboElement *elt = (SoXipFboElement*)getElement(state, classStackIndex, node);
+
+	if (elt) {
+		elt->reattachAs3DElt();
+    }
 }
 
 
+/**
+* reattach as 3d
+*/
+void SoXipFboElement::reattachAs3DElt()
+{
+	if (mActiveFB.colorStorage == GL_TEXTURE_3D)
+    {
+        for (unsigned int i = 0; i < mActiveFB.numColorAttachments; i++)
+		{
+            glFramebufferTextureEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT+i, mActiveFB.colorHandles[i], 0);
+			//SoDebugError::postInfo("SoXipFboElement", "mActiveFB.colorHandle %i bound as 3D", mActiveFB.colorHandles[i]);
+		}
+	}
+	else
+	{
+		SoDebugError::postInfo("SoXipFboElement", "mActiveFB.colorStorage != GL_TEXTURE_3D");
+	}
+
+	if (mActiveFB.depthStorage == GL_TEXTURE_3D)
+		glFramebufferTexture3DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_3D, mActiveFB.depthHandle, 0, 0);
+}

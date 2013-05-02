@@ -1,0 +1,98 @@
+<!--LoadIVFile mpr_html_popup.iv-->
+
+<html>
+   <head>
+      <title>QtWebKit Plug-in Test</title>
+      <script>
+
+      widget.connectJSSlot('stateChanged(const QString &, const QString &)', 'window.onStateChanged');
+      
+      window.onStateChanged = function onStateChanged(p, v)
+      {
+            if (v == 'RenderArea.current')
+            {
+                document.getElementById('output').innerText = "Current viewport: "+p;
+            }
+      }
+      
+      function onLoad()
+      {
+            setParam('AddFieldSensor', 'RenderArea.current');
+      }
+      function setParam(p, v)
+      {
+		    widget.setParam(p+","+v);
+      }
+
+      function onSetOrientation(orient)
+	  {
+			var c = widget.getParam('RenderArea.current');
+			setParam('MprExaminer' + c + '.orientation', orient);
+		    setParam('MprExaminer' + c + '.viewOrientation', '');
+			setParam('MprExaminer' + c + '.viewAll', '');
+	  } 
+	  function onOrientationDefault()
+		{
+			setParam('MprExaminer0.orientation', 'FEET');
+			setParam('MprExaminer0.viewOrientation', '');
+			setParam('MprExaminer0.viewAll', '');
+
+			setParam('MprExaminer1.orientation', 'RIGHT');
+			setParam('MprExaminer1.viewOrientation', '');
+			setParam('MprExaminer1.viewAll', '');
+
+			setParam('MprExaminer2.orientation', 'POSTERIOR');
+			setParam('MprExaminer2.viewOrientation', '');
+			setParam('MprExaminer2.viewAll', '');
+		}
+		function popup()
+		{
+		    alert('popup');
+		    setParam('Popup.show', '');
+		    //setParam('AddChild', 'Top.Popup');
+		}
+
+      </script>
+
+   </head>
+   <body bgColor="#191A2F" onload="onLoad();"> 
+   <h1 style="color:#FFF;">This is an html Page</h1>
+   <table border="0" cellspacing="0" cellpadding="0" width="600" height="100%">
+   	<tr>
+   		<td height="20" style="color:#FFF;">this is a table cell
+   		<br /><br />
+   		   <span id='output'>Current viewport:</span>
+   		</td> 	
+   		<td></td>
+   	</tr>
+   	<tr>
+   	     <td>
+   	  <object type="application/x-qt-plugin" classid="QXipHtmlIvWrapperWidget" name="testwidget" height="600" width="600"></object> 
+   	     </td>
+   	     <td valign=middle align=center><map name="orientmap">
+			<area shape="poly" coords="48,1,112,1,83,18" onClick="onSetOrientation('ANTERIOR');" alt="View Anterior">
+			<area shape="poly" coords="2,45,54,45,54,19" onClick="onSetOrientation('RIGHT');" alt="View Right">
+			<area shape="poly" coords="110,74,161,74,110,100" onClick="onSetOrientation('LEFT');" alt="View Left">
+			<area shape="poly" coords="110,45,161,45,110,18" onClick="onSetOrientation('HEAD');" alt="View Head">
+			<area shape="poly" coords="2,74,54,74,54,100" onClick="onSetOrientation('FEET');" alt="View Feet">
+			<area shape="poly" coords="50,117,114,117,82,100" onClick="onSetOrientation('POSTERIOR');" alt="View Posterior">
+			</map><img src="img/orientation.gif" border=0 usemap="#orientmap"></>
+            <br /><br />
+			<img src="img/orientation_default_n.png" alt="Reset orientation" border=0 onClick="onOrientationDefault();">
+			<br /><br />	
+			<form>
+   	            <input type="button" value="Popup" onClick="javascript:popup();"/>
+   	       </form>
+   	     </td>
+   	</tr>
+   	<tr>
+   	    <td>
+   	        
+   	    </td>
+   	    <td>
+   	    </td>
+   	</tr>
+   </table>
+      
+   </body>
+</html>

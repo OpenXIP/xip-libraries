@@ -1,0 +1,32 @@
+RELEASE NOTES FOR XIP Libraries, version 0.2.0-beta
+
+This release builds on previous release 0.1.2
+
+Copyright (c) 2009, Siemens Corporate Research Inc.
+
+XipBuilder bugfixes and changes:
+
+ Feature: Added a visible hint to indicate that status- and property bars can be opened
+ Feature: Added a menu bar
+ Feature: Added a tool bar
+ Feature: Added an "Info" Dialog showing the loaded (XIP) Modules
+ Feature: "Cut" functionality for scene graph objects
+ Feature: Resizable field panels
+ Feature: Pasted node position is now offset from the original
+ Feature: Short-cut key (Ctrl+H) to hide/unhide all field panels 
+ Feature: Redesigned left-hand utility widget (can be opened/closed via Ctrl+F short-cut)
+ Feature: Create unique IDs for objects created in XIP Builder and therefore created a
+          new - backwards compatible - file format. Old-style .xip files are automatically converted
+          to the new file format when they have been once loaded and saved.
+ Fix: Possibility to move field panels (not completely) out of the window
+ Fix: Positioning of field panels when loading file via command line
+ Fix: HTML Export didn't create images when there was no "imageSize" key in config.xml
+ Fix: Field connect lines now show after copy-paste
+ Fix: Pressing return in a field in the panel updates the node/engine field
+
+
+
+
+
+
+

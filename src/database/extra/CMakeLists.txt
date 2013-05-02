@@ -60,7 +60,8 @@ set_target_properties(xipivextra
 # Link the library
 #
 target_link_libraries(xipivextra
-  xipcommon
+	optimized xipcommon
+	debug xipcommon${CMAKE_DEBUG_POSTFIX}
   ${INVENTOR_LIBRARY}
   ${OPENGL_LIBRARIES})
 
@@ -80,6 +81,6 @@ install(TARGETS xipivextra
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivextrad.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivextra${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

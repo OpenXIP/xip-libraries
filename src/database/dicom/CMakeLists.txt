@@ -17,6 +17,7 @@ set(HEADERS
   SoXipDicomSort3D.h
   SoXipDicomWindowLevel.h
   SoXipGetDicom.h
+  SoXipSaveDicom.h
   SoXipGetDicomReference.h
   SoXipGetDicomString.h
   SoXipLoadDicom.h
@@ -46,6 +47,7 @@ set(SOURCES
   SoXipDicomSort3D.cpp
   SoXipDicomWindowLevel.cpp
   SoXipGetDicom.cpp
+  SoXipSaveDicom.cpp
   SoXipGetDicomReference.cpp
   SoXipGetDicomString.cpp
   SoXipLoadDicom.cpp
@@ -98,8 +100,8 @@ set_target_properties(xipivdicom
 # Link the library
 #
 target_link_libraries(xipivdicom
-  xipivcore
-  ${DCMTK_LIBRARIES})
+	${XIP_CORE_LIBRARY}
+	${DCMTK_LIBRARIES})
 
 if(WIN32)
   target_link_libraries(xipivdicom
@@ -126,6 +128,6 @@ install(TARGETS xipivdicom
   BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivdicomd.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivdicom${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

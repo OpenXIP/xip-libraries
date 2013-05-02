@@ -117,14 +117,10 @@
 #include <Inventor/fields/SoSFInt32.h>
 #include <Inventor/fields/SoSFBool.h>
 
-class SoSensor;
-class SoNodeSensor;
-class SoAction;
 
-
-//
-// Simple node that will set / read the index of the active MPRElement
-//
+/**
+ * Simple node that will set / read the index of the active MPRElement
+ */
 class SoXipMprActive : public SoNode
 {
 	SO_NODE_HEADER(SoXipMprActive);
@@ -149,3 +145,5 @@ private:
 
 
 #endif // SOXIPMPRACTIVE_H
+
+

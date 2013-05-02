@@ -122,7 +122,7 @@
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/SbBox.h>
 #include <Inventor/errors/SoDebugError.h>
-#include <xip/inventor/core/XipGeomUtils.h>
+#include <xip/inventor/core/XipGeomUtils.h> // XipInventorUtils
 
 
 const static float CENTER_GAP_SIZE = 0.04f, CENTER_MARKER_SIZE = 0.06f, NORMAL_INDICATOR_SIZE = 0.07f;
@@ -335,6 +335,14 @@ void SoXipMprIntersectionLine::update()
 			coord->point.set1Value(2, obj[1]);
 			coord->point.set1Value(3, obj[1] - dir/stubScale.getValue());
 			lineSet->numVertices.set1Value(1, 2);
+
+			// "gap" (invisible but important for picking the center)
+			coord = (SoCoordinate3*) getPart("gapCoord", TRUE);
+			lineSet = (SoLineSet*) getPart("gapLineSet", TRUE);
+
+			coord->point.set1Value(0, obj[0]);
+			coord->point.set1Value(1, obj[1]);
+			lineSet->numVertices.set1Value(0, 2);
 		}
 		else
 		{
@@ -462,3 +470,5 @@ void SoXipMprIntersectionLine::GLRender(SoGLRenderAction * action)
 	// draw nodekit
 	SoXipMprIntersectionLineKit::GLRender(action);
 }
+
+

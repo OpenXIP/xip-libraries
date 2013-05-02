@@ -256,6 +256,40 @@ void SoXipDrawBuffersElement::setElt(int numBuffers)
 
 
 
+
+
+/**
+ *  Set function for setting current setup.
+ *  Static version.
+ *  @see setElt()
+ */
+void SoXipDrawBuffersElement::setBuffer(SoState *state, SoNode *node, int buffer)
+{
+	FUNCID("setBuffer");
+    SoXipDrawBuffersElement *elt = (SoXipDrawBuffersElement*)getElement(state, classStackIndex, node);
+	if (elt) {
+		elt->setBufferElt(buffer);
+	}
+}
+
+/**
+ *  Set function for setting current setup.
+ *  @see set()
+ */
+void SoXipDrawBuffersElement::setBufferElt(int buffer)
+{
+    mNumBuffers = 1;
+    mSubBuffers[0] = buffer;
+    for (int i = 1; i < 16; i++)
+        mSubBuffers[i] = GL_NONE;
+
+    drawBuffersGL();
+}
+
+
+
+
+
 /**
  *  Get function for extraction of current setup.
  *  Static version.
@@ -310,8 +344,15 @@ void SoXipDrawBuffersElement::drawBuffersGL()
 {
 	FUNCID("bind fb");
 
-    if (mSubBuffers[0] == GL_BACK)
-        glDrawBuffer(mSubBuffers[0]);
+	if (mSubBuffers[0] == GL_BACK || mSubBuffers[0] == GL_FRONT || mSubBuffers[0] == GL_LEFT ||
+		mSubBuffers[0] == GL_RIGHT || mSubBuffers[0] == GL_FRONT_LEFT || mSubBuffers[0] == GL_FRONT_RIGHT ||
+		mSubBuffers[0] == GL_BACK_LEFT || mSubBuffers[0] == GL_BACK_RIGHT) 
+	{
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glDrawBuffer(mSubBuffers[0]);
+	}
+    //else if (mNumBuffers == 1)
+    //    glDrawBuffer(mSubBuffers[0]);
     else
         glDrawBuffers(mNumBuffers, mSubBuffers);
 }

@@ -18,6 +18,7 @@ set(XIP_LIBRARY_DIR    "@CMAKE_INSTALL_PREFIX@/lib")
 set(XIP_EXECUTABLE_DIR "@CMAKE_INSTALL_PREFIX@/bin")
 set(XIP_LIBRARIES      "@XIP_LIBRARIES@")
 set(XIP_EXECUTABLES    "@XIP_EXECUTABLES@")
+set(XIP_EXAMPLES_DIR	 "@XIP_EXAMPLES_DIR@")
 
 # The C and C++ flags added by XIP to the cmake-configured flags
 set(XIP_REQUIRED_C_FLAGS             "@CMAKE_C_FLAGS@")

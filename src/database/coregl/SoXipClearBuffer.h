@@ -121,26 +121,39 @@
 #include <xip/inventor/coregl/xipivcoregl.h>
 #include <xip/system/GL/gl.h>
 
+/**
+ * This node clears the color and depth buffer of the viewport,
+ * depending on the set flags.
+ */
 class XIPIVCOREGL_API SoXipClearBuffer : public SoNode
 {
     SO_NODE_HEADER(SoXipClearBuffer);
 
 public:
+	/**
+	 * Construct initializes fields with default values.
+	 */
     SoXipClearBuffer();
     ~SoXipClearBuffer();
 
     static void initClass();
 
-    // field variables
+    /// flag to clear the color buffer.
     SoSFBool clearColorBuffer;
+    /// flag to clear only current viewport (using scissor test)
+    SoSFBool clearOnlyCurrentViewport;
+	/// RGBA color used to clear the color buffer.
     SoSFVec4f clearColor;
+	/// flag to clear the depth buffer.
     SoSFBool clearDepthBuffer;
+	/// depth value used to clear the depth buffer.
     SoSFFloat depthValue;
 
 protected:
+	/**
+	 * clears the color and depth buffer of the viewport.
+	 */
     virtual void GLRender(SoGLRenderAction* action);
 };
 
 #endif // SO_XIP_CLEAR_BUFFER_H
-
-

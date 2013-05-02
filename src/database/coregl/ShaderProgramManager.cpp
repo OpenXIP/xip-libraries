@@ -102,6 +102,8 @@ unsigned int ShaderProgramManager::insertEntry(const char * newTag, unsigned int
     if (oldEntry) {
         // Update existing entry
         returnID = oldEntry->programHandle;
+        if (!returnID)
+            returnID = -1; // We don't want to return 0 unless we have a failure
         oldEntry->programHandle = newProgramHandle;
         oldEntry->timeStamp = newTimeStamp;
     }
@@ -286,3 +288,5 @@ char * ShaderProgramManager::getAllTagsAsOneString()
 }
 
 #pragma warning( pop )
+
+

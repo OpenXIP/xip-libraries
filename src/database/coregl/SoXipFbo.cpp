@@ -108,8 +108,8 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-#include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
+
+
 #include "SoXipFbo.h"
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
@@ -309,7 +309,7 @@ bool SoXipFbo::checkFramebufferStatus() {
             SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT");
             break;
         default:
-            SoDebugError::post("SoXipFbo", "UNKNWON frambuffer fault");
+            SoDebugError::post("SoXipFbo", "UNKNOWN frambuffer error %i", status);
     }
 
     return isOk;
@@ -747,5 +747,3 @@ void SoXipFbo::sensorOutCB(void *usr, SoSensor *sensor) {
     SoXipFbo * fbo = reinterpret_cast<SoXipFbo *>(usr);
     fbo->syncOutputHandles();
 }
-
-

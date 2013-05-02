@@ -62,6 +62,8 @@ public:
     static int          getDefault() { return 0; }
     static int		getProgramID(SoState * const state, const SbString & prgTag);
     static int		getProgramID(SoState * const state, const char * prgTag);
+    static int		getTimeStamp(SoState * const state, const SbString & prgTag);
+    static int		getTimeStamp(SoState * const state, const char * prgTag);
 
     void                setElt(int temp);
 
@@ -199,3 +201,7 @@ protected:
 // End:
 
 #endif 
+
+
+
+

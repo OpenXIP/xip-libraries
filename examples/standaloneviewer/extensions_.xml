@@ -1,0 +1,47 @@
+<XMLConfig>
+  <section name="libraries">
+    <setting key="library" configuration="debug">xipivcored</setting>
+    <setting key="library" configuration="debug">xipivcoreprod</setting>
+    <setting key="library" configuration="debug">xipivcoregld</setting>
+    <setting key="library" configuration="debug">xipivdicomd</setting>
+    <!--<setting key="library" configuration="debug">xipivitkd</setting>-->
+    <setting key="library" configuration="debug">xipivoverlayd</setting>
+    <setting key="library" configuration="debug">xipivremoted</setting>
+    <setting key="library" configuration="debug">xipivrendererd</setting>
+    <setting key="library" configuration="debug">xipivvtkd</setting>
+
+    <setting key="library" configuration="release">xipivcore</setting>
+    <setting key="library" configuration="release">xipivcorepro</setting>
+    <setting key="library" configuration="release">xipivcoregl</setting>
+    <setting key="library" configuration="release">xipivdicom</setting>
+    <setting key="library" configuration="release">xipivitk</setting>
+    <setting key="library" configuration="release">xipivoverlay</setting>
+    <setting key="library" configuration="release">xipivremote</setting>
+    <setting key="library" configuration="release">xipivrenderer</setting>
+    <setting key="library" configuration="release">xipivvtk</setting>
+	
+	<setting key="library" configuration="debug">xipivcontextuald</setting>
+	<setting key="library" configuration="release">xipivcontextual</setting>
+	<setting key="library" configuration="debug">xipivrenderadvd</setting>
+	<setting key="library" configuration="release">xipivrenderadv</setting>
+    <!--<setting key="library" configuration="debug">XipHtmlViewerd</setting>
+    <setting key="library" configuration="release">XipHtmlViewer</setting>-->
+
+    <setting key="library" configuration="release">xipivutils</setting>
+
+	<setting key="library" configuration="release">P4DDynaCTReg</setting>
+    <setting key="library" configuration="release">Rad3D3DComponents</setting>
+    <setting key="library" configuration="release">Rad3D3DRigidReg</setting>
+
+	
+    <setting key="library" configuration="release">XipMatroxImgLib</setting>
+    <setting key="library" configuration="release">XipMicroBird</setting>
+    <setting key="library" configuration="release">XipOnlineFusion</setting>
+    <setting key="library" configuration="release">XipAdvancedSegmentation</setting>
+    <setting key="library" configuration="release">XipSliceBasedRegistration</setting>
+	
+  </section>
+  <section name="templates" >
+	<setting key="directory">../templates</setting>
+  </section>
+</XMLConfig>

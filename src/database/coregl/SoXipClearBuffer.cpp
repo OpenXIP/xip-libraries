@@ -108,8 +108,9 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-#include <xip/system/standard.h>
+
 #include "SoXipClearBuffer.h"
+#include <xip/system/standard.h>
 
 SO_NODE_SOURCE(SoXipClearBuffer);
 
@@ -119,9 +120,10 @@ SoXipClearBuffer::SoXipClearBuffer()
 
     // add fields
     SO_NODE_ADD_FIELD(clearColorBuffer, (true));
-    SO_NODE_ADD_FIELD(clearColor,(0.0, 0.0, 0.0, 0.0));
+    SO_NODE_ADD_FIELD(clearOnlyCurrentViewport, (true));
+    SO_NODE_ADD_FIELD(clearColor,(0.0f, 0.0f, 0.0f, 0.0f));
     SO_NODE_ADD_FIELD(clearDepthBuffer, (false));
-    SO_NODE_ADD_FIELD(depthValue, (1.0));
+    SO_NODE_ADD_FIELD(depthValue, (1.0f));
 }
 
 
@@ -142,7 +144,7 @@ void SoXipClearBuffer::GLRender(SoGLRenderAction* action)
 		return;
 
 	GLenum clearMask = 0;
-	float savedDepth;
+	float savedDepth = 0.0f;
 
     if (clearColorBuffer.getValue())
     {
@@ -162,20 +164,30 @@ void SoXipClearBuffer::GLRender(SoGLRenderAction* action)
 	// check if something has to be cleared
 	if (clearMask)
     {
-		// use the scissor test to just clear the current viewport region
-		glPushAttrib(GL_ENABLE_BIT);
-        glEnable(GL_SCISSOR_TEST);
-        SbViewportRegion viewport = action->getViewportRegion();
-        glScissor(viewport.getViewportOriginPixels()[0], viewport.getViewportOriginPixels()[1],
-                  viewport.getViewportSizePixels()[0], viewport.getViewportSizePixels()[1]);
+        GLint   scissor[4];
+        // use the scissor test to just clear the current viewport region
+        if (clearOnlyCurrentViewport.getValue())
+        {            
+            glGetIntegerv(GL_SCISSOR_BOX, scissor);
+		    glPushAttrib(GL_SCISSOR_BIT);
+            glEnable(GL_SCISSOR_TEST);
+            SbViewportRegion viewport = action->getViewportRegion();
+            glScissor(viewport.getViewportOriginPixels()[0], viewport.getViewportOriginPixels()[1],
+                    viewport.getViewportSizePixels()[0], viewport.getViewportSizePixels()[1]);
+        }
 		// clear the buffer
         glClear(clearMask);
-        glPopAttrib();
+        
+        if (clearOnlyCurrentViewport.getValue())
+        {
+            glScissor(scissor[0], scissor[1], scissor[2], scissor[3]);
+            glPopAttrib();
+        }
     }
+    // reset depthClear value
     if (clearDepthBuffer.getValue())
     {
 		glClearDepth(savedDepth);
 	}
 }
-
 
