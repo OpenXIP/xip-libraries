@@ -138,26 +138,42 @@ enum XipLogFlags
     XipLog_TypeMeasurement = 0x00000002,
     XipLog_BlockingError = 0x00000004,
     XipLog_UserError = 0x00000008
+};
 
-  
+/*! \class XipLogClone
+ * \brief An abstract base class to enforce the implemntation of clone method
+ *       this clone method must be overweritten in every subclass and return deep copy of its own.
+ */
+struct XIPCOMMON_API XipLogClone
+{
+	XipLogClone(){};
+	virtual ~XipLogClone(){};
+	virtual XipLogClone* clone()const = 0;
 };
 
 
-class XIPCOMMON_API XipLogEntry
+/*! \class XipLogEntry
+ * \brief A public class describing the content of a single log entry
+ *
+ */
+class XIPCOMMON_API XipLogEntry  : public XipLogClone
 {
 public:
     XipLogEntry();
+	XipLogEntry(const XipLogEntry& other);
+	virtual ~XipLogEntry();
+	virtual XipLogEntry* clone() const;
 
-    const wchar_t* shortMessage;
-    const wchar_t* longMessage; 
+    wchar_t* shortMessage;
+    wchar_t* longMessage; 
     int level; 
     int flags; 
-    const char* function; 
+    char* function; 
     int line;
-    const char* file;
-    const wchar_t* timestamp;
+    char* file;
+    wchar_t* timestamp;
     int timestampLength;
-    const wchar_t* processInfo;
+    wchar_t* processInfo;
     int processInfoLength;
     int classID;
 };
@@ -165,23 +181,35 @@ public:
 
 class XipLogListener;
 
+
+
+/*! \class XipLog
+ * \brief A base log handling implementation 
+ *
+ * This class provides a basic implementation of handling a base listener and provides the
+ * common post interface for use by applications.  This class and the associated log
+ * listener class are meant to be derived by application specific log destination and handling
+ * derived classes. 
+ *
+ */
 class XIPCOMMON_API XipLog
 {
 public:
 
-    
     static void post(const wchar_t* shortMessage, const wchar_t* longMessage, int level, int flags, const char* function, int line, const char* file);
     static void set(int property, const wchar_t* value);
 
-    static void addListener(XipLogListener* listener);
-    static void removeListener(XipLogListener* listener);
-    static bool hasListeners(){return numListeners>0;}
+    static bool addListener(XipLogListener* listener);
+    static bool removeListener(XipLogListener* listener);
+    static bool hasListeners(){return mNumListeners>0;}
 
 protected:
 
     explicit XipLog(); //no one should be able to create an instance of this class
+    virtual ~XipLog();
+
     static XipLogListener** mListeners;
-    static unsigned int numListeners;
+    static unsigned int mNumListeners;
     static XipLogEntry mLastEntry;
 
     static void updateTimestamp();
@@ -245,6 +273,7 @@ protected:
 
 
 #define XIP_LOG_SET(property, value)  XipLog::set(property, value)
+
 
 //
 //

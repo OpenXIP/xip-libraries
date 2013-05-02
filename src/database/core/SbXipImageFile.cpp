@@ -116,12 +116,20 @@
 SbBool 
 readImage( const char* file, unsigned int offset, SbXipImage& image )
 {
-	int r = 0;
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(file, '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(file, '\\', '/').getString();
+#endif //WIN32
+	
+    int r = 0;
 
 	void* imageBufferPtr = image.refBufferPtr();
 	if( imageBufferPtr )
 	{
-		SbString path = XipStrExpandEnv( file );
+		SbString path = XipStrExpandEnv( fileLocal );
 		FILE* fs = fopen( path.getString(), "rb" );
 		if (!fs) 
 			return FALSE;
@@ -139,12 +147,20 @@ readImage( const char* file, unsigned int offset, SbXipImage& image )
 SbBool 
 writeImage( const char* file, unsigned int offset, SbXipImage& image )
 {
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(file, '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(file, '\\', '/').getString();
+#endif //WIN32
+    
 	int r = 0;
 
 	void* imageBufferPtr = image.refBufferPtr();
 	if( imageBufferPtr )
 	{
-		SbString path = XipStrExpandEnv( file );
+		SbString path = XipStrExpandEnv( fileLocal );
 		FILE* fs = fopen( path.getString(), "wb" );
 		if (!fs) 
 			return FALSE;

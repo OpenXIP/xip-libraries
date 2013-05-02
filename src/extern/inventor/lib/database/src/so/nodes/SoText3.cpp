@@ -2292,8 +2292,13 @@ SoOutlineFontCache::convertToUCS(uint32_t nodeid,
 	size_t inbytes = strings[i].getLength();
 	size_t outbytes = 2*inbytes+2;
 	char* output = (char*)UCSStrings[i];
-    
-	if ((iconv(conversionCode, const_cast<const char**>(&input), &inbytes, &output, &outbytes) == (size_t)-1)){
+
+#if defined(WIN32) || defined(linux)
+	if ((iconv(conversionCode, const_cast<const char**>(&input), &inbytes, &output, &outbytes) == (size_t)-1))
+#else //UNIX
+    if ((iconv(conversionCode, &input, &inbytes, &output, &outbytes) == (size_t)-1))
+#endif //WIN32
+    {
 #ifdef DEBUG
 	    SoDebugError::post("SoOutlineFontCache::convertToUCS", 
 		"Error converting text to UCS-2");

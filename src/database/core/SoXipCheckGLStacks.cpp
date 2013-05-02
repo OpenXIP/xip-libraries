@@ -16,13 +16,12 @@
   ------------------------------------------------------------------------
 */
 
+#include <xip/system/GL/gl.h>
+#include <xip/system/GL/glu.h>
+
 #include "SoXipCheckGLStacks.h"
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/errors/SoDebugError.h>
-
-#include <xip/system/GL/gl.h>
-#include <xip/system/GL/glu.h>
-#include <xip/system/GL/glext.h>
 
 SO_NODE_SOURCE(SoXipCheckGLStacks);
 

@@ -109,18 +109,15 @@
 *  
 */
 #include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 
-#ifdef WIN32
-	#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress(#F)
-#else
-#ifdef linux
-#include <xip/system/GL/gl.h>
-	#include <GL/glx.h>
-	#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress((const GLubyte*)#F)
-#endif
-#endif //WIN32
+//#ifdef WIN32
+    //#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress(#F)
+//#elif defined(linux)
+    //#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress((const GLubyte*)#F)
+//#endif //WIN32
 
 
 bool GLOW_init = false;
@@ -137,11 +134,12 @@ bool GLOW_ARB_draw_buffers = false;
 bool GLOW_EXT_timer_query = false;
 bool GLOW_ARB_occlusion_query = false;
 
+#ifndef WIN32
 #ifndef DARWIN
 #ifndef linux
 PFNGLGETQUERYOBJECTI64VEXTPROC	glGetQueryObjecti64vEXT = 0;
 PFNGLGETQUERYOBJECTUI64VEXTPROC	glGetQueryObjectui64vEXT = 0;
-#endif
+//#endif //linux
 PFNGLGENQUERIESARBPROC			glGenQueriesARB = 0;
 PFNGLDELETEQUERIESARBPROC		glDeleteQueriesARB = 0;
 PFNGLBEGINQUERYARBPROC			glBeginQueryARB = 0;
@@ -287,8 +285,9 @@ PFNGLGETHANDLEARBPROC				glGetHandleARB = 0;
 PFNGLBLENDEQUATIONEXTPROC			glBlendEquationEXT = 0;
 
 PFNGLDEPTHBOUNDSEXTPROC				glDepthBoundsEXT = 0;
-#endif /* DARWIN */
-
+#endif //linux
+#endif // DARWIN
+#endif // WIN32
 
 
 // FIXME: clean this up a bit and put bool flags in blocs with INIT_EXTs
@@ -316,7 +315,17 @@ void SoXipGLOW::init()
 	GLOW_EXT_timer_query = strstr((const char *)str,				"GL_EXT_timer_query") ? true : false;
 	GLOW_ARB_occlusion_query = strstr((const char *)str,			"GL_ARB_occlusion_query") ? true : false;
 
+//#if defined (__APPLE__) || defined(linux) || defined (WIN32)
+    //init GLEW here ???
+    GLenum err = glewInit();
+    if (GLEW_OK != err)
+    {
+      // Problem: glewInit failed, something is seriously wrong.
+      // TODO fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+    }
+//#endif
 
+#ifndef WIN32
 #ifndef DARWIN
 #ifndef linux
 	// Timer query
@@ -324,7 +333,7 @@ void SoXipGLOW::init()
 	INIT_EXT(PFNGLGETQUERYOBJECTUI64VEXTPROC,	glGetQueryObjectui64vEXT);
 	// Occlusion query
 	INIT_EXT(PFNGLGENQUERIESARBPROC,		glGenQueriesARB);
-#endif // linux
+//#endif //linux
 	INIT_EXT(PFNGLDELETEQUERIESARBPROC,		glDeleteQueriesARB);
 	INIT_EXT(PFNGLBEGINQUERYARBPROC,		glBeginQueryARB);
 	INIT_EXT(PFNGLENDQUERYARBPROC,			glEndQueryARB);
@@ -477,7 +486,9 @@ void SoXipGLOW::init()
 	INIT_EXT(PFNGLUNMAPBUFFERPROC,				glUnmapBuffer);
 	INIT_EXT(PFNGLGETBUFFERPARAMETERIVPROC,		glGetBufferParamateriv);
 	INIT_EXT(PFNGLGETBUFFERPOINTERVPROC,			glGetBufferPointerv);
-#endif /* DARWIN */
+#endif // linux
+#endif // DARWIN
+#endif // WIN32
 	
 }
 

@@ -138,6 +138,7 @@ int XIPIVREMOTE_API xipivremote_init()
 	return 1;
 }
 
+#ifdef WIN32
 
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
@@ -146,3 +147,31 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 
 	return TRUE;
 }
+
+#else //UNIX
+
+static int initted = FALSE;    // a little protection--probably unnecessary
+void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
+{
+
+	int err;
+
+
+
+	xipivremote_init();
+
+
+	initted = TRUE;
+	//return 0;
+}
+
+void __attribute__ ((destructor)) _fini(void)
+{
+   //printf ("fini print.\n");
+}
+
+//forcing initialization through static member (as workaround)
+static const bool initMe = xipivremote_init();
+
+
+#endif //WIN32

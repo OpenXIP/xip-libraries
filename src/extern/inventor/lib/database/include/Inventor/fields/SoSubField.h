@@ -130,7 +130,8 @@
 #include <Inventor/fields/SoField.h>
 #include <Inventor/SoInput.h>
 #include <Inventor/SoOutput.h>
-#include <xip/system/standard.h>
+//#include <xip/system/standard.h>
+#include <Inventor/system/SoStandard.h>
 
 // C-api: end
 

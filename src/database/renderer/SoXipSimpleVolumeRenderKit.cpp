@@ -113,7 +113,7 @@
 #include <Inventor/actions/SoGetBoundingBoxAction.h> 
 #include <Inventor/misc/SoChildList.h>
 
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 #include <Inventor/elements/SoViewportRegionElement.h>
 #include <Inventor/elements/SoModelMatrixElement.h>

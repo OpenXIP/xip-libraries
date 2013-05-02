@@ -173,7 +173,7 @@ SoXipOffscreenRenderer::SoXipOffscreenRenderer()
 	
 #ifdef DARWIN
 	ctx = 0;
-	// FIXME: OpenGL context stuff
+	// TODO: FIXME: OpenGL context stuff
 #endif /* DARWIN */
 	
 	mWidth = 0;
@@ -573,14 +573,12 @@ SbBool SoXipOffscreenRenderer::renderSWBuffer(){
 	renderAction->setCacheContext((unsigned int) mRC);
 	renderAction->setTransparencyType(SoGLRenderAction::BLEND);
 	wglMakeCurrent(mDC, mRC);
-	#else
- 	#ifdef linux
+	#elif defined(linux) && !(defined(__x86_64) || defined(__x86_64__) || defined(__ia64)) //64 bit version did not work
  	GLXContext cx = glXGetCurrentContext();
  	Window win= glXGetCurrentDrawable();
  	renderAction->setCacheContext((unsigned int) mcx);
  	renderAction->setTransparencyType(SoGLRenderAction::BLEND);
  	glXMakeCurrent(mdpy, mwin, mcx); 	
- 	#endif
  	#endif
 #ifdef DARWIN
 	// FIXME: OpenGL context stuff
@@ -599,10 +597,8 @@ SbBool SoXipOffscreenRenderer::renderSWBuffer(){
 
  	#ifdef WIN32	
 	 	wglMakeCurrent(hDC, hRC);
- 	#else
- 	#ifdef linux
+ 	#elif defined(linux) && !defined(__x86_64__)
  		glXMakeCurrent(mdpy, win, cx);
- 	#endif
  	#endif
 #ifdef DARWIN
 	// FIXME: OpenGL context stuff
@@ -880,7 +876,11 @@ SbBool SoXipOffscreenRenderer::renderFBO(){
 
 
 	SoGLRenderAction *renderAction = new SoGLRenderAction(SbViewportRegion(mWidth, mHeight));
+#if (_MIPS_SZPTR == 64 || __ia64 || __x86_64 || __x86_64__)
+    renderAction->setCacheContext((unsigned int)((unsigned long) win->getGLContext()));
+#else
 	renderAction->setCacheContext((unsigned int) win->getGLContext());
+#endif
 	if (!renderAction)
 		return FALSE;
 

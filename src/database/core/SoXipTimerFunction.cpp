@@ -92,10 +92,11 @@ SoXipTimerFunction::SoXipTimerFunction()
 #ifdef WIN32
     QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER *>(&freq));
     mPerfFreq = double(freq);
-#endif /* WIN32 */
-
-	
-	mElapsedTime = .0f;
+    mElapsedTime = .0f;
+#else
+    mElapsedTime.tv_sec = 0.0;
+    mElapsedTime.tv_usec = 0.0;
+#endif // WIN32
 }
 
 SoXipTimerFunction::~SoXipTimerFunction()
@@ -129,13 +130,20 @@ void SoXipTimerFunction::inputChanged(SoField *which)
        	syncIn.enableConnection(true);
 #ifdef WIN32
 		QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&mStartTime));
-#endif /* WIN32 */
+#else
+        gettimeofday(&mStartTime, &tz);
+#endif // WIN32
 		
 		if (!pauseOn.getValue())
         {
 			mValue = 0.0;
 			value.setValue(0.0);
+#ifdef WIN32
 			mElapsedTime = 0.0;
+#else
+            mElapsedTime.tv_sec = 0.0;
+            mElapsedTime.tv_usec = 0.0;
+#endif //WIN32
 		} 
 		
 		pauseOn.setValue(false);
@@ -145,13 +153,19 @@ void SoXipTimerFunction::inputChanged(SoField *which)
 	else if (which == &pause)
 	{
 		pauseOn.setValue(true);
-	
-		int64_t currentTime;
+        
+        syncIn.enableConnection(false);	
 #ifdef WIN32
+        int64_t currentTime;
 		QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&currentTime));
-#endif /* WIN32 */
-		syncIn.enableConnection(false);		
-		mElapsedTime += (currentTime - mStartTime);
+        mElapsedTime += (currentTime - mStartTime);
+#else
+        struct timeval currentTime;
+        gettimeofday(&currentTime, &tz);
+        mElapsedTime.tv_sec += (currentTime.tv_sec - mStartTime.tv_sec);
+        mElapsedTime.tv_usec += (currentTime.tv_usec - mStartTime.tv_usec);
+#endif // WIN32
+		
 		syncIn.enableConnection(false);
 	}
 	else if (which == &stop)
@@ -170,16 +184,21 @@ void SoXipTimerFunction::GLRender(SoGLRenderAction * /* action */)
     if (!mRealTime || mValue >= 1.0 || pauseOn.getValue() || !mStarted )
         return;
 
-    
-	int64_t currentTime;
-
 #ifdef WIN32
+    int64_t currentTime;
     QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&currentTime));
-#endif /* WIN32 */
-
-	
+    
     // unsigned long currentTime = mRealTime->getValue().getMsecValue();
     float dT = float(double(currentTime - mStartTime + mElapsedTime) / mPerfFreq);
+#else
+    struct timeval currentTime;
+    gettimeofday(&currentTime, &tz);
+    
+    double dTsec = double(currentTime.tv_sec - mStartTime.tv_sec + mElapsedTime.tv_sec);
+    double dTusec = double(currentTime.tv_usec - mStartTime.tv_usec + mElapsedTime.tv_usec);
+    
+    float dT = float(dTsec * (1000*1000) + dTusec);
+#endif // WIN32
 
     switch (function.getValue())
     {
@@ -220,3 +239,5 @@ void SoXipTimerFunction::GLRender(SoGLRenderAction * /* action */)
 //   c-indentation-style: k&r
 //   c-basic-offset: 4
 // End:
+
+

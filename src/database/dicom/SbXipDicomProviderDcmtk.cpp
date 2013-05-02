@@ -112,6 +112,8 @@
 
 #include "SbXipDicomProviderDcmtk.h"
 #include <Inventor/errors/SoErrors.h>
+#include <dcmtk/dcmjpeg/djdecode.h>    
+#include <dcmtk/dcmdata/dcrledrg.h>	   
 #include <dcmtk/dcmdata/dctk.h>
 #include <dcmtk/dcmdata/dctk.h>
 #include <dcmtk/dcmdata/dcostrmb.h>
@@ -150,9 +152,19 @@
 
 void SbXipDicomProviderDcmtk::initClass()
 {
+	// register global decompression codecs
+	DJDecoderRegistration::registerCodecs();
+	DcmRLEDecoderRegistration::registerCodecs();
+
 	static SbXipDicomProviderDcmtk defaultProvider;
 
 	SoXipDataDicom::setProvider(&defaultProvider);
+}
+
+SbXipDicomProviderDcmtk::~SbXipDicomProviderDcmtk()
+{
+	DJDecoderRegistration::cleanup();
+	DcmRLEDecoderRegistration::cleanup();
 }
 
 void* SbXipDicomProviderDcmtk::open()
@@ -250,6 +262,10 @@ SbBool SbXipDicomProviderDcmtk::getPixelData(void *fileHandle, SbXipImage &image
 	if (!dataset)
 		return FALSE;
 
+	// set default representation
+	E_TransferSyntax opt_oxfer = EXS_LittleEndianExplicit;
+
+	dataset->chooseRepresentation(opt_oxfer, NULL);
 
 	OFCondition errorFlag;
 	DcmStack stack;
@@ -624,7 +640,7 @@ void* SbXipDicomProviderDcmtk::createCompatible(void *metaInfoHandle, void *data
 		}
 
 		// get dicom dataset
-		DcmDataset *dataset = (DcmDataset *)(((SbXipDicomItemHandle *)metaInfoHandle)->getItem());
+		DcmDataset *dataset = (DcmDataset *)(((SbXipDicomItemHandle *)datasetHandle)->getItem());
 		if (!dataset)
 		{
 			SoMemoryError::post("DcmDataset");
@@ -805,9 +821,9 @@ static int findFilesInFolder(const char *dir, SoMFString &out)
 		_findclose( hFile );
 	}
 
-#else 
-// #ifdef linux
-
+//#else ////#ifdef linux
+#elif linux
+    
 	// something matches, remove patten/file name
 	SbString folder;
 	SbString remain;
@@ -872,6 +888,62 @@ static int findFilesInFolder(const char *dir, SoMFString &out)
     }
     closedir(d);
 // #endif //linux
+#else //MAC
+    
+    //CR 2010 adjusted implementation
+    
+    SbString folder;
+	SbString remain;
+	regex_t reg;
+	const char *s = strrchr(dir, DIR_SEP_CHAR);
+	if (s)
+	{
+		folder = SbString(dir).getSubString(0, s - dir);
+		remain= SbString(dir).getSubString(s - dir+1);
+	}
+	string path=folder.getString();
+	string pattern=remain.getString();
+    
+    if ( 0 == strcmp( ".", pattern.c_str() ) || 0 == strcmp( "..", pattern.c_str() ) )
+        return 0; // skip . and ..
+    
+    if ( 0 == strcmp( ".svn", pattern.c_str() ) || 0 == strcmp( ".git", pattern.c_str() ) )
+        return 0; // skip .svn and .git -- maybe this is not an elegant way to do this, but it should work for now...
+    
+    DIR* d = opendir( dir );
+    if (d)
+    {
+        static struct dirent* dirp;
+        
+        while ( (dirp = readdir(d)) != NULL )
+        {
+            string candidate( dir );
+            candidate.append( "/" );
+            candidate.append( dirp->d_name );
+            
+            findFilesInFolder(candidate.c_str(), out);
+        }
+        
+        closedir(d);
+    }
+    else
+    {
+        //check error
+        if (errno == ENOTDIR)
+        {
+            //this probably means its a file...
+            SbString fullPath(dir);
+            out.set1Value(out.getNum(), fullPath);
+        }
+        else
+        {
+            cerr << "Unable to open directory " << path.c_str() << endl;
+            cerr << "Error is " << strerror(errno) << "(" << errno << ")" << endl;
+            return -1;
+        }
+
+    }
+ 
 #endif /* WIN32 */
 
 	return 0;

@@ -1,8 +1,10 @@
+
+#include <xip/system/GL/gl.h>
+
 #include "SoXipBackground.h"
 #include <Inventor/actions/SoActions.h>
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
-#include <xip/system/GL/gl.h>
 
 
 
@@ -91,3 +93,5 @@ void SoXipBackground::GLRender(SoGLRenderAction *action)
 
 	glPopAttrib();
 }
+
+

@@ -113,7 +113,7 @@
 #define SOXIPDICOMEXAMINER_H
 
 #include <xip/inventor/core/SoXipSubKit.h>
-#include <xip/inventor/dicom/SoxipMFDataDicom.h>
+#include <xip/inventor/dicom/SoXipMFDataDicom.h>
 
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/fields/SoSFShort.h>

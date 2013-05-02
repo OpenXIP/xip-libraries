@@ -68,7 +68,7 @@ inline bool connectField(SrcType * srcObj, const char * srcName,
         return false;
     }
 
-    return true:
+    return true;
 }
 
 

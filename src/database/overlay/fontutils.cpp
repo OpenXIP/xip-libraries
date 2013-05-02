@@ -295,16 +295,24 @@ int GetFontFile(const char* mbFontName,
 
 #include <stdio.h>
 #ifndef WIN32
-#include <regex.h>
-#include<string.h>
+//#include <regex.h>
+#include <string>
 #define MAX_PATH 216
+#include <sys/stat.h> 
+//#include <iostream>
+//#include <cerrno>
 #endif // WIN32
 
 int GetFontFile(const char* lpszFontName, char* lpszDisplayName, int nDisplayNameSize, char* lpszFontFile, int nFontFileSize)
 {
 #ifndef WIN32
-	char FONT_FILE[MAX_PATH] = "/usr/share/X11/fonts/TTF/";
-	regex_t reg;
+    /*
+#ifdef __APPLE__
+    char FONT_FILE[MAX_PATH] = "/usr/X11/lib/X11/fonts/TTF/";
+#else //linux
+    char FONT_FILE[MAX_PATH] = "/usr/share/fonts/X11/"; //"/usr/share/X11/fonts/TTF/";
+#endif //__APPLE__
+    regex_t reg;
 	if (regcomp(&reg, FONT_FILE, REG_EXTENDED | REG_NOSUB))
 	{
 		return -1;
@@ -312,16 +320,77 @@ int GetFontFile(const char* lpszFontName, char* lpszDisplayName, int nDisplayNam
 	if(!regexec(&reg, lpszFontName, 0, NULL, 0))
 	{
 		//check whether font file is present or not
-        	strcat(FONT_FILE,lpszFontName);
+        strcat(FONT_FILE,lpszFontName);
 	}
 	else
 	{
 		//if requires font file not presend load any font file
 		strcat(FONT_FILE,"luximb.ttf");
 	}
+    */
+
+#ifdef __APPLE__
+    const char * fontDir_0 = "/Library/Fonts";              //mac
+    const char * fontDir_1 = "/usr/X11/lib/X11/fonts/TTF";  //mac
+#else // __APPLE__
+    const char * fontDir_0 = "/usr/share/fonts/truetype/freefont";      //ubuntu
+    const char * fontDir_1 = "/usr/share/fonts/truetype/msttcorefonts"; //ubuntu
+#endif // __APPLE__
+    
+    //may need to improve this, if we want to check more directories...
+    const char * FONT_DIRS[2] = {fontDir_0, fontDir_1};
+    
+    //char FONT_FILE[MAX_PATH];
+    std::string FONT_FILE = "/";
+    FONT_FILE.append(lpszFontName);
+    
+    if (FONT_FILE.find(".") == std::string::npos)
+    {
+        //extension not yet appended
+        FONT_FILE.append(".ttf");
+    }
+    
+    int foundStat = -1;
+    //file info struct
+    struct stat stFileInfo;
+    
+    std::string fullPath;
+    
+    for (int i=0; i<2 && foundStat==-1; i++)
+    {
+        //check if directory exists
+        foundStat = stat(FONT_DIRS[i], &stFileInfo);
+        if (foundStat == 0)
+        {
+            fullPath = std::string(FONT_DIRS[i]).append(FONT_FILE.c_str());
+
+            //check if the file is in the directory, too
+            foundStat = stat(fullPath.c_str(), &stFileInfo);
+            if (foundStat == 0)
+            {
+                continue;
+            }
+            //std::cout << "Could not find file: " << fullPath << " [error]: " << std::strerror(errno) << std::endl;
+            foundStat = -1;
+        }
+
+    }
+    
+    FONT_FILE = fullPath;
+    
+    if (foundStat == -1)
+    {
+#ifdef __APPLE__
+        FONT_FILE = std::string("/Library/Fonts/Arial.ttf");
+#else // __APPLE__
+        FONT_FILE = std::string("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
+#endif // __APPLE__
+    }
+    
+	
 #endif // WIN32
 	if(lpszFontFile)
-		sprintf(lpszFontFile,"%s\0", FONT_FILE);
+		sprintf(lpszFontFile,"%s\0", FONT_FILE.c_str());
 	else
 		return 0;
 

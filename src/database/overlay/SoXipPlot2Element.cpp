@@ -122,6 +122,10 @@
 #include <Inventor/elements/SoPointSizeElement.h>
 #include <Inventor/elements/SoLazyElement.h>
 
+#ifdef DEBUG
+#include <Inventor/errors/SoDebugError.h>
+#endif //DEBUG
+
 SO_ELEMENT_SOURCE( SoXipPlot2Element );
 
 void 
@@ -409,3 +413,4 @@ SoXipPlot2Element::getAreaColor( int index ) const
 	SbXipPlot2LegendInfo* plotInfo = (SbXipPlot2LegendInfo *) mPlotInfoList[index];
 	return plotInfo->areaColor;
 }
+

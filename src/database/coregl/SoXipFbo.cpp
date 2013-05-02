@@ -109,6 +109,8 @@
  *  
  */
 
+#include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
 
 #include "SoXipFbo.h"
 #include <Inventor/actions/SoGLRenderAction.h>

@@ -117,7 +117,7 @@
 #include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 //XIPIVCOREGL_API
 class SoXipBlendFunc : public SoNode

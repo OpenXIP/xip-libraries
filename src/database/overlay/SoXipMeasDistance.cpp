@@ -109,6 +109,8 @@
  *  
  */
 
+#include <xip/system/GL/gl.h>
+
 #include "geomutils.h"
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoTranslation.h>
@@ -125,7 +127,6 @@
 #include "SoXipMeasDistance.h"
 #include <xip/inventor/overlay/SoXipText2.h>
 #include "SoXipDropShadowElement.h"
-#include <xip/system/GL/gl.h>
 
 
 SO_KIT_SOURCE(SoXipMeasDistance);
@@ -421,3 +422,5 @@ void SoXipMeasDistance::getBoundingBox(SoGetBoundingBoxAction *action)
 		SoBaseKit::getBoundingBox(action);
 	}
 }
+
+

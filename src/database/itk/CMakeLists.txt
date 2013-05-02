@@ -578,13 +578,20 @@ else(${CMAKE_BINARY_DIR} MATCHES release)
 
 endif(${CMAKE_BINARY_DIR} MATCHES release)
 
-include(${ITK_USE_FILE})
+find_package(ITK)
+#include(${ITK_USE_FILE})
 
+if(WIN32)
 if(NOT ${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR} EQUAL 3.8)
   message(FATAL_ERROR "ITK 3.8 Required. Found ITK version "
 					${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
 endif(NOT ${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR} EQUAL 3.8)
-
+else(WIN32)
+if(${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR} LESS 3.12)
+  message(FATAL_ERROR "At least ITK 3.12 Required. Found ITK version "
+					${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
+endif(${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR} LESS 3.12)
+endif(WIN32)
 #--------------------------------------------------------------------
 # Define compiler flags
 #

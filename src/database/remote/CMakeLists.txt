@@ -78,7 +78,9 @@ target_link_libraries(xipivremote
   jpegWrapper
   losslessCompression
   stream
-  ${OPENGL_LIBRARIES})
+  ${OPENGL_LIBRARIES}
+  ${GLEW_LIBRARIES}
+)
 
 add_dependencies(xipivremote xipivcore)
   

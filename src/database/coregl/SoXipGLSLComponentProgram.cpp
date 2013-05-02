@@ -110,6 +110,7 @@
  */
 #include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
+
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 #include <xip/inventor/coregl/ShaderComponentLibrary.h>
@@ -415,7 +416,7 @@ void SoXipGLSLComponentProgram::setTimeStamps(ShaderBatch * batch, SoMFString& c
 }
 
 
-void SoXipGLSLComponentProgram::addDefineLineEntry(std::string &key, LineEntry &entry)
+void SoXipGLSLComponentProgram::addDefineLineEntry(const std::string &key, const ShaderSourceComponent::LineEntry &entry)
 {
     bool replaced = false;
     DefineLineVec_t::iterator it;

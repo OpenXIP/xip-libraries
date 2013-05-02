@@ -116,6 +116,7 @@
 #include <xip/inventor/core/SbXipImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>
 #include <xip/inventor/dicom/SoXipDataDicom.h>
+#include <xip/inventor/core/XipStringUtils.h>
 
 #include <dcmtk/dcmdata/dctk.h>
 
@@ -299,7 +300,7 @@ void SoXipSaveDicom::inputChanged(SoField *whichField)
 			dataset->putAndInsertString(DCM_ImageType, imageType);
 
 			// set pixel data
-			int bufferSize = imgDimension[0] * imgDimension[1] * imgDimension[2] * imageIn->getComponents();
+			unsigned long bufferSize = imgDimension[0] * imgDimension[1] * imgDimension[2] * imageIn->getComponents();
 			void* bufferPtr = 0;
 			
 			switch (type)
@@ -335,13 +336,20 @@ void SoXipSaveDicom::inputChanged(SoField *whichField)
 						bufferSize *= sizeof(int);
 					} break;
 			}
-
+            
 			dataset->putAndInsertUint8Array(DCM_PixelData, (unsigned char *)bufferPtr, bufferSize);
-
-			imageIn->unrefBufferPtr();
+			
+            imageIn->unrefBufferPtr();
 
 			// save in the file
-			if (!outputDicomData->save(storage.getValue().getString(), "writeXfer=EXS_LittleEndianExplicit"))
+#ifdef WIN32
+            //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+            const char * storageLocal = XipReplaceChar(storage.getValue().getString(), '/', '\\').getString();
+#else //UNIX
+            //assuming the other way around since we need forward slashes now...
+            const char * storageLocal = XipReplaceChar(storage.getValue().getString(), '\\', '/').getString();
+#endif //WIN32
+			if (!outputDicomData->save(storageLocal, "writeXfer=EXS_LittleEndianExplicit"))
 			{
 				SoError::post("Failed to save dicom object into file");
 				return;

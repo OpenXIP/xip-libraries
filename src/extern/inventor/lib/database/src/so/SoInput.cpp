@@ -1376,6 +1376,22 @@ SoInput::read(unsigned short &s)
 //}
 
 SbBool
+SoInput::read(long	    &i)
+{
+    //should we cast this from a 32 bit int for now
+    READ_INTEGER(i, convertInt32, long, int32_t);    
+}
+
+#if !WIN64
+SbBool
+SoInput::read(long long  &i)
+{
+    //should we cast this from a 32 bit int for now
+    READ_INTEGER(i, convertInt32, long long, int32_t);
+}
+#endif //!WIN64
+
+SbBool
 SoInput::read(float &f)
 {
     READ_REAL(f, convertFloat, float, float);

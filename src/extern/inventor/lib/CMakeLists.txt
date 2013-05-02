@@ -3,6 +3,11 @@
 
 project(xipinv240)
 
+if(UNIX)
+  find_package(Freetype)
+  find_package(JPEG)
+endif(UNIX)
+
 #--------------------------------------------------------------------
 # Define the compiler flags
 #
@@ -23,7 +28,11 @@ if(WIN32)
 		-Dfreetype
 		-DWIN32
 		-DINVENTOR_EXPORTS
-		-DHAVE_BOOLEAN)
+		-DHAVE_BOOLEAN
+  )
+  
+  #set(FREETYPE_INCLUDE_DIRS "../libFL/src")
+  set(JPEG_INCLUDE_DIR "../../jpeg-6b")
 endif(WIN32)
 
 #--------------------------------------------------------------------
@@ -38,8 +47,9 @@ include_directories(
   nodekits/include
   mevis/include
   xip/include
+  ${JPEG_INCLUDE_DIR}
+  ${FREETYPE_INCLUDE_DIRS}
   ../libFL/src
-  ../../jpeg-6b
   ../../libiconv-1.11/include)
 if(WIN32)
   include_directories(
@@ -55,7 +65,7 @@ if(WIN32)
 endif(WIN32)
 
 if(UNIX)
-  include_directories(${OPENGL_INCLUDE_DIR})
+  include_directories(${OPENGL_INCLUDE_DIR} ${GLEW_INCLUDE_DIR})
 endif(UNIX)
 
 #--------------------------------------------------------------------
@@ -1461,7 +1471,9 @@ endif(UNIX)
 #
 target_link_libraries(xipinv240
   ${OPENGL_LIBRARIES}
+  ${GLEW_LIBRARIES}
   ${JPEG_LIBRARIES}
+  ${FREETYPE_LIBRARIES}
   FL
   image
   ${ICONV_LIBRARY})

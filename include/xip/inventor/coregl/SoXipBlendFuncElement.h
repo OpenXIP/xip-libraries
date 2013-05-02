@@ -116,7 +116,7 @@
 #include <xip/inventor/coregl/xipivcoregl.h>
 #include <Inventor/elements/SoSubElement.h>
 
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 //XIPIVCOREGL_API
 class SoXipBlendFuncElement : public SoElement

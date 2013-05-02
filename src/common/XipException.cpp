@@ -109,9 +109,34 @@
 *  
 */
 #include <xip/common/XipException.h>
+#include <string>
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdarg.h>
+
+#include <xip/system/standard.h>
+
+struct XipExceptionData
+{
+	XipExceptionData()
+		: line(0),
+		  file(),
+		  function(),
+		  message()
+	{}
+
+    /// Source code line number where the exception occured.
+    unsigned int line;
+
+    /// Source code file where the exception occured. 
+	std::string file;
+
+    /// Source code function where the exeption occurred.    
+	std::string function;
+
+    /// Optional additional information string (UNICODE).
+	std::wstring message;
+
+};
 
 /** \fn XipException::XipException()
  * Constructor used to generate an exception.
@@ -128,55 +153,94 @@
  *
  */
 
-XipException::XipException():
-mFile(0),
-mMessage(0),
-mLine(0),
-mFunction(0)
+XipException::XipException()
+: mData(0),
+  mType(UNKNOWN_ERROR)
 {
 }
-
-XipException::XipException(unsigned int line, const char *file, const char* function,  XipExceptionType type, const wchar_t *message):mLine(line), mType(type)
+#if 0
+XipException::XipException(unsigned int line, const char *file, const char* function,  XipExceptionType type, const wchar_t *message)
+: mData(0),
+  mType(type)
 {
-	const int XIP_STRING_LEN = 500;
-	mFile = new char[XIP_STRING_LEN];
-    mFunction = new char[XIP_STRING_LEN];
-    mMessage = new wchar_t[XIP_STRING_LEN];
+	mData = new XipExceptionData();
+	if (!mData)
+		return;
 	
-	//mLine = line;
-	//mType = type;
-	//mFile = file;	
-    strcpy(mFile, file);
-    strcpy(mFunction, function);
-	//mMessage = message;
-	wcscpy(mMessage, message);	
+	mData->line = line;
 
-	/*if (NewXipLog::hasListeners()) {
-		
-		wchar_t lFile[XIP_STRING_LEN], module[XIP_STRING_LEN];
-		int len = strlen(file)+1;
-		mbstowcs(lFile, file, len*sizeof(wchar_t));		
-		swprintf(module, XIP_STRING_LEN, L"File: %s, Line: %d", lFile, line);
-			
-		XIP_LOG_ERROR(mMessage, module, ToString(type));
-	}*/
+	if (NULL != file)
+		mData->file = file;
+
+	if (NULL != function)
+	    mData->function = function;
+
+	if (NULL != message)
+	    mData->message = message;
+	
+}
+#endif
+
+XipException::XipException(  unsigned int line, const char* file, const char* function,
+						     XipExceptionType type, 
+                             const wchar_t* message, ...) 
+: mData(0),
+  mType(type)
+{
+	mData = new XipExceptionData();
+	if (!mData)
+		return;
+
+	mData->line = line;
+
+    if( NULL != file )
+		mData->file = file;
+
+	if (NULL != function)
+	    mData->function = function;
+
+    if( NULL != message )
+    {
+        const int SIZE = 1024;
+
+        wchar_t buf[SIZE];
+
+        // Make sure that last bytes are terminated.
+        memset(buf, 0, sizeof(buf));
+
+        // Leave room for terminating 0.
+        const int max = sizeof(buf) / sizeof(wchar_t) - sizeof(wchar_t);
+
+        try
+        {
+            va_list args;
+            va_start(args, message);
+            _vsnwprintf(buf, max, message, args);
+            va_end(args);
+
+			mData->message = buf;
+        }
+        catch (...)
+        {
+            // May happen if formatter string is bogus.
+            std::wstring temp(L"String formatter threw up. Formatter string: ");
+            temp.append(message);
+			mData->message = temp.c_str();
+        }
+    }
 }
 
 XipException::XipException(const XipException& e)
+: mData(),
+  mType(UNKNOWN_ERROR)
 {
-	mLine = e.mLine;
-	
-	const int XIP_STRING_LEN = 500;
-	mFile = new char[XIP_STRING_LEN];
-	mFunction = new char[XIP_STRING_LEN];
-	mMessage = new wchar_t[XIP_STRING_LEN];
+	mData = new XipExceptionData();
+	if (!mData)
+		return;
 
-	if (e.mFile)
-		strcpy(mFile,e.mFile);
-	if (e.mMessage)
-		wcscpy(mMessage,e.mMessage);
-	if (e.mFunction)
-		strcpy(mFunction,e.mFunction);
+	*mData = *e.mData;
+
+	mType = e.mType;
 }
 
 /** \fn XipException::~XipException()
@@ -185,15 +249,8 @@ XipException::XipException(const XipException& e)
  */
 XipException::~XipException()
 {
-	if(mFile){
-		delete [] mFile;
-		mFile = 0;
-	}
-	if(mMessage) {
-		delete [] mMessage;
-		mMessage = 0;
-	}
-	
+	delete mData;
+	mData = 0;
 };
 
 static const wchar_t* const exceptionTypeName[] = {L"INTERNAL_SYSTEM_ERROR", L"COMM_ERROR", L"IO_ERROR", L"MEMORY_HEAP_ERROR", L"MEMORY_DISK_ERROR", L"MEMORY_MAPPING_ERROR", L"INVALID_PARAM_ERROR", L"INVALID_STATE_ERROR", L"ABORT_EXECUTION", L"OPERATION_UNSUPPORTED"};
@@ -211,7 +268,7 @@ inline const wchar_t* XipException::ToString(XipExceptionType type) const	{
  */
 unsigned int XipException::getLine()
 {
-    return (mLine);
+    return (mData->line);
 }
 
 
@@ -231,7 +288,7 @@ XipException::XipExceptionType XipException::getType()
  */
 const char* XipException::getFile()
 {
-    return (mFile);
+    return (mData->file.c_str());
 }
 
 /*! \fn XipException::getFile()
@@ -240,7 +297,7 @@ const char* XipException::getFile()
 */
 const char* XipException::getFunction()
 {
-    return (mFunction);
+    return (mData->function.c_str());
 }
 
 
@@ -250,5 +307,5 @@ const char* XipException::getFunction()
  */
 const wchar_t* XipException::getMessage()
 {
-    return (mMessage);
+    return (mData->message.c_str());
 }

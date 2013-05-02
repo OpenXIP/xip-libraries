@@ -109,6 +109,7 @@
  *  
  */
 
+#include <xip/inventor/overlay/SoXipText2.h>
 #include <Inventor/errors/SoErrors.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/actions/SoHandleEventAction.h>
@@ -130,7 +131,6 @@
 #include <FTGLPolygonFont.h>
 #include <FTGLTextureFont.h>
 #include "SoXipDropShadowElement.h"
-#include <xip/inventor/overlay/SoXipText2.h>
 #include "fontutils.h"
 
 #ifndef MAX_PATH
@@ -387,7 +387,8 @@ SoXipText2::GLRender(SoGLRenderAction *action)
 	SbName fontName = SoFontNameElement::get(state);
 	SoXipFontTypeElement::FontType fontType = SoXipFontTypeElement::get(state);
 
-#ifdef WIN32
+#if defined(WIN32) || defined(__APPLE__)
+    //easier to use arial font on the mac, too
 	if ((fontName == "Helvetica") || (fontName == "defaultFont"))
 	{
 		fontName = "Arial";
@@ -396,10 +397,10 @@ SoXipText2::GLRender(SoGLRenderAction *action)
 	{
 		fontName = "Times New Roman";
 	}
-#else
+#else //UNIX
 	if (fontName == "defaultFont")
-		fontName = "Helvetica";
-#endif
+		fontName = "FreeSans";
+#endif //WIN32
 
 	if ((fontName != mCurrentFontName) || (fontType != mCurrentFontType))
 	{
@@ -609,3 +610,4 @@ SoXipText2::GLRender(SoGLRenderAction *action)
 		glDepthMask( depthMask );
 	}
 }
+

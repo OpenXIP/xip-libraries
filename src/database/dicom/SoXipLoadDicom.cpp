@@ -114,6 +114,7 @@
 #include <Inventor/errors/SoError.h> 
 #include <dcmtk/dcmdata/dctk.h>
 #include <xip/inventor/dicom/SoXipDataDicom.h>
+#include <xip/inventor/core/XipStringUtils.h>
 
 
 SO_ENGINE_SOURCE(SoXipLoadDicom);
@@ -154,17 +155,29 @@ void SoXipLoadDicom::unloadAll()
 void SoXipLoadDicom::evaluate()
 {
 	unloadAll();
+    
+    SoMFString nameLocal;
+    for (int i = 0; i < name.getNum(); i++)
+	{
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    nameLocal.set1Value(i, XipReplaceChar(name[i].getString(), '/', '\\'));
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    nameLocal.set1Value(i, XipReplaceChar(name[i].getString(), '\\', '/'));
+#endif //WIN32
+    }
 
 	// "interpret" may replace folders with files in the folder or DICOMDIR with images
 	SoMFString interpreted;
-	SoXipDataDicom::interpret(name, interpreted);
+	SoXipDataDicom::interpret(nameLocal, interpreted);
 
 
 	for (int i = 0; i < interpreted.getNum(); i++)
 	{
 		SoXipDataDicom* dicomData = new SoXipDataDicom;
 		if (dicomData)
-		{			
+		{
 			if (dicomData->open(interpreted[i].getString()))
 			{
 				mLoadedData.set1Value(mLoadedData.getNum(), dicomData);

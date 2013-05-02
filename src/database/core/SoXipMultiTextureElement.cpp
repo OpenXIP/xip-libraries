@@ -109,28 +109,18 @@
 *  
 */
 #include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 
-#ifdef WIN32
-#ifdef _CRT_ALLOCATION_DEFINED 
-	#include <xip/system/GL/gl.h>
-	#include <xip/system/GL/glext.h>
-#else //only for VC6 compilation
-	#include <GL/gl.h>
-	#include <GL/glext.h>
-#endif
-#endif // WIN32
-
 #ifndef WIN32
-#include <xip/system/GL/gl.h>
-#include <xip/system/GL/glext.h>
-#endif // WIN32
-
+#ifndef linux
 #ifndef DARWIN
 static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = 0;
 #endif // DARWIN
+#endif // linux
+#endif // WIN32
 int SoXipMultiTextureElement::mMaxUnits = 0;
 
 /*
@@ -157,23 +147,11 @@ void SoXipMultiTextureElement::initClass()
 SbBool SoXipMultiTextureElement::matches(const SoElement *element) const
 {
     return false;
-	//	return FALSE;
-	//for(int i = NB_TEXTURE_MAX - 1; i >= 0; i--)
-	//{
-	//	if(((const SoXipMultiTextureElement *) element)->enabled[i] != this->enabled[i])
-	//		return FALSE;
-	//}
-	//if (((const SoXipMultiTextureElement *) element)->last!=this->last)
-	//	return FALSE;
-	//return TRUE;
 }
 
 SoElement* SoXipMultiTextureElement::copyMatchInfo() const
 {
 	SoXipMultiTextureElement *element = (SoXipMultiTextureElement*)(getTypeId().createInstance());
-	//for(int i = NB_TEXTURE_MAX - 1; i >= 0; i--)
-	//	element->enabled[i]=this->enabled[i];
-	//element->last = this->last;
 	return (SoElement *)element;
 }
 
@@ -181,22 +159,21 @@ void SoXipMultiTextureElement::init(SoState *state)
 {
     if (dynamic_cast<SoGLRenderAction*>(state->getAction()))
     {
-#ifndef DARWIN
-	    if (!glActiveTextureARB)
-            glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)xipGlGetProcAddress("glActiveTextureARB");
-#endif // DARWIN
+//#ifdef WIN32
+//	    if (!glActiveTextureARB)
+//            glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)xipGlGetProcAddress("glActiveTextureARB");
+//#endif // DARWIN
 
 	    if (!mMaxUnits)
         {
 	        glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &mMaxUnits);
-	//SoDebugError::postInfo(__FUNCTION__, "Max texture units: %d", numUnits);
+
 	        if (mMaxUnits <= 0)
     		    mMaxUnits = 1;
     	    else if (mMaxUnits > 32)
 		        mMaxUnits = 32;
         }
     }
-
 	for (int i = 0; i < mMaxUnits; ++i)
 		mTextures[i] = textureInfo(0, 0);
 	
@@ -211,12 +188,9 @@ void SoXipMultiTextureElement::push(SoState *state)
 
 	for (int i = 0; i < mMaxUnits; ++i)
 		mTextures[i] = prev->mTextures[i];
-		//FUNCID("Initting with textures = %p", textures);
 
 	mCurrentUnit = prev->mCurrentUnit;
 	mUnitsChanged = 0;
-
-	//prev->capture(state);
 }
 
 void SoXipMultiTextureElement::pop(SoState *state, const SoElement *prevTopElement)

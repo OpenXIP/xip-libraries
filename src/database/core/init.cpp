@@ -145,9 +145,10 @@
  *  \sa README.txt and LICENSE.txt in the source directory.
  */
 
+#include <xip/system/GL/gl.h>
+
 #include <Inventor/SoInteraction.h>
 
-#include <xip/system/GL/gl.h>
 #include <xip/inventor/core/SoXipData.h>
 #include <xip/inventor/core/SoXipDataImage.h>
 #include <xip/inventor/core/SoXipDataImageElement.h>
@@ -391,6 +392,9 @@ void __attribute__ ((destructor)) _fini(void)
 {
    //printf ("fini print.\n");
 }
+
+//forcing initialization through static member (as workaround)
+static const bool initMe = xipivcore_init();
 
 #endif
 #ifdef WIN32

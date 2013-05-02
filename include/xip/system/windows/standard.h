@@ -13,6 +13,9 @@
 
 typedef __int64 int64_t;
 
+//typedef uint64_t __uint64;
+typedef unsigned __int64 __uint64;
+
 #define snprintf _snprintf
 //#define glGetProcAddress wglGetProcAddress
 

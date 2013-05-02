@@ -26,7 +26,14 @@
 
 #include <xip/common/XipCommon.h>
 
+#include <xip/system/standard.h>
+
+#ifdef WIN32
 #include <windows.h>
+#else //UNIX
+#include <sys/time.h>
+#endif //WIN32
+
 #include <ctime>
 
 /*
@@ -57,20 +64,35 @@ public:
     double elapsedTime();
 
 protected:
-    unsigned __int64	mFreq;
-    unsigned __int64	mStart;
-    unsigned __int64	mStop;
+#ifdef WIN32
+    __uint64	mFreq;
+    __uint64	mStart;
+    __uint64	mStop;
+#else //UNIX
+    timeval     mStart;
+    timeval     mStop;
+#endif //WIN32
 };
 
 inline XipTimer & XipTimer::start()
 {
+#ifdef WIN32
     QueryPerformanceCounter((LARGE_INTEGER*)&mStart);
+#else //UNIX
+    //sys_clock_gettime(CLOCK_REALTIME, mStart);
+    gettimeofday(&mStart, NULL);
+#endif //WIN32
     return *this;
 }
 
 inline XipTimer & XipTimer::stop()
 {
+#ifdef WIN32
     QueryPerformanceCounter((LARGE_INTEGER*)&mStop);
+#else //UNIX
+    //sys_clock_gettime(CLOCK_REALTIME, mStart);
+    gettimeofday(&mStop, NULL);
+#endif //WIN32
     return *this;
 }
 

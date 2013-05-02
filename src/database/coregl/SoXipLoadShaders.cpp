@@ -114,6 +114,8 @@
  */
 #include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
+#include <xip/inventor/core/XipStringUtils.h>
+
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
@@ -254,9 +256,17 @@ bool SoXipLoadShaders::readShadersFile(const char *filename, const char *defines
 	std::string					s, line;
 	GLchar						*programString;
 	std::vector<std::string>	vDefines;
+	
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(filename, '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(filename, '\\', '/').getString();
+#endif //WIN32
 
 	// Open the shader file
-	in.open(filename);
+	in.open(fileLocal);
 	if (in.fail())
 		return false;
 

@@ -402,6 +402,7 @@ SoXipDicomOverlayManager::loadOverlays()
 void
 SoXipDicomOverlayManager::clearClipboard()
 {
+#ifdef WIN32
 	if( !OpenClipboard(0) )
 		return ;
 
@@ -440,6 +441,11 @@ SoXipDicomOverlayManager::clearClipboard()
 	}
     
 	CloseClipboard();
+#elif defined(__APPLE__) //UNIX
+    //TODO: fix this functionality
+    //pbpaste();
+#else //linux
+#endif //WIN32
 }
 
 SoXipShapeList*

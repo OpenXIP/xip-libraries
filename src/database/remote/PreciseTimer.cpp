@@ -140,7 +140,8 @@ CPreciseTimer::CPreciseTimer() : m_i64Start(0), m_i64Elapsed(0), m_bRunning(fals
 
 		sm_bInit = true;
 	}
-#endif
+#endif //WIN32
+//no need to init these for linux / mac
 }
 
 void CPreciseTimer::StartTimer()
@@ -154,15 +155,15 @@ void CPreciseTimer::StartTimer()
 		(m_i64Start *= 1000000) /= sm_i64Freq;
 	}
 	else
+	{
 		//Transform milliseconds to microseconds
 		m_i64Start = (__int64)GetTickCount() * 1000;
+	}
 	m_bRunning = true;
 #else
-#ifdef linux
 	gettimeofday(&m_liCount, &tz);
 	m_i64Start= (int64_t)m_liCount.tv_sec *(1000*1000)+ (int64_t)m_liCount.tv_usec;
 	m_bRunning = true;
-#endif
 #endif
 }
 

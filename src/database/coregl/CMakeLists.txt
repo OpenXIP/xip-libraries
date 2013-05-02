@@ -144,7 +144,9 @@ set_target_properties(xipivcoregl
 #
 target_link_libraries(xipivcoregl
   ${XIP_CORE_LIBRARY}
-  ${OPENGL_LIBRARIES})
+  ${OPENGL_LIBRARIES}
+  ${GLEW_LIBRARIES}
+)
 
 add_dependencies(xipivcoregl xipivcore)
 	

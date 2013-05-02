@@ -128,7 +128,7 @@ public:
     // Destructor.
     virtual ~XipLogListener(){}
 
-    virtual void handleError(const XipLogEntry* entry) = 0;
+    virtual void handleError(const XipLogEntry& entry) = 0;
     virtual void set(int property, const wchar_t* value) = 0;
 
     //set the log type below which to record

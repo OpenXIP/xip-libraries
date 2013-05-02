@@ -45,10 +45,10 @@ set(HEADERS
 # Define some additional header files
 #
 set(EXTRA_HEADERS
-  dimcmd.h
-  dulfsm.h
-  dulpriv.h
-  dulstruc.h)
+  libsrc/dimcmd.h
+  libsrc/dulfsm.h
+  libsrc/dulpriv.h
+  libsrc/dulstruc.h)
 
 #--------------------------------------------------------------------
 # Define the source files
@@ -76,7 +76,7 @@ set(SOURCES
   libsrc/dimmove.cxx
   libsrc/dimse.cxx
   libsrc/dimstore.cxx
-  dilibsrc/util.cxx
+  libsrc/diutil.cxx
   libsrc/dul.cxx
   libsrc/dulconst.cxx
   libsrc/dulextra.cxx

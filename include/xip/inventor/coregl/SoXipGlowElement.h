@@ -112,38 +112,38 @@
 #ifndef SO_XIP_GLOW_ELEMENT_H
 #define SO_XIP_GLOW_ELEMENT_H
 
-#ifdef linux
+//#ifdef WIN32
+
 #include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
-#include <xip/system/GL/glext.h>
-#include <xip/system/GL/glxext.h>
+
+//#include <windows.h>
+//#ifdef _CRT_ALLOCATION_DEFINED 
+//	#include <xip/system/GL/gl.h>
+//	#include <xip/system/GL/glext.h>
+//#else //only for VC6 compilation
+//	#include <GL/gl.h>
+//	#include <GL/glext.h>
+//	#define xipGlGetProcAddress(X) wglGetProcAddress(X)
+//#endif
+
+//#elif defined(linux) || defined(__APPLE__) /* linux */
+
+//#define GL_GLEXT_PROTOTYPES
+//#include <xip/system/standard.h>
+//#include <xip/system/GL/gl.h>
 //#include <GL/gl.h>
 //#include <GL/glext.h>
-#else /* linux */
-#include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
-#include <xip/system/GL/glext.h>
-#endif /* linux */
+////#include <GL/glxext.h>
+    //#define glCopyTexSubImage3D glCopyTexSubImage3DEXT
+    //#define glTexImage3D glTexImage3DEXT
+    //#define glTexSubImage3D glTexSubImage3DEXT
+    //#define glActiveTexture glActiveTextureEXT
+    //#define glFramebufferTexture glFramebufferTextureEXT
+//#endif /* linux */
+
 #include <Inventor/elements/SoSubElement.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
-#ifdef linux
-  #define glCopyTexSubImage3D glCopyTexSubImage3Dext
-  #define glTexImage3D glTexImage3Dext
-  #define glTexSubImage3D glTexSubImage3Dext
-  #define glActiveTexture glActiveTextureext
-#endif
-
-#ifdef WIN32
-//#include <windows.h>
-#ifdef _CRT_ALLOCATION_DEFINED 
-	#include <xip/system/GL/gl.h>
-	#include <xip/system/GL/glext.h>
-#else //only for VC6 compilation
-	#include <GL/gl.h>
-	#include <GL/glext.h>
-	#define xipGlGetProcAddress(X) wglGetProcAddress(X)
-#endif
-#endif
 
 extern XIPIVCOREGL_API bool GLOW_init;
 extern XIPIVCOREGL_API bool GLOW_GREMEDY_string_marker;
@@ -159,11 +159,14 @@ extern XIPIVCOREGL_API bool GLOW_ARB_draw_buffers;
 extern XIPIVCOREGL_API bool GLOW_EXT_timer_query;
 extern XIPIVCOREGL_API bool GLOW_ARB_occlusion_query;
 
+#ifndef WIN32
 #ifndef DARWIN
 #ifndef linux
 extern XIPIVCOREGL_API PFNGLGETQUERYOBJECTI64VEXTPROC	glGetQueryObjecti64vEXT;
 extern XIPIVCOREGL_API PFNGLGETQUERYOBJECTUI64VEXTPROC	glGetQueryObjectui64vEXT;
-#endif
+
+extern XIPIVCOREGL_API PFNGLACTIVETEXTUREPROC				glActiveTexture;
+//#endif
 extern XIPIVCOREGL_API PFNGLGENQUERIESARBPROC			glGenQueriesARB;
 extern XIPIVCOREGL_API PFNGLDELETEQUERIESARBPROC		glDeleteQueriesARB;
 extern XIPIVCOREGL_API PFNGLBEGINQUERYARBPROC			glBeginQueryARB;
@@ -176,9 +179,9 @@ extern XIPIVCOREGL_API PFNGLTEXIMAGE3DEXTPROC glTexImage3D;
 extern XIPIVCOREGL_API PFNGLTEXSUBIMAGE3DEXTPROC glTexSubImage3D;
 extern XIPIVCOREGL_API PFNGLCOPYTEXSUBIMAGE3DPROC			glCopyTexSubImage3D;
 
-extern XIPIVCOREGL_API PFNGLACTIVETEXTUREPROC				glActiveTexture;
+//extern XIPIVCOREGL_API PFNGLACTIVETEXTUREPROC				glActiveTexture;
 
-extern XIPIVCOREGL_API PFNGLDRAWRANGEELEMENTSPROC			glDrawRangeElements;
+//extern XIPIVCOREGL_API PFNGLDRAWRANGEELEMENTSPROC			glDrawRangeElements;
 extern XIPIVCOREGL_API PFNGLDRAWBUFFERSPROC                 glDrawBuffers;
 extern XIPIVCOREGL_API PFNGLBINDBUFFERPROC					glBindBuffer;
 extern XIPIVCOREGL_API PFNGLDELETEBUFFERSPROC				glDeleteBuffers;
@@ -310,7 +313,9 @@ extern XIPIVCOREGL_API PFNGLGETHANDLEARBPROC							glGetHandleARB;
 extern XIPIVCOREGL_API PFNGLSTRINGMARKERGREMEDYPROC						glStringMarkerGREMEDY;
 
 extern XIPIVCOREGL_API PFNGLDEPTHBOUNDSEXTPROC							glDepthBoundsEXT;
+#endif // linux
 #endif // DARWIN
+#endif // WIN32
 
 class XIPIVCOREGL_API SoXipGLOWElement : public SoElement {
 	SO_ELEMENT_HEADER(SoXipGLOWElement);

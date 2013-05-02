@@ -112,8 +112,12 @@
 #include "XipDicomSortImage.h"
 #include <memory.h>
 #include <string.h>
-#include <malloc.h>
 
+#if defined(WIN32) || defined (linux)
+#include <malloc.h>
+#else //MAC OS
+#include <sys/malloc.h>
+#endif //WIN32
 
 /**
  *

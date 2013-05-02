@@ -109,6 +109,7 @@
  *  
  */
 
+
 #include "SoXipWindowLevelManip.h"
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoKeyboardEvent.h>
@@ -117,6 +118,10 @@
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/elements/SoComplexityElement.h>
 #include <xip/inventor/core/SoXipWindowLevelElement.h>
+
+#include <algorithm>
+
+
 
 const unsigned int MAX_SCREENRESOLUTION = 1024;
 const unsigned int STEP = 5;

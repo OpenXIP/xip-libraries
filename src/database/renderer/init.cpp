@@ -109,6 +109,7 @@
  *  
  */
 
+#include <xip/system/GL/gl.h>
 #include <xip/inventor/core/xipivcore.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
 #include <xip/inventor/renderer/xipivrenderer.h>
@@ -176,6 +177,9 @@ void __attribute__ ((destructor)) _fini(void)
 {
 	//printf ("fini print.\n");
 }
+
+//forcing initialization through static member (as workaround)
+static const bool initMe = xipivrenderer_init();
 
 #endif /* WIN32 */
 

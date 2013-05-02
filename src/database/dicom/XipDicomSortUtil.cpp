@@ -112,6 +112,7 @@
 #include "XipDicomSortUtil.h"
 #include "XipDicomSortAlg.h"
 
+#include <stdio.h>
 #include <vector>
 #include <algorithm>
 #include <functional>

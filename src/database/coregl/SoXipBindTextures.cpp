@@ -114,7 +114,7 @@
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 //#include <xip/inventor/coregl/FramebufferObject.h>
 //#include <xip/inventor/coregl/FramebufferObject.h>

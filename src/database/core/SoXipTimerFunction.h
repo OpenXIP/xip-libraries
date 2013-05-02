@@ -79,9 +79,17 @@ private:
 
 	bool				mStarted;
 	SoSFTime *          mRealTime;
+    
+#ifdef WIN32
+	//unsigned __int64 mStartTime;
     int64_t      		mStartTime;
 	int64_t				mElapsedTime;
     double              mPerfFreq;
+#else
+    struct timeval  mStartTime;
+    struct timeval  mElapsedTime;
+    struct timezone tz;
+#endif // WIN32
 	
 
     enum FUNCTION_TYPES {
@@ -105,3 +113,5 @@ private:
 // End:
 
 #endif // SO_XIP_TIMER_FUNCTION_H
+
+

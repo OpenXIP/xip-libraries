@@ -196,7 +196,7 @@ SoINTERNAL class INVENTOR_API SbIntList : public SbPList {
 	{ ((SbPList *) this)->insert((void *) (unsigned long) integer, addBefore); }
 
     int &	operator [](int i) const
-#if (_MIPS_SZPTR==64) && (_MIPS_SZINT==32)
+#if (_MIPS_SZPTR==64 || __ia64 || __x86_64 || __x86_64__ ) && (_MIPS_SZINT==32)
 	// An ugly cast that makes sure that when we cast from void* to
 	// int&, we get the rightmost four bytes, rather than the upper
 	// bytes.  

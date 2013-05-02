@@ -167,8 +167,9 @@ void SbXipThread::join()
 #ifdef _WINDOWS
 	WaitForSingleObject(mThreadHandle, INFINITE);
 #else
-	int status;
-	pthread_join(mThreadHandle, &status);
+	//int status;
+    void ** value_ptr;
+	pthread_join(mThreadHandle, value_ptr);
 #endif
 }
 

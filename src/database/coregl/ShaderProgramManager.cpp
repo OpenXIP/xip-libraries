@@ -149,7 +149,7 @@ void ShaderProgramManager::deleteAllEntries()
 unsigned int
 ShaderProgramManager::insertEntry(const char * newTag,
                                   unsigned int newProgramHandle,
-                                  unsigned __int64 newTimeStamp)
+                                  __uint64 newTimeStamp)
 {
     // Check invalid tag
     if (!newTag || !*newTag)
@@ -278,7 +278,7 @@ unsigned int ShaderProgramManager::getProgramHandle(const char * iSearchTag)
  * @return Returns time stamp.
  * @see getProgramHandle()
  */
-unsigned __int64 ShaderProgramManager::getTimeStamp(const char * iSearchTag)
+__uint64 ShaderProgramManager::getTimeStamp(const char * iSearchTag)
 {
     // Find shader entry
     ShaderEntry * entry = findEntry(iSearchTag);

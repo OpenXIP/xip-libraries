@@ -56,9 +56,10 @@
 #ifndef  _SB_COLOR_H_
 #define  _SB_COLOR_H_
 
+//#include <xip/system/standard.h>
+#include <Inventor/system/SoStandard.h>
 #include <Inventor/system/SbSystem.h>
 #include <Inventor/SbLinear.h>
-#include <xip/system/standard.h>
 
 
 //////////////////////////////////////////////////////////////////////////////

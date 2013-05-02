@@ -128,9 +128,11 @@ public:
 	ivtTimer()
 	{
 		reset();
-		#ifdef WIN32
+#ifdef WIN32
 		QueryPerformanceFrequency((LARGE_INTEGER*) &mFreq);
-		#endif
+#else
+        gettimeofday(&mStartTime, &tz);
+#endif
 	}
 
 	~ivtTimer()
@@ -139,49 +141,43 @@ public:
 
 	void reset()
 	{
-		#ifdef WIN32
+#ifdef WIN32
 		QueryPerformanceCounter((LARGE_INTEGER*) &mStartTime);
-		#else
-		#ifdef linux
-			gettimeofday(&mStartTime, &tz);
-		#endif
-		#endif
+#else
+        gettimeofday(&mStartTime, &tz);
+#endif
 	}
 	
 	unsigned int elapsed()
 	{
 
-		#ifdef WIN32
+#ifdef WIN32
 		unsigned int r;
 		unsigned __int64 stop;
 
 		QueryPerformanceCounter((LARGE_INTEGER*) &stop);
 		
 		r = (unsigned int) (((stop - mStartTime) * 1000000) / mFreq);
-		#else
-//		#ifdef linux
-			unsigned int r;
-			struct timeval stop;
-			gettimeofday(&stop, &tz);
-			//in microsec
-			r= (unsigned int)(stop.tv_sec * (1000*1000)+ stop.tv_usec) - (mStartTime.tv_sec * (1000*1000)+ mStartTime.tv_usec);
-//		#endif
-		#endif /* WIN32 */
+#else
+        unsigned int r;
+        struct timeval stop;
+        gettimeofday(&stop, &tz);
+        //in microsec
+        r= (unsigned int)(stop.tv_sec * (1000*1000)+ stop.tv_usec) - (mStartTime.tv_sec * (1000*1000)+ mStartTime.tv_usec);
+#endif // WIN32
 
 		return r;
 		
 	};
 
 		protected:
-	#ifdef WIN32
+#ifdef WIN32
 	unsigned __int64 mStartTime;
 	unsigned __int64 mFreq;
-	#else
-//	#ifdef linux
-			struct timeval  mStartTime;
-			struct timezone tz;
-//	#endif
-	#endif /* WIN32 */
+#else
+    struct timeval  mStartTime;
+    struct timezone tz;
+#endif // WIN32
 };
 
 
@@ -219,13 +215,11 @@ protected:
 	void		displayTimings();
 
 	SoMFUInt32			*mSwapBuffersInfo;
-	#ifdef WIN32
+#ifdef WIN32
 	unsigned __int64	mLastSwapCount;
-	#elif linux
-	uint64_t                mLastSwapCount;
-	#else
-	uint64_t                mLastSwapCount;
-	#endif
+#else
+	uint64_t            mLastSwapCount;
+#endif
 
 	unsigned int		mMinValues[TIME_MAX_VALUES];
 	unsigned int		mMaxValues[TIME_MAX_VALUES];
@@ -235,9 +229,9 @@ protected:
 	unsigned int		mDelayCount;
 	
 	unsigned int		mFrames;
-	#ifdef WIN32
+#ifdef WIN32
 	unsigned __int64	mPerfFreq;
-	#endif
+#endif
 
 	ivtTimer		mTimer, mFrameTimer;
 };

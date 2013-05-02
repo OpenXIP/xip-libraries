@@ -19,6 +19,7 @@ Copyright © Siemens AG 2006-2007. All Rights Reserved.
 
 #include <xip/inventor/coregl/ShaderComponentLibrary.h>
 
+#include <string.h>
 
 /**
  * Definition of static instance variable.

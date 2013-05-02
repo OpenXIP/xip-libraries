@@ -459,8 +459,21 @@ bool SoXipGLSLPrograms::updateSingleShader(ShaderBatch * batch, const SbString& 
     batch->source.addToSuppHeader(ShaderEngine::readShaderSourceFile(filename.getString()).c_str());
     batch->handle = ShaderEngine::compileShader(batch->source.getFullComponent(), shaderType, errstr);
     //batch->timestamp = (batch->handle) ? time(NULL) : 0;
+#ifdef WIN32
     batch->timestamp = (batch->handle) ? QueryPerformanceCounter((LARGE_INTEGER*)&batch->timestamp) : 0;
-
+#else //UNIX
+    if (!(batch->handle))
+    {
+        batch->timestamp = 0;
+    }
+    else
+    {
+        struct timeval curTime;
+        gettimeofday(&curTime, NULL);
+        //batch->timestamp = ((int64_t)curTime.tv_sec * (1000*1000) + (int64_t)curTime.tv_usec);
+        batch->timestamp = (int64_t)curTime.tv_sec;
+    }
+#endif //WIN32
     if (!errstr.empty())
         return false;
 
@@ -497,19 +510,38 @@ bool SoXipGLSLPrograms::updateSingleProgram(ProgramBatch * batch, std::string& e
                                               errstr);
     }
 
+//TODO: need better fix !
+#ifdef WIN32
     int isValid = 0;
     glGetProgramiv(batch->handle, GL_VALIDATE_STATUS, &isValid);
 
     if (!isValid || !errstr.empty())
+#else //for some reason the validation always fails under mac & linux ... may be something with the file format?
+    if (!errstr.empty())
+#endif //WIN32
     {
         if (glIsProgram(batch->handle))
             glDeleteProgram(batch->handle);
         batch->handle = 0;
     }
-
+    
+#ifdef WIN32
     //batch->timestamp = (batch->handle) ? time(NULL) : 0;
     batch->timestamp = (batch->handle) ? QueryPerformanceCounter((LARGE_INTEGER*)&batch->timestamp) : 0;
-        
+#else //UNIX
+    if (!(batch->handle))
+    {
+        batch->timestamp = 0;
+    }
+    else
+    {
+        struct timeval curTime;
+        gettimeofday(&curTime, NULL);
+        //batch->timestamp = ((int64_t)curTime.tv_sec * (1000*1000) + (int64_t)curTime.tv_usec);
+        batch->timestamp = (int64_t)curTime.tv_sec;
+    }
+#endif //WIN32
+    
     if (!errstr.empty())
     {
         SoDebugError::post("GLSLPrograms", "\"%s\": %s", batch->tag.getString(), errstr.c_str());

@@ -115,7 +115,7 @@
 
 
 #include <Inventor/actions/SoGLRenderAction.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 #include "SoXipSlicerShader.h"

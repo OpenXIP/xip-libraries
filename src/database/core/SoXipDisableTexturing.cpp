@@ -16,10 +16,11 @@
   ------------------------------------------------------------------------
 */
 
+#include <xip/inventor/coregl/SoXipGlowElement.h>
+
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/elements/SoGLTextureEnabledElement.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
-#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 #include "SoXipDisableTexturing.h"
 

@@ -104,7 +104,24 @@ set_target_properties(xipivdicom
 #
 target_link_libraries(xipivdicom
 	${XIP_CORE_LIBRARY}
-	${DCMTK_LIBRARIES})
+	${DCMTK_LIBRARIES}
+	${DCMTK_dcmdata_LIBRARY}
+	${DCMTK_dcmimage_LIBRARY}
+	${DCMTK_dcmimgle_LIBRARY}
+	${DCMTK_dcmjpeg_LIBRARY}
+	${DCMTK_dcmnet_LIBRARY}
+	${DCMTK_dcmpstat_LIBRARY}
+	${DCMTK_dcmqrdb_LIBRARY}
+	${DCMTK_dcmsign_LIBRARY}
+	${DCMTK_dcmsr_LIBRARY}
+	# ${DCMTK_dcmtk_LIBRARY}
+	${DCMTK_dcmtls_LIBRARY}
+	${DCMTK_ijg8_LIBRARY}
+	${DCMTK_ijg12_LIBRARY}
+	${DCMTK_ijg16_LIBRARY}
+	${DCMTK_imagedb_LIBRARY}
+	${DCMTK_ofstd_LIBRARY}
+	${DCMTK_dcmdata_LIBRARY})
 
 add_dependencies(xipivdicom xipivcore)
 	
@@ -114,7 +131,8 @@ if(WIN32)
     netapi32)
 else(WIN32)
   target_link_libraries(xipivdicom
-    z)
+    z
+    xml2)
 endif(WIN32)
 
 #--------------------------------------------------------------------

@@ -1,3 +1,4 @@
+
 /*
  *  COPYRIGHT NOTICE.  Copyright (C) 2007 Siemens Corporate Research, 
  *  Inc. ("caBIG(tm) Participant"). The eXtensible Imaging Platform
@@ -108,8 +109,16 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+
+#include <xip/system/standard.h>
 #include <xip/system/GL/gl.h>
-#include <xip/system/GL/glext.h>
+
+#include <algorithm>
+
+//#define glTexImage3D glTexImage3Dext
+//#define glTexSubImage3D glTexSubImage3Dext
+//#define glActiveTextureARB glActiveTextureARBext
+
 
 #include <xip/inventor/core/SbXipImageAdaptor.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
@@ -124,24 +133,18 @@
 
 #include "SoXipTexture.h"
 
-#ifdef linux
-
-#include <GL/glx.h>
-#include <xip/system/standard.h>
-#include <algorithm>
-#define glTexImage3D glTexImage3Dext
-#define glTexSubImage3D glTexSubImage3Dext
-#define glActiveTextureARB glActiveTextureARBext
-
+#ifdef WIN32
+#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress(#F)
+#else
+#define INIT_EXT(PF, F)
 #endif
 
-//#ifndef linux
-#define INIT_EXT(PF, F) F = (PF) xipGlGetProcAddress(#F)
-//#endif
-
+#ifndef WIN32
 #ifndef DARWIN
+#ifndef linux
 static PFNGLTEXIMAGE3DEXTPROC		glTexImage3D = 0;
 static PFNGLTEXSUBIMAGE3DEXTPROC	glTexSubImage3D = 0;
+//#endif //linux
 static PFNGLGENBUFFERSPROC		glGenBuffers = 0;
 static PFNGLDELETEBUFFERSPROC		glDeleteBuffers = 0;
 static PFNGLBINDBUFFERPROC		glBindBuffer = 0;
@@ -149,7 +152,9 @@ static PFNGLBUFFERDATAPROC		glBufferData = 0;
 static PFNGLBUFFERSUBDATAPROC		glBufferSubData = 0;
 static PFNGLMAPBUFFERPROC		glMapBuffer = 0;
 static PFNGLUNMAPBUFFERPROC		glUnmapBuffer = 0;
+#endif //linux
 #endif /* DARWIN */
+#endif //WIN32
 
 GLint  SoXipTexture::maxTextureSize = -1;
 
@@ -718,11 +723,11 @@ void SoXipTexture::createTexture()
 		break;
 	case GL_TEXTURE_3D:
 		{
-#ifndef DARWIN
+/*#ifdef WIN32 
 			if (!glTexImage3D)
 				glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC)xipGlGetProcAddress("glTexImage3DEXT");
 #endif // DARWIN
-
+*/
 			if (glTexImage3D)
 			{
 				glTexImage3D(
@@ -902,10 +907,10 @@ void SoXipTexture::updateTexture()
 		break;
 	case GL_TEXTURE_3D:
 		{
-#ifndef DARWIN
-			if (!glTexSubImage3D)
-				glTexSubImage3D = (PFNGLTEXSUBIMAGE3DEXTPROC)xipGlGetProcAddress("glTexSubImage3DEXT");
-#endif // DARWIN
+//#ifdef WIN32 
+//			if (!glTexSubImage3D)
+//				glTexSubImage3D = (PFNGLTEXSUBIMAGE3DEXTPROC)xipGlGetProcAddress("glTexSubImage3DEXT");
+//#endif // DARWIN
 			if (glTexSubImage3D)
 			{
 				if (mHasPBOs && usePBO.getValue())
@@ -1036,7 +1041,7 @@ void SoXipTexture::GLRender(SoGLRenderAction *action)
 			mPBOId = 0;
 			if (mHasPBOs)
 			{
-#ifndef DARWIN
+/*#ifndef DARWIN
 				INIT_EXT(PFNGLBINDBUFFERPROC,				glBindBuffer);
 				INIT_EXT(PFNGLDELETEBUFFERSPROC,			glDeleteBuffers);
 				INIT_EXT(PFNGLGENBUFFERSPROC,				glGenBuffers);
@@ -1044,7 +1049,7 @@ void SoXipTexture::GLRender(SoGLRenderAction *action)
 				INIT_EXT(PFNGLBUFFERSUBDATAPROC,			glBufferSubData);
 				INIT_EXT(PFNGLMAPBUFFERPROC,				glMapBuffer);
 				INIT_EXT(PFNGLUNMAPBUFFERPROC,				glUnmapBuffer);
-#endif // DARWIN
+#endif // DARWIN */
 			}
 			mQueryExtensions = false;
 		}

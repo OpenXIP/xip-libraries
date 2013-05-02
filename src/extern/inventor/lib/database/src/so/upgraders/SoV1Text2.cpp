@@ -178,8 +178,13 @@ SoV1Text2::convertToUTF8(const SbString &strng)
     char* input = (char *)strng.getString();
     size_t inbytes = strng.getLength();
     size_t outbytes = 2*inbytes;
-    char* output = (char*)UCSBuf;    
-    if ((iconv(codeConvert1, const_cast<const char**>(&input), &inbytes, &output, &outbytes) != NULL)){
+    char* output = (char*)UCSBuf;
+#if defined(WIN32) || defined(linux)
+    if ((iconv(codeConvert1, const_cast<const char**>(&input), &inbytes, &output, &outbytes) != NULL))
+#else //UNIX
+    if ((iconv(codeConvert1, &input, &inbytes, &output, &outbytes) != NULL))
+#endif //WIN32
+    {
 #ifdef DEBUG
 	SoDebugError::post("SoV1Text2::convertToUTF8", 
 	    "Error converting text to UCS-2");
@@ -188,8 +193,13 @@ SoV1Text2::convertToUTF8(const SbString &strng)
     input = (char *)UCSBuf;
     outbytes = 2*strng.getLength()+1;
     inbytes = 2*strng.getLength();
-    output = (char*)UTFBuf;    
-    if ((iconv(codeConvert2, const_cast<const char**>(&input), &inbytes, &output, &outbytes) != 0)){
+    output = (char*)UTFBuf;
+#if defined(WIN32) || defined(linux)
+    if ((iconv(codeConvert2, const_cast<const char**>(&input), &inbytes, &output, &outbytes) != 0))
+#else //UNIX
+    if ((iconv(codeConvert2, &input, &inbytes, &output, &outbytes) != 0))
+#endif //WIN32
+    {
 #ifdef DEBUG
 	switch(errno){
 	    case EILSEQ:  printf("EILSEQ\n");

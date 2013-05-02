@@ -109,8 +109,9 @@
  *  
  */
 
-#include "SoXipMprRender.h"
 #include <xip/inventor/coregl/SoXipGlowElement.h>
+
+#include "SoXipMprRender.h"
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/elements/SoViewVolumeElement.h>
@@ -202,12 +203,10 @@ void SoXipMprRender::GLRender(SoGLRenderAction * action)
 	glPopMatrix();
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
-///
 void SoXipMprRender::computeBBox(SoAction *action, SbBox3f &box, SbVec3f &center)
 {
     center.setValue(0.5, 0.5, 0.5);
     box.setBounds(0, 0, 0, 1, 1, 1);
 }
+

@@ -35,7 +35,7 @@ xcopy /S /F /I %DCM_SRC_PATH%\dcmjpeg\include\dcmtk\dcmjpeg\*.h %DCMTK_PATH%\inc
 xcopy /S /F /I %DCM_SRC_PATH%\dcmpstat\include\dcmtk\dcmpstat\*.h %DCMTK_PATH%\include\dcmtk\dcmpstat
 xcopy /S /F /I %DCM_SRC_PATH%\dcmsr\include\dcmtk\dcmsr\*.h %DCMTK_PATH%\include\dcmtk\dcmsr
 xcopy /S /F /I %DCM_SRC_PATH%\ofstd\include\dcmtk\ofstd\*.h %DCMTK_PATH%\include\dcmtk\ofstd
-
+xcopy /S /F /I %DCM_SRC_PATH%\dcmnet\include\dcmtk\dcmnet\*.h %DCMTK_PATH%\include\dcmtk\dcmnet
 
 rem ## debug ##
 copy %DCM_BUILD_PATH%\dcmdata\libsrc\debug\dcmdata.lib  %DCMTK_PATH%\lib\debug\dcmdata.lib
@@ -48,6 +48,7 @@ copy %DCM_BUILD_PATH%\ofstd\libsrc\debug\ofstd.lib  %DCMTK_PATH%\lib\debug\ofstd
 copy %DCM_BUILD_PATH%\dcmjpeg\libijg8\debug\ijg8.lib  %DCMTK_PATH%\lib\debug\ijg8.lib
 copy %DCM_BUILD_PATH%\dcmjpeg\libijg12\debug\ijg12.lib  %DCMTK_PATH%\lib\debug\ijg12.lib
 copy %DCM_BUILD_PATH%\dcmjpeg\libijg16\debug\ijg16.lib  %DCMTK_PATH%\lib\debug\ijg16.lib
+copy %DCM_BUILD_PATH%\dcmnet\libsrc\debug\dcmnet.lib  %DCMTK_PATH%\lib\debug\dcmnet.lib
 
 
 
@@ -62,6 +63,7 @@ copy %DCM_BUILD_PATH%\ofstd\libsrc\release\ofstd.lib  %DCMTK_PATH%\lib\release\o
 copy %DCM_BUILD_PATH%\dcmjpeg\libijg8\release\ijg8.lib  %DCMTK_PATH%\lib\release\ijg8.lib
 copy %DCM_BUILD_PATH%\dcmjpeg\libijg12\release\ijg12.lib  %DCMTK_PATH%\lib\release\ijg12.lib
 copy %DCM_BUILD_PATH%\dcmjpeg\libijg16\release\ijg16.lib  %DCMTK_PATH%\lib\release\ijg16.lib
+copy %DCM_BUILD_PATH%\dcmnet\libsrc\release\dcmdata.lib  %DCMTK_PATH%\lib\release\dcmnet.lib
 
 
 :_FINISH

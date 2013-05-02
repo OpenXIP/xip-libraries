@@ -114,6 +114,7 @@
 #include <Inventor/errors/SoMemoryError.h>
 #include <Inventor/errors/SoDebugError.h>
 //#include <xip/system/standard.h>
+#include <Inventor/system/SoStandard.h>
 #include <algorithm>
 
 SbXipImageDimensions::SbXipImageDimensions()

@@ -285,6 +285,9 @@ void __attribute__ ((destructor)) _fini(void)
 	//printf ("fini print.\n");
 }
 
+//forcing initialization through static member (as workaround)
+static const bool initMe = xipivcoregl_init();
+
 #endif /* WIN32 */
 
 

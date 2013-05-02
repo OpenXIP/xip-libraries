@@ -65,7 +65,9 @@ set_target_properties(xipivextra
 target_link_libraries(xipivextra
   ${XIP_COMMON_LIBRARY}
   ${INVENTOR_LIBRARY}
-  ${OPENGL_LIBRARIES})
+  ${OPENGL_LIBRARIES}
+  ${GLEW_LIBRARIES}
+)
 
 add_dependencies(xipivextra xipcommon)
   

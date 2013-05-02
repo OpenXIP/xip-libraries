@@ -3,6 +3,8 @@
 #include <Inventor/fields/SoMFInt64.h>
 #include <stdlib.h>
 
+#include <xip/system/standard.h>
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // SoMFInt64 class

@@ -113,6 +113,9 @@
 
 #include <xip/common/XipCommon.h>
 
+// forward declaration
+struct XipExceptionData;
+
 /**	\class XipException
  *	\brief Exception class that contains information about fatal errors.
  *
@@ -155,6 +158,7 @@ public:
 	/// Public field for cause of exception.
 	enum XipExceptionType
 	{
+		UNKNOWN_ERROR = 0,			///< Undefined error type, usually indicated uninitialized type
 		INTERNAL_SYSTEM_ERROR = 1,	///< An internal error or invalid state caused aborting the normal program flow.
 		COMM_ERROR,                 ///< Communication failure.
 		IO_ERROR,                   ///< File I/O error. 
@@ -171,7 +175,8 @@ public:
 
 	/// Constructor used to generate an exception
 	XipException();
-	XipException(unsigned int _line, const char *_file, const char *_function, XipExceptionType _type, const wchar_t *_message = 0);
+//	XipException(unsigned int _line, const char *_file, const char *_function, XipExceptionType _type, const wchar_t *_message = 0);
+	XipException(unsigned int _line, const char *_file, const char *_function, XipExceptionType _type, const wchar_t* _message = 0, ...);
 	XipException(const XipException& e);
 
     /// Destructor, cleans up data as needed
@@ -194,24 +199,9 @@ public:
 
 
 protected:
-    /// Source code line number where the exception occured.
-    unsigned int mLine;
 
-    /// Source code file where the exception occured. This is a multibyte string!
-    //const char *mFile;
-	char *mFile;
-
-    
-    char *mFunction;
-
-    /// Optional additional information string (UNICODE).
-    //const wchar_t *mMessage;
-	wchar_t *mMessage;
-
-    /// Type of exception
-    XipExceptionType mType;
-
-	//wchar_t *module;
+	XipExceptionData* mData;
+	XipExceptionType mType;
 };
 
 //----------------------------------------------------------------

@@ -13,7 +13,9 @@
   ------------------------------------------------------------------------
 */
 
-#include <Xip/Common/XipTimer.h>
+#include <xip/common/XipTimer.h>
+
+#ifdef WIN32
 
 XipTimer::XipTimer ()
     : mStart(0),
@@ -21,13 +23,28 @@ XipTimer::XipTimer ()
       mFreq(0)
 {
     QueryPerformanceFrequency((LARGE_INTEGER*)&mFreq);
-} 
+}
 
 double XipTimer::elapsedTime()
 {
     return static_cast<double>(mStop - mStart)/static_cast<double>(mFreq);
 }
 
+#else //UNIX
+
+XipTimer::XipTimer ()
+    : mStart(),
+      mStop()
+{
+    //sys_clock_gettime(CLOCK_REALTIME, mStart);
+}
+
+double XipTimer::elapsedTime()
+{
+    return static_cast<double>(mStop.tv_sec - mStart.tv_sec); // * 1000.0 would be sec to ms
+}
+
+#endif //WIN32
 
 /*
  *  COPYRIGHT NOTICE.  Copyright (C) 2005 Siemens Corporate Research, 

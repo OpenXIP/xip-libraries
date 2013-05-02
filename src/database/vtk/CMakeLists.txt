@@ -636,12 +636,58 @@ else(WIN32)
   add_definitions(-DHAVE_CONFIG_H)
 endif(WIN32)
 
+
+#--------------------------------------------------------------------
+# moved from the main CMake file
+#
+find_package(VTK) 
+#include(${VTK_USE_FILE})
+
+if(NOT VTK_LIBRARIES)
+    set(VTK_LIBRARIES
+        vtkCommon
+        vtkDICOMParser
+        vtkFiltering
+        vtkGenericFiltering
+        vtkGraphics
+        vtkHybrid
+        vtkIO
+        vtkImaging
+        vtkInfovis
+        vtkNetCDF
+        vtkParallel
+        vtkRendering
+        vtkViews
+        vtkVolumeRendering
+        vtkWidgets
+        vtkexoIIc
+        # vtkexpat # 
+        # vtkfreetype # 
+        vtkftgl
+        # vtkjpeg # 
+        # vtklibxml2 # 
+        vtkmetaio
+        # vtkpng # 
+        vtksqlite
+        vtksys
+        # vtktiff # 
+        vtkverdict
+        # vtkzlib # 
+    )
+endif(NOT VTK_LIBRARIES)
+
 #--------------------------------------------------------------------
 # Define the include directories
 #
 include_directories(
   ${PROJECT_SOURCE_DIR}
+  ${VTK_INCLUDE_DIRS}
   generated)
+
+#--------------------------------------------------------------------
+# Define the link directories
+#
+link_directories(${VTK_LIBRARY_DIRS})
 
 #--------------------------------------------------------------------
 # Compile the library

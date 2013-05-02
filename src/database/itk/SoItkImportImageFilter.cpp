@@ -110,6 +110,8 @@
  */
 /* author Sylvain Jaume, Julien Gein */
 
+#include <xip/inventor/core/XipStringUtils.h>
+
 #include <itkImportImageFilter.h>
 #include <xip/inventor/itk/SoItkSFDataImage.h>
 #include "SoItkImportImageFilter.h"
@@ -160,8 +162,16 @@ SoItkImportImageFilter::loadBuffer()
 
 	int imageWidth = Width.getValue();
 	int imageHeight = Height.getValue();
+	
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(filename, '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(filename, '\\', '/').getString();
+#endif //WIN32
 
-	std::ifstream fileIn( filename, std::ios::in | std::ios::binary );
+	std::ifstream fileIn( fileLocal, std::ios::in | std::ios::binary );
 
 	if( !fileIn.is_open() )
 	{

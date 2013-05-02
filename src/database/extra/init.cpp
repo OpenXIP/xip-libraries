@@ -161,4 +161,7 @@ void __attribute__ ((destructor)) _fini(void)
 {
 }
 
+//forcing initialization through static member (as workaround)
+static const bool initMe = xipivextra_init();
+
 #endif // WIN32

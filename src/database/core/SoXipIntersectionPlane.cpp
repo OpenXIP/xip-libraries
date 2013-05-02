@@ -149,11 +149,11 @@ face6 ->   1, 5, 6, 2
 ****************************************/
 
 
+#include <xip/system/GL/gl.h>
 
 // Local includes
 #include "SoXipIntersectionPlane.h"
 //#include <Inventor/fields/SoMFLong.h>
-#include <xip/system/GL/gl.h>
 
 #include <Inventor/SoPrimitiveVertex.h>
 #include <Inventor/actions/SoGLRenderAction.h>

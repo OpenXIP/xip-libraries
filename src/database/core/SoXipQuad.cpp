@@ -109,6 +109,7 @@
 *  
 */
 
+#include <xip/system/GL/gl.h>
 
 #include "SoXipQuad.h"
 #include <xip/system/standard.h>

@@ -133,7 +133,7 @@
 #include <Inventor/fields/SoSFInt32.h>
 #include <Inventor/fields/SoMFInt32.h>
 #include <Inventor/sensors/SoFieldSensor.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 
 class SoXipBindTextures : public SoNode

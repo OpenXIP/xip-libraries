@@ -20,9 +20,9 @@
   ------------------------------------------------------------------------
 */
 
+#include <xip/system/GL/gl.h>
 
 #include <Inventor/actions/SoGLRenderAction.h>
-#include <xip/system/GL/glu.h>
 
 #include "SoXipGpuProcessTexture.h"
 

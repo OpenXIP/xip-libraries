@@ -138,6 +138,13 @@ SoTraceBuffer<INDEXTYPE>::getTraceDumpString() const
 
 SoTraceBuffer<SoGlobalTraceBufferType> SoGlobalTraceBuffer;
 
+//hot-fix for linux compilation
+#ifdef linux
+
+template SbString SoTraceBuffer<SoGlobalTraceBufferType>::getTraceDumpString() const;
+
+#endif //linux
+
 
 #if defined(__sgi)
 

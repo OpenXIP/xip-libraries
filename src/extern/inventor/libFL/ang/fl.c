@@ -206,23 +206,29 @@ _flSearchFont(const GLubyte *fontName)
       font = ATSFontFindFromName(name, kATSOptionFlagsDefault);
       if (font == kATSFontRefUnspecified) {
         /* Use fallback font */
-        font = ATSFontFindFromPostScriptName(CFSTR("Times-Roman"), kATSOptionFlagsDefault);
+        font = ATSFontFindFromPostScriptName(CFSTR("Helvetica"), kATSOptionFlagsDefault); //Times-Roman
       }
     }
     CFRelease(name);
+    
+//#if defined( MAC_OS_X_VERSION_10_5 )
     if (font != kATSFontRefUnspecified) {
-      FSSpec spec;
-      if (ATSFontGetFileSpecification(font, &spec) == noErr) {
-        FSRef fsRef;
-        if (FSpMakeFSRef(&spec, &fsRef) == noErr) {
-          /* Obtain posix path from file system reference */
+      //OLD DEPRECATED CODE
+      //FSSpec spec;
+      //if (ATSFontGetFileSpecification(font, &spec) == noErr) {
+        //FSRef fsRef;
+        //if (FSpMakeFSRef(&spec, &fsRef) == noErr) {
+      FSRef fsRef;
+      if (ATSFontGetFileReference(font, &fsRef) == noErr) {
+          // Obtain posix path from file system reference
           UInt8 buffer[1024];
           if (FSRefMakePath(&fsRef, buffer, sizeof(buffer)) == noErr) {
             path = strdup((const char *)buffer);
           }
-        }
+        //}
       }
     }
+//#endif //defined( MAC_OS_X_VERSION_10_5 )
   }
 
 #elif defined(WIN32)

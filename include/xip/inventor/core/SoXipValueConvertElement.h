@@ -114,7 +114,7 @@
 #include <Inventor/elements/SoAccumulatedElement.h>
 #include <Inventor/SbPList.h>
 
-#include "xipivCore.h"
+#include "xipivcore.h"
 
 class SbXipValueConvertBase; 
 struct So_ValueConvert;

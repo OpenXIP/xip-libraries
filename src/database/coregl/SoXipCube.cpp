@@ -1,3 +1,4 @@
+#include <xip/system/GL/gl.h>
 #include <xip/system/standard.h>
 #include "SoXipCube.h"
 

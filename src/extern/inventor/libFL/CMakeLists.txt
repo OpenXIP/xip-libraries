@@ -9,6 +9,7 @@ project(FL)
 if(UNIX)
   find_package(Freetype)
 
+  #really? why does this belong in the UNIX section...???
   if(NOT FREETYPE_FOUND)
     find_library(FREETYPE_LIBRARY freetype
       "C:\\Program Files\\GnuWin32\\lib")
@@ -80,8 +81,11 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 #--------------------------------------------------------------------
 # Create library
 #
+if(WIN32)
 add_library(FL STATIC ${HEADERS} ${SOURCES})
-
+else(WIN32)
+add_library(FL SHARED ${HEADERS} ${SOURCES})
+endif(WIN32)
 #--------------------------------------------------------------------
 # Link library
 #

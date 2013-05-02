@@ -171,7 +171,6 @@ set(SOURCES
   SoXipThreadManager.cpp
   SoXipThreadQueueSensor.cpp
   SoXipTimerFunction.cpp
-  SoXipTrackballToMouse.cpp
   SoXipTransparentGeometryGroup.cpp
   SoXipTransparentGeometryGroupElement.cpp
   SoXipTrackballToMouse.cpp
@@ -186,12 +185,6 @@ set(SOURCES
   XipStringUtils.cpp
   XipGeomUtils.cpp
   XipInventorUtils.cpp
-  SoXipConvertToTrigger.cpp
-  SoXipConvertMatrixToPlane.cpp
-  SoXipConvertToEnum.cpp
-  SoXipAnchor.cpp
-  SoXipPickRadiusElement.cpp
-  SoXipStringConcatenate.cpp
   SoXipConvertToTrigger.cpp
   SoXipRegistrationTransform.cpp
   SoXipRegistrationElement.cpp
@@ -238,7 +231,9 @@ set_target_properties(xipivcore
 target_link_libraries(xipivcore
 	${XIP_COMMON_LIBRARY}
 	${INVENTOR_LIBRARY}
-	${OPENGL_LIBRARIES})
+	${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
+)
 
 add_dependencies(xipivcore xipcommon)
 	
@@ -262,11 +257,11 @@ if(WIN32)
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)
 
-if(UNIX)
-  install(TARGETS xipivcore
-    NAMES xipinv
-    PATHS /usr/local/lib
-          /usr/lib
-          ENV LD_LIBRARY_PATH
-          ENV DYLD_LIBRARY_PATH)
-endif(UNIX)
+#if(UNIX)
+#  install(TARGETS xipivcore
+#    NAMES xipinv
+#    PATHS /usr/local/lib
+#          /usr/lib
+#          ENV LD_LIBRARY_PATH
+#          ENV DYLD_LIBRARY_PATH)
+#endif(UNIX)

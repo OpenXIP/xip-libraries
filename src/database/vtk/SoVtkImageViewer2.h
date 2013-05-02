@@ -108,11 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
 /*!
  * \file SoVtkImageViewer2.h
- * \brief Declaration of the SoVtkImageViewer2 node
- * \author Francois Huguet, Sylvain Jaume
+ * \brief XIP wrapping of SoVtkImageViewer2
+ * \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
  */
 #ifndef SO_VTK_IMAGEVIEWER2_H
 #define SO_VTK_IMAGEVIEWER2_H
@@ -146,8 +145,8 @@ class myRenderWindow : public vtkWin32OpenGLRenderWindow
 #include "vtkXOpenGLRenderWindow.h"
 class myRenderWindow : public vtkXOpenGLRenderWindow
 #elif DARWIN
-#include "vtkCarbonRenderWindow.h"
-class myRenderWindow : public vtkCarbonRenderWindow
+#include "vtkCocoaRenderWindow.h" //"vtkCarbonRenderWindow.h"
+class myRenderWindow : public vtkCocoaRenderWindow //vtkCarbonRenderWindow
 #endif
 {
 public:

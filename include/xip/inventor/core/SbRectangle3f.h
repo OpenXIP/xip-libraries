@@ -115,7 +115,7 @@
 #include <xip/common/XipCommon.h>
 #include <Inventor/SbLinear.h>
 #include <Inventor/SbBox.h>
-#include "xipivCore.h"
+#include "xipivcore.h"
 
 class XIPIVCORE_API SbRectangle3f
 {

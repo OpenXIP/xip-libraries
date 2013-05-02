@@ -109,6 +109,9 @@
  *  
  */
 
+#include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
+#include <xip/inventor/core/XipStringUtils.h>
 
 #include <xip/inventor/coregl/ShaderEngine.h>
 #include <fstream>
@@ -173,12 +176,20 @@ std::string ShaderEngine::readShaderSourceFile(const char *filename, std::string
     std::ifstream				in;
 	std::string					s, line;
 
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(filename, '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(filename, '\\', '/').getString();
+#endif //WIN32
+
 	// Open the shader file
-	in.open(filename);
+	in.open(fileLocal);
 	if (in.fail())
     {
         errorMsg += "Error in opening file: ";
-        errorMsg.append(filename);
+        errorMsg.append(fileLocal);
         return std::string("");
     }
 
@@ -207,11 +218,18 @@ int ShaderEngine::getSourceFileTimeStamp(const char *filename)
 int ShaderEngine::getSourceFileTimeStamp(const char *filename, std::string& errorMsg)
 {
     struct stat filestat = { 0 };
-    int returncode = stat(filename, &filestat);
-    if (returncode == 0)
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(filename, '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(filename, '\\', '/').getString();
+#endif //WIN32
+    int returncode = stat(fileLocal, &filestat);
+    if (returncode != 0)
     {
         errorMsg += "Error in retrieving timestamp for file: ";
-        errorMsg.append(filename);
+        errorMsg.append(fileLocal);
     }
     return (returncode == 0) ? filestat.st_mtime : 0;
 }

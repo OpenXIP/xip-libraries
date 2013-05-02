@@ -116,7 +116,7 @@
 #include <Inventor/elements/SoViewportRegionElement.h>
 //#include <Inventor/SoViewportRegion.h>
 #include <Inventor/errors/SoDebugError.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 
 #undef DEBUG

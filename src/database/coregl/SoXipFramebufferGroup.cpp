@@ -116,6 +116,8 @@
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 #include "SoXipFramebufferGroup.h"
 
+#include <xip/system/GL/gl.h>
+
 SO_NODE_SOURCE(SoXipFramebufferGroup);
 
 SoXipFramebufferGroup::SoXipFramebufferGroup() {
@@ -359,7 +361,7 @@ void SoXipFramebufferGroup::allocate() {
 	glGenTextures(mNumFrameBuffers, mColorBufferTex);
 
 	int prevTextureBinding;
-	glGetIntegerv(GL_TEXTURE_2D_BINDING_EXT, &prevTextureBinding);
+	glGetIntegerv(GL_TEXTURE_BINDING_2D, &prevTextureBinding);
 
 	// Allocate color buffers
 	for (int i = 0; i < mNumFrameBuffers; i++) {

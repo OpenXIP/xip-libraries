@@ -119,6 +119,11 @@ SoMFString * SoXipCursor::mCursorField = 0;
 
 void SoXipCursor::initClass()
 {
+    //on linux this additional init was required
+    //this could potentially be related to our statically (forced) approach to call the init method of each library on unix systems - we may want to review this... 
+	mCursor = SbString("");
+	mCursorClass = SbString("");
+
 	if (!mCursorField)
 	{
 		mCursorField = (SoMFString*) SoDB::createGlobalField(SbName("XipCursor"), SoMFString::getClassTypeId());

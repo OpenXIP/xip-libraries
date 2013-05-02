@@ -59,7 +59,8 @@
 #define  _SO_NOTIFICATION_
 
 #include <Inventor/SbBasic.h>
-#include <xip/system/standard.h>
+//#include <xip/system/standard.h>
+#include <Inventor/system/SoStandard.h>
 
 class SoBase;
 class SoField;

@@ -109,6 +109,7 @@
  *  
  */
 
+#include <xip/system/GL/gl.h>
 
 #include "SoXipFboAttachColor3D.h"
 #include <xip/inventor/coregl/SoXipDrawBuffersElement.h>

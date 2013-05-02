@@ -27,6 +27,8 @@
 #ifndef SO_XIP_GLSL_SHADER_PROGRAM_ELEMENT_H
 #define SO_XIP_GLSL_SHADER_PROGRAM_ELEMENT_H
 
+#include <xip/system/standard.h>
+
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 #include <xip/inventor/coregl/xipivcoregl.h>
 
@@ -62,8 +64,8 @@ public:
     static int          getDefault() { return 0; }
     static int		getProgramID(SoState * const state, const SbString & prgTag);
     static int		getProgramID(SoState * const state, const char * prgTag);
-    static unsigned __int64		getTimeStamp(SoState * const state, const SbString & prgTag);
-    static unsigned __int64		getTimeStamp(SoState * const state, const char * prgTag);
+    static __uint64		getTimeStamp(SoState * const state, const SbString & prgTag);
+    static __uint64		getTimeStamp(SoState * const state, const char * prgTag);
 
     void                setElt(int temp);
 

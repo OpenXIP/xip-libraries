@@ -9,4 +9,8 @@
  */
 XIPIVCORE_API SbString XipStrExpandEnv(const char *strIn);
 
+XIPIVCORE_API SbString XipReplaceChar(const char * str, const char & searchChar, const char & replChar);
+
 #endif // XIPSTRINGUTILS_H
+
+

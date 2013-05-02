@@ -140,6 +140,10 @@ public:
 	virtual SbPList search(void *item, const SbXipDicomTagKey &key, int searchMode = 0, SbBool searchIntoSub = TRUE);
 
 	virtual SbBool interpret(const SoMFString &in, SoMFString &out);
+
+protected:
+	// Destructor
+	virtual ~SbXipDicomProviderDcmtk();
 };
 
 

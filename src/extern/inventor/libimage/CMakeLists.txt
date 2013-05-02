@@ -33,4 +33,8 @@ set(SOURCES
 #--------------------------------------------------------------------
 # Compile archive
 #
+if(WIN32)
 add_library(image STATIC ${HEADERS} ${SOURCES})
+else(WIN32)
+add_library(image SHARED ${HEADERS} ${SOURCES})
+endif(WIN32)

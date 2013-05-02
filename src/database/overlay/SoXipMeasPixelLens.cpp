@@ -109,6 +109,8 @@
  *  
  */
 
+#include <xip/system/GL/gl.h>
+
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoTranslation.h>
 #include <Inventor/nodes/SoCoordinate3.h>
@@ -124,7 +126,6 @@
 #include <Inventor/SoPickedPoint.h>
 #include <Inventor/elements/SoBBoxModelMatrixElement.h>
 #include <xip/inventor/core/SbXipCoordinateTransform.h>
-#include <xip/system/GL/gl.h>
 #include "SoXipMeasPixelLens.h"
 #include <xip/inventor/overlay/SoXipText2.h>
 #include "SoXipDropShadowElement.h"
@@ -378,3 +379,5 @@ void SoXipMeasPixelLens::getBoundingBox(SoGetBoundingBoxAction *action)
 		SoBaseKit::getBoundingBox(action);
 	}
 }
+
+

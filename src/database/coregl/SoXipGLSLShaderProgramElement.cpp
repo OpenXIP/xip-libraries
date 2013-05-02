@@ -163,22 +163,22 @@ int SoXipGLSLShaderProgramElement::getProgramID(SoState * const state,
     return prgHandle;
 }
 
-unsigned __int64 SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
+__uint64 SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
                                                 const SbString & prgTag)
 {
     ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-    unsigned __int64 time = manager->getTimeStamp(prgTag.getString());
+    __uint64 time = manager->getTimeStamp(prgTag.getString());
 
     return time;
 }
 
-unsigned __int64 SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
+__uint64 SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
                                                 const char * prgTag)
 {
     if (!prgTag) return 0;
 
     ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-    unsigned __int64 time = manager->getTimeStamp(prgTag);
+    __uint64 time = manager->getTimeStamp(prgTag);
 
     return time;
 }

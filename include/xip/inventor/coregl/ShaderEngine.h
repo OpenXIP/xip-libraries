@@ -133,7 +133,7 @@
  *  Description     : Static class for common shader operations
                         such as compile/link/etc.
  *
- *  Copyright © Siemens AG 2006-2007. All Rights Reserved.
+ *  Copyright ï¿½ Siemens AG 2006-2007. All Rights Reserved.
  */
 
 
@@ -144,7 +144,7 @@ public:
     struct ShaderBatch
     {
         GLuint                  handle;
-        unsigned __int64        timestamp;
+        __uint64                timestamp;
         bool                    dirtyTimestamp;
         ShaderSourceComponent   source;
         bool                    dirtySource;
@@ -165,7 +165,7 @@ public:
     {
         SbString            tag;
         GLuint              handle;
-        unsigned __int64    timestamp;
+        __uint64            timestamp;
         bool                dirtyTimestamp;
         ShaderBatch         vertShader;
         ShaderBatch         geomShader;

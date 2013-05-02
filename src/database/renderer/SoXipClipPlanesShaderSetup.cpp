@@ -30,6 +30,8 @@
 
 */
 
+#include <xip/inventor/coregl/SoXipGlowElement.h>
+
 #include "SoXipClipPlanesShaderSetup.h"
 
 #include <Inventor/actions/SoGLRenderAction.h>
@@ -37,7 +39,6 @@
 #include <Inventor/SbLinear.h>
 
 #include <xip/inventor/core/SoXipClipPlaneElement.h>
-#include <xip/inventor/coregl/SoXipGlowElement.h>
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -122,25 +122,17 @@
 #include <xip/inventor/core/SbXipImage.h>
 #include <Inventor/nodes/SoSubNode.h>
 //#include <Inventor/nodes/SoShape.h>
-#include <inventor/fields/SoSFEnum.h>
-#include <inventor/fields/SoSFMatrix.h>
-#include <inventor/fields/SoSFVec3f.h>
-#include <inventor/fields/SoSFVec4f.h>
-#include <inventor/fields/SoSFBool.h>
+#include <Inventor/fields/SoSFEnum.h>
+#include <Inventor/fields/SoSFMatrix.h>
+#include <Inventor/fields/SoSFVec3f.h>
+#include <Inventor/fields/SoSFVec4f.h>
+#include <Inventor/fields/SoSFBool.h>
 #include <Inventor/sensors/SoFieldSensor.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 
-#include <xip/system/standard.h>
-
-#ifdef _CRT_ALLOCATION_DEFINED 
+#include <xip/system/standard.h> 
 #include <xip/system/GL/gl.h>
-#include <xip/system/GL/glext.h>
-#else //only for VC6 compilation
-#include <GL/gl.h>
-#include <GL/glext.h>
-#endif
-
-#include <GL/glu.h>
+#include <xip/system/GL/glu.h>
 
 #ifndef TGS_VERSION
 class SoGLDisplayList;

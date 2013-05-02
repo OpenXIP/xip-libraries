@@ -109,6 +109,7 @@
 *  
 */
 
+#include <xip/inventor/core/XipStringUtils.h>
 #include <xip/inventor/coregl/ShaderSourceComponent.h>
 #include <fstream>
 
@@ -217,16 +218,24 @@ int ShaderSourceComponent::readSourceFile(const char *filename, std::string& err
 	std::ifstream				in;
 	std::string					s, line, func;
     int numL = 0;
+    
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(filename, '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(filename, '\\', '/').getString();
+#endif //WIN32
 
 	// Open the shader file
-	in.open(filename);
+	in.open(fileLocal);
 	if (in.fail())
     {
         errstr.append("Failed to open file");
 		return 0;
     }
 
-    mOrigin = std::string(filename);
+    mOrigin = std::string(fileLocal);
 
     int mode=NONE, oldmode=NONE, numBrackets=0, numParanthesis=0;
 	// Append the source code
@@ -291,7 +300,7 @@ int ShaderSourceComponent::readSourceFile(const char *filename, std::string& err
             if (numBrackets || numParanthesis)
             {
                 errstr.append("Failed to parse file \""
-                    + std::string(filename)
+                    + std::string(fileLocal)
                     + "\", function signatures need to be a single line without { !");
                 return 0; //Having a bracket on the signature line is forbidden
             }

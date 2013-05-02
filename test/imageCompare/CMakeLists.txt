@@ -4,6 +4,12 @@
 project(imageCompare)
 
 #--------------------------------------------------------------------
+# moved from the main CMake file
+# 
+include(${VTK_USE_FILE})
+
+
+#--------------------------------------------------------------------
 # Include directories
 #
 include_directories(../../include)

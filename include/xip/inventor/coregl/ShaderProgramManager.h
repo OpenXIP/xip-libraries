@@ -115,6 +115,7 @@
 
 #include <xip/inventor/coregl/xipivcoregl.h>
 
+#include <xip/system/standard.h>
 
 /**
  *  Component       : XIP
@@ -127,7 +128,7 @@
  *                    for a shader manager that handles
  *                    all compiled and linked shaders.
  *
- *  Copyright © Siemens AG 2006-2007. All Rights Reserved.
+ *  Copyright ï¿½ Siemens AG 2006-2007. All Rights Reserved.
  */
 
 
@@ -137,7 +138,7 @@ class XIPIVCOREGL_API ShaderProgramManager
     public:
         char *              tag;               /**< shader frontend identifier */
         unsigned int        programHandle;     /**< program ID (not shader IDs) */
-        unsigned __int64    timeStamp;         /**< latest compilation */
+        __uint64    timeStamp;         /**< latest compilation */
 #if 0
         // friend class ShaderProgramManager;
 
@@ -151,13 +152,13 @@ public:
     static void initClass();
     static ShaderProgramManager * getInstance();
     /** Manager entry insertion */
-    unsigned int    insertEntry(const char * newTag, unsigned int newID, unsigned __int64 newTimeStamp);
+    unsigned int    insertEntry(const char * newTag, unsigned int newID, __uint64 newTimeStamp);
     /** Manager entry removal */
     unsigned int    removeEntry(const char * iSearchTag);
     /** Extraction of handle */
     unsigned int    getProgramHandle(const char * iSearchTag);
     /** Extraction of timestamp */
-    unsigned __int64 getTimeStamp(const char * iSearchTag);
+    __uint64 getTimeStamp(const char * iSearchTag);
 
     /** Use only if insertEntry/getprogramHandle/getTimeStamp not sufficient !! */
     ShaderEntry *   getEntry(const char * iSearchTag);

@@ -109,8 +109,8 @@
  *  
  */
 #include <xip/system/standard.h>
-#include "SoXipUniformVariable.h"
 #include <xip/inventor/coregl/SoXipGlowElement.h>
+#include "SoXipUniformVariable.h"
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 
 SO_NODE_SOURCE(SoXipUniformVariable);

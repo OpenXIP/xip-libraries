@@ -166,7 +166,10 @@ SoVtkExodusIIWriter::SoVtkExodusIIWriter()
 	//SO_ENGINE_ADD_INPUT(GlobalElementIdArrayName, (""));
 
 	SO_ENGINE_ADD_INPUT(ErrorStatus, (0));
+
+#ifdef WIN32 //WARNING - this is probably more of a VTK version specific thing...
 	ErrorStatus.setValue(aExodusIIWriter->GetErrorStatus());
+#endif //WIN32
 
 	SO_ENGINE_ADD_INPUT(FileName, (""));
 
@@ -224,6 +227,8 @@ void SoVtkExodusIIWriter::evaluate()
 {
 	try
 	{
+        
+#ifdef WIN32 //WARNING - this is probably more of a VTK version specific thing...
 		// Get the input type(s)
 		SoVtkAlgorithmOutput *inputPortPtr = InputConnection.getValue();
 		
@@ -258,7 +263,6 @@ void SoVtkExodusIIWriter::evaluate()
 			mOutputPort->ref();
 			mOutputPort->setPointer( mObject->GetOutputPort() );
 		}
-
 		mObject->GetOrCreateModelMetadata();
 		mOrCreateModelMetadata = new SoVtkObject();
 		mOrCreateModelMetadata->ref();
@@ -267,7 +271,8 @@ void SoVtkExodusIIWriter::evaluate()
 		mOutput = new SoVtkObject();
 		mOutput->ref();
 		mOutput->setPointer( mObject );
-
+#endif //WIN32 
+        
 	}
 	catch(...)
 	{
@@ -318,10 +323,12 @@ void SoVtkExodusIIWriter::inputChanged(SoField * f)
 	//if ( f == &GlobalElementIdArrayName )
 	//SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalElementIdArrayName);
 
+#ifdef WIN32 //WARNING - this is probably more of a VTK version specific thing...
 	// Get the ErrorStatus value
 	if ( f == &ErrorStatus )
 		SO_VTK_SET_FIELD_VALUE( mObject, ErrorStatus);
-
+#endif //WIN32
+    
 	// Get the FileName value
 	if ( f == &FileName )
 		SO_VTK_SET_FIELD_MFSTRING( mObject, FileName);
@@ -380,8 +387,9 @@ void SoVtkExodusIIWriter::reset()
 	//SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalElementIdArrayName);
 
 	// Get the ErrorStatus value
-	
+#ifdef WIN32 //WARNING - this is probably more of a VTK version specific thing...
 		SO_VTK_SET_FIELD_VALUE( mObject, ErrorStatus);
+#endif //WIN32
 
 	// Get the FileName value
 	

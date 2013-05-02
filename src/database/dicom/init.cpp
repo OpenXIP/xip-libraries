@@ -148,41 +148,42 @@ int XIPIVDICOM_API xipivdicom_init()
 
 	xipivcore_init();
 
-	SoXipDataDicom::initClass();
-	SoXipPState::initClass();
-	SoXipDataDicomElement::initClass();
-	SoXipSFDataDicom::initClass();
-	SoXipMFDataDicom::initClass();
-	SoXipSFPState::initClass();
-	SoXipLoadDicom::initClass();
-	SoXipLoadPState::initClass();
-	SoXipSortDicom::initClass();
-	SoXipGetDicom::initClass();
-	SoXipSaveDicom::initClass();
-	SoXipGetDicomReference::initClass();
-	SoXipGetDicomString::initClass();
-	SoXipDicomExaminer::initClass();
-	SoXipDicomExtractSlice::initClass();
-	SoXipVolumeDicom::initClass();
-	SoXipDicomSort3D::initClass();
-	SoXipDicomWindowLevel::initClass();
-	SoXipComposeMFDicom::initClass();
-	SoXipDecomposeMFDicom::initClass();
-    SoXipSwitchMFDataDicom::initClass();
+  SoXipDataDicom::initClass();
+  SoXipPState::initClass();
+  SoXipDataDicomElement::initClass();
+  SoXipSFDataDicom::initClass();
+  SoXipMFDataDicom::initClass();
+  SoXipSFPState::initClass();
+  SoXipLoadDicom::initClass();
+  SoXipLoadPState::initClass();
+  SoXipSortDicom::initClass();
+  SoXipGetDicom::initClass();
+  SoXipSaveDicom::initClass();
+  SoXipGetDicomReference::initClass();
+  SoXipGetDicomString::initClass();
+  SoXipDicomExaminer::initClass();
+  SoXipDicomExtractSlice::initClass();
+  SoXipVolumeDicom::initClass();
+  SoXipDicomSort3D::initClass();
+  SoXipDicomWindowLevel::initClass();
+  SoXipComposeMFDicom::initClass();
+  SoXipDecomposeMFDicom::initClass();
+  SoXipSwitchMFDataDicom::initClass();
 
-	// converters
-	SoXipConvertMFDicomToSFDicom::initClass();
-	SoXipConvertSFDicomToMFDicom::initClass();
-	SoXipConvertMFDicomToMFImage::initClass();
-	SoXipConvertMFDicomToSFImage::initClass();
-	SoXipConvertSFDicomToSFImage::initClass();
+  // converters
+  SoXipConvertMFDicomToSFDicom::initClass();
+  SoXipConvertSFDicomToMFDicom::initClass();
+  SoXipConvertMFDicomToMFImage::initClass();
+  SoXipConvertMFDicomToSFImage::initClass();
+  SoXipConvertSFDicomToSFImage::initClass();
 
-	// data providers
-	SbXipDicomProviderDcmtk::initClass();
+  // data providers
+  SbXipDicomProviderDcmtk::initClass();
 
-	return 1;
+  return 1;
 }
 
+#ifdef WIN32
 
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
@@ -192,3 +193,29 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 	return TRUE;
 }
 
+#else //UNIX
+
+static int initted = FALSE;    // a little protection--probably unnecessary
+void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
+{
+    
+	int err;
+    
+    
+    
+	//xipivdicom_init();
+    
+    
+	//initted = TRUE;
+	//return 0;
+}
+
+void __attribute__ ((destructor)) _fini(void)
+{
+    //printf ("fini print.\n");
+}
+
+//forcing initialization through static member (as workaround)
+//static const bool initMe = xipivdicom_init();
+
+#endif //WIN32

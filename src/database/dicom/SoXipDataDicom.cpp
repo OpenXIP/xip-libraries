@@ -200,7 +200,7 @@ SbBool SoXipDataDicom::createCompatible(const SoXipDataDicom *dataDicomObj)
 
 	if (mProvider)
 	{
-		mFile = mProvider->createCompatible(&dataDicomObj->getDataset(), &dataDicomObj->getMetaInfo());
+		mFile = mProvider->createCompatible(&dataDicomObj->getMetaInfo(), &dataDicomObj->getDataset());
 	}
 
 	return (mFile ? TRUE : FALSE);

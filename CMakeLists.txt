@@ -5,6 +5,11 @@ project(XIP)
 cmake_minimum_required(VERSION 2.6.2)
 
 #--------------------------------------------------------------------
+# Set path to additional CMake modules
+#
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/build/")
+
+#--------------------------------------------------------------------
 # Set build type to Release
 #
 mark_as_advanced(CMAKE_BUILD_TYPE
@@ -182,7 +187,33 @@ endif(WIN32 AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 if(CMAKE_CL_64)
   add_definitions(-DWIN64)
+  add_definitions(-Dx86_64)
 endif(CMAKE_CL_64)
+
+#--------------------------------------------------------------------
+# Check 32/64-bit
+
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+  message(STATUS "Detected 64-bit build!")
+  set(BUILD_64BIT TRUE)
+elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
+  message(STATUS "Detected 32-bit build!")
+  set(BUILD_64BIT FALSE)
+else (CMAKE_SIZEOF_VOID_P EQUAL 8)
+  message(STATUS "Cannot determine 32/64-bit build, please set manually!")
+  set(BUILD_64BIT FALSE)
+endif (CMAKE_SIZEOF_VOID_P EQUAL 8)
+
+option(BUILD_64BIT "Build with 64bit option enabled. This will set the
+  _MIPPS_PTR option." BUILD_64BIT)
+  
+if(BUILD_64BIT)
+  add_definitions(-Dx86_64)
+  add_definitions(-D_MIPS_SZPTR=64)
+  if(APPLE)
+    add_definitions(-D_MIPS_SZINT=32)
+  endif(APPLE)
+endif(BUILD_64BIT)
 
 #--------------------------------------------------------------------
 # Set the debug postfix
@@ -219,6 +250,13 @@ endif(BUILD_DOCUMENTATION)
 find_package(OpenGL REQUIRED)
 
 #--------------------------------------------------------------------
+# Slowly replacing OpenGL libs with GLEW
+#
+find_package(GLEW REQUIRED)
+
+include_directories(${GLEW_INCLUDE_DIR})
+
+#--------------------------------------------------------------------
 # Define the XIP include directories
 #
 set(XIP_INCLUDE_DIRS
@@ -237,6 +275,7 @@ set(XIP_INCLUDE_DIRS
 
 set(INVENTOR_LIBRARY
 	${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
 	optimized xipinv240
  	debug xipinv240${CMAKE_DEBUG_POSTFIX})
 
@@ -353,7 +392,7 @@ if(HAS_VTK)
   set(XIP_LIBRARIES ${XIP_LIBRARIES}
     optimized xipivvtk debug xipivvtk${CMAKE_DEBUG_POSTFIX})
 
-	if(${CMAKE_BINARY_DIR} MATCHES debug)
+  if(${CMAKE_BINARY_DIR} MATCHES debug)
 	
     if(CMAKE_CL_64)
     find_package(VTK REQUIRED PATHS
@@ -367,12 +406,12 @@ if(HAS_VTK)
 
     if(DARWIN)
     find_package(VTK REQUIRED PATHS
-    ${CMAKE_SOURCE_DIR}/../xipext-mac-xcode-debug/VTK/lib/vtk-5.2)
+        ${CMAKE_SOURCE_DIR}/../xipext-mac-xcode-debug/VTK/lib/vtk-5.2)
     endif(DARWIN)
 
     if(UNIX AND NOT DARWIN)
     find_package(VTK REQUIRED PATHS
-    ${CMAKE_SOURCE_DIR}/../xipext-linux-32bit-debug/VTK/lib/vtk-5.2)
+        ${CMAKE_SOURCE_DIR}/../xipext-linux-32bit-debug/VTK/lib/vtk-5.2)
     endif(UNIX AND NOT DARWIN)
 
   else(${CMAKE_BINARY_DIR} MATCHES debug)
@@ -399,66 +438,47 @@ if(HAS_VTK)
 
   endif(${CMAKE_BINARY_DIR} MATCHES debug)
 
-  include(${VTK_USE_FILE})
+  # this should probably not be done here, but only for the vtk dependent packages...
+  # include(${VTK_USE_FILE})
 
+if(WIN32)
 	if(NOT ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION} EQUAL 5.2)
     message(FATAL_ERROR "VTK 5.2 Required. Found VTK version "
 						${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION})
 	endif(NOT ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION} EQUAL 5.2)
+else(WIN32)
+    if(NOT ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION} GREATER 5.1)
+    message(FATAL_ERROR "Minimum VTK 5.2 Required. Found VTK version "
+                        ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION})
+    endif(NOT ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION} GREATER 5.1)
+endif(WIN32)
 
   mark_as_advanced(VTK_GLEXT_FILE VTK_GLXEXT_FILE VTK_WGLEXT_FILE)
-
-  if(NOT VTK_LIBRARIES)
-    set(VTK_LIBRARIES
-    vtkCommon
-    vtkDICOMParser
-    vtkFiltering
-    vtkGenericFiltering
-    vtkGraphics
-    vtkHybrid
-    vtkIO
-    vtkImaging
-    vtkInfovis
-    vtkNetCDF
-    vtkParallel
-    vtkRendering
-    vtkViews
-    vtkVolumeRendering
-    vtkWidgets
-    vtkexoIIc
-    vtkexpat
-    vtkfreetype
-    vtkftgl
-    vtkjpeg
-    vtklibxml2
-    vtkmetaio
-    vtkpng
-    vtksqlite
-    vtksys
-    vtktiff
-    vtkverdict
-    vtkzlib)
-  endif(NOT VTK_LIBRARIES)
-
-endif(HAS_VTK)
 
 #--------------------------------------------------------------------
 # Define the VTK link directories
 #
 if(NOT VTK_LIBRARY_DIRS)
-  set(VTK_LIBRARY_DIRS ${VTK_DIR}/lib/release)
+  set(VTK_LIBRARY_DIRS
+    ${VTK_DIR}/lib/release
+    ${VTK_DIR}/bin)
 endif(NOT VTK_LIBRARY_DIRS)
 
 if(NOT VTK_INCLUDE_DIRS)
   set(VTK_INCLUDE_DIRS ${VTK_DIR}/include/vtk-5.2)
 endif(NOT VTK_INCLUDE_DIRS)
 
-include_directories(${VTK_INCLUDE_DIRS})
-link_directories(${VTK_LIBRARY_DIRS})
+# this should probably not be done here, but only for the vtk dependent packages...
+# include_directories(${VTK_INCLUDE_DIRS})
+# link_directories(${VTK_LIBRARY_DIRS})
+
+endif(HAS_VTK)
 
 #--------------------------------------------------------------------
 # DCMTK variables
 #
+
+if(WIN32)
 if(NOT DCMTK_INCLUDE_DIRS)
   set(DCMTK_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/src/extern/zlib-1.2.3
@@ -489,10 +509,12 @@ if(NOT DCMTK_LIBRARIES)
     optimized ofstd    debug ofstd${CMAKE_DEBUG_POSTFIX}
     optimized dcmdata  debug dcmdata${CMAKE_DEBUG_POSTFIX}
     optimized dcmimgle debug dcmimgle${CMAKE_DEBUG_POSTFIX}
-    optimized dcmimage debug dcmimage${CMAKE_DEBUG_POSTFIX}
+    optimized dcmimage debug dcmimage${CMAKE_DEBUG_POSTFIX}    
     optimized dcmjpeg  debug dcmjpeg${CMAKE_DEBUG_POSTFIX}
-    optimized dcmpstat debug dcmpstat${CMAKE_DEBUG_POSTFIX})
+    optimized dcmpstat debug dcmpstat${CMAKE_DEBUG_POSTFIX}
+    optimized dcmnet   debug dcmnet${CMAKE_DEBUG_POSTFIX})
 endif(NOT DCMTK_LIBRARIES)
+endif(WIN32)
 
 #--------------------------------------------------------------------
 # TINY XML variables
@@ -530,13 +552,24 @@ mark_as_advanced(EXECUTABLE_OUTPUT_PATH LIBRARY_OUTPUT_PATH)
 #
 if(WIN32)
   add_definitions(-DXIPCOMMON_EXPORTS) # for XIPException.h
+else(WIN32)
+  SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
+
+IF("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+#SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fPIC"  )
+#SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_DEBUG} -fPIC"  )
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC"  )
+ENDIF("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64")
+
 endif(WIN32)
 
 #--------------------------------------------------------------------
 # Disable deprecation warnings for standard C functions
 #
 if(UNIX AND NOT APPLE)
-  add_definitions(-DGL_EXT_timer_query)
+  add_definitions(-D___GL_EXT_timer_query)
+  # current fix for compiling on linux to enable include of stdint.h in glext.h 
+  add_definitions(-D__SCO__)
 endif(UNIX AND NOT APPLE)
 
 if(CMAKE_COMPILER_2005)
@@ -705,6 +738,7 @@ endif(INSTALL_XIP_QT_UI_VIEWER_EXAMPLES)
 #
 option(INSTALL_STANDALONE_VIEWER_RELEASE "Copy StandaloneViewer.exe to the install directory" OFF)
 mark_as_advanced(INSTALL_STANDALONE_VIEWER_RELEASE)
+
 
 if(INSTALL_STANDALONE_VIEWER_RELEASE)
 

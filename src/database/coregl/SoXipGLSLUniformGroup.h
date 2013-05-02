@@ -113,6 +113,7 @@
 #ifndef SO_XIP_GLSL_UNIFORM_GROUP_H
 #define SO_XIP_GLSL_UNIFORM_GROUP_H
 
+#include<xip/system/standard.h>
 
 #include <Inventor/nodes/SoGroup.h>
 #include <Inventor/fields/SoMFString.h>
@@ -155,7 +156,7 @@ private:
 
     unsigned int mNodeId;
     int mNumPrograms;
-    unsigned __int64 * mProgramTimeStamps;
+    __uint64 * mProgramTimeStamps;
     bool mNeedsUpdate;
 };
 

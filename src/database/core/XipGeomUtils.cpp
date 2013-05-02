@@ -112,6 +112,7 @@
 #include <xip/common/XipDebug.h>
 #include <xip/inventor/core/SbRectangle3f.h>
 #include <limits>
+#include <cmath>
 
 using namespace std;
 

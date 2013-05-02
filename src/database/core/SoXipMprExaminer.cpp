@@ -917,9 +917,12 @@ void SoXipMprExaminer::timer(SoSensor *sensor)
 		trans.setTranslate(step);
 		mMprModelMatrix *= trans;
 
-		if (!mMprMatrixField->getValue().equals(mMprModelMatrix, XIP_FLT_EPSILON))
+		if (mMprMatrixField)
 		{
-			mMprMatrixField->setValue(mMprModelMatrix);
+			if (!mMprMatrixField->getValue().equals(mMprModelMatrix, XIP_FLT_EPSILON))
+			{
+				mMprMatrixField->setValue(mMprModelMatrix);
+			}
 		}
 
 		if (mMprCenterField)

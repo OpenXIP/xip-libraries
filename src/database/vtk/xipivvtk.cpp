@@ -282,7 +282,8 @@ int xipivvtk_init()
 	return 1;
 }
 
-#if WIN32
+#ifdef WIN32
+
 BOOL APIENTRY DllMain(HANDLE, DWORD reason, LPVOID)
 {
 	if ( reason == DLL_PROCESS_ATTACH )
@@ -290,5 +291,31 @@ BOOL APIENTRY DllMain(HANDLE, DWORD reason, LPVOID)
 
 	return TRUE;
 }
-#endif // WIN32
 
+#else //UNIX
+
+static int initted = FALSE;    // a little protection--probably unnecessary
+void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
+{
+
+	int err;
+
+
+
+	xipivvtk_init();
+
+
+	initted = TRUE;
+	//return 0;
+}
+
+void __attribute__ ((destructor)) _fini(void)
+{
+   //printf ("fini print.\n");
+}
+
+//forcing initialization through static member (as workaround)
+static const bool initMe = xipivvtk_init();
+
+
+#endif //WIN32

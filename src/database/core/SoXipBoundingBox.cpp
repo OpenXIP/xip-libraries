@@ -148,14 +148,13 @@ face6 ->   1, 5, 6, 2
 
 ****************************************/
 
-
+#include <xip/system/GL/gl.h>
 #include "SoXipBoundingBox.h"
 #include <Inventor/SoPrimitiveVertex.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/elements/SoViewVolumeElement.h>
 #include <Inventor/elements/SoModelMatrixElement.h>
-#include <xip/system/GL/gl.h>
 #include <math.h>
 #include <vector>
 

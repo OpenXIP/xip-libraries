@@ -62,7 +62,8 @@
 #include <Inventor/misc/SoBasic.h>
 #include <Inventor/SbDict.h>
 #include <Inventor/SbString.h>
-#include <xip/system/standard.h>
+//#include <xip/system/standard.h>
+#include <Inventor/system/SoStandard.h>
 
 class SoBase;
 

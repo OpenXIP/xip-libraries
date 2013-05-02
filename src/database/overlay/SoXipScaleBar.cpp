@@ -2,7 +2,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include <xip/system/standard.h>
+#include <xip/system/GL/gl.h>
+//#include <xip/system/GL/glu.h>
+//#include <xip/system/standard.h>
+#include <Inventor/system/SoStandard.h>
 #include "SoXipScaleBar.h"
 #include <Inventor/errors/SoError.h>
 #include <Inventor/nodes/SoSeparator.h>
@@ -18,8 +21,6 @@
 #include <Inventor/elements/SoViewportRegionElement.h>
 #include <Inventor/elements/SoViewVolumeElement.h>
 #include "SoXipDropShadowElement.h"
-#include <xip/system/GL/gl.h>
-#include <xip/system/GL/glu.h>
 #include <xip/inventor/overlay/SoXipText2.h>
 #include <algorithm>
 

@@ -255,6 +255,10 @@ class INVENTOR_API SoInput {
     // was ... C-api: name=readUInt32
     //     but typedef makes this redundant.
     //SbBool		read(uint32_t	    &l);
+    SbBool		read(long	    &i);
+#if !WIN64
+    SbBool		read(long long  &i);
+#endif //!WIN64
     // C-api: name=readFloat
     SbBool		read(float	    &f);
     // C-api: name=readDbl

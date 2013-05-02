@@ -109,14 +109,14 @@
 *  
 */
 
+#include <xip/inventor/coregl/SoXipGlowElement.h>
+#include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 
 #include "SoXipGLSLUniformGroup.h"
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/actions/SoCallbackAction.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/misc/SoChildList.h>
-#include <xip/inventor/coregl/SoXipGLOWElement.h>
-#include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 
 
 #define GLSL_MAX_NUM_SHADERS 256
@@ -134,7 +134,7 @@ SoXipGLSLUniformGroup::SoXipGLSLUniformGroup(void)
     SO_NODE_ADD_FIELD(prgTags,(""));
 
     mNumPrograms = 0;
-    mProgramTimeStamps = (unsigned __int64*)calloc(GLSL_MAX_NUM_SHADERS, sizeof(unsigned __int64));
+    mProgramTimeStamps = (__uint64*)calloc(GLSL_MAX_NUM_SHADERS, sizeof(__uint64));
     mNodeId = 0;
     mNeedsUpdate = true;
 }
@@ -218,7 +218,7 @@ void SoXipGLSLUniformGroup::groupUpdate(SoAction * action)
             children->traverse(action);
         }
 #else
-        unsigned __int64 currTime = SoXipGLSLShaderProgramElement::getTimeStamp(action->getState(), prgTags[i].getString());
+        __uint64 currTime = SoXipGLSLShaderProgramElement::getTimeStamp(action->getState(), prgTags[i].getString());
         if (currTime != mProgramTimeStamps[i] || mNeedsUpdate)
         {
             SoXipGLSLShaderProgramElement::set(action->getState(), prgTags[i].getString());

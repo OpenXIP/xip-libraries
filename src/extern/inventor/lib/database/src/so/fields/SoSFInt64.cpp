@@ -1,6 +1,9 @@
 // FIXME: add header, add __int64 support to SoInput and SoOutput
 
 #include <Inventor/fields/SoSFInt64.h>
+#include <stdlib.h>
+
+#include <xip/system/standard.h>
 
 //////////////////////////////////////////////////////////////////////////////
 //

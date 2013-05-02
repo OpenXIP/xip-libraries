@@ -155,9 +155,9 @@ void SoXipGetCameraProperties::GLRender(SoGLRenderAction* action)
         camDir.setValue( mCamDir );
 
     SbViewportRegion vpr = SoViewportRegionElement::get( action->getState() );
-    SbVec2s or = vpr.getViewportOriginPixels();
+    SbVec2s orig = vpr.getViewportOriginPixels();
     SbVec2s wh = vpr.getViewportSizePixels();
-    SbVec4f vp = SbVec4f( (float)or[0], (float)or[1], (float)wh[0], (float)wh[1] );
+    SbVec4f vp = SbVec4f( (float)orig[0], (float)orig[1], (float)wh[0], (float)wh[1] );
 
     mViewport = vp;
     if (mViewport != viewport.getValue())

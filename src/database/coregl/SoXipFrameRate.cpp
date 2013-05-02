@@ -113,39 +113,32 @@
 
 SO_NODE_SOURCE(SoXipFrameRate);
 
-SoXipFrameRate::SoXipFrameRate() {
-
-#ifdef WIN32
-	SO_NODE_CONSTRUCTOR(SoXipFrameRate);
-
+SoXipFrameRate::SoXipFrameRate()
+{
+    SO_NODE_CONSTRUCTOR(SoXipFrameRate);
+    
 	SO_NODE_ADD_FIELD(frameRate, (0));
 	SO_NODE_ADD_FIELD(printOutput, (false));
-
+    
+#ifdef WIN32
 	last.QuadPart = 0;
-
 	QueryPerformanceFrequency(&freq);
 #else
-//#ifdef linux
-	SO_NODE_CONSTRUCTOR(SoXipFrameRate);
-
-	SO_NODE_ADD_FIELD(frameRate, (0));
-	SO_NODE_ADD_FIELD(printOutput, (false));
-
 	//set the time value to zero
 	last.tv_sec=0;
 	last.tv_usec=0;
-//#endif
-#endif /* WIN32 */
+#endif // WIN32
 }
 
 void SoXipFrameRate::initClass() {
 	SO_NODE_INIT_CLASS(SoXipFrameRate, SoNode, "SoNode");
 }
 
-void SoXipFrameRate::GLRender(SoGLRenderAction* action) {
+void SoXipFrameRate::GLRender(SoGLRenderAction* action)
+{
+    glFinish();
+    
 #ifdef WIN32
-	glFinish();
-
 	LARGE_INTEGER now;
 
 	QueryPerformanceCounter(&now);
@@ -157,17 +150,14 @@ void SoXipFrameRate::GLRender(SoGLRenderAction* action) {
 	if (printOutput.getValue())
 		SoDebugError::postInfo(__FUNCTION__, "FPS: %f", fps);
 	last = now;
-#else 
-#ifdef linux
-
-        glFinish();
-
+#else
 	struct timeval now;
 
 	gettimeofday(&now, &tz);
 	
-	
-	float fps = 1 / ( ((int64_t)now.tv_sec + (int64_t)now.tv_usec /(1000*1000)) - ((int64_t)last.tv_sec + (int64_t)last.tv_usec /(1000*1000)));
+	//TODO: check if this is correct...
+	float fps = 1.0f / (float( ((int64_t)now.tv_sec * (1000*1000) + (int64_t)now.tv_usec) -
+                             ((int64_t)last.tv_sec * (1000*1000) + (int64_t)last.tv_usec)) / (1000.0f * 1000.0f));
 
 	frameRate.setValue(fps);
 
@@ -176,7 +166,6 @@ void SoXipFrameRate::GLRender(SoGLRenderAction* action) {
 
 	last.tv_sec= now.tv_sec;
 	last.tv_usec=now.tv_usec;
-#endif
 #endif
 }
 

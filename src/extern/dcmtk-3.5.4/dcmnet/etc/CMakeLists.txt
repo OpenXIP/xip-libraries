@@ -1,2 +1,2 @@
 # declare installation files
-INSTALL_FILES(${INSTALL_ETCDIR} .cfg)
+INSTALL_FILES(${INSTALL_ETCDIR}/${dir} .cfg)

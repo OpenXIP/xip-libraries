@@ -21,7 +21,11 @@ endif(WIN32)
 add_subdirectory(TinyXMLcpp-2.5.3)
 
 if(HAS_DCMTK)
+if(WIN32)
   add_subdirectory(dcmtk-3.5.4)
+else(WIN32)
+  find_package(DCMTK)
+endif(WIN32)
 endif(HAS_DCMTK)
 
 if(BUILD_INVENTOR)

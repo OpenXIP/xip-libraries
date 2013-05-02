@@ -124,12 +124,14 @@
 
 #ifdef __APPLE__
 
-#define OPENGL_GL_H  <OpenGL/gl.h>
+//#define OPENGL_GL_H  <OpenGL/gl.h>
+#define OPENGL_GL_H  <GL/glew.h>
 #define OPENGL_GLU_H <OpenGL/glu.h>
 
 #else   // not __APPLE__
 
-#define OPENGL_GL_H  <GL/gl.h>
+//#define OPENGL_GL_H  <GL/gl.h>
+#define OPENGL_GL_H  <GL/glew.h>
 #define OPENGL_GLU_H <GL/glu.h>
 
 #endif	// __APPLE__
@@ -145,7 +147,7 @@
 
 #elif defined(__APPLE__)
 
-#define IV_DEFAULT_FONTNAME "Times-Roman"
+#define IV_DEFAULT_FONTNAME "Helvetica"
 
 #else
 

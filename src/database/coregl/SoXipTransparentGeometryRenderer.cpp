@@ -109,6 +109,9 @@
 *  
 */
 #include <xip/system/standard.h>
+#include <xip/inventor/coregl/SoXipGlowElement.h>
+#include <xip/inventor/coregl/SoXipFboElement.h>
+
 #include "SoXipTransparentGeometryRenderer.h"
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/actions/SoCallbackAction.h>
@@ -118,8 +121,6 @@
 #include <xip/inventor/core/SoXipTransparentGeometryGroupElement.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 #include <Inventor/misc/SoChildList.h>
-#include <xip/inventor/coregl/SoXipGlowElement.h>
-#include <xip/inventor/coregl/SoXipFboElement.h>
 
 SO_NODE_SOURCE(SoXipTransparentGeometryRenderer);
 

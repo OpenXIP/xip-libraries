@@ -130,7 +130,7 @@
  *                      "compile only what must be compiled"
  *                      TODO! See non-member function xip_mshaders_tokensize(...)
  *
- *  Copyright © Siemens AG 2006-2007. All Rights Reserved.
+ *  Copyright ï¿½ Siemens AG 2006-2007. All Rights Reserved.
  */
 
 
@@ -252,7 +252,7 @@ protected:
 
 private:
 
-    void    addDefineLineEntry(std::string &key, LineEntry &entry);
+    void    addDefineLineEntry(const std::string &key, const ShaderSourceComponent::LineEntry &entry);
 
     void    updateLibraryUniforms(SoGLRenderAction *action);
 

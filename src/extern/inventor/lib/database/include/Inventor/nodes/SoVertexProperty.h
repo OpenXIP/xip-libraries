@@ -136,6 +136,14 @@ class INVENTOR_API SoVertexProperty : public SoNode {
 //
 //////////////////////////////////////////////////////////////////////////////
 
+#ifndef WINGDIAPI
+#define WINGDIAPI
+#endif //WINGDIAPI
+
+#ifndef APIENTRY
+#define APIENTRY
+#endif //APIENTRY
+
 #include <Inventor/elements/SoShapeStyleElement.h>
 
 typedef WINGDIAPI void APIENTRY SoVPCacheFunc(const char *const);

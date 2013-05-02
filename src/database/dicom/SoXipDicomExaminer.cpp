@@ -127,7 +127,7 @@
 #include <xip/inventor/core/SbXipImage.h>
 #include <xip/inventor/core/SoXipSFDataImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>
-#include <xip/inventor/dicom/SoXipSFDatadicom.h>
+#include <xip/inventor/dicom/SoXipSFDataDicom.h>
 #include <xip/inventor/core/SoXipDataImageElement.h>
 #include <xip/inventor/dicom/SoXipDataDicomElement.h>
 #include <xip/inventor/dicom/SoXipDataDicom.h>

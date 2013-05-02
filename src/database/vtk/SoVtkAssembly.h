@@ -108,12 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
 /*!
  * \file SoVtkAssembly.h
- * \author Francois Huguet, Sylvain Jaume
- * \brief SoVtkAssembly class description.
- *
+ * \brief XIP wrapping of vtkAssembly
+ * \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
  */
 
 #ifndef SO_VTK_ASSEMBLY_H_
@@ -157,7 +155,7 @@ public :
 	vtkAssembly * getAssembly() const;
 	
 	/// Get directly all the children of the assembly.
-#ifdef linux
+#if (defined linux) || defined (__APPLE__)
 	void updateChildren();
 #else // linux
 	void SoVtkAssembly::updateChildren();

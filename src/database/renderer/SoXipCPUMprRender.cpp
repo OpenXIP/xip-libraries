@@ -1,5 +1,7 @@
-#include "SoXipCPUMprRender.h"
+
 #include <xip/inventor/coregl/SoXipGlowElement.h>
+
+#include "SoXipCPUMprRender.h"
 #include <xip/inventor/core/SoXipDataImage.h>
 #include <xip/inventor/core/SbXipImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>

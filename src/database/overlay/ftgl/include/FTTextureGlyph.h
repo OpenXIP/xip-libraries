@@ -52,7 +52,7 @@ class FTGL_EXPORT FTTextureGlyph : public FTGlyph
          * Reset the currently active texture to zero to get into a known state before
          * drawing a string. This is to get round possible threading issues.
          */
-#ifdef linux
+#if defined(linux) || defined(__APPLE__)
         static void ResetActiveTexture(){ activeTextureID = 0;}
 #else
         static void FTTextureGlyph::ResetActiveTexture(){ activeTextureID = 0;}

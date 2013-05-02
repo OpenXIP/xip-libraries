@@ -57,8 +57,8 @@
 #include <Inventor/elements/SoGLTextureEnabledElement.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/misc/SoState.h>
-#include OPENGL_GLU_H
 #include OPENGL_GL_H
+#include OPENGL_GLU_H
 
 #ifdef WIN32
 #include <malloc.h>

@@ -3,7 +3,7 @@
 #include <xip/common/XipCommon.h>
 #include <Inventor/SbLinear.h>
 #include <vector>
-#include "xipivCore.h"
+#include "xipivcore.h"
 
 #define XIP_FLT_EPSILON	0.0001f
 

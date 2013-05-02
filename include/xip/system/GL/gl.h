@@ -161,16 +161,19 @@
 #if defined(WIN32)
 
 #include <windows.h>
-#include <xip/system/GL/standard/gl.h>
+//#include <xip/system/GL/standard/gl.h>
+#include <GL/glew.h>
 
 #elif defined(linux)
 
 //#include <xip/system/GL/standard/gl.h>
-#include <GL/gl.h>
+//#include <GL/gl.h>
+#include <GL/glew.h>
 
 #elif defined(DARWIN)
 
-#include <OpenGL/gl.h>
+//#include <OpenGL/gl.h>
+#include <GL/glew.h>
 
 #endif // Platform selection
 

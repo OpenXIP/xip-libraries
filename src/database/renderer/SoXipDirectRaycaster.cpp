@@ -67,11 +67,12 @@
   a direct reference to an external depth texture.
 */
 
+#include <xip/inventor/coregl/SoXipGlowElement.h>
+
 #include "SoXipDirectRaycaster.h"
 
 #include <xip/utils/XipBasicOperators.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
-#include <xip/inventor/coregl/SoXipGlowElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 #include <xip/inventor/core/SoXipClipPlaneElement.h>
 

@@ -29,7 +29,7 @@
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/fields/SoSFInt32.h>
 #include <Inventor/fields/SoMFInt32.h>
-#include <inventor/fields/SoSFVec3f.h>
+#include <Inventor/fields/SoSFVec3f.h>
 #include <Inventor/fields/SoSFShort.h>
 #include <Inventor/fields/SoSFFloat.h>
 #include <Inventor/fields/SoSFBool.h>

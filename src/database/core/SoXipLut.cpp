@@ -932,10 +932,19 @@ void SoXipLut::loadFromFile(void *buffer)
 		return;
 
 	SbString fileName = XipStrExpandEnv(fileIn.getValue().getString());
-	std::ifstream input(fileName.getString(), std::ios::in);
+	
+#ifdef WIN32
+    //assuming everything is done using the bad backslashes... so we convert all forward slashes to those
+    const char * fileLocal = XipReplaceChar(fileName.getString(), '/', '\\').getString();
+#else //UNIX
+    //assuming the other way around since we need forward slashes now...
+    const char * fileLocal = XipReplaceChar(fileName.getString(), '\\', '/').getString();
+#endif //WIN32
+
+	std::ifstream input(fileLocal, std::ios::in);
 	if (!input)
 	{
-		SoError::post("Unable to open file '%s'", fileIn.getValue().getString());
+		SoError::post("Unable to open file '%s'", fileLocal); //fileIn.getValue().getString()
 		return;
 	}
 

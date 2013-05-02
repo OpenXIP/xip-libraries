@@ -147,9 +147,9 @@ SoXipPerformance::SoXipPerformance(void) : SoGroup()
 	mFrameTimer.reset();
 	
 	mLastSwapCount = 0;
-	#ifdef WIN32
+#ifdef WIN32
 	QueryPerformanceFrequency((LARGE_INTEGER*) &mPerfFreq);
-	#endif
+#endif
 	mSwapBuffersInfo = (SoMFUInt32 *) SoDB::getGlobalField("SwapBuffersInfo");
 	
 	resetCounters();
@@ -249,31 +249,26 @@ void SoXipPerformance::GLRender(SoGLRenderAction * action)
 				updateValue(TIME_MAIN_LOOP, val[4]);
 				updateValue(TIME_PROCESS_QUEUES, val[5]);
 
-				#ifdef WIN32
+#ifdef WIN32
 				// Accumulate time between calls to SwapBuffers
 				unsigned __int64 swapCount = *((unsigned __int64*)&val[2]);
 				unsigned int musec = (1000000 * (swapCount - mLastSwapCount)) / mPerfFreq;
-				#elif linux
-					// Accumulate time between calls to SwapBuffers
-					uint64_t swapCount = *((uint64_t *)&val[2]);
-					unsigned int musec = (1000000 * (swapCount - mLastSwapCount));    
-				#else
-					// Accumulate time between calls to SwapBuffers
-					uint64_t swapCount = *((uint64_t *)&val[2]);
-					unsigned int musec = (1000000 * (swapCount - mLastSwapCount));    
-//				#endif
-				#endif /* WIN32 */
+#else
+                // Accumulate time between calls to SwapBuffers
+                uint64_t swapCount = *((uint64_t *)&val[2]);
+                unsigned int musec = (1000000 * (swapCount - mLastSwapCount));
+#endif // WIN32
 
 				updateValue(TIME_SWAPEND_TO_SWAPEND, musec);
 				if (mLastSwapCount == swapCount)
 				{
-					#ifdef WIN32
+#ifdef WIN32
 					OutputDebugStringA("     SoXipPerformance::GLRender()   called twice since last SwapBuffers!\n");
-					#else
+#else
 					// #ifdef linux
 					printf("     SoXipPerformance::GLRender()   called twice since last SwapBuffers!\n");
 					// #endif
-					#endif
+#endif
 					SoDebugError::postInfo("SoXipPerformance::GLRender", "called twice since last SwapBuffers!\n");		
 				}
 				mLastSwapCount = swapCount;

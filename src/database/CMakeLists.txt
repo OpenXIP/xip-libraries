@@ -15,13 +15,6 @@ if(WIN32)
   add_subdirectory(remote) # FIXME: issues with ppc architecture
 endif(WIN32)
 
-#--------------------------------------------------------------------
-# Build the DICOM module that wraps the DCMTK libraries
-#
-if(HAS_DCMTK)
-  add_subdirectory(dicom)
-  add_subdirectory(overlay)
-endif(HAS_DCMTK)
 
 if(UNIX AND HAS_DCMTK)
 
@@ -32,6 +25,7 @@ if(UNIX AND HAS_DCMTK)
   endif(NOT DCMTK_DIR)
 
   find_library(DCMTK_dcmdata_LIBRARY dcmdata
+    ${DCMTK_DIR}/lib
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib)
 
@@ -83,6 +77,14 @@ if(UNIX AND HAS_DCMTK)
     ${DCMTK_dcmimgle_INCLUDE_DIR})
 
 endif(UNIX AND HAS_DCMTK)
+
+#--------------------------------------------------------------------
+# Build the DICOM module that wraps the DCMTK libraries
+#
+if(HAS_DCMTK)
+  add_subdirectory(dicom)
+  add_subdirectory(overlay)
+endif(HAS_DCMTK)
 
 #--------------------------------------------------------------------
 # Build the Insight Toolkit module

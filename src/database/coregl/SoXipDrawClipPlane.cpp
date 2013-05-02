@@ -111,7 +111,7 @@
 
 
 #include "SoXipDrawClipPlane.h"
-#include <GL/gl.h>
+#include <xip/system/GL/gl.h>
 
 
 SO_NODE_SOURCE(SoXipDrawClipPlane);

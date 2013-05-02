@@ -109,12 +109,14 @@
  *  
  */
 
+#include <xip/system/GL/gl.h>
+
 #include "SoXipMprIntersectionPlanes.h"
 #include <Inventor/nodes/SoSeparator.h>
 #include <xip/inventor/core/SoXipMprPlaneElement.h>
 #include "SoXipIntersectionPlane.h"
 #include <xip/inventor/core/XipGeomUtils.h>
-#include <xip/system/GL/gl.h>
+
 
 
 SO_NODE_SOURCE(SoXipMprIntersectionPlanes);
@@ -240,3 +242,5 @@ void SoXipMprIntersectionPlanes::GLRender(SoGLRenderAction * action)
 	if (lightEnabled)
 		glEnable(GL_LIGHTING);
 }
+
+

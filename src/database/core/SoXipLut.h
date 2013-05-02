@@ -125,7 +125,7 @@
 #include <Inventor/fields/SoMFColor.h>
 #include <Inventor/fields/SoMFFloat.h>
 #include <Inventor/actions/SoActions.h>
-#include <xip/inventor/core/SoXIPSFDataImage.h>
+#include <xip/inventor/core/SoXipSFDataImage.h>
 
 class SoFieldSensor;
 class SoXipDataImage;

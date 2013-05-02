@@ -59,6 +59,7 @@
 #include <Inventor/SbLinear.h>
 #include <Inventor/nodes/SoSubNode.h>
 
+#include OPENGL_GL_H
 #include OPENGL_GLU_H
 
 class SoCube;
