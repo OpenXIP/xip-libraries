@@ -1,4 +1,5 @@
 # Modified by Sylvain Jaume <sylvain.jaume@siemens.com> 2008
+project(dcmpstat)
 
 project(dcmpstat)
 

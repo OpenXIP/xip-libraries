@@ -132,7 +132,7 @@
 #include <Inventor/elements/SoViewportRegionElement.h>
 #include <Inventor/elements/SoViewVolumeElement.h>
 #include <Inventor/elements/SoModelMatrixElement.h>
-#include <xip/inventor/core/SoXipActiveViewportElement.h>
+#include <xip/inventor/core/SoXipActiveViewportElement.h> // SoXipRenderNodeElement
 #include <Inventor/SoPickedPoint.h>
 #include <xip/inventor/core/SoXipCursor.h>
 #include <xip/inventor/core/XipGeomUtils.h>
@@ -141,7 +141,9 @@
 #include "SoXipViewportBorder.h"
 
 
-#define ROT_BUFF_SIZE 3
+const int ROT_BUFF_SIZE = 3;
+//quality value texture mapping.Valid range is from 0.0 to 1.0
+const float TEXTURE_QUALITY = 0.249;
 
 
 SO_KIT_SOURCE(SoXipExaminer);
@@ -172,22 +174,23 @@ SoXipExaminer::SoXipExaminer()
 
 	mParentId = 0;
 	mSceneCamera = 0;
+	mSceneCameraId = 0;
 
 	// Initialize children catalog and add entries to it:
 	//
-	//     cameraSwitch  complexity
-	//          |
-	//      +--------+
-	//      |        |
-	//    ortho perspective
+	//     cameraSwitch      borderSwitch     complexity
+	//          |                 |
+	//      +--------+        annotation
+	//      |        |            |
+	//    ortho perspective   borderNode
 	//
 	SO_KIT_ADD_CATALOG_ENTRY(cameraSwitch, SoSwitch, FALSE, this, \0 , FALSE);
-	SO_KIT_ADD_CATALOG_ENTRY(annotation, SoAnnotation, FALSE, this, \0 , FALSE);
+	SO_KIT_ADD_CATALOG_ENTRY(borderSwitch, SoSwitch, FALSE, this, \0 , FALSE);
 	SO_KIT_ADD_CATALOG_ENTRY(complexity, SoComplexity, FALSE, this, \0 , FALSE);
 	SO_KIT_ADD_CATALOG_ENTRY(orthoCamera, SoOrthographicCamera, FALSE, cameraSwitch, \0 , FALSE);
 	SO_KIT_ADD_CATALOG_ENTRY(perspectiveCamera, SoPerspectiveCamera, FALSE, cameraSwitch, \0 , FALSE);
-	SO_KIT_ADD_CATALOG_ENTRY(borderSwitch, SoSwitch, FALSE, annotation, \0 , FALSE);
-	SO_KIT_ADD_CATALOG_ENTRY(borderNode, SoXipViewportBorder, FALSE, borderSwitch, \0 , FALSE);
+	SO_KIT_ADD_CATALOG_ENTRY(annotation, SoAnnotation, FALSE, borderSwitch, \0 , FALSE);
+	SO_KIT_ADD_CATALOG_ENTRY(borderNode, SoXipViewportBorder, FALSE, annotation, \0 , FALSE);
 
 	SO_KIT_INIT_INSTANCE();
 
@@ -263,6 +266,11 @@ SoXipExaminer::SoXipExaminer()
 
 	SoSwitch *cameraSwitch = (SoSwitch*) getAnyPart("cameraSwitch", TRUE);
 	cameraSwitch->whichChild.setValue(perspective.getValue());
+
+	mAutoSpinRotation.setValue(SbVec3f(0, 0, 1), 0);
+	mAnimRotationStart.setValue(SbVec3f(0, 0, 1), 0);
+	mAnimRotationStop.setValue(SbVec3f(0, 0, 1), 0);
+	mAnimSlerp = 0.f;
 }
 
 
@@ -400,11 +408,11 @@ void SoXipExaminer::inputChanged(SoField *which)
 		case ELEVATION_END: rot = SbRotation(SbVec3f(0, 1, 0),  -fM_PI / 2.f) * SbRotation(SbVec3f(0, 0, 1),  fM_PI / 2.f); break;
 		}
 
-		rotateCam(rot * oldRot.inverse());
+		rotateCam(rot * oldRot.inverse(), TRUE);
 	}
 	else if (which == &rotateCamera)
 	{
-		rotateCam(rotateCamera.getValue());
+		rotateCam(rotateCamera.getValue(), TRUE);
 	}
 	else if (which == &scaleHeight)
 	{
@@ -414,16 +422,81 @@ void SoXipExaminer::inputChanged(SoField *which)
 
 void SoXipExaminer::timer(SoSensor *sensor)
 {
-	if (mode.getValue() == ROTATE)
+	if (getCamera()->getNodeId() != mSceneCameraId || !autoSpin.getValue())
 	{
+		// somebody else is working with our camera, stop all animations
+		setInteractive(FALSE);
+		mTimerSensor->unschedule();
+		mAutoSpinRotation.setValue(SbVec3f(0, 0, 1), 0);
+		mAnimRotationStart.setValue(SbVec3f(0, 0, 1), 0);
+		mAnimRotationStop.setValue(SbVec3f(0, 0, 1), 0);
+
+		return;
+	}
+
+
+	if (!mAnimRotationStart.equals(mAnimRotationStop, 0.001f))
+	{
+		// animation
+		
+		mAnimSlerp += (1.1f - mAnimSlerp) * 0.2f;
+
+		if (mAnimSlerp >= 1.f)
+			mAnimSlerp = 1.f;
+
+		SbRotation rot = SbRotation::slerp(mAnimRotationStart, mAnimRotationStop, mAnimSlerp);
+
+		// get center of rotation
+		SbRotation camRot = getCamera()->orientation.getValue();
+		float radius = getCamera()->focalDistance.getValue();
+		SbMatrix m;
+		m = camRot;
+		SbVec3f dir(-m[2][0], -m[2][1], -m[2][2]);
+		SbVec3f center = getCamera()->position.getValue() + dir * radius;
+
+		// apply new rotation to the camera
+		camRot = rot;// * camRot;
+		getCamera()->orientation = camRot;
+
+		// reposition camera to look at pt of interest
+		m = camRot;
+		dir.setValue(-m[2][0], -m[2][1], -m[2][2]);
+		getCamera()->position = center - dir * radius;
+
+		if (mAnimSlerp >= 1.f)
+		{
+			mAutoSpinRotation.setValue(SbVec3f(0, 0, 1), 0);
+			mAnimRotationStart.setValue(SbVec3f(0, 0, 1), 0);
+			mAnimRotationStop.setValue(SbVec3f(0, 0, 1), 0);
+
+			// stop timer if user switched mode
+			if (mTimerSensor->isScheduled())
+			{
+				setInteractive(FALSE);
+				mTimerSensor->unschedule();
+			}
+		}
+	}
+	else if ((mode.getValue() == ROTATE) && (fabs(mAutoSpinRotation.getValue()[3]) > 0.001f))
+	{
+		// auto rotate
 		rotateCam(mAutoSpinRotation);
 	}
 	else
 	{
+		mAutoSpinRotation.setValue(SbVec3f(0, 0, 1), 0);
+		mAnimRotationStart.setValue(SbVec3f(0, 0, 1), 0);
+		mAnimRotationStop.setValue(SbVec3f(0, 0, 1), 0);
+
 		// stop timer if user switched mode
 		if (mTimerSensor->isScheduled())
+		{
+			setInteractive(FALSE);
 			mTimerSensor->unschedule();
+		}
 	}
+
+	mSceneCameraId = getCamera()->getNodeId();
 }
 
 
@@ -623,9 +696,9 @@ void SoXipExaminer::updateCursor()
 						SoXipCursor::setCursor("SEL_PAN");
 					break;
 	case ROTATE:	if (mDragStartMouseBorder)
-						SoXipCursor::setCursor("ROTATE_NORMAL_VR");
+						SoXipCursor::setCursor("ROTATE_NORMAL_VR");//SoXipCursor::ROTATE_INPLANE
 					else
-						SoXipCursor::setCursor("SEL_ROTATE_VR");
+						SoXipCursor::setCursor("SEL_ROTATE_VR");//SoXipCursor::SEL_ROTATE
 					break;
 	case ROTATE_PLANE:
 					SoXipCursor::setCursor("ROTATE_CLIP");
@@ -661,7 +734,7 @@ void SoXipExaminer::handleEvent(SoHandleEventAction *action)
 		SbVec3f step;
 		SbMatrix trans;
 		SbPlane p = plane.getValue();
-		step = delta * p.getNormal();
+		step = static_cast<float>(delta) * p.getNormal();
 		trans.setTranslate(step);
 		p.transform(trans);
 		plane.setValue(p);
@@ -752,6 +825,12 @@ void SoXipExaminer::handleEvent(SoHandleEventAction *action)
 			mRotFirstIndex = 0;
 			mRotLastIndex = -1;
 
+			mAutoSpinRotation.setValue(SbVec3f(0, 0, 1), 0);
+			mAnimRotationStart.setValue(SbVec3f(0, 0, 1), 0);
+			mAnimRotationStop.setValue(SbVec3f(0, 0, 1), 0);
+			mAnimSlerp = 0.f;
+
+
 			// set focal plane as projection plane
 			SbMatrix m;
 			m = getCamera()->orientation.getValue();
@@ -769,9 +848,12 @@ void SoXipExaminer::handleEvent(SoHandleEventAction *action)
 			mDragStartCameraPos = getCamera()->position.getValue();
 			mRotLastNormPos = mLastMousePos - SbVec2f(0.5, 0.5);
 
-			SbPlaneProjector cutPlaneProj = *mPlaneProj;
-			cutPlaneProj.setPlane(plane.getValue());
-			mDragStartMouseOnPlane = cutPlaneProj.project(mLastMousePos);
+			if (plane.getValue().getNormal().dot(mViewVolume.getProjectionDirection()))
+			{
+				SbPlaneProjector cutPlaneProj = *mPlaneProj;
+				cutPlaneProj.setPlane(plane.getValue());
+				mDragStartMouseOnPlane = cutPlaneProj.project(mLastMousePos);
+			}
 
 			if (rotatePinpoint.getValue() && (mode.getValue() == ROTATE_PLANE))
 			{
@@ -789,10 +871,10 @@ void SoXipExaminer::handleEvent(SoHandleEventAction *action)
 
 			switch (mode.getValue())
 			{
-			case PANZOOM:	mDragStartMouseBorder = !XipGeomUtils::isVecInObjectSpace(SbVec3f((mLastMousePos[0] * 2) - 1, (mLastMousePos[1] * 2) - 1, 0), 0.6f); break;
-			case ROTATE:	mDragStartMouseBorder = (mLastMousePos[0] > 0.9f) || (mLastMousePos[1] > 0.9f) || (mLastMousePos[0] < 0.1f) || (mLastMousePos[1] < 0.1f); break;
-			default:
-				mDragStartMouseBorder = FALSE;
+				case PANZOOM:	mDragStartMouseBorder = (mLastMousePos[0] > 0.6f) || (mLastMousePos[1] > 0.6f) || (mLastMousePos[0] < 0.4f) || (mLastMousePos[1] < 0.4f); break;
+				case ROTATE:	mDragStartMouseBorder = (mLastMousePos[0] > 0.9f) || (mLastMousePos[1] > 0.9f) || (mLastMousePos[0] < 0.1f) || (mLastMousePos[1] < 0.1f); break;
+				default:
+					mDragStartMouseBorder = FALSE;
 			}
 
 			action->setGrabber(this);
@@ -808,11 +890,8 @@ void SoXipExaminer::handleEvent(SoHandleEventAction *action)
 		{
 			handled = TRUE;
 
-			SoComplexity *complexityPtr = (SoComplexity*) getAnyPart("complexity", TRUE);
-			if (complexityPtr->value.getValue() != 0.249)
-			{
-				complexityPtr->value.setValue(0.249f);
-			}			
+			setInteractive(TRUE);
+	
 			
 			if ((e->getTime() - mLastHandleEventTime).getValue() > 0.25)
 			{
@@ -869,16 +948,27 @@ void SoXipExaminer::handleEvent(SoHandleEventAction *action)
 			}
 		}
 	}
+	//else if (SoMouseButtonEvent::isButtonReleaseEvent(e, mDragMouseButton) && (action->getGrabber() == this)) 
 	else if (SO_MOUSE_RELEASE_EVENT(e, ANY) && (action->getGrabber() == this)) 
 	{
 		mShowPlaneRotationPoint = FALSE;
 		action->releaseGrabber();
 		handled = TRUE;
 
+		if (mLastMousePos == mMouseDownPos)
+		{
+			// resend this event if user releases button without movement
+			// (needed for orientation cube to react)
+			SoHandleEventAction ha(action->getViewportRegion());
+			ha.setEvent(action->getEvent());
+			ha.apply(action->getNodeAppliedTo());
+		}
+
 		if (pointTo.getValue() && (mLastMousePos == mMouseDownPos))
 		{
 			// release button position equals push button position: scroll to cursor
 			scrollToCursor(action);
+			setInteractive(FALSE);
 			SoComplexity *complexityPtr = (SoComplexity*) getAnyPart("complexity", TRUE);
 			complexityPtr->value.setValue(0.5);
 			complexityPtr->textureQuality.setValue(0.5);
@@ -916,10 +1006,12 @@ void SoXipExaminer::handleEvent(SoHandleEventAction *action)
 				//averageAngle /= 2.0f;
 
 				mAutoSpinRotation.setValue(averageAxis, averageAngle);
+				mSceneCameraId = getCamera()->getNodeId();
 				mTimerSensor->schedule();
 			}
 			else
 			{
+				setInteractive(FALSE);
 				SoComplexity *complexityPtr = (SoComplexity*) getAnyPart("complexity", TRUE);
 				complexityPtr->value.setValue(0.5);
 				complexityPtr->textureQuality.setValue(0.5);
@@ -981,24 +1073,53 @@ void SoXipExaminer::scaleCam(float scale)
 }
 
 
-void SoXipExaminer::rotateCam(const SbRotation &rot)
+void SoXipExaminer::rotateCam(const SbRotation &rot, SbBool enableAnimation)
 {
-	// get center of rotation
-	SbRotation camRot = getCamera()->orientation.getValue();
-	float radius = getCamera()->focalDistance.getValue();
-	SbMatrix m;
-	m = camRot;
-	SbVec3f dir(-m[2][0], -m[2][1], -m[2][2]);
-	SbVec3f center = getCamera()->position.getValue() + dir * radius;
+	if (autoSpin.getValue() && enableAnimation)
+	{
+		mAutoSpinRotation.setValue(SbVec3f(0, 0, 1), 0);
+		mAnimRotationStart = getCamera()->orientation.getValue();
+		mAnimRotationStop  = rot * mAnimRotationStart;
 
-	// apply new rotation to the camera
-	camRot = rot * camRot;
-	getCamera()->orientation = camRot;
+		SbVec3f axis;
+		float radians;
+		rot.getValue(axis, radians);
 
-	// reposition camera to look at pt of interest
-	m = camRot;
-	dir.setValue(-m[2][0], -m[2][1], -m[2][2]);
-	getCamera()->position = center - dir * radius;
+		if (radians < 0.001f)
+		{
+			mAutoSpinRotation.setValue(SbVec3f(0, 0, 1), 0);
+			mAnimRotationStart.setValue(SbVec3f(0, 0, 1), 0);
+			mAnimRotationStop.setValue(SbVec3f(0, 0, 1), 0);
+		}
+		else
+		{
+			mAnimSlerp = 0.f;
+			setInteractive(TRUE);
+			mSceneCameraId = getCamera()->getNodeId();
+
+			if (!mTimerSensor->isScheduled())
+				mTimerSensor->schedule();
+		}
+	}
+	else
+	{
+		// get center of rotation
+		SbRotation camRot = getCamera()->orientation.getValue();
+		float radius = getCamera()->focalDistance.getValue();
+		SbMatrix m;
+		m = camRot;
+		SbVec3f dir(-m[2][0], -m[2][1], -m[2][2]);
+		SbVec3f center = getCamera()->position.getValue() + dir * radius;
+
+		// apply new rotation to the camera
+		camRot = rot * camRot;
+		getCamera()->orientation = camRot;
+
+		// reposition camera to look at pt of interest
+		m = camRot;
+		dir.setValue(-m[2][0], -m[2][1], -m[2][2]);
+		getCamera()->position = center - dir * radius;
+	}
 }
 
 
@@ -1039,8 +1160,11 @@ void SoXipExaminer::spinNormCam(const SbVec2f pos)
 //! used to rotate the plane
 // --------------------------------------------------------------------------
 void SoXipExaminer::rotatePlane(const SbRotation &rot, const SbVec3f &center)
+//void SoXipExaminer::rotatePlane(const SbRotation &rot)
 {
 	// change the plane equation by transforming it with a rotation matrix
+	//SbVec3f center;
+	//viewBoundingBox.getValue().multVecMatrix(SbVec3f(0.5f, 0.5f, 0.5f), center);
 	SbPlane tmpPlane(plane.getValue());
 
 	SbMatrix tmpMat;
@@ -1240,3 +1364,19 @@ void SoXipExaminer::scrollToCursor(SoHandleEventAction *action)
 		}
 	}
 }
+
+
+void SoXipExaminer::setInteractive(SbBool on)
+{
+	SoComplexity *complexityPtr = (SoComplexity*) getAnyPart("complexity", TRUE);
+	if (!complexityPtr) 
+		return;
+
+	float c = on ? 0.249f : 0.5f;
+	if (complexityPtr->value.getValue() != c)
+	{
+		complexityPtr->value.setValue(c);
+	}			
+}
+
+

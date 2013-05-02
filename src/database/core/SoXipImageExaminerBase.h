@@ -120,6 +120,7 @@
 #include <Inventor/fields/SoSFNode.h>
 #include <Inventor/fields/SoSFTrigger.h>
 #include <Inventor/fields/SoSFEnum.h>
+#include <Inventor/fields/SoSFMatrix.h>
 #include <Inventor/sensors/SoFieldSensor.h>
 #include <Inventor/SbViewportRegion.h>
 #include <Inventor/projectors/SbPlaneProjector.h>
@@ -145,6 +146,12 @@ public:
 		SHIFTSCROLL
 	};
 
+	enum ScrollScopeType
+	{
+		ALL_IMAGES,
+		CURRENT_IMAGE
+	};
+
 	SoXipImageExaminerBase();
 
 	SoSFBool					drawImage;	
@@ -157,6 +164,8 @@ public:
 	SoSFTrigger					viewAll;
 	SoSFFloat					viewAllScale;
 	SoSFEnum					mode;
+	SoSFMatrix					plane;
+	SoSFEnum					scrollScope;
 
 	static void initClass();
 
@@ -181,6 +190,8 @@ protected:
 	void increaseSliceIndex( int count );
 	void decreaseSliceIndex( int count );
 
+	void updatePlane();
+
 	virtual SoOrthographicCamera* getCamera();
 	virtual void updateCamera();
 	virtual void adjustCamera( SoGLRenderAction* action, const SbMatrix& model );
@@ -202,6 +213,7 @@ protected:
 	SbBool						mViewAll;
 	SbBool						mPan;
 	SbBool						mAnimate;
+	int							mShiftOrScroll;
 	SbVec2f						mAnimateStep;
 	SbVec2f						mAnimatePosition;
 	int							mAnimateChange;
@@ -220,3 +232,4 @@ private:
 };
 
 #endif	// SOXIPIMAGEEXAMINERBASE_H
+

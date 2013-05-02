@@ -179,6 +179,7 @@ SoXipOverlayManager::SoXipOverlayManager()
 	SO_NODE_ADD_FIELD(            add,               () );
 	SO_NODE_ADD_FIELD(         remove,               () );
 	SO_NODE_ADD_FIELD(          clear,               () );
+	SO_NODE_ADD_FIELD(		     node,				(0)	);
 	shapeLabel.setNum(0);
 
 	mMenuEnabledSensor = new SoFieldSensor( menuEnabledSensorCB, this );
@@ -434,6 +435,8 @@ SoXipOverlayManager::handleEvent( SoHandleEventAction* action )
 					shape->setLabel( shapeLabel );
 					shape->setRank( nextRank );
 					shape->setCaption( shapeCaption.getValue() );
+
+					node.setValue(shape);
 
 					SoXipKit::handleEvent( action );
 				}
@@ -909,6 +912,7 @@ SoXipOverlayManager::removeOverlays()
 void
 SoXipOverlayManager::clearOverlays()
 {
+	node.setValue(0);
 	((SoXipShapeList *) mShapeList)->removeAllChildren();
 }
 

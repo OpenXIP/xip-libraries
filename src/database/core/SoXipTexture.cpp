@@ -114,7 +114,6 @@
 #include <xip/inventor/core/SbXipImageAdaptor.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 
-//#include <xip/common/XipTypes.h>
 
 #include <Inventor/elements/SoGLTextureEnabledElement.h>
 #include <Inventor/elements/SoTextureQualityElement.h>
@@ -122,6 +121,7 @@
 #include <Inventor/elements/SoGLCacheContextElement.h>
 #endif
 #include <Inventor/SbBox.h>
+
 #include "SoXipTexture.h"
 
 #ifdef linux
@@ -172,7 +172,8 @@ SO_NODE_SOURCE(SoXipTexture);
 
 void SoXipTexture::initClass()
 {
-	SO_NODE_INIT_CLASS(SoXipTexture, SoShape, "Shape");
+	//SO_NODE_INIT_CLASS(SoXipTexture, SoShape, "Shape");
+    SO_NODE_INIT_CLASS(SoXipTexture, SoNode, "Node");
 	SO_ENABLE(SoGLRenderAction,	SoGLTextureEnabledElement);
 	SO_ENABLE(SoGLRenderAction,	SoXipMultiTextureElement);
 }
@@ -276,9 +277,11 @@ SoXipTexture::SoXipTexture()
 	SO_NODE_ADD_FIELD(internalFormat, (RGBA8));
 	SO_NODE_ADD_FIELD(padDimensions, (FALSE));
 	SO_NODE_ADD_FIELD(textureSize, (SbVec3f(-1, -1, -1)));
+    SO_NODE_ADD_FIELD(modelMatrix, (SbMatrix::identity()));
 	SO_NODE_ADD_FIELD(usePBO, (FALSE));
 	SO_NODE_ADD_FIELD(forceNPOT, (FALSE));
-	SO_NODE_ADD_FIELD(autoScaleRange, (TRUE));
+    SO_NODE_ADD_FIELD(autoScaleRange, (TRUE));
+
 
 	// Set up sensors
 	SoField* fields[] = {&wrapS, &wrapT, &wrapR, &filter, &borderColor};
@@ -294,7 +297,8 @@ SoXipTexture::SoXipTexture()
 
 	SoField* criticalFields[] = {
 	    &internalFormat, &overrideDefault, &padDimensions, &autoScaleRange
-	};
+    };
+	
 	mNumCriticalFields = sizeof(criticalFields) / sizeof(criticalFields[0]);
 	mCriticalSensors = new SoFieldSensor*[mNumCriticalFields];
 
@@ -308,6 +312,7 @@ SoXipTexture::SoXipTexture()
 	mImageHasChanged = true;
 	mParamHasChanged = false;
 	mTextureSize = SbXipImageDimensions(-1, -1, -1);
+    mTextureModelMatrix = SbMatrix::identity();
 	mTextureDimension = 0;
 	mImageData = NULL;
 	mTextureDataType = 0;
@@ -347,6 +352,7 @@ SoXipTexture::~SoXipTexture()
 	delete [] mCriticalSensors;
 }
 
+#if 0 //SoXipTexture IS NO LONGER A SHAPE (Stefan Lindholm - 2009.8.19)
 /**
  *	Compute the bounding box, taking the model matrix into account
  */
@@ -375,6 +381,7 @@ void SoXipTexture::computeBBox(SoAction *action, SbBox3f &box, SbVec3f &center)
 		center = (box.getMax() - box.getMin()) / 2;
 	}
 }
+#endif
 
 /**
  *	Computes the next power-of-two
@@ -454,6 +461,8 @@ bool SoXipTexture::validateImage()
 
 	mNewTextureSize = calcTextureSize(mNewImageData->get()->getDimAllocated());
 
+    mNewTextureModelMatrix = mNewImageData->get()->getModelMatrix();
+
 	mNewTextureDimension = getTextureDimension(mNewTextureSize);
 	// is the dimension correct ?
 	if (mNewTextureDimension == 0)
@@ -515,8 +524,14 @@ bool SoXipTexture::validateImage()
 	SbVec3f texSize = SbVec3f(mNewTextureSize[0], mNewTextureSize[1], mNewTextureSize[2]);
 	if(texSize != textureSize.getValue())
 	{
-	textureSize.setValue(texSize);
+	    textureSize.setValue(texSize);
 	}
+
+    if (mNewTextureModelMatrix != modelMatrix.getValue())
+    {
+        modelMatrix.setValue(mNewTextureModelMatrix);
+    }
+
         // getBitsStored() returns bits used, so it can be 12!!!
 	mPBOBufSize = texSize[0] * texSize[1] * texSize[2] *
             mNewImageData->get()->getComponents() *
@@ -572,6 +587,7 @@ bool SoXipTexture::compareImage()
 	return mGLTexture == 0 ||
 		mNewTextureInternalFormat != mTextureInternalFormat ||
 		mNewTextureSize != mTextureSize ||
+		mNewTextureModelMatrix != mTextureModelMatrix ||
 		mNewImageData->get()->getComponents() != mImageData->get()->getComponents() ||
 		mNewImageData->get()->getType() != mImageData->get()->getType();
 }
@@ -593,6 +609,8 @@ void SoXipTexture::updateImage()
 		mImageData->ref();
 
 		mTextureSize = mNewTextureSize;
+
+		mTextureModelMatrix = mNewTextureModelMatrix;
 
 		mTextureDimension = mNewTextureDimension;
 
@@ -753,8 +771,8 @@ void SoXipTexture::updateTexture()
 
 	bool didScale = false;
 	bool didBias = false;
-	if (dataTypeInfo[mTextureDataType].scaleOption != SoXipTexture::NONE &&
-	    autoScaleRange.getValue())
+	if (dataTypeInfo[mTextureDataType].scaleOption != SoXipTexture::NONE
+        &&  autoScaleRange.getValue())
 	{
 		// we need to scale the components of the texture
 	        int bitsUsed = std::min(dataTypeInfo[mTextureDataType].bits, image->getBitsStored());
@@ -1052,7 +1070,7 @@ void SoXipTexture::GLRender(SoGLRenderAction *action)
 			// if cache context changes, a new texture needs to be allocated
 			if (mGLTexture)
 			{
-				if (mGLTexture->getContext() != action->getCacheContext())
+				if (static_cast<unsigned int>(mGLTexture->getContext()) != action->getCacheContext())
 				{
 					mImageHasChanged = true;
 					imageNeedsRealloc = true;

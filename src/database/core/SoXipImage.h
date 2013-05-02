@@ -112,63 +112,68 @@
 #ifndef SOXIPIMAGE_H
 #define SOXIPIMAGE_H
 
-#include <Inventor/nodes/SoShape.h>
+#include <Inventor/nodekits/SoBaseKit.h>
 #include <xip/inventor/core/SoXipSFDataImage.h>
 
+class SoSFEnum;
 class SoFieldSensor;
-class SbXipImage;
-class SoXipDataImage;
-class SoXipTexture;
-class SoMatrixTransform;
 
-class SoXipImage : public SoShape
+
+class SoXipImage : public SoBaseKit
 {
-	SO_NODE_HEADER( SoXipImage );
+    SO_KIT_HEADER(SoXipImage);
 
 public:
-	/// Constructor
-	SoXipImage();
+    /// Constructor
+    SoXipImage();
 
-	/// Image to be displayed
-	SoXipSFDataImage	image;
+    /// Open Inventor class initialization
+    static void initClass();
 
-	/// Open Inventor class initialization
-	static void initClass();
+    /// Image to be displayed
+    SoXipSFDataImage	image;
 
-protected:
-	/// Destructor
-	~SoXipImage();
-
-protected:
-	/// Overrides for drawing primitives
-	virtual void generatePrimitives(SoAction *action);
-
-	/// Computes the bounding box encapsulating the complete volume.
-	virtual void computeBBox(SoAction *action, SbBox3f &box, SbVec3f &center);
-
-	virtual void GLRender(SoGLRenderAction * action);
-	virtual void callback(SoCallbackAction * action);
-	virtual void pick(SoPickAction * action);
-	virtual void rayPick (SoRayPickAction *action);
-	virtual void handleEvent (SoHandleEventAction *action);
-	virtual void getBoundingBox(SoGetBoundingBoxAction *action);
-
-	virtual void imageChanged();
-	virtual void updateTexture(SoAction *action);
-	virtual void loadTexture(SbXipImage *img, SbXipImage *lut);
+public:
+    /// Node kit catalog
+    SO_KIT_CATALOG_ENTRY_HEADER(top);
+    SO_KIT_CATALOG_ENTRY_HEADER(applylut);
+    SO_KIT_CATALOG_ENTRY_HEADER(texture);
+    SO_KIT_CATALOG_ENTRY_HEADER(matrix);
+    SO_KIT_CATALOG_ENTRY_HEADER(quad);
 
 protected:
-	static float		halfDimension[3];
-	SoXipTexture		*mTexture;
-	SoMatrixTransform	*mMatrixTransform;
-	SoXipDataImage*mCurrentImage;
-	uint32_t			mImageId;
-	uint32_t			mLutId;
-	SoFieldSensor		*mImageSensor;
+    /// Destructor
+    virtual ~SoXipImage();
+
+protected:
+    /// GL render call
+    virtual void GLRender(SoGLRenderAction * action);
+    virtual void getBoundingBox(SoGetBoundingBoxAction * action);
+
+protected:
+    bool connectFields(SoNode * fromNode, SbName fromField,
+                       SoNode * toNode, SbName toField);
+    bool connectField(SoNode * fromNode, SbName fromField,
+                      SoField * toField, bool invert = false);
+    bool setField(SoNode * node, SbName field, const char * value);
+
+    SoNode *    mApplyLut;
+    SoNode *    mTexture;
+    SoNode *    mMatrix;
+    SoNode *    mQuad;
+    SoSFEnum *  mTextureMode;
+    bool        mImageDirty;
+    bool        mHasLut;
 
 private:
-	static void fieldSensorCBFunc(void *user, SoSensor *sensor);
+    static void fieldSensorCBFunc(void *user, SoSensor *sensor);
+    void imageChanged();
 
+    SoFieldSensor * mImageSensor;
+
+    bool setKitConnections();
+    bool mConnectionsSet;
 };
 
 #endif // SOXIPIMAGE_H
+

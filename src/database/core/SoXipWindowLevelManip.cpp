@@ -118,9 +118,9 @@
 #include <Inventor/elements/SoComplexityElement.h>
 #include <xip/inventor/core/SoXipWindowLevelElement.h>
 
-//#ifndef min
-//#define min(a, b)  (((a) < (b)) ? (a) : (b)) 
-//#endif
+const unsigned int MAX_SCREENRESOLUTION = 1024;
+const unsigned int STEP = 5;
+const float DBCLICK_TIME = .3f;
 
 SO_NODE_SOURCE(SoXipWindowLevelManip);
 
@@ -128,6 +128,8 @@ SO_NODE_SOURCE(SoXipWindowLevelManip);
 SoXipWindowLevelManip::SoXipWindowLevelManip()
 {
 	mComplexity = SoComplexityElement::getDefault();
+
+	mLastEventTime = SbTime::zero();
 
 	SO_NODE_CONSTRUCTOR(SoXipWindowLevelManip);
 
@@ -171,7 +173,7 @@ void SoXipWindowLevelManip::handleEvent(SoHandleEventAction *action)
 
 	if (SO_KEY_PRESS_EVENT(e, PAD_MULTIPLY))
 	{
-		float w = -10. / 2048.f;
+		float w = - (float)STEP / MAX_SCREENRESOLUTION;
 		w += window.getValue();
 		if (w < 0.f) w = 0.f;
 		if (window.getValue() != w)
@@ -181,7 +183,7 @@ void SoXipWindowLevelManip::handleEvent(SoHandleEventAction *action)
 	}
 	else if (SO_KEY_PRESS_EVENT(e, PAD_SUBTRACT))
 	{
-		float w = 10. / 2048.f;
+		float w = (float)STEP / MAX_SCREENRESOLUTION;
 		w += window.getValue();
 		if (w > 1.f) w = 1.f;
 		if (window.getValue() != w)
@@ -191,7 +193,7 @@ void SoXipWindowLevelManip::handleEvent(SoHandleEventAction *action)
 	}
 	else if (SO_KEY_PRESS_EVENT(e, NUM_LOCK))
 	{
-		float l = -10.f / 2048.f;
+		float l = - (float)STEP / MAX_SCREENRESOLUTION;
 		l += level.getValue();
 		if (l < 0.f) l = 0.f;
 		if (level.getValue() != l)
@@ -201,7 +203,7 @@ void SoXipWindowLevelManip::handleEvent(SoHandleEventAction *action)
 	}
 	else if (SO_KEY_PRESS_EVENT(e, PAD_DIVIDE))
 	{
-		float l = 10.f / 2048.f;
+		float l = (float)STEP / MAX_SCREENRESOLUTION;
 		l += level.getValue();
 		if (l > 1.f) l = 1.f;
 		if (level.getValue() != l)
@@ -209,9 +211,9 @@ void SoXipWindowLevelManip::handleEvent(SoHandleEventAction *action)
 
 		handled = TRUE;
 	}
-	else if (SoMouseButtonEvent::isButtonPressEvent(e, (SoMouseButtonEvent::Button) mouse.getValue()))
+	else if ( SoMouseButtonEvent::isButtonPressEvent( e, (SoMouseButtonEvent::Button)mouse.getValue() ) )
 	{
-		if (!action->getGrabber() && !e->wasShiftDown() && !e->wasCtrlDown())
+		if ( !action->getGrabber() && !e->wasShiftDown() && !e->wasCtrlDown() && !e->wasAltDown() )
 		{
 			action->setGrabber(this);
 			handled = TRUE;
@@ -219,8 +221,13 @@ void SoXipWindowLevelManip::handleEvent(SoHandleEventAction *action)
 			mLastMousePosition = e->getPosition();
 
 			mComplexity = (SoComplexityElement::getDefault() - 0.01f) / 2.f;
+
+			if ( (e->getTime() - mLastEventTime).getValue() < DBCLICK_TIME )
+				autoWindowing.touch();
+
+			mLastEventTime = e->getTime();
 		}
-	}	
+	}
 	else if (e->isOfType(SoLocation2Event::getClassTypeId()))
 	{
 		if (action->getGrabber() == this)
@@ -230,8 +237,8 @@ void SoXipWindowLevelManip::handleEvent(SoHandleEventAction *action)
 			SbVec2s diff = e->getPosition() - mLastMousePosition;
 			mLastMousePosition = e->getPosition();
 
-			float w = diff[0] / 2048.f;
-			float l = diff[1] / 2048.f;
+			float w = (float)diff[0] / ( 2 * MAX_SCREENRESOLUTION );
+			float l = (float)diff[1] / ( 2 * MAX_SCREENRESOLUTION );
 
 			l += level.getValue();
 			w += window.getValue();

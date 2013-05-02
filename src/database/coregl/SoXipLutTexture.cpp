@@ -133,6 +133,7 @@ SoXipLutTexture::SoXipLutTexture()
 	SO_NODE_ADD_FIELD(samplingRate, (1.0f));
 	SO_NODE_ADD_FIELD(useComplexity, (FALSE));
 	SO_NODE_ADD_FIELD(textureSize, (SbVec2s(0, 0)));
+    SO_NODE_ADD_FIELD(nodeUpdated, ());
 
 	mTextureId = 0;
     mLutId = 0;
@@ -330,6 +331,9 @@ void	SoXipLutTexture::updateTexture(SbXipImage *image)
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, mTexSize[0], mTexSize[1], GL_RGBA, GL_FLOAT, mBuf);	
 	// Restore unpack alignment
 	glPixelStorei(GL_UNPACK_ALIGNMENT, align);
+
+    //Indicate that everything has updated
+    nodeUpdated.touch();
 }
 
 

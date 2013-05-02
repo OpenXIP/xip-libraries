@@ -1,0 +1,56 @@
+<BasicViewerConfig>
+    <presets>
+        <preset name="Bones" groupBox="grpMprPresets">
+            <node name="mprWindowLevelManip">
+                <field name="window" value="0.2" />
+                <field name="level" value="0.5" />
+            </node>
+        </preset>
+        <preset name="Preset 2" groupBox="grpMprPresets">
+            <node name="mprWindowLevelManip">
+                <field name="window" value="0.8" />
+                <field name="level" value="0.2" />
+            </node>
+        </preset>
+        <preset name="Preset 3" groupBox="grpMprPresets">
+            <node name="mprWindowLevelManip">
+                <field name="window" value="0.5" />
+                <field name="level" value="0.5" />
+            </node>
+        </preset>
+        <preset name="Preset 1" groupBox="grpLutPresets">
+            <node name="vrLut">
+                <field name="colorTop" value="1.0 1.0 1.0" />
+                <field name="colorMiddle" value="0.5 0.5 0.5" />
+                <field name="colorBottom" value="0.0 0.0 0.0" />
+                <field name="rampCenter" value="0.16" />
+                <field name="rampWidth" value="0.22" />
+            </node>
+        </preset>
+        <preset name="Preset 2" groupBox="grpLutPresets">
+            <node name="vrLut">
+                <field name="colorTop" value="1.0 1.0 1.0" />
+                <field name="colorMiddle" value="0.62 0.62 0.62" />
+                <field name="colorBottom" value="0.0 0.0 0.0" />
+                <field name="rampCenter" value="0.5" />
+                <field name="rampWidth" value="0.4" />
+            </node>
+        </preset>
+        <preset name="Preset 3" groupBox="grpLutPresets">
+            <node name="vrLut">
+                <field name="colorTop" value="0.0 0.0 1.0" />
+                <field name="colorMiddle" value="0.0 1.0 0.0" />
+                <field name="colorBottom" value="1.0 0.0 0.0" />
+                <field name="rampCenter" value="0.5" />
+                <field name="rampWidth" value="0.4" />
+            </node>
+        </preset>
+    </presets>
+    <dicomStrings>
+        <dicomString name="Modality" group="8" element="96" />
+        <dicomString name="Rows" group="40" element="16" />
+        <dicomString name="Columns" group="40" element="17" />
+        <dicomString name="Bits Allocated" group="40" element="256" />
+        <dicomString name="Bits Stored" group="40" element="257" />
+    </dicomStrings>
+</BasicViewerConfig>

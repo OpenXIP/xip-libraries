@@ -108,6 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #include "SoItkProcessObject.h"
 #include "SoItkImageSource.h"
@@ -256,8 +257,10 @@
 #include "SoItkGrayscaleConnectedClosingImageFilter.h"
 #include "SoItkWatershedImageFilter.h"
 #include "SoItkSTAPLEImageFilter.h"
+#ifdef BUILD_WITH_ITK_PATENTED
 #include "SoItkSimpleFuzzyConnectednessImageFilterBase.h"
 #include "SoItkSimpleFuzzyConnectednessScalarImageFilter.h"
+#endif
 #include "SoItkGrayscaleMorphologicalOpeningImageFilter.h"
 //#include "SoItkLazyEdgeDetectionImageFilter3D.h"
 #include "SoItkGrayscaleGrindPeakImageFilter.h"
@@ -459,8 +462,10 @@ void itkWrapInit()
 	SoItkGrayscaleConnectedClosingImageFilter::initClass();
 	SoItkWatershedImageFilter::initClass();
 	SoItkSTAPLEImageFilter::initClass();
+#ifdef BUILD_WITH_ITK_PATENTED
 	SoItkSimpleFuzzyConnectednessImageFilterBase::initClass();
 	SoItkSimpleFuzzyConnectednessScalarImageFilter::initClass();
+#endif
 	SoItkGrayscaleMorphologicalOpeningImageFilter::initClass();
 	//SoItkLazyEdgeDetectionImageFilter3D::initClass();
 	SoItkGrayscaleGrindPeakImageFilter::initClass();

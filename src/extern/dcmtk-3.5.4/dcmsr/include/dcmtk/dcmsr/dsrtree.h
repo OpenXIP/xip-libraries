@@ -166,10 +166,12 @@ class DSRTree
      *  Please note that not only the specified node but also all of its child nodes are
      *  removed from the tree and then deleted.  The cursor is set automatically to a new
      *  valid position.
+	 ** @param  deleteNode     flag which specify the node to be deleted or not.
+	 *                         if false, it is the user responsibility to delete it
      ** @return ID of the node which became the current one after deletion, 0 if an error
      *          occured or the tree is now empty.
      */
-    virtual size_t removeNode();
+    virtual size_t removeNode(const bool deleteNode = true);
 
 
   protected:

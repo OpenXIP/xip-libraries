@@ -7,7 +7,6 @@ project(coregl)
 # Define the header files
 #
 set(HEADERS
-  ShaderProgramManager.h
   SoXipBindTextures.h
   SoXipBlendFunc.h
   SoXipBufferMask.h
@@ -16,6 +15,7 @@ set(HEADERS
   SoXipClipPlaneKit.h
   SoXipCube.h
   SoXipDecomposeMFInt32.h
+  SoXipDecomposeMFMatrix.h
   SoXipDepthTest.h
   SoXipDrawClipPlane.h
   SoXipFbo.h
@@ -25,6 +25,8 @@ set(HEADERS
   SoXipFboAttachDepth3D.h
   SoXipFramebufferGroup.h
   SoXipGetCameraProperties.h
+  SoXipGLSLComponentProgram.h
+  SoXipGLSLLoadComponents.h
   SoXipGLSLPrograms.h
   SoXipGLSLUniformGroup.h
   SoXipGLSLUseProgram.h
@@ -45,7 +47,10 @@ set(HEADERS
 set(SOURCES
   FramebufferObject.cpp
   gpgpuContext.cpp
+  ShaderComponentLibrary.cpp
+  ShaderEngine.cpp
   ShaderProgramManager.cpp
+  ShaderSourceComponent.cpp
   SoXipBindTextures.cpp
   SoXipBlendFunc.cpp
   SoXipBlendFuncElement.cpp
@@ -57,12 +62,12 @@ set(SOURCES
   SoXipClipPlaneKit.cpp
   SoXipCube.cpp
   SoXipDecomposeMFInt32.cpp
+  SoXipDecomposeMFMatrix.cpp
   SoXipDepthTest.cpp
   SoXipDepthTestElement.cpp
   SoXipDrawBuffersElement.cpp
   SoXipDrawClipPlane.cpp
   SoXipDrawImage.cpp
-  SoXipDrawQuad.cpp
   SoXipFbo.cpp
   SoXipFboAttachColor.cpp
   SoXipFboAttachColor3D.cpp
@@ -76,6 +81,8 @@ set(SOURCES
   SoXipGetCameraProperties.cpp
   SoXipGetTransform.cpp
   SoXipGlowElement.cpp
+  SoXipGLSLComponentProgram.cpp
+  SoXipGLSLLoadComponents.cpp
   SoXipGLSLPrograms.cpp
   SoXipGLSLShaderProgramElement.cpp
   SoXipGLSLUniformGroup.cpp
@@ -136,10 +143,11 @@ set_target_properties(xipivcoregl
 # Link the library
 #
 target_link_libraries(xipivcoregl
-	optimized xipivcore
-	debug xipivcore${CMAKE_DEBUG_POSTFIX}
+  ${XIP_CORE_LIBRARY}
   ${OPENGL_LIBRARIES})
 
+add_dependencies(xipivcoregl xipivcore)
+	
 #--------------------------------------------------------------------
 # Install the library
 #

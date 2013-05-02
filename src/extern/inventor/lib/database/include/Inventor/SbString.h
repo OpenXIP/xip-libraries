@@ -58,12 +58,12 @@
 #ifndef _SB_STRING_
 #define _SB_STRING_
 
-#include <xip/system/standard.h>
+//#include <xip/system/standard.h>
 #include <Inventor/system/SbSystem.h>
 #include <Inventor/SbBasic.h>
 
 #include <string.h>
-#include <xip/system/standard.h>
+//#include <xip/system/standard.h>
 
 //////////////////////////////////////////////////////////////////////////////
 //

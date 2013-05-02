@@ -107,4 +107,7 @@
 #include <Inventor/fields/SoMFVec3f.h>
 #include <Inventor/fields/SoMFVec4f.h>
 
+#include <Inventor/fields/SoSFInt64.h>
+#include <Inventor/fields/SoMFInt64.h>
+
 #endif /* _SO_FIELDS_ */

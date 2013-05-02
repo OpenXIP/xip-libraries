@@ -113,6 +113,9 @@
 #define SOXIPORIENTATIONCUBE_H
 
 #include <Inventor/nodes/SoSubNode.h>
+#include <Inventor/fields/SoSFFloat.h>
+#include <Inventor/fields/SoSFVec2f.h>
+#include <Inventor/fields/SoSFEnum.h>
 
 
 class SoXipOrientationCube : public SoNode
@@ -120,6 +123,22 @@ class SoXipOrientationCube : public SoNode
 SO_NODE_HEADER(SoXipOrientationCube);
 
 public:
+
+	enum orientationType 
+	{
+		FEET,
+		HEAD,
+		LEFT,
+		RIGHT,
+		ANTERIOR,
+		POSTERIOR
+	};
+
+	SoSFFloat size;
+	SoSFVec2f position;
+
+	SoSFEnum orientation;
+
 	/// Static method providing Open Inventor runtype type information.
 	static void initClass();
 
@@ -132,7 +151,17 @@ protected:
 
 protected:
 	virtual void GLRender(SoGLRenderAction * action);
+	virtual void handleEvent(SoHandleEventAction *action);
+
+	virtual orientationType getPickedSide(SoHandleEventAction *action);
+
+private:
+	SbVec2f getTranslation(float aspectRatio) const;
+	SbVec3f getScale(float aspectRatio) const;
+	SbRotation getRotation(SoAction *action) const;
 };
 
 
 #endif // SOXIPORIENTATIONCUBE_H
+
+

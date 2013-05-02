@@ -23,6 +23,15 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
  add_definitions(-DDARWIN)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
+
+#--------------------------------------------------------------------
+# Set preprocessor definition for SbSystem.h to indicate whether 
+# to use the debug postfix
+#
+if(DEBUG_POSTFIX)
+	add_definitions(-D_DEBUG_POSTFIX)
+endif(DEBUG_POSTFIX)
+
 #--------------------------------------------------------------------
 # Define the include directories
 #

@@ -108,524 +108,210 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+
+
 #include <xip/system/standard.h>
 #include "SoXipImage.h"
-#include "SoXipSFDataImageToSFImage.h"
 
-#include <Inventor/sensors/SoFieldSensor.h>
 #include <Inventor/actions/SoActions.h>
-#include <Inventor/SoPrimitiveVertex.h>
-#include <Inventor/elements/SoTextureCoordinateElement.h>
-#include <Inventor/nodes/SoMatrixTransform.h>
+#include <Inventor/actions/SoActions.h>
+#include <Inventor/sensors/SoFieldSensor.h>
+#include <Inventor/fields/SoSFEnum.h>
 
 #include <xip/inventor/core/SbXipImage.h>
-#include <xip/inventor/core/SbXipImageAdaptor.h>
-#include <xip/inventor/core/SoXipLutElement.h>
 #include <xip/inventor/core/SoXipDataImage.h>
-#include "SoXipTexture.h"
+#include <xip/inventor/core/SoXipLutElement.h>
 
-float SoXipImage::halfDimension[3] = { 1.0, 1.0, 1.0 };
 
-// creates an UNSIGNED_BYTE image of any given input image
-SbXipImage *createImage8(SbXipImage *in)
-{
-	const SbXipImageDimensions dim = in->getDimStored();
-	const int components = in->getComponents();
+SO_KIT_SOURCE( SoXipImage );
 
-	SbXipImage::ComponentLayoutType compLayout;
-	switch (components)
-	{
-	case 1:	compLayout = SbXipImage::LUMINANCE; break;
-	case 2:	compLayout = SbXipImage::LUMINANCE_ALPHA; break;
-	case 3:	compLayout = SbXipImage::RGB; break;
-	case 4:	compLayout = SbXipImage::RGBA; break;
-	default:
-		// unsupported
-		return 0;
-	}
-
-	SbXipImage *out = new SbXipImage(dim, SbXipImage::UNSIGNED_BYTE, 8, components, 
-		SbXipImage::INTERLEAVED, compLayout, in->getModelMatrix());
-	SbXipImageInterleavedPixelPtr<unsigned char> outPtr(out);
-
-	switch (in->getType())
-	{
-	case SbXipImage::UNSIGNED_BYTE:
-		{
-			SbXipImageInterleavedPixelPtr<unsigned char> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = inPtr(y, x, c);
-		} break;
-	case SbXipImage::BYTE:
-		{
-			SbXipImageInterleavedPixelPtr<char> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = inPtr(y, x, c) + 128;
-		} break;
-	case SbXipImage::UNSIGNED_SHORT:
-		{
-			int shift = in->getBitsStored() - 8;
-			SbXipImageInterleavedPixelPtr<unsigned short> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = inPtr(y, x, c) >> shift;
-		} break;
-	case SbXipImage::SHORT:
-		{
-			int shift = in->getBitsStored() - 8;
-			SbXipImageInterleavedPixelPtr<short> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = (inPtr(y, x, c) + 32768) >> shift;
-		} break;
-	case SbXipImage::FLOAT:
-		{
-			SbXipImageInterleavedPixelPtr<float> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = inPtr(y, x, c) * 255.f;
-		} break;
-	case SbXipImage::DOUBLE:
-		{
-			SbXipImageInterleavedPixelPtr<double> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = inPtr(y, x, c) * 255.;
-		} break;
-	}
-
-	return out;
-}
-
-// creates an UNSIGNED_BYTE image of any given input image
-SbXipImage *createImage8Lut(SbXipImage *in, SbXipImage *lut)
-{
-	// convert LUT into UNSIGNED BYTE
-	SbXipImage *lut8 = createImage8(lut);
-	unsigned char *lut8Ptr = (unsigned char *) lut8->refBufferPtr();
-
-	const SbXipImageDimensions dim = in->getDimStored();
-	const int components = lut->getComponents();
-
-	SbXipImage::ComponentLayoutType compLayout;
-	switch (components)
-	{
-	case 1:	compLayout = SbXipImage::LUMINANCE; break;
-	case 2:	compLayout = SbXipImage::LUMINANCE_ALPHA; break;
-	case 3:	compLayout = SbXipImage::RGB; break;
-	case 4:	compLayout = SbXipImage::RGBA; break;
-	default:
-		// unsupported
-		return 0;
-	}
-
-	SbXipImage *out = new SbXipImage(dim, SbXipImage::UNSIGNED_BYTE, 8, components, 
-		SbXipImage::INTERLEAVED, compLayout, in->getModelMatrix());
-	SbXipImageInterleavedPixelPtr<unsigned char> outPtr(out);
-
-	switch (in->getType())
-	{
-	case SbXipImage::UNSIGNED_BYTE:
-		{
-			SbXipImageInterleavedPixelPtr<unsigned char> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-				{
-					unsigned char val = inPtr(y, x);
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = lut8Ptr[components * val + c];
-				}
-		} break;
-	case SbXipImage::UNSIGNED_SHORT:
-		{
-			SbXipImageInterleavedPixelPtr<unsigned short> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-				{
-					unsigned short val = inPtr(y, x);
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = lut8Ptr[components * val + c];
-				}
-		} break;
-	case SbXipImage::SHORT:
-		{
-			SbXipImageInterleavedPixelPtr<short> inPtr(in);
-			for (int y = 0; y < dim[1]; y++)
-				for (int x = 0; x < dim[0]; x++)
-				{
-					unsigned short val = (inPtr(y, x) + 32768);
-					for (int c = 0; c < components; c++)
-						outPtr(y, x, c) = lut8Ptr[components * val + c];
-				}
-		} break;
-	}
-
-	lut8->unrefBufferPtr();
-	delete lut8;
-
-	return out;
-}
-
-SO_NODE_SOURCE( SoXipImage );
 
 SoXipImage::SoXipImage()
 {
-	SO_NODE_CONSTRUCTOR( SoXipImage );
+    mApplyLut = 0;
+    mTexture = 0;
+    mMatrix = 0;
+    mQuad = 0;
+    mTextureMode = 0;
+    mConnectionsSet = false;
+    mImageDirty = true;
+    mHasLut = false;
 
-	SO_NODE_ADD_FIELD( image, (0) );
+    SO_KIT_CONSTRUCTOR(SoXipImage);
 
-	mTexture = new SoXipTexture;
-	mTexture->ref();
+    SO_NODE_ADD_FIELD(image, (NULL));
 
-	mMatrixTransform = new SoMatrixTransform;
-	mMatrixTransform->ref();
+    SO_KIT_ADD_CATALOG_ENTRY(top,      SoSeparator,          FALSE, this, \x0, FALSE);
+    SO_KIT_ADD_CATALOG_ENTRY(applylut, SoXipApplyLutToImage, FALSE,  top, \x0, FALSE);
+    SO_KIT_ADD_CATALOG_ENTRY(texture,  SoXipTexture,         FALSE,  top, \x0, FALSE);
+    SO_KIT_ADD_CATALOG_ENTRY(matrix,   SoMatrixTransform,    FALSE,  top, \x0, FALSE);
+    SO_KIT_ADD_CATALOG_ENTRY(quad,     SoXipQuad,            FALSE,  top, \x0, FALSE);
 
-	mCurrentImage = 0;
-	mImageId = 0;
-	mLutId = 0;
+    SO_KIT_INIT_INSTANCE();
 
-	mImageSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
-	mImageSensor->setPriority(0);
-	mImageSensor->attach(&image);
+    mImageSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
+    mImageSensor->setPriority(0);
+    mImageSensor->attach(&image);
 }
 
 SoXipImage::~SoXipImage()
 {
-	if (mImageSensor)
-	{
-		delete mImageSensor;
-		mImageSensor = 0;
-	}
+    if (mImageSensor)
+        delete mImageSensor;
 
-	if (mTexture)
-	{
-		mTexture->unref();
-		mTexture = 0;
-	}
-
-	if (mCurrentImage)
-	{
-		mCurrentImage->unref();
-		mCurrentImage = 0;
-	}
-
-	if (mMatrixTransform)
-	{
-		mMatrixTransform->unref();
-		mMatrixTransform = 0;
-	}
+    mImageSensor = 0;
 }
 
 void SoXipImage::initClass()
 {
-	if (SoShape::getClassTypeId() == SoType::badType())
-	{
-		SoShape::initClass();
-	}
-
-	SO_NODE_INIT_CLASS( SoXipImage, SoShape, "SoShape" );
-
-	SO_ENABLE(SoGLRenderAction, SoXipLutElement);
-	SO_ENABLE(SoPickAction,     SoXipLutElement);
-	SO_ENABLE(SoCallbackAction, SoXipLutElement);
-	SO_ENABLE(SoGetBoundingBoxAction, SoXipLutElement);
+    SO_KIT_INIT_CLASS(SoXipImage, SoBaseKit, "BaseKit");
 }
 
-void SoXipImage::generatePrimitives(SoAction *action)
+
+bool SoXipImage::setKitConnections()
 {
-	SoPrimitiveVertex pv;
-	SoState *state = action->getState();
-	SbBool useTexFunc = (SoTextureCoordinateElement::getType(state) == SoTextureCoordinateElement::FUNCTION);
+    mApplyLut = SoBaseKit::getAnyPart("applylut", TRUE);
+    mTexture  = SoBaseKit::getAnyPart("texture", TRUE);
+    mMatrix   = SoBaseKit::getAnyPart("matrix", TRUE);
+    mQuad     = SoBaseKit::getAnyPart("quad", TRUE);
 
-	const SoTextureCoordinateElement *tce;
-	SbVec4f texCoord;
-	if (useTexFunc)
-	{
-		tce = SoTextureCoordinateElement::getInstance(state);
-	}
-	else
-	{
-		texCoord[2] = 0.0;
-		texCoord[3] = 1.0;
-	}
+    SoField * field = mTexture->getField("model");
+    mTextureMode = mMatrix ? dynamic_cast<SoSFEnum*>(field) : 0;
 
-	SbVec3f point;
-	SbVec3f normal;
-	normal.setValue(0.0, 0.0, 1.0);
+    bool valid = (mApplyLut && mTexture && mMatrix && mQuad && mTextureMode);
 
-	#define GEN_VERTEX(pv, x, y, z, s, t, normal) \
-		point.setValue(halfDimension[0] * x, halfDimension[1] * y, halfDimension[2] * z); \
-		if (useTexFunc) texCoord = tce->get(point, normal); else { texCoord[0] = s; texCoord[1] = t; } \
-		pv.setPoint(point); \
-		pv.setNormal(normal); \
-		pv.setTextureCoords(texCoord); \
-		shapeVertex(&pv);
+    if (!valid)
+    {
+        SoDebugError::post("SoXipImage", "Failed to retrieve kit pointers");
+        return false;
+    }
 
-	// generate quad
-	beginShape(action, TRIANGLE_FAN);
-	GEN_VERTEX(pv,  0.0, 0.0, 0.0,  0.0, 0.0, normal);
-	GEN_VERTEX(pv,  1.0, 0.0, 0.0,  1.0, 0.0, normal);
-	GEN_VERTEX(pv,  1.0, 1.0, 0.0,  1.0, 1.0, normal);
-	GEN_VERTEX(pv,  0.0, 1.0, 0.0,  0.0, 1.0, normal);
-	endShape();
-}
+    valid = valid && connectField(mApplyLut, "image", &image, true);
+    valid = valid && connectFields(mApplyLut, "output", mTexture, "image");
+    valid = valid && connectFields(mTexture, "modelMatrix", mMatrix, "matrix");
 
-void SoXipImage::computeBBox(SoAction *action, SbBox3f &box, SbVec3f &center)
-{
-	box.setBounds(SbVec3f(0.f, 0.f, 0.f), SbVec3f(1.f, 1.f, 1.f));
-	center.setValue(0.5f, 0.5f, 0.5f);
+    if (!valid)
+    {
+        SoDebugError::post("SoXipImage", "Failed to set kit field connections");
+        return false;
+    }
+
+    imageChanged();
+
+    return valid;
 }
 
 void SoXipImage::imageChanged()
 {
-	mImageId = 0;
-	mLutId = 0;
-}
-
-void SoXipImage::loadTexture(SbXipImage *img, SbXipImage *lut)
-{
-	SbXipImage *tex = 0;
-
-	if (mCurrentImage)
-	{
-		mCurrentImage->unref();
-		mCurrentImage = 0;
-	}
-
-	if (lut)
-		tex = createImage8Lut(img, lut);
-	else
-		tex = createImage8(img);
-
-	if (tex)
-	{
-		// if not a color texture, set model to modulate
-		if (tex->getComponents() > 2)
-		{
-			mTexture->model.setValue(SoXipTexture::REPLACE);
-		}
-		else
-		{
-			mTexture->model.setValue(SoXipTexture::MODULATE);
-		}
-
-		// need a reference counted wrapper for this image so SoRadTexture can free by unref() after use
-		mCurrentImage = new SoXipDataImage();
-		if (mCurrentImage)
-		{
-			mCurrentImage->ref();
-			mCurrentImage->set(tex);
-		}
-		else
-		{
-			// allocation of wrapper failed, need to delete image myself
-			delete tex;
-		}
-
-		mTexture->image.setValue(mCurrentImage);
-	}
-	else
-	{
-		mTexture->image.setValue(0);
-	}
-}
-
-void SoXipImage::updateTexture(SoAction *action)
-{
-	if (!image.getValue())
-	{
-		mImageId = 0;
-		mTexture->image.setValue(0);
-
-		if (mCurrentImage)
-		{
-			mCurrentImage->unref();
-			mCurrentImage = 0;
-		}
-		return;
-	}
-
-	SoXipData *lutElt = (SoXipData *)SoXipLutElement::get(action->getState());
-
-	if (image.getValue()->getDataId() == mImageId)
-	{
-		// if no lut or lut and image are same then no update is needed
-		if (!lutElt && !mLutId)
-			return;
-
-		if (lutElt)
-		{
-			if (lutElt->getDataId() == mLutId)
-				return;
-		}
-	}
-
-	if (mCurrentImage)
-	{
-		mCurrentImage->unref();
-		mCurrentImage = 0;
-	}
-
-	mImageId = image.getValue()->getDataId();
-	mLutId = lutElt ? lutElt->getDataId() : 0;
-
-	SbXipImage *img = image.getValue()->get();
-	if (!img)
-	{
-		mTexture->image.setValue(0);
-		return;
-	}
-
-	SbXipImage *lut = 0;
-	if (img->getComponents() == 1)
-	{
-		if (lutElt)
-		{
-			if (!lutElt->isOfType(SoXipDataImage::getClassTypeId()))
-				return;
-
-			lut = ((SoXipDataImage*) lutElt)->get();
-		}
-	}
-
-	loadTexture(img, lut);
-
-	if (mMatrixTransform)
-		mMatrixTransform->matrix.setValue(img->getModelMatrix());
+    mImageDirty = true;
 }
 
 void SoXipImage::GLRender(SoGLRenderAction * action)
 {
     try
     {
-		((SoAction*)action)->getState()->push();
+        if (!mConnectionsSet)
+            mConnectionsSet = setKitConnections();
 
-		if (mTexture)
-		{
-			updateTexture(action);
-			mTexture->GLRender(action);
-		}
+	SoXipData * eltLut = (SoXipData *)SoXipLutElement::get(action->getState());
 
-		if (mMatrixTransform)
-		{			
-			mMatrixTransform->GLRender(action);
-		}
+        // If LUT presence change, or image is dirty, update texture mode
+        bool updateTexMode = ((eltLut == 0) == mHasLut) || mImageDirty;
 
-		if (mCurrentImage)
-		{
-			SoShape::GLRender(action);
-		}
+        mHasLut = (eltLut != 0);        // Rememeber if we had a LUT or not
 
-		((SoAction*)action)->getState()->pop();
-	}
-	catch (...)
+        if (updateTexMode && mTextureMode) {
+            // This is a hack to keep same behavior as previous SoXipImage
+            if (mHasLut) {
+                mTextureMode->set("REPLACE");
+            }
+            else {
+                SoXipDataImage * dip = image.getValue();
+                SbXipImage *     ip = dip ? dip->get() : 0;
+
+                if (ip) {
+                    if (ip->getComponents() > 2) {
+                        mTextureMode->set("REPLACE");
+                    }
+                    else {
+                        mTextureMode->set("MODULATE");
+                    }
+                }
+            }
+
+            mImageDirty = false;
+        }
+
+        if (mConnectionsSet)
+            SoBaseKit::GLRender(action);
+    }
+    catch (...)
     {
         SoError::post(__FILE__, "Unknown error while rendering image");
-	}
-}
-
-void SoXipImage::callback(SoCallbackAction * action)
-{
-	if (image.getValue())
-	{
-		((SoAction*)action)->getState()->push();
-
-		if (mTexture)
-			mTexture->callback(action);
-
-		if (mMatrixTransform)
-			mMatrixTransform->callback(action);
-
-		SoShape::callback(action);
-
-		((SoAction*)action)->getState()->pop();
-	}
-}
-
-void SoXipImage::pick(SoPickAction * action)
-{
-	if (image.getValue())
-	{
-		((SoAction*)action)->getState()->push();
-
-		if (mTexture)
-			mTexture->pick(action);
-
-		if (mMatrixTransform)
-			mMatrixTransform->pick(action);
-
-		SoShape::pick(action);
-
-		((SoAction*)action)->getState()->pop();
-	}
-}
-
-void SoXipImage::rayPick(SoRayPickAction *action)
-{
-	if (image.getValue())
-	{
-		((SoAction*)action)->getState()->push();
-
-		if (mTexture)
-			mTexture->rayPick(action);
-
-		if (mMatrixTransform)
-			mMatrixTransform->rayPick(action);
-
-		SoShape::rayPick(action);
-
-		((SoAction*)action)->getState()->pop();
-	}
-}
-
-void SoXipImage::handleEvent(SoHandleEventAction *action)
-{
-	if (image.getValue())
-	{
-		((SoAction*)action)->getState()->push();
-
-		if (mTexture)
-			mTexture->handleEvent(action);
-
-		if (mMatrixTransform)
-			mMatrixTransform->handleEvent(action);
-
-		SoShape::handleEvent(action);
-
-		((SoAction*)action)->getState()->pop();
-	}
+    }
 }
 
 void SoXipImage::getBoundingBox(SoGetBoundingBoxAction *action)
 {
-	if (image.getValue())
-	{
-		((SoAction*)action)->getState()->push();
-
-		if (mTexture)
-			mTexture->getBoundingBox(action);
-
-		if (mMatrixTransform)
-			mMatrixTransform->getBoundingBox(action);
-
-		SoShape::getBoundingBox(action);
-
-		((SoAction*)action)->getState()->pop();
-	}
+    mMatrix->getBoundingBox(action);
+    mQuad->getBoundingBox(action);
 }
 
 void SoXipImage::fieldSensorCBFunc(void *user, SoSensor *sensor)
 {
-	((SoXipImage*) user)->imageChanged();
+    SoXipImage * me = reinterpret_cast<SoXipImage *>(user);
+
+    if (me) me->imageChanged();
 }
 
+/*
+  These internal functions should be removed and instead moved to
+  a common utility package to simplify setups similar to this.
 
+  9/8/2009 - Patric Ljung
+*/
 
+bool SoXipImage::connectFields(SoNode * fromNode, SbName fromField,
+                               SoNode * toNode, SbName toField)
+{
+    if (fromNode && toNode)
+    {
+        SoField * fromF = fromNode->getField(fromField);
+        SoField * toF = toNode->getField(toField);
+
+        if (fromF && toF)
+            return toF->connectFrom( fromF ) == TRUE;
+    }
+
+    return false;
+}
+
+bool SoXipImage::connectField(SoNode * fromNode, SbName fromField,
+                              SoField * toField, bool invert)
+{
+    if (fromNode && toField)
+    {
+        SoField * fromF = fromNode->getField(fromField);
+        if (fromF)
+        {
+            if (invert)
+                return fromF->connectFrom( toField ) == TRUE;
+            else
+                return toField->connectFrom( fromF ) == TRUE;
+        }
+    }
+
+    return false;
+}
+
+bool SoXipImage::setField(SoNode * node, SbName field, const char * value)
+{
+    if (node)
+    {
+        SoField * fp = node->getField(field);
+        if (fp)
+            return fp->set( value ) == TRUE;
+    }
+
+    return false;
+}

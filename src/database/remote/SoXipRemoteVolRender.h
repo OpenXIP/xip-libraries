@@ -140,11 +140,9 @@
 #include <xip/inventor/remote/XipRequestManager.h>
 #include <xip/inventor/core/SoXipRenderModeElement.h>
 
-#ifndef WIN64
 #include <xip/inventor/remote/jpegWrapper/bufferImage.h>
 #include <xip/inventor/remote/losslessCompression/losslessCompression.h>
 #include <xip/inventor/remote/losslessCompression/fastMemTransfer.h>
-#endif
 
 class SbXipImage;
 

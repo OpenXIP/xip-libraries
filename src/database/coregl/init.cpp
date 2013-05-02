@@ -122,7 +122,6 @@
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipBlendFuncElement.h>
-#include <xip/inventor/coregl/SoXipDrawQuad.h>
 #include <xip/inventor/coregl/SoXipFrameRate.h>
 #include <xip/inventor/coregl/SoXipFramebufferElement.h>
 #include <xip/inventor/coregl/SoXipSetTransform.h>
@@ -150,6 +149,16 @@
 #include "SoXipClearBuffer.h"
 #include "SoXipFramebufferGroup.h"
 #include "SoXipTextureUnit.h"
+#include "SoXipLutTexture.h"
+#include "SoXipOpenGLError.h"
+#include "SoXipGLStringMarker.h"
+
+#include "SoXipCube.h"
+#include "SoXipDecomposeMFInt32.h"
+#include "SoXipDecomposeMFMatrix.h"
+#include "SoXipBindTextures.h"
+#include "SoXipGetCameraProperties.h"
+
 #include "SoXipClearFbo.h"
 #include "SoXipFbo.h"
 #include "SoXipFboAttachColor.h"
@@ -159,16 +168,11 @@
 #include "SoXipPingPongFlip.h"
 #include "SoXipPingPong.h"
 
-#include "SoXipCube.h"
-#include "SoXipDecomposeMFInt32.h"
-#include "SoXipBindTextures.h"
-#include "SoXipGetCameraProperties.h"
+#include "SoXipGLSLComponentProgram.h"
+#include "SoXipGLSLLoadComponents.h"
 #include "SoXipGLSLPrograms.h"
 #include "SoXipGLSLUniformGroup.h"
 #include "SoXipGLSLUseProgram.h"
-#include "SoXipLutTexture.h"
-#include "SoXipOpenGLError.h"
-#include "SoXipGLStringMarker.h"
 
 #include  "SoXipTransparentGeometryRenderer.h"
 
@@ -206,7 +210,6 @@ int XIPIVCOREGL_API xipivcoregl_init()
 
 	SoXipClipPlaneKit::initClass();
 	SoXipDrawClipPlane::initClass();
-	SoXipDrawQuad::initClass();
 	SoXipFrameRate::initClass();
 	
 	SoXipFramebufferGroup::initClass();
@@ -225,12 +228,19 @@ int XIPIVCOREGL_API xipivcoregl_init()
 	SoXipMultiplyMatrices::initClass();
 	SoXipOffscreenRenderer::initClass();
 	SoXipTransparentGeometryRenderer::initClass();
-
     SoXipLoadShaders::initClass();
     SoXipLogGLState::initClass();
+	SoXipLutTexture::initClass();
+	SoXipOpenGLError::initClass();
+	SoXipGLStringMarker::initClass();
 
-    SoXipFbo::initClass();
+    SoXipCube::initClass();
+    SoXipDecomposeMFInt32::initClass();
+    SoXipDecomposeMFMatrix::initClass();
+    SoXipBindTextures::initClass();
+
     SoXipClearFbo::initClass();
+    SoXipFbo::initClass();
     SoXipFboAttachColor::initClass();
     SoXipFboAttachColor3D::initClass();
     SoXipFboAttachDepth::initClass();
@@ -238,16 +248,11 @@ int XIPIVCOREGL_API xipivcoregl_init()
     SoXipPingPong::initClass();
     SoXipPingPongFlip::initClass();
 
-    SoXipCube::initClass();
-    SoXipDecomposeMFInt32::initClass();
-    SoXipBindTextures::initClass();
+    SoXipGLSLComponentProgram::initClass();
+    SoXipGLSLLoadComponents::initClass();
     SoXipGLSLPrograms::initClass();
     SoXipGLSLUseProgram::initClass();
     SoXipGLSLUniformGroup::initClass();
-
-	SoXipLutTexture::initClass();
-	SoXipOpenGLError::initClass();
-	SoXipGLStringMarker::initClass();
 
 	return 1;
 }

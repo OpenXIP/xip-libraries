@@ -1,6 +1,12 @@
 # Modified by Sylvain Jaume <sylvain.jaume@siemens.com> 2008
+project(dcmwlm)
 
 project(dcmwlm)
+  include
+  ../ofstd/include
+  ../dcmdata/include
+  ../dcmnet/include
+  ${ZLIB_INCDIR})
 
 #--------------------------------------------------------------------
 # Define the include directories

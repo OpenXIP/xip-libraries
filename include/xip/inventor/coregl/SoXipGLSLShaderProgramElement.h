@@ -62,8 +62,8 @@ public:
     static int          getDefault() { return 0; }
     static int		getProgramID(SoState * const state, const SbString & prgTag);
     static int		getProgramID(SoState * const state, const char * prgTag);
-    static int		getTimeStamp(SoState * const state, const SbString & prgTag);
-    static int		getTimeStamp(SoState * const state, const char * prgTag);
+    static unsigned __int64		getTimeStamp(SoState * const state, const SbString & prgTag);
+    static unsigned __int64		getTimeStamp(SoState * const state, const char * prgTag);
 
     void                setElt(int temp);
 

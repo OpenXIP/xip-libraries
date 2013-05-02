@@ -207,7 +207,6 @@ SoXipIntersectionPlane::SoXipIntersectionPlane()
 	pLines = new SoIndexedLineSet();
 	pLines->ref();
 
-	// Create a sensor calling for field changes.
 	mBoundingBox[0] = SbVec3f(0, 1, 1);
 	mBoundingBox[1] = SbVec3f(0, 0, 1);
 	mBoundingBox[2] = SbVec3f(1, 0, 1);
@@ -216,9 +215,6 @@ SoXipIntersectionPlane::SoXipIntersectionPlane()
 	mBoundingBox[5] = SbVec3f(0, 0, 0);
 	mBoundingBox[6] = SbVec3f(1, 0, 0);
 	mBoundingBox[7] = SbVec3f(1, 1, 0);
-
-	//mCachedPlane = SbPlane(SbVec3f(0, 0, 1), 0);
-	//mCachedBBox  = SbMatrix::identity();
 
 	updateBoundingBox();
 	calculateCubeIntersection(true);
@@ -326,7 +322,7 @@ void SoXipIntersectionPlane::calculateCubeIntersection(bool boxChanged)
 	mFaceNormals.clear();
 
 
-	// used to know the current indice of the coordinate table
+	// used to know the current index of the coordinate table
 	int numPoint=0;
 
 	// temporary pointer on the intersection points table
@@ -488,6 +484,13 @@ void SoXipIntersectionPlane::GLRender(SoGLRenderAction *action)
 		if (pCoordinates->point.getNum() > 0)
 		{
 			glPushAttrib(GL_ENABLE_BIT);
+
+			if (glIsEnabled(GL_LINE_SMOOTH) && !glIsEnabled(GL_BLEND))
+			{
+				// blending must be enabled in order for line smoothing to work
+				glEnable(GL_BLEND);
+			}
+
 			int maxClipPlanes;
 			glGetIntegerv(GL_MAX_CLIP_PLANES, &maxClipPlanes);
 			for (int i = 0; i < maxClipPlanes; i++)

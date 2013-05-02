@@ -224,6 +224,10 @@
 
 #include "SoXipSegmentationOverlayManager.h"
 
+#include "SoXipImageTextColor.h"
+#include <xip/inventor/overlay/SoXipImageTextColorElement.h>
+
+
 int XIPIVOVERLAY_API xipivoverlay_init()
 {
 	static bool isInit = false;
@@ -345,6 +349,9 @@ int XIPIVOVERLAY_API xipivoverlay_init()
         SoXipOverlayFilter::initClass();
 
 	SoXipSegmentationOverlayManager::initClass();
+
+	SoXipImageTextColorElement::initClass();
+	SoXipImageTextColor::initClass();
 
 	return 1;
 }

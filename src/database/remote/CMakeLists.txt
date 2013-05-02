@@ -33,11 +33,8 @@ set(SOURCES
 # Build subprojects
 #
 add_subdirectory(stream)
-
-if(NOT CMAKE_CL_64)
-  add_subdirectory(jpegWrapper)
-  add_subdirectory(losslessCompression)
-endif(NOT CMAKE_CL_64)
+add_subdirectory(jpegWrapper)
+add_subdirectory(losslessCompression)
 
 #--------------------------------------------------------------------
 # Define the compiler flags
@@ -77,13 +74,14 @@ set_target_properties(xipivremote
 # Link the library
 #
 target_link_libraries(xipivremote
-	optimized xipivcore
-	debug xipivcore${CMAKE_DEBUG_POSTFIX}
+  ${XIP_CORE_LIBRARY}
   jpegWrapper
   losslessCompression
   stream
   ${OPENGL_LIBRARIES})
 
+add_dependencies(xipivremote xipivcore)
+  
 if(WIN32)
   target_link_libraries(xipivremote
     ws2_32)

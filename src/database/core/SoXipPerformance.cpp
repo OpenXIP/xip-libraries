@@ -286,7 +286,7 @@ void SoXipPerformance::GLRender(SoGLRenderAction * action)
 		updateValue(TIME_GLRENDER, mTimer.elapsed());
 
 		// If running timer goes over updateTime, compute and display stats
-		unsigned int elapsed = mFrameTimer.elapsed();
+		int elapsed = mFrameTimer.elapsed();
 		unsigned int timeout = updateTime.getValue() * 1000;
 		if (elapsed > timeout)
 		{	

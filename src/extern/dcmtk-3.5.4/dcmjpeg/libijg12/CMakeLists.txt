@@ -22,6 +22,38 @@ jversion12.h)
 # Define the source files
 #
 set(SOURCES
+jaricom.c
+jcapimin.c
+jcapistd.c
+jcarith.c
+jccoefct.c
+jccolor.c
+jcdctmgr.c
+jcdiffct.c
+jchuff.c
+jcinit.c
+jclhuff.c
+jclossls.c
+jclossy.c
+jcmainct.c
+jcmarker.c
+jcmaster.c
+jcodec.c
+jcomapi.c
+jcparam.c
+jcphuff.c
+jcpred.c
+jcprepct.c
+jcsample.c
+jcscale.c
+jcshuff.c
+jctrans.c
+jdapimin.c
+jdapistd.c
+jdarith.c
+jdatadst.c
+jdatasrc.c
+jdcoefct.c
 jdcolor.c
 jddctmgr.c
 jddiffct.c
@@ -53,7 +85,8 @@ jmemmgr.c
 jmemnobs.c
 jquant1.c
 jquant2.c
-jutils.c)				
+jutils.c
+)				
 
 #--------------------------------------------------------------------
 # Compile the library

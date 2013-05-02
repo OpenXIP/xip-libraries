@@ -535,10 +535,10 @@ size_t DSRDocumentTree::addNode(DSRDocumentTreeNode *node,
 }
 
 
-size_t DSRDocumentTree::removeNode()
+size_t DSRDocumentTree::removeNode(const bool deleteNode)
 {
     /* might add a check for templates later on */
-    return DSRTree::removeNode();
+    return DSRTree::removeNode(deleteNode);
 }
 
 

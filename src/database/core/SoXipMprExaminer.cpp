@@ -1,4 +1,4 @@
-/*
+ /*
  *  COPYRIGHT NOTICE.  Copyright (C) 2007 Siemens Corporate Research, 
  *  Inc. ("caBIG(tm) Participant"). The eXtensible Imaging Platform
  *  (XIP) was created with NCI funding and is part of the caBIG(tm) 
@@ -150,9 +150,12 @@ SoXipMprExaminer::SoXipMprExaminer()
 
 	isBuiltIn = TRUE;
 	mViewAll = FALSE;
+    mViewFirst = FALSE;
+    mViewLast = FALSE;
 	mBoundingBox = SbBox3f(SbVec3f(0, 0, 0), SbVec3f(1, 1 ,1));
 	mMprModelMatrix = SbMatrix::identity();
 	mStepSize = 0;
+	mThickness = 0;
 	mMprMatrixField = 0;
 	mMprCenterField = 0;
 	mViewVolume.ortho(-1, 1, -1, 1, 1, 10);
@@ -162,6 +165,7 @@ SoXipMprExaminer::SoXipMprExaminer()
 
 	mDogEarNextSensor = 0;
 	mDogEarPreviousSensor = 0;
+	mOrientationCubeSensor = 0;
 
     mSphereSheetProj = new SbSphereSheetProjector;
     mSphereSheetProj->setViewVolume(mViewVolume);
@@ -170,6 +174,8 @@ SoXipMprExaminer::SoXipMprExaminer()
 	mLastMousePos = mMouseDownPos = SbVec2f(0, 0);
 	mMprLock = 0;
 	mMprId = 0;
+
+	mLastMprModelMatrix = SbMatrix::identity();
 
 
 	// Initialize children catalog and add entries to it:
@@ -184,7 +190,8 @@ SoXipMprExaminer::SoXipMprExaminer()
 	SO_KIT_ADD_CATALOG_ENTRY(camera, SoOrthographicCamera, FALSE, this, \0 , FALSE);
 	SO_KIT_ADD_CATALOG_ENTRY(annotation, SoAnnotation, FALSE, this, \0 , FALSE);
 	SO_KIT_ADD_CATALOG_ENTRY(complexity, SoComplexity, FALSE, this, \0 , FALSE);
-	SO_KIT_ADD_CATALOG_ENTRY(intersectionManip, SoXipMprIntersectionManip, FALSE, annotation, \0 , FALSE);
+	SO_KIT_ADD_CATALOG_ENTRY(interactionSwitch, SoSwitch, FALSE, annotation, \0, FALSE);
+	SO_KIT_ADD_CATALOG_ENTRY(intersectionManip, SoXipMprIntersectionManip, FALSE, interactionSwitch, \0 , FALSE);
 
 	SO_KIT_ADD_CATALOG_ENTRY(borderSwitch, SoSwitch, FALSE, annotation, \0 , FALSE);
 	SO_KIT_ADD_CATALOG_ENTRY(borderNode, SoXipViewportBorder, FALSE, borderSwitch, \0 , FALSE);
@@ -216,6 +223,8 @@ SoXipMprExaminer::SoXipMprExaminer()
 	SO_NODE_ADD_FIELD(viewOrientation, ());
 //	SO_NODE_ADD_FIELD(viewCenter, ());
 	SO_NODE_ADD_FIELD(viewAll, ());
+    SO_NODE_ADD_FIELD(viewFirst, ());
+    SO_NODE_ADD_FIELD(viewLast, ());
 	SO_NODE_ADD_FIELD(stepNext, ());
 	SO_NODE_ADD_FIELD(stepPrevious, ());
 
@@ -232,7 +241,6 @@ SoXipMprExaminer::SoXipMprExaminer()
 
 	SO_NODE_ADD_FIELD(key, (0));
     SO_NODE_ADD_FIELD(mouse, (BUTTON1));
-
 
 	SO_NODE_DEFINE_ENUM_VALUE(modeType, NONE);
 	SO_NODE_DEFINE_ENUM_VALUE(modeType, ROTATE);
@@ -252,6 +260,7 @@ SoXipMprExaminer::SoXipMprExaminer()
 	SO_NODE_ADD_FIELD(intersection, (TRANSLATION));
 
 	SO_NODE_ADD_FIELD(rotatePinpoint, (TRUE));
+	SO_NODE_ADD_FIELD(manip, (FALSE));
 	SO_NODE_ADD_FIELD(pointTo, (FALSE));
 	SO_NODE_ADD_FIELD(border, (FALSE));
 	SO_NODE_ADD_FIELD(dogEar, (FALSE));
@@ -262,9 +271,11 @@ SoXipMprExaminer::SoXipMprExaminer()
 
 	SO_NODE_ADD_FIELD(stubs, (FALSE));
 	SO_NODE_ADD_FIELD(stubScale, (10.0f));
+	SO_NODE_ADD_FIELD(plane, (SbMatrix::identity()));
+	SO_NODE_ADD_FIELD(accelerationFactor, (1.0f));
 
 	SoFieldSensor *fieldSensor;
-	SoField *fields[] = { &viewAll, &viewOrientation, &stepNext, &stepPrevious, &intersection, &rotateCamera, &scaleHeight, &stubs, &stubScale };
+	SoField *fields[] = { &viewAll, &viewFirst, &viewLast, &viewOrientation, &stepNext, &stepPrevious, &intersection, &rotateCamera, &scaleHeight, &stubs, &stubScale };
 	for (int i = 0; i < (sizeof(fields) / sizeof(SoField*)); i++)
 	{
 		fieldSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
@@ -311,6 +322,11 @@ SoXipMprExaminer::~SoXipMprExaminer()
 	if (mDogEarPreviousSensor)
 	{
 		delete mDogEarPreviousSensor;
+	}
+
+	if (mOrientationCubeSensor)
+	{
+		delete mOrientationCubeSensor;
 	}
 }
 
@@ -379,6 +395,243 @@ void SoXipMprExaminer::updateMprElement(SoAction *action)
 	}
 }
 
+void SoXipMprExaminer::updateMprFirst(SoAction *action)
+{
+    SoXipMprIntersectionManip *manip = (SoXipMprIntersectionManip *) getAnyPart("intersectionManip", TRUE);
+    if (manip)
+    {
+        manip->on = FALSE;
+    }
+
+    SbViewportRegion viewportRegion = SoViewportRegionElement::get(action->getState());
+
+    const SoPath *path = action->getCurPath();
+    if (path)
+    {
+        // get the node one before this
+        SoNode *node = path->getNodeFromTail(1);
+        if (node)
+        {
+            // compute bounding box
+            SoGetBoundingBoxAction bbAction(viewportRegion);
+
+            // Find the bounding box of the scene
+            bbAction.apply(node);
+
+            mBoundingBox = bbAction.getBoundingBox();
+
+            if (!mBoundingBox.isEmpty())
+            {
+                SbVec3f origin, size;
+
+                mBoundingBox.getOrigin(origin[0], origin[1], origin[2]);
+                mBoundingBox.getSize(size[0], size[1], size[2]);
+
+                //float maxSize = size[0] > size[1] ? size[0] : size[1];
+                //maxSize = maxSize > size[2] ? maxSize : size[2];
+
+                float maxSize = 0.0f;
+                if ( orientation.getValue() == FEET || orientation.getValue() == HEAD )
+                {
+                    maxSize = size[0] > size[1] ? size[0] : size[1];
+                }
+                else if ( orientation.getValue() == LEFT || orientation.getValue() == RIGHT )
+                {
+                    maxSize = size[1] > size[2] ? size[1] : size[2];
+                }
+                else if ( orientation.getValue() == ANTERIOR || orientation.getValue() == POSTERIOR )
+                {
+                    maxSize = size[0] > size[2] ? size[0] : size[2];
+                }
+                else
+                {
+                    maxSize = size[0] > size[1] ? size[0] : size[1];
+                    maxSize = maxSize > size[2] ? maxSize : size[2];
+                }
+                SbVec3f t, s;
+                SbRotation r, so;
+                mMprModelMatrix.getTransform(t, r, s, so);
+
+                SbVec3f transVec, mprCenter;
+                int orient = orientation.getValue();
+                switch(orient)
+                {
+                case FEET:
+                    transVec = origin + SbVec3f(size[0] * 0.5f, size[1] * 0.5f, size[2] - mStepSize);
+                    mprCenter = transVec;
+                    break;
+                case HEAD:
+                    transVec = origin + SbVec3f(size[0], size[1], 0.0f) * 0.5f;
+                    mprCenter = transVec;
+                    break;
+                case LEFT:
+                    transVec = origin + SbVec3f(0.0f, size[1], size[2]) * 0.5f;
+                    mprCenter = transVec;
+                    break;
+                case RIGHT:
+                    transVec = origin + SbVec3f(size[0], size[1] * 0.5f, size[2] * 0.5f);
+                    mprCenter = transVec;
+                    break;
+                case ANTERIOR:
+                    transVec = origin + SbVec3f(size[0], 0.0f, size[2]) * 0.5f;
+                    mprCenter = transVec;
+                    break;
+                case POSTERIOR:
+                    transVec = origin + SbVec3f(size[0] * 0.5f, size[1], size[2] * 0.5f);
+                    mprCenter = transVec;
+                    break;
+                default:
+                    break;
+                }
+
+                mMprModelMatrix.setTransform(transVec, r, 
+                    SbVec3f(maxSize, maxSize, maxSize));
+
+                // update MPR element
+                SoXipMprPlaneElement *element = SoXipMprPlaneElement::getInstance(action->getState());
+                if (element)
+                {
+                    int numPlanes = element->getNum();
+                    if (numPlanes > 0)
+                    {
+                        element->setMatrix(numPlanes - 1, mMprModelMatrix);
+                        element->setCenter(numPlanes - 1, mprCenter);
+                    }
+                }
+            }
+            else
+            {
+                mBoundingBox = SbBox3f(SbVec3f(0, 0, 0), SbVec3f(1, 1, 1));
+            }
+        }
+    }
+
+    if (manip && (intersection.getValue() != OFF))
+    {
+        manip->on = TRUE;
+    }
+
+    mViewFirst = FALSE;
+}
+
+void SoXipMprExaminer::updateMprLast(SoAction *action)
+{
+    SoXipMprIntersectionManip *manip = (SoXipMprIntersectionManip *) getAnyPart("intersectionManip", TRUE);
+    if (manip)
+    {
+        manip->on = FALSE;
+    }
+
+    SbViewportRegion viewportRegion = SoViewportRegionElement::get(action->getState());
+
+    const SoPath *path = action->getCurPath();
+    if (path)
+    {
+        // get the node one before this
+        SoNode *node = path->getNodeFromTail(1);
+        if (node)
+        {
+            // compute bounding box
+            SoGetBoundingBoxAction bbAction(viewportRegion);
+
+            // Find the bounding box of the scene
+            bbAction.apply(node);
+
+            mBoundingBox = bbAction.getBoundingBox();
+
+            if (!mBoundingBox.isEmpty())
+            {
+                SbVec3f origin, size;
+
+                mBoundingBox.getOrigin(origin[0], origin[1], origin[2]);
+                mBoundingBox.getSize(size[0], size[1], size[2]);
+
+                //float maxSize = size[0] > size[1] ? size[0] : size[1];
+                //maxSize = maxSize > size[2] ? maxSize : size[2];
+
+                float maxSize = 0.0f;
+                if ( orientation.getValue() == FEET || orientation.getValue() == HEAD )
+                {
+                    maxSize = size[0] > size[1] ? size[0] : size[1];
+                }
+                else if ( orientation.getValue() == LEFT || orientation.getValue() == RIGHT )
+                {
+                    maxSize = size[1] > size[2] ? size[1] : size[2];
+                }
+                else if ( orientation.getValue() == ANTERIOR || orientation.getValue() == POSTERIOR )
+                {
+                    maxSize = size[0] > size[2] ? size[0] : size[2];
+                }
+                else
+                {
+                    maxSize = size[0] > size[1] ? size[0] : size[1];
+                    maxSize = maxSize > size[2] ? maxSize : size[2];
+                }
+                SbVec3f t, s;
+                SbRotation r, so;
+                mMprModelMatrix.getTransform(t, r, s, so);
+
+                SbVec3f transVec, mprCenter;
+                int orient = orientation.getValue();
+                switch(orient)
+                {
+                case FEET:
+                    transVec = origin + SbVec3f(size[0], size[1], 0.0f) * 0.5f;
+                    mprCenter = transVec;
+                    break;
+                case HEAD:
+                    transVec = origin + SbVec3f(size[0] * 0.5f, size[1] * 0.5f, size[2] - mStepSize);
+                    mprCenter = transVec;
+                    break;
+                case LEFT:
+                    transVec = origin + SbVec3f(size[0], size[1] * 0.5f, size[2] * 0.5f);
+                    mprCenter = transVec;
+                    break;
+                case RIGHT:
+                    transVec = origin + SbVec3f(0.0f, size[1], size[2]) * 0.5f;
+                    mprCenter = transVec;
+                    break;
+                case ANTERIOR:
+                    transVec = origin + SbVec3f(size[0] * 0.5f, size[1], size[2] * 0.5f);
+                    mprCenter = transVec;
+                    break;
+                case POSTERIOR:
+                    transVec = origin + SbVec3f(size[0], 0.0f, size[2]) * 0.5f;
+                    mprCenter = transVec;
+                    break;
+                default:
+                    break;
+                }
+
+                mMprModelMatrix.setTransform(transVec, r, 
+                    SbVec3f(maxSize, maxSize, maxSize));
+
+                // update MPR element
+                SoXipMprPlaneElement *element = SoXipMprPlaneElement::getInstance(action->getState());
+                if (element)
+                {
+                    int numPlanes = element->getNum();
+                    if (numPlanes > 0)
+                    {
+                        element->setMatrix(numPlanes - 1, mMprModelMatrix);
+                        element->setCenter(numPlanes - 1, mprCenter);
+                    }
+                }
+            }
+            else
+            {
+                mBoundingBox = SbBox3f(SbVec3f(0, 0, 0), SbVec3f(1, 1, 1));
+            }
+        }
+    }
+
+    if (manip && (intersection.getValue() != OFF))
+    {
+        manip->on = TRUE;
+    }
+
+    mViewLast = FALSE;
+}
 
 void SoXipMprExaminer::extractViewingParams(SoAction *action)
 {
@@ -498,12 +751,23 @@ void SoXipMprExaminer::inputChanged(SoField *which, SoSensor *sensor)
 		mViewAll = TRUE;
 		touch();
 	}
+    else if (which == &viewFirst)
+	{
+		mViewFirst = TRUE;
+		touch();
+	}
+    else if (which == &viewLast)
+    {
+        mViewLast = TRUE;
+        touch();
+    }
 	else if (which == &viewOrientation)
 	{
 		SbVec3f t, s;
 		SbRotation rot, so;
 		mMprModelMatrix.getTransform(t, rot , s, so);
 
+		rot = getDefaultOrientation(orientation.getValue());
 		const float fM_PI = static_cast<float>(M_PI);
 
 		switch (orientation.getValue())
@@ -600,6 +864,30 @@ void SoXipMprExaminer::inputChanged(SoField *which, SoSensor *sensor)
 			mMprCenterField->setValue(center);
 		}
 	}
+}
+
+SbRotation SoXipMprExaminer::getDefaultOrientation(int orien)
+{
+	const float fM_PI = static_cast<float>(M_PI);
+	SbRotation rot = SbRotation::identity();
+
+	switch (orien)
+	{
+	case FEET:			rot = SbRotation(SbVec3f(1, 0, 0), fM_PI); break;
+	case HEAD:			rot = SbRotation(SbVec3f(0, 0, 1), fM_PI); break;
+	case LEFT:			rot = SbRotation(SbVec3f(0, 1, 0), fM_PI / 2.f) * SbRotation(SbVec3f(1, 0, 0), fM_PI / 2.f); break;
+	case RIGHT:			rot = SbRotation(SbVec3f(0, 1, 0), -fM_PI / 2.f) * SbRotation(SbVec3f(1, 0, 0), fM_PI / 2.f); break;
+	case ANTERIOR:		rot = SbRotation(SbVec3f(1, 0, 0), fM_PI / 2.f); break;
+	case POSTERIOR:		rot = SbRotation(SbVec3f(0, 1, 0), fM_PI) * SbRotation(SbVec3f(1, 0, 0), fM_PI / 2.f); break;
+	case RANGE_START:	rot = SbRotation(SbVec3f(0, 0, 1), -fM_PI / 2.f) * SbRotation(SbVec3f(0, 1, 0), -fM_PI / 2.f); break;
+	case RANGE_END:		rot = SbRotation(SbVec3f(0, 0, 1), fM_PI / 2.f) * SbRotation(SbVec3f(0, 1, 0), fM_PI / 2.f); break;
+	case AZIMUTH_START: rot = SbRotation(SbVec3f(0, 0, 1),  fM_PI / 2.f); break;
+	case AZIMUTH_END:	rot = SbRotation(SbVec3f(0, 1, 0),  fM_PI) * SbRotation(SbVec3f(0, 0, 1),  fM_PI / 2.f); break;
+	case ELEVATION_START: rot = SbRotation(SbVec3f(0, 1, 0),  fM_PI / 2.f) * SbRotation(SbVec3f(0, 0, 1),  fM_PI / 2.f); break;
+	case ELEVATION_END: rot = SbRotation(SbVec3f(0, 1, 0),  -fM_PI / 2.f) * SbRotation(SbVec3f(0, 0, 1),  fM_PI / 2.f); break;
+	}
+
+	return rot;
 }
 
 void SoXipMprExaminer::timer(SoSensor *sensor)
@@ -729,9 +1017,9 @@ void SoXipMprExaminer::GLRender(SoGLRenderAction * action)
 					mMprModelMatrix.setTransform(
 						SbVec3f(origin[0], origin[1], origin[2]) + SbVec3f(size[0], size[1], size[2]) / 2.f,
 						r,
-						SbVec3f(maxSize, maxSize, maxSize));
+						SbVec3f(maxSize * ((s[0] < 0) ? -1 : 1), maxSize * ((s[1] < 0) ? -1 : 1), maxSize * ((s[2] < 0) ? -1 : 1)), so);
 
-					// update field and element
+					// update MPR element
 					SoXipMprPlaneElement *element = SoXipMprPlaneElement::getInstance(action->getState());
 					if (element)
 					{
@@ -755,6 +1043,21 @@ void SoXipMprExaminer::GLRender(SoGLRenderAction * action)
 			manip->on = TRUE;
 		}
 		mViewAll = FALSE;
+	}
+    else if (mViewFirst)
+    {
+		updateMprFirst(action);
+	}
+    else if (mViewLast)
+    {
+        updateMprLast(action);
+    }
+
+	// update field
+	if (mMprModelMatrix != mLastMprModelMatrix)
+	{
+		mLastMprModelMatrix = mMprModelMatrix;
+		plane.setValue(mMprModelMatrix);
 	}
 
 	updateCamera();
@@ -791,33 +1094,46 @@ void SoXipMprExaminer::updateCursor()
 					break;
 	case SHIFT:		SoXipCursor::setCursor("SHIFT");
 					break;
+	default:		SoXipCursor::setCursor("NONE");
 	}
 }
 
 
 void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 {
-	if (action->getGrabber() == 0)
-	{
-		extractViewingParams(action);
-	}
-
 	mHandleEventAction = action;
 
 	SbBool handled = FALSE;
 	const SoEvent *e = action->getEvent();
 
     SbBool keyOk = TRUE;
-    if (key.getValue() & SHIFT_KEY) keyOk &= action->getEvent()->wasShiftDown();
-    if (key.getValue() & CTRL_KEY) keyOk &= action->getEvent()->wasCtrlDown();
-    if (!(key.getValue() & SHIFT_KEY)) keyOk &= !action->getEvent()->wasShiftDown();
-    if (!(key.getValue() & CTRL_KEY)) keyOk &= !action->getEvent()->wasCtrlDown();
+	
+	switch (key.getValue())
+	{
+		case SHIFT_KEY:	// SHIFT key is specified
+			keyOk = action->getEvent()->wasShiftDown();
+			break;
+		case CTRL_KEY:	// CTRL key is specified
+			keyOk = action->getEvent()->wasCtrlDown();
+			break;
+		default:	// if no key is specified
+			keyOk = !(action->getEvent()->wasShiftDown() || action->getEvent()->wasShiftDown());
+	}
 
+	/*
+	keyOk &= action->getEvent()->wasShiftDown();
+	keyOk &= !action->getEvent()->wasShiftDown();
+	keyOk &= action->getEvent()->wasCtrlDown();
+	keyOk &= !action->getEvent()->wasCtrlDown();
+	*/
+
+    
 	// call base class first
 	SoBaseKit::handleEvent(action);
 
 	if (action->isHandled()) return;
 
+	// wheel events
 	if (e->isOfType(SoMouseWheelEvent::getClassTypeId()) && !e->wasShiftDown() && !e->wasCtrlDown() && !action->getGrabber()
 		&& SoXipActiveViewportElement::get(action->getState()))
 	{
@@ -846,6 +1162,8 @@ void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 			{
 				mMprMatrixField->setValue(mMprModelMatrix);
 			}
+			// update field of MPR plane
+			plane.setValue(mMprModelMatrix);
 		}
 		if (mMprCenterField)
 		{
@@ -872,8 +1190,9 @@ void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 
 	if (!pointTo.getValue() && (mode.getValue() == NONE))
 	{
-		// do nothing
-		return;
+		// if not in the correct mode AND not a mouse event, do nothing
+		if (!e->isOfType(SoKeyboardEvent::getClassTypeId()))
+			return;
 	}
 
 
@@ -885,6 +1204,7 @@ void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 	}
 
 
+	// mouse button press event
 	if (SoMouseButtonEvent::isButtonPressEvent(e, (SoMouseButtonEvent::Button) mouse.getValue()))
 	{
 		if ((action->getGrabber() == 0) && keyOk)
@@ -950,6 +1270,76 @@ void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 			handled = TRUE;
 		}
 	}
+	// keyboard events
+	else if (e->isOfType(SoKeyboardEvent::getClassTypeId()))
+	{
+		SbVec2f diff;
+		SbVec3f viewCenter, p;
+		mMprModelMatrix.multVecMatrix(SbVec3f(0, 0, 0), viewCenter);
+
+		// acceleration factor (obtained from the field only when ALT key is pressed)
+		float acce = action->getEvent()->wasAltDown() ? accelerationFactor.getValue() : 1.0f;
+			
+		// keyboard events are triggered anytime regardless of modes
+		////if (mode.getValue() == PANZOOM)
+		{
+			switch( ((SoKeyboardEvent* )(e))->getKey() )
+			{
+			case SoKeyboardEvent::PAGE_UP:
+				mDragStartMouseBorder = true;
+				zoomMprList(1 + (2 * -0.05f*acce));
+				handled = TRUE;
+				break ;
+			case SoKeyboardEvent::PAGE_DOWN:
+				mDragStartMouseBorder = true;
+				zoomMprList(1 + (2 * +0.05f*acce));
+				handled = TRUE;
+				break ;
+			case SoKeyboardEvent::UP_ARROW:
+				mDragStartMouseBorder = false;
+
+				diff[0] = 0; diff[1] = 0.01f*acce;
+				mMprModelMatrix.multVecMatrix(SbVec3f(diff[0], diff[1], 0), p);
+				panCam(viewCenter - p);
+				handled = TRUE;
+				break ;
+			case SoKeyboardEvent::DOWN_ARROW:
+				mDragStartMouseBorder = false;
+
+				diff[0] = 0; diff[1] = -0.01f*acce;
+				mMprModelMatrix.multVecMatrix(SbVec3f(diff[0], diff[1], 0), p);
+				panCam(viewCenter - p);
+				handled = TRUE;
+				break ;
+			case SoKeyboardEvent::LEFT_ARROW:
+				mDragStartMouseBorder = false;
+
+				diff[0] = -0.01f*acce; diff[1] = 0;
+				mMprModelMatrix.multVecMatrix(SbVec3f(diff[0], diff[1], 0), p);
+				panCam(viewCenter - p);
+				handled = TRUE;
+				break ;
+			case SoKeyboardEvent::RIGHT_ARROW:
+				mDragStartMouseBorder = false;
+
+				diff[0] = 0.01f*acce; diff[1] = 0;
+				mMprModelMatrix.multVecMatrix(SbVec3f(diff[0], diff[1], 0), p);
+				panCam(viewCenter - p);
+				handled = TRUE;
+				break ;
+			default:
+				break;
+			}
+
+		}
+		
+
+		//handled = TRUE;
+
+		updateCursor();
+
+		//action->setHandled();
+	}
 	else if (e->isOfType(SoLocation2Event::getClassTypeId()))
 	{
 		if (action->getGrabber() == this)
@@ -974,7 +1364,7 @@ void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 							panCam(viewCenter - p);
 							break;
 						}
-			case PANZOOM:	if (mDragStartMouseBorder)
+			case PANZOOM:	if ( (mDragStartMouseBorder) && (!e->wasShiftDown()) )
 							{
 								// zoom
 								zoomMprList(1 + (2 * -diff[1]));
@@ -1120,6 +1510,15 @@ void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 		mShift = 0;
 		mShiftChange = 0;
 
+		if (mLastMousePos == mMouseDownPos)
+		{
+			// resend this event if user releases button without movement
+			// (needed for orientation cube to react)
+			SoHandleEventAction ha(action->getViewportRegion());
+			ha.setEvent(action->getEvent());
+			ha.apply(action->getNodeAppliedTo());
+		}
+
 		if (pointTo.getValue() && (mLastMousePos == mMouseDownPos))
 		{
 			// release button position equals push button position: scroll to cursor
@@ -1207,6 +1606,7 @@ void SoXipMprExaminer::updateElement(SoAction * action)
 
 	mMprModelMatrix = element->getMatrix(numPlanes - 1);
 	mStepSize = element->getStepSize(numPlanes - 1);
+	mThickness = element->getThickness(numPlanes - 1);
 	mMprMatrixField = element->getMatrixField(numPlanes - 1);
 	mMprCenterField = element->getCenterField(numPlanes - 1);
 	mBorderColor = element->getColor(numPlanes - 1);
@@ -1216,6 +1616,12 @@ void SoXipMprExaminer::updateElement(SoAction * action)
 	SbBool saveNotify = enableNotify(FALSE);
 
 	SoSwitch *onOff;
+	onOff = (SoSwitch*) getAnyPart("interactionSwitch", TRUE);
+	if (onOff)
+	{
+		onOff->whichChild = manip.getValue() ? 0 : -1;
+	}
+
 	onOff = (SoSwitch*) getAnyPart("dogEarSwitch", TRUE);
 	if (onOff)
 	{
@@ -1266,6 +1672,12 @@ void SoXipMprExaminer::updateCamera()
 		{
 			cam->orientation = r;
 		}
+
+		if (mThickness>0)
+		{
+			cam->nearDistance.setValue(-mThickness/2.0f);
+			cam->farDistance.setValue(mThickness/2.0f);
+		}
 	}
 }
 
@@ -1311,6 +1723,12 @@ void SoXipMprExaminer::updateDogEarSensors(SbBool onoff)
 		mDogEarPreviousSensor = 0;
 	}
 
+	if (mOrientationCubeSensor)
+	{
+		delete mOrientationCubeSensor;
+		mOrientationCubeSensor = 0;
+	}
+
 	if (onoff)
 	{
 		SoXipDogEar *aDogEar = (SoXipDogEar*) getAnyPart("dogEarNode", TRUE);
@@ -1321,6 +1739,13 @@ void SoXipMprExaminer::updateDogEarSensors(SbBool onoff)
 
 			mDogEarPreviousSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
 			mDogEarPreviousSensor->attach(&aDogEar->previous);
+		}
+
+		SoXipOrientationCube *aOC = (SoXipOrientationCube*) getAnyPart("orientationNode", TRUE);
+		if (aOC)
+		{
+			mOrientationCubeSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
+			mOrientationCubeSensor->attach(&aOC->orientation);
 		}
 	}
 }

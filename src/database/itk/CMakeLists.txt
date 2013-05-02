@@ -210,8 +210,7 @@ set(HEADERS
   generated/SoItkSigmoidImageFilter.h
   generated/SoItkSignedDanielssonDistanceMapImageFilter.h
   generated/SoItkSimpleContourExtractorImageFilter.h
-  generated/SoItkSimpleFuzzyConnectednessImageFilterBase.h
-  generated/SoItkSimpleFuzzyConnectednessScalarImageFilter.h
+
   generated/SoItkSinImageFilter.h
   generated/SoItkSmoothingRecursiveGaussianImageFilter.h
   generated/SoItkSobelEdgeDetectionImageFilter.h
@@ -244,6 +243,7 @@ set(HEADERS
   generated/SoItkZeroCrossingBasedEdgeDetectionImageFilter.h
   generated/SoItkZeroCrossingImageFilter.h
   generated/itkWrapInit.h)
+
 
 #--------------------------------------------------------------------
 # Define the source files
@@ -476,8 +476,7 @@ set(SOURCES
   generated/SoItkSigmoidImageFilter.cpp
   generated/SoItkSignedDanielssonDistanceMapImageFilter.cpp
   generated/SoItkSimpleContourExtractorImageFilter.cpp
-  generated/SoItkSimpleFuzzyConnectednessImageFilterBase.cpp
-  generated/SoItkSimpleFuzzyConnectednessScalarImageFilter.cpp
+
   generated/SoItkSinImageFilter.cpp
   generated/SoItkSmoothingRecursiveGaussianImageFilter.cpp
   generated/SoItkSobelEdgeDetectionImageFilter.cpp
@@ -512,13 +511,32 @@ set(SOURCES
   generated/itkWrapInit.cpp)
 
 #--------------------------------------------------------------------
+# Setup option for building with ITK_PATENTED
+option(BUILD_WITH_ITK_PATENTED
+  "Build XIP ITK Wrapper with patented ITK algorithms" OFF)
+mark_as_advanced(BUILD_WITH_ITK_PATENTED)
+
+# Add headers and sources if building with ITK_PATENTED
+if(BUILD_WITH_ITK_PATENTED)
+  set(HEADERS ${HEADERS}
+    generated/SoItkSimpleFuzzyConnectednessImageFilterBase.h
+    generated/SoItkSimpleFuzzyConnectednessScalarImageFilter.h
+
+  )
+  set(SOURCES ${SOURCES}
+    generated/SoItkSimpleFuzzyConnectednessImageFilterBase.cpp
+    generated/SoItkSimpleFuzzyConnectednessScalarImageFilter.cpp
+  )
+endif(BUILD_WITH_ITK_PATENTED)
+
+#--------------------------------------------------------------------
 # Find the Insight Toolkit libraries
 #
 if(${CMAKE_BINARY_DIR} MATCHES release)
 	
   if(CMAKE_CL_64)
     find_package(ITK REQUIRED PATHS
-		${CMAKE_SOURCE_DIR}/../xipext-win64-vs8-release/ITK/lib/InsightToolkit)
+		${CMAKE_SOURCE_DIR}/../xipext-win32-vs8-release/ITK/lib/InsightToolkit)
   endif(CMAKE_CL_64)
 
   if(WIN32 AND NOT CMAKE_CL_64)
@@ -576,6 +594,10 @@ else(WIN32)
   add_definitions(-DHAVE_CONFIG_H)
 endif(WIN32)
 
+if(BUILD_WITH_ITK_PATENTED)
+  add_definitions(-DBUILD_WITH_ITK_PATENTED)
+endif(BUILD_WITH_ITK_PATENTED)
+
 #--------------------------------------------------------------------
 # Define the include directories
 #
@@ -603,10 +625,11 @@ set_target_properties(xipivitk
 # Link the library
 #
 target_link_libraries(xipivitk
-	optimized xipivcore
-	debug xipivcore${CMAKE_DEBUG_POSTFIX}
+  ${XIP_CORE_LIBRARY}
   ${ITK_LIBRARIES})
 
+add_dependencies(xipivitk xipivcore)
+  
 if(WIN32 AND NOT BORLAND)
   target_link_libraries(xipivitk
     Ws2_32

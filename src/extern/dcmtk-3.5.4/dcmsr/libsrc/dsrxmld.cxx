@@ -117,7 +117,7 @@ void DSRXMLDocument::setLogStream(OFConsole *stream)
 
 #ifdef WITH_LIBXML
 OFCondition DSRXMLDocument::read(const OFString &filename,
-                                 const size_t flags)
+                                 const size_t flags, const E_LoadXmlMode loadMode)
 {
     OFCondition result = SR_EC_InvalidDocument;
     /* first remove any possibly existing document from memory */
@@ -138,7 +138,10 @@ OFCondition DSRXMLDocument::read(const OFString &filename,
     }
     xmlGenericError(xmlGenericErrorContext, "--- libxml parsing ------\n");
     /* build an XML tree from the given file */
-    Document = xmlParseFile(filename.c_str());
+	if (loadMode == DSRTypes::LXT_File)
+		Document = xmlParseFile(filename.c_str());
+	else
+		Document = xmlParseDoc((xmlChar *)filename.c_str());
     if (Document != NULL)
     {
         OFBool isValid = OFTrue;
@@ -230,7 +233,7 @@ OFCondition DSRXMLDocument::read(const OFString &filename,
 }
 #else /* WITH_LIBXML */
 OFCondition DSRXMLDocument::read(const OFString &,
-                                 const size_t)
+                                 const size_t, const E_LoadXmlMode loadMode)
 {
     return EC_IllegalCall;
 }

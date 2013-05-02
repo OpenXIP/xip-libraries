@@ -178,8 +178,12 @@ void SoXipFboElement::init(SoState *state)
 #endif
 
 #if 1 // Store in member by Action
-    SoGLRenderAction * action2 = static_cast<SoGLRenderAction *>(state->getAction());
-    SbVec2s acvp2 = action2->getViewportRegion().getViewportSizePixels();
+    //SoGLRenderAction * action2 = static_cast<SoGLRenderAction *>(state->getAction());
+    //SbVec2s acvp2 = action2->getViewportRegion().getViewportSizePixels();
+    SoGLRenderAction * action2 = dynamic_cast<SoGLRenderAction *>(state->getAction());
+    SbVec2s acvp2;
+    if (action2)
+        acvp2 = action2->getViewportRegion().getViewportSizePixels();
     mPrevVp = acvp2;
 #endif
 }
@@ -195,6 +199,19 @@ void SoXipFboElement::push(SoState *state)
 
 	// Propogate values from previous
 	SoXipFboElement *prev = (SoXipFboElement*)(this->getNextInStack());
+
+	/*
+		FIXUP: The default element assumes FBO 0 is bound, this might not be the case
+		so one way of solving this is to check GL for the real FBO in use. This is
+		probably only needed when the current framebuffer is 0.
+	*/
+	if (prev->mActiveFB.fboHandle == 0)
+	{
+		int currentFbo;
+		glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &currentFbo);
+        prev->mActiveFB.fboHandle = currentFbo;
+	}
+
     mActiveFB = prev->mActiveFB;
     mPassiveFB = prev->mPassiveFB;
 
@@ -225,7 +242,7 @@ void SoXipFboElement::pop(SoState *state, const SoElement *prevTopElement)
 
     const SoXipFboElement * prevTop = static_cast<const SoXipFboElement *>(prevTopElement);
 	// Rebind if different 
-	if (mActiveFB != prevTop->mActiveFB)
+    if (mActiveFB.fboHandle != prevTop->mActiveFB.fboHandle)
 		bindActiveFB();
 
     SoGLRenderAction * action = static_cast<SoGLRenderAction *>(state->getAction());

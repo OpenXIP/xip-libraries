@@ -153,6 +153,7 @@ SoXipLut::SoXipLut()
 	SO_NODE_DEFINE_ENUM_VALUE(InputType, FILE);
 	SO_NODE_DEFINE_ENUM_VALUE(InputType, ARRAY);
 	SO_NODE_DEFINE_ENUM_VALUE(InputType, RAMP_FILE);
+    SO_NODE_DEFINE_ENUM_VALUE(InputType, RAMP_ARRAY);
 	SO_NODE_SET_SF_ENUM_TYPE(inputMode, InputType);
 	SO_NODE_ADD_FIELD( inputMode, (RAMP) );
 
@@ -197,6 +198,8 @@ SoXipLut::SoXipLut()
 	SO_NODE_ADD_FIELD( arrayColor, (SbColor(0,0,0)));
 	SO_NODE_ADD_FIELD( arrayAlpha, (0));
 
+	SO_NODE_ADD_FIELD( invertColor, (FALSE));
+
 	arrayColor.setNum(0);
 	arrayAlpha.setNum(0);
 
@@ -217,7 +220,8 @@ SoXipLut::SoXipLut()
 		&fileEntries,
 		&arrayColor,
 		&arrayAlpha,
-        &alphaMode
+        &alphaMode,
+		&invertColor
 	};
 
 	if (!mLutData)
@@ -387,6 +391,17 @@ void SoXipLut::updateColorAlpha()
 				rgbaBuffer[ i ].a = 0.;
 			}
 
+			if (invertColor.getValue())
+			{
+				for( i = 0; i < mNumElements; i++ )
+				{
+					rgbaBuffer[ i ].r = 1 - rgbaBuffer[ i ].r;
+					rgbaBuffer[ i ].g = 1 - rgbaBuffer[ i ].g;
+					rgbaBuffer[ i ].b = 1 - rgbaBuffer[ i ].b;
+					//rgbaBuffer[ i ].a = 1 - rgbaBuffer[ i ].a;
+				}
+			}
+
 			adjustAlpha(rgbaBuffer, mNumElements, start, end);
 
 		} break;
@@ -414,6 +429,83 @@ void SoXipLut::updateColorAlpha()
 				lut->zero();
 			}
 		} break;
+    case RAMP_ARRAY:
+        {
+            if (arrayColor.getNum() != arrayAlpha.getNum())
+            {
+                lut->zero();			
+                return;
+            }
+            int cmap_size = arrayColor.getNum();
+            if (cmap_size == 0)
+            {
+                cmap_size = mNumElements;
+            }
+
+            colorRGBA* cmap = new colorRGBA[cmap_size];
+            int i;
+            for (i = 0; i < cmap_size; ++i)
+            {
+                cmap[i].r = arrayColor[i][0];
+                cmap[i].g = arrayColor[i][1];
+                cmap[i].b = arrayColor[i][2];
+                cmap[i].a = arrayAlpha[i];
+            }
+
+            int start = static_cast<int>(( rampCenter.getValue() - 0.5 * rampWidth.getValue() ) * mNumElements);
+            int end = static_cast<int>(( rampCenter.getValue() + 0.5 * rampWidth.getValue() ) * mNumElements);
+
+            start = start > 0 ? start : 0;
+            end = end <= mNumElements ? end : mNumElements;
+
+            int colorCenter = start + ( end - start ) * 0.5f;
+
+            for (i = 0; i < start; ++i)
+            {
+                rgbaBuffer[ i ].r = 0;
+                rgbaBuffer[ i ].g = 0;
+                rgbaBuffer[ i ].b = 0;
+                rgbaBuffer[ i ].a = 0;
+            }
+
+            float ratio = 1.f / ( (float) end - start );
+
+            for (i = start; i < end; ++i)
+            {
+                // scale of ramp
+
+                const float value = ( i - start ) * ratio;
+                const float pos = value * (cmap_size - 1);
+                const int k = static_cast<int>(floor(pos)); 
+                const float fpos = pos - k;
+
+                const float vr_min = cmap[k].r, vr_max = cmap[k+1].r;
+                const float vg_min = cmap[k].g, vg_max = cmap[k+1].g;
+                const float vb_min = cmap[k].b, vb_max = cmap[k+1].b;
+                const float va_min = cmap[k].a, va_max = cmap[k+1].a;
+
+                rgbaBuffer[ i ].r = vr_min + fpos * (vr_max - vr_min);
+                rgbaBuffer[ i ].g = vg_min + fpos * (vg_max - vg_min);
+                rgbaBuffer[ i ].b = vb_min + fpos * (vb_max - vb_min);
+                rgbaBuffer[ i ].a = alphaFactor.getValue() * (va_min + fpos * (va_max - va_min));
+
+            }
+
+            const int idx_max = cmap_size - 1;
+
+            for (i = end; i < mNumElements; ++i)
+            {
+                rgbaBuffer[ i ].r = cmap[ idx_max ].r;
+                rgbaBuffer[ i ].g = cmap[ idx_max ].g;
+                rgbaBuffer[ i ].b = cmap[ idx_max ].b;
+                rgbaBuffer[ i ].a = alphaFactor.getValue() * cmap[ idx_max ].a;
+            }
+            delete[] cmap;
+
+            adjustAlpha(rgbaBuffer, mNumElements, start, end);
+
+        } break;
+
 	case FILE:
 		{
 			if (fileEntries.getValue() <= 0 || fileIn.getValue().getLength() <= 0)
@@ -580,9 +672,6 @@ void SoXipLut::updateColor()
 
 			for( i = start; i < colorCenter; i++ )
 			{
-				// scale of ramp
-				float value = ( i - start ) * ratio;
-
 				// blend factor 0 -> 1 from start to center of ramp
 				float b = (float) ( i - start ) / (float) ( colorCenter - start );
 
@@ -593,9 +682,6 @@ void SoXipLut::updateColor()
 
 			for( i = colorCenter; i < end; i++ )
 			{
-				// scale of ramp
-				float value = ( i - start ) * ratio;
-
 				// blend factor 0 -> 1 from center to end of ramp
 				float b = (float) ( i - colorCenter ) / (float) ( end - colorCenter );
 
@@ -616,9 +702,6 @@ void SoXipLut::updateColor()
 
 			for( i = start2; i < colorCenter; i++ )
 			{
-				// scale of ramp
-				float value = ( i - start2 ) * ratio;
-
 				// blend factor 0 -> 1 from start to center of ramp
 				float b = (float) ( i - start2 ) / (float) ( colorCenter - start2 );
 
@@ -629,9 +712,6 @@ void SoXipLut::updateColor()
 
 			for( i = colorCenter; i < end2; i++ )
 			{
-				// scale of ramp
-				float value = ( i - start2 ) * ratio;
-
 				// blend factor 0 -> 1 from center to end of ramp
 				float b = (float) ( i - colorCenter ) / (float) ( end2 - colorCenter );
 
@@ -754,9 +834,6 @@ void SoXipLut::updateGray()
 
 			for( i = colorCenter; i < end; i++ )
 			{
-				// scale of ramp
-				float value = ( i - start ) * ratio;
-
 				// blend factor 0 -> 1 from center to end of ramp
 				float b = (float) ( i - colorCenter ) / (float) ( end - colorCenter );
 
@@ -779,9 +856,6 @@ void SoXipLut::updateGray()
 
 			for( i = start2; i < colorCenter; i++ )
 			{
-				// scale of ramp
-				float value = ( i - start2 ) * ratio;
-
 				// blend factor 0 -> 1 from start to center of ramp
 				float b = (float) ( i - start2 ) / (float) ( colorCenter - start2 );
 
@@ -795,9 +869,6 @@ void SoXipLut::updateGray()
 
 			for( i = colorCenter; i < end2; i++ )
 			{
-				// scale of ramp
-				float value = ( i - start2 ) * ratio;
-
 				// blend factor 0 -> 1 from center to end of ramp
 				float b = (float) ( i - colorCenter ) / (float) ( end2 - colorCenter );
 
@@ -971,7 +1042,6 @@ void SoXipLut::adjustAlpha(colorRGBA* rgbaBuffer, int numElements, int start, in
 		} break;
 	case INTENSITY:
 		{
-			float a = alphaFactor.getValue();
 			for (i = 0; i< numElements; ++i)
 			{
 				rgbaBuffer[ i ].a = alphaFactor.getValue()* ((0.212671f * rgbaBuffer[i].r) + (0.71516f * rgbaBuffer[i].g) + (0.072169f * rgbaBuffer[i].b));

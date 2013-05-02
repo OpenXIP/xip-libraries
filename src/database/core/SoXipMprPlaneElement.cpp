@@ -132,6 +132,7 @@ struct So_MprPlane
 	SoSFVec3f*  centerField;
 	int         id;
 	float		stepSize;
+	float		thickness;
 };
 
 
@@ -153,13 +154,13 @@ void SoXipMprPlaneElement::init(SoState *)
 }
 
 
-void SoXipMprPlaneElement::add(SoState *state, SoNode *node, const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, SoSFMatrix *planeField, SoSFVec3f *centerField)
+void SoXipMprPlaneElement::add(SoState *state, SoNode *node, const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, float thickness, SoSFMatrix *planeField, SoSFVec3f *centerField)
 {
 	SoXipMprPlaneElement* elt = (SoXipMprPlaneElement *) getElement(state, classStackIndex);
 
 	if (elt) 
 	{
-		elt->addToElt(planeMatrix, center, color, id, stepSize, planeField, centerField);
+		elt->addToElt(planeMatrix, center, color, id, stepSize, thickness, planeField, centerField);
 
 		// Update node id list in element
 		elt->addNodeId(node);
@@ -260,7 +261,7 @@ const int SoXipMprPlaneElement::getId(int index) const
 }
 
 
-// Returns the nth plane id stored in an instance.
+// Returns the nth plane step size stored in an instance.
 const float SoXipMprPlaneElement::getStepSize(int index) const
 {
 #ifdef _DEBUG
@@ -276,14 +277,28 @@ const float SoXipMprPlaneElement::getStepSize(int index) const
 }
 
 
-void SoXipMprPlaneElement::setMatrix(int index, const SbMatrix &matrix)
+// Returns the nth plane thickness stored in an instance.
+const float SoXipMprPlaneElement::getThickness(int index) const
 {
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
-		SoDebugError::post("SoXipMprPlaneElement::setMatrix",
+		SoDebugError::post("SoXipMprPlaneElement::getThickness",
+		"Index (%d) is out of range 0 - %d",
+		index, mMprPlanes.getLength() - 1);
+#endif
+
+	So_MprPlane *plane = (So_MprPlane *) mMprPlanes[index];
+
+	return plane->thickness;
+}
+
+
+void SoXipMprPlaneElement::setMatrix(int index, const SbMatrix &matrix)
+{
+	if (index < 0 || index >= mMprPlanes.getLength())
+		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
 			   "Index (%d) is out of range 0 - %d",
 			   index, mMprPlanes.getLength() - 1);
-#endif
 
 	So_MprPlane *plane = (So_MprPlane *) mMprPlanes[index];
 	if (plane)
@@ -344,6 +359,7 @@ void SoXipMprPlaneElement::setCenter(int index, const SbVec3f &center)
 
 const SbVec3f& SoXipMprPlaneElement::getCenter(int index) const
 {
+
 #ifdef _DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
 		SoDebugError::post("SoXipMprPlaneElement::getCenter",
@@ -357,7 +373,7 @@ const SbVec3f& SoXipMprPlaneElement::getCenter(int index) const
 }
 
 
-// Returns the nth plane filed stored in an instance.
+// Returns the nth plane matrix field stored in an instance.
 SoSFMatrix * SoXipMprPlaneElement::getMatrixField(int index) const
 {
 #ifdef _DEBUG
@@ -388,8 +404,8 @@ SoSFVec3f * SoXipMprPlaneElement::getCenterField(int index) const
 }
 
 
-// Adds clipping plane to element.
-void SoXipMprPlaneElement::addToElt(const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, SoSFMatrix *planeField, SoSFVec3f *centerField)
+// Adds MprPlane properties to the MprPlaneElement
+void SoXipMprPlaneElement::addToElt(const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, float thickness, SoSFMatrix *planeField, SoSFVec3f *centerField)
 {
 	So_MprPlane *newPlane = new So_MprPlane;
 	if (newPlane)
@@ -401,6 +417,7 @@ void SoXipMprPlaneElement::addToElt(const SbMatrix &planeMatrix, const SbVec3f &
 		newPlane->centerField = centerField;
 		newPlane->id = id;
 		newPlane->stepSize = stepSize;
+		newPlane->thickness = thickness;
 
 		mMprPlanes.append(newPlane);
 	}

@@ -105,14 +105,12 @@
 *      LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
 *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
-*      THE POSSIBILITY OF SUCH DAMAGE.  
+*      THE POSSIBILITY OF SUCH DAMAGE.
+*  
 */
 
-#ifndef _XIP_LOG_LISTENER_H
-#define _XIP_LOG_LISTENER_H
-
-#pragma warning(push)
-#pragma warning(disable : 4786)
+#ifndef XIPLOGLISTENER_H
+#define XIPLOGLISTENER_H
 
 #include <xip/common/XipCommon.h>
 #include <xip/common/XipLog.h>
@@ -122,33 +120,21 @@
 
 class XIPCOMMON_API XipLogListener
 {
+
 public:
-	// Constructor
-	XipLogListener(){};
+    // Constructor.
+    XipLogListener(){}
 
-	//XipLogListener(XipLogType errorType);
-  
-	// Destructor
-	virtual ~XipLogListener(){};
+    // Destructor.
+    virtual ~XipLogListener(){}
 
-	//copy constructor
-	//XipLogListener(const XipLogListener& other);
+    virtual void handleError(const XipLogEntry* entry) = 0;
+    virtual void set(int property, const wchar_t* value) = 0;
 
-  //assignment operator
-	//XipLogListener& operator=(const XipLogListener& other);
-	          
-  virtual void handleError(XipLog &error) = 0;
-
-	//set the log type below which to record
-	void setLogLevel(XipLogType level) {XipLog::logLevel = level;};
+    //set the log type below which to record
+    //void setLogLevel(XipLogLevel level) {XipLog::sGlobalLogLevel = level;}
 
 private:
-
-  //private copy - util method
-  //void copyObj(const XipLogListener& other);
 };
 
-
-#pragma warning(pop) 
-
-#endif // _XIP_LOG_LISTENER_H
+#endif

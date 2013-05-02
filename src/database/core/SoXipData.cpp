@@ -109,6 +109,8 @@
  *  
  */
 
+#pragma warning (disable:4786)
+
 #include <Inventor/errors/SoErrors.h>
 #include <xip/inventor/core/SoXipData.h>
 #include <map>

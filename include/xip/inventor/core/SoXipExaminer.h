@@ -213,7 +213,7 @@ public:
 	SoSFMatrix viewBoundingBox;
 	SoSFPlane plane;
 
-	virtual void rotateCam(const SbRotation &rot);
+	virtual void rotateCam(const SbRotation &rot, SbBool enableAnimation = FALSE);
 	virtual void scaleCam(float scale);
 
 	virtual void panCam(const SbVec2f pos);
@@ -221,6 +221,7 @@ public:
 	virtual	void spinNormCam(const SbVec2f pos);
 	virtual void rotatePlane(const SbRotation &rot, const SbVec3f &center);
 	virtual void translatePlane(const SbVec3f &tvec);
+	virtual void setInteractive(SbBool on);
 
 protected:
 	virtual SoCamera *findCameraInScene(SoAction *action);
@@ -267,6 +268,9 @@ protected:
 	uint32_t mParentId;
 	SoCamera *mSceneCamera;
 	SbBool mShowPlaneRotationPoint;
+	SbRotation mAnimRotationStart;
+	SbRotation mAnimRotationStop;
+	float mAnimSlerp;
 
 	struct mprPlanes_s
 	{
@@ -275,6 +279,7 @@ protected:
 	};
 	typedef std::vector<mprPlanes_s> mprPlanes_t;
 	mprPlanes_t mMprPlaneList;
+	uint32_t mSceneCameraId;
 
 private:
 	SoHandleEventAction *mHandleEventAction;

@@ -53,7 +53,6 @@ typedef void (*xmlCharEncodingHandlerPtr);
 typedef char xmlChar;
 #endif
 
-
 /*---------------------*
  *  class declaration  *
  *---------------------*/
@@ -117,7 +116,7 @@ class DSRXMLDocument
      ** @return status, EC_Normal if successful, an error code otherwise
      */
     OFCondition read(const OFString &filename,
-                     const size_t flags = 0);
+		const size_t flags = 0, const E_LoadXmlMode loadMode=DSRTypes::LXT_File);
 
 
   // --- character encoding ---

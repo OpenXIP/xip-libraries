@@ -255,6 +255,100 @@
       <Output Outputname="int7" Type="SoSFInt32" Code="setValue(intMF[7])" />
     </Outputs>
   </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipDecomposeMFMatrix" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDecomposeMFMatrix.cpp" Macrocalls="84" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipDecomposeMFMatrix.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="SbMatrix::identity()" Inputname="matMF" />
+    </Inputs>
+    <Outputs>
+      <Output Outputname="mat0" Type="SoSFMatrix" />
+      <Output Outputname="mat1" Type="SoSFMatrix" />
+      <Output Outputname="mat2" Type="SoSFMatrix" />
+      <Output Outputname="mat3" Type="SoSFMatrix" />
+      <Output Outputname="mat4" Type="SoSFMatrix" />
+      <Output Outputname="mat5" Type="SoSFMatrix" />
+      <Output Outputname="mat6" Type="SoSFMatrix" />
+      <Output Outputname="mat7" Type="SoSFMatrix" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(matMF[1])" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(matMF[1])" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(matMF[2])" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(matMF[1])" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(matMF[2])" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(matMF[3])" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(matMF[1])" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(matMF[2])" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(matMF[3])" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(matMF[4])" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(matMF[1])" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(matMF[2])" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(matMF[3])" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(matMF[4])" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(matMF[5])" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(matMF[1])" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(matMF[2])" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(matMF[3])" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(matMF[4])" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(matMF[5])" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(matMF[6])" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(SbMatrix::identity())" />
+      <Output Outputname="mat0" Type="SoSFMatrix" Code="setValue(matMF[0])" />
+      <Output Outputname="mat1" Type="SoSFMatrix" Code="setValue(matMF[1])" />
+      <Output Outputname="mat2" Type="SoSFMatrix" Code="setValue(matMF[2])" />
+      <Output Outputname="mat3" Type="SoSFMatrix" Code="setValue(matMF[3])" />
+      <Output Outputname="mat4" Type="SoSFMatrix" Code="setValue(matMF[4])" />
+      <Output Outputname="mat5" Type="SoSFMatrix" Code="setValue(matMF[5])" />
+      <Output Outputname="mat6" Type="SoSFMatrix" Code="setValue(matMF[6])" />
+      <Output Outputname="mat7" Type="SoSFMatrix" Code="setValue(matMF[7])" />
+    </Outputs>
+  </class>
   <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipDepthTest" >
     <Sourcefiles>
       <Sourcefile Filename="SoXipDepthTest.cpp" Macrocalls="6" />
@@ -316,21 +410,6 @@
     <Fields>
       <Field Fieldname="inputImage" defaultValue="NULL" />
       <Field Fieldname="format" defaultValue="RGB" />
-    </Fields>
-  </class>
-  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipDrawQuad" >
-    <Sourcefiles>
-      <Sourcefile Filename="SoXipDrawQuad.cpp" Macrocalls="7" />
-    </Sourcefiles>
-    <Includes>
-      <Include Path="xip/system/standard.h" />
-      <Include Path="xip/inventor/coregl/SoXipDrawQuad.h" />
-    </Includes>
-    <Fields>
-      <Field Fieldname="enableTexture" defaultValue="true" />
-      <Field Fieldname="filter" defaultValue="SAME" />
-      <Field Fieldname="blend" defaultValue="false" />
-      <Field Fieldname="colors" defaultValue="SbVec3f(1, 1, 1)" />
     </Fields>
   </class>
   <class ParentClass="SoGroup" ParentPrintName="SoGroup" Type="NODE" Name="SoXipFbo" >
@@ -530,18 +609,86 @@
       <Include Path="GL/glx.h" />
     </Includes>
   </class>
-  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLSLPrograms" >
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLSLComponentProgram" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipGLSLPrograms.cpp" Macrocalls="18" />
+      <Sourcefile Filename="SoXipGLSLComponentProgram.cpp" Macrocalls="18" />
     </Sourcefiles>
     <Includes>
       <Include Path="xip/system/standard.h" />
       <Include Path="xip/system/GL/gl.h" />
-      <Include Path="SoXipGLSLPrograms.h" />
-      <Include Path="ShaderProgramManager.h" />
-      <Include Path="Inventor/actions/SoGLRenderAction.h" />
       <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
       <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/ShaderComponentLibrary.h" />
+      <Include Path="xip/inventor/coregl/ShaderProgramManager.h" />
+      <Include Path="xip/inventor/coregl/ShaderSourceComponent.h" />
+      <Include Path="SoXipGLSLComponentProgram.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="string" />
+      <Include Path="vector" />
+      <Include Path="fstream" />
+      <Include Path="sys/stat.h" />
+      <Include Path="time.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="prgTag" defaultValue="&quot;&quot;" />
+      <Field Fieldname="vpComponents" defaultValue="&quot;&quot;" />
+      <Field Fieldname="gpComponents" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fpComponents" defaultValue="&quot;&quot;" />
+      <Field Fieldname="vpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="gpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fpDefines" defaultValue="&quot;&quot;" />
+      <Field Fieldname="updateShaders" defaultValue="" />
+      <Field Fieldname="autoUpdate" defaultValue="false" />
+      <Field Fieldname="shadersUpdated" defaultValue="" />
+      <Field Fieldname="printToFile" defaultValue="" />
+      <Field Fieldname="filename" defaultValue="&quot;&quot;" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLSLLoadComponents" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLSLLoadComponents.cpp" Macrocalls="18" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="xip/system/GL/gl.h" />
+      <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/ShaderComponentLibrary.h" />
+      <Include Path="xip/inventor/coregl/ShaderProgramManager.h" />
+      <Include Path="xip/inventor/coregl/ShaderSourceComponent.h" />
+      <Include Path="SoXipGLSLLoadComponents.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="string" />
+      <Include Path="vector" />
+      <Include Path="fstream" />
+      <Include Path="sys/stat.h" />
+      <Include Path="time.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="vpFilenames" defaultValue="&quot;&quot;" />
+      <Field Fieldname="gpFilenames" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fpFilenames" defaultValue="&quot;&quot;" />
+      <Field Fieldname="vpComponents" defaultValue="&quot;&quot;" />
+      <Field Fieldname="gpComponents" defaultValue="&quot;&quot;" />
+      <Field Fieldname="fpComponents" defaultValue="&quot;&quot;" />
+      <Field Fieldname="update" defaultValue="" />
+      <Field Fieldname="autoUpdate" defaultValue="false" />
+      <Field Fieldname="testCompilation" defaultValue="false" />
+      <Field Fieldname="geometryInputType" defaultValue="IN_TRIANGLES" />
+      <Field Fieldname="geometryOutputType" defaultValue="OUT_TRIANGLE_STRIP" />
+      <Field Fieldname="maxEmittedVertices" defaultValue="1" />
+    </Fields>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLSLPrograms" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipGLSLPrograms.cpp" Macrocalls="19" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
+      <Include Path="xip/inventor/coregl/ShaderProgramManager.h" />
+      <Include Path="SoXipGLSLPrograms.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
       <Include Path="string" />
       <Include Path="vector" />
       <Include Path="fstream" />
@@ -561,6 +708,7 @@
       <Field Fieldname="geometryInputType" defaultValue="IN_TRIANGLES" />
       <Field Fieldname="geometryOutputType" defaultValue="OUT_TRIANGLE_STRIP" />
       <Field Fieldname="maxEmittedVertices" defaultValue="1" />
+      <Field Fieldname="glslVersion" defaultValue="V120" />
     </Fields>
   </class>
   <class ParentClass="SoXipShaderProgramElement" Type="ELEMENT" Name="SoXipGLSLShaderProgramElement" >
@@ -571,12 +719,12 @@
       <Include Path="xip/system/standard.h" />
       <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
       <Include Path="xip/inventor/coregl/SoXipGlowElement.h" />
-      <Include Path="ShaderProgramManager.h" />
+      <Include Path="xip/inventor/coregl/ShaderProgramManager.h" />
     </Includes>
   </class>
   <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoXipGLSLUniformGroup" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipGLSLUniformGroup.cpp" Macrocalls="4" />
+      <Sourcefile Filename="SoXipGLSLUniformGroup.cpp" Macrocalls="6" />
     </Sourcefiles>
     <Includes>
       <Include Path="SoXipGLSLUniformGroup.h" />
@@ -587,6 +735,9 @@
       <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
       <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
     </Includes>
+    <Fields>
+      <Field Fieldname="prgTags" defaultValue="&quot;&quot;" />
+    </Fields>
   </class>
   <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipGLSLUseProgram" >
     <Sourcefiles>
@@ -594,8 +745,8 @@
     </Sourcefiles>
     <Includes>
       <Include Path="xip/system/standard.h" />
+      <Include Path="xip/inventor/coregl/ShaderProgramManager.h" />
       <Include Path="SoXipGLSLUseProgram.h" />
-      <Include Path="ShaderProgramManager.h" />
       <Include Path="Inventor/actions/SoGLRenderAction.h" />
       <Include Path="xip/inventor/coregl/SoXipShaderProgramElement.h" />
       <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
@@ -997,23 +1148,6 @@
     </Includes>
     <Fields>
       <Field Fieldname="value" defaultValue="0.0,0.0,0.0,0.0" />
-    </Fields>
-  </class>
-  <class Type="NODE" Name="XipGLSLUniformGroup" >
-    <Sourcefiles>
-      <Sourcefile Filename="SoXipGLSLUniformGroup.cpp" Macrocalls="2" />
-    </Sourcefiles>
-    <Includes>
-      <Include Path="SoXipGLSLUniformGroup.h" />
-      <Include Path="Inventor/nodes/SoSubNode.h" />
-      <Include Path="Inventor/actions/SoCallbackAction.h" />
-      <Include Path="Inventor/actions/SoGLRenderAction.h" />
-      <Include Path="Inventor/misc/SoChildList.h" />
-      <Include Path="xip/inventor/coregl/SoXipGLOWElement.h" />
-      <Include Path="xip/inventor/coregl/SoXipGLSLShaderProgramElement.h" />
-    </Includes>
-    <Fields>
-      <Field Fieldname="prgTags" defaultValue="&quot;&quot;" />
     </Fields>
   </class>
 </classes>

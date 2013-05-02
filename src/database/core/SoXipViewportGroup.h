@@ -146,8 +146,11 @@ public:
 	SoMFVec4f viewports;
 	SoSFInt32 current;
 	SoSFBool  maximized;
+	SoSFBool  nested;
 
 protected:
+
+
 	enum viewportBorder_t
 	{
 		VIEWPORT_LEFT,
@@ -178,12 +181,14 @@ protected:
 	virtual SbBool isOverlapping(int num, const SbVec4f *v) const;
 	virtual void updateCursor();
 
-	SoFieldSensor *mRelativeFieldSensors;
+	SoFieldSensor *mFieldSensorRelative;
+	SoFieldSensor *mFieldSensorNested;
 	int mWindowWidth;
 	int mWindowHeight;
 	int mActiveViewport;
 	int mPickViewport;
 	SbTime mLastButtonDownTime;
+
 	SbVec2s mResizeStart;
 	SbVec2s mResizePos;
 	resizeMode_t mResizeMode;

@@ -1,0 +1,1820 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainFormClass</class>
+ <widget class="QMainWindow" name="MainFormClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>575</width>
+    <height>498</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>320</width>
+    <height>200</height>
+   </size>
+  </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
+  <property name="windowTitle">
+   <string>Basic Viewer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/main.ico</normaloff>:/main.ico</iconset>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMenu {
+	background-color: #000000;
+}
+
+QMenu::item {
+	font-family: Arial;
+	font-size: 9px;
+	color: #7374A0;
+}
+
+QMenu::item::selected {
+	background-color: #7374A0;
+	color: #FFFFFF;
+}
+
+QMenuBar {
+	color: #7374A0;
+	background-color: #000000;
+}
+
+QMenuBar::item {
+	color: #7374A0;
+ }
+
+QWidget {
+	color: #140865;
+	font-family: Arial;
+	font-size: 11px;
+}
+
+QLabel {
+	font-size: 14px;
+}
+
+QToolBar {
+	background-color: #191A2F;
+}
+
+QPushButton * {
+	border: 1px solid #8f8f91;
+	color: #000000;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+	padding: 4px;
+	margin: 0px;
+}
+
+QPushButton:pressed {
+	color: #AA0000;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+</string>
+  </property>
+  <property name="animated">
+   <bool>false</bool>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0" colspan="2">
+     <widget class="Line" name="line">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>1</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>1</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #1D1C21;</string>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QWidget" name="TopToolbar" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="acceptDrops">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget {
+	background-color: #000000;
+}
+
+QToolButton {
+	border: 0px;
+}
+
+QToolButton:hover {
+	border: 1px solid #FFFFFF;
+}</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="margin">
+        <number>2</number>
+       </property>
+       <item>
+        <widget class="QToolButton" name="btnLoadModel">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Open</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qrc/basicviewer.qrc">
+           <normaloff>:/images/tmi_open.png</normaloff>:/images/tmi_open.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::DelayedPopup</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnZoomIn">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Zoom in</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qrc/basicviewer.qrc">
+           <normaloff>:/images/tmi_zoomIn.png</normaloff>:/images/tmi_zoomIn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::DelayedPopup</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnZoomOut">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Zoom out</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qrc/basicviewer.qrc">
+           <normaloff>:/images/tmi_zoomOut.png</normaloff>:/images/tmi_zoomOut.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::DelayedPopup</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnResetView">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>View all</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qrc/basicviewer.qrc">
+           <normaloff>:/images/tmi_homeView.png</normaloff>:/images/tmi_homeView.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::DelayedPopup</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnToggleDicom">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>View Dicomdata</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qrc/basicviewer.qrc">
+           <normaloff>:/images/dicom.png</normaloff>:/images/dicom.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::DelayedPopup</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnToggleCrossfader">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>26</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Toggle Presetmixer</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qrc/basicviewer.qrc">
+           <normaloff>:/images/crossfade.png</normaloff>:/images/crossfade.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>23</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::DelayedPopup</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QWidget" name="sideWidget" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QToolBox" name="tolSidebar">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget {
+	background-color: #262747;
+	color: #FFFFFF;
+}
+
+QToolBox::tab {
+	background-color: #353662;
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+QDockWidget {
+	font: bold;
+    border: 1px solid #32345E;
+}
+
+QDockWidget::close-button, QDockWidget::float-button {
+	background-color: #FAAD5C;
+	color: #140865;
+}
+
+QDockWidget::title {
+    text-align: left;
+    background: #FAAD5C;
+    padding-left: 5px;
+	border-bottom: 1px solid #140865;
+}
+
+QPushButton {
+	border: 1px solid #8f8f91;
+	color: #444444;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);
+	padding-bottom: 2px;
+	margin: 1px;
+	padding: 2px;
+	font-size: 14px;
+}
+
+QPushButton:pressed {
+	color: #000000;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QGroupBox {
+	border: 1px solid #32345E;
+	padding: 17px 1px 1px 1px;
+	font-size: 12px;
+}
+
+QGroupBox::title {
+	subcontrol-position: top left;
+	padding: 0px 0px 0px 2px;
+	top: 2px;
+	left: 2px;
+}
+
+QSlider::handle::vertical {
+	height: 16px;
+	background: #FFFFFF;
+	border: #000066;
+	border-radius: 0px;
+}
+
+QSlider::groove::vertical {
+	background-color: #353662;
+	width: 8px;
+	border: 1px solid #7374A0;
+}
+
+QSlider::handle::horizontal {
+	width: 16px;
+	background: #FFFFFF;
+	border: #000066;
+	border-radius: 0px;
+}
+
+QSlider::groove::horizontal {
+	background-color: #353662;
+	height: 8px;
+	border: 1px solid #7374A0;
+}
+
+QScrollBar::vertical {
+	background: #3E3F6B;
+	color: #7374A0;
+}
+
+QLineEdit {
+	border: 1px solid #7374A0;
+	color: #FFFFFF;
+}
+
+QComboBox {
+	border: 1px solid #7374A0;
+	color: #FFFFFF;
+}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <property name="tabSpacing">
+          <number>2</number>
+         </property>
+         <widget class="QWidget" name="pageBasicFunctions">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>150</width>
+            <height>372</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Window / Level Manip.</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <property name="margin">
+            <number>1</number>
+           </property>
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QGroupBox" name="groupBox">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Window</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_3">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QLineEdit" name="txtWindow"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QSlider" name="sliWindow">
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Level</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_4">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QLineEdit" name="txtLevel"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QSlider" name="sliLevel">
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="0">
+            <widget class="QGroupBox" name="grpMprPresets">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Presets</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageAdvancedFunctions">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>150</width>
+            <height>372</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Examiner / Slicer</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="margin">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Examiner Mode</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_5">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QComboBox" name="cmbExaminerMode">
+                <item>
+                 <property name="text">
+                  <string>NONE</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>ROTATE</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>PANZOOM</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>ROTATE_PLANE</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>TRANSLATE_PLANE</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>PAN</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_8">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Viewport</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_11">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QPushButton" name="btnMaxTopLeft">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>A</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../qrc/basicviewer.qrc">
+                  <normaloff>:/images/layout_upper_left.PNG</normaloff>:/images/layout_upper_left.PNG</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>21</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+                <property name="autoRepeat">
+                 <bool>false</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QPushButton" name="btnMaxTopRight">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>B</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../qrc/basicviewer.qrc">
+                  <normaloff>:/images/layout_upper_right.PNG</normaloff>:/images/layout_upper_right.PNG</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>21</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+                <property name="autoRepeat">
+                 <bool>false</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="btnViewAll">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>All</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../qrc/basicviewer.qrc">
+                  <normaloff>:/images/layout_view_all.PNG</normaloff>:/images/layout_view_all.PNG</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>21</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+                <property name="autoRepeat">
+                 <bool>false</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QPushButton" name="btnMaxBottomRight">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>VR</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../qrc/basicviewer.qrc">
+                  <normaloff>:/images/layout_lower_right.PNG</normaloff>:/images/layout_lower_right.PNG</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>21</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+                <property name="autoRepeat">
+                 <bool>false</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QPushButton" name="btnMaxBottomLeft">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>C</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../qrc/basicviewer.qrc">
+                  <normaloff>:/images/layout_lower_left.PNG</normaloff>:/images/layout_lower_left.PNG</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>21</width>
+                  <height>21</height>
+                 </size>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+                <property name="autoRepeat">
+                 <bool>false</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Slicer Mode</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_6">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QComboBox" name="cmbSlicerMode">
+                <item>
+                 <property name="text">
+                  <string notr="true">MAXIP</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string notr="true">MPR</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string notr="true">VRT</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_6">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Number of slices</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_9">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QSlider" name="sliSlicerNumSlices">
+                <property name="minimum">
+                 <number>32</number>
+                </property>
+                <property name="maximum">
+                 <number>1024</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>150</width>
+            <height>372</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Lookup Table</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="margin">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="groupBox_7">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Colors</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_10">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="ColorPickButton" name="btnColorTop">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Top</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="ColorPickButton" name="btnColorMiddle">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Middle</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="ColorPickButton" name="btnColorBottom">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Bottom</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_9">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Ramp Center</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_7">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QLineEdit" name="txtRampCenter"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QSlider" name="sliRampCenter">
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_10">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Ramp Width</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_12">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QLineEdit" name="txtRampWidth"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QSlider" name="sliRampWidth">
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="grpLutPresets">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::NoContextMenu</enum>
+             </property>
+             <property name="title">
+              <string>Presets</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_13">
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>3</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="SidebarButton" name="btnToggleSidebar">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>15</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>15</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>15</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="palette">
+          <palette>
+           <active>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>62</red>
+               <green>63</green>
+               <blue>107</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="ButtonText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>255</red>
+               <green>255</green>
+               <blue>255</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Highlight">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>38</red>
+               <green>39</green>
+               <blue>71</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="HighlightedText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>100</red>
+               <green>100</green>
+               <blue>100</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>62</red>
+               <green>63</green>
+               <blue>107</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="ButtonText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>255</red>
+               <green>255</green>
+               <blue>255</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Highlight">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>38</red>
+               <green>39</green>
+               <blue>71</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="HighlightedText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>100</red>
+               <green>100</green>
+               <blue>100</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>62</red>
+               <green>63</green>
+               <blue>107</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Text">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="ButtonText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>20</red>
+               <green>8</green>
+               <blue>101</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Highlight">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>10</red>
+               <green>36</green>
+               <blue>106</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="HighlightedText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>100</red>
+               <green>100</green>
+               <blue>100</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QXipIvWidget" name="glWidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>575</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actOpen"/>
+    <addaction name="separator"/>
+    <addaction name="actExit"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <action name="actOpen">
+   <property name="text">
+    <string>&amp;Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="actExit">
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ColorPickButton</class>
+   <extends>QPushButton</extends>
+   <header>ColorPickButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QXipIvWidget</class>
+   <extends>QWidget</extends>
+   <header>QXipIvWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SidebarButton</class>
+   <extends>QPushButton</extends>
+   <header>SidebarButton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../qrc/basicviewer.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>btnToggleSidebar</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tolSidebar</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>198</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>54</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

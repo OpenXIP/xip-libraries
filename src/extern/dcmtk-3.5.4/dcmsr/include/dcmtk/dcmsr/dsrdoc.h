@@ -163,7 +163,7 @@ class DSRDocument
      ** @return status, EC_Normal if successful, an error code otherwise
      */
     OFCondition readXML(const OFString &filename,
-                        const size_t flags = 0);
+                        const size_t flags = 0, const E_LoadXmlMode loadMode=DSRTypes::LXT_File);
 
     /** write current SR document in XML format.
      *  The output format is identical to that of the dsr2xml command line tool.  Digital
@@ -683,12 +683,93 @@ class DSRDocument
      */
     OFCondition setPatientsSex(const OFString &value);
 
+	 /** set sponsor's name.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setSponsorsName(const OFString &value);
+
+	 /** set protocol Id.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setProtocolID(const OFString &value);
+
+	 /** set protocol name.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setProtocolName(const OFString &value);
+
+	/** set site Id.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setSiteID(const OFString &value);
+
+	/** set site name.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setSiteName(const OFString &value);
+
+	/** set subject Id.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setSubjectID(const OFString &value);
+
+	/** set subject reading Id.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setSubjectReadingID(const OFString &value);
+
+	/** set timepoint Id.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setTimepointID(const OFString &value);
+
+	/** set timepoint description.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setTimepointDescription(const OFString &value);
+
     /** set referring physicians name.
      *  The passed string must be a valid DICOM Person Name (PN).
      ** @param  value  character string specifying the value to be set
      ** @return status, EC_Normal if successful, an error code otherwise
      */
     OFCondition setReferringPhysiciansName(const OFString &value);
+
+	/** set study date.
+     *  The passed string must be a valid DICOM Date (DA).  If an empty string
+     *  is passed the current date is set when displaying or writing the document
+     *  since the corresponding DICOM attribute is type 1 (= mandatory).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setStudyDate(const OFString &value);
+
+	 /** set study time.
+     *  The passed string must be a valid DICOM Time (TM).  If an empty string
+     *  is passed the current time is set when displaying or writing the document
+     *  since the corresponding DICOM attribute is type 1 (= mandatory).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setStudyTime(const OFString &value);
 
     /** set study description.
      *  The passed string must be a valid DICOM Long String (LO).
@@ -710,6 +791,27 @@ class DSRDocument
      ** @return status, EC_Normal if successful, an error code otherwise
      */
     OFCondition setManufacturer(const OFString &value);
+
+	 /** set institution name.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setInstitutionName(const OFString &value);
+
+	/** set station name.
+     *  The passed string must be a valid DICOM Short String (SH).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setStationName(const OFString &value);
+
+	/** set manufacturer's model name.
+     *  The passed string must be a valid DICOM Long String (LO).
+     ** @param  value  character string specifying the value to be set
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition setManufacturersModelName(const OFString &value);
 
     /** set content date.
      *  The passed string must be a valid DICOM Date (DA).  If an empty string
@@ -969,6 +1071,16 @@ class DSRDocument
                                    DSRXMLCursor cursor,
                                    const size_t flags);
 
+	/** read XML "clinical trial subject" data
+     ** @param  doc     document containing the XML file content
+     *  @param  cursor  cursor pointing to the starting node
+     *  @param  flags   optional flag used to customize the reading process (see DSRTypes::XF_xxx)
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition readXMLClinicalTrialSubjectData(const DSRXMLDocument &doc,
+												DSRXMLCursor cursor,
+												const size_t flags);
+
     /** read XML "study" data
      ** @param  doc     document containing the XML file content
      *  @param  cursor  cursor pointing to the starting node
@@ -978,6 +1090,16 @@ class DSRDocument
     OFCondition readXMLStudyData(const DSRXMLDocument &doc,
                                  DSRXMLCursor cursor,
                                  const size_t flags);
+
+	/** read XML "clinical trial study" data
+     ** @param  doc     document containing the XML file content
+     *  @param  cursor  cursor pointing to the starting node
+     *  @param  flags   optional flag used to customize the reading process (see DSRTypes::XF_xxx)
+     ** @return status, EC_Normal if successful, an error code otherwise
+     */
+    OFCondition readXMLClinicalTrialStudyData(const DSRXMLDocument &doc,
+											  DSRXMLCursor cursor,
+											  const size_t flags);
 
     /** read XML "series" data
      ** @param  doc     document containing the XML file content
@@ -1128,10 +1250,40 @@ class DSRDocument
     /// Patient Sex: (CS, 1, 2)
     DcmCodeString       PatientsSex;
 
+	/* Module: Clinical Trial Subject (M)
+	*/
+	/// Module=Clinical Trial Subject, VR=LO, VM=1, Type 1
+	DcmLongString            sponsorName;
+	/// Module=Clinical Trial Subject, VR=LO, VM=1, Type 1
+	DcmLongString            protocolID;
+	/// Module=Clinical Trial Subject, VR=LO, VM=1, Type 2
+	DcmLongString            protocolName;
+	/// Module=Clinical Trial Subject, VR=LO, VM=1, Type 2
+	DcmLongString            siteID;
+	/// Module=Clinical Trial Subject, VR=LO, VM=1, Type 2
+	DcmLongString            siteName;
+	/// Module=Clinical Trial Subject, VR=LO, VM=1, Type 1C
+	DcmLongString            subjectID;
+	/// Module=Clinical Trial Subject, VR=LO, VM=1, Type 1C
+	DcmLongString            subjectReadingID;
+
+	/* Module: Clinical Trial Study (M)
+	*/
+	/// Module=Clinical Trial Study, VR=LO, VM=1, Type 2
+	DcmLongString            timepointUID;
+	/// Module=Clinical Trial Study, VR=LO, VM=1, Type 3
+	DcmLongString            timepointDescription;
+
     // --- General Equipment Module (M) ---
 
     /// Manufacturer: (LO, 1, 2)
     DcmLongString       Manufacturer;
+	/// Institution Name: (LO, 1, 3)
+	DcmLongString       InstitutionName;
+	/// Station Name: (SH, 1, 3)
+	DcmShortString       StationName;
+	/// Manufacturer's Model Name: (LO, 1, 3)
+	DcmLongString       ManufacturersModelName;
 
     // --- Frame of Reference (C) ---
 

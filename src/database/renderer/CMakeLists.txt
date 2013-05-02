@@ -73,6 +73,8 @@ set_target_properties(xipivrenderer
 target_link_libraries(xipivrenderer
 	${XIP_COREGL_LIBRARY})
 
+add_dependencies(xipivrenderer xipivcoregl)
+	
 #--------------------------------------------------------------------
 # Install the library
 #

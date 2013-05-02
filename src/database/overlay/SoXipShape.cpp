@@ -288,7 +288,7 @@ SoXipShape::saveViewInformation( SoAction* action )
 	if( action->isOfType( SoGLRenderAction::getClassTypeId() ) )
 	{
 		// FIXME: see if we need to test for active viewport!!
-		if( SoXipActiveViewportElement::get(state) )
+		if( SoXipActiveViewportElement::get(state) && status.getValue()==NONE)
 			canSave = TRUE;
 	}
 
@@ -406,3 +406,5 @@ SoXipShape::projectScreenOffsetToWorld( const SbVec2s& pixelOffset ) const
 
 	return mPlaneProj->project( normOffset ) - mPlaneProj->project( SbVec2f( 0, 0 ) );
 }
+
+

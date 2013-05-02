@@ -43,11 +43,12 @@ target_link_libraries(rendernode
 	debug xipivcore${CMAKE_DEBUG_POSTFIX}
   stream)
 
-if(NOT CMAKE_CL_64)
-  target_link_libraries(rendernode
-    losslessCompression
-    jpegWrapper)
-endif(NOT CMAKE_CL_64)
+target_link_libraries(rendernode
+    optimized losslessCompression
+    debug losslessCompression${CMAKE_DEBUG_POSTFIX}
+    optimized jpegWrapper
+    debug jpegWrapper${CMAKE_DEBUG_POSTFIX}
+)
 
 if(WIN32)
   target_link_libraries(rendernode

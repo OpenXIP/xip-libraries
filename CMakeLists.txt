@@ -43,8 +43,8 @@ set(CPACK_PACKAGE_VENDOR "Siemens Corporate Research Inc.")
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/XIP_LICENSE.txt)
 
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "2")
-set(CPACK_PACKAGE_VERSION_PATCH "2")
+set(CPACK_PACKAGE_VERSION_MINOR "3")
+#set(CPACK_PACKAGE_VERSION_PATCH "0")
 
 set(XIP_VERSION_STRING ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 
@@ -102,6 +102,7 @@ if(WIN32)
 
   set(CPACK_GENERATOR NSIS)
   set(CPACK_SOURCE_GENERATOR ZIP)
+
 endif(WIN32)
 
 if(APPLE)
@@ -122,6 +123,16 @@ set(CPACK_SOURCE_IGNORE_FILES
   "\\\\.svn$"
   "^${PROJECT_SOURCE_DIR}.*/.svn/")
 
+# Create Start Menu entry for xipbuilder
+if( WIN32 AND NOT UNIX )
+	if( INSTALL_XIPBUILDER_RELEASE )
+		SET(CPACK_PACKAGE_EXECUTABLES "release\\xipbuilder" "XipBuilder")
+	endif( INSTALL_XIPBUILDER_RELEASE )
+	if( INSTALL_XIPBUILDER_DEBUG )
+		SET(CPACK_PACKAGE_EXECUTABLES "debug\\xipbuilderd" "XipBuilder(debug)")
+	endif( INSTALL_XIPBUILDER_DEBUG )
+endif( WIN32 AND NOT UNIX )
+  
 include(CPack)
 
 #--------------------------------------------------------------------
@@ -223,23 +234,24 @@ set(XIP_INCLUDE_DIRS
 #--------------------------------------------------------------------
 # Define the XIP libraries
 #
-set(XIP_COMMON_LIBRARY
-	optimized xipcommon
-	debug xipcommon${CMAKE_DEBUG_POSTFIX})
 
 set(INVENTOR_LIBRARY
 	${OPENGL_LIBRARIES}
-  ${XIP_COMMON_LIBRARY}
 	optimized xipinv240
  	debug xipinv240${CMAKE_DEBUG_POSTFIX})
-	
+
+set(XIP_COMMON_LIBRARY
+    ${INVENTOR_LIBRARY}
+	optimized xipcommon
+	debug xipcommon${CMAKE_DEBUG_POSTFIX})
+
 set(XIP_EXTRA_LIBRARY
-	${INVENTOR_LIBRARY}
+	${XIP_COMMON_LIBRARY}
 	optimized xipivextra
 	debug xipivextra${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_CORE_LIBRARY
-	${XIP_EXTRA_LIBRARY}
+	${XIP_COMMON_LIBRARY}
 	optimized xipivcore
 	debug xipivcore${CMAKE_DEBUG_POSTFIX})
 
@@ -254,7 +266,7 @@ set(XIP_RENDERER_LIBRARY
 	debug xipivrenderer${CMAKE_DEBUG_POSTFIX})
 
 set(XIP_REMOTE_LIBRARY
-  ${XIP_COREGL_LIBRARY}
+    ${XIP_COREGL_LIBRARY}
 	optimized xipivremote
 	debug xipivremote${CMAKE_DEBUG_POSTFIX})
 
@@ -471,6 +483,9 @@ set(XIP_INCLUDE_DIRS ${XIP_INCLUDE_DIRS} ${DCMTK_INCLUDE_DIRS})
 
 if(NOT DCMTK_LIBRARIES)
   set(DCMTK_LIBRARIES
+    optimized ijg8     debug ijg8${CMAKE_DEBUG_POSTFIX}
+    optimized ijg12    debug ijg12${CMAKE_DEBUG_POSTFIX}
+    optimized ijg16    debug ijg16${CMAKE_DEBUG_POSTFIX}
     optimized ofstd    debug ofstd${CMAKE_DEBUG_POSTFIX}
     optimized dcmdata  debug dcmdata${CMAKE_DEBUG_POSTFIX}
     optimized dcmimgle debug dcmimgle${CMAKE_DEBUG_POSTFIX}
@@ -478,6 +493,22 @@ if(NOT DCMTK_LIBRARIES)
     optimized dcmjpeg  debug dcmjpeg${CMAKE_DEBUG_POSTFIX}
     optimized dcmpstat debug dcmpstat${CMAKE_DEBUG_POSTFIX})
 endif(NOT DCMTK_LIBRARIES)
+
+#--------------------------------------------------------------------
+# TINY XML variables
+#
+if(NOT TIXML_INCLUDE_DIRS)
+  set(TIXML_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/src/extern/TinyXMLcpp-2.5.3)
+endif(NOT TIXML_INCLUDE_DIRS)
+
+set(XIP_INCLUDE_DIRS ${XIP_INCLUDE_DIRS} ${TIXML_INCLUDE_DIRS})
+
+if(NOT TIXML_LIBRARIES)
+  set(TIXML_LIBRARIES
+    optimized ticpp
+    debug ticpp${CMAKE_DEBUG_POSTFIX}
+  )
+endif(NOT TIXML_LIBRARIES)
 
 #--------------------------------------------------------------------
 # Output directories
@@ -565,6 +596,239 @@ if(XIP_BUILDER_RELEASE)
     DESTINATION bin/release CONFIGURATIONS Release)
 endif(XIP_BUILDER_RELEASE)
 
+#--------------------------------------------------------------------
+# Copy xipivhtmlviewer(d).dll to the install directory
+#
+option(INSTALL_XIP_IV_HTML_VIEWER_RELEASE "Copy xipivhtmlviewer.dll to the install directory" OFF)
+mark_as_advanced(INSTALL_XIP_IV_HTML_VIEWER_RELEASE)
+
+if(INSTALL_XIP_IV_HTML_VIEWER_RELEASE)
+
+	find_file(XIP_IV_HTML_VIEWER_RELEASE_PATH xipivhtmlviewer.dll)
+	if(XIP_IV_HTML_VIEWER_RELEASE_PATH)
+	
+		install(FILES ${XIP_IV_HTML_VIEWER_RELEASE_PATH}
+				DESTINATION bin/release)
+	
+	endif(XIP_IV_HTML_VIEWER_RELEASE_PATH)
+
+endif(INSTALL_XIP_IV_HTML_VIEWER_RELEASE)
+
+
+option(INSTALL_XIP_IV_HTML_VIEWER_DEBUG "Copy xipivhtmlviewerd.dll to the install directory" OFF)
+mark_as_advanced(INSTALL_XIP_IV_HTML_VIEWER_DEBUG)
+
+if(INSTALL_XIP_IV_HTML_VIEWER_DEBUG)
+
+	find_file(XIP_IV_HTML_VIEWER_DEBUG_PATH xipivhtmlviewer.dll)
+	if(XIP_IV_HTML_VIEWER_DEBUG_PATH)
+	
+		install(FILES ${XIP_IV_HTML_VIEWER_DEBUG_PATH}
+				DESTINATION bin/debug)
+	
+	endif(XIP_IV_HTML_VIEWER_DEBUG_PATH)
+
+endif(INSTALL_XIP_IV_HTML_VIEWER_DEBUG)
+
+#--------------------------------------------------------------------
+# Copy xipivhtmlviewer examples to the install directory
+#
+option(INSTALL_XIP_IV_HTML_VIEWER_EXAMPLES "Copy xipivhtmlviewer examples to the install directory" OFF)
+mark_as_advanced(INSTALL_XIP_IV_HTML_VIEWER_EXAMPLES)
+
+if(INSTALL_XIP_IV_HTML_VIEWER_EXAMPLES)
+
+	find_path(XIP_IV_HTML_VIEWER_EXAMPLES_PATH mpr.xip)
+	if(XIP_IV_HTML_VIEWER_EXAMPLES_PATH)
+	
+		install(DIRECTORY 	${XIP_IV_HTML_VIEWER_EXAMPLES_PATH}
+			DESTINATION examples)
+	
+	endif(XIP_IV_HTML_VIEWER_EXAMPLES_PATH)
+
+endif(INSTALL_XIP_IV_HTML_VIEWER_EXAMPLES)
+
+#--------------------------------------------------------------------
+# Copy xipivqtuiviewer(d).dll to the install directory
+#
+option(INSTALL_XIP_QT_UI_VIEWER_RELEASE "Copy xipivqtuiviewer.dll to the install directory" OFF)
+mark_as_advanced(INSTALL_XIP_QT_UI_VIEWER_RELEASE)
+
+if(INSTALL_XIP_QT_UI_VIEWER_RELEASE)
+
+	find_file(XIP_QT_UI_VIEWER_RELEASE_PATH xipivqtuiviewer.dll)
+	if(XIP_QT_UI_VIEWER_RELEASE_PATH)
+	
+		install(FILES ${XIP_QT_UI_VIEWER_RELEASE_PATH}
+				DESTINATION bin/release)
+	
+	endif(XIP_QT_UI_VIEWER_RELEASE_PATH)
+
+endif(INSTALL_XIP_QT_UI_VIEWER_RELEASE)
+
+
+option(INSTALL_XIP_QT_UI_VIEWER_DEBUG "Copy xipivqtuiviewerd.dll to the install directory" OFF)
+mark_as_advanced(INSTALL_XIP_QT_UI_VIEWER_DEBUG)
+
+if(INSTALL_XIP_QT_UI_VIEWER_DEBUG)
+
+	find_file(XIP_QT_UI_VIEWER_DEBUG_PATH xipivqtuiviewer.dll)
+	if(XIP_QT_UI_VIEWER_DEBUG_PATH)
+	
+		install(FILES ${XIP_QT_UI_VIEWER_DEBUG_PATH}
+				DESTINATION bin/debug)
+	
+	endif(XIP_QT_UI_VIEWER_DEBUG_PATH)
+
+endif(INSTALL_XIP_QT_UI_VIEWER_DEBUG)
+
+#--------------------------------------------------------------------
+# Copy xipivqtuiviewer examples to the install directory
+#
+option(INSTALL_XIP_QT_UI_VIEWER_EXAMPLES "Copy xipivqtuiviewer examples to the install directory" OFF)
+mark_as_advanced(INSTALL_XIP_QT_UI_VIEWER_EXAMPLES)
+
+if(INSTALL_XIP_QT_UI_VIEWER_EXAMPLES)
+
+	find_path(XIP_QT_UI_VIEWER_EXAMPLES_PATH mpr_simple.xip)
+	if(XIP_QT_UI_VIEWER_EXAMPLES_PATH)
+	
+		install(DIRECTORY 	${XIP_QT_UI_VIEWER_EXAMPLES_PATH}
+			DESTINATION examples)
+	
+	endif(XIP_QT_UI_VIEWER_EXAMPLES_PATH)
+
+endif(INSTALL_XIP_QT_UI_VIEWER_EXAMPLES)
+
+#--------------------------------------------------------------------
+# Copy StandaloneViewer to the install directory
+#
+option(INSTALL_STANDALONE_VIEWER_RELEASE "Copy StandaloneViewer.exe to the install directory" OFF)
+mark_as_advanced(INSTALL_STANDALONE_VIEWER_RELEASE)
+
+if(INSTALL_STANDALONE_VIEWER_RELEASE)
+
+	find_file(XIP_STANDALONE_VIEWER_RELEASE_PATH StandaloneViewer.exe)
+	if(XIP_STANDALONE_VIEWER_RELEASE_PATH)
+	
+		install(FILES ${XIP_STANDALONE_VIEWER_RELEASE_PATH}
+				DESTINATION bin/release)
+	
+	endif(XIP_STANDALONE_VIEWER_RELEASE_PATH)
+
+endif(INSTALL_STANDALONE_VIEWER_RELEASE)
+
+
+option(INSTALL_STANDALONE_VIEWER_DEBUG "Copy StandaloneViewer.exe to the install directory" OFF)
+mark_as_advanced(INSTALL_STANDALONE_VIEWER_DEBUG)
+
+if(INSTALL_STANDALONE_VIEWER_DEBUG)
+
+	find_file(XIP_STANDALONE_VIEWER_DEBUG_PATH StandaloneViewer.dll)
+	if(XIP_STANDALONE_VIEWER_DEBUG_PATH)
+	
+		install(FILES ${XIP_STANDALONE_VIEWER_DEBUG_PATH}
+				DESTINATION bin/debug)
+	
+	endif(XIP_STANDALONE_VIEWER_DEBUG_PATH)
+
+endif(INSTALL_STANDALONE_VIEWER_DEBUG)
+
+#--------------------------------------------------------------------
+# Copy standaloneviewer examples to the install directory
+#
+option(INSTALL_STANDALONE_VIEWER_EXAMPLES "Copy standaloneviewer examples to the install directory" OFF)
+mark_as_advanced(INSTALL_STANDALONE_VIEWER_EXAMPLES)
+
+if(INSTALL_STANDALONE_VIEWER_EXAMPLES)
+
+	find_path(STANDALONE_VIEWER_EXAMPLES_PATH mpr_html_popup.iv)
+	if(STANDALONE_VIEWER_EXAMPLES_PATH)
+	
+		install(DIRECTORY 	${STANDALONE_VIEWER_EXAMPLES_PATH}
+			DESTINATION examples)
+	
+	endif(STANDALONE_VIEWER_EXAMPLES_PATH)
+
+endif(INSTALL_STANDALONE_VIEWER_EXAMPLES)
+
+#--------------------------------------------------------------------
+# Copy XipBuilder files to the install directory
+#
+option(INSTALL_XIPBUILDER_RELEASE "Copy XipBuilder files to the install directory" OFF)
+mark_as_advanced(INSTALL_XIPBUILDER_RELEASE)
+
+if(INSTALL_XIPBUILDER_RELEASE)
+
+find_path(XIPBUILDER_RELEASE_PATH xipbuilder.exe)
+	if(XIPBUILDER_RELEASE_PATH)
+		install(FILES 	${XIPBUILDER_RELEASE_PATH}/xipbuilder.exe 
+						${XIPBUILDER_RELEASE_PATH}/QtCore4.dll
+						${XIPBUILDER_RELEASE_PATH}/QtGui4.dll
+						${XIPBUILDER_RELEASE_PATH}/QtNetwork4.dll
+						${XIPBUILDER_RELEASE_PATH}/QtOpenGL4.dll
+						${XIPBUILDER_RELEASE_PATH}/QtScript4.dll
+						${XIPBUILDER_RELEASE_PATH}/QtSvg4.dll
+						${XIPBUILDER_RELEASE_PATH}/QtXml4.dll
+						${XIPBUILDER_RELEASE_PATH}/QtXmlPatterns4.dll
+			DESTINATION bin/release)
+			
+		if(INSTALL_XIP_IV_HTML_VIEWER_RELEASE)
+			install(FILES 	${XIPBUILDER_RELEASE_PATH}/QtWebKit4.dll
+							${XIPBUILDER_RELEASE_PATH}/phonon4.dll
+			DESTINATION bin/release)
+		endif(INSTALL_XIP_IV_HTML_VIEWER_RELEASE)
+			
+			set(XIPBUILDER_PATH ${XIPBUILDER_RELEASE_PATH})
+	endif(XIPBUILDER_RELEASE_PATH)
+
+	if(NOT XIPBUILDER_RELEASE_PATH)
+		MESSAGE(WARNING " Path to XipBuilder release not found. XipBuilder will not be included in the installer.")
+	endif(NOT XIPBUILDER_RELEASE_PATH)
+endif(INSTALL_XIPBUILDER_RELEASE)
+
+#--------------------------------------------------------------------
+# Copy XipBuilder files to the install directory
+#
+option(INSTALL_XIPBUILDER_DEBUG "Copy XipBuilder files to the install directory" OFF)
+mark_as_advanced(INSTALL_XIPBUILDER_DEBUG)
+
+if(INSTALL_XIPBUILDER_DEBUG)    
+	find_path(XIPBUILDER_DEBUG_PATH xipbuilderd.exe)
+  if(XIPBUILDER_DEBUG_PATH)
+	
+	install(FILES 	${XIPBUILDER_DEBUG_PATH}/xipbuilderd.exe 
+					${XIPBUILDER_DEBUG_PATH}/QtCored4.dll
+					${XIPBUILDER_DEBUG_PATH}/QtGuid4.dll
+					${XIPBUILDER_DEBUG_PATH}/QtNetworkd4.dll
+					${XIPBUILDER_DEBUG_PATH}/QtOpenGLd4.dll
+					${XIPBUILDER_DEBUG_PATH}/QtScriptd4.dll
+					${XIPBUILDER_DEBUG_PATH}/QtSvgd4.dll
+					${XIPBUILDER_DEBUG_PATH}/QtXmld4.dll
+					${XIPBUILDER_DEBUG_PATH}/QtXmlPatternsd4.dll
+			DESTINATION bin/debug)
+			
+	if(INSTALL_XIP_IV_HTML_VIEWER_DEBUG)
+		install(FILES 	${XIPBUILDER_DEBUG_PATH}/QtWebKitd4.dll
+						${XIPBUILDER_DEBUG_PATH}/phonond4.dll
+				DESTINATION bin/debug)
+	endif(INSTALL_XIP_IV_HTML_VIEWER_DEBUG)
+			
+			set(XIPBUILDER_PATH ${XIPBUILDER_DEBUG_PATH})
+  endif(XIPBUILDER_DEBUG_PATH)
+
+  if(NOT XIPBUILDER_DEBUG_PATH)
+	MESSAGE(WARNING " Path to XipBuilder debug not found. XipBuilder will not be included in the installer.")
+  endif(NOT XIPBUILDER_DEBUG_PATH)
+endif(INSTALL_XIPBUILDER_DEBUG)
+
+if(XIPBUILDER_PATH)
+	install(FILES	${XIPBUILDER_PATH}/../../config/extensions.xml
+					${XIPBUILDER_PATH}/../../config/config.xml
+					${XIPBUILDER_PATH}/../../config/favorites.xml
+					${XIPBUILDER_PATH}/../../config/help.xml
+		DESTINATION config)
+endif(XIPBUILDER_PATH)
 #--------------------------------------------------------------------
 # Copy Qt files to the install directory
 #
@@ -659,7 +923,6 @@ set(XIP_HEADER_FILES
   include/xip/inventor/coregl/SoXipDepthTestElement.h
   include/xip/inventor/coregl/SoXipDrawBuffersElement.h
   include/xip/inventor/coregl/SoXipDrawImage.h
-  include/xip/inventor/coregl/SoXipDrawQuad.h
   include/xip/inventor/coregl/SoXipFboElement.h
   include/xip/inventor/coregl/SoXipFramebufferElement.h
   include/xip/inventor/coregl/SoXipFramebufferFlip.h
@@ -1317,7 +1580,8 @@ set(RAD_EXAMPLES
 "itk/FunctorFilters/UnaryFunctorFilters/BSplineFilters/BSplineDownsampleImageFilter.xip"
 "itk/FunctorFilters/UnaryFunctorFilters/BSplineFilters/BSplineUpsampleImageFilter.xip"
 "itk/FunctorFilters/UnaryFunctorFilters/ExpNegativeImageFilter.rad"
-"itk/FunctorFilters/UnaryFunctorFilters/GetAverageSliceImageFilter.rad"
+	# Example broken. Unknown Engine present.
+	#"itk/FunctorFilters/UnaryFunctorFilters/GetAverageSliceImageFilter.rad"
 "itk/FunctorFilters/UnaryFunctorFilters/Log10ImageFilter.rad"
 "itk/FunctorFilters/UnaryFunctorFilters/LogImageFilter.rad"
 "itk/FunctorFilters/UnaryFunctorFilters/NormalizeImageFilter.rad"
@@ -1414,7 +1678,8 @@ set(XIP_EXAMPLES ${RAD_EXAMPLES}
   overlay/plotting_4.xip
   overlay/plotting_5.xip
   overlay/shape_measurements.xip
-  renderer/process3D/LAO_Scattering.xip
+	# Example is broken (errors in scattering_fp.glsl and possibly texture loading)
+	#renderer/process3D/LAO_Scattering.xip
   renderer/process3D/processImage.xip
   renderer/process3D/processImageGeometry.xip
   renderer/process3D/processImageKit.xip
@@ -1424,12 +1689,16 @@ set(XIP_EXAMPLES ${RAD_EXAMPLES}
 if(HAS_DCMTK)
 set(XIP_EXAMPLES ${XIP_EXAMPLES}
   dicom/display_dicom_image.xip
-  dicom/display_dicom_images.xip
+  # Broken
+  #dicom/display_dicom_images.xip
   dicom/get_dicom_string.xip
-  dicom/load_presentation_state.xip
+  # Broken
+  #dicom/load_presentation_state.xip
   dicom/overlay_dicom_tag.xip
   dicom/overlay_dicom_tag_scale_bar.xip
-  dicom/save_presentation_state.xip)
+  # Broken
+  #dicom/save_presentation_state.xip
+  )
 endif(HAS_DCMTK)
 
 if(HAS_ITK)
@@ -1438,7 +1707,8 @@ set(XIP_EXAMPLES ${XIP_EXAMPLES}
   "itk/Casting_IntensityMapping/itkCastImageFilter.xip"
   "itk/Casting_IntensityMapping/itkHistogramMatchingImageFilter.xip"
   "itk/Casting_IntensityMapping/itkIntensityWindowingImageFilter.xip"
-  "itk/Casting_IntensityMapping/itkRelabelComponentImageFilter.xip"
+	# Example is broken (ERROR: ConnectedComponentImageFilter(0A1B7A90): Number of objects greater than maximum of output pixel type)
+	#"itk/Casting_IntensityMapping/itkRelabelComponentImageFilter.xip"
   "itk/Casting_IntensityMapping/itkRescaleIntensityImageFilter.xip"
   "itk/DistanceMap/itkApproximateSignedDistanceMapImageFilter.xip"
   "itk/DistanceMap/itkDanielssonDistanceMapImageFilter.xip"
@@ -1872,7 +2142,8 @@ endforeach(EXAMPLE ${XIP_EXAMPLES} ${XIP_GLSL_FILES} ${XIP_DATA_FILES})
 set(XIP_EXTRA_FILES_TO_INSTALL
   HELP.html
   #README.txt
-  RELEASE_0.2.2.txt
+  #RELEASE_0.2.2.txt
+  RELEASE_0.3.txt
   XIP_LICENSE.txt
   doc/XIPOverview.ppt
   doc/ViewerNodes.pdf
@@ -2005,3 +2276,4 @@ add_custom_command(TARGET target POST_BUILD
   ${CMAKE_BINARY_DIR}
   COMMENT "Generate the Doxygen documentation")
 endif(false)
+

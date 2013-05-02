@@ -22,70 +22,70 @@ jversion16.h)
 # Define the source files
 #
 set(SOURCES
-  jaricom.c
-  jcapimin.c
-  jcapistd.c
-  jcarith.c
-  jccoefct.c
-  jccolor.c
-  jcdctmgr.c
-  jcdiffct.c
-  jchuff.c
-  jcinit.c
-  jclhuff.c
-  jclossls.c
-  jclossy.c
-  jcmainct.c
-  jcmarker.c
-  jcmaster.c
-  jcodec.c
-  jcomapi.c
-  jcparam.c
-  jcphuff.c
-  jcpred.c
-  jcprepct.c
-  jcsample.c
-  jcscale.c
-  jcshuff.c
-  jctrans.c
-  jdapimin.c
-  jdapistd.c
-  jdarith.c
-  jdatadst.c
-  jdatasrc.c
-  jdcoefct.c
-  jdcolor.c
-  jddctmgr.c
-  jddiffct.c
-  jdhuff.c
-  jdinput.c
-  jdlhuff.c
-  jdlossls.c
-  jdlossy.c
-  jdmainct.c
-  jdmarker.c
-  jdmaster.c
-  jdmerge.c
-  jdphuff.c
-  jdpostct.c
-  jdpred.c
-  jdsample.c
-  jdscale.c
-  jdshuff.c
-  jdtrans.c
-  jerror.c
-  jfdctflt.c
-  jfdctfst.c
-  jfdctint.c
-  jidctflt.c
-  jidctfst.c
-  jidctint.c
-  jidctred.c
-  jmemmgr.c
-  jmemnobs.c
-  jquant1.c
-  jquant2.c
-  jutils.c)
+jaricom.c
+jcapimin.c
+jcapistd.c
+jcarith.c
+jccoefct.c
+jccolor.c
+jcdctmgr.c
+jcdiffct.c
+jchuff.c
+jcinit.c
+jclhuff.c
+jclossls.c
+jclossy.c
+jcmainct.c
+jcmarker.c
+jcmaster.c
+jcodec.c
+jcomapi.c
+jcparam.c
+jcphuff.c
+jcpred.c
+jcprepct.c
+jcsample.c
+jcscale.c
+jcshuff.c
+jctrans.c
+jdapimin.c
+jdapistd.c
+jdarith.c
+jdatadst.c
+jdatasrc.c
+jdcoefct.c
+jdcolor.c
+jddctmgr.c
+jddiffct.c
+jdhuff.c
+jdinput.c
+jdlhuff.c
+jdlossls.c
+jdlossy.c
+jdmainct.c
+jdmarker.c
+jdmaster.c
+jdmerge.c
+jdphuff.c
+jdpostct.c
+jdpred.c
+jdsample.c
+jdscale.c
+jdshuff.c
+jdtrans.c
+jerror.c
+jfdctflt.c
+jfdctfst.c
+jfdctint.c
+jidctflt.c
+jidctfst.c
+jidctint.c
+jidctred.c
+jmemmgr.c
+jmemnobs.c
+jquant1.c
+jquant2.c
+jutils.c)
 
 #--------------------------------------------------------------------
 # Compile the library

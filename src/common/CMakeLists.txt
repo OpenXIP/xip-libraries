@@ -4,17 +4,31 @@
 project(common)
 
 #--------------------------------------------------------------------
+# Define the header files
+#
+set(HEADERS
+  ../../include/xip/common/XipCommon.h
+  ../../include/xip/common/XipException.h
+  ../../include/xip/common/XipDebug.h
+  ../../include/xip/common/XipLog.h
+  ../../include/xip/common/XipTimer.h
+)
+
+#--------------------------------------------------------------------
 # Define the source files
 #
 set(SOURCES
   XipException.cpp
-  XipLog.cpp)
+  XipDebug.cpp
+  XipLog.cpp
+  XipTimer.cpp
+)
 
 #--------------------------------------------------------------------
 # Define the compiler flags
 #
 if(WIN32)
-  add_definitions(-DXIPIVCOMMON_EXPORTS)
+  add_definitions(-DXIPCOMMON_EXPORTS)
 else(WIN32)
   add_definitions(-DHAVE_CONFIG_H)
 endif(WIN32)
@@ -23,14 +37,23 @@ endif(WIN32)
 # Compile the library
 #
 if(BUILD_SHARED_LIBS)
-  add_library(xipcommon SHARED ${SOURCES})
+  add_library(xipcommon SHARED ${HEADERS} ${SOURCES})
 else(BUILD_SHARED_LIBS)
-  add_library(xipcommon STATIC ${SOURCES})
+  add_library(xipcommon STATIC ${HEADERS} ${SOURCES})
 endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipcommon
   PROPERTIES VERSION ${XIP_VERSION_STRING}
   SOVERSION ${XIP_VERSION_STRING})
+
+#--------------------------------------------------------------------
+# Link the library
+#
+target_link_libraries(xipcommon
+	${INVENTOR_LIBRARY})
+
+# add_dependencies(xipcommon xipinv240)
+
 
 #--------------------------------------------------------------------
 # Install the library

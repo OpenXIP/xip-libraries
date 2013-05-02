@@ -4,7 +4,7 @@
 project(overlay)
 
 #--------------------------------------------------------------------
-# Locate the Freetype library
+# Find the Freetype library
 #
 if(WIN32)
   set(FREETYPE_LIBRARIES freetype2)
@@ -262,9 +262,11 @@ set_target_properties(xipivoverlay
 # Link the library
 #
 target_link_libraries(xipivoverlay
-	${XIP_DICOM_LIBRARY}
-  ftgl
-  ${FREETYPE_LIBRARIES})
+  ${XIP_DICOM_LIBRARY}
+  ${FREETYPE_LIBRARIES}
+  ftgl)
+
+add_dependencies(xipivoverlay xipivdicom)
 
 #--------------------------------------------------------------------
 # Install the library

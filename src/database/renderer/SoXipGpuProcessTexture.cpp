@@ -60,14 +60,27 @@ SoXipGpuProcessTexture::SoXipGpuProcessTexture()
     mOutputSize[0] = 0;
     mOutputSize[1] = 0;
     mOutputSize[2] = 0;
-    mHasChanged = true;
     mInformGeom = false;
     mTextureDimension = 0;
+
+#ifdef GPU_VBO
+
+	 _vertexVBO = 0;
+	_textureVBO = 0;
+#endif
 }
 
 
 SoXipGpuProcessTexture::~SoXipGpuProcessTexture()
 {
+
+#ifdef GPU_VBO
+	if(_vertexVBO)
+		glDeleteBuffers(1, &_vertexVBO);
+	if(_textureVBO)	
+		glDeleteBuffers(1, &_textureVBO);
+#endif
+
 }
 
 
@@ -91,6 +104,7 @@ SoXipGpuProcessTexture::GLRender(SoGLRenderAction *action)
 
 void SoXipGpuProcessTexture::renderTo3D(SoState  *state)
 {	
+
     glPushAttrib(GL_ENABLE_BIT );
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -101,10 +115,17 @@ void SoXipGpuProcessTexture::renderTo3D(SoState  *state)
 	
     setup(state);
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
     if (useGeomShader.getValue())
-        renderTo3DMaxPerformance();
+        renderTo3DMaxPerformance(state);
     else
         renderTo3DMaxCompatibility(state);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
 
     glPopMatrix();
     glMatrixMode(GL_PROJECTION);
@@ -118,36 +139,143 @@ void SoXipGpuProcessTexture::setup(SoState  *state)
 {	
     mfboSet = SoXipFboElement::getActive(state, this);
 
-    // check FBO
-    if (!mfboSet)
-    {
-        SoDebugError::postInfo(__FUNCTION__, " No Framebuffer Object is Active \n");
-        return;
-    }
+	// check FBO
+	if (!mfboSet)
+	{
+		SoDebugError::postInfo(__FUNCTION__, " No Framebuffer Object is Active \n");
+		return;
+	}
 
-    // check Shader Support	
-    if (!(GL_ARB_vertex_shader && GL_ARB_fragment_shader && GL_EXT_geometry_shader4))
-    {
-        SoDebugError::postInfo(__FUNCTION__, "Not totally ready for GLSL :( \n");
-        return;
-    }
+	// check Shader Support	
+	if (!(GL_ARB_vertex_shader && GL_ARB_fragment_shader && GL_EXT_geometry_shader4))
+	{
+		SoDebugError::postInfo(__FUNCTION__, "Not totally ready for GLSL :( \n");
+		return;
+	}
+
+	// Oliver Kutter
+	// gen VBOs for vert/tex coordinates 
+#ifdef GPU_VBO
+	if(!_vertexVBO)
+		glGenBuffers(1, &_vertexVBO);
+	if(!_textureVBO)	
+		glGenBuffers(1, &_textureVBO);
+#endif
+
 
     if (textureDimension.getValue()== TEXTURE_3D)
     {
         mTextureDimension = 3;
+		// Oliver Kutter, do we realy want this? Only works with slicewise rendering anyways!
         glEnable(GL_TEXTURE_3D); // if there is a 3D input texture and no shader
     }
     else
         mTextureDimension = 2;
 
-    mOutputSize[0] = mfboSet->width;
-    mOutputSize[1] = mfboSet->height;
-    mOutputSize[2] = mfboSet->depth;
+	// copy fbo width/height for output size
+	mOutputSize[0] = mfboSet->width;
+	mOutputSize[1] = mfboSet->height;
 
+	// check for a possible change of the number of slices 
+	// forces recomputation of the vert/tex coordinates
+    bool zTexDimHasChanged = false;
+
+	if(mOutputSize[2] != mfboSet->depth)
+	{
+		const int numSlices = mOutputSize[2] = mfboSet->depth;
+
+		GLfloat  triVertexCoords[12] =
+		{
+			// triangle 1
+			-1,  -1,
+			1,  -1,
+			1,  1,
+			// triangle 2
+			1, 1,
+			-1,  1,
+			-1,  -1
+		};
+
+		GLfloat triTextureCoords[24] =
+		{
+			// triangle 1
+			0.0f, 0.0f, 0.0f, 0.0f,
+			1.0f, 0.0f, 0.0f, 0.0f,
+			1.0f, 1.0f, 0.0f, 0.0f,
+			// triangle 2
+			1.0f, 1.0f, 0.0f, 0.0f, 
+			0.0f, 1.0f, 0.0f, 0.0f, 
+			0.0f, 0.0f, 0.0f, 0.0f, 
+		};
+
+		
+
+#ifndef GPU_VBO
+		_vertexCoords.resize (numSlices	 * 12);
+		_textureCoords.resize(numSlices  * 24);
+
+		float * vertexBuffMem = &_vertexCoords[0];
+		float * textureBuffMem = &_textureCoords[0];
+#else
+		// check for currently bound GL_ARRAY BUFFER
+		GLint prevArrayBuffer = 0;
+        glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &prevArrayBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, _vertexVBO);
+		glBufferData(GL_ARRAY_BUFFER, numSlices * 12 * sizeof(float), 0, GL_STATIC_DRAW);
+		float * vertexBuffMem = (float* ) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _textureVBO);
+		glBufferData(GL_ARRAY_BUFFER, numSlices * 24 * sizeof(float), 0, GL_STATIC_DRAW);
+		float * textureBuffMem =(float* ) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+#endif
+		float dInc = 1.0f / (float) numSlices;
+		float d = 0.5 * dInc;
+
+		// update Texture Coordinates
+		for (int z = 0; z < numSlices; z++)
+		{		
+			// set 3D texture z coordinate for looking up bound 3D texture in shader
+			triTextureCoords[2] =
+				triTextureCoords[6] =
+				triTextureCoords[10] =
+				triTextureCoords[14] =
+				triTextureCoords[18] =
+				triTextureCoords[22] = (float)d;
+
+			// set layer coordinate for geometry shader 
+			triTextureCoords[3] =
+				triTextureCoords[7] =
+				triTextureCoords[11] =
+				triTextureCoords[15] =
+				triTextureCoords[19] =
+				triTextureCoords[23] = (float)z;
+
+			// copy current slices vert/tex coordinates to VAO/VBO
+			::memcpy(vertexBuffMem, triVertexCoords, sizeof(GLfloat) * 12);
+			::memcpy(textureBuffMem, triTextureCoords, sizeof(GLfloat) * 24);
+
+			vertexBuffMem  += 12;
+			textureBuffMem += 24;
+
+			d += dInc;
+		}
+
+#ifdef GPU_VBO
+		glBindBuffer(GL_ARRAY_BUFFER, _vertexVBO);
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _textureVBO);
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+
+		// disable vbo, replace with currently bound vbo in cleaned up version
+		glBindBuffer(GL_ARRAY_BUFFER, prevArrayBuffer);
+#endif
+		// 2 triangles per quad -> 6 vertices
+		mNumTrianglePoints = 6 * numSlices;
+	}
+
+	// setup viewport for rendering to FBO
     glViewport(0, 0, mOutputSize[0], mOutputSize[1]);
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 
@@ -155,10 +283,10 @@ void SoXipGpuProcessTexture:: renderTo3DMaxCompatibility(SoState  *state)
 {
     GLfloat	vertexCoordsQuad[8] =
     {
-        1, 1,
-        -1, 1,
         -1,-1,
-        1,-1
+         1,-1,
+         1, 1,
+        -1, 1
     };
 
     // when using gl_DrawArrays
@@ -176,11 +304,11 @@ void SoXipGpuProcessTexture:: renderTo3DMaxCompatibility(SoState  *state)
 
     // offset in z direction when reading from input texture
     // z coordinate when reading from input texture
-    int depth = mOutputSize[2];
-    float dInc = 1.0f / (float) depth;
+    int numSlices = mOutputSize[2];
+    float dInc = 1.0f / (float) numSlices;
     float d = 0.5 * dInc;
 
-    for(int z = 0; z < depth; z++)
+    for(int z = 0; z < numSlices; z++)
     {
         // Attach 3D Texture as target to FBO (glFramebufferTexture3DEXT)
         if (textureDimension.getValue() == TEXTURE_3D || mTextureDimension == 3)
@@ -205,82 +333,37 @@ void SoXipGpuProcessTexture:: renderTo3DMaxCompatibility(SoState  *state)
 }
 
 
-void SoXipGpuProcessTexture:: renderTo3DMaxPerformance()
+void SoXipGpuProcessTexture:: renderTo3DMaxPerformance(SoState  *state)
 {
-    // inform about a necessary geometry shader
-    if (mInformGeom == false)
-    {
-        SoDebugError::postInfo(__FUNCTION__, "This mode requires a geometry shader\n");
-        mInformGeom = true;
-    }
+	// inform about a necessary geometry shader
+	if (mInformGeom == false)
+	{
+		SoDebugError::postInfo(__FUNCTION__, "This mode requires a geometry shader\n");
+		mInformGeom = true;
+	}
 
-    const int vertCoordNum = 12;
-    const int textCoordNum = 24;
+	if (textureDimension.getValue() == TEXTURE_3D || mTextureDimension == 3)
+	{
+		SoXipFboElement::reattachAs3D(state, this);
+	}
 
-    GLfloat	vertexCoordsMaxPerform[12] =
-    {
-        // triangle 1
-        1,  1,
-        -1,  1,
-        -1, -1,
-        // triangle 2
-        -1, -1,
-        1, -1,
-        1,  1
-    };
+#ifndef GPU_VBO
+	glVertexPointer(  2, GL_FLOAT, 0, &_vertexCoords[0]);
+	glTexCoordPointer(4, GL_FLOAT, 0, &_textureCoords[0]);
+#else
+	GLint prevArrayBuffer = 0;
+	glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &prevArrayBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, _vertexVBO);
+	glVertexPointer(  2, GL_FLOAT, 0, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, _textureVBO);
+	glTexCoordPointer(4, GL_FLOAT, 0, 0);
+#endif
 
-    float textureCoords[textCoordNum] =
-    {
-        // triangle 1
-        0.0f, 0.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 0.0f, 0.0f,
-        // triangle 2
-        1.0f, 1.0f, 0.0f, 0.0f, 
-        0.0f, 1.0f, 0.0f, 0.0f, 
-        0.0f, 0.0f, 0.0f, 0.0f, 
-    };
+	glDrawArrays(GL_TRIANGLES, 0, mNumTrianglePoints);
 
-    std::vector<float> _vertexCoords;
-    std::vector<float> _textureCoords;
-	
-    const int depth = mOutputSize[2];
-    //float _vertexCoords[(const int)depth	 * vertCoordNum];
-    _vertexCoords.resize (depth	 * vertCoordNum);
-    _textureCoords.resize(depth  * textCoordNum);
-
-    float dInc = 1.0f / (float) depth;
-    float d = 0.5 * dInc;
-
-    // update Texture Coordinates
-    for (int z = 0; z < depth; z++)
-    {		
-        textureCoords[2] =
-            textureCoords[6] =
-            textureCoords[10] =
-            textureCoords[14] =
-            textureCoords[18] =
-            textureCoords[22] = (float)d;
-
-        textureCoords[3] =
-            textureCoords[7] =
-            textureCoords[11] =
-            textureCoords[15] =
-            textureCoords[19] =
-            textureCoords[23] = (float)z;
-
-        ::memcpy(&_vertexCoords [z * vertCoordNum],
-                 vertexCoordsMaxPerform, sizeof(GLfloat) *vertCoordNum);
-        ::memcpy(&_textureCoords[z * textCoordNum],
-                 textureCoords, sizeof(GLfloat) *textCoordNum);
-		
-        d += dInc;
-    }
-
-    glVertexPointer(  2, GL_FLOAT, 0, &_vertexCoords[0]);
-    glTexCoordPointer(4, GL_FLOAT, 0, &_textureCoords[0]);
-	
-    glDrawArrays(GL_TRIANGLES, 0, 6 * depth);
+#ifdef GPU_VBO
+	glBindBuffer(GL_ARRAY_BUFFER, prevArrayBuffer);
+#endif
 }
 
 

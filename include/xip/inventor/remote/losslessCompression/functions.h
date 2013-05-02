@@ -30,6 +30,12 @@ class functions
 		*
 		* \return cpu id.
 		*/
+#if defined(WIN64)
+    inline static int CPU()
+    {
+        return 3; // SSE2 always supported on 64-bit (Intel 64)
+    }
+#elif defined(WIN32)
 		inline static int CPU() 
 		{
 			unsigned int info;
@@ -57,6 +63,13 @@ class functions
 			return 0;  // Legacy
 			  
 		}
+#else
+    // Need to fix this on non-Windows systems...
+    inline static int CPU()
+    {
+        return 0;
+    }
+#endif
 
 		/*!
 		* \brief Resizes the size of the input vector if smaller than size. 

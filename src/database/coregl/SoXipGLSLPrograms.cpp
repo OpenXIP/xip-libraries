@@ -108,14 +108,14 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-#include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
-#include "SoXipGLSLPrograms.h"
-#include "ShaderProgramManager.h"
 
-#include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
+#include <xip/inventor/coregl/ShaderProgramManager.h>
+
+#include "SoXipGLSLPrograms.h"
+
+#include <Inventor/actions/SoGLRenderAction.h>
 
 // Used for insertion of defines in shader source
 #include <string>
@@ -148,48 +148,55 @@ SoXipGLSLPrograms::SoXipGLSLPrograms()
 	SO_NODE_ADD_FIELD(vpFilenames, (""));
     SO_NODE_ADD_FIELD(gpFilenames, (""));
     SO_NODE_ADD_FIELD(fpFilenames, (""));
-	
+
 	SO_NODE_ADD_FIELD(vpDefines, (""));
 	SO_NODE_ADD_FIELD(gpDefines, (""));
 	SO_NODE_ADD_FIELD(fpDefines, (""));
-	
+
 	mVpSensor = new SoFieldSensor(fieldChangeCB, this);
 	mVpSensor->attach(&this->vpFilenames);
+    mVpSensor->setPriority(0);
 	mGpSensor = new SoFieldSensor(fieldChangeCB, this);
 	mGpSensor->attach(&this->gpFilenames);
+    mGpSensor->setPriority(0);
 	mFpSensor = new SoFieldSensor(fieldChangeCB, this);
 	mFpSensor->attach(&this->fpFilenames);
+    mFpSensor->setPriority(0);
 	
 	mVpDefinesSensor = new SoFieldSensor(fieldChangeCB, this);
 	mVpDefinesSensor->attach(&this->vpDefines);
+    mVpDefinesSensor->setPriority(0);
 	mGpDefinesSensor = new SoFieldSensor(fieldChangeCB, this);
 	mGpDefinesSensor->attach(&this->gpDefines);
+    mGpDefinesSensor->setPriority(0);
 	mFpDefinesSensor = new SoFieldSensor(fieldChangeCB, this);
 	mFpDefinesSensor->attach(&this->fpDefines);
+    mFpDefinesSensor->setPriority(0);
 
   	mTagSensor = new SoFieldSensor(fieldChangeCB, this);
 	mTagSensor->attach(&this->prgTags);
+    mTagSensor->setPriority(0);
 
   	SO_NODE_ADD_FIELD(updateShaders, ());
-	mUpdateFieldSensor = new SoFieldSensor(updateSensorCB, this);
-	mUpdateFieldSensor->attach(&this->updateShaders);
 
+    mUpdateFieldSensor = new SoFieldSensor(updateSensorCB, this);
+	mUpdateFieldSensor->attach(&this->updateShaders);
+    mUpdateFieldSensor->setPriority(0);
 	mAutoUpdateTimerSensor = new SoTimerSensor(autoUpdateCB, this);
 	mAutoUpdateTimerSensor->setInterval(1.0/3.0);
 
     SO_NODE_ADD_FIELD(autoUpdate, (false));
-  	mAutoUpdateCheckboxSensor = new SoFieldSensor(toggleAutoCB, this);
-	mAutoUpdateCheckboxSensor->attach(&this->autoUpdate);
 
-    mShaderList = SbPList();
-    mFieldBitmask = 0;
-    mHasChanged = true;
-    mIsAutoOn = false;
+    mAutoUpdateCheckboxSensor = new SoFieldSensor(toggleAutoCB, this);
+	mAutoUpdateCheckboxSensor->attach(&this->autoUpdate);
+    mAutoUpdateCheckboxSensor->setPriority(0);
 
 	SO_NODE_ADD_FIELD(geometryInputType, (IN_TRIANGLES));
 	SO_NODE_ADD_FIELD(geometryOutputType, (OUT_TRIANGLE_STRIP));
 	SO_NODE_ADD_FIELD(maxEmittedVertices, (1));
 
+    SO_NODE_ADD_FIELD(glslVersion, (V120));
+    
 	SO_NODE_DEFINE_ENUM_VALUE(InGeometry, IN_POINTS);
 	SO_NODE_DEFINE_ENUM_VALUE(InGeometry, IN_LINES);
 	SO_NODE_DEFINE_ENUM_VALUE(InGeometry, IN_LINES_ADJACENCY_EXT);
@@ -197,12 +204,27 @@ SoXipGLSLPrograms::SoXipGLSLPrograms()
 	SO_NODE_DEFINE_ENUM_VALUE(InGeometry, IN_TRIANGLES_ADJACENCY_EXT);
 	SO_NODE_SET_SF_ENUM_TYPE(geometryInputType, InGeometry);
 
+    SO_NODE_DEFINE_ENUM_VALUE(GLSLVersion, AUTO_SELECT);
+    SO_NODE_DEFINE_ENUM_VALUE(GLSLVersion, V110);
+    SO_NODE_DEFINE_ENUM_VALUE(GLSLVersion, V120);
+    SO_NODE_DEFINE_ENUM_VALUE(GLSLVersion, V130);
+    SO_NODE_DEFINE_ENUM_VALUE(GLSLVersion, V140);
+    SO_NODE_DEFINE_ENUM_VALUE(GLSLVersion, V150);
+    SO_NODE_SET_SF_ENUM_TYPE(glslVersion, GLSLVersion);
 
 	SO_NODE_DEFINE_ENUM_VALUE(OutGeometry, OUT_POINTS);
 	SO_NODE_DEFINE_ENUM_VALUE(OutGeometry, OUT_LINE_STRIP);
 	SO_NODE_DEFINE_ENUM_VALUE(OutGeometry, OUT_TRIANGLE_STRIP);
 	SO_NODE_DEFINE_ENUM_VALUE(OutGeometry, OUT_TRIANGLES);
     SO_NODE_SET_SF_ENUM_TYPE(geometryOutputType, OutGeometry);
+
+    SO_NODE_ADD_FIELD(nodeUpdated, ());
+
+    mProgramBatchList = SbPList();
+
+    mFieldBitmask = 0;
+    mTimedUpdate = false;
+    mIsAutoOn = false;
 }
 
 /**
@@ -210,18 +232,16 @@ SoXipGLSLPrograms::SoXipGLSLPrograms()
  */	
 SoXipGLSLPrograms::~SoXipGLSLPrograms()
 {
-    // Delete ShaderprogramManager entry
     ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-    ShaderBatch * batch = 0;
-    for (int i = 0; i < mShaderList.getLength(); i++)
-    {
-        batch = reinterpret_cast<ShaderBatch *>(mShaderList[i]);
-        manager->removeEntry(batch->tag.getString());
-        delete batch;
-    }
+    ProgramBatch * batch = 0;
+    if (manager)
+        for (int i = 0; i < mProgramBatchList.getLength(); i++)
+            if (batch = reinterpret_cast<ProgramBatch *>(mProgramBatchList[i]))
+                if (batch->tag != "")
+                    manager->removeEntry(batch->tag.getString());
 
     // Delete self
-	delete mVpSensor;
+    delete mVpSensor;
 	delete mFpSensor;
 	delete mGpSensor;
 	delete mGpDefinesSensor;
@@ -251,9 +271,7 @@ void SoXipGLSLPrograms::fieldChangeCB(void * data, SoSensor * sensor)
     else if (sensor == obj->mFpDefinesSensor)
         obj->mFieldBitmask |= FP_DEFINES;
     else if (sensor == obj->mTagSensor)
-        obj->mFieldBitmask |= TAG_NAMES;
-
-	obj->mHasChanged = true;
+        obj->mFieldBitmask |= TAG_NAME;
 }
 
 /**	
@@ -281,17 +299,7 @@ void SoXipGLSLPrograms::UpdateAction()
         prgTags.getNum() == fpDefines.getNum() &&
         prgTags.getNum() == gpDefines.getNum())
     {
-        if (mFieldBitmask)
-        {
-            SoDebugError::postInfo("GLSLPrograms", "Updating programs");
-	        evaluateByTags();
-            cleanAndSynchronize();
-            mFieldBitmask = 0;
-        }
-        else
-        {
-            evaluateByTimestamps();
-        }
+        evaluateProgramBatches();
     }
     else
     {
@@ -301,7 +309,9 @@ void SoXipGLSLPrograms::UpdateAction()
             vpDefines.getNum(), gpDefines.getNum(), fpDefines.getNum());
     }
 
-	mHasChanged = false;
+    mFieldBitmask = 0;
+    mTimedUpdate = false;
+    nodeUpdated.touch();
 }
 
 /**
@@ -311,456 +321,281 @@ void SoXipGLSLPrograms::UpdateAction()
  */
 void SoXipGLSLPrograms::AutoUpdateAction()
 {
-    if (!mFieldBitmask)
-        evaluateByTimestamps();
+    bool dirty = false;
+    ProgramBatch * batch = 0;
+
+    for (int i = 0; i < mProgramBatchList.getLength(); i++)
+    {
+        batch = reinterpret_cast<ProgramBatch *>(mProgramBatchList[i]);
+        dirty |= checkTimeStamps(&batch->vertShader, vpFilenames[i]);
+        dirty |= checkTimeStamps(&batch->geomShader, gpFilenames[i]);
+        dirty |= checkTimeStamps(&batch->fragShader, fpFilenames[i]);
+    }
+
+    if (dirty)
+    {
+        mTimedUpdate = true;
+        startNotify();
+    }
 }
 
-/**	
- *	Local procedure that takes an input string and an input delimiters string
- *	as inputs and fills up a std::vector with the appropriate tokens from
- *	the input string.
- *	Used to create the preprocessor definitions that are to be added ad the
- *	beginning of the shader programs.
+/**
+ *  Second out of two main update functions.
+ *  Gets triggered by a timer for automatics recompilations.
+ *  Can be called both from GLRender or from any other scope.
  */
-void xip_mshaders_tokenize(const std::string& str,
-			  std::vector<std::string>& tokens,
-              const std::string& delimiters = " ")
-#if 1
+void SoXipGLSLPrograms::GLValidityCheck()
 {
-	// Skip delimiters at the beginning
-	std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
-	// Find first non-delimiter character
-	std::string::size_type pos     = str.find_first_of(delimiters, lastPos);
+    bool dirty = false;
+    GLint prog = 0;
+    ProgramBatch * batch = 0;
+    ShaderProgramManager * manager = ShaderProgramManager::getInstance();
+    
+    if (!manager)
+    {
+        dirty = true;
+    }
+    else
+    {
+        for (int i = 0; i < mProgramBatchList.getLength(); i++)
+        {
+            batch = reinterpret_cast<ProgramBatch *>(mProgramBatchList[i]);
+            prog = manager->getProgramHandle(batch->tag.getString());
+            if (!glIsProgram(prog))
+                dirty = true;
+        }
+    }
 
-	while (std::string::npos != pos || std::string::npos != lastPos)
-	{
-		// Add a token to the vector of tokens
-		tokens.push_back(str.substr(lastPos, pos - lastPos));
-		// Skip delimiters
-		lastPos = str.find_first_not_of(delimiters, pos);
-		// Find next non-delimiter character
-		pos = str.find_first_of(delimiters, lastPos);
-	}
-}
-#endif
-
-/**
- *	Delete a specific shader program and its attachments.
- * @param programHandle Shader program to delete
- */	
-void SoXipGLSLPrograms::deleteProgram(GLuint programHandle)
-{
-	// If program handle is valid, delete it
-	if (glIsProgram(programHandle))
-	{
-        // Get attached shaders
-        int numShaders;
-        glGetProgramiv(programHandle, GL_ATTACHED_SHADERS, &numShaders);
-        GLuint * shaders = TCALLOC(numShaders, GLuint);
-        glGetAttachedShaders(programHandle, NULL, &numShaders, shaders);
-
-	    // Delete program and shaders
-	    glDeleteProgram(programHandle);
-        for(int i=0; i<numShaders; i++)
-            if (glIsShader(shaders[i]))
-                glDeleteShader(shaders[i]);
-        free(shaders);
-	}
+    if (dirty)
+    {
+        mTimedUpdate = true;
+        startNotify();
+    }
 }
 
-/**
- *	Read a shader file. Add the preprocessor definitions at
- *	the beginning of the file before the compilation.
- */	
-bool SoXipGLSLPrograms::readShadersFile(const char *filename, const char *defines, GLuint handle)
+bool SoXipGLSLPrograms::checkTimeStamps(ShaderBatch * batch, const SbString& filename)
 {
-	std::ifstream				in;
-	std::string					s, line;
-	GLchar						*programString;
-	std::vector<std::string>	vDefines;
+    if (!batch)
+        return false;
 
-	// Open the shader file
-	in.open(filename);
-	if (in.fail())
-		return false;
+    bool dirty = false; 
 
-	// Create a vector of preprocessor definitions
-	xip_mshaders_tokenize(defines, vDefines);
-	std::vector<std::string>::iterator it = vDefines.begin();
-	
-	// Add the #defines to the source file
-	while (it != vDefines.end())
-		s += "#define " + *it++ + "\n";
-	
-	// Append the source code
-	while (std::getline(in, line))
-		s += line + "\n";
-	
-	programString = (GLchar *)s.c_str();
+    int tod = ShaderEngine::getSourceFileTimeStamp(filename.getString());
+    int sts = batch->source.getSourceTimeStamp();
+    if (tod > sts)
+        dirty = true;
 
-	// Set the source code of the shader
-	glShaderSource(handle, 1, (const GLchar**) &programString, NULL);
-	return true;
+    batch->dirtyTimestamp = dirty;
+    return dirty;
 }
 
-/**
- *	Compile a GLSL shader program
- */	
-GLuint SoXipGLSLPrograms::compileShader(const char	*filename, 
-									    const char	*defines,
-									    GLenum       type)
-{
-	GLint status = 0;
 
-	// Create the handle for the shader
-	GLuint handle = glCreateShader(type);
-	// Read and compile the shader program
-	if (readShadersFile(filename, defines, handle))
-	{
-		glCompileShader(handle);
-		glGetShaderiv(handle, GL_COMPILE_STATUS, &status);
-	}
+void SoXipGLSLPrograms::setTimeStamps(ShaderBatch * batch, const SbString& filename)
+{
+    if (!batch)
+        return;
+
+    int tod = ShaderEngine::getSourceFileTimeStamp(filename.getString());
+    batch->source.setSourceTimeStamp(tod);
+
+    batch->dirtyTimestamp = false;
+}
+
+
+/**
+ *	Concatenates all componets into batch->vSource/gSource/fSource.
+ */	
+bool SoXipGLSLPrograms::updateSingleShader(ShaderBatch * batch, const SbString& filename, const SbString& defines, std::string& errstr)
+{
+    if (!batch)
+        return false;
+
+    std::string funcs = "";
+    int shaderType = batch->source.getType();
+
+    // Add the version string to the source file
+    std::string s;
+    switch(glslVersion.getValue())
+    {
+    default:
+    case AUTO_SELECT:
+        break;
+    case V110:
+        s += "#version 110 \n\n";
+        break;
+    case V120:
+        s += "#version 120 \n\n";
+        break;
+    case V130:
+        s += "#version 130 \n\n";
+        break;
+    case V140:
+        s += "#version 140 \n\n";
+        break;
+    case V150:
+        s += "#version 150 \n\n";
+        break;
+    }
+    batch->source.addToSuppHeader(s.c_str());
+
+    std::string defstr(defines.getString());
+    std::string tmp, defVal;
+    int p0 = 0;
+    int p1 = 0;
+    int d = defstr.find_first_not_of(",");
+    while (d != defstr.npos)
+    {
+        p1 = defstr.find_first_of(",", p0);
+        defVal = defstr.substr(p0,p1-p0);
+        if (!defVal.empty() && defVal.find_first_not_of(" ") != defVal.npos)
+        {
+            tmp = std::string("#define ") + defVal;
+            batch->source.addToSuppHeader(tmp.c_str());
+        }
+        p0 = p1+1;
+        d  = p1;
+    }
+
+    batch->source.addToSuppHeader(ShaderEngine::readShaderSourceFile(filename.getString()).c_str());
+    batch->handle = ShaderEngine::compileShader(batch->source.getFullComponent(), shaderType, errstr);
+    //batch->timestamp = (batch->handle) ? time(NULL) : 0;
+    batch->timestamp = (batch->handle) ? QueryPerformanceCounter((LARGE_INTEGER*)&batch->timestamp) : 0;
+
+    if (!errstr.empty())
+        return false;
+
+    return true;
+}
+
+
+/**
+ *	Update single shader.
+ */
+bool SoXipGLSLPrograms::updateSingleProgram(ProgramBatch * batch, std::string& errstr)
+{
+    if (!batch)
+        return false;
+
+    ShaderBatch & geomShader = batch->geomShader;
+	ShaderEngine::deleteProgram(batch->handle);
+
+    if (geomShader.handle)
+    {
+        batch->handle = ShaderEngine::linkShaders(batch->vertShader.handle,
+                                              batch->geomShader.handle,
+                                              batch->fragShader.handle,
+                                              maxEmittedVertices.getValue(),
+											  geometryInputType.getValue(),
+											  geometryOutputType.getValue(),
+                                              errstr);
+    }
 	else
 	{
-		SoDebugError::post("SoXipGLSLPrograms::compileShader", "Shader file \"%s\" could not be opened\n", filename);
-        if (mIsAutoOn)
-            SoDebugError::postWarning("SoXipGLSLPrograms::updateSingleProgram",
-                "Autoupdate suspended, trigger manually to reasume");
-		glDeleteShader(handle);
-        //vpFilenames.touch();
-        //gpFilenames.touch();
-        //fpFilenames.touch();
-		return 0;
-	}
-
-    // Check the compilation status
-	if (!status)
-	{
-		SoDebugError::post("SoXipGLSLPrograms::compileShader", "Shader file \"%s\" could not be compiled\n", filename);
-        if (mIsAutoOn)
-            SoDebugError::postWarning("SoXipGLSLPrograms::updateSingleProgram",
-                "Autoupdate suspended, trigger manually to reasume");
-		printShaderLog(handle);
-		glDeleteShader(handle);
-        //vpFilenames.touch();
-        //gpFilenames.touch();
-        //fpFilenames.touch();
-		return 0;
-	}
-
-	return handle;
-}
-
-/**
- *	Links GLSL shader programs
- */	
-GLuint SoXipGLSLPrograms::linkShaders(GLuint &vpHandle, GLuint &gpHandle, GLuint &fpHandle)
-{
-	GLint isLinked = 0;
-
-	// Create a GLSL program
-	GLuint handle = glCreateProgram();
-	// Attach the vertex and fragment shaders to the GLSL program
-	if (vpHandle != 0)
-		glAttachShader(handle, vpHandle);
-	if (fpHandle != 0)
-		glAttachShader(handle, fpHandle);
-	if (gpHandle != 0){
-		glAttachShader(handle, gpHandle);
-
-        //max number of emitted vertices is
-		glProgramParameteriEXT(handle,GL_GEOMETRY_VERTICES_OUT_EXT,maxEmittedVertices.getValue());
-	     //input geometry type
-		glProgramParameteriEXT(handle,GL_GEOMETRY_INPUT_TYPE_EXT,geometryInputType.getValue());
-	    //output geometry type
-	    glProgramParameteriEXT(handle,GL_GEOMETRY_OUTPUT_TYPE_EXT,geometryOutputType.getValue());
-	}
-
-	// Link the shaders
-	glLinkProgram(handle);
-
-	// Check the link status
-	glGetProgramiv(handle, GL_LINK_STATUS, &isLinked);
-	if (!isLinked)
-	{
-		SoDebugError::post("SoXipGLSLPrograms::linkShaders", "Program could not be linked\n");
-		printProgramLog(handle);
-		deleteProgram(handle);
-        handle = 0;
-        vpHandle = 0;
-        gpHandle = 0;
-        fpHandle = 0;
-        //vpFilenames.touch();
-        //gpFilenames.touch();
-        //fpFilenames.touch();
-        if (mIsAutoOn)
-            SoDebugError::postWarning("SoXipGLSLPrograms::updateSingleProgram",
-                "Autoupdate suspended, trigger manually to reasume");
-	}
-	return handle;
-}
-
-/**
- *	Print a log when compiling a shader fails 
- */	
-void SoXipGLSLPrograms::printShaderLog(GLuint shader)
-{
-	GLint length = 0;
-
-	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
-	if (length > 0)
-	{
-		GLchar *info = new GLchar[length + 1];
-		glGetShaderInfoLog(shader, length, NULL, info);
-		info[length] = 0;
-		SoError::post(info);
-		delete[] info;
-	}
-}
-
-/**
- *	Print a log when linking shaders fails 
- */	
-void SoXipGLSLPrograms::printProgramLog(GLuint program)
-{
-	GLint length = 0;
-
-	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
-	if (length > 0)
-	{
-		GLchar *info = new GLchar[length + 1];
-		glGetProgramInfoLog(program, length, NULL, info);
-		info[length] = 0;
-		SoError::post(info);
-		delete[] info;
-	}
-}
-
-/**
- *	Update single shader.
- */
-void SoXipGLSLPrograms::updateSingleShader(ShaderBatch * batch, GLenum shaderType)
-{
-    if (shaderType == GL_VERTEX_SHADER)
-    {
-        if (glIsShader(batch->vpHandle))
-            glDeleteShader(batch->vpHandle);
-        if (batch->vpFilename != "") {
-            batch->vpHandle = compileShader(batch->vpFilename.getString(), batch->vpDefines.getString(), GL_VERTEX_SHADER);
-            struct stat filestat = { 0 };
-            int returncode = (batch->vpHandle) ? stat(batch->vpFilename.getString(), &filestat) : -1;
-            batch->vpTimestamp = (returncode == 0) ? filestat.st_mtime : 0;
-            //SoDebugError::postInfo("SoXipGLSLPrograms::updateSingleShader", "vp %d (%d) return %d", batch->vpHandle, batch->vpTimestamp, returncode);
-        }
+		batch->handle = ShaderEngine::linkShaders(batch->vertShader.handle,
+                                              batch->geomShader.handle,
+                                              batch->fragShader.handle,
+                                              errstr);
     }
-    else if (shaderType == GL_GEOMETRY_SHADER_EXT)
+
+    int isValid = 0;
+    glGetProgramiv(batch->handle, GL_VALIDATE_STATUS, &isValid);
+
+    if (!isValid || !errstr.empty())
     {
-        if (glIsShader(batch->gpHandle))
-            glDeleteShader(batch->gpHandle);
-        if (batch->gpFilename != "") {
-            batch->gpHandle = compileShader(batch->gpFilename.getString(), batch->gpDefines.getString(), GL_GEOMETRY_SHADER_EXT);
-            struct stat filestat = { 0 };
-            int returncode = (batch->gpHandle) ? stat(batch->gpFilename.getString(), &filestat) : -1;
-            batch->gpTimestamp = (returncode == 0) ? filestat.st_mtime : 0;
-            //SoDebugError::postInfo("SoXipGLSLPrograms::updateSingleShader", "gp %d (%d) return %d", batch->gpHandle, batch->gpTimestamp, returncode);
-        }
+        if (glIsProgram(batch->handle))
+            glDeleteProgram(batch->handle);
+        batch->handle = 0;
     }
-    else if (shaderType == GL_FRAGMENT_SHADER)
+
+    //batch->timestamp = (batch->handle) ? time(NULL) : 0;
+    batch->timestamp = (batch->handle) ? QueryPerformanceCounter((LARGE_INTEGER*)&batch->timestamp) : 0;
+        
+    if (!errstr.empty())
     {
-        if (glIsShader(batch->fpHandle))
-            glDeleteShader(batch->fpHandle);
-        if (batch->fpFilename != "") {
-            batch->fpHandle = compileShader(batch->fpFilename.getString(), batch->fpDefines.getString(), GL_FRAGMENT_SHADER);
-            struct stat filestat = { 0 };
-            int returncode = (batch->fpHandle) ? stat(batch->fpFilename.getString(), &filestat) : -1;
-            batch->fpTimestamp = (returncode == 0) ? filestat.st_mtime : 0;
-            //SoDebugError::postInfo("SoXipGLSLPrograms::updateSingleShader", "fp %d (%d) return %d", batch->fpHandle, batch->fpTimestamp, returncode);
-        }
+        SoDebugError::post("GLSLPrograms", "\"%s\": %s", batch->tag.getString(), errstr.c_str());
+        return false;
     }
-    else
-        SoDebugError::post("SoXipGLSLPrograms::updateSingleShader", "Unknown shader type\n");
+
+    return true;
 }
 
-/**
- *	Update single shader.
- */
-void SoXipGLSLPrograms::updateSingleProgram(ShaderBatch * batch)
-{
-    // If handle exists then release the program
-    //GLuint oldP = batch->prgHandle;
-    if (glIsProgram(batch->prgHandle))
-        glDeleteProgram(batch->prgHandle);
-    // Set flags
-    batch->prgHandle    = linkShaders(batch->vpHandle, batch->gpHandle, batch->fpHandle);
-    batch->prgTimestamp = (batch->prgHandle) ? time(NULL) : 0;
-#if 0
-/////
-// This functionality has been changed so that "confirmedActive" is true even if compilation went wrong
-// That way the internal list will reflect the field values in a more optimiced way. The cost beeing an
-// entry in the manager with program 0.
-/////
 
-    batch->confirmedActive = (batch->prgHandle) ? true : false;
-#endif
-    if (!batch->prgHandle)
-    {
-        // Touch handle to avoid multiple error in auto mode
-        SoDebugError::postWarning("SoXipGLSLPrograms::updateSingleProgram",
-            "Updating program \"%s\" failed, handle set to 0\n", batch->tag.getString());
-    }
-}
+
 
 /**
  *	Update existing shader batch by per field comparison.
  */
-void SoXipGLSLPrograms::updateShaderBatchByFields(ShaderBatch * batch, int field)
+bool SoXipGLSLPrograms::updateShaderBatch(ShaderBatch * batch, const SbString& filename, const SbString& defines, std::string& errstr)
 {
-    bool vDirty    = false;
-    bool gDirty    = false;
-    bool fDirty    = false;
+    if (!batch)
+        return false;
 
-    // Only compare manipulated fields and update if changed
-    if ((mFieldBitmask & VP_FILENAMES) || (mFieldBitmask & VP_DEFINES)) {
-        if (batch->vpFilename != vpFilenames[field] ||
-            batch->vpDefines  != vpDefines[field]   ||
-            (batch->vpHandle == 0 && batch->vpFilename != ""))
+    bool dirty = false;
+    int shaderType = batch->source.getType();
+
+    dirty |= batch->dirtyTimestamp; 
+    dirty |= batch->dirtySource;
+
+    if (dirty)
+    {
+        this->setTimeStamps(batch, filename);
+        ShaderEngine::deleteShader(batch->handle);
+        batch->source.clearContent();
+        batch->timestamp = 0;
+        batch->dirtySource = false;
+        if (filename != "")
         {
-            batch->vpFilename = vpFilenames[field];
-            batch->vpDefines  = vpDefines[field];
-            updateSingleShader(batch, GL_VERTEX_SHADER);
-            vDirty = true;
-        }
-    }
-    if ((mFieldBitmask & GP_FILENAMES) || (mFieldBitmask & GP_DEFINES)) {
-        if (batch->gpFilename != gpFilenames[field] ||
-            batch->gpDefines  != gpDefines[field]   ||
-            (batch->gpHandle == 0 && batch->gpFilename != ""))
-        {
-            batch->gpFilename = gpFilenames[field];
-            batch->gpDefines  = gpDefines[field];
-            updateSingleShader(batch, GL_GEOMETRY_SHADER_EXT);
-            gDirty = true;
-        }
-    }
-    if ((mFieldBitmask & FP_FILENAMES) || (mFieldBitmask & FP_DEFINES)) {
-        if (batch->fpFilename != fpFilenames[field] ||
-            batch->fpDefines  != fpDefines[field]   ||
-            (batch->fpHandle == 0 && batch->fpFilename != ""))
-        {
-            batch->fpFilename = fpFilenames[field];
-            batch->fpDefines  = fpDefines[field];
-            updateSingleShader(batch, GL_FRAGMENT_SHADER);
-            fDirty = true;
+            this->updateSingleShader(batch, filename, defines, errstr);
         }
     }
 
-    // Have we changed anything in this batch?
-    if (vDirty || gDirty || fDirty) {
-        updateSingleProgram(batch);
-        batch->isDirty = true;
+    if (!errstr.empty())
+    {
+        SoDebugError::post("GLSLPrograms", "\"%s\": %s", batch->source.getName(), errstr.c_str());
     }
-    else
-        updateShaderBatchByTimestamp(batch);
+
+    return dirty;
 }
 
-/**
- *	Update existing shader batch by per field comparison.
- */
-void SoXipGLSLPrograms::updateShaderBatchByTimestamp(ShaderBatch * batch)
-{
-  struct stat filestat = { 0 };
-    int returncode;
 
-    // Get time on disk, setting the code to 0 if no existing program means we down have to bother about validity
-    returncode = (batch->vpHandle) ? stat(batch->vpFilename.getString(), &filestat) : 0;
-    int vTimeOnDrive = (returncode == 0) ? filestat.st_mtime : 0;
-    returncode = (batch->gpHandle) ? stat(batch->gpFilename.getString(), &filestat) : 0;
-    int gTimeOnDrive = (returncode == 0) ? filestat.st_mtime : 0;
-    returncode = (batch->fpHandle) ? stat(batch->fpFilename.getString(), &filestat) : 0;
-    int fTimeOnDrive = (returncode == 0) ? filestat.st_mtime : 0;
 
-    bool vDirty = false;
-    bool gDirty = false;
-    bool fDirty = false;
 
-    // Only compare manipulated fields (manipulation of tag field causes full evaluation)
-    if (batch->vpTimestamp < vTimeOnDrive && batch->vpTimestamp != 0) {
-        //SoDebugError::postInfo("Update by stamp", "Timestamp %d OnDrive %d\n", batch->vpTimestamp, vTimeOnDrive);
-        updateSingleShader(batch, GL_VERTEX_SHADER);
-        vDirty = true;
-    }
-    if (batch->gpTimestamp < gTimeOnDrive && batch->gpTimestamp != 0) {
-        //SoDebugError::postInfo("Update by stamp", "Timestamp %d OnDrive %d\n", batch->gpTimestamp, gTimeOnDrive);
-        updateSingleShader(batch, GL_GEOMETRY_SHADER_EXT);
-        gDirty = true;
-    }
-    if (batch->fpTimestamp < fTimeOnDrive && batch->fpTimestamp != 0) {
-        //SoDebugError::postInfo("Update by stamp", "Timestamp %d OnDrive %d\n", batch->fpTimestamp, fTimeOnDrive);
-        updateSingleShader(batch, GL_FRAGMENT_SHADER);
-        fDirty = true;
-    }
-
-#if 0
-/////
-// For debugging timestamp issues
-/////
-
-    SoDebugError::postInfo("SoXipGLSLPrograms", "vp %d (%d %d) gp %d (%d %d) fp %d (%d %d)",
-        batch->vpHandle, batch->vpTimestamp, vTimeOnDrive,
-        batch->gpHandle, batch->gpTimestamp, gTimeOnDrive,
-        batch->fpHandle, batch->fpTimestamp, fTimeOnDrive);
-#endif
-
-    // Have we changed anything in this batch?
-    if (vDirty || gDirty || fDirty) {
-        updateSingleProgram(batch);
-        batch->isDirty = true;
-    }
-}
 
 /**
  * Update batch entry in ShaderProgramManager singleton.
  * @param batch The shader batch we want to update.
  * @see removeManagerEntry()
  */
-void SoXipGLSLPrograms::updateManagerEntry(ShaderBatch * batch)
+void SoXipGLSLPrograms::updateManagerEntry(ProgramBatch * batch)
 {
+    if (!batch)
+        return;
+
     // Insert entry
     if (batch->tag != "")
     {
-        // Get manager instance
         ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-        //unsigned int returnedHandle = manager->insertEntry(batch->tag.getString(), batch->prgHandle, getNodeId());
-        unsigned int returnedHandle = manager->insertEntry(batch->tag.getString(), batch->prgHandle, batch->prgTimestamp);
 
-        // Decipher return code
-        if (returnedHandle == 0) {
-            SoDebugError::postWarning("SoXipGLSLPrograms::updateManagerEntry",
-                "Entry \"%s\" returned value 0, possibly due to issue with tag\n", batch->tag.getString());
-        }
-        else if (returnedHandle != batch->prgHandle) {
-            SoDebugError::postInfo("Shader Manager", "Shader entry \"%s\" updated (replaced)", batch->tag.getString());
-            //SoDebugError::postInfo("Shader Manager", "\"%s\" entry updated (replaced %d with %d)",
-            //    batch->tag.getString(), returnedHandle, batch->prgHandle);
-#if 0
-/////
-// This should already have been taken care of (when cleaning the internal list) and there is
-// actually a chance that we would try to delete a shader that has already been deleted.
-// The double deletion could be prevented by a validity check by what if the freed handle has
-// been used anew with a totaly diffenrent shader? Then we would probably end up deleting a
-// shader we do not want to delete!
-// Is there any automatic way to prevent this without introducing member variables to hold old handles?
-//
-// See DevDoc for updated discussion!
-/////
+        const char * tag = batch->tag.getString();
 
-            glDeleteProgram(returnedHandle);
-#endif
+        if (manager && tag && *tag)
+        {
+            unsigned int returnedHandle =
+                manager->insertEntry(tag, batch->handle, batch->timestamp);
+
+            // Decipher return code
+            if (returnedHandle == 0)
+            {
+                SoDebugError::postWarning("GLSLPrograms",
+                    "Manager returned 0 for entry \"%s\", possibly due to invalid program\n", tag);
+            }
+            else if (returnedHandle != batch->handle)
+                SoDebugError::postInfo("Shader Manager", "Shader entry \"%s\" updated (replaced)", tag);
+            else
+                SoDebugError::postInfo("Shader Manager",
+                                       "Shader entry \"%s\" updated", tag);
         }
-        else
-            SoDebugError::postInfo("Shader Manager", "Shader entry \"%s\" updated", batch->tag.getString());
     }
-    mIsManagerUpdated = true;
 }
 
 /**
@@ -768,78 +603,50 @@ void SoXipGLSLPrograms::updateManagerEntry(ShaderBatch * batch)
  *  @param batch The shader batch we want to update.
  *  @see updateManagerEntry()
  */
-void SoXipGLSLPrograms::removeManagerEntry(ShaderBatch * batch)
+void SoXipGLSLPrograms::removeManagerEntry(ProgramBatch * batch)
 {
-    if (batch)
-    {
-        // Get manager instance
-        ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-#if 0
-/////
-// Need more checks here?
-// What if program already released?
-// What if shader handles attached to program have been released
-// and then used anew by different program?
-// It seems we have to restrict the deletion to the node that creates
-// entry (we do not know this if using the returned handle)
-//
-// See DevDoc for updated discussion!
-/////
+    if (!batch)
+        return;
 
-        GLuint handle = manager->getProgramHandle(batch->tag.getString());
-        if (handle)
-            glDeleteProgram(handle);
-#endif
-        manager->removeEntry(batch->tag.getString());
+    if (batch->tag.getString() != "")
+    {
+        ShaderProgramManager * manager = ShaderProgramManager::getInstance();
+        if (manager)
+            manager->removeEntry(batch->tag.getString());
     }
-    mIsManagerUpdated = true;
 }
 
-/**
- *	Compare tags in field and internal list, process divergence.
- *  When stepping through tag field we have several cases:
- *      1: Tag exists and is equal to internal list.
- *          Perform update (since at least one field has been manipulated)
- *      2: Tag exists but do not match internal list.
- *          Remove previous tag from manager.
- *          Update tag in existing batch.
- *          Perform update
- *      3: Internal list is to short.
- *          Append new batch
- *          Set tag according to field
- *          Perform update
- *  Case 1 and 2 are only checked if tag fields has been touched,
- *  if not then a regular update is performed.
- *  All encountered entries are marked active as to not be deleted
- *  by the clear function.
- */
-void SoXipGLSLPrograms::evaluateByTags()
+bool SoXipGLSLPrograms::evaluateFieldBitmaskChange(const SoMFString& field, SoMFString& m_field, int slot)
 {
-    ShaderBatch * batch = 0;
-
-    // Force internal list to reflect fields if tag field has changed
-    for (int i = 0; i < prgTags.getNum(); i++)
+    if (m_field.getNum() != field.getNum())
     {
-        bool extending = false;
-        if (mShaderList.getLength() <= i) {
-            mShaderList.append(new ShaderBatch);
-            extending = true;
-        }
-        batch = reinterpret_cast<ShaderBatch *>(mShaderList[i]);
-        if (batch) {
-            if (mFieldBitmask & TAG_NAMES || extending) {
-                if (batch->tag != prgTags[i]) {
-                    removeManagerEntry(batch);
-                    batch->tag = prgTags[i];
-                    batch->isDirty = true;
-                }
-            }
-            batch->confirmedActive = true;
-            updateShaderBatchByFields(batch, i);
-        }
-        else
-            SoDebugError::post("SoXipGLSLPrograms::compareByTags", "Empty slot found, this should not happen!\n");
+        m_field.setNum( field.getNum() );
     }
+
+    if (m_field[slot] != field[slot])
+    {
+        m_field.set1Value(slot, field[slot]);
+        return true;
+    }
+
+    return false;
+    //{
+    //    switch (shaderType)
+    //    {
+    //    case GL_VERTEX_SHADER :
+    //        dirty |= (mFieldBitmask & (VP_FILENAMES | VP_DEFINES)) ? true : false;
+    //        break;
+    //    case GL_GEOMETRY_SHADER_EXT :
+    //        dirty |= (mFieldBitmask & (GP_FILENAMES | GP_DEFINES)) ? true : false;
+    //        break;
+    //    case GL_FRAGMENT_SHADER :
+    //        dirty |= (mFieldBitmask & (FP_FILENAMES | FP_DEFINES)) ? true : false;
+    //        break;
+    //    default:
+    //        errstr.append("Unknown shader type");
+    //        return false;
+    //    }
+    //}
 }
 
 /**
@@ -848,136 +655,105 @@ void SoXipGLSLPrograms::evaluateByTags()
  *  avoid costly validation of filenames. No cleaning and synchronizing
  *  need to be done since fields and values are intact.
  */
-void SoXipGLSLPrograms::evaluateByTimestamps()
+void SoXipGLSLPrograms::evaluateSingleProgramBatch(ProgramBatch * batch, int slot)
 {
-    ShaderBatch * batch = 0;
+    if (!batch)
+        return;
 
-    // Evaluate internal list
-    for (int i = 0; i < mShaderList.getLength(); i++)
+    if (mFieldBitmask & TAG_NAME)
     {
-        batch = reinterpret_cast<ShaderBatch *>(mShaderList[i]);
-        if (batch) {
-            // Recompile shaders if timestamp is old
-            updateShaderBatchByTimestamp(batch);
-
-			if (batch->isDirty)
-			{
-				// Since program id might have changed we need to update the manager as well
-				updateManagerEntry(batch);
-				batch->isDirty = false;
-			}
+        if (batch->tag != prgTags[slot])
+        {
+            if (batch->tag != "")
+                removeManagerEntry(batch);
+            batch->tag = prgTags[slot];
         }
     }
 
-    // If manager has been updated we post a redisplay event to force Useprogram nodes into action
-    if (mIsManagerUpdated) {
-        startNotify();
-        mIsManagerUpdated = false;
+    if (mFieldBitmask & VP_FILENAMES)
+        batch->vertShader.dirtySource |= evaluateFieldBitmaskChange(vpFilenames, m_vpFilenames, slot);
+    if (mFieldBitmask & GP_FILENAMES)
+        batch->geomShader.dirtySource |= evaluateFieldBitmaskChange(gpFilenames, m_gpFilenames, slot);
+    if (mFieldBitmask & FP_FILENAMES)
+        batch->fragShader.dirtySource |= evaluateFieldBitmaskChange(fpFilenames, m_fpFilenames, slot);
+    if (mFieldBitmask & VP_DEFINES)
+        batch->vertShader.dirtySource |= evaluateFieldBitmaskChange(vpDefines, m_vpDefines, slot);
+    if (mFieldBitmask & GP_DEFINES)
+        batch->geomShader.dirtySource |= evaluateFieldBitmaskChange(gpDefines, m_gpDefines, slot);
+    if (mFieldBitmask & FP_DEFINES)
+        batch->fragShader.dirtySource |= evaluateFieldBitmaskChange(fpDefines, m_fpDefines, slot);
+
+    std::string errstr = "";
+    std::string errone = "";
+    bool dirty = false;
+
+    dirty |= this->updateShaderBatch(&batch->vertShader, vpFilenames[slot], vpDefines[slot], errone);
+    errstr += errone;
+    errone = "";
+
+    dirty |= this->updateShaderBatch(&batch->geomShader, gpFilenames[slot], gpDefines[slot], errone);
+    errstr += errone;
+    errone = "";
+
+    dirty |= this->updateShaderBatch(&batch->fragShader, fpFilenames[slot], fpDefines[slot], errone);
+    errstr += errone;
+    errone = "";
+
+    if (dirty)
+    {
+        this->updateSingleProgram(batch, errone);
+        errstr += errone;
+    }
+
+    if (!errstr.empty())
+    {
+        if (batch->tag != "")
+            removeManagerEntry(batch);
+    }
+    else if (dirty)
+    {
+	    this->updateManagerEntry(batch);
     }
 }
 
-/**
- *  Clean internal list and sync with ShaderProgramManager.
- *  The confirmedActive flag is used to determine what entries in our
- *  internal list that have gone obsolete (this might happen if we change
- *  a tag or remove field entries)
- */
- void SoXipGLSLPrograms::cleanAndSynchronize()
+
+void SoXipGLSLPrograms::evaluateProgramBatches()
 {
-    ShaderBatch * batch = 0;
+    ProgramBatch * batch = 0;
 
-    // Clean internal list and sync with manager
-    for (int i = 0; i < mShaderList.getLength(); i++)
+    // Force internal list to reflect fields if tag field has changed
+    for (int i = 0; i < prgTags.getNum(); i++)
     {
-        batch = reinterpret_cast<ShaderBatch *>(mShaderList[i]);
-        // Update if dirty
-        if (batch->isDirty)
+        if (mProgramBatchList.getLength() <= i)
         {
-            updateManagerEntry(batch);
-            batch->isDirty = false;
-        }
-        if (! batch->confirmedActive) {
-#if 1
-/////
-// We can probably do this in a safe way here as the entry and batch
-// both have been valid up to here but now are discarded.
-//
-// See DevDoc for updated discussion!
-/////
-            
-            deleteProgram(batch->prgHandle);
-            batch->prgHandle = 0;
-            batch->vpHandle = 0;
-            batch->gpHandle = 0;
-            batch->fpHandle = 0;
-#endif
-            removeManagerEntry(batch);
-#if 1
-/////
-// We can remove the obsolete entry since even those entries that
-// did not compile still counts as valid (even though they have
-// their program handle set to 0)
-//
-// See DevDoc for updated discussion!
-/////
+            ProgramBatch * newBatch = new ProgramBatch();
 
-            delete batch;
-            mShaderList.remove(i);
-#endif
+            newBatch->vertShader.source.setName(std::string(prgTags[0].getString() + std::string(" vertex Shader")).c_str());
+            newBatch->geomShader.source.setName(std::string(prgTags[0].getString() + std::string(" geometry Shader")).c_str());
+            newBatch->fragShader.source.setName(std::string(prgTags[0].getString() + std::string(" fragment Shader")).c_str());
+
+            newBatch->vertShader.source.setType(GL_VERTEX_SHADER);
+            newBatch->geomShader.source.setType(GL_GEOMETRY_SHADER_EXT);
+            newBatch->fragShader.source.setType(GL_FRAGMENT_SHADER);
+
+            mProgramBatchList.append(newBatch);
+        }
+
+        batch = reinterpret_cast<ProgramBatch *>(mProgramBatchList[i]);
+
+        if (batch)
+        {
+            evaluateSingleProgramBatch(batch, i);
         }
         else
-            batch->confirmedActive = false;
-    }
-
-    // If manager has been updated we post a redisplay event
-    if (mIsManagerUpdated) {
-        startNotify();
-        mIsManagerUpdated = false;
-    }
-
-#if 0
-/////
-// DEBUG ONLY
-// The implementation of manager->getAllTagsAsOneString() can resault in
-// memory corruption if called from a seperate .dll
-// USE FOR SPECIFIC DEBUG ONLY
-// Anyone have a better idea how to get the names as a string?
-/////
-
-    // Get manager instance
-    ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-    // Print list of avaliable tags
-    char * taglist = manager->getAllTagsAsOneString();
-    SoDebugError::postInfo("Taglist", taglist);
-    free(taglist);
-    taglist = 0;
-#endif
-#if 0
-/////
-// DEBUG ONLY
-// Nice to have if we want to compare the internal list with the one from
-// the manager.
-/////
-
-    // Print internal list
-    printInternalTagsAsOneString();
-#endif
-}
-
-/**
- *	Debug function printing a copy of the internal list including handles.
- */
-void SoXipGLSLPrograms::printInternalTagsAsOneString()
-{
-    ShaderBatch * batch = 0;
-    for (int i = 0; i < mShaderList.getLength(); i++)
-    {
-        batch = reinterpret_cast<ShaderBatch *>(mShaderList[i]);
-        if (batch)
-            SoDebugError::postInfo("", "Internal shader %d %s   (id %d, vp %d, gp %d, fp %d)", i, batch->tag.getString(), batch->prgHandle,
-            batch->vpHandle, batch->gpHandle, batch->fpHandle);
+        {
+            SoDebugError::post("SoXipGLSLPrograms::compareByTags", "Empty slot found, this should not happen!\n");
+        }
     }
 }
+
+
+
 
 /**
  *	GLRender.
@@ -986,10 +762,13 @@ void SoXipGLSLPrograms::printInternalTagsAsOneString()
  */
 void SoXipGLSLPrograms::GLRender(SoGLRenderAction *action)
 {
-	if (mHasChanged)
+    this->GLValidityCheck();
+
+	if (mTimedUpdate || mFieldBitmask)
 	{
-        UpdateAction();
-        SoXipGLSLShaderProgramElement::set(action->getState(), 0);
+        int prevShader = SoXipGLSLShaderProgramElement::get(action->getState());
+        this->UpdateAction();
+        SoXipGLSLShaderProgramElement::set(action->getState(), prevShader);
 	}
 }
 
@@ -998,22 +777,30 @@ void SoXipGLSLPrograms::updateSensorCB(void *data, SoSensor *sensor)
 {
 	// cast editor object
 	SoXipGLSLPrograms *thisObj = (SoXipGLSLPrograms*)data;
-	//thisObj->UpdateAction();
-    thisObj->mHasChanged = true;
 
     if (sensor == thisObj->mUpdateFieldSensor)
     {
-        thisObj->vpFilenames.touch();
-        thisObj->gpFilenames.touch();
-        thisObj->fpFilenames.touch();
+        ProgramBatch * batch = 0;
+        for (int i = 0; i < thisObj->mProgramBatchList.getLength();  i++)
+        {
+            if (batch = reinterpret_cast<ProgramBatch *>(thisObj->mProgramBatchList[i]))
+            {
+                batch->vertShader.dirtyTimestamp = true;
+                batch->geomShader.dirtyTimestamp = true;
+                batch->fragShader.dirtyTimestamp = true;
+            }
+        }
     }
+
+    thisObj->mTimedUpdate = true;
+    thisObj->startNotify();
 }
 
 void SoXipGLSLPrograms::autoUpdateCB(void *data, SoSensor *sensor)
 {
 	// cast editor object
 	SoXipGLSLPrograms *thisObj = (SoXipGLSLPrograms*)data;
-	thisObj->AutoUpdateAction();
+    thisObj->AutoUpdateAction();
 }
 
 void SoXipGLSLPrograms::toggleAutoCB(void *data, SoSensor *sensor)

@@ -92,6 +92,7 @@ SoField::initClasses()
     SoSFVec2f::initClass();
     SoSFVec3f::initClass();
     SoSFVec4f::initClass();
+    SoSFInt64::initClass();
 
     SoMFBool::initClass();
     SoMFColor::initClass();
@@ -114,6 +115,7 @@ SoField::initClasses()
     SoMFVec2f::initClass();
     SoMFVec3f::initClass();
     SoMFVec4f::initClass();
+    SoMFInt64::initClass();
 }
 
 ////////////////////////////////////////////////////////////////////////

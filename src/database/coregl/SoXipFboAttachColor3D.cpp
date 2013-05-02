@@ -310,12 +310,13 @@ void SoXipFboAttachColor3D::checkMaxNumAttachments()
  */
 void SoXipFboAttachColor3D::allocate()
 {
-    glEnable(GL_TEXTURE_3D);
+//    glEnable(GL_TEXTURE_3D);
 
     // Generate textures
-    glGenTextures(mNumAttachments, mHandles);
     for (int i = 0; i < mNumAttachments; i++)
     {
+		if(!mHandles[i])
+		    glGenTextures(1, &mHandles[i]);
         glBindTexture(GL_TEXTURE_3D, mHandles[i]);
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, mFboOut.colorWrap);
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, mFboOut.colorWrap);
@@ -332,7 +333,7 @@ void SoXipFboAttachColor3D::allocate()
 #endif
     }
     glBindTexture(GL_TEXTURE_3D, 0);
-    glDisable(GL_TEXTURE_3D);
+//    glDisable(GL_TEXTURE_3D);
 
     mIsAllocated = true;
 }
@@ -425,8 +426,8 @@ void SoXipFboAttachColor3D::GLRender(SoGLRenderAction* action)
 
     if (mNeedsUpdate)
     {
-        if (mIsAllocated)
-            deallocate();
+        //if (mIsAllocated)
+        //    deallocate();
 
         checkMaxNumAttachments();
 

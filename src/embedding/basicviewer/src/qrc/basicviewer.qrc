@@ -1,0 +1,23 @@
+<RCC>
+  <qresource prefix="/images" >
+    <file>close_dialog.png</file>
+    <file>dicom.png</file>
+    <file>crossfade.png</file>
+    <file>tmi_homeView.png</file>
+    <file>tmi_zoomIn.png</file>
+    <file>tmi_zoomOut.png</file>
+    <file>tmi_open.png</file>
+    <file>mpr.iv</file>
+    <file>main.ico</file>
+    <file>layout_view_all.PNG</file>
+    <file>logo.PNG</file>
+    <file>maximize.PNG</file>
+    <file>minimize.PNG</file>
+    <file>close.PNG</file>
+    <file>layout_lower_left.PNG</file>
+    <file>layout_lower_right.PNG</file>
+    <file>layout_upper_left.PNG</file>
+    <file>layout_upper_right.PNG</file>
+    <file>splash.png</file>
+  </qresource>
+</RCC>

@@ -9,7 +9,6 @@
 #include <xip/common/XipException.h>
 #include <string>
 #include <stdio.h>
-
 SoNode *getNodeByLabel(const SoPath *labelPath, const char *name, const SoType &type)
 {
 	if (!labelPath || !name) return 0;
@@ -71,7 +70,7 @@ XipWStringConv::XipWStringConv(const char *str)
 		mStr = new wchar_t [len];
 		if (!mStr)
         {
-            throw XipException(__LINE__, __FILE__, XipException::MEMORY_HEAP_ERROR, L"Error allocating wchar_t string conversion");
+            throw XipException(__LINE__, __FILE__, __FUNCTION__, XipException::MEMORY_HEAP_ERROR, L"Error allocating wchar_t string conversion");
 
         } else
 			#if defined(WINDOWS) || defined(_WIN32)
@@ -101,9 +100,6 @@ const wchar_t *XipWStringConv::getString() const
 	return mStr;
 }
 
-
-
-
 XipStringConv::XipStringConv(const wchar_t *str)
 {
 	mStr = 0;
@@ -116,7 +112,7 @@ XipStringConv::XipStringConv(const wchar_t *str)
 		mStr = new char [len];
 		if (!mStr)
         {
-            throw XipException(__LINE__, __FILE__, XipException::MEMORY_HEAP_ERROR, L"Error allocating string conversion");
+            throw XipException(__LINE__, __FILE__, __FUNCTION__, XipException::MEMORY_HEAP_ERROR, L"Error allocating string conversion");
 
         } else
         {
@@ -192,7 +188,7 @@ void XipPostException(XipException& e_in)
                 tmpStr = new char[len];
                 if (!tmpStr)
                 {
-                    throw XipException(__LINE__, __FILE__, XipException::MEMORY_HEAP_ERROR, L"Temp string allocation error.");
+                    throw XipException(__LINE__, __FILE__, __FUNCTION__, XipException::MEMORY_HEAP_ERROR, L"Temp string allocation error.");
                 }
                 snprintf(tmpStr, sizeof(char)*len, "%s, %s", e_in.getFile(), strConv.getString());
                 SoMemoryError::post(tmpStr);
@@ -223,3 +219,5 @@ void XipPostException(XipException& e_in)
     }
 
 }
+
+

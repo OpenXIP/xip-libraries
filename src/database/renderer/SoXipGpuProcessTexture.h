@@ -41,6 +41,9 @@
 #include <vector>
 
 
+// define this macro to enable Vertex Buffer Objects for storing 
+#define GPU_VBO
+
 class SoXipGpuProcessTexture : public SoNode
 {
     SO_NODE_HEADER(SoXipGpuProcessTexture);
@@ -67,7 +70,41 @@ protected:
     void GLRender( SoGLRenderAction* action );
     void renderTo3D(SoState  *state);
     void renderTo3DMaxCompatibility(SoState  *state);
-    void renderTo3DMaxPerformance();
+
+	// renders to 3D texture in one render call using geometry shader 
+	// 
+	// geometry shader has to be supplied by the user
+	// 
+	// input geometry type: GL_TRIANGLES
+	// output geometry type: GL_TRIANGLE_STRIP
+	// emitted vertices: 3
+	//
+	// exemplary geometry shader 
+	// 
+	//
+
+	/*
+	#extension EXT_gpu_shader4 : require
+	#extension EXT_geometry_shader4 : require
+	#extension NV_geometry_shader4 : require
+	#extension GL_EXT_geometry_shader4 : enable
+
+	void main(void)
+	{
+		int i;
+		for(i=0; i< gl_VerticesIn ; ++i)
+		{
+			gl_Position = gl_PositionIn[i];
+			gl_TexCoord[0] = gl_TexCoordIn[i][0];
+			gl_Layer =  int(gl_TexCoordIn[i][0].w);
+			EmitVertex();
+		}
+		EndPrimitive();
+	}
+
+	*/
+
+    void renderTo3DMaxPerformance(SoState  *state);
     void setup(SoState  *state);
     void setupCoordinates();
     void checkFramebufferStatus();
@@ -91,6 +128,20 @@ protected:
     int		mOutputSize[3];
 
     std::vector<SoFieldSensor *>	mInputSensors;
+
+// Oliver Kutter
+// for rendering in one call to 3D texture using geometry shader
+#ifndef GPU_VBO
+	std::vector<GLfloat> _vertexCoords;
+	std::vector<GLfloat> _textureCoords;
+#else
+	GLuint _vertexVBO;
+	GLuint _textureVBO;
+#endif 
+	int mNumTrianglePoints;
+
+
+
 };
 
 

@@ -13,9 +13,9 @@
 
 tooldir=`dirname "$0"`
 
-prefix=xip
+prefix=xipdev
 postfix=""
-version=0.2.2
+version=0.3.0
 platform=win32
 buildenv="vs8"
 pkglist="libs inventor extern ITK VTK"
@@ -66,7 +66,7 @@ DESCRIPTION
         Specifies the version of the build.  This allows xipdac to
 	correctly extract files and create archives compatible with
 	previous versions.  Currently supported versions are 0.2, 0.2.1
-	0.2.2.
+	0.2.2, 0.3, 0.3.0. Default in this version is 0.3.0.
 
     -l, --platform PLATFORM
         PLATFORM is one of win32, win64, osx, linux32, linux64
@@ -89,7 +89,7 @@ COPYRIGHT
     Copyright (c) 2009 Siemens.  License caBIG...  There is NO WARRANTY,
     to the extent permitted by law.
 
-XIP Utilities 0.2.2
+XIP Utilities 0.3.0
 EOF
       exit 0;;
 
@@ -162,7 +162,9 @@ else
   ZIP="$ZIP -r"
 fi
 
-postf="-dev"
+# If prefix contains "dev", then don't add -dev postfix
+tmp=`echo $prefix | grep "dev"`
+if [ -z "$tmp" ]; then postf="-dev"; fi
 
 if [ -n "$version" ]; then postf=$postf-$version; fi
 if [ -n "$platform" ]; then postf=$postf-$platform; fi

@@ -163,10 +163,14 @@ SoXipViewportGroup::SoXipViewportGroup(void) : SoGroup()
 	SO_NODE_ADD_FIELD(viewports, (SbVec4f( 0, 0, 1, 1)));
 	SO_NODE_ADD_FIELD(current, (0));
 	SO_NODE_ADD_FIELD(maximized, (FALSE));
+	SO_NODE_ADD_FIELD(nested, (FALSE));
 
-	mRelativeFieldSensors = new SoFieldSensor( &fieldSensorCBFunc, this );
-	mRelativeFieldSensors->attach(&relative);
-	mRelativeFieldSensors->setPriority(0);
+	mFieldSensorRelative = new SoFieldSensor( &fieldSensorCBFunc, this );
+	mFieldSensorRelative->attach(&relative);
+	mFieldSensorRelative->setPriority(0);
+	mFieldSensorNested = new SoFieldSensor( &fieldSensorCBFunc, this );
+	mFieldSensorNested->attach(&nested);
+	mFieldSensorNested->setPriority(0);
 
 	mLineSet = new SoIndexedLineSet();
 	mLineSet->ref();
@@ -189,9 +193,12 @@ SoXipViewportGroup::SoXipViewportGroup( int numChildren ) : SoGroup( numChildren
 	SO_NODE_ADD_FIELD(viewports, (SbVec4f( 0, 0, 1, 1)));
 	SO_NODE_ADD_FIELD(current, (-1));
 
-	mRelativeFieldSensors = new SoFieldSensor( &fieldSensorCBFunc, this );
-	mRelativeFieldSensors->attach(&relative);
-	mRelativeFieldSensors->setPriority(0);
+	mFieldSensorRelative = new SoFieldSensor( &fieldSensorCBFunc, this );
+	mFieldSensorRelative->attach(&relative);
+	mFieldSensorRelative->setPriority(0);
+	mFieldSensorNested = new SoFieldSensor( &fieldSensorCBFunc, this );
+	mFieldSensorNested->attach(&nested);
+	mFieldSensorNested->setPriority(0);
 
 	mLineSet = new SoIndexedLineSet();
 	mLineSet->ref();
@@ -200,10 +207,15 @@ SoXipViewportGroup::SoXipViewportGroup( int numChildren ) : SoGroup( numChildren
 
 SoXipViewportGroup::~SoXipViewportGroup()
 {
-	if (mRelativeFieldSensors)
-	{
-		delete mRelativeFieldSensors;
-	}
+	if (mFieldSensorRelative)
+    {
+		delete mFieldSensorRelative;
+    }
+
+	if (mFieldSensorNested)
+    {
+		delete mFieldSensorNested;
+    }
 
 	if (mLineSet)
 	{
@@ -223,8 +235,8 @@ void SoXipViewportGroup::initClass(void)
 
 int SoXipViewportGroup::pickViewportGroup(SoAction *action, SbVec2s point) const
 {
-	int numIndices;
-	const int* indices;
+	int numIndices = 0;
+	const int* indices = 0;
 	int lastChildIndex;
 
 	if (maximized.getValue())
@@ -236,6 +248,7 @@ int SoXipViewportGroup::pickViewportGroup(SoAction *action, SbVec2s point) const
 		lastChildIndex = getNumChildren() - 1;
 
 	SbViewportRegion viewportRegion = SoViewportRegionElement::get( action->getState() );
+    SbViewportRegion originalViewportRegion = viewportRegion;
 
 	int maxIndex = MIN( viewports.getNum() - 1, lastChildIndex );
 	for( int i = 0; i <= maxIndex; ++ i )
@@ -246,13 +259,25 @@ int SoXipViewportGroup::pickViewportGroup(SoAction *action, SbVec2s point) const
 
 		if( relative.getValue() )
 		{
+            if (nested.getValue())
+            {
+                SbVec2f vpo = originalViewportRegion.getViewportOrigin();
+                SbVec2f vps = originalViewportRegion.getViewportSize();
+                SbVec4f nvp;
+                nvp[0] = vpo[0] + vps[0] * values[0];
+                nvp[1] = vpo[1] + vps[1] * values[1];
+                nvp[2] = vps[0] * values[2];
+                nvp[3] = vps[1] * values[3];
+                values = nvp;
+            }
+
 			SbVec2f origin( values[0] , values[1] ), size( values[2], values[3] );
 			viewportRegion.setViewport( origin, size );
 		}
 		else
 		{
-			SbVec2s origin( static_cast<short>(values[0]) , static_cast<short>(values[1]) ), 
-							size( static_cast<short>(values[2]), static_cast<short>(values[3]) );
+            SbVec2s origin( static_cast<short>(values[0]) , static_cast<short>(values[1]) ), 
+					size( static_cast<short>(values[2]), static_cast<short>(values[3]) );
 		}
 
 		SbVec2s origin, size;
@@ -277,8 +302,8 @@ void SoXipViewportGroup::doAction(SoAction * action)
 
 	action->getState()->push();
 
-	int numIndices;
-	const int* indices;
+	int numIndices = 0;
+	const int* indices = 0;
 	int lastChildIndex;
 
 	if( action->getPathCode( numIndices, indices ) == SoAction::IN_PATH )
@@ -301,12 +326,24 @@ void SoXipViewportGroup::doAction(SoAction * action)
 
 		if( relative.getValue() )
 		{
+            if (nested.getValue())
+            {
+                SbVec2f vpo = originalViewportRegion.getViewportOrigin();
+                SbVec2f vps = originalViewportRegion.getViewportSize();
+                SbVec4f nvp;
+                nvp[0] = vpo[0] + vps[0] * values[0];
+                nvp[1] = vpo[1] + vps[1] * values[1];
+                nvp[2] = vps[0] * values[2];
+                nvp[3] = vps[1] * values[3];
+                values = nvp;
+            }
+
 			SbVec2f origin( values[0] , values[1] ), size( values[2], values[3] );
 			viewportRegion.setViewport( origin, size );
 		}
 		else
 		{
-			SbVec2s origin( static_cast<short>(values[0]) , static_cast<short>(values[1]) ), 
+            SbVec2s origin( static_cast<short>(values[0]) , static_cast<short>(values[1]) ), 
 							size( static_cast<short>(values[2]), static_cast<short>(values[3]) );
 			viewportRegion.setViewportPixels( origin, size );
 		}
@@ -319,7 +356,10 @@ void SoXipViewportGroup::doAction(SoAction * action)
 			}
 			else
 			{
-				viewportRegion.setViewportPixels(0, 0, mWindowWidth, mWindowHeight);
+                if (nested.getValue())
+                    viewportRegion.setViewport(originalViewportRegion.getViewportOrigin(), originalViewportRegion.getViewportSize());
+                else
+				    viewportRegion.setViewportPixels(0, 0, mWindowWidth, mWindowHeight);
 			}
 		}
 
@@ -348,7 +388,7 @@ void SoXipViewportGroup::doAction(SoAction * action)
 			if (i == mPickViewport)
 			{
 				((SoPickAction*)action)->setViewportRegion(viewportRegion);
-				SoViewportRegionElement::set( action->getState(),  viewportRegion );
+				SoViewportRegionElement::set( action->getState(), viewportRegion);
 				
 				getChildren()->traverse( action, i );
 			}
@@ -462,6 +502,7 @@ void SoXipViewportGroup::GLRender(SoGLRenderAction * action)
 
 	if (mResizeMode)
 	{
+		glPushAttrib(GL_ENABLE_BIT);
 		action->getState()->push();
 
 		GLboolean isDepthTestEnabled = ::glIsEnabled(GL_DEPTH_TEST);
@@ -500,12 +541,15 @@ void SoXipViewportGroup::GLRender(SoGLRenderAction * action)
 		SoCoordinateElement::set3(action->getState(), this, numCoordinates, coordinates);
 		mLineSet->coordIndex.set(numCoordinates == 4 ? "[ 0 , 1 , -1 , 2 , 3 ]" : "[ 0 , 1 ]");
  
-		action->traverse(mLineSet);
+		glDisable(GL_LIGHTING);
+
+		mLineSet->GLRender(action);
 
 		if (isDepthTestEnabled)
 			glEnable(GL_DEPTH_TEST);
 
 		action->getState()->pop();
+		glPopAttrib();
 	}
 }
 
@@ -555,7 +599,7 @@ void SoXipViewportGroup::handleEvent (SoHandleEventAction *action)
 
 	if (!action->getGrabber())
 	{
-		if (resizable.getValue())
+		if (resizable.getValue() && !maximized.getValue())
 		{
 			mResizeMode = resize(e->getPosition(), e->getPosition(), FALSE);
 			if (mResizeMode)
@@ -572,6 +616,7 @@ void SoXipViewportGroup::handleEvent (SoHandleEventAction *action)
 				{
 					action->setHandled();
 					updateCursor();
+					mResizeMode = RESIZE_NONE;
 				}
 			}
 		}
@@ -589,7 +634,7 @@ void SoXipViewportGroup::handleEvent (SoHandleEventAction *action)
 	{
 		action->setHandled();
 		mResizePos = e->getPosition();
-		mResizeValid = resize(mResizeStart, mResizePos, FALSE) ? TRUE : FALSE;
+		mResizeValid = (resize(mResizeStart, mResizePos, FALSE) != RESIZE_NONE) ? TRUE : FALSE;
 		startNotify();
 		updateCursor();
 	}
@@ -644,30 +689,41 @@ void SoXipViewportGroup::fieldSensorCBFunc(void *user, SoSensor *sensor)
 
 void SoXipViewportGroup::fieldSensorCB(SoSensor *sensor)
 {
-	if( relative.getValue() )
-	{
-		for( int i = 0; i < viewports.getNum();	++ i )
-		{
-			SbVec4f values = viewports[i].getValue();
-			values[0] /= mWindowWidth;
-			values[1] /= mWindowHeight;
-			values[2] /= mWindowWidth;
-			values[3] /= mWindowHeight;
-			viewports.set1Value(i, SbVec4f(values[ 0 ], values[ 1 ], values[ 2 ], values[ 3 ] ));
-		}
-	}
-	else
-	{
-		for( int i = 0; i < viewports.getNum();	++ i )
-		{
-			SbVec4f values = viewports[i].getValue();
-			values[0] *= mWindowWidth;
-			values[1] *= mWindowHeight;
-			values[2] *= mWindowWidth;
-			values[3] *= mWindowHeight;
-			viewports.set1Value(i, values[ 0 ], values[ 1 ], values[ 2 ], values[ 3 ] );
-		}
-	}
+    if (sensor == mFieldSensorRelative)
+    {
+	    if( relative.getValue() )
+	    {
+		    for( int i = 0; i < viewports.getNum();	++ i )
+		    {
+			    SbVec4f values = viewports[i].getValue();
+			    values[0] /= mWindowWidth;
+			    values[1] /= mWindowHeight;
+			    values[2] /= mWindowWidth;
+			    values[3] /= mWindowHeight;
+			    viewports.set1Value(i, values[ 0 ], values[ 1 ], values[ 2 ], values[ 3 ] );
+		    }
+	    }
+	    else
+	    {
+		    for( int i = 0; i < viewports.getNum();	++ i )
+		    {
+			    SbVec4f values = viewports[i].getValue();
+			    values[0] *= mWindowWidth;
+			    values[1] *= mWindowHeight;
+			    values[2] *= mWindowWidth;
+			    values[3] *= mWindowHeight;
+			    viewports.set1Value(i, values[ 0 ], values[ 1 ], values[ 2 ], values[ 3 ] );
+		    }
+	    }
+    }
+    else if (sensor == mFieldSensorNested)
+    {
+        if (!relative.getValue() && nested.getValue())
+        {
+            SoDebugError::postInfo(__FUNCTION__, "Relative coordinates required for nesting");
+            nested.setValue(FALSE);
+        }
+    }
 }
 
 
@@ -720,6 +776,7 @@ SbBool SoXipViewportGroup::isOnBorder(SbVec2s origin, SbVec2s size, viewportBord
 SoXipViewportGroup::resizeMode_t SoXipViewportGroup::resize(SbVec2s from, SbVec2s to, SbBool applyChange)
 {
 	SbViewportRegion viewportRegion(mWindowWidth, mWindowHeight);
+	SbViewportRegion originalViewportRegion = viewportRegion;
 	SoMFVec4f viewportsResized;
 	int resizeMode = RESIZE_NONE;
 
@@ -728,10 +785,25 @@ SoXipViewportGroup::resizeMode_t SoXipViewportGroup::resize(SbVec2s from, SbVec2
 	{
 		SbVec4f values = viewports[ i ].getValue();
 		if (values[2] <= 0 || values[3] <= 0)
+		{
+			viewportsResized.set1Value(i, SbVec4f(0.f, 0.f, 0.f, 0.f));
 			continue;
+		}
 
 		if( relative.getValue() )
 		{
+            if (nested.getValue())
+            {
+                SbVec2f vpo = originalViewportRegion.getViewportOrigin();
+                SbVec2f vps = originalViewportRegion.getViewportSize();
+                SbVec4f nvp;
+                nvp[0] = vpo[0] + vps[0] * values[0];
+                nvp[1] = vpo[1] + vps[1] * values[1];
+                nvp[2] = vps[0] * values[2];
+                nvp[3] = vps[1] * values[3];
+                values = nvp;
+            }
+
 			SbVec2f origin( values[0] , values[1] ), size( values[2], values[3] );
 			viewportRegion.setViewport( origin, size );
 		}
@@ -898,13 +970,20 @@ SbBool SoXipViewportGroup::isOverlapping(int num, const SbVec4f *v) const
 	for (int i = 0; i < num; i++)
 	{
 		SbBox2f a(v[i][0], v[i][1], v[i][0] + v[i][2] * 0.99f, v[i][1] + v[i][3] * 0.99f); 
-		
+		if ((v[i][2] <= 0.000001f) || (v[i][3] <= 0.000001f)) continue;
+
 		for (int j = 0; (j < num) && (j != i); j++)
 		{
 			SbBox2f b(v[j][0], v[j][1], v[j][0] + v[j][2] * 0.99f, v[j][1] + v[j][3] * 0.99f); 
+			if ((v[j][2] <= 0.000001f) || (v[j][3] <= 0.000001f)) continue;
 
 			if (a.intersect(b))
+			{
+			//	SoDebugError::postInfo("SoXipViewportGroup::isOverlapping", "conflict between %d and %d, %f %f %f %f - %f %f %f %f",
+			//		i, j, v[i][0], v[i][1], v[i][2], v[i][3], v[j][0], v[j][1], v[j][2], v[j][3]);
+
 				return TRUE;
+			}
 		}
 	}
 

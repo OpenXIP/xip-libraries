@@ -41,7 +41,6 @@ include_directories(
   ../libFL/src
   ../../jpeg-6b
   ../../libiconv-1.11/include)
-
 if(WIN32)
   include_directories(
     database/src/so
@@ -63,7 +62,6 @@ endif(UNIX)
 # Define the link directories
 #
 link_directories(${inventor_BINARY_DIR}/libFL)
-
 #--------------------------------------------------------------------
 # MeVis extensions to Open Inventor
 #
@@ -341,6 +339,8 @@ set(HEADERS ${HEADERS}
   database/include/Inventor/fields/SoSFVec3f.h
   database/include/Inventor/fields/SoSFVec4f.h
   database/include/Inventor/fields/SoSubField.h
+  database/include/Inventor/fields/SoSFInt64.h
+  database/include/Inventor/fields/SoMFInt64.h
   database/include/Inventor/misc/SoAuditorList.h
   database/include/Inventor/misc/SoBase.h
   database/include/Inventor/misc/SoBasic.h
@@ -952,6 +952,8 @@ set(SOURCES ${SOURCES}
   database/src/so/fields/SoSFVec2f.cpp
   database/src/so/fields/SoSFVec3f.cpp
   database/src/so/fields/SoSFVec4f.cpp
+  database/src/so/fields/SoSFInt64.cpp
+  database/src/so/fields/SoMFInt64.cpp
   database/src/so/nodes/SoAnnotation.cpp
   database/src/so/nodes/SoArray.cpp
   database/src/so/nodes/SoAsciiText.cpp
@@ -1442,6 +1444,7 @@ endif(WIN32)
 # "lib/database/include" /I "lib/xip/include" # /D_INVENTOR_ /DWIN32
 # /DINVENTOR_API= /D__SGIOIV_BUILD_DLL /TP tools/ppp/ppp.cpp
 
+
 #--------------------------------------------------------------------
 # Compile the library
 #
@@ -1451,6 +1454,7 @@ if(UNIX)
   set_target_properties(xipinv240
     PROPERTIES VERSION 2.40 SOVERSION 2.40)
 endif(UNIX)
+
 
 #--------------------------------------------------------------------
 # Link the library
@@ -1480,7 +1484,9 @@ install(TARGETS xipinv240
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
+
 if(WIN32)
   install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipinv240d.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)
+

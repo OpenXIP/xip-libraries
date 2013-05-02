@@ -157,7 +157,7 @@ size_t DSRTree::addNode(DSRTreeNode *node,
 }
 
 
-size_t DSRTree::removeNode()
+size_t DSRTree::removeNode(const bool deleteNode)
 {
     size_t nodeID = 0;
     if (NodeCursor != NULL)
@@ -221,29 +221,32 @@ size_t DSRTree::removeNode()
         cursor->Prev = NULL;
         cursor->Next = NULL;
 
-        /* delete all nodes from extracted subtree */
-        /* (this routine might also use the "new" DSRTreeNodeCursor class) */
+		if (deleteNode)
+		{
+			/* delete all nodes from extracted subtree */
+			/* (this routine might also use the "new" DSRTreeNodeCursor class) */
 
-        DSRTreeNode *delNode = NULL;
-        OFStack<DSRTreeNode *> cursorStack;
-        while (cursor != NULL)
-        {
-            delNode = cursor;
-            if (cursor->Down != NULL)
-            {
-                if (cursor->Next != NULL)
-                    cursorStack.push(cursor->Next);
-                cursor = cursor->Down;
-            } else if (cursor->Next != NULL)
-                cursor = cursor->Next;
-            else if (!cursorStack.empty())
-            {
-                cursor = cursorStack.top();
-                cursorStack.pop();
-            } else
-                cursor = NULL;
-            delete delNode;
-        }
+			DSRTreeNode *delNode = NULL;
+			OFStack<DSRTreeNode *> cursorStack;
+			while (cursor != NULL)
+			{
+				delNode = cursor;
+				if (cursor->Down != NULL)
+				{
+					if (cursor->Next != NULL)
+						cursorStack.push(cursor->Next);
+					cursor = cursor->Down;
+				} else if (cursor->Next != NULL)
+					cursor = cursor->Next;
+				else if (!cursorStack.empty())
+				{
+					cursor = cursorStack.top();
+					cursorStack.pop();
+				} else
+					cursor = NULL;
+				delete delNode;
+			}
+		}
 
         if (NodeCursor != NULL)
             nodeID = NodeCursor->Ident;

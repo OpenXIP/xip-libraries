@@ -527,7 +527,7 @@ int huffmanCoder::HUFFMAN_C_Diff( unsigned char *in1, const unsigned int insize,
   sStream stream;
   unsigned int k, total_bytes;
 
-  if (mInSize < insize)
+  if (mInSize < (int)insize)
   {
 	  delete[] diffStream;
 	  diffStream = new unsigned char[insize];

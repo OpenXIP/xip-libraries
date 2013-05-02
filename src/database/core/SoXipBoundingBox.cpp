@@ -442,6 +442,12 @@ void SoXipBoundingBox::GLRender(SoGLRenderAction *action)
 
 	    glPushAttrib(GL_ENABLE_BIT);
 	    
+		if (glIsEnabled(GL_LINE_SMOOTH) && !glIsEnabled(GL_BLEND))
+		{
+			// blending must be enabled in order for line smoothing to work
+			glEnable(GL_BLEND);
+		}
+
 	    int maxClipPlanes;
 	    glGetIntegerv(GL_MAX_CLIP_PLANES, &maxClipPlanes);
 	    for (int i = 0; i < maxClipPlanes; i++)

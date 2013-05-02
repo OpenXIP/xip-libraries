@@ -335,6 +335,7 @@ unsigned long dcmGuessModalityBytes(const char *sopClassUID);
 #define UID_RawDataStorage                                         "1.2.840.10008.5.1.4.1.1.66"
 #define UID_SpatialRegistrationStorage                             "1.2.840.10008.5.1.4.1.1.66.1"
 #define UID_SpatialFiducialsStorage                                "1.2.840.10008.5.1.4.1.1.66.2"
+#define UID_SegmentationStorage									   "1.2.840.10008.5.1.4.1.1.66.4"
 #define UID_SecondaryCaptureImageStorage                           "1.2.840.10008.5.1.4.1.1.7"
 #define UID_MultiframeSingleBitSecondaryCaptureImageStorage        "1.2.840.10008.5.1.4.1.1.7.1"
 #define UID_MultiframeGrayscaleByteSecondaryCaptureImageStorage    "1.2.840.10008.5.1.4.1.1.7.2"

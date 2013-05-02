@@ -15,13 +15,34 @@ Internals       :
 History         : 
 Copyright © Siemens AG 2006-2007. All Rights Reserved.
 -----------------------------------------------------------------*/
-#include "ShaderProgramManager.h"
 
+
+#include <xip/inventor/coregl/ShaderProgramManager.h>
 #include <stdlib.h>
 #include <string.h>
 
-#pragma warning( push )
-#pragma warning( disable : 4996 )
+#include <map>
+
+class cstrlessthan {
+public:
+    bool operator() (const char * lhs, const char* rhs) const
+    {
+        if (lhs == rhs) return false;
+
+        return strcmp(lhs, rhs) < 0;
+    }
+};
+
+// let's avoid declaring anything using STL in the header due to export/import issues
+// we simply allocate the property list dynamically
+class ShaderProgramManager::EntryMap :
+    public std::map<char *, ShaderProgramManager::ShaderEntry *, cstrlessthan>
+{
+};
+
+
+//#pragma warning( push )
+//#pragma warning( disable : 4996 )
 
 
 /**
@@ -44,6 +65,7 @@ ShaderProgramManager * ShaderProgramManager::getInstance()
 {
     if (!mInstance)
         mInstance = new ShaderProgramManager;
+
     return mInstance;
 }
 
@@ -52,7 +74,7 @@ ShaderProgramManager * ShaderProgramManager::getInstance()
  */
 ShaderProgramManager::ShaderProgramManager()
 {
-    mEntryListAnchor = 0;
+    mEntryMap = new EntryMap;
 }
 
 /**
@@ -61,34 +83,76 @@ ShaderProgramManager::ShaderProgramManager()
  */
 ShaderProgramManager::~ShaderProgramManager()
 {
-    if (mInstance)
-        free(mInstance);
+    ShaderProgramManager * singleton = mInstance;
+    mInstance = 0;
+
+    if (mEntryMap) {
+        deleteAllEntries();
+        delete mEntryMap;
+        mEntryMap = 0;
+    }
+
+    // Delete the singleton if that's not us...
+    if (singleton != this && singleton)
+        delete singleton;
+}
+
+
+void ShaderProgramManager::deleteAllEntries()
+{
+#if 1
+    if (!mEntryMap) return;
+
+    while (!mEntryMap->empty()) {
+        EntryMap::iterator it = mEntryMap->begin();
+
+        free(it->first);
+        // Should/could we delete program?
+        free(it->second);
+
+        mEntryMap->erase(it);
+    }
+#else
+    ShaderEntry * entry = mEntryListAnchor;
+    ShaderEntry * tmp = 0;
+    while (entry)
+    {
+        tmp = entry->next;
+        delete entry;
+        entry = tmp;
+    }
+    mEntryListAnchor = 0;
+#endif
 }
 
 /**
  * Creating or Modifying an entry.
- * The function is used for both modifying an existing entry or if no entry exists to create e new one.
+ *
+ * The function is used for both modifying an existing entry or if no
+ * entry exists to create e new one.
+ *
  * There are several possible cases here:
- * 1:   No previus tag like the one requested exists so a new entry is created.
- *      The returned value matches the Inserted program handle.
- * 2:   A previus entry exists with a tag equal to the one requested so the content within
- *      the existing entry is updated (no new entry is created).
- *      The returned value matches the Obsolete handle (not the inserted one).
- *      Note! Since the program handle simply will be replaced it is up to the user
- *      to destroy the program and remove it from the context.
- * 3:   Some error occured (such as an empty string request) and value 0 is returned.
+ *
+ * 1. If the tag is not previously in the list, return the program handle
+ * being added (newProgramHandle).
+ *
+ * 2. If the tag already exists, return the previous handle.
+ *
+ * 3. Zero is returned if the tag is empty (null or zero length)
+ *
  * @param newTag Requested tag for entry.
  * @param newProgramHandle New program handle.
  * @param newTimeStamp New time stamp.
  * @see removeEntry()
  * @return Returns handle to program associated with entry (in case of a replacement the old handle is returned).
  */
-unsigned int ShaderProgramManager::insertEntry(const char * newTag, unsigned int newProgramHandle, int newTimeStamp)
+unsigned int
+ShaderProgramManager::insertEntry(const char * newTag,
+                                  unsigned int newProgramHandle,
+                                  unsigned __int64 newTimeStamp)
 {
     // Check invalid tag
-    if (!newTag)
-        return 0;
-    if (!strlen(newTag))
+    if (!newTag || !*newTag)
         return 0;
 
     ShaderEntry * newEntry = 0;     // New entry
@@ -102,8 +166,7 @@ unsigned int ShaderProgramManager::insertEntry(const char * newTag, unsigned int
     if (oldEntry) {
         // Update existing entry
         returnID = oldEntry->programHandle;
-        if (!returnID)
-            returnID = -1; // We don't want to return 0 unless we have a failure
+
         oldEntry->programHandle = newProgramHandle;
         oldEntry->timeStamp = newTimeStamp;
     }
@@ -113,31 +176,16 @@ unsigned int ShaderProgramManager::insertEntry(const char * newTag, unsigned int
         newEntry->tag = strdup(newTag);
         newEntry->programHandle = newProgramHandle;
         newEntry->timeStamp = newTimeStamp;
-
 #if 1
+        (*mEntryMap)[newEntry->tag] = newEntry;
+#else
         // Push entry to list
         if (mEntryListAnchor) {
             mEntryListAnchor->prev = newEntry;
             newEntry->next = mEntryListAnchor;
         }
         mEntryListAnchor = newEntry;
-#else
-        // Append entry to list
-        ShaderEntry * entry = mEntryListAnchor;
-        if (!entry) {
-            newEntry->prev = 0;
-            newEntry->next = 0;
-            mEntryListAnchor = newEntry;
-        }
-        else {
-            while (entry->next)
-                entry = entry->next;
-            newEntry->prev = entry;
-            newEntry->next = 0;
-            entry->next = newEntry;
-        }
 #endif
-
         returnID = newProgramHandle;
     }
 
@@ -156,6 +204,19 @@ unsigned int ShaderProgramManager::removeEntry(const char * iSearchTag)
 {
     unsigned int oProgramHandle = 0;
 
+    if (!iSearchTag) return 0;
+
+    EntryMap::iterator it = mEntryMap->find(const_cast<char *>(iSearchTag));
+
+    if (it != mEntryMap->end()) {
+        oProgramHandle = it->second->programHandle;
+
+        free(it->first);
+        free(it->second);
+
+        mEntryMap->erase(it);
+    }
+#if 0
     // Find shader
     ShaderEntry * entry = findEntry(iSearchTag);
 
@@ -178,6 +239,7 @@ unsigned int ShaderProgramManager::removeEntry(const char * iSearchTag)
         entry = 0;
 #endif
     }
+#endif
 
     return oProgramHandle;
 }
@@ -216,7 +278,7 @@ unsigned int ShaderProgramManager::getProgramHandle(const char * iSearchTag)
  * @return Returns time stamp.
  * @see getProgramHandle()
  */
-int ShaderProgramManager::getTimeStamp(const char * iSearchTag)
+unsigned __int64 ShaderProgramManager::getTimeStamp(const char * iSearchTag)
 {
     // Find shader entry
     ShaderEntry * entry = findEntry(iSearchTag);
@@ -231,11 +293,17 @@ int ShaderProgramManager::getTimeStamp(const char * iSearchTag)
 ShaderProgramManager::ShaderEntry * ShaderProgramManager::findEntry(const char * iSearchTag)
 {
     // Check invalid searchtag
-    if (!iSearchTag)
+    if (!iSearchTag || !*iSearchTag)
         return 0;
-    if (!strlen(iSearchTag))
+
+#if 1
+    EntryMap::iterator it = mEntryMap->find(const_cast<char *>(iSearchTag));
+
+    if (it != mEntryMap->end())
+        return it->second;
+    else
         return 0;
-    
+#else    
     ShaderEntry * entry = 0;
     bool match = false;
     if (iSearchTag && mEntryListAnchor) {
@@ -252,6 +320,7 @@ ShaderProgramManager::ShaderEntry * ShaderProgramManager::findEntry(const char *
         }
     }
     return (match) ? entry : 0;
+#endif
 }
 
 /**
@@ -266,8 +335,30 @@ char * ShaderProgramManager::getAllTagsAsOneString()
     ShaderEntry * entry = 0;
 
     // Get total length of all tags
-    int totLength = 1;
+    size_t totLength = 1;
 
+#if 1
+    for (EntryMap::iterator it = mEntryMap->begin(); it != mEntryMap->end(); it++) {
+        totLength += strlen(it->first) + 1;
+    }
+
+    char * tags = reinterpret_cast<char *>(malloc(totLength * sizeof(char)));
+
+    if (!tags) return 0;
+
+    char * end = tags;
+
+    for (EntryMap::iterator it = mEntryMap->begin(); it != mEntryMap->end(); it++) {
+        // Add separator after first tag
+        if (tags != end)
+            *(end++) = ' ';
+            
+        for (const char * src = it->first; *src; src++, end++)
+            *end = *src;
+    }
+
+    *end = 0;   // Place end of string
+#else
     entry = mEntryListAnchor;
     while (entry) {
         totLength += static_cast<int>(strlen(entry->tag)) +1;    // +1 due to separating space
@@ -284,9 +375,11 @@ char * ShaderProgramManager::getAllTagsAsOneString()
         strcat(tags + strlen(tags), entry->tag);    // cat from current end of tags
         entry = entry->next;
     }
+#endif
+
     return tags;
 }
 
-#pragma warning( pop )
+//#pragma warning( pop )
 
 

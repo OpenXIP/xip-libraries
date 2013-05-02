@@ -110,7 +110,7 @@
 */
 #include <xip/common/XipLog.h>
 #include <xip/common/XipLogListener.h>
-#include <stdarg.h>
+//#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -120,310 +120,195 @@
 #endif
 
 
-#define XIP_STRING_LEN 1000		//maximum wchar_t array length
 
-// Static variables declared
-XipLogListener		*XipLog::mLogListener = 0;
-const char			*XipLog::mCallStack;
-XipLogType			XipLog::logLevel = XIP_LOG;		//default record everything
+XipLogListener** XipLog::mListeners = 0;
+unsigned int XipLog::numListeners = 0;
+XipLogEntry XipLog::mLastEntry;
+wchar_t XipLog::mLastTimestamp[32];
+wchar_t XipLog::mProcessInfo[1024];
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//XipLog constructor
-//
-//just copy pointers from input, did not keep a local copy right now
-//and generate timeStamp and ProcessID info
-//////////////////////////////////////////////////////////////////////////////////////////////////
-XipLog::XipLog(XipLogType type, const wchar_t *debugString, const wchar_t * module, const wchar_t *category):
-	mLogType(type), mDebugString(debugString), mModule(module), mLogCategory(category)
+void *XipLog::mTimeZoneInfo =0;
+int XipLog::mUTC_offset =0;
+
+
+
+
+XipLogEntry::XipLogEntry()
 {
-	mTimeStamp = new wchar_t[XIP_STRING_LEN];
-	
-	mProcessInfo = new wchar_t[XIP_STRING_LEN];
-
-	setProcessInfo();
-
-	setTimeStamp();
+    shortMessage = 0;
+    longMessage = 0;
+    level = -1;
+    flags = -1;
+    file = 0;
+    timestamp = 0;
+    timestampLength = 0;
+    processInfo = 0;
+    processInfoLength = -1;
+    classID = CID_XIP_LOG_ENTRY;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//XipLog destructor
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
-XipLog::~XipLog()
+void XipLog::addListener(XipLogListener* newListener)
 {
-	if(mTimeStamp)
-		delete [] mTimeStamp;
-	if(mProcessInfo)
-		delete [] mProcessInfo;
-			
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//set the static listener to process the XipLog events
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void	XipLog::setListener(XipLogListener *listener) 
-{ 	
-	if (mLogListener) {
-		delete mLogListener;
-		
-	}
-	mLogListener = listener;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//check whether this belongs to a specific type
-//////////////////////////////////////////////////////////////////////////////////////////////////
-bool XipLog::isOfType(XipLogType type) const
-{
-	return (mLogType==type);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//whether this matches a specific category (subtype)
-//////////////////////////////////////////////////////////////////////////////////////////////////
-bool XipLog::isOfCategory(const wchar_t* category) const
-{
-	return (wcscmp(mLogCategory,category)==0);
-}
-
-static const wchar_t* const logTypeName[] = {L"ERROR", L"WARNING", L"DEBUG_INFO", L"LOG"};
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//convert the error type to a string name
-//////////////////////////////////////////////////////////////////////////////////////////////////
-inline const wchar_t* XipLog::ToString() const	{
-	return logTypeName[getLogType()]; 
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//set the time stamp, called in the XipLog constructor
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void XipLog::setTimeStamp()
-{
-	if (getTimeStamp()!=NULL) 
-	{		
-		
-		//use UTC timestamp, how to get the time zone or Greenwich time info?
-		/*
-		LPTIME_ZONE_INFORMATION lpTimeZoneInfo;
-		GetTimeZoneInformation(lpTimeZoneInfo);
-		lpTimeZoneInfo->Bias
-		swprintf(mTimeStamp, XIP_STRING_LEN, L"%04d-%02d-%02dT02d:%02d:%02d.%03d", ft.dwHighDateTime, aStartTime.wYear, aStartTime.wMonth, aStartTime.wDay, aStartTime.wHour,aStartTime.wMinute,aStartTime.wSecond, aStartTime.wMilliseconds );
-		*/
-#if defined(WINDOWS) || defined(_WIN32)
-		SYSTEMTIME aStartTime;
-		GetLocalTime(&aStartTime);
-		// Get the timezone info.
-		TIME_ZONE_INFORMATION TimeZoneInfo;
-		GetTimeZoneInformation( &TimeZoneInfo );
-
-		// Convert local time to UTC.
-		SYSTEMTIME GmtTime;
-		TzSpecificLocalTimeToSystemTime( &TimeZoneInfo, &aStartTime, &GmtTime );
-
-		//swprintf(mTimeStamp, XIP_STRING_LEN, L"%02d:%02d:%02d.%03d", aStartTime.wHour,aStartTime.wMinute,aStartTime.wSecond,aStartTime.wMilliseconds );
-		swprintf(mTimeStamp, XIP_STRING_LEN, L"%04d-%02d-%02dT%02d:%02d:%02d.%03d UTC", GmtTime.wYear, GmtTime.wMonth, GmtTime.wDay, GmtTime.wHour,GmtTime.wMinute,GmtTime.wSecond, GmtTime.wMilliseconds );		
-#else
-
-		time_t rawtime;
-		tm * ptm;
-		time ( &rawtime );
-		ptm = gmtime ( &rawtime );
-		swprintf(mTimeStamp, XIP_STRING_LEN, L"%04d-%02d-%02dT02d:%02d:%02d.%03d", ptm->tm_year, ptm->tm_month, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec, rawtimeaStartTime.wMilliseconds );		
-#endif		
-
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//set the process ID and thread ID
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void XipLog::setProcessInfo()
-{
-	if(getProcessInfo()!=NULL)
-	{		
-		swprintf(mProcessInfo, XIP_STRING_LEN, L"%u/%u",GetCurrentProcessId(),GetCurrentThreadId());        
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//	XipLog::post
-//	transfer the handling to mLogListener, pass XipLog class as parameters
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void XipLog::post(XipLogType errortype, const wchar_t *message, const wchar_t *module, const wchar_t* category)
-{
-	if (mLogListener && errortype<=logLevel)
-	{
-		XipLog error(errortype, message, module, category);		//__FUNCTION__
-		mLogListener->handleError(error);
-	}
-}
-
-//errortype, __FUNCTION__, __LINE__,  __FILE__
-void XipLog::post(XipLogType errortype, const char *function, int line, const char* file)
-{
-	if (mLogListener && errortype<=logLevel)
-	{
-		wchar_t lFile[XIP_STRING_LEN], module[XIP_STRING_LEN];
-
-		int len = strlen(file)+1;
-		mbstowcs(lFile, file, len*sizeof(wchar_t));
-		swprintf(module, XIP_STRING_LEN, L"File: %s, Line: %d", lFile, line);
-
-		wchar_t message[XIP_STRING_LEN];
-		mbstowcs(message, function, len*sizeof(wchar_t));
-		
-		//if (errortype==XipLogType::XIP_LOG)
-		//	XipLog error(errortype, message, module, L"TRACE");		//__FUNCTION__
-		//else
-		XipLog error(errortype, message, module, L"");		//__FUNCTION__
-		mLogListener->handleError(error);
-	}
-}
-
-/*
-//variable input
-void XipLog::post(WIDECHAR *formatString ...)
-{
-    //should use xml to parse the string later
-    va_list	args;
-
-    va_start(args, formatString);
-    int nBuf;
-    WIDECHAR szBuffer[10000];
-    nBuf = _vsnwprintf(szBuffer, sizeof(szBuffer), formatString, args);
-    va_end(args);
-	//get system time
-
-	XipLog error(errortype, message, module, category);
-
-	WIDECHAR debugString[10000];
-	wprintf(debugString, "XIP error: %s", szBuffer);
-    error.setDebugString(debugString);
-    mLogListener->handleError(error);
-}*/
-
-
-
-////////////////////////////////////////////////////////////////////////
-//
-// Description:
-//    Calls appropriate handler for an error instance. 
-//
-////////////////////////////////////////////////////////////////////////
-#ifndef WIN32
-
-void QXipBuilderError::recordCallStack(void *exceptionInfo)
-{
-	mCallStack = "";
-}
-
-#else
-
-#include <windows.h>
-#include <Tlhelp32.h>
-#include <windef.h>
-
-static BOOL WINAPI Get_Module_By_Ret_Addr(PBYTE Ret_Addr, 
-                PCHAR Module_Name, PBYTE & Module_Addr)
-{
-    MODULEENTRY32  M = {sizeof(M)};
-    HANDLE  hSnapshot = NULL;
-
-    Module_Name[0] = 0;
-
-    hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, 0);
-    
-    if ((hSnapshot != INVALID_HANDLE_VALUE) &&
-        Module32First(hSnapshot, &M))
+    int ptrSize = sizeof(void*);
+    if (numListeners == 0)
     {
-        do
+        if (void* arrayStart = malloc(ptrSize))
         {
-            if (DWORD(Ret_Addr - M.modBaseAddr) < M.modBaseSize)
-            {
-				_snprintf(Module_Name, MAX_PATH, "%S", M.szExePath);
-                Module_Addr = M.modBaseAddr;
-                break;
-            }
-        } while (Module32Next(hSnapshot, &M));
-    }
-
-    CloseHandle(hSnapshot);
-
-    return !!Module_Name[0];
-} //Get_Module_By_Ret_Addr
-
-
-typedef struct STACK_FRAME
-{
-    STACK_FRAME *   Ebp;   //address of the calling function frame
-    PBYTE   Ret_Addr;      //return address
-    DWORD   Param[0];      //parameter list - could be empty
-} STACK_FRAME, * PSTACK_FRAME;
-
-
-//int WINAPI Get_Call_Stack(PEXCEPTION_POINTERS pException, PCHAR Str)
-static const char* Get_Call_Stack(void *exceptionInfo)
-{
-	CHAR    This_Module_Name[MAX_PATH];
-    CHAR    Module_Name[MAX_PATH];
-    PBYTE   Module_Addr;
-    PSTACK_FRAME  Ebp = 0;
-	int top = 1;
-
-	static CHAR dump[2048];
-	static int dumpLen = 0;
-
-	dumpLen = 0;
-	dump[0] = 0;
-	This_Module_Name[0] = 0;
-
-	if (exceptionInfo)
-	{
-		PEXCEPTION_POINTERS pException = (PEXCEPTION_POINTERS) exceptionInfo;
-		Ebp = (PSTACK_FRAME)pException->ContextRecord->Ebp;
-	}
-	else
-	{
-       // Frame address of Get_Call_Stack()
-       Ebp = (PSTACK_FRAME) &exceptionInfo - 1;
-	}
-
-    for (int Ret_Addr_I = 0;
-        (Ret_Addr_I < 20) && !IsBadReadPtr(Ebp, sizeof(PSTACK_FRAME)) && !IsBadCodePtr((FARPROC)(Ebp->Ret_Addr));
-        Ret_Addr_I++, Ebp = Ebp->Ebp)
-    {
-        // Find the module by a return address inside that module
-        if (Get_Module_By_Ret_Addr(Ebp->Ret_Addr, Module_Name, Module_Addr))
-        {
-			if (strlen(This_Module_Name) == 0)
-			{
-				// record module name of this application
-				strcpy(This_Module_Name, Module_Name);
-			}
-
-			// skip everything xip builder at the top
-			if (top && (strcmp(Module_Name, This_Module_Name) == 0))
-			{
-				continue;
-			}
-			top = 0;
-
-			dumpLen += _snprintf(dump + dumpLen, 2048 - dumpLen, "%08X+%08X %s\n", Module_Addr, Ebp->Ret_Addr - Module_Addr, Module_Name);
+            mListeners = static_cast<XipLogListener**>(arrayStart);
+            mListeners[0] = newListener;
+            numListeners++;
         }
     }
-
-	if (strlen(dump) > 0)
-	{
-		// truncate last new line
-		dump[strlen(dump) - 1] = 0;
-	}
-
-	return dump;
-} //Get_Call_Stack
-
-
-void XipLog::recordCallStack(void *exceptionInfo)
-{
-	mCallStack = Get_Call_Stack(exceptionInfo);
+    else
+    {
+        //grow the array that contains the listener pointers
+        void* orig = static_cast<void*>(mListeners);
+        if (void* grown = realloc(orig, (numListeners+1)*ptrSize))
+        {
+            mListeners = static_cast<XipLogListener**>(grown);
+            mListeners[numListeners] = newListener;
+            numListeners++;
+        }
+    }
 }
 
-#endif
+
+void XipLog::post(const wchar_t* shortMessage, const wchar_t* longMessage, int level, int flags, const char* function, int line, const char* file)
+{
+    updateTimestamp();
+    mLastEntry.timestamp = mLastTimestamp;
+    mLastEntry.timestampLength  = 32;
+    updateProcessInfo();
+    mLastEntry.processInfo = mProcessInfo;
+    mLastEntry.processInfoLength = 1024;
+
+    mLastEntry.shortMessage = shortMessage;
+    mLastEntry.longMessage = longMessage;
+    mLastEntry.level = level;
+    mLastEntry.flags = flags;
+    mLastEntry.function = function;
+    mLastEntry.line = line;
+    mLastEntry.file = file;
+    for (unsigned int i=0; i < numListeners; i++)
+    {
+        mListeners[i]->handleError(&mLastEntry);
+    }
+}
+
+
+void XipLog::set( int property, const wchar_t* value )
+{
+    for (unsigned int i=0; i < numListeners; i++)
+    {
+        mListeners[i]->set(property, value);
+    }
+}
+
+void XipLog::updateTimestamp()
+{
+#if defined(WINDOWS) || defined(_WIN32)
+    SYSTEMTIME utcTime, localTime; 
+    GetSystemTime(&utcTime); //retrieves UTC time
+    // Get the timezone info. 
+    if (!mTimeZoneInfo)
+    {
+        mTimeZoneInfo = new TIME_ZONE_INFORMATION;
+        LPTIME_ZONE_INFORMATION tzi =  static_cast<LPTIME_ZONE_INFORMATION>(mTimeZoneInfo) ;
+
+        GetTimeZoneInformation(tzi);
+        SystemTimeToTzSpecificLocalTime(tzi, &utcTime, &localTime);
+
+        //use variant time to calculate the difference
+        //http://msdn.microsoft.com/en-us/library/ms221646.aspx
+        double dUTC, dLocal;
+        SystemTimeToVariantTime (&utcTime, &dUTC);
+        SystemTimeToVariantTime (&localTime, &dLocal);
+
+        double offset = dUTC - dLocal;
+        double hours = offset * 24.0;
+
+        // hours will hold a number with precision error in the last decimal places, 
+        // so we have to round it to the next integer
+        mUTC_offset = hours >= 0 ? (int)(hours + 0.5) : (int)(hours - 0.5);
+    }
+
+    //swprintf(mTimeStamp, XIP_STRING_LEN, L"%02d:%02d:%02d.%03d", aStartTime.wHour,aStartTime.wMinute,aStartTime.wSecond,aStartTime.wMilliseconds );
+    if (mUTC_offset > 0)
+    {
+        swprintf(mLastTimestamp, 32, L"%04d%02d%02d%02d%02d%02d,%03d UTC-%01d", utcTime.wYear, utcTime.wMonth, utcTime.wDay, utcTime.wHour,utcTime.wMinute,utcTime.wSecond, utcTime.wMilliseconds,  mUTC_offset);		
+    }
+    else if (mUTC_offset < 0 )
+    {
+        swprintf(mLastTimestamp, 32, L"%04d%02d%02d%02d%02d%02d,%03d UTC+%01d", utcTime.wYear, utcTime.wMonth, utcTime.wDay, utcTime.wHour,utcTime.wMinute,utcTime.wSecond, utcTime.wMilliseconds,  -mUTC_offset);		
+    }
+    else
+    {
+        swprintf(mLastTimestamp, 32, L"%04d%02d%02d%02d%02d%02d,%03d UTC", utcTime.wYear, utcTime.wMonth, utcTime.wDay, utcTime.wHour,utcTime.wMinute,utcTime.wSecond, utcTime.wMilliseconds);		
+    }
+#else
+
+    time_t rawtime;
+    tm * ptm;
+    time ( &rawtime );
+    ptm = gmtime ( &rawtime );
+    swprintf(mLastTimestamp, 32, L"%04d%02d%02d02d%02d%02d,%03d UTC%01d", ptm->tm_year, ptm->tm_month, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec, rawtimeaStartTime.wMilliseconds, mUTC_offset );		
+#endif		
+}
+
+
+void XipLog::updateProcessInfo()
+{
+    swprintf(mProcessInfo, 1024,L"ProcessID: %u, ThreadID %u",GetCurrentProcessId(),GetCurrentThreadId());
+}
+
+void XipLog::removeListener( XipLogListener* listener )
+{
+    //TODO TH
+}
+
+XipLog::XipLog()
+{
+
+}
+
+
+
+
+//#include <lm.h>
+//int test()
+//{
+//LPTIME_OF_DAY_INFO pBuf = NULL;
+//NET_API_STATUS nStatus;
+//LPTSTR pszServerName = NULL;
+//
+////
+//// Call the NetRemoteTOD function.
+////
+//nStatus = NetRemoteTOD((LPCWSTR) pszServerName,
+//                       (LPBYTE *)&pBuf);
+////
+//// If the function succeeds, display the current date and time.
+////
+//if (nStatus == NERR_Success)
+//{
+//    if (pBuf != NULL)
+//    {
+//        fprintf(stderr, "\nThe current date is: %d/%d/%d\n",
+//            pBuf->tod_month, pBuf->tod_day, pBuf->tod_year);
+//        fprintf(stderr, "The current time is: %d:%d:%d\n",
+//            pBuf->tod_hours, pBuf->tod_mins, pBuf->tod_secs);
+//    }
+//}
+////
+//// Otherwise, display a system error.
+//else
+//fprintf(stderr, "A system error has occurred: %d\n", nStatus);
+////
+//// Free the allocated buffer.
+////
+//if (pBuf != NULL)
+//NetApiBufferFree(pBuf);
+//
+//return 0;
+//}

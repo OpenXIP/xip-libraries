@@ -135,3 +135,28 @@ readImage( const char* file, unsigned int offset, SbXipImage& image )
 
 	return (r == 1);
 }
+
+SbBool 
+writeImage( const char* file, unsigned int offset, SbXipImage& image )
+{
+	int r = 0;
+
+	void* imageBufferPtr = image.refBufferPtr();
+	if( imageBufferPtr )
+	{
+		SbString path = XipStrExpandEnv( file );
+		FILE* fs = fopen( path.getString(), "wb" );
+		if (!fs) 
+			return FALSE;
+
+		fseek( fs, offset, SEEK_SET );
+		r = fwrite(imageBufferPtr, 1, image.bufferSize(), fs );
+
+		fclose( fs );
+	}
+	image.unrefBufferPtr();
+
+	return (r == image.bufferSize());
+}
+
+

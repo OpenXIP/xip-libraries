@@ -54,6 +54,25 @@
       <Field Fieldname="active" defaultValue="FALSE" />
     </Fields>
   </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipApplyLutToImage" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipApplyLutToImage.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipApplyLutToImage.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SbXipImageAdaptor.h" />
+      <Include Path="xip/inventor/core/SoXipLutElement.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="image" defaultValue="NULL" />
+      <Field Fieldname="output" defaultValue="NULL" />
+    </Fields>
+  </class>
   <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipAutoScale" >
     <Sourcefiles>
       <Sourcefile Filename="SoXipAutoScale.cpp" Macrocalls="4" />
@@ -412,6 +431,21 @@
       <Field Fieldname="previous" defaultValue="" />
     </Fields>
   </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipDrawQuad" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipDrawQuad.cpp" Macrocalls="7" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/system/standard.h" />
+      <Include Path="SoXipDrawQuad.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="enableTexture" defaultValue="true" />
+      <Field Fieldname="filter" defaultValue="SAME" />
+      <Field Fieldname="blend" defaultValue="false" />
+      <Field Fieldname="colors" defaultValue="SbVec3f(1, 1, 1)" />
+    </Fields>
+  </class>
   <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipExaminer" >
     <Sourcefiles>
       <Sourcefile Filename="SoXipExaminer.cpp" Macrocalls="24" />
@@ -503,27 +537,23 @@
       <Field Fieldname="numImages" defaultValue="-1" />
     </Fields>
   </class>
-  <class ParentClass="SoShape" ParentPrintName="SoShape" Type="NODE" Name="SoXipImage" >
+  <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipImage" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipImage.cpp" Macrocalls="8" />
+      <Sourcefile Filename="SoXipImage.cpp" Macrocalls="4" />
     </Sourcefiles>
     <Includes>
       <Include Path="xip/system/standard.h" />
       <Include Path="SoXipImage.h" />
-      <Include Path="SoXipSFDataImageToSFImage.h" />
-      <Include Path="Inventor/sensors/SoFieldSensor.h" />
       <Include Path="Inventor/actions/SoActions.h" />
-      <Include Path="Inventor/SoPrimitiveVertex.h" />
-      <Include Path="Inventor/elements/SoTextureCoordinateElement.h" />
-      <Include Path="Inventor/nodes/SoMatrixTransform.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+      <Include Path="Inventor/fields/SoSFEnum.h" />
       <Include Path="xip/inventor/core/SbXipImage.h" />
-      <Include Path="xip/inventor/core/SbXipImageAdaptor.h" />
-      <Include Path="xip/inventor/core/SoXipLutElement.h" />
       <Include Path="xip/inventor/core/SoXipDataImage.h" />
-      <Include Path="SoXipTexture.h" />
+      <Include Path="xip/inventor/core/SoXipLutElement.h" />
     </Includes>
     <Fields>
-      <Field Fieldname="image" defaultValue="0" />
+      <Field Fieldname="image" defaultValue="NULL" />
     </Fields>
   </class>
   <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipImageAttributes" >
@@ -595,7 +625,7 @@
   </class>
   <class ParentClass="SoXipKit" ParentPrintName="SoXipKit" Type="NODE" Name="SoXipImageExaminerBase" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipImageExaminerBase.cpp" Macrocalls="16" />
+      <Sourcefile Filename="SoXipImageExaminerBase.cpp" Macrocalls="18" />
     </Sourcefiles>
     <Includes>
       <Include Path="xip/system/standard.h" />
@@ -611,10 +641,7 @@
       <Include Path="xip/inventor/core/SbXipImage.h" />
       <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
       <Include Path="xip/inventor/core/SoXipDataImage.h" />
-      <Include Path="xip/inventor/dicom/SoXipSFDataDicom.h" />
       <Include Path="xip/inventor/core/SoXipDataImageElement.h" />
-      <Include Path="xip/inventor/dicom/SoXipDataDicomElement.h" />
-      <Include Path="xip/inventor/dicom/SoXipDataDicom.h" />
       <Include Path="SoXipImageExaminerBase.h" />
       <Include Path="algorithm" />
     </Includes>
@@ -626,9 +653,11 @@
       <Field Fieldname="sliceIndex" defaultValue="-1" />
       <Field Fieldname="previousSlice" defaultValue="" />
       <Field Fieldname="nextSlice" defaultValue="" />
+      <Field Fieldname="scrollScope" defaultValue="ALL_IMAGES" />
       <Field Fieldname="viewAll" defaultValue="" />
       <Field Fieldname="viewAllScale" defaultValue="0.8" />
       <Field Fieldname="mode" defaultValue="NONE" />
+      <Field Fieldname="plane" defaultValue="SbMatrix::identity()" />
     </Fields>
   </class>
   <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipImageOperation" >
@@ -742,6 +771,7 @@
       <Sourcefile Filename="SoXipKit.cpp" Macrocalls="4" />
     </Sourcefiles>
     <Includes>
+      <Include Path="xip/inventor/core/SoXipKit.h" />
       <Include Path="Inventor/misc/SoChildList.h" />
       <Include Path="Inventor/SoDB.h" />
       <Include Path="Inventor/SoInput.h" />
@@ -751,7 +781,6 @@
       <Include Path="Inventor/errors/SoReadError.h" />
       <Include Path="Inventor/fields/SoFieldData.h" />
       <Include Path="Inventor/elements/SoCacheElement.h" />
-      <Include Path="xip/inventor/core/SoXipKit.h" />
     </Includes>
   </class>
   <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoXipLazyGroup" >
@@ -793,7 +822,7 @@
   </class>
   <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipLut" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipLut.cpp" Macrocalls="24" />
+      <Sourcefile Filename="SoXipLut.cpp" Macrocalls="25" />
     </Sourcefiles>
     <Includes>
       <Include Path="fstream" />
@@ -824,6 +853,7 @@
       <Field Fieldname="fileEntries" defaultValue="0" />
       <Field Fieldname="arrayColor" defaultValue="SbColor(0,0,0)" />
       <Field Fieldname="arrayAlpha" defaultValue="0" />
+      <Field Fieldname="invertColor" defaultValue="FALSE" />
     </Fields>
   </class>
   <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipLutElement" >
@@ -911,7 +941,7 @@
   </class>
   <class ParentClass="SoBaseKit" ParentPrintName="BaseKit" Type="KIT" Name="SoXipMprExaminer" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipMprExaminer.cpp" Macrocalls="35" />
+      <Sourcefile Filename="SoXipMprExaminer.cpp" Macrocalls="40" />
     </Sourcefiles>
     <Includes>
       <Include Path="SoXipMprExaminer.h" />
@@ -947,6 +977,8 @@
       <Field Fieldname="orientation" defaultValue="FEET" />
       <Field Fieldname="viewOrientation" defaultValue="" />
       <Field Fieldname="viewAll" defaultValue="" />
+      <Field Fieldname="viewFirst" defaultValue="" />
+      <Field Fieldname="viewLast" defaultValue="" />
       <Field Fieldname="stepNext" defaultValue="" />
       <Field Fieldname="stepPrevious" defaultValue="" />
       <Field Fieldname="key" defaultValue="0" />
@@ -954,6 +986,7 @@
       <Field Fieldname="mode" defaultValue="NONE" />
       <Field Fieldname="intersection" defaultValue="TRANSLATION" />
       <Field Fieldname="rotatePinpoint" defaultValue="TRUE" />
+      <Field Fieldname="manip" defaultValue="FALSE" />
       <Field Fieldname="pointTo" defaultValue="FALSE" />
       <Field Fieldname="border" defaultValue="FALSE" />
       <Field Fieldname="dogEar" defaultValue="FALSE" />
@@ -962,6 +995,8 @@
       <Field Fieldname="scaleHeight" defaultValue="1.0f" />
       <Field Fieldname="stubs" defaultValue="FALSE" />
       <Field Fieldname="stubScale" defaultValue="10.0f" />
+      <Field Fieldname="plane" defaultValue="SbMatrix::identity()" />
+      <Field Fieldname="accelerationFactor" defaultValue="1.0f" />
     </Fields>
   </class>
   <class ParentClass="SoXipMprIntersectionLineKit" ParentPrintName="SoXipMprIntersectionLineKit" Type="KIT" Name="SoXipMprIntersectionLine" >
@@ -983,6 +1018,7 @@
       <Include Path="Inventor/SbBox.h" />
       <Include Path="Inventor/errors/SoDebugError.h" />
       <Include Path="xip/inventor/core/XipGeomUtils.h" />
+      <Include Path="xip/common/XipDebug.h" />
     </Includes>
     <Fields>
       <Field Fieldname="planeMatrix" defaultValue="SbMatrix::identity()" />
@@ -1014,6 +1050,7 @@
       <Include Path="Inventor/SbBox.h" />
       <Include Path="Inventor/errors/SoDebugError.h" />
       <Include Path="xip/inventor/core/XipGeomUtils.h" />
+      <Include Path="xip/common/XipDebug.h" />
     </Includes>
   </class>
   <class ParentClass="SoXipPlaneManipBase" ParentPrintName="SoXipPlaneManipBase" Type="NODE" Name="SoXipMprIntersectionManip" >
@@ -1099,7 +1136,7 @@
   </class>
   <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipMprPlane" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipMprPlane.cpp" Macrocalls="17" />
+      <Sourcefile Filename="SoXipMprPlane.cpp" Macrocalls="18" />
     </Sourcefiles>
     <Includes>
       <Include Path="SoXipMprPlane.h" />
@@ -1119,6 +1156,7 @@
       <Field Fieldname="color" defaultValue="SbColor(1, 1, 1)" />
       <Field Fieldname="id" defaultValue="0" />
       <Field Fieldname="stepSize" defaultValue="0" />
+      <Field Fieldname="thickness" defaultValue="1" />
     </Fields>
   </class>
   <class ParentClass="SoAccumulatedElement" Type="ELEMENT" Name="SoXipMprPlaneElement" >
@@ -1153,7 +1191,7 @@
   </class>
   <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipOrientationCube" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipOrientationCube.cpp" Macrocalls="3" />
+      <Sourcefile Filename="SoXipOrientationCube.cpp" Macrocalls="6" />
     </Sourcefiles>
     <Includes>
       <Include Path="xip/system/standard.h" />
@@ -1163,9 +1201,16 @@
       <Include Path="Inventor/elements/SoViewportRegionElement.h" />
       <Include Path="Inventor/elements/SoViewVolumeElement.h" />
       <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/events/SoMouseButtonEvent.h" />
       <Include Path="Inventor/SbLinear.h" />
       <Include Path="xip/system/GL/gl.h" />
     </Includes>
+    <Fields>
+      <Field Fieldname="size" defaultValue="0.15f" />
+      <Field Fieldname="position" defaultValue="SbVec2f(0.7f, -0.7f)" />
+      <Field Fieldname="orientation" defaultValue="FEET" />
+    </Fields>
   </class>
   <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoXipPerformance" >
     <Sourcefiles>
@@ -1270,6 +1315,50 @@
       <Field Fieldname="proxiedNodeName" defaultValue="&quot;&quot;" />
     </Fields>
   </class>
+  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipQuad" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipQuad.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipQuad.h" />
+      <Include Path="xip/system/standard.h" />
+      <Include Path="Inventor/SoPrimitiveVertex.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/elements/SoTextureCoordinateElement.h" />
+      <Include Path="Inventor/elements/SoGLTextureEnabledElement.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="offset" defaultValue="SbVec3f(0.0, 0.0, 0.0)" />
+    </Fields>
+  </class>
+  <class ParentClass="SoReplacedElement" Type="ELEMENT" Name="SoXipRegistrationElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipRegistrationElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipRegistrationElement.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipRegistrationTransform" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipRegistrationTransform.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="SoXipRegistrationTransform.h" />
+      <Include Path="xip/inventor/core/SoXipRegistrationElement.h" />
+      <Include Path="Inventor/actions/SoCallbackAction.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+      <Include Path="Inventor/actions/SoGetBoundingBoxAction.h" />
+      <Include Path="Inventor/actions/SoGetMatrixAction.h" />
+      <Include Path="Inventor/actions/SoPickAction.h" />
+      <Include Path="Inventor/elements/SoModelMatrixElement.h" />
+      <Include Path="xip/common/XipDebug.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="matrix" defaultValue="SbMatrix::identity()" />
+    </Fields>
+  </class>
   <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipRenderMode" >
     <Sourcefiles>
       <Sourcefile Filename="SoXipRenderMode.cpp" Macrocalls="8" />
@@ -1323,6 +1412,45 @@
       <Output Outputname="output" Type="SoSFImage" Code="setValue(imgDims, 4, imgPtr)" />
     </Outputs>
   </class>
+  <class ParentClass="SoEngine" ParentPrintName="Engine" Type="ENGINE" Name="SoXipSaveRaw" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSaveRaw.cpp" Macrocalls="11" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipSFDataImage.h" />
+      <Include Path="xip/inventor/core/SoXipDataImage.h" />
+      <Include Path="xip/inventor/core/SbXipImage.h" />
+      <Include Path="xip/inventor/core/SbXipImageFile.h" />
+      <Include Path="Inventor/errors/SoMemoryError.h" />
+      <Include Path="SoXipSaveRaw.h" />
+      <Include Path="xip/inventor/core/SbXipDirtyFieldList.h" />
+    </Includes>
+    <Inputs>
+      <Input defaultValue="" Inputname="saveImage" />
+      <Input defaultValue="0" Inputname="image" />
+      <Input defaultValue="&quot;&quot;" Inputname="file" />
+      <Input defaultValue="UBYTE" Inputname="voxelType" />
+      <Input defaultValue="0" Inputname="width" />
+      <Input defaultValue="0" Inputname="height" />
+      <Input defaultValue="0" Inputname="depth" />
+      <Input defaultValue="8" Inputname="bitsUsed" />
+    </Inputs>
+  </class>
+  <class ParentClass="SoNode" ParentPrintName="SoNode" Type="NODE" Name="SoXipSlopeInterceptConvert" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipSlopeInterceptConvert.cpp" Macrocalls="9" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipSlopeInterceptConvert.h" />
+      <Include Path="xip/inventor/core/SoXipValueConvertElement.h" />
+      <Include Path="Inventor/actions/SoActions.h" />
+      <Include Path="Inventor/sensors/SoFieldSensor.h" />
+    </Includes>
+    <Fields>
+      <Field Fieldname="slope" defaultValue="1.0" />
+      <Field Fieldname="intercept" defaultValue="0.0" />
+    </Fields>
+  </class>
   <class ParentClass="SoEngine" ParentPrintName="SoEngine" Type="ENGINE" Name="SoXipStringConcatenate" >
     <Sourcefiles>
       <Sourcefile Filename="SoXipStringConcatenate.cpp" Macrocalls="16" />
@@ -1368,9 +1496,9 @@
       <Output Outputname="image" Type="SoXipMFDataImage" Code="copyFrom(*imageFields[index.getValue()])" />
     </Outputs>
   </class>
-  <class ParentClass="SoShape" ParentPrintName="Shape" Type="NODE" Name="SoXipTexture" >
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipTexture" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipTexture.cpp" Macrocalls="23" />
+      <Sourcefile Filename="SoXipTexture.cpp" Macrocalls="24" />
     </Sourcefiles>
     <Includes>
       <Include Path="xip/system/GL/gl.h" />
@@ -1402,6 +1530,7 @@
       <Field Fieldname="internalFormat" defaultValue="RGBA8" />
       <Field Fieldname="padDimensions" defaultValue="FALSE" />
       <Field Fieldname="textureSize" defaultValue="SbVec3f(-1, -1, -1)" />
+      <Field Fieldname="modelMatrix" defaultValue="SbMatrix::identity()" />
       <Field Fieldname="usePBO" defaultValue="FALSE" />
       <Field Fieldname="forceNPOT" defaultValue="FALSE" />
       <Field Fieldname="autoScaleRange" defaultValue="TRUE" />
@@ -1479,6 +1608,27 @@
       <Include Path="Inventor/errors/SoDebugError.h" />
     </Includes>
   </class>
+  <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipValueConvertBase" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipValueConvertBase.cpp" Macrocalls="5" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipValueConvertBase.h" />
+      <Include Path="xip/inventor/core/SoXipValueConvertElement.h" />
+      <Include Path="Inventor/actions/SoGLRenderAction.h" />
+      <Include Path="Inventor/actions/SoHandleEventAction.h" />
+    </Includes>
+  </class>
+  <class ParentClass="SoAccumulatedElement" Type="ELEMENT" Name="SoXipValueConvertElement" >
+    <Sourcefiles>
+      <Sourcefile Filename="SoXipValueConvertElement.cpp" Macrocalls="2" />
+    </Sourcefiles>
+    <Includes>
+      <Include Path="xip/inventor/core/SoXipValueConvertElement.h" />
+      <Include Path="xip/inventor/core/SbXipValueConvertBase.h" />
+      <Include Path="Inventor/errors/SoErrors.h" />
+    </Includes>
+  </class>
   <class ParentClass="SoNode" ParentPrintName="Node" Type="NODE" Name="SoXipViewportBorder" >
     <Sourcefiles>
       <Sourcefile Filename="SoXipViewportBorder.cpp" Macrocalls="10" />
@@ -1494,6 +1644,7 @@
       <Include Path="Inventor/sensors/SoTimerSensor.h" />
       <Include Path="xip/inventor/core/SoXipCursor.h" />
       <Include Path="xip/system/GL/gl.h" />
+      <Include Path="algorithm" />
     </Includes>
     <Fields>
       <Field Fieldname="activeColor" defaultValue="SbColor(0.6f, 0.6f, 0.6f)" />
@@ -1506,7 +1657,7 @@
   </class>
   <class ParentClass="SoGroup" ParentPrintName="Group" Type="NODE" Name="SoXipViewportGroup" >
     <Sourcefiles>
-      <Sourcefile Filename="SoXipViewportGroup.cpp" Macrocalls="18" />
+      <Sourcefile Filename="SoXipViewportGroup.cpp" Macrocalls="19" />
     </Sourcefiles>
     <Includes>
       <Include Path="SoXipViewportGroup.h" />
@@ -1543,6 +1694,7 @@
       <Field Fieldname="viewports" defaultValue="SbVec4f( 0, 0, 1, 1)" />
       <Field Fieldname="current" defaultValue="0" />
       <Field Fieldname="maximized" defaultValue="FALSE" />
+      <Field Fieldname="nested" defaultValue="FALSE" />
       <Field Fieldname="on" defaultValue="TRUE" />
       <Field Fieldname="relative" defaultValue="TRUE" />
       <Field Fieldname="viewports" defaultValue="SbVec4f( 0, 0, 1, 1)" />

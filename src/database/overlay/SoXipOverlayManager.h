@@ -127,6 +127,7 @@
 #include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/fields/SoSFTrigger.h>
 #include <Inventor/fields/SoMFNode.h>
+#include <Inventor/fields/SoSFNode.h>
 #include <xip/inventor/overlay/SoXipShape.h>
 
 /**
@@ -177,6 +178,8 @@ public:
 	SoSFTrigger			remove;
 	///
 	SoSFTrigger			clear;
+
+	SoSFNode			node;
 
     /// Class initialization
 	static void initClass();

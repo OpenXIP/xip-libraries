@@ -187,9 +187,11 @@ void SoXipPickAction::handleEvent(SoHandleEventAction *action)
 		if (SoMouseButtonEvent::isButtonReleaseEvent(e, (SoMouseButtonEvent::Button) mouse.getValue()))
 		{
 			SoRayPickAction pa(action->getViewportRegion());
-			pa.setPoint(action->getEvent()->getPosition());
+			SbVec2s pixel = action->getEvent()->getPosition(); 
+			pa.setPoint(pixel);
 			pa.setRadius(3);
-			pa.enableCulling(FALSE);
+			pa.enableCulling(TRUE);
+			//pa.setPickAll(true);
 			pa.apply(action->getNodeAppliedTo());
 
 			const SoPickedPoint *picked_point = pa.getPickedPoint();
@@ -213,3 +215,5 @@ void SoXipPickAction::handleEvent(SoHandleEventAction *action)
 
 	SoNode::handleEvent(action);	
 }
+
+

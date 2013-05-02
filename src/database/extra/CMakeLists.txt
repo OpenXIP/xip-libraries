@@ -63,11 +63,12 @@ set_target_properties(xipivextra
 # Link the library
 #
 target_link_libraries(xipivextra
-	optimized xipcommon
-	debug xipcommon${CMAKE_DEBUG_POSTFIX}
+  ${XIP_COMMON_LIBRARY}
   ${INVENTOR_LIBRARY}
   ${OPENGL_LIBRARIES})
 
+add_dependencies(xipivextra xipcommon)
+  
 #--------------------------------------------------------------------
 # Install the library
 #

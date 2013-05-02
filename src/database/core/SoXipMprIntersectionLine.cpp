@@ -124,6 +124,7 @@
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/core/XipGeomUtils.h> // XipInventorUtils
 
+#include <xip/common/XipDebug.h>
 
 const static float CENTER_GAP_SIZE = 0.04f, CENTER_MARKER_SIZE = 0.06f, NORMAL_INDICATOR_SIZE = 0.07f;
 
@@ -233,27 +234,30 @@ void SoXipMprIntersectionLine::update()
 		float height = (mViewportAspectRatio > 1.f ? 1.f : 1.f / mViewportAspectRatio) / 2.f;
 
 		// intersection point between frame and line (note that COIN does not support this function):
-		//SbBox3f frame(-width, -height, -1.f, width, height, 1.f);
-		//objLine.intersect(frame, obj[0], obj[1]);
+		SbBox3f frame(-width, -height, -1.f, width, height, 1.f);
+		bool intersected = objLine.intersect(frame, obj[0], obj[1]) == TRUE;
 
-		SbVec3f ptOnThis, ptOnLine2;
-		int objCount = 0;
-		if (objLine.getClosestPoints(SbLine(SbVec3f(-width, -height, 0), SbVec3f(-width, height, 0)), ptOnThis, ptOnLine2))
-			if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
-				obj[objCount++] = ptOnThis;
-		if (objLine.getClosestPoints(SbLine(SbVec3f(width, height, 0), SbVec3f(width, -height, 0)), ptOnThis, ptOnLine2))
-			if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
-				obj[objCount++] = ptOnThis;
-		if (objLine.getClosestPoints(SbLine(SbVec3f(width, -height, 0), SbVec3f(-width, -height, 0)), ptOnThis, ptOnLine2))
-			if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
-				obj[objCount++] = ptOnThis;
-		if (objLine.getClosestPoints(SbLine(SbVec3f(-width, height, 0), SbVec3f(width, height, 0)), ptOnThis, ptOnLine2))
-			if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
-				obj[objCount++] = ptOnThis;
+		//SbVec3f ptOnThis, ptOnLine2;
+		//int objCount = 0;
+		//if (objLine.getClosestPoints(SbLine(SbVec3f(-width, -height, 0), SbVec3f(-width, height, 0)), ptOnThis, ptOnLine2))
+		//	if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
+		//		obj[objCount++] = ptOnThis;
+		//if (objLine.getClosestPoints(SbLine(SbVec3f(width, height, 0), SbVec3f(width, -height, 0)), ptOnThis, ptOnLine2))
+		//	if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
+		//		obj[objCount++] = ptOnThis;
+		//if (objLine.getClosestPoints(SbLine(SbVec3f(width, -height, 0), SbVec3f(-width, -height, 0)), ptOnThis, ptOnLine2))
+		//	if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
+		//		obj[objCount++] = ptOnThis;
+		//if (objLine.getClosestPoints(SbLine(SbVec3f(-width, height, 0), SbVec3f(width, height, 0)), ptOnThis, ptOnLine2))
+		//	if ((ptOnThis == ptOnThis) && (ptOnThis.length() <= SbVec2f(width, height).length()))
+		//		obj[objCount++] = ptOnThis;
 
-		if (objCount != 2)
+
+		//if (objCount != 2)
+		if ( !intersected )
 		{
 			// no intersection
+			//XipDebug::output("no intersection line box intersection\n");
 			return;
 		}
 
@@ -261,7 +265,7 @@ void SoXipMprIntersectionLine::update()
 		dir = obj[1] - obj[0];
 		dir.normalize();
 
-		// check if center is on line and therfore valid
+		// check if center is on line and therefore valid
 		SbLine line(obj[0], obj[1]);
 		SbVec3f p = line.getClosestPoint(objCenter);
 		SbBool isValidCenter = p.equals(objCenter, XIP_FLT_EPSILON);
@@ -416,11 +420,16 @@ void SoXipMprIntersectionLine::update()
 			}
 		}
 	}
+	//else
+	//{
+	//	//XipDebug::output("no intersection");
+	//}
 }
 
 
 void SoXipMprIntersectionLine::clear()
 {
+	//XipDebug::output("%d: clear() is called\n", uniqueId);
 	const SbName lines[] = { "lineSet", "arrowLineSet", "gapLineSet", "crossLineSet" };
 	const SbName coords[] = { "lineCoord", "arrowCoord", "gapCoord", "crossCoord" };
 
@@ -451,15 +460,20 @@ void SoXipMprIntersectionLine::fieldSensorCB(SoSensor *sensor)
 
 void SoXipMprIntersectionLine::GLRender(SoGLRenderAction * action)
 {
+	//XipDebug::output("SoXipMprIntersectionLine::GLRender");
 	SbViewportRegion vpRegion = SoViewportRegionElement::get(action->getState());
 	float diff = mViewportAspectRatio - vpRegion.getViewportAspectRatio();
 
-	if (mNeedsUpdate || (fabs(diff) > 0.001))
+	//if (mNeedsUpdate || (fabs(diff) > 0.001))
 	{
 		mViewportAspectRatio = vpRegion.getViewportAspectRatio();
 		mNeedsUpdate = FALSE;
 		update();
 	}
+	//else
+	//{
+	//	XipDebug::output("%d: No need to update %d %f\n", uniqueId, (int)mNeedsUpdate, fabs(diff));
+	//}
 
 	// let's keep current lineWidth setting
 	float lineWidth = SoLineWidthElement::get(action->getState());
@@ -468,7 +482,17 @@ void SoXipMprIntersectionLine::GLRender(SoGLRenderAction * action)
 		style->lineWidth.setValue(lineWidth);
 
 	// draw nodekit
-	SoXipMprIntersectionLineKit::GLRender(action);
+	if (glIsEnabled(GL_LINE_SMOOTH) && !glIsEnabled(GL_BLEND))
+	{
+		// blending must be enabled in order for line smoothing to work
+		glEnable(GL_BLEND);
+		SoXipMprIntersectionLineKit::GLRender(action);
+		glDisable(GL_BLEND);
+	}
+	else
+	{
+		SoXipMprIntersectionLineKit::GLRender(action);
+	}
 }
 
 

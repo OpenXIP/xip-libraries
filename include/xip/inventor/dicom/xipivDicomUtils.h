@@ -137,6 +137,7 @@ struct XipDicomAttributes
 	unsigned short	bitsAllocated;
 	unsigned short	samplesPerPixel;
 	unsigned short	numberOfSlices;
+	unsigned short  pixelRepresentation;
 };
 
 /**

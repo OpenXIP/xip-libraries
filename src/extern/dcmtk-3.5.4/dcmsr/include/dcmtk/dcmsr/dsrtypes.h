@@ -554,6 +554,16 @@ class DSRTypes
         AM_belowCurrent
     };
 
+	/** Load XML Mode
+	*/
+	enum E_LoadXmlMode
+	{
+		/// Load XML from file
+		LXT_File,
+		/// Load XML from string
+		LXT_String
+	};
+
 
   // --- conversion functions ---
 

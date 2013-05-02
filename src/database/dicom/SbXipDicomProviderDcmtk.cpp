@@ -269,10 +269,16 @@ SbBool SbXipDicomProviderDcmtk::getPixelData(void *fileHandle, SbXipImage &image
 	double imageOrientationPatient[6] = { 1.0, 0.0, 0.0,
 		                                  0.0, -1.0, 0.0 };
 	double shearYZ = 0, shearXY = 0, shearXZ = 0;
+	OFString modality;
 
 
 	try
 	{
+		// modality
+		errorFlag = dataset->findAndGetOFString(DCM_Modality, modality);
+		if (!errorFlag.good())
+			throw "Modality";
+
 		// row
 		errorFlag = dataset->findAndGetUint16(DCM_Rows, height);
 		if (!errorFlag.good())
@@ -332,39 +338,93 @@ SbBool SbXipDicomProviderDcmtk::getPixelData(void *fileHandle, SbXipImage &image
 				element->getFloat64(zSpacing);
 		}
 
-		// pixel spacing
-		if ( dataset->search(DCM_PixelSpacing, stack) == EC_Normal )
+		if (modality == "RTIMAGE")
 		{
-			element = OFstatic_cast(DcmElement *, stack.top());
-
-			if (element->ident() == EVR_DS)
+			// pixel spacing
+			if ( dataset->search(DCM_ImagePlanePixelSpacing, stack) == EC_Normal )
 			{
-				for (unsigned int i = 0; i < element->getVM(); i++)
-					element->getFloat64(spacing[i], i);
+				element = OFstatic_cast(DcmElement *, stack.top());
+
+				if (element->ident() == EVR_DS)
+				{
+					for (unsigned int i = 0; i < element->getVM(); i++)
+						element->getFloat64(spacing[i], i);
+				}
+			}
+
+			// patient position
+			if ( dataset->search(DCM_RTImagePosition, stack) == EC_Normal )
+			{
+				element = OFstatic_cast(DcmElement *, stack.top());
+
+				if (element->ident() == EVR_DS)
+				{
+					for (unsigned int i = 0; i < element->getVM(); i++)
+						element->getFloat64(imagePositionPatient[i], i);
+				}
+			}
+
+			// patient orientation
+			if ( dataset->search(DCM_RTImageOrientation, stack) == EC_Normal )
+			{
+				element = OFstatic_cast(DcmElement *, stack.top());
+
+				if (element->ident() == EVR_DS)
+				{
+					for (unsigned int i = 0; i < element->getVM(); i++)
+						element->getFloat64(imageOrientationPatient[i], i);
+				}
 			}
 		}
-
-		// patient position
-		if ( dataset->search(DCM_ImagePositionPatient, stack) == EC_Normal )
+		else
 		{
-			element = OFstatic_cast(DcmElement *, stack.top());
-
-			if (element->ident() == EVR_DS)
+			// pixel spacing
+			if (modality == "XA" || modality == "CR")
 			{
-				for (unsigned int i = 0; i < element->getVM(); i++)
-					element->getFloat64(imagePositionPatient[i], i);
+				if ( dataset->search(DCM_ImagerPixelSpacing, stack) == EC_Normal )
+				{
+					element = OFstatic_cast(DcmElement *, stack.top());
+
+					if (element->ident() == EVR_DS)
+					{
+						for (unsigned int i = 0; i < element->getVM(); i++)
+							element->getFloat64(spacing[i], i);
+					}
+				}
 			}
-		}
-
-		// patient orientation
-		if ( dataset->search(DCM_ImageOrientationPatient, stack) == EC_Normal )
-		{
-			element = OFstatic_cast(DcmElement *, stack.top());
-
-			if (element->ident() == EVR_DS)
+			else if ( dataset->search(DCM_PixelSpacing, stack) == EC_Normal )
 			{
-				for (unsigned int i = 0; i < element->getVM(); i++)
-					element->getFloat64(imageOrientationPatient[i], i);
+				element = OFstatic_cast(DcmElement *, stack.top());
+
+				if (element->ident() == EVR_DS)
+				{
+					for (unsigned int i = 0; i < element->getVM(); i++)
+						element->getFloat64(spacing[i], i);
+				}
+			}
+
+			// patient position
+			if ( dataset->search(DCM_ImagePositionPatient, stack) == EC_Normal )
+			{
+				element = OFstatic_cast(DcmElement *, stack.top());
+
+				if (element->ident() == EVR_DS)
+				{
+					for (unsigned int i = 0; i < element->getVM(); i++)
+						element->getFloat64(imagePositionPatient[i], i);
+				}
+			}
+
+			// patient orientation
+			if ( dataset->search(DCM_ImageOrientationPatient, stack) == EC_Normal )
+			{
+				element = OFstatic_cast(DcmElement *, stack.top());
+
+				if (element->ident() == EVR_DS)
+				{
+					for (unsigned int i = 0; i < element->getVM(); i++)
+						element->getFloat64(imageOrientationPatient[i], i);
+				}
 			}
 		}
 
@@ -448,43 +508,40 @@ SbBool SbXipDicomProviderDcmtk::getPixelData(void *fileHandle, SbXipImage &image
 					compLayoutType = SbXipImage::RGB;
 				}
 
-				switch (pixelData->getVR())
+				if (bitsAllocated > 8)
 				{
-				case EVR_OW:
-					{
-						Uint16 *pixelBuffer = 0;
-						pixelData->getUint16Array(pixelBuffer);
-						image.init(
-							SbXipImageDimensions(width, height, numberOfSlices),
-							(pixelRepresentation == 1) ? SbXipImage::SHORT : SbXipImage::UNSIGNED_SHORT, 
-							bitsStored,
-							pixelBuffer + pixelOffset,
-							samplesPerPixel,
-							compType,
-							compLayoutType, 
-							modelMatrix);
-						returnCode = TRUE;
-					} break;
-
-				case EVR_OB:
-					{
-						Uint8 *pixelBuffer = 0;
-						pixelData->getUint8Array(pixelBuffer);
-
-						image.init(
-							SbXipImageDimensions(width, height, numberOfSlices),
-							SbXipImage::UNSIGNED_BYTE, 
-							bitsStored,
-							pixelBuffer + pixelOffset,
-							samplesPerPixel, 
-							compType,
-							compLayoutType, 
-							modelMatrix);
-						returnCode = TRUE;
-					} break;
-				default:
-					SoError::post("Unsupported value representation of pixel format.");
+					// 16 bit
+					Uint16 *pixelBuffer = 0;
+					pixelData->getUint16Array(pixelBuffer);
+					image.init(
+						SbXipImageDimensions(width, height, numberOfSlices),
+						(pixelRepresentation == 1) ? SbXipImage::SHORT : SbXipImage::UNSIGNED_SHORT, 
+						bitsStored,
+						pixelBuffer + pixelOffset,
+						samplesPerPixel,
+						compType,
+						compLayoutType, 
+						modelMatrix);
+					returnCode = TRUE;
 				}
+				else
+				{
+					// 8 bit
+					Uint8 *pixelBuffer = 0;
+					pixelData->getUint8Array(pixelBuffer);
+
+					image.init(
+						SbXipImageDimensions(width, height, numberOfSlices),
+						SbXipImage::UNSIGNED_BYTE, 
+						bitsStored,
+						pixelBuffer + pixelOffset,
+						samplesPerPixel, 
+						compType,
+						compLayoutType, 
+						modelMatrix);
+					returnCode = TRUE;
+				}
+				
 			}
 		}
 	}

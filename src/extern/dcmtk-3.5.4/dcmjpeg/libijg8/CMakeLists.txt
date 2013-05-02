@@ -82,7 +82,8 @@ jmemmgr.c
 jmemnobs.c
 jquant1.c
 jquant2.c
-jutils.c)
+jutils.c
+)
 
 #--------------------------------------------------------------------
 # Compile the library

@@ -306,7 +306,17 @@ protected:
 	IMGINFO		info;					//image information
 
 private:
-			
+
+#if defined(WIN64)
+    inline static int CPU()
+    {
+        // SSE2 is always supported on x64 architectures
+        // Haven't found out how to check for SSE3 and higher...
+        // Just having WIN64 is, however/perhaps, not a guarantee
+        // to have SSE2 or Intel 64-bit CPU...
+        return 3;
+    }
+#elif defined(WIN32)
 		inline static int CPU() 
 		{
 			unsigned int info;
@@ -338,7 +348,14 @@ private:
 			return 0;  // Legacy
 			  
 		}
-
+#else
+    // This code needs to be revised for non Windows support
+    // How to determine proper CPU type and SSE support...
+    inline static int CPU()
+    {
+        return 0;
+    }
+#endif
 		int cpuID;
 
 		unsigned char* Temp1;

@@ -134,7 +134,7 @@ protected:
 	virtual ~SoXipMprPlaneElement();
 
 public:
-	static void	add(SoState *state, SoNode *node, const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, SoSFMatrix *planeField, SoSFVec3f *centerField);
+	static void	add(SoState *state, SoNode *node, const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, float thickness, SoSFMatrix *planeField, SoSFVec3f *centerField);
 	static SoXipMprPlaneElement* getInstance(SoState *state);
 
 	virtual void init(SoState *state);
@@ -150,12 +150,14 @@ public:
 	virtual const SbColor& getColor(int index) const; 
 	virtual const int getId(int index) const; 
 	virtual const float getStepSize(int index) const; 
+	virtual const float getThickness(int index) const;
 
 protected:
-	virtual void addToElt(const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, SoSFMatrix *planeField, SoSFVec3f *centerField);
+	virtual void addToElt(const SbMatrix &planeMatrix, const SbVec3f &center, const SbColor &color, int id, float stepSize, float thickness, SoSFMatrix *planeField, SoSFVec3f *centerField);
 
 	SbPList mMprPlanes;
 	int	mStartIndex;
 };
 
 #endif // SOXIPMPRPLANEELEMENT_H
+

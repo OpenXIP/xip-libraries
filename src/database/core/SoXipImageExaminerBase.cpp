@@ -124,10 +124,7 @@
 #include <xip/inventor/core/SbXipImage.h>
 #include <xip/inventor/core/SoXipSFDataImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>
-#include <xip/inventor/dicom/SoXipSFDataDicom.h>
 #include <xip/inventor/core/SoXipDataImageElement.h>
-#include <xip/inventor/dicom/SoXipDataDicomElement.h>
-#include <xip/inventor/dicom/SoXipDataDicom.h>
 #include "SoXipImageExaminerBase.h"
 
 #include <algorithm>
@@ -149,6 +146,10 @@ SoXipImageExaminerBase::SoXipImageExaminerBase()
 	SO_NODE_DEFINE_ENUM_VALUE( ModeType, SHIFTSCROLL );
 	SO_NODE_SET_SF_ENUM_TYPE( mode, ModeType );
 
+	SO_NODE_DEFINE_ENUM_VALUE( ScrollScopeType, ALL_IMAGES );
+	SO_NODE_DEFINE_ENUM_VALUE( ScrollScopeType, CURRENT_IMAGE );
+	SO_NODE_SET_SF_ENUM_TYPE( scrollScope, ScrollScopeType );
+
 	SO_NODE_ADD_FIELD(       drawImage, (TRUE) );
 	SO_NODE_ADD_FIELD(      imageIndex, (0) );
 	SO_NODE_ADD_FIELD(   previousImage, () );
@@ -156,9 +157,11 @@ SoXipImageExaminerBase::SoXipImageExaminerBase()
 	SO_NODE_ADD_FIELD(      sliceIndex, (-1) );
 	SO_NODE_ADD_FIELD(   previousSlice, () );
 	SO_NODE_ADD_FIELD(       nextSlice, () );
+	SO_NODE_ADD_FIELD(     scrollScope, (ALL_IMAGES) );
 	SO_NODE_ADD_FIELD(         viewAll, () );
 	SO_NODE_ADD_FIELD(    viewAllScale, (0.8) );
 	SO_NODE_ADD_FIELD(            mode, (NONE) );
+	SO_NODE_ADD_FIELD(			 plane, (SbMatrix::identity()));
 
 	SoField* fields[6] = { &viewAll, &nextImage, &previousImage, &nextSlice, &previousSlice, &mode };
 	for( int i = 0; i < 6; ++ i )
@@ -178,6 +181,7 @@ SoXipImageExaminerBase::SoXipImageExaminerBase()
 	mAnimatePosition = SbVec2f(0, 0);
 	mAnimateChange = 0;
 	mAnimationSensor = 0;
+	mShiftOrScroll = 0;
     mAnimateLock[0] = FALSE;
     mAnimateLock[1] = FALSE;
 
@@ -293,6 +297,12 @@ SoXipImageExaminerBase::onAnimationTimer()
 		SbVec2f abs_step;
 		abs_step[0] = fabs( mAnimateStep[0] );
 		abs_step[1] = fabs( mAnimateStep[1] );
+		
+		if (abs_step[0] <= 0 || abs_step[1] <= 0)
+		{
+			SoDebugError::postInfo(__FILE__, "Animate step must be strictly positive");
+			return;
+		}
         
         if( mode.getValue() == SHIFTSCROLL && !mAnimateLock[0] && !mAnimateLock[1] )
 		{
@@ -312,14 +322,14 @@ SoXipImageExaminerBase::onAnimationTimer()
 		inc[0] = (int) newPosition[0] - (int) mAnimatePosition[0];
 		inc[1] = (int) newPosition[1] - (int) mAnimatePosition[1];
 
-		if( !mAnimateLock[1] && inc[0] > 0 )
+		if( (mShiftOrScroll == 1) && !mAnimateLock[1] && inc[0] > 0 )
 		{
 			if( forward[0] )
 				increaseImageIndex( inc[0] );
 			else
 				decreaseImageIndex( inc[0] );
 		}
-		if( !mAnimateLock[0] && inc[1] > 0 )
+		if( (mShiftOrScroll == 2) && !mAnimateLock[0] && inc[1] > 0 )
 		{
 			if( forward[1] )
 				increaseSliceIndex( inc[1] );
@@ -396,8 +406,8 @@ SoXipImageExaminerBase::increaseSliceIndex( int count )
 	int newSliceIndex = sliceIndex.getValue();
 	int newImageIndex = imageIndex.getValue();
 
-	if( newImageIndex < 0 || newImageIndex >= (int)getNumImages() ||
-		newSliceIndex < 0 || newSliceIndex >= (int)getNumSlices( newImageIndex ) )
+	if( newImageIndex < 0 || newImageIndex >= static_cast<int>(getNumImages()) ||
+		newSliceIndex < 0 || newSliceIndex >= static_cast<int>(getNumSlices( newImageIndex )) )
 	{
 		SoDebugError::post( __FILE__, "Invalid index" );
 		return ;
@@ -405,14 +415,14 @@ SoXipImageExaminerBase::increaseSliceIndex( int count )
 
 	while( count > 0 )
 	{
-		if( newSliceIndex < int(getNumSlices( newImageIndex )) - 1 )
+		if( newSliceIndex < static_cast<int>(getNumSlices( newImageIndex )) - 1 )
 			++ newSliceIndex;
 
-		else 
+		else if (scrollScope.getValue() == ALL_IMAGES)
 		{			
 			// If in LOOP mode, look if there any image after we
 			// could switch to (and load its first slice)
-			if( newImageIndex < int(getNumImages()) - 1 )
+			if( newImageIndex < static_cast<int>(getNumImages()) - 1 )
 			{
 				++ newImageIndex;
 			}
@@ -439,8 +449,8 @@ SoXipImageExaminerBase::decreaseSliceIndex( int count )
 	int newSliceIndex = sliceIndex.getValue();
 	int newImageIndex = imageIndex.getValue();
 
-	if( newImageIndex < 0 || newImageIndex >= (int)getNumImages() ||
-		newSliceIndex < 0 || newSliceIndex >= (int)getNumSlices( newImageIndex ) )
+	if( newImageIndex < 0 || newImageIndex >= static_cast<int>(getNumImages()) ||
+		newSliceIndex < 0 || newSliceIndex >= static_cast<int>(getNumSlices( newImageIndex )) )
 	{
 		SoDebugError::post( __FILE__, "Invalid index" );
 		return ;
@@ -451,7 +461,7 @@ SoXipImageExaminerBase::decreaseSliceIndex( int count )
 		if( newSliceIndex > 0 )
 			-- newSliceIndex;
 
-		else //if( dogEarScope.getValue() == ALL_IMAGES )
+		else if (scrollScope.getValue() == ALL_IMAGES)
 		{			
 			// If in LOOP mode, look if there any image before we
 			// could switch to (and load its last slice)
@@ -461,10 +471,10 @@ SoXipImageExaminerBase::decreaseSliceIndex( int count )
 			}
 			else
 			{
-				newImageIndex = getNumImages() - 1;
+				newImageIndex = static_cast<int>(getNumImages()) - 1;
 			}
 			
-			newSliceIndex = getNumSlices( newImageIndex ) - 1;
+			newSliceIndex = static_cast<int>(getNumSlices( newImageIndex )) - 1;
 		}
 
 		-- count;
@@ -501,10 +511,12 @@ SoXipImageExaminerBase::updateCamera()
 		
 		mImageModelMatrix = image->getModelMatrix();
 	}
+
+	updatePlane();
 }
 
 void 
-SoXipImageExaminerBase::adjustCamera( SoGLRenderAction* action, const SbMatrix& model )
+SoXipImageExaminerBase::adjustCamera( SoGLRenderAction*, const SbMatrix& model )
 {
 	SbVec3f imageAxis[3];
 	imageAxis[0] = model[0];
@@ -535,7 +547,48 @@ SoXipImageExaminerBase::adjustCamera( SoGLRenderAction* action, const SbMatrix& 
 
 	getCamera()->focalDistance.setValue( 0 );
 	getCamera()->nearDistance.setValue( -1 );
-	getCamera()->farDistance.setValue( 1. );	
+	getCamera()->farDistance.setValue( 1. );
+	
+	updatePlane();
+}
+
+
+void 
+SoXipImageExaminerBase::updatePlane()
+{
+	// update mpr plane
+	SbMatrix matrix = mImageModelMatrix;
+
+	// when using get/setTransform, the rotation is derived from normal vector
+	// but for gantry tilt, we need to compute normal from row and column vector
+	SbVec3f rot[3];
+	rot[0] = SbVec3f(matrix[0][0], matrix[0][1], matrix[0][2]);
+	rot[1] = SbVec3f(matrix[1][0], matrix[1][1], matrix[1][2]);
+	rot[2] = rot[0].cross(rot[1]);
+
+	rot[0].normalize();
+	rot[1].normalize();
+	rot[2].normalize();
+
+	float h = getCamera()->height.getValue();
+	rot[0] *= h;
+	rot[1] *= h;
+	rot[2] *= h;
+
+	SbVec3f p = getCamera()->position.getValue();
+	matrix = SbMatrix(
+		rot[0][0], rot[0][1], rot[0][2], 0,
+		rot[1][0], rot[1][1], rot[1][2], 0,
+		rot[2][0], rot[2][1], rot[2][2], 0,
+		p[0], p[1], p[2], 1);
+
+	// flip default viewing direction: the view direction must point to the 
+	// opposite direction of the normal of the image
+	SbMatrix tmp = SbMatrix::identity();
+	tmp.setRotate(SbRotation(SbVec3f(1, 0, 0), M_PI));
+	matrix = tmp * matrix;
+
+	plane.setValue(matrix);
 }
 
 void 
@@ -564,7 +617,14 @@ SoXipImageExaminerBase::GLRender( SoGLRenderAction* action )
 {
 	SbXipImage* image = 0;
 
+	if (!mImage)
+		return;
+
 	SoField* imageField = mImage->getField( SbName("image") );
+
+	if (!imageField)
+		return;
+
 	SoXipDataImage* dataImage = ((SoXipSFDataImage *) imageField)->getValue();
 	if( dataImage )
 		image = dataImage->get();
@@ -579,12 +639,15 @@ SoXipImageExaminerBase::GLRender( SoGLRenderAction* action )
 		mViewAll = FALSE;
 	}
 
-	// Set the Dicom Element
+	// Set the Image Element
 	setElement( action );
 
-	mImageSwitch->enableNotify( FALSE );
-	((SoSFInt32 *) mImageSwitch->getField(SbName("whichChild")))->setValue( drawImage.getValue() ? 0 : -1 );
-	mImageSwitch->enableNotify( TRUE );
+	if (mImageSwitch)
+	{
+		mImageSwitch->enableNotify( FALSE );
+		((SoSFInt32 *) mImageSwitch->getField(SbName("whichChild")))->setValue( drawImage.getValue() ? 0 : -1 );
+		mImageSwitch->enableNotify( TRUE );
+	}
 	
 	SoXipKit::GLRender( action );
 }
@@ -592,7 +655,7 @@ SoXipImageExaminerBase::GLRender( SoGLRenderAction* action )
 void 
 SoXipImageExaminerBase::rayPick( SoRayPickAction* action )
 {
-	// Set the Dicom Element
+	// Set the Image Element
 	setElement( action );
 
 	action->getState()->push();
@@ -618,7 +681,7 @@ SoXipImageExaminerBase::rayPick( SoRayPickAction* action )
 void 
 SoXipImageExaminerBase::handleEvent( SoHandleEventAction* action )
 {
-	// Set the Dicom Element
+	// Set the Image Element
 	setElement( action );
 
 	// Call base class first
@@ -727,6 +790,10 @@ SoXipImageExaminerBase::handleEvent( SoHandleEventAction* action )
 			{
 				step[0] = ( mousePos[0] - mLastMousePosition[0] ) * (float) mViewport.getViewportSizePixels()[0] / 200.;
 			}
+			if (mShiftOrScroll == 0 && mode.getValue() == SHIFTSCROLL)
+			{
+				mShiftOrScroll = (fabs(step[0]) > fabs(step[1])) ? 1 : 2;
+			}
 
 			// Change in direction: stop
 			if( !mAnimateLock[0] && mAnimateStep[1] < 0 && step[1] > 0 ||
@@ -775,6 +842,7 @@ SoXipImageExaminerBase::handleEvent( SoHandleEventAction* action )
         // Keep lock until mouse is released
         mAnimateLock[0] = FALSE;
         mAnimateLock[1] = FALSE;
+		mShiftOrScroll = 0;
 
 		action->releaseGrabber();
 		action->setHandled();

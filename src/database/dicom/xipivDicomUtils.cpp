@@ -308,6 +308,11 @@ XipDicomAttributes getAttributesFromDicom( DcmDataset* dataset )
 		if (!errorFlag.good())
 			goto error;
 
+		// pixel representation
+		errorFlag = dataset->findAndGetUint16(DCM_PixelRepresentation, dicomAttributes.pixelRepresentation);
+		if (!errorFlag.good())
+			goto error;
+
 		// number of slices
 		if ( dataset->search(DCM_NumberOfSlices, stack) == EC_Normal )
 		{
@@ -386,7 +391,9 @@ SbXipImage* createImage(DcmDataset* dataSet)
 		{
 			// 16 bit
 			image = new SbXipImage(SbXipImageDimensions(dicomAttributes.width, dicomAttributes.height, dicomAttributes.numberOfSlices), 
-									SbXipImageDimensions(dicomAttributes.width, dicomAttributes.height, dicomAttributes.numberOfSlices), SbXipImage::UNSIGNED_SHORT, dicomAttributes.bitsStored, 
+									SbXipImageDimensions(dicomAttributes.width, dicomAttributes.height, dicomAttributes.numberOfSlices), 
+									(dicomAttributes.pixelRepresentation == 1) ? SbXipImage::SHORT : SbXipImage::UNSIGNED_SHORT, 
+									dicomAttributes.bitsStored, 
 									1, SbXipImage::SEPARATE, SbXipImage::LUMINANCE, modelMatrix);
 
 		}
@@ -550,7 +557,9 @@ SbXipImage* createImage( DcmDataset** dataset, unsigned int num )
 		{
 			// 16 bit
 			image = new SbXipImage(SbXipImageDimensions(dicomAttributes.width, dicomAttributes.height, depth), 
-				                   SbXipImageDimensions(dicomAttributes.width, dicomAttributes.height, depth), SbXipImage::UNSIGNED_SHORT, dicomAttributes.bitsStored, 
+				                   SbXipImageDimensions(dicomAttributes.width, dicomAttributes.height, depth), 
+								   (dicomAttributes.pixelRepresentation == 1) ? SbXipImage::SHORT : SbXipImage::UNSIGNED_SHORT, 
+								   dicomAttributes.bitsStored, 
 				                   1, SbXipImage::SEPARATE, SbXipImage::LUMINANCE, modelMatrix);
 
 		}

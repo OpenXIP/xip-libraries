@@ -155,9 +155,7 @@ XipWorldToImageConvert::getNormalizedPos( const SbVec3f& worldPt ) const
 	return index3f;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+/////////////////////////////////////////////////////////////////////
 XipImageToWorldConvert::XipImageToWorldConvert( const SbMatrix& imageModelMatrix,
 											    const SbXipImageDimensions& dimensions )
 	: mModelMatrix( imageModelMatrix ),
@@ -169,9 +167,9 @@ SbVec3f
 XipImageToWorldConvert::get3DPoint( const SbVec3f& index ) const
 {
 	SbVec3f index3f; 
-	index3f[0] = (float) (index[0] / mDimensions[0]);
-	index3f[1] = (float) (index[1] / mDimensions[1]);
-	index3f[2] = (float) (index[2] / mDimensions[2]);
+	index3f[0] = (float) ( (index[0] - .5) / mDimensions[0]);
+	index3f[1] = (float) ( (index[1] - .5) / mDimensions[1]);
+	index3f[2] = (float) ( (index[2] - .5) / mDimensions[2]);
 
 	SbVec3f world3f;
 	mModelMatrix.multVecMatrix(index3f, world3f);

@@ -119,4 +119,9 @@ XIPIVCORE_API
 SbBool
 readImage( const char* file, unsigned int offset, SbXipImage& image );
 
+XIPIVCORE_API
+SbBool 
+writeImage( const char* file, unsigned int offset, SbXipImage& image );
+
 #endif // SBXIPIMAGEFILE_H
+

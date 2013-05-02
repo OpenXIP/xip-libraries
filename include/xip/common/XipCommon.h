@@ -106,21 +106,22 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
+ *  
  */
-
-#ifndef _XIP_COMMON_H
-#define _XIP_COMMON_H
+#ifndef XIPCOMMON_H
+#define XIPCOMMON_H
 // use XIPCOMMON_API only for classes that are needed in other libraries
 
 #ifdef WIN32
-	#ifdef XIPCOMMON_EXPORTS
+	#ifdef  XIPCOMMON_EXPORTS
 		#define XIPCOMMON_API __declspec(dllexport)
 	#else
 		#define XIPCOMMON_API __declspec(dllimport)
 	#endif
-#else // WIN32
+#else
 	// no export needed for non-Windows platforms
 	#define XIPCOMMON_API 
-#endif // WIN32
+#endif
 
-#endif // _XIP_COMMON_H
+
+#endif

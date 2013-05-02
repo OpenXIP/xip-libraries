@@ -120,6 +120,7 @@
 #include <xip/inventor/core/SoXipDataImage.h>
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/actions/SoGLRenderAction.h>
+#include <Inventor/fields/SoSFTrigger.h>
 #include <Inventor/fields/SoSFVec2s.h>
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/fields/SoSFFloat.h>
@@ -144,7 +145,8 @@ public:
 	SoSFFloat	samplingRate;
 	// Should the sampling rate be affected by complexity element?
 	SoSFBool	useComplexity;
-
+    // Trigger to indicate update
+    SoSFTrigger nodeUpdated;
 	// Output field that shows what the LUT texture size is
 	SoSFVec2s	textureSize;
 
@@ -178,3 +180,5 @@ protected:
 };
 
 #endif
+
+

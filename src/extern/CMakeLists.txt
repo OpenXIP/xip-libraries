@@ -7,7 +7,7 @@ project(extern)
 # Recurse into subdirectories
 #
 if(WIN32)
-  add_subdirectory(zlib-1.2.3)
+  #add_subdirectory(zlib-1.2.3)
   add_subdirectory(freetype-2.2.1)
   add_subdirectory(jpeg-6b)
   add_subdirectory(libiconv-1.11)
@@ -18,8 +18,12 @@ else(WIN32)
     ${XIP_SOURCE_DIR}/../libiconv-1.12/lib/.libs)
 endif(WIN32)
 
+add_subdirectory(TinyXMLcpp-2.5.3)
+
 if(HAS_DCMTK)
   add_subdirectory(dcmtk-3.5.4)
 endif(HAS_DCMTK)
 
-add_subdirectory(inventor)
+if(BUILD_INVENTOR)
+    add_subdirectory(inventor)
+endif(BUILD_INVENTOR)

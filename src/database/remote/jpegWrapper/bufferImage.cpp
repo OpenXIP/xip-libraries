@@ -120,12 +120,19 @@ bool bufferImage::restoreBuffer(unsigned char *buffer, unsigned char alpha, unsi
 	{
 		for(unsigned long loop = 0 ; loop < bufferSize; loop +=8)
 		{   
+#ifdef WIN64 // MMX Instructions not supported by MS Visual Studio in 64-bit
+                        // This code should be rewritten, call to memcpy for 3 bytes is
+                        // not very efficient...
+			memcpy(((unsigned char *)buffer+loop),(getBitsPtr()+(rgb+=3)) ,3);
+			*((unsigned char *)buffer+loop+3) = 255;
+#else
 			_mm_empty();
 			*(__m64*)((unsigned char *)buffer+loop) = 
 			_mm_setr_pi8(*(getBitsPtr()+(rgb)),	*(getBitsPtr()+(rgb+1)), *(getBitsPtr()+(rgb+2)), alpha,
 			             *(getBitsPtr()+(rgb+4)), *(getBitsPtr()+(rgb+5)), *(getBitsPtr()+(rgb+6)), alpha);
 			_mm_empty();
 			rgb+=6;
+#endif
 		}
 		return true;
 	}
@@ -151,6 +158,12 @@ bool bufferImage::restoreBuffer(unsigned char *buffer, unsigned char *alpha, uns
 	{
 		for(unsigned long loop = 0 ; loop < bufferSize; loop +=8)
 		{   
+#ifdef WIN64 // MMX Instructions not supported by MS Visual Studio in 64-bit
+                        // This code should be rewritten, call to memcpy for 3 bytes is
+                        // not very efficient...
+			memcpy(((unsigned char *)buffer+loop),(getBitsPtr()+(rgbCount+=3)) ,3);
+			*((unsigned char *)buffer+loop+3) = *(alpha+(aCount+=1));
+#else
 			_mm_empty();
 			*(__m64*)((unsigned char *)buffer+loop) = 
 			_mm_setr_pi8(*(getBitsPtr()+(rgbCount)), *(getBitsPtr()+(rgbCount+1)), *(getBitsPtr()+(rgbCount+2)), *(alpha+aCount),
@@ -158,6 +171,7 @@ bool bufferImage::restoreBuffer(unsigned char *buffer, unsigned char *alpha, uns
 			_mm_empty();
 			rgbCount+=6;
 			aCount+=2;
+#endif
 		}
 		return true;
 	}

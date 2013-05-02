@@ -130,11 +130,11 @@ SO_NODE_SOURCE(SoXipGLSLUniformGroup);
 */
 SoXipGLSLUniformGroup::SoXipGLSLUniformGroup(void)
 {
-	SO_NODE_CONSTRUCTOR(XipGLSLUniformGroup);
+	SO_NODE_CONSTRUCTOR(SoXipGLSLUniformGroup);
     SO_NODE_ADD_FIELD(prgTags,(""));
 
     mNumPrograms = 0;
-    mProgramTimeStamps = (int*)calloc(GLSL_MAX_NUM_SHADERS, sizeof(int));
+    mProgramTimeStamps = (unsigned __int64*)calloc(GLSL_MAX_NUM_SHADERS, sizeof(unsigned __int64));
     mNodeId = 0;
     mNeedsUpdate = true;
 }
@@ -191,21 +191,34 @@ void SoXipGLSLUniformGroup::groupUpdate(SoAction * action)
         mNumPrograms = GLSL_MAX_NUM_SHADERS;
     }
 
+    for (int i = 0; i < mNumPrograms; i++)
+    {
 /*
     To prevent uniforms from updating every frame
     we only update the uniform if the time stamp
     of the selected shader is out of date or if
     anything has changed among the uniforms such
-    as names or values
+    as names or values.
+
+    TODO: This fix do not work since we have no
+    way of knowing if other instances of this
+    node also changes the same uniforms. Since
+    this will not change the timestamp in the
+    manager the uniform remains as last updated
+    and fix don't work.
+
+    No solution to the problem yet!
+    Stefan Lindholm
 */
-    int currTime;
-    for (int i = 0; i < mNumPrograms; i++)
-    {
 #if 0
-        SoXipGLSLShaderProgramElement::set(action->getState(), prgTags[i].getString());
-        children->traverse(action);
+        int handle = SoXipGLSLShaderProgramElement::getProgramID(action->getState(), prgTags[i].getString());
+        if (glIsProgram(handle))
+        {
+            SoXipGLSLShaderProgramElement::set(action->getState(), prgTags[i].getString());
+            children->traverse(action);
+        }
 #else
-        currTime = SoXipGLSLShaderProgramElement::getTimeStamp(action->getState(), prgTags[i].getString());
+        unsigned __int64 currTime = SoXipGLSLShaderProgramElement::getTimeStamp(action->getState(), prgTags[i].getString());
         if (currTime != mProgramTimeStamps[i] || mNeedsUpdate)
         {
             SoXipGLSLShaderProgramElement::set(action->getState(), prgTags[i].getString());

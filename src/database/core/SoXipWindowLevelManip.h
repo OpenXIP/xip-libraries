@@ -112,8 +112,10 @@
 #ifndef SOXIPWINDOWLEVELMANIP_H
 #define SOXIPWINDOWLEVELMANIP_H
 
+#include <Inventor/SbTime.h>
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/fields/SoSFFloat.h>
+#include <Inventor/fields/SoSFTrigger.h>
 #include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
@@ -133,11 +135,11 @@ public:
 		BUTTON3 = SoMouseButtonEvent::BUTTON3
 	};
 
-	SoSFEnum  mouse;
-
-	SoSFFloat window;
-	SoSFFloat level;
-	SoSFBool  handleComplexity;
+	SoSFEnum    mouse;
+	SoSFFloat   window;
+	SoSFFloat   level;
+	SoSFBool    handleComplexity;
+	SoSFTrigger autoWindowing;
 
 protected:
 	virtual ~SoXipWindowLevelManip();
@@ -149,6 +151,7 @@ protected:
 	float		mDefaultWindow;
 	float		mDefaultLevel;
 	SbVec2s mLastMousePosition;
+	SbTime mLastEventTime;
 };
 
 

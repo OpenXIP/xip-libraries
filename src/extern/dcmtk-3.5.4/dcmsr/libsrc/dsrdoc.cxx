@@ -68,7 +68,19 @@ DSRDocument::DSRDocument(const E_DocumentType documentType)
     PatientID(DCM_PatientID),
     PatientsBirthDate(DCM_PatientsBirthDate),
     PatientsSex(DCM_PatientsSex),
+	sponsorName(DCM_ClinicalTrialSponsorName),
+	protocolID(DCM_ClinicalTrialProtocolID),
+	protocolName(DCM_ClinicalTrialProtocolName),
+	siteID(DCM_ClinicalTrialSiteID),
+	siteName(DCM_ClinicalTrialSiteName),
+	subjectID(DCM_ClinicalTrialSubjectID),
+	subjectReadingID(DCM_ClinicalTrialSubjectReadingID),
+	timepointUID(DCM_ClinicalTrialTimePointID),
+	timepointDescription(DCM_ClinicalTrialTimePointDescription),
     Manufacturer(DCM_Manufacturer),
+	InstitutionName(DCM_InstitutionName),
+	StationName(DCM_StationName),
+	ManufacturersModelName(DCM_ManufacturersModelName),
     Modality(DCM_Modality),
     SeriesInstanceUID(DCM_SeriesInstanceUID),
     SeriesNumber(DCM_SeriesNumber),
@@ -125,7 +137,19 @@ void DSRDocument::clear()
     PatientID.clear();
     PatientsBirthDate.clear();
     PatientsSex.clear();
+	sponsorName.clear();
+	protocolID.clear();
+	protocolName.clear();
+	siteID.clear();
+	siteName.clear();
+	subjectID.clear();
+	subjectReadingID.clear();
+	timepointUID.clear();
+	timepointDescription.clear();
     Manufacturer.clear();
+	InstitutionName.clear();
+	StationName.clear();
+	ManufacturersModelName.clear();
     Modality.clear();
     SeriesInstanceUID.clear();
     SeriesNumber.clear();
@@ -205,6 +229,15 @@ OFCondition DSRDocument::print(ostream &stream,
             /* manufacturer */
             if (Manufacturer.getLength() > 0)
                 stream << "Manufacturer       : " << getPrintStringFromElement(Manufacturer, tmpString) << endl;
+			/* institution name */
+            if (InstitutionName.getLength() > 0)
+                stream << "Institution Name       : " << getPrintStringFromElement(InstitutionName, tmpString) << endl;
+			/* station name */
+            if (StationName.getLength() > 0)
+                stream << "Station Name       : " << getPrintStringFromElement(StationName, tmpString) << endl;
+			/* manufacturer's model name */
+            if (ManufacturersModelName.getLength() > 0)
+                stream << "Manufacturer's Model Name       : " << getPrintStringFromElement(ManufacturersModelName, tmpString) << endl;
             /* Key Object Selection Documents do not contain the SR Document General Module */
             if (getDocumentType() != DT_KeyObjectDoc)
             {
@@ -349,8 +382,24 @@ OFCondition DSRDocument::read(DcmItem &dataset,
         getAndCheckElementFromDataset(dataset, PatientsBirthDate, "1", "2", LogStream);
         getAndCheckElementFromDataset(dataset, PatientsSex, "1", "2", LogStream);
 
+		// --- Clinical Trial Subject Module ---
+        getAndCheckElementFromDataset(dataset, sponsorName, "1", "1", LogStream);
+        getAndCheckElementFromDataset(dataset, protocolID, "1", "1", LogStream);
+		getAndCheckElementFromDataset(dataset, protocolName, "1", "2", LogStream);
+        getAndCheckElementFromDataset(dataset, siteID, "1", "2", LogStream);
+		getAndCheckElementFromDataset(dataset, siteName, "1", "2", LogStream);
+        getAndCheckElementFromDataset(dataset, subjectID, "1", "1C", LogStream);
+		getAndCheckElementFromDataset(dataset, subjectReadingID, "1", "1C", LogStream);
+
+		// --- Clinical Trial Study Module ---
+        getAndCheckElementFromDataset(dataset, timepointUID, "1", "2", LogStream);
+        getAndCheckElementFromDataset(dataset, timepointDescription, "1", "3", LogStream);
+
         // --- General Equipment Module ---
         getAndCheckElementFromDataset(dataset, Manufacturer, "1", "2", LogStream);
+		getAndCheckElementFromDataset(dataset, InstitutionName, "1", "3", LogStream);
+		getAndCheckElementFromDataset(dataset, StationName, "1", "3", LogStream);
+		getAndCheckElementFromDataset(dataset, ManufacturersModelName, "1", "3", LogStream);
 
         // --- SR Document Series Module ---
         getElementFromDataset(dataset, Modality);   /* already checked */
@@ -460,8 +509,24 @@ OFCondition DSRDocument::write(DcmItem &dataset,
         addElementToDataset(result, dataset, new DcmDate(PatientsBirthDate));
         addElementToDataset(result, dataset, new DcmCodeString(PatientsSex));
 
+		// --- Clinical Trial Subject Module ---
+        addElementToDataset(result, dataset, new DcmLongString(sponsorName));
+        addElementToDataset(result, dataset, new DcmLongString(protocolID));
+		addElementToDataset(result, dataset, new DcmLongString(protocolName));
+        addElementToDataset(result, dataset, new DcmLongString(siteID));
+		addElementToDataset(result, dataset, new DcmLongString(siteName));
+        addElementToDataset(result, dataset, new DcmLongString(subjectID));
+		addElementToDataset(result, dataset, new DcmLongString(subjectReadingID));
+
+		// --- Clinical Trial Study Module ---
+        addElementToDataset(result, dataset, new DcmLongString(timepointUID));
+        addElementToDataset(result, dataset, new DcmLongString(timepointDescription));
+
         // --- General Equipment Module ---
         addElementToDataset(result, dataset, new DcmLongString(Manufacturer));
+		addElementToDataset(result, dataset, new DcmLongString(InstitutionName));
+		addElementToDataset(result, dataset, new DcmShortString(StationName));
+		addElementToDataset(result, dataset, new DcmLongString(ManufacturersModelName));
 
         // --- SR Document Series Module ---
         addElementToDataset(result, dataset, new DcmCodeString(Modality));
@@ -506,12 +571,13 @@ OFCondition DSRDocument::write(DcmItem &dataset,
 
 
 OFCondition DSRDocument::readXML(const OFString &filename,
-                                 const size_t flags)
+                                 const size_t flags,
+								 const E_LoadXmlMode loadMode)
 {
     DSRXMLDocument doc;
     doc.setLogStream(LogStream);
     /* read, parse and validate XML document */
-    OFCondition result = doc.read(filename, flags);
+    OFCondition result = doc.read(filename, flags, loadMode);
     if (result.good())
     {
         /* re-initialize SR document */
@@ -553,6 +619,7 @@ OFCondition DSRDocument::readXMLDocumentHeader(DSRXMLDocument &doc,
     OFCondition result = SR_EC_InvalidDocument;
     if (doc.valid() && cursor.valid())
     {
+		OFString tmpString;
         result = EC_Normal;
         /* iterate over all nodes */
         while (cursor.valid() && result.good())
@@ -563,7 +630,6 @@ OFCondition DSRDocument::readXMLDocumentHeader(DSRXMLDocument &doc,
                 /* use "charset" to decode special characters (has to be at the beginning) */
                 if (!doc.encodingHandlerValid())
                 {
-                    OFString tmpString;
                     /* check for known character set */
                     setSpecificCharacterSet(doc.getStringFromNodeContent(cursor, tmpString));
                     const char *encString = characterSetToXMLName(SpecificCharacterSetEnum);
@@ -581,7 +647,6 @@ OFCondition DSRDocument::readXMLDocumentHeader(DSRXMLDocument &doc,
             }
             else if (doc.matchNode(cursor, "modality"))
             {
-                OFString tmpString;
                 /* compare the XML node content */
                 if (doc.getStringFromNodeContent(cursor, tmpString) != documentTypeToModality(getDocumentType()))
                     printWarningMessage(LogStream, "Invalid value for 'modality' ... ignoring");
@@ -593,15 +658,18 @@ OFCondition DSRDocument::readXMLDocumentHeader(DSRXMLDocument &doc,
                 if (childNode.valid())
                 {
                     /* Referring Physician's Name */
-                    OFString tmpString;
                     DSRPNameTreeNode::getValueFromXMLNodeContent(doc, childNode.getChild(), tmpString);
                     ReferringPhysiciansName.putString(tmpString.c_str());
                 }
             }
             else if (doc.matchNode(cursor, "patient"))
                 result = readXMLPatientData(doc, cursor.getChild(), flags);
+			else if (doc.matchNode(cursor, "clinicaltrialsubject"))
+                result = readXMLClinicalTrialSubjectData(doc, cursor.getChild(), flags);
             else if (doc.matchNode(cursor, "study"))
                 result = readXMLStudyData(doc, cursor, flags);
+			else if (doc.matchNode(cursor, "clinicaltrialstudy"))
+                result = readXMLClinicalTrialStudyData(doc, cursor, flags);
             else if (doc.matchNode(cursor, "series"))
                 result = readXMLSeriesData(doc, cursor, flags);
             else if (doc.matchNode(cursor, "instance"))
@@ -629,8 +697,26 @@ OFCondition DSRDocument::readXMLDocumentHeader(DSRXMLDocument &doc,
             }
             else if (doc.matchNode(cursor, "document"))
                 result = readXMLDocumentData(doc, cursor.getChild(), flags);
-            else if (doc.getElementFromNodeContent(cursor, Manufacturer, "manufacturer", OFTrue /*encoding*/).bad())
-                doc.printUnexpectedNodeWarning(cursor);
+			else if (doc.matchNode(cursor, "manufacturer"))
+            {
+				if (doc.getElementFromNodeContent(cursor, Manufacturer, "manufacturer", OFTrue /*encoding*/).bad())
+					doc.printUnexpectedNodeWarning(cursor);
+			}
+			else if (doc.matchNode(cursor, "institutionname"))
+            {
+				if (doc.getElementFromNodeContent(cursor, InstitutionName, "institutionname", OFTrue /*encoding*/).bad())
+		            doc.printUnexpectedNodeWarning(cursor);
+			}
+			else if (doc.matchNode(cursor, "stationname"))
+            {
+				if (doc.getElementFromNodeContent(cursor, StationName, "stationname", OFTrue /*encoding*/).bad())
+			        doc.printUnexpectedNodeWarning(cursor);
+			}
+			else if (doc.matchNode(cursor, "manufacturersmodelname"))
+            {
+				if (doc.getElementFromNodeContent(cursor, ManufacturersModelName, "manufacturersmodelname", OFTrue /*encoding*/).bad())
+					doc.printUnexpectedNodeWarning(cursor);
+			}
             /* print node error message (if any) */
             doc.printGeneralNodeError(cursor, result);
             /* proceed with next node */
@@ -668,6 +754,35 @@ OFCondition DSRDocument::readXMLPatientData(const DSRXMLDocument &doc,
             }
             else if (doc.getElementFromNodeContent(cursor, PatientID, "id").bad() &&
                      doc.getElementFromNodeContent(cursor, PatientsSex, "sex").bad())
+            {
+                doc.printUnexpectedNodeWarning(cursor);
+            }
+            /* proceed with next node */
+            cursor.gotoNext();
+        }
+    }
+    return result;
+}
+
+OFCondition DSRDocument::readXMLClinicalTrialSubjectData(const DSRXMLDocument &doc,
+														DSRXMLCursor cursor,
+														const size_t /*flags*/)
+{
+    OFCondition result = SR_EC_InvalidDocument;
+    if (cursor.valid())
+    {
+        OFString tmpString;
+        result = EC_Normal;
+        /* iterate over all nodes */
+        while (cursor.valid())
+        {
+            if (doc.getElementFromNodeContent(cursor, sponsorName, "sponsorname", OFTrue /*encoding*/).bad() &&
+                doc.getElementFromNodeContent(cursor, protocolID, "protocolid").bad() &&
+				doc.getElementFromNodeContent(cursor, protocolName, "protocolname").bad() &&
+				doc.getElementFromNodeContent(cursor, siteID, "siteid").bad() &&
+				doc.getElementFromNodeContent(cursor, siteName, "sitename").bad() &&
+				doc.getElementFromNodeContent(cursor, subjectID, "subjectid").bad() &&
+				doc.getElementFromNodeContent(cursor, subjectReadingID, "subjectreadingid").bad())
             {
                 doc.printUnexpectedNodeWarning(cursor);
             }
@@ -724,6 +839,31 @@ OFCondition DSRDocument::readXMLStudyData(const DSRXMLDocument &doc,
     return result;
 }
 
+OFCondition DSRDocument::readXMLClinicalTrialStudyData(const DSRXMLDocument &doc,
+													   DSRXMLCursor cursor,
+													   const size_t /*flags*/)
+{
+    OFCondition result = SR_EC_InvalidDocument;
+    if (cursor.valid())
+    {
+        /* get Series Instance UID from XML attribute */
+        result = doc.getElementFromAttribute(cursor, timepointUID, "uid");
+        /* goto first sub-element */
+        cursor.gotoChild();
+        /* iterate over all nodes */
+        while (cursor.valid())
+        {
+            /* check for known element tags */
+            if (doc.getElementFromNodeContent(cursor, timepointDescription, "description", OFTrue /*encoding*/).bad())
+            {
+                doc.printUnexpectedNodeWarning(cursor);
+            }
+            /* proceed with next node */
+            cursor.gotoNext();
+        }
+    }
+    return result;
+}
 
 OFCondition DSRDocument::readXMLSeriesData(const DSRXMLDocument &doc,
                                            DSRXMLCursor cursor,
@@ -983,6 +1123,9 @@ OFCondition DSRDocument::writeXML(ostream &stream,
         writeStringFromElementToXML(stream, SpecificCharacterSet, "charset", (flags & XF_writeEmptyTags) > 0);
         writeStringFromElementToXML(stream, Modality, "modality", (flags & XF_writeEmptyTags) > 0);
         writeStringFromElementToXML(stream, Manufacturer, "manufacturer", (flags & XF_writeEmptyTags) > 0);
+		writeStringFromElementToXML(stream, InstitutionName, "institutionname", (flags & XF_writeEmptyTags) > 0);
+		writeStringFromElementToXML(stream, StationName, "stationname", (flags & XF_writeEmptyTags) > 0);
+		writeStringFromElementToXML(stream, ManufacturersModelName, "manufacturersmodelname", (flags & XF_writeEmptyTags) > 0);
 
         if ((flags & XF_writeEmptyTags) || (ReferringPhysiciansName.getLength() > 0))
         {
@@ -1004,6 +1147,16 @@ OFCondition DSRDocument::writeXML(ostream &stream,
         writeStringFromElementToXML(stream, PatientsSex, "sex", (flags & XF_writeEmptyTags) > 0);
         stream << "</patient>" << endl;
 
+		stream << "<clinicaltrialsubject>" << endl;
+		writeStringFromElementToXML(stream, sponsorName, "sponsorname", (flags & XF_writeEmptyTags) > 0);
+        writeStringFromElementToXML(stream, protocolID, "protocolid", (flags & XF_writeEmptyTags) > 0);
+		writeStringFromElementToXML(stream, protocolName, "protocolname", (flags & XF_writeEmptyTags) > 0);
+        writeStringFromElementToXML(stream, siteID, "siteid", (flags & XF_writeEmptyTags) > 0);
+		writeStringFromElementToXML(stream, siteName, "sitename", (flags & XF_writeEmptyTags) > 0);
+		writeStringFromElementToXML(stream, subjectID, "subjectid", (flags & XF_writeEmptyTags) > 0);
+		writeStringFromElementToXML(stream, subjectReadingID, "subjectreadingid", (flags & XF_writeEmptyTags) > 0);
+        stream << "</clinicaltrialsubject>" << endl;
+
         stream << "<study uid=\"" << getMarkupStringFromElement(StudyInstanceUID, tmpString) << "\">" << endl;
         writeStringFromElementToXML(stream, StudyID, "id", (flags & XF_writeEmptyTags) > 0);
         StudyDate.getISOFormattedDate(tmpString);
@@ -1018,6 +1171,10 @@ OFCondition DSRDocument::writeXML(ostream &stream,
         }
         writeStringFromElementToXML(stream, StudyDescription, "description", (flags & XF_writeEmptyTags) > 0);
         stream << "</study>" << endl;
+
+		stream << "<clinicaltrialstudy uid=\"" << getMarkupStringFromElement(timepointUID, tmpString) << "\">" << endl;
+		writeStringFromElementToXML(stream, timepointDescription, "description", (flags & XF_writeEmptyTags) > 0);
+        stream << "</clinicaltrialstudy>" << endl;
 
         stream << "<series uid=\"" << getMarkupStringFromElement(SeriesInstanceUID, tmpString) << "\">" << endl;
         writeStringFromElementToXML(stream, SeriesNumber, "number", (flags & XF_writeEmptyTags) > 0);
@@ -1327,6 +1484,33 @@ OFCondition DSRDocument::renderHTML(ostream &stream,
                 stream << "<tr>" << endl;
                 stream << "<td><b>Manufacturer:</b></td>" << endl;
                 stream << "<td>" << convertToMarkupString(getStringValueFromElement(Manufacturer, tmpString), htmlString, convertNonASCII);
+                stream << "</td>" << endl;
+                stream << "</tr>" << endl;
+            }
+			/* institution name */
+            if (InstitutionName.getLength() > 0)
+            {
+                stream << "<tr>" << endl;
+                stream << "<td><b>Institution Name:</b></td>" << endl;
+                stream << "<td>" << convertToMarkupString(getStringValueFromElement(InstitutionName, tmpString), htmlString, convertNonASCII);
+                stream << "</td>" << endl;
+                stream << "</tr>" << endl;
+            }
+			/* station name */
+            if (StationName.getLength() > 0)
+            {
+                stream << "<tr>" << endl;
+                stream << "<td><b>Station Name:</b></td>" << endl;
+                stream << "<td>" << convertToMarkupString(getStringValueFromElement(StationName, tmpString), htmlString, convertNonASCII);
+                stream << "</td>" << endl;
+                stream << "</tr>" << endl;
+            }
+			/* manufacturer's model name */
+            if (ManufacturersModelName.getLength() > 0)
+            {
+                stream << "<tr>" << endl;
+                stream << "<td><b>Manufacturer's Model Name:</b></td>" << endl;
+                stream << "<td>" << convertToMarkupString(getStringValueFromElement(ManufacturersModelName, tmpString), htmlString, convertNonASCII);
                 stream << "</td>" << endl;
                 stream << "</tr>" << endl;
             }
@@ -1922,6 +2106,59 @@ OFCondition DSRDocument::setPatientsSex(const OFString &value)
     return PatientsSex.putString(value.c_str());
 }
 
+OFCondition DSRDocument::setSponsorsName(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return sponsorName.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setProtocolID(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return protocolID.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setProtocolName(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return protocolName.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setSiteID(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return siteID.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setSiteName(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return siteName.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setSubjectID(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return subjectID.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setSubjectReadingID(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return subjectReadingID.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setTimepointID(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return timepointUID.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setTimepointDescription(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return timepointDescription.putString(value.c_str());
+}
 
 OFCondition DSRDocument::setReferringPhysiciansName(const OFString &value)
 {
@@ -1929,6 +2166,17 @@ OFCondition DSRDocument::setReferringPhysiciansName(const OFString &value)
     return ReferringPhysiciansName.putString(value.c_str());
 }
 
+OFCondition DSRDocument::setStudyDate(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return StudyDate.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setStudyTime(const OFString &value)
+{
+	/* might add check for correct format (VR) later on */
+    return StudyTime.putString(value.c_str());
+}
 
 OFCondition DSRDocument::setStudyDescription(const OFString &value)
 {
@@ -1950,6 +2198,23 @@ OFCondition DSRDocument::setManufacturer(const OFString &value)
     return Manufacturer.putString(value.c_str());
 }
 
+OFCondition DSRDocument::setInstitutionName(const OFString &value)
+{
+    /* might add check for correct format (VR) later on */
+    return InstitutionName.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setStationName(const OFString &value)
+{
+    /* might add check for correct format (VR) later on */
+    return StationName.putString(value.c_str());
+}
+
+OFCondition DSRDocument::setManufacturersModelName(const OFString &value)
+{
+    /* might add check for correct format (VR) later on */
+    return ManufacturersModelName.putString(value.c_str());
+}
 
 OFCondition DSRDocument::setContentDate(const OFString &value)
 {

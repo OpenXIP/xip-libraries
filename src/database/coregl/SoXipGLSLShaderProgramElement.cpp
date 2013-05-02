@@ -27,7 +27,7 @@
 #include <xip/inventor/coregl/SoXipGLSLShaderProgramElement.h>
 #include <xip/inventor/coregl/SoXipGlowElement.h>
 
-#include "ShaderProgramManager.h"
+#include <xip/inventor/coregl/ShaderProgramManager.h>
 
 
 SO_ELEMENT_SOURCE(SoXipGLSLShaderProgramElement);
@@ -61,7 +61,10 @@ void SoXipGLSLShaderProgramElement::init(SoState * state )
  */
 void SoXipGLSLShaderProgramElement::updateGl(void)
 {
-    glUseProgram(this->data);
+    if (glIsProgram(this->data))
+        glUseProgram(this->data);
+    else
+        glUseProgram(0);
 }
 
 /**
@@ -160,22 +163,22 @@ int SoXipGLSLShaderProgramElement::getProgramID(SoState * const state,
     return prgHandle;
 }
 
-int SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
+unsigned __int64 SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
                                                 const SbString & prgTag)
 {
     ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-    int time = manager->getTimeStamp(prgTag.getString());
+    unsigned __int64 time = manager->getTimeStamp(prgTag.getString());
 
     return time;
 }
 
-int SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
+unsigned __int64 SoXipGLSLShaderProgramElement::getTimeStamp(SoState * const state,
                                                 const char * prgTag)
 {
     if (!prgTag) return 0;
 
     ShaderProgramManager * manager = ShaderProgramManager::getInstance();
-    int time = manager->getTimeStamp(prgTag);
+    unsigned __int64 time = manager->getTimeStamp(prgTag);
 
     return time;
 }

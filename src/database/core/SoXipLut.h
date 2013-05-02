@@ -145,7 +145,8 @@ public:
 		TRAPEZOID,
 		FILE,
 		ARRAY,
-		RAMP_FILE
+		RAMP_FILE,
+        RAMP_ARRAY
     };
 
     enum OutputType {
@@ -199,6 +200,9 @@ public:
 	// array parameters
 	SoMFColor arrayColor;
 	SoMFFloat arrayAlpha;
+
+	// flag
+	SoSFBool invertColor;
 
 protected:
 	virtual ~SoXipLut();

@@ -147,6 +147,7 @@ public:
 	SO_KIT_CATALOG_ENTRY_HEADER(camera);
 	SO_KIT_CATALOG_ENTRY_HEADER(annotation);
 	SO_KIT_CATALOG_ENTRY_HEADER(complexity);
+	SO_KIT_CATALOG_ENTRY_HEADER(interactionSwitch);
 	SO_KIT_CATALOG_ENTRY_HEADER(intersectionManip);
 	SO_KIT_CATALOG_ENTRY_HEADER(dogEarSwitch);
 	SO_KIT_CATALOG_ENTRY_HEADER(dogEarNode);
@@ -209,10 +210,13 @@ public:
         SoSFTrigger stepNext;
         SoSFTrigger stepPrevious;
 //	SoSFTrigger viewCenter;
-//	SoSFTrigger recenter;
+//	SoSFTrigger recenter
 	SoSFTrigger viewAll;
+        SoSFTrigger viewFirst;
+        SoSFTrigger viewLast;
 
 	SoSFBool rotatePinpoint;
+	SoSFBool manip;
 	SoSFBool pointTo;
 	SoSFBool dogEar;
 	SoSFBool border;
@@ -221,6 +225,8 @@ public:
 	SoSFFloat scaleHeight;
 	SoSFBool   stubs;
 	SoSFFloat  stubScale;
+	SoSFMatrix plane;
+	SoSFFloat accelerationFactor;
 
 
 protected:
@@ -238,12 +244,15 @@ protected:
 	virtual SbBool setUpConnections(SbBool onoff, SbBool doitalways = 0);
 	virtual void updateDogEarSensors(SbBool onoff);
 	virtual void scrollToCursor();
+	virtual SbRotation getDefaultOrientation(int orien);
 
 	virtual void zoomMprList(float scaleFactor);
 	virtual void rotateCam(SbRotation rotation, SbVec3f center, SbBool ignoreLock = FALSE);
 	virtual void panCam(SbVec3f translation);
 
 	virtual void updateMprElement(SoAction *action);
+    virtual void updateMprFirst(SoAction *action);
+    virtual void updateMprLast(SoAction *action);
 
 	// mouse/viewport handling
 	virtual SbVec2f getMousePosNormalized(SoHandleEventAction *action);
@@ -252,14 +261,16 @@ protected:
 	std::vector<SoFieldSensor *> mInputSensors;
 	SoFieldSensor *mDogEarNextSensor;
 	SoFieldSensor *mDogEarPreviousSensor;
+	SoFieldSensor *mOrientationCubeSensor;
 	SoTimerSensor *mTimerSensor;
-	SbBool mViewAll;
+	SbBool mViewAll, mViewFirst, mViewLast;
 	SbSphereSheetProjector *mSphereSheetProj;
 	SbViewVolume mViewVolume;
 	SbViewportRegion mVpRegion;
 	SbMatrix mViewTransform;
-	SbMatrix mMprModelMatrix;
+	SbMatrix mMprModelMatrix, mLastMprModelMatrix;
 	float mStepSize;
+	float mThickness;				//MPR thickness
 	SoSFMatrix *mMprMatrixField;
 	SoSFVec3f *mMprCenterField;
 	SbBox3f mBoundingBox;

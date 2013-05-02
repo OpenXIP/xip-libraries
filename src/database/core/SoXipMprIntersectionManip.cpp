@@ -110,7 +110,7 @@
  */
 
 #include "SoXipMprIntersectionManip.h"
-#include <xip/inventor/core/SoXipMprLockElement.h>
+#include <xip/inventor/core/SoXipMprLockElement.h>//coregl/SoXipGLOWElement
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/actions/SoPickAction.h>
 #include <Inventor/actions/SoCallbackAction.h>
@@ -132,7 +132,7 @@
 #include <xip/inventor/core/SoXipMprPlaneElement.h>
 #include <xip/inventor/core/SoXipMprActiveElement.h>
 #include <assert.h>
-#include <xip/inventor/core/XipGeomUtils.h>
+#include <xip/inventor/core/XipGeomUtils.h>//XipInventorUtils.h
 #include "SoXipMprIntersectionLine.h"
 
 
@@ -160,6 +160,9 @@ SoXipMprIntersectionManip::SoXipMprIntersectionManip()
 	SO_NODE_ADD_FIELD(stubs, (FALSE));
 	SO_NODE_ADD_FIELD(stubScale, (10.0f));
 
+	mMprPlaneList.clear();
+	mInputSensors.clear();
+
 	mModeFieldSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
 	mModeFieldSensor->attach(&mode);
 
@@ -179,6 +182,9 @@ SoXipMprIntersectionManip::SoXipMprIntersectionManip()
 
 SoXipMprIntersectionManip::~SoXipMprIntersectionManip()
 {
+	for (std::vector< SoFieldSensor* >::iterator it = mInputSensors.begin(); it != mInputSensors.end(); ++it)
+		delete (*it);
+
 	delete mModeFieldSensor;
 }
 
@@ -237,6 +243,7 @@ void SoXipMprIntersectionManip::GLRender(SoGLRenderAction * action)
 		glDisable(GL_DEPTH_TEST);
 		
 		GLboolean blendTestEnabled = glIsEnabled(GL_BLEND);
+		glDisable(GL_BLEND);
 				
 		SoXipPlaneManipBase::GLRender(action);
 
@@ -293,24 +300,6 @@ void SoXipMprIntersectionManip::updateElement(SoAction * action)
 	// the cast should be fine. I assume that the length of a list is greater-equal 0
 	unsigned int numPlanes = static_cast<unsigned int>(element->getNum());
 	int basePlane = numPlanes - 1;
-
-	/* not sure what this block was for but it causes a crash with the IFE network image
-	// let's just comment it out for now and simply return while dragging (found in revision 916)
-  
-	// while dragging, only update MPR elements
-	if (mPickedLine >= 0) 
-	{
-		SbVec3f movement = getMouseProjection() - mPickPosition;
-
-		// translate all MPR planes to new mouse position
-		for (i = 0; i < mMprPlaneList.size(); i++)
-		{
-			SbMatrix m = XipGeomUtils::translatePlaneNormal(mMprPlaneList[i].matrix, movement);
-			element->setMatrix(i, m);
-		}
-
-		return;
-	}	*/
 
 	// do not update while dragging
 	if (mPickedLine >= 0) return;
@@ -369,8 +358,11 @@ void SoXipMprIntersectionManip::updateGeometry()
 	unsigned int basePlane = numPlanes - 1;
 
 	// can't compute intersection lines with less than 2 planes
-	// or invalid base plane
-	//if ((numPlanes < 2) || (basePlane < 0) /*|| (basePlane >= numPlanes) -> this can never be true, see definition of baseplane*/) return;
+	if (numPlanes > 3)
+	{
+		SoDebugError::postInfo(__FILE__, "No support for more than three MprPlanes");
+		return;
+	}	
 
 	// clear current geometry first
 	removeAllChildren();
@@ -480,65 +472,9 @@ SbBool SoXipMprIntersectionManip::dragBegin()
 
 			SoXipMprActiveElement::set(mHandleEventAction->getState(), this, mMprPlaneList[mPickedLine].id, field);
 		}
-
-		// if in INTERSECTION mode, check if center point was picked
-		if (((mode.getValue() == TRANSLATION) || (mode.getValue() == INTERSECTION)) && (numPlanes > 2))
-		{
-			SbVec3f obj[2];
-			//int basePlane = mMprPlaneList.size() - 1;
-			SbMatrix worldToObj = mMprPlaneList[basePlane].matrix.inverse();
-			worldToObj.multVecMatrix(mPickPosition, obj[0]);
-			worldToObj.multVecMatrix(mIntersectionPosition, obj[1]);
-
-			if (XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.06f))
-			{
-				SoXipCursor::setCursor("MOVE");
-
-				mPickedCenter = TRUE;
-			}
-			else if ((mode.getValue() == INTERSECTION) && !XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.25))
-			{
-				SoXipCursor::setCursor("ROTATE_LINE");
-
-				mPickedRotate = TRUE;
-				mRotatePosition = projectCenterOnPlane(mMprPlaneList[mPickedLine].matrix, mMprPlaneList[mPickedLine].center);
-				mMprPlaneList[mPickedLine].center = mRotatePosition;
-			}
-			else
-			{
-				SoXipCursor::setCursor(XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.06f) ? "MOVE ": "MOVE_LINE");
-			}
-		}
-		else
-		{
-			// free mode, check if center or off-center (rotate)
-			mRotatePosition = projectCenterOnPlane(mMprPlaneList[mPickedLine].matrix, mMprPlaneList[mPickedLine].center);
-			mMprPlaneList[mPickedLine].center = mRotatePosition;
-
-			// save the position at which the translation has started to add delta mouse movement to it
-			for (size_t i = 0; i < basePlane; i++)
-			{
-				mMprPlaneList[i].translateOrigin = projectCenterOnPlane(mMprPlaneList[i].matrix, mMprPlaneList[i].center);
-			}
-
-			SbVec3f obj[2];
-			//int basePlane = mMprPlaneList.size() - 1;
-			SbMatrix worldToObj = mMprPlaneList[basePlane].matrix.inverse();
-
-			worldToObj.multVecMatrix(mPickPosition, obj[0]);
-			worldToObj.multVecMatrix(mRotatePosition, obj[1]);
-
-			if (XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.25))
-			{
-				SoXipCursor::setCursor("MOVE_LINE");
-				mPickedCenter = TRUE;
-			}
-			else
-			{
-				SoXipCursor::setCursor("ROTATE_LINE");
-			}
-		}
-
+		
+		updateModeAndCursor();
+	
 		return TRUE;
 	}
 	else
@@ -843,7 +779,7 @@ int SoXipMprIntersectionManip::getPickedLine()
 		//int basePlane = mMprPlaneList.size() - 1;
 		SbPlane nearPlane = XipGeomUtils::planeFromMatrix(mMprPlaneList[basePlane].matrix);
 		SbPlane pickPlane(nearPlane.getNormal(), picked_point->getPoint());
-		float dist = fabs(nearPlane.getDistanceFromOrigin() - pickPlane.getDistanceFromOrigin());
+		float dist = static_cast<float>(fabs(nearPlane.getDistanceFromOrigin() - pickPlane.getDistanceFromOrigin()));
 		if ((dist > 0.95) && (dist < 1.05))
 		{
 			picked = -1;
@@ -947,7 +883,77 @@ void SoXipMprIntersectionManip::handleEvent(SoHandleEventAction *action)
 }
 
 
+void SoXipMprIntersectionManip::updateModeAndCursor()
+{
+	size_t numPlanes = mMprPlaneList.size();
+	
+	if (numPlanes <= 0) 
+		return;
+
+	size_t basePlane = numPlanes - 1;
+	
+	// if in INTERSECTION mode, check if center point was picked
+	if (((mode.getValue() == TRANSLATION) || (mode.getValue() == INTERSECTION)) && (numPlanes > 2))
+	{
+		SbVec3f obj[2];
+		SbMatrix worldToObj = mMprPlaneList[basePlane].matrix.inverse();
+		worldToObj.multVecMatrix(mPickPosition, obj[0]);
+		worldToObj.multVecMatrix(mIntersectionPosition, obj[1]);
+
+		if (XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.06f))
+		{
+			SoXipCursor::setCursor("MOVE");
+
+			mPickedCenter = TRUE;
+		}
+		else if ((mode.getValue() == INTERSECTION) && !XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.25))
+		{
+			SoXipCursor::setCursor("ROTATE_LINE");
+
+			mPickedRotate = TRUE;
+			mRotatePosition = projectCenterOnPlane(mMprPlaneList[mPickedLine].matrix, mMprPlaneList[mPickedLine].center);
+			mMprPlaneList[mPickedLine].center = mRotatePosition;
+		}
+		else
+		{
+			SoXipCursor::setCursor(XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.06f) ? "MOVE ": "MOVE_LINE");
+		}
+	}
+	else
+	{
+		// free mode, check if center or off-center (rotate)
+		mRotatePosition = projectCenterOnPlane(mMprPlaneList[mPickedLine].matrix, mMprPlaneList[mPickedLine].center);
+		mMprPlaneList[mPickedLine].center = mRotatePosition;
+
+		// save the position at which the translation has started to add delta mouse movement to it
+		for (size_t i = 0; i < basePlane; i++)
+		{
+			mMprPlaneList[i].translateOrigin = projectCenterOnPlane(mMprPlaneList[i].matrix, mMprPlaneList[i].center);
+		}
+
+		SbVec3f obj[2];
+		//int basePlane = mMprPlaneList.size() - 1;
+		SbMatrix worldToObj = mMprPlaneList[basePlane].matrix.inverse();
+
+		worldToObj.multVecMatrix(mPickPosition, obj[0]);
+		worldToObj.multVecMatrix(mRotatePosition, obj[1]);
+
+		if (XipGeomUtils::isVecInObjectSpace(obj[0] - obj[1], 0.25))
+		{
+			SoXipCursor::setCursor("MOVE_LINE");
+			mPickedCenter = TRUE;
+		}
+		else
+		{
+			SoXipCursor::setCursor("ROTATE_LINE");
+		}
+	}
+
+}
+
+
 void SoXipMprIntersectionManip::setPickRadius(float radius)
 {
 	mPickRadius = radius;
 }
+

@@ -138,14 +138,16 @@
 #include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/fields/SoSFInt32.h>
 #include <Inventor/fields/SoSFBool.h>
-#include <Inventor/SbPList.h>
-
+#include <Inventor/fields/SoSFString.h>
 #include <Inventor/fields/SoMFString.h>
+#include <Inventor/SbPList.h>
 
 #include <Inventor/sensors/SoFieldSensor.h>
 #include <Inventor/sensors/SoNodeSensor.h>
 #include <Inventor/fields/SoSFTrigger.h>
 
+#include <xip/inventor/coregl/ShaderEngine.h>
+#include <xip/inventor/coregl/ShaderSourceComponent.h>
 
 class SoGLRenderAction;
 
@@ -158,48 +160,32 @@ class SoXipGLSLPrograms : public SoNode
 {
     SO_NODE_HEADER(SoXipGLSLPrograms);
 
-    struct ShaderBatch {
-        SbString tag;
-        GLuint prgHandle;
-        GLuint vpHandle;
-        GLuint gpHandle;
-        GLuint fpHandle;
-        SbString vpFilename;
-        SbString gpFilename;
-        SbString fpFilename;
-        SbString vpDefines;
-        SbString gpDefines;
-        SbString fpDefines;
-        int prgTimestamp;
-        int vpTimestamp;
-        int gpTimestamp;
-        int fpTimestamp;
-        bool confirmedActive;
-        bool isDirty;
+    typedef ShaderEngine::ProgramBatch ProgramBatch;
+    typedef ShaderEngine::ShaderBatch  ShaderBatch;
 
-        ShaderBatch()
-        {
-            tag = "";
-            prgHandle = 0;
-            vpHandle = 0;
-            gpHandle = 0;
-            fpHandle = 0;
-            vpFilename = "";
-            gpFilename = "";
-            fpFilename = "";
-            vpDefines = "";
-            gpDefines = "";
-            fpDefines = "";
-            prgTimestamp = 0;
-            vpTimestamp = 0;
-            gpTimestamp = 0;
-            fpTimestamp = 0;
-            confirmedActive = true;
-            isDirty = true;
-        }
+    enum TouchedFields
+    {
+        VP_FILENAMES = 0x01,
+        GP_FILENAMES = 0x02,
+        FP_FILENAMES = 0x04,
+        VP_DEFINES    = 0x08,
+        GP_DEFINES    = 0x10,
+        FP_DEFINES    = 0x20,
+        TAG_NAME      = 0x40
     };
-    
-    enum InGeometry {
+
+    enum GLSLVersion
+    {
+        AUTO_SELECT,
+        V110,
+        V120,
+        V130,
+        V140,
+        V150
+    };
+
+    enum InGeometry
+    {
       IN_POINTS=GL_POINTS,
 	  IN_LINES=GL_LINES,
       IN_LINES_ADJACENCY_EXT=GL_LINES_ADJACENCY_EXT,
@@ -207,57 +193,59 @@ class SoXipGLSLPrograms : public SoNode
 	  IN_TRIANGLES_ADJACENCY_EXT=GL_TRIANGLES_ADJACENCY_EXT
 	};
 	 
-	enum OutGeometry { 
+	enum OutGeometry
+    {
 	    OUT_POINTS=GL_POINTS,
 	    OUT_LINE_STRIP=GL_LINE_STRIP,
 	    OUT_TRIANGLE_STRIP=GL_TRIANGLE_STRIP,
 	    OUT_TRIANGLES=GL_TRIANGLES
 	};
 
-    enum TouchedFields {
-        VP_FILENAMES = 0x01,
-        GP_FILENAMES = 0x02,
-        FP_FILENAMES = 0x04,
-        VP_DEFINES   = 0x08,
-        GP_DEFINES   = 0x10,
-        FP_DEFINES   = 0x20,
-        TAG_NAMES    = 0x40
-    };
-
 public:
-	SoXipGLSLPrograms();
+
+    SoXipGLSLPrograms();
 	static void initClass();
 
     SoMFString	prgTags;
     SoMFString	vpFilenames;
-	SoMFString	fpFilenames;
     SoMFString	gpFilenames;
+	SoMFString	fpFilenames;
 	SoMFString	vpDefines;
-	SoMFString	fpDefines;
 	SoMFString	gpDefines;
-
+	SoMFString	fpDefines;
     SoSFTrigger updateShaders;
+    SoSFTrigger nodeUpdated;
     SoSFBool    autoUpdate;
 
+	SoSFEnum    geometryInputType;
+	SoSFEnum    geometryOutputType;
+	SoSFInt32   maxEmittedVertices;
+    /**
+    *   Field to force the shader(s) to a specific version.
+    */
+    SoSFEnum    glslVersion;
+
 protected:
-	~SoXipGLSLPrograms();
+
+    ~SoXipGLSLPrograms();
 
     virtual void GLRender(SoGLRenderAction *action);
-	inline void setHasChanged()	{this->mHasChanged = true;}
     static void updateSensorCB(void *data, SoSensor *sensor);
     static void fieldChangeCB(void *data, SoSensor *sensor);
     static void autoUpdateCB(void *data, SoSensor *sensor);
     static void toggleAutoCB(void *data, SoSensor *sensor);
-	void UpdateAction();
-	void AutoUpdateAction();
 
+    void UpdateAction();
+	void AutoUpdateAction();
+	void GLValidityCheck();
+
+    SoFieldSensor				*mTagSensor;
     SoFieldSensor				*mVpSensor;
 	SoFieldSensor				*mGpSensor;
 	SoFieldSensor				*mFpSensor;
 	SoFieldSensor				*mVpDefinesSensor;
 	SoFieldSensor				*mGpDefinesSensor;
 	SoFieldSensor				*mFpDefinesSensor;
-    SoFieldSensor				*mTagSensor;
 
     SoFieldSensor               *mUpdateFieldSensor;
     SoTimerSensor               *mAutoUpdateTimerSensor;
@@ -265,45 +253,34 @@ protected:
 
 private:
 
-	bool    readShadersFile(const char *filename, const char *defines, GLuint handle);
-	void    printShaderLog(GLuint shader);
-	void    printProgramLog(GLuint program);
+    bool    updateSingleShader(ShaderBatch * batch, const SbString& filename, const SbString& defines, std::string& errstr);
+    bool    updateShaderBatch(ShaderBatch * batch, const SbString& filename, const SbString& defines, std::string& errstr);
+    bool    updateSingleProgram(ProgramBatch * batch, std::string& errstr);
+    void    evaluateSingleProgramBatch(ProgramBatch * batch, int slot);
+    void    evaluateProgramBatches();
 
-    void    evaluateByTags();
-    void    evaluateByTimestamps();
+    void    updateManagerEntry(ProgramBatch * batch);
+    void    removeManagerEntry(ProgramBatch * batch);
 
-    void    cleanAndSynchronize();
-    void    updateShaderBatchByFields(ShaderBatch * batch, int field);
-    void    updateShaderBatchByTimestamp(ShaderBatch * batch);
-    void    updateSingleProgram(ShaderBatch * batch);
-    void    updateSingleShader(ShaderBatch * batch, GLenum shaderType);
-    void    updateManagerEntry(ShaderBatch * batch);
-    void    removeManagerEntry(ShaderBatch * batch);
+    bool    checkTimeStamps(ShaderBatch * batch, const SbString& filename);
+    void    setTimeStamps(ShaderBatch * batch, const SbString& filename);
 
-	GLuint  linkShaders(GLuint &vpHandle, GLuint &gpHandle, GLuint &fpHandle);
-	GLuint  compileShader(const char *filename, const char *defines, GLenum type);
-    void    deleteProgram(GLuint programHandle);
-	void    deleteShader(GLuint shaderHandle);
+    bool    evaluateFieldBitmaskChange(const SoMFString& field, SoMFString& m_field, int slot);
 
+    SbPList     mProgramBatchList;
 
-	SoSFEnum    geometryInputType;
-	SoSFEnum    geometryOutputType;
-	SoSFInt32   maxEmittedVertices;
+    SoMFString	m_prgTags;
+    SoMFString	m_vpFilenames;
+    SoMFString	m_gpFilenames;
+	SoMFString	m_fpFilenames;
+	SoMFString	m_vpDefines;
+	SoMFString	m_gpDefines;
+	SoMFString	m_fpDefines;
 
-    SbPList     mShaderList;
     int         mFieldBitmask;
-    bool        mIsManagerUpdated;
-
-    //Callback for the sensor attached to the fields
-    void        printInternalTagsAsOneString();
-	static void	hasChangedCB(void * data,SoSensor*) { ((SoXipGLSLPrograms *)data)->setHasChanged(); };
-    bool		mHasChanged;
+    bool		mTimedUpdate;
     bool        mIsAutoOn;
 };
 
-#define NFO(str) SoDebugError::postInfo(__FUNCTION__, str)
-#define NFO1(str, a1) SoDebugError::postInfo(__FUNCTION__, str, a1)
-#define NFO2(str, a1, a2) SoDebugError::postInfo(__FUNCTION__, str, a1, a2)
-
-#endif // SO_RAD_LOAD_MULTIPLE_SHADERS
+#endif // SO_XIP_GLSL_COMPONENT_PROGRAM_H
 

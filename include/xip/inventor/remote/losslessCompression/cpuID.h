@@ -9,6 +9,7 @@
 // To compile the code with VC6 the Processor Pack 5 and the Service pack 5 are required
 */
 //----------------------------------------------------------------------------------
+
 #ifndef _CPUID_H_
 #define _CPUID_H_
 
@@ -22,7 +23,13 @@ class cpuID
 		*
 		* \return cpu id.
 		*/
- 		inline int CPU() 
+#if defined(WIN64)
+    inline static int CPU()
+    {
+        return 3; // SSE2 always supported on 64-bit (Intel 64)
+    }
+#elif defined(WIN32)
+ 		inline static int CPU() 
 		{
 			unsigned int info;
 
@@ -49,7 +56,13 @@ class cpuID
 			return 0;  // Legacy
 			  
 		}
-
+#else
+    // Need to fix this on non-Windows systems...
+    inline static int CPU()
+    {
+        return 0;
+    }
+#endif
 		int cpuID::cpu;	
  
 };

@@ -176,6 +176,9 @@
 #include <xip/inventor/core/SoXipWindowLevelElement.h>
 #include <xip/inventor/core/SoXipConvertToTrigger.h>
 
+#include <xip/inventor/core/SoXipSlopeInterceptConvert.h>
+#include <xip/inventor/core/SoXipValueConvertElement.h>
+
 #include "SoXipAutoScale.h"
 #include "SoXipBackground.h"
 #include "SoXipTexture.h"
@@ -184,6 +187,7 @@
 #include "SoXipImage.h"
 #include "SoXipGetImage.h"
 #include "SoXipLoadRaw.h"
+#include "SoXipSaveRaw.h"
 #include "SoXipViewportBorder.h"
 #include "SoXipIncrement.h"
 #include "SoXipIntersectionPlane.h"
@@ -209,9 +213,12 @@
 #include "SoXipWindowSize.h"
 #include "SoXipMouseToggle.h"
 #include "SoXipDogEar.h"
+#include "SoXipQuad.h"
+#include "SoXipDrawQuad.h"
 #include "SoXipOrientationCube.h"
 #include "SoXipClipPlane.h"
 #include "SoXipLut.h"
+#include "SoXipApplyLutToImage.h"
 #include "SoXipPerformance.h"
 #include "SoXipPerformanceCounter.h"
 #include "SoXipProxy.h"
@@ -233,6 +240,8 @@
 #include "SoXipImageOperation.h"
 #include "SoXipSwitchMFDataImage.h"
 #include "SoXipCheckGLStacks.h"
+#include <xip/inventor/core/SoXipRegistrationElement.h>
+#include "SoXipRegistrationTransform.h"
 
 int XIPIVCORE_API xipivcore_init()
 {
@@ -243,107 +252,121 @@ int XIPIVCORE_API xipivcore_init()
 
   SoInteraction::init();
 
-  //initialize elements first
-  SoXipLutElement::initClass();
-  //SoXipListActionElement::initClass();
-  //SoXipListActionEnableElement::initClass();
-  SoXipActiveViewportElement::initClass();
-  SoXipDataImageElement::initClass();
-  SoXipMultiTextureElement::initClass();
-  SoXipRenderModeElement::initClass();
-  SoXipMprPlaneElement::initClass();
-  SoXipMprActiveElement::initClass();		
-  SoXipTransparentGeometryGroupElement::initClass();
-  SoXipMprLockElement::initClass();
-  SoXipVolDataElement::initClass();		
-  SoXipVolGroupElement::initClass();		
-  SoXipClipPlaneElement::initClass();
-  SoXipPickRadiusElement::initClass();
-  SoXipImageTextElement::initClass();
-  SoXipWindowLevelElement::initClass();
+    //initialize elements first
+    SoXipLutElement::initClass();
+    //SoXipListActionElement::initClass();
+    //SoXipListActionEnableElement::initClass();
+    SoXipActiveViewportElement::initClass();
+    SoXipDataImageElement::initClass();
+    SoXipMultiTextureElement::initClass();
+    SoXipRenderModeElement::initClass();
+    SoXipMprPlaneElement::initClass();
+    SoXipMprActiveElement::initClass();		
+    SoXipTransparentGeometryGroupElement::initClass();
+    SoXipMprLockElement::initClass();
+    SoXipVolDataElement::initClass();		
+    SoXipVolGroupElement::initClass();		
+    SoXipClipPlaneElement::initClass();
+    SoXipPickRadiusElement::initClass();
+    SoXipImageTextElement::initClass();
+    SoXipWindowLevelElement::initClass();
 
-  //initialize rest then
-  SbXipDirtyFieldList::initClass();
-  SoXipData::initClass();
-  SoXipDataImage::initClass();
-  SoXipSFDataImage::initClass();
-  SoXipMFDataImage::initClass();
-  SoXipSFDataImageToSFImage::initClass();
-  SoXipComposeVec6::initClass();
-  SoXipCursor::initClass();
-  SoXipDecomposeVec6::initClass();
-  SoXipKit::initClass();
-  //SoXipList::initClass();
-  //SoXipListAction::initClass();
-  //SoXipListActionEnable::initClass();
-  SoXipImage::initClass();
-  SoXipImageAttributes::initClass();
-  SoXipLoadRaw::initClass();
-  SoXipDogEar::initClass();
-  SoXipViewportBorder::initClass();
-  SoXipOrientationCube::initClass();	
-  SoXipViewportGroup::initClass();
-  SoXipLut::initClass();
-  SoXipTexture::initClass();
-  SoXipDisableTexturing::initClass();
-  SoXipTimerFunction::initClass();
-  SoXipRenderMode::initClass();
-  SoXipExaminer::initClass();
-  SoSFVariant::initClass();
-  SoMFVariant::initClass();
-  SoXipPlaneManipBase::initClass();
-  SoXipIntersectionPlane::initClass();
-  SoXipWindowLevelManip::initClass();
-  SoXipMprPlane::initClass();
-  SoXipMprIntersectionLine::initClass();
-  SoXipMprIntersectionManip::initClass();
-  SoXipMprExaminer::initClass();
-  SoXipMprAlign::initClass();
-  SoXipTransparentGeometryGroup::initClass();
-  SoXipMprLock::initClass();
-  SoXipMprActive::initClass();
-  SoXipVolGroup::initClass();
-  SoXipPickAction::initClass();
+	SoXipValueConvertElement::initClass();
+
+    //initialize rest then
+    SbXipDirtyFieldList::initClass();
+    SoXipData::initClass();
+    SoXipDataImage::initClass();
+    SoXipSFDataImage::initClass();
+    SoXipMFDataImage::initClass();
+    SoXipSFDataImageToSFImage::initClass();
+    SoXipComposeVec6::initClass();
+    SoXipCursor::initClass();
+    SoXipDecomposeVec6::initClass();
+    SoXipKit::initClass();
+    //SoXipList::initClass();
+    //SoXipListAction::initClass();
+    //SoXipListActionEnable::initClass();
+    SoXipImage::initClass();
+    SoXipImageAttributes::initClass();
+    SoXipLoadRaw::initClass();
+	SoXipSaveRaw::initClass();
+    SoXipDogEar::initClass();
+    SoXipQuad::initClass();
+    SoXipDrawQuad::initClass();
+    SoXipViewportBorder::initClass();
+    SoXipOrientationCube::initClass();	
+    SoXipViewportGroup::initClass();
+    SoXipLut::initClass();
+    SoXipApplyLutToImage::initClass();
+    SoXipTexture::initClass();
+    SoXipDisableTexturing::initClass();
+    SoXipTimerFunction::initClass();
+    SoXipRenderMode::initClass();
+    SoXipExaminer::initClass();
+    SoSFVariant::initClass();
+    SoMFVariant::initClass();
+    SoXipPlaneManipBase::initClass();
+    SoXipIntersectionPlane::initClass();
+    SoXipWindowLevelManip::initClass();
+    SoXipMprPlane::initClass();
+    SoXipMprIntersectionLine::initClass();
+    SoXipMprIntersectionManip::initClass();
+    SoXipMprExaminer::initClass();
+    SoXipMprAlign::initClass();
+    SoXipTransparentGeometryGroup::initClass();
+    SoXipMprLock::initClass();
+    SoXipMprActive::initClass();
+    SoXipVolGroup::initClass();
+    SoXipPickAction::initClass();
 
   SoXipInvertMatrix::initClass();
-  SoXipLazyGroup::initClass();
+    SoXipLazyGroup::initClass();
 
-  SoXipBoundingBox::initClass();
-  SoXipTrackballToMouse::initClass();
-  SoXipWindowSize::initClass();
-  SoXipMouseToggle::initClass();
-  SoXipClipPlane::initClass();
-  SoXipPerformance::initClass();
-  SoXipPerformanceCounter::initClass();
+    SoXipBoundingBox::initClass();
+    SoXipTrackballToMouse::initClass();
+    SoXipWindowSize::initClass();
+    SoXipMouseToggle::initClass();
+    SoXipClipPlane::initClass();
+    SoXipPerformance::initClass();
+    SoXipPerformanceCounter::initClass();
 	SoXipProxy::initClass();
-  SoXipConvertMatrixToPlane::initClass();
-  SoXipConvertToEnum::initClass();
-  SoXipAutoScale::initClass();
-  SoXipBackground::initClass();
-  SoXipAnchor::initClass();
-  SoXipGetImage::initClass();
-  SoXipImageExaminerBase::initClass();
-  SoXipImageExaminer::initClass();    
-  SoXipComposeMFImage::initClass();
-  SoXipDecomposeMFImage::initClass();
-  SoXipExtractSlice::initClass();
-  SoXipImageText::initClass();
-  SoXipIncrement::initClass();
-  SoXipStringConcatenate::initClass();
-  SoXipConvertMFImageToSFImage::initClass();
-  SoXipConvertSFImageToMFImage::initClass();
-  SoXipImageOperation::initClass();
-  SoXipSwitchMFDataImage::initClass();
-  SoXipConvertToTrigger::initClass();
-  SoXipCheckGLStacks::initClass();
+    SoXipConvertMatrixToPlane::initClass();
+    SoXipConvertToEnum::initClass();
+    SoXipAutoScale::initClass();
+    SoXipBackground::initClass();
+    SoXipAnchor::initClass();
+    SoXipGetImage::initClass();
+    SoXipImageExaminerBase::initClass();
+    SoXipImageExaminer::initClass();    
+    SoXipComposeMFImage::initClass();
+    SoXipDecomposeMFImage::initClass();
+    SoXipExtractSlice::initClass();
+    SoXipImageText::initClass();
+    SoXipIncrement::initClass();
+    SoXipStringConcatenate::initClass();
+    SoXipConvertMFImageToSFImage::initClass();
+    SoXipConvertSFImageToMFImage::initClass();
+    SoXipImageOperation::initClass();
+    SoXipSwitchMFDataImage::initClass();
 
-  // Register converters to trigger for all data types
-  SoType triggerType = SoType::fromName( "SoSFTrigger" );
-  SoType convType = SoType::fromName( "SoXipConvertToTrigger" );
+	SoXipRegistrationElement::initClass();
+	SoXipRegistrationTransform::initClass();
 
-  SoDB::addConverter( SoXipSFDataImage::getClassTypeId(), triggerType, convType );
-  SoDB::addConverter( SoXipMFDataImage::getClassTypeId(), triggerType, convType );
+	SoXipSlopeInterceptConvert::initClass();
+    SoXipConvertToTrigger::initClass();
+    SoXipCheckGLStacks::initClass();
 
+    // Register converters to trigger for all data types
+    SoType triggerType = SoType::fromName( "SoSFTrigger" );
+    SoType convType = SoType::fromName( "SoXipConvertToTrigger" );
+
+    SoDB::addConverter( SoXipSFDataImage::getClassTypeId(), triggerType, convType );
+    SoDB::addConverter( SoXipMFDataImage::getClassTypeId(), triggerType, convType );
+
+
+
+	
   return 1;
 }
 
@@ -374,6 +397,13 @@ void __attribute__ ((destructor)) _fini(void)
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
     if (reason == DLL_PROCESS_ATTACH)
+
+        if (!SoDB::isInitialized())
+        {
+            SoDB::init();
+//            SoInteraction::init();
+        }
+
         xipivcore_init();
 
     return TRUE;

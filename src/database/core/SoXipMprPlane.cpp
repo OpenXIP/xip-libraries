@@ -130,10 +130,10 @@ SoXipMprPlane::SoXipMprPlane(void)
 	SO_NODE_ADD_FIELD(on, (TRUE));
 	SO_NODE_ADD_FIELD(plane, (SbMatrix::identity()));
 	SO_NODE_ADD_FIELD(center, (SbVec3f(0, 0, 0)));
-//	SO_NODE_ADD_FIELD(clip, (FALSE));
 	SO_NODE_ADD_FIELD(color, (SbColor(1, 1, 1)));
 	SO_NODE_ADD_FIELD(id, (0));
 	SO_NODE_ADD_FIELD(stepSize, (0));
+	SO_NODE_ADD_FIELD(thickness, (1));
 }
 
 
@@ -172,15 +172,10 @@ void SoXipMprPlane::doAction(SoAction * action)
 		color.getValue(),
 		id.getValue(),
 		stepSize.getValue(),
+		thickness.getValue(),
 		&plane,
 		&center);
 
-//	// add clipping element if enabled
-//	if (clip.getValue()) 
-//	{
-//		SbPlane p = planeFromMatrix(plane.getValue());
-//		SoClipPlaneElement::add(action->getState(), this, p);
-//	}
 }
 
 
@@ -206,3 +201,5 @@ void SoXipMprPlane::handleEvent(SoHandleEventAction *action)
 {
 	doAction(action);
 }
+
+

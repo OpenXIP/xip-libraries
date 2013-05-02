@@ -100,6 +100,7 @@ SoXipExtractSlice::evaluate()
 			case SbXipImage::INT: cellSize = sizeof(int); break ;
 			case SbXipImage::FLOAT: cellSize = sizeof(float); break ;
 			case SbXipImage::DOUBLE: cellSize = sizeof(double); break ;
+			default: cellSize = sizeof(unsigned char); break ;
 			}
 
 			void* slicePtr = imagePtr + cellSize * image->getComponents() * dimensions[0] * dimensions[1] * sliceIndex;
@@ -120,3 +121,4 @@ SoXipExtractSlice::evaluate()
 		SO_ENGINE_OUTPUT( output, SoXipSFDataImage, setValue(mOutputs[sliceIndex]) );
     }
 }
+

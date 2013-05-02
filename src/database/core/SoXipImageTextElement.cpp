@@ -169,13 +169,12 @@ SoXipImageTextElement::getNum() const
 SoXipImageTextElement::TextElementPosition
 SoXipImageTextElement::getPosition( int index ) const
 {
-#ifdef DEBUG
 	if( index < 0 || index >= (int) mTextInfo.size() )
 	{
 		SoDebugError::post( "SoXipImageTextElement::getPosition()",
 			   "Index (%d) is out of range 0 - %d",
-			   index, mTextInfo.getLength() - 1 );
-#endif
+			   index, mTextInfo.size() - 1 );
+	}
 
 	return mTextInfo[index].position;
 }
@@ -183,13 +182,14 @@ SoXipImageTextElement::getPosition( int index ) const
 const SbString&
 SoXipImageTextElement::getText( int index ) const
 {
-#ifdef DEBUG
+
 	if( index < 0 || index >= (int) mTextInfo.size() )
 	{
 		SoDebugError::post( "SoXipImageTextElement::getText()",
 			   "Index (%d) is out of range 0 - %d",
-			   index, mTextInfo.getLength() - 1 );
-#endif
+			   index, mTextInfo.size() - 1 );
+	}
 
 	return mTextInfo[index].text;
 }
+

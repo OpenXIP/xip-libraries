@@ -109,7 +109,6 @@
 *  
 */
 #include <xip/common/XipException.h>
-#include <xip/common/XipLog.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -128,30 +127,57 @@
  *  \param message Optional string containing additional information about the error.
  *
  */
-XipException::XipException(unsigned int line, const char *file, XipExceptionType type, const wchar_t *message):mLine(line), mType(type)
+
+XipException::XipException():
+mFile(0),
+mMessage(0),
+mLine(0),
+mFunction(0)
+{
+}
+
+XipException::XipException(unsigned int line, const char *file, const char* function,  XipExceptionType type, const wchar_t *message):mLine(line), mType(type)
 {
 	const int XIP_STRING_LEN = 500;
 	mFile = new char[XIP_STRING_LEN];
-	mMessage = new wchar_t[XIP_STRING_LEN];
+    mFunction = new char[XIP_STRING_LEN];
+    mMessage = new wchar_t[XIP_STRING_LEN];
 	
 	//mLine = line;
 	//mType = type;
 	//mFile = file;	
-	strcpy(mFile, file);
+    strcpy(mFile, file);
+    strcpy(mFunction, function);
 	//mMessage = message;
 	wcscpy(mMessage, message);	
 
-	if (XipLog::getListener()) {
+	/*if (NewXipLog::hasListeners()) {
 		
 		wchar_t lFile[XIP_STRING_LEN], module[XIP_STRING_LEN];
 		int len = strlen(file)+1;
 		mbstowcs(lFile, file, len*sizeof(wchar_t));		
 		swprintf(module, XIP_STRING_LEN, L"File: %s, Line: %d", lFile, line);
 			
-		XIP_POST_ERROR(mMessage, module, ToString(type));
-	}
+		XIP_LOG_ERROR(mMessage, module, ToString(type));
+	}*/
 }
 
+XipException::XipException(const XipException& e)
+{
+	mLine = e.mLine;
+	
+	const int XIP_STRING_LEN = 500;
+	mFile = new char[XIP_STRING_LEN];
+	mFunction = new char[XIP_STRING_LEN];
+	mMessage = new wchar_t[XIP_STRING_LEN];
+
+	if (e.mFile)
+		strcpy(mFile,e.mFile);
+	if (e.mMessage)
+		wcscpy(mMessage,e.mMessage);
+	if (e.mFunction)
+		strcpy(mFunction,e.mFunction);
+}
 
 /** \fn XipException::~XipException()
  * Destructor to clean up any necessary data.
@@ -206,6 +232,15 @@ XipException::XipExceptionType XipException::getType()
 const char* XipException::getFile()
 {
     return (mFile);
+}
+
+/*! \fn XipException::getFile()
+* 
+* Returns the function name pointer
+*/
+const char* XipException::getFunction()
+{
+    return (mFunction);
 }
 
 

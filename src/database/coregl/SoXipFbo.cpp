@@ -290,7 +290,7 @@ bool SoXipFbo::checkFramebufferStatus() {
             SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_UNSUPPORTED_EXT");
             break;
         case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
-            //SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT");
+            SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT");
             SoDebugError::post("SoXipFbo", "The fbo will be incomplete without color attachments");
             break;
         case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
@@ -300,13 +300,24 @@ bool SoXipFbo::checkFramebufferStatus() {
             SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT");
             break;
         case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
-            //SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT");
+            SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT");
             if (!mFboOut.numColorAttachments)
                 SoDebugError::post("SoXipFbo", "The fbo will be incomplete without color attachments");
             SoDebugError::post("SoXipFbo", "One or more render targets have no attached buffer(s)");
             break;
         case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
             SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT");
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT:
+            SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS_EXT");
+            if (useDepthBuffer.getValue())
+                SoDebugError::post("SoXipFbo", "Try turning the depth buffer off or replace with 3D depth");
+            break;
+        case GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT:
+            SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_INCOMPLETE_LAYER_COUNT_EXT");
+            break;
+        case GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT:
+            SoDebugError::post("SoXipFbo", "GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT");
             break;
         default:
             SoDebugError::post("SoXipFbo", "UNKNOWN frambuffer error %i", status);
@@ -675,8 +686,15 @@ void SoXipFbo::GLRender(SoGLRenderAction* action)
     mFboIn.isOpen = true;
     SoXipFboElement::set(action->getState(), this, mFboIn);
     SoXipFboElement::bind(action->getState(), this);
-    if (!glIsFramebufferEXT(mFboIn.fboHandle))
-        SoDebugError::postWarning("SoXipFbo", "Something is wrong with the handle");
+
+    int currentFbo;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &currentFbo);
+    if (!glIsFramebufferEXT(mFboIn.fboHandle) || mFboIn.fboHandle != currentFbo)
+    {
+        SoDebugError::postWarning("SoXipFbo", "Error in the setup, fbo not guaranteed to be bound");
+        mNeedsUpdate = true;
+        return;
+    }
 
     //////////
     /// Traverse children

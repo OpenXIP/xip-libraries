@@ -18,8 +18,9 @@ public:
 		SSD,
 		SSD_COLOR,
 		VRT_COLOR,
-		DRR
-    };
+		DRR,
+		MPR_AND_GRAD_SEGMENT
+	};
 
 	// Initializes the SoRadRenderModeElement class
 	static void initClass();
@@ -42,3 +43,4 @@ private:
 };
 
 #endif // SORADRENDERMODEELEMENT_H
+

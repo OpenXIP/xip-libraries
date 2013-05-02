@@ -663,6 +663,8 @@ target_link_libraries(xipivvtk
   ${XIP_CORE_LIBRARY}
   ${VTK_LIBRARIES})
 
+add_dependencies(xipivvtk xipivcore)
+
 #--------------------------------------------------------------------
 # Install the library
 #
@@ -681,4 +683,5 @@ install(TARGETS xipivvtk
 if(WIN32)
   install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivvtk${CMAKE_DEBUG_POSTFIX}.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
+
 endif(WIN32)

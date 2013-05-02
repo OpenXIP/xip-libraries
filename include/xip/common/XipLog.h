@@ -108,203 +108,170 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-#ifndef _XIP_LOG_H
-#define _XIP_LOG_H
+#ifndef XIPLOG_H
+#define XIPLOG_H
 
 #include <xip/common/XipCommon.h>
 #include <xip/common/XipException.h>
 
-class XipLogListener;
-
-//typedef wchar_t      WIDECHAR;
+#define CID_XIP_LOG_ENTRY 0
 
 /*
-Fileds: 
-
-type:			log type
-message:		specific log message
-module:			file, class or function name
-category:		detailed log types
-timeStamp:		time stamp
-processInfo:	process ID and thread ID
-
-to use:
-
-first register a listener using
-
-XipLog::setListener(listener);
-
-use static XipLog::post(type, message, module, category) or MACROs XIP_POST_ERROR, XIP_POST_WARNING,
-XIP_POST_DEBUG, XIP_POST_LOG to post an error or log message,
-and it is subsequently processed by listener.handleError(log)
-
-post is supposed to both record the log, and error handling
-so use XipLog::post to throw an error handled by listener as well
-
-#include <xip/common/XipLog.h>
-#include "XipDefaultLogListener.h"
-
-MainApp::MainApp(int argc, char *argv[])
-{
-
-	...
-	//add log files
-	if(!XipLog::getListener()) {
-		listener = new XipDefaultLogListener(L"MainApp_log_attr.xml");
-		//listener = new XipDefaultLogListener(L"MainApp_log_attr.txt");
-		XipLog::setLogLevel(XIP_LOG);
-		XipLog::setListener(listener);
-	}
-	...
-}
-
-SomeFunctionToTrace()
-{
-	XIP_POST_LOG0;		//give function name, line and file using MACROS
-}
-
-SomeFunctionProneToError()
-{
-	try{
-		...		
-	}
-	catch(...)
-	{
-		XIP_POST_ERROR("ERROR loading SomeFunctionProneToError()", L"MainAPP", L"EXCEPTION"); 
-	}
-}
-
-MainApp::~MainApp()
-{
-	...
-	//clean up listener
-	if(listener) {
-		XipLog::setListener(NULL);
-	}
-}
-
+* XipLogLevel defines different levels of logs
 */
-
-
-/*
-XipLogType defines different types of errors or logs, thus different level of logs
-*/
-enum XipLogType
+enum XipLogLevel
 {
-	//XIP_INVENTOR_ERROR,				// Inventor Error
-	XIP_ERROR,					// Exception 
-	XIP_WARNING,					// Warning  
-	XIP_DEBUG_INFO,					// Debug Info	
-	//XIP_TRACE,						// Trace Info
-	XIP_LOG,						// LOG Info
-	//XIP_USER_ERROR,					// USER Error
-	//XIP_USER_EVENT					// record USER events
+    XIPLOG_FATAL,
+    XIPLOG_ERROR,
+    XIPLOG_WARN, 
+    XIPLOG_INFO,
+    XIPLOG_DEBUG,
+    XIPLOG_TRACE,
+    XIPLOG_CUSTOM_LEVEL
 };
+
+
+enum XipLogFlags
+{
+    XipLog_None = 0x00000000,
+    XipLog_TypeSession = 0x00000001,
+    XipLog_TypeMeasurement = 0x00000002,
+    XipLog_BlockingError = 0x00000004,
+    XipLog_UserError = 0x00000008
+
+  
+};
+
+
+class XIPCOMMON_API XipLogEntry
+{
+public:
+    XipLogEntry();
+
+    const wchar_t* shortMessage;
+    const wchar_t* longMessage; 
+    int level; 
+    int flags; 
+    const char* function; 
+    int line;
+    const char* file;
+    const wchar_t* timestamp;
+    int timestampLength;
+    const wchar_t* processInfo;
+    int processInfoLength;
+    int classID;
+};
+
+
+class XipLogListener;
 
 class XIPCOMMON_API XipLog
 {
 public:
-	/// Constructor used to generate an exception or a log message
-	XipLog(XipLogType type, const wchar_t *message, const wchar_t *module = 0, const wchar_t* category = 0);
-    
-	/// Destructor, cleans up data as needed
-    virtual ~XipLog();   
-
-	//set the current log level, above which log will be ignored
-	static void setLogLevel(XipLogType level) {logLevel = level;};
-	
-	// Sets Listener function for XipLog class
-    static void	setListener(XipLogListener *listener);
 
     
-	static XipLogListener *getListener()	{ return mLogListener; };
+    static void post(const wchar_t* shortMessage, const wchar_t* longMessage, int level, int flags, const char* function, int line, const char* file);
+    static void set(int property, const wchar_t* value);
 
-    // Returns type identifier for XipLog class
-	const XipLogType	getLogType() const	{ return mLogType; };
+    static void addListener(XipLogListener* listener);
+    static void removeListener(XipLogListener* listener);
+    static bool hasListeners(){return numListeners>0;}
 
-	const wchar_t*	getLogCategory() const	{ return mLogCategory; };  
+protected:
 
-	const wchar_t*	getModule()		 const	{ return mModule; };  
+    explicit XipLog(); //no one should be able to create an instance of this class
+    static XipLogListener** mListeners;
+    static unsigned int numListeners;
+    static XipLogEntry mLastEntry;
 
-	const wchar_t*	getProcessInfo() const	{ return mProcessInfo; };  
+    static void updateTimestamp();
+    static void updateProcessInfo();
 
-	const wchar_t *getTimeStamp()	 const	{ return mTimeStamp; };
+    static wchar_t mLastTimestamp[32];
+    static wchar_t mProcessInfo[1024];
 
-	const wchar_t *getDebugString()  const	{ return mDebugString; };
+    static void* mTimeZoneInfo;
+    static int mUTC_offset;
 
-	//convert the error type to a string name
-	inline const wchar_t* ToString() const;	
-
-	// Returns TRUE if instance is of given type or is derived from it
-	bool isOfType(XipLogType type) const;
-
-	bool isOfCategory(const wchar_t *subType) const;
-
-	void setTimeStamp();
-
-	void setProcessInfo();
-
-    // Posts an error. The debugString will be created from the given
-    // arguments, which are in printf() format
-	static void		post(XipLogType errortype, const wchar_t *message, const wchar_t *module, const wchar_t* category);
-
-	static void		post(XipLogType errortype, const char *function, int line, const char* file);
-	
-	void recordCallStack(void *exceptionInfo);
-
-	static const char *mCallStack;		//trace stack 
-
-	static XipLogListener		*mLogListener;	// Static Listener for XipLog class
-	
-	//the log type, log types above which will be ignored in post
-	static XipLogType logLevel;
-
-
-protected:    
-    /// Type of exception
-    const XipLogType	mLogType;
-
-	const wchar_t		*mLogCategory;	// Detailed error message string	
-
-    const wchar_t		*mDebugString;	// Detailed error message msg
-
-	const wchar_t		*mModule;		//which file  or line, may use __LINE__, __FILE__
-
-	wchar_t				*mTimeStamp;	// time stamp
-
-	wchar_t				*mProcessInfo;
-	
 };
 
-//use MACRO to save time
 
 
-//levels higher than logLevel will not be processed
-#define XIP_POST(level, msg, module, category) \
-	if (level > XipLog::logLevel) ; \
-	else XipLog::post(level, msg, module, category)
+#define XIP_LOG(shortmessage, longmessage, level, flags) XipLog::post((shortmessage), (longmessage), (level), (flags), (0), (-1), (0))
+#define XIP_LOG_FLF(shortmessage, longmessage, level, flags, function, line, file)   XipLog::post((shortmessage), (longmessage), (level), (flags), (function), (line), (file))
+#define XIP_LOG_AUTOFLF(shortmessage, longmessage, level, flags) XipLog::post((shortmessage), (longmessage), (level), (flags), (__FUNCTION__), (__LINE__), (__FILE__))
 
-//tricky to deal with variable inputs now
-//use XipLog::post_error(msg) instead
-#define XIP_POST_ERROR0							XIP_POST(XIP_ERROR, __FUNCTION__, __LINE__, __FILE__); 
-#define XIP_POST_ERROR1(msg)					XIP_POST(XIP_ERROR, msg, L"", L""); 
-#define XIP_POST_ERROR2(msg, module)			XIP_POST(XIP_ERROR, msg, module, L""); 
-#define XIP_POST_ERROR(msg, module, category)	XIP_POST(XIP_ERROR, msg, module, category); 
+#define XIP_LOG_FATAL(shortmessage, longmessage, flags) XIP_LOG((shortmessage), (longmessage), (XIPLOG_FATAL), (flags))
+#define XIP_LOG_FATAL0(shortmessage, longmessage) XIP_LOG((shortmessage), (longmessage), (XIPLOG_FATAL), (0))
+#define XIP_LOG_FATAL_FLF(shortmessage, longmessage, flags, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_FATAL), (flags), function, line, file)
+#define XIP_LOG_FATAL_FLF0(shortmessage, longmessage, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_FATAL), (0), function, line, file)
+#define XIP_LOG_FATAL_AUTOFLF(shortmessage, longmessage, flags) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_FATAL), (flags))
+#define XIP_LOG_FATAL_AUTOFLF0(shortmessage, longmessage) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_FATAL), (0))
 
-#define XIP_POST_WARNING0						XIP_POST(XIP_WARNING, __FUNCTION__, __LINE__, __FILE__); 
-#define XIP_POST_WARNING1(msg)					XIP_POST(XIP_WARNING, msg, L"", L""); 
-#define XIP_POST_WARNING2(msg, module)			XIP_POST(XIP_WARNING, msg, module, , L""); 
-#define XIP_POST_WARNING(msg, module, category)	XIP_POST(XIP_WARNING, msg, module, category); 
+#define XIP_LOG_ERROR(shortmessage, longmessage, flags) XIP_LOG((shortmessage), (longmessage), (XIPLOG_ERROR), (flags))
+#define XIP_LOG_ERROR0(shortmessage, longmessage) XIP_LOG((shortmessage), (longmessage), (XIPLOG_ERROR), (0))
+#define XIP_LOG_ERROR_FLF(shortmessage, longmessage, flags, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_ERROR), (flags), function, line, file)
+#define XIP_LOG_ERROR_FLF0(shortmessage, longmessage, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_ERROR), (0), function, line, file)
+#define XIP_LOG_ERROR_AUTOFLF(shortmessage, longmessage, flags) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_ERROR), (flags))
+#define XIP_LOG_ERROR_AUTOFLF0(shortmessage, longmessage) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_ERROR), (0))
 
-#define XIP_POST_DEBUG0							XIP_POST(XIP_DEBUG_INFO, __FUNCTION__, __LINE__, __FILE__); 
-#define XIP_POST_DEBUG1(msg)					XIP_POST(XIP_DEBUG_INFO, msg, L"", L""); 
-#define XIP_POST_DEBUG2(msg, module)			XIP_POST(XIP_DEBUG_INFO, msg, module, L""); 
-#define XIP_POST_DEBUG(msg, module, category)	XIP_POST(XIP_DEBUG_INFO, msg, module, category); 
+#define XIP_LOG_WARN(shortmessage, longmessage, flags) XIP_LOG((shortmessage), (longmessage), (XIPLOG_WARN), (flags))
+#define XIP_LOG_WARN0(shortmessage, longmessage) XIP_LOG((shortmessage), (longmessage), (XIPLOG_WARN), (0))
+#define XIP_LOG_WARN_FLF(shortmessage, longmessage, flags, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_WARN), (flags), function, line, file)
+#define XIP_LOG_WARN_FLF0(shortmessage, longmessage, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_WARN), (0), function, line, file)
+#define XIP_LOG_WARN_AUTOFLF(shortmessage, longmessage, flags) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_WARN), (flags))
+#define XIP_LOG_WARN_AUTOFLF0(shortmessage, longmessage) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_WARN), (0))
 
-//use overloading functions
-#define XIP_POST_LOG0							XIP_POST(XIP_LOG, __FUNCTION__, __LINE__, __FILE__); 
-#define XIP_POST_LOG1(msg)						XIP_POST(XIP_LOG, msg, L"", L""); 
-#define XIP_POST_LOG2(msg, module)				XIP_POST(XIP_LOG, msg, module, L""); 
-#define XIP_POST_LOG(msg, module, category)		XIP_POST(XIP_LOG, msg, module, category); 
+#define XIP_LOG_INFO(shortmessage, longmessage, flags) XIP_LOG((shortmessage), (longmessage), (XIPLOG_INFO), (flags))
+#define XIP_LOG_INFO0(shortmessage, longmessage) XIP_LOG((shortmessage), (longmessage), (XIPLOG_INFO), (0))
+#define XIP_LOG_INFO_FLF(shortmessage, longmessage, flags, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_INFO), (flags), function, line, file)
+#define XIP_LOG_INFO_FLF0(shortmessage, longmessage, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_INFO), (0), function, line, file)
+#define XIP_LOG_INFO_AUTOFLF(shortmessage, longmessage, flags) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_INFO), (flags))
+#define XIP_LOG_INFO_AUTOFLF0(shortmessage, longmessage) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_INFO), (0))
 
-#endif // _XIP_LOG_H
+#define XIP_LOG_DEBUG(shortmessage, longmessage, flags) XIP_LOG((shortmessage), (longmessage), (XIPLOG_DEBUG), (flags))
+#define XIP_LOG_DEBUG0(shortmessage, longmessage) XIP_LOG((shortmessage), (longmessage), (XIPLOG_DEBUG), (0))
+#define XIP_LOG_DEBUG_FLF(shortmessage, longmessage, flags, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_DEBUG), (flags), function, line, file)
+#define XIP_LOG_DEBUG_FLF0(shortmessage, longmessage, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_DEBUG), (0), function, line, file)
+#define XIP_LOG_DEBUG_AUTOFLF(shortmessage, longmessage, flags) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_DEBUG), (flags))
+#define XIP_LOG_DEBUG_AUTOFLF0(shortmessage, longmessage) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_DEBUG), (0))
+
+#define XIP_LOG_TRACE(shortmessage, longmessage, flags) XIP_LOG((shortmessage), (longmessage), (XIPLOG_TRACE), (flags))
+#define XIP_LOG_TRACE0(shortmessage, longmessage) XIP_LOG((shortmessage), (longmessage), (XIPLOG_TRACE), (0))
+#define XIP_LOG_TRACE_FLF(shortmessage, longmessage, flags, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_TRACE), (flags), function, line, file)
+#define XIP_LOG_TRACE_FLF0(shortmessage, longmessage, function, line, file) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_TRACE), (0), function, line, file)
+#define XIP_LOG_TRACE_AUTOFLF(shortmessage, longmessage, flags) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_TRACE), (flags))
+#define XIP_LOG_TRACE_AUTOFLF0(shortmessage, longmessage) XIP_LOG_AUTOFLF((shortmessage), (longmessage), (XIPLOG_TRACE), (0))
+
+
+#define XIP_LOG_SET(property, value)  XipLog::set(property, value)
+
+//
+//
+//#define XIP_LOG_ERROR(shortmessage, longmessage, flags, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_ERROR), (flags), function, line, file)
+//#define XIP_LOG_ERROR0(shortmessage, longmessage, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_ERROR), (0), function, line, file)
+//#define XIP_LOG_ERROR_FLF(shortmessage, longmessage, flags) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_ERROR), (flags))
+//#define XIP_LOG_ERROR_FLF0(shortmessage, longmessage) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_ERROR), (0))
+//
+//#define XIP_LOG_WARN(shortmessage, longmessage, flags, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_WARN), (flags), function, line, file)
+//#define XIP_LOG_WARN0(shortmessage, longmessage, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_WARN), (0), function, line, file)
+//#define XIP_LOG_WARN_FLF(shortmessage, longmessage, flags) XIP_LOG_FLF((shortmessage), (longmessage),  (XIPLOG_WARN), (flags))
+//#define XIP_LOG_WARN_FLF0(shortmessage, longmessage) XIP_LOG_FLF((shortmessage), (longmessage),  (XIPLOG_WARN), (0))
+//
+//#define XIP_LOG_INFO(shortmessage, longmessage, flags, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_INFO), (flags), function, line, file)
+//#define XIP_LOG_INFO0(shortmessage, longmessage, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_INFO), (0), function, line, file)
+//#define XIP_LOG_INFO_FLF(shortmessage, longmessage, flags) XIP_LOG_FLF((shortmessage), (longmessage),  (XIPLOG_INFO), (flags))
+//#define XIP_LOG_INFO_FLF0(shortmessage, longmessage) XIP_LOG_FLF((shortmessage), (longmessage),  (XIPLOG_INFO), (0))
+//
+//#define XIP_LOG_DEBUG(shortmessage, longmessage, flags, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_DEBUG), (flags), function, line, file)
+//#define XIP_LOG_DEBUG0(shortmessage, longmessage, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_DEBUG), (0), function, line, file)
+//#define XIP_LOG_DEBUG_FLF(shortmessage, longmessage, flags) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_DEBUG), (flags))
+//#define XIP_LOG_DEBUG_FLF0(shortmessage, longmessage) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_DEBUG), (0))
+//
+//#define XIP_LOG_TRACE(shortmessage, longmessage, flags, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_TRACE), (flags), function, line, file)
+//#define XIP_LOG_TRACE0(shortmessage, longmessage, function, line, file) XIP_LOG((shortmessage), (longmessage), (XIPLOG_TRACE), (0), function, line, file)
+//#define XIP_LOG_TRACE_FLF(shortmessage, longmessage, flags) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_TRACE), (flags))
+//#define XIP_LOG_TRACE_FLF0(shortmessage, longmessage) XIP_LOG_FLF((shortmessage), (longmessage), (XIPLOG_TRACE), (0))
+//
+
+#endif

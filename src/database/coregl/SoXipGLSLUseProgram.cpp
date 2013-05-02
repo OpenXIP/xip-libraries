@@ -109,8 +109,8 @@
  *  
  */
 #include <xip/system/standard.h>
+#include <xip/inventor/coregl/ShaderProgramManager.h>
 #include "SoXipGLSLUseProgram.h"
-#include "ShaderProgramManager.h"
 
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <xip/inventor/coregl/SoXipShaderProgramElement.h>
@@ -187,7 +187,14 @@ void SoXipGLSLUseProgram::updateProgramHandle()
         mProgramTag = prgTag.getValue().getString();
         ShaderProgramManager * manager = ShaderProgramManager::getInstance();
         // Store information
-        mProgramHandle = manager->getProgramHandle(mProgramTag);
+        if (manager)
+        {
+            mProgramHandle = manager->getProgramHandle(mProgramTag);
+
+            if (mProgramHandle)
+                if (!glIsProgram(mProgramHandle))
+                    manager->removeEntry(mProgramTag);
+        }
 #if 0
         if(mProgramHandle)
             SoDebugError::postInfo("Bound shader",prgTag.getValue().getString());

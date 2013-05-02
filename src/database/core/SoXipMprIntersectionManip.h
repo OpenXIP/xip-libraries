@@ -206,7 +206,10 @@ protected:
 
 private:
 	SbVec3f projectCenterOnPlane(const SbMatrix &intersectMatrix, const SbVec3f &center);
+	void updateModeAndCursor();
 	static void fieldSensorCBFunc(void *, SoSensor *);
 };
 
 #endif // SOXIPMPRINTERSECTIONMANIP_H
+
+

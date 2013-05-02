@@ -153,9 +153,9 @@ protected:
 
 private:
 
-    int mNodeId;
+    unsigned int mNodeId;
     int mNumPrograms;
-    int * mProgramTimeStamps;
+    unsigned __int64 * mProgramTimeStamps;
     bool mNeedsUpdate;
 };
 

@@ -17,7 +17,6 @@ set(HEADERS
   SoXipDicomSort3D.h
   SoXipDicomWindowLevel.h
   SoXipGetDicom.h
-  SoXipSaveDicom.h
   SoXipGetDicomReference.h
   SoXipGetDicomString.h
   SoXipLoadDicom.h
@@ -47,7 +46,6 @@ set(SOURCES
   SoXipDicomSort3D.cpp
   SoXipDicomWindowLevel.cpp
   SoXipGetDicom.cpp
-  SoXipSaveDicom.cpp
   SoXipGetDicomReference.cpp
   SoXipGetDicomString.cpp
   SoXipLoadDicom.cpp
@@ -55,6 +53,11 @@ set(SOURCES
   SoXipMFDataDicom.cpp
   SoXipPState.cpp
   SoXipSaveDicom.cpp
+  SoXipSFDataDicom.cpp
+  SoXipSFPState.cpp
+  SoXipSortDicom.cpp
+  SoXipSwitchMFDataDicom.cpp
+  SoXipVolumeDicom.cpp
   SoXipSFDataDicom.cpp
   SoXipSFPState.cpp
   SoXipSortDicom.cpp
@@ -103,6 +106,8 @@ target_link_libraries(xipivdicom
 	${XIP_CORE_LIBRARY}
 	${DCMTK_LIBRARIES})
 
+add_dependencies(xipivdicom xipivcore)
+	
 if(WIN32)
   target_link_libraries(xipivdicom
     wsock32

@@ -154,7 +154,7 @@ int SbXipImageDimensions::operator [](const int i) const
 
 int operator ==(const SbXipImageDimensions& d1, const SbXipImageDimensions& d2)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < XIP_IMAGE_DIMENSIONS; i++)
 		if (d1[i] != d2[i]) return FALSE;
 
 	return TRUE;
@@ -162,7 +162,7 @@ int operator ==(const SbXipImageDimensions& d1, const SbXipImageDimensions& d2)
 
 int operator !=(const SbXipImageDimensions& d1, const SbXipImageDimensions& d2)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < XIP_IMAGE_DIMENSIONS; i++)
 		if (d1[i] != d2[i]) return TRUE;
 
 	return FALSE;
@@ -229,7 +229,7 @@ void SbXipImage::init(
 	const SbXipImageDimensions &dimAllocated,
 	const SbXipImageDimensions &dimStored, DataType type, int bitsStored,
 	int components, ComponentType compType, ComponentLayoutType compLayout,
-	const SbMatrix &modelMatrix, int lineAlignment, MemoryType memType, unsigned char memoryAlignment)
+	const SbMatrix &modelMatrix, int lineAlignment, MemoryType , unsigned char memoryAlignment)
 {
 	freeBuffer();
 
@@ -269,7 +269,7 @@ void SbXipImage::init(
 	const SbXipImageDimensions &dimensions,
     DataType type, int bitsStored, void* pixelBuffer,
 	int components,	ComponentType compType, ComponentLayoutType compLayout,
-	const SbMatrix &modelMatrix, int lineAlignment,	MemoryType memType)
+	const SbMatrix &modelMatrix, int lineAlignment,	MemoryType )
 {
 	freeBuffer();
 
@@ -296,7 +296,7 @@ void SbXipImage::init(
 	const SbXipImageDimensions &dimensions,
 	DataType type, int bitsStored,
 	int components,	ComponentType compType, ComponentLayoutType compLayout,
-	const SbMatrix &modelMatrix, int lineAlignment, MemoryType memType, unsigned char memoryAlignment)
+	const SbMatrix &modelMatrix, int lineAlignment, MemoryType , unsigned char memoryAlignment)
 {	
 	freeBuffer();
 
@@ -307,7 +307,6 @@ void SbXipImage::init(
 
 	// We have to ensure that the x-dimension allocated is a multiple of 8
 	// in case the image pixel buffer is packed (8 voxel per byte).
-	//
 	if( compLayout == PACKED_LUMINANCE )
 		mDimAllocated[0] = ( ( mDimAllocated[0] + 7 ) / 8 ) * 8;
 
@@ -443,7 +442,7 @@ int SbXipImage::getLineLengthAllocated() const
 	if (mCompLayout == PACKED_LUMINANCE)
 	{
 		int b = 8 / mBitsStored;
-		return (mDimAllocated[0] / b) * (mCompType == INTERLEAVED ? mComponents : 1);
+		return (mDimAllocated[0] / b);
 	}
 
 	switch (mType)
@@ -468,7 +467,7 @@ int SbXipImage::getLineLengthStored() const
 	if (mCompLayout == PACKED_LUMINANCE)
 	{
 		int b = 8 / mBitsStored;
-		return (mDimStored[0] / b) * (mCompType == INTERLEAVED ? mComponents : 1);
+		return (mDimStored[0] / b);
 	}
 
 	switch (mType)

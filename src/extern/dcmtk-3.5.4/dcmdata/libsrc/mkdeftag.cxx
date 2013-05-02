@@ -176,7 +176,7 @@ getUserName(char* userString, int maxLen)
 
     WKSTA_USER_INFO_0 *userinfo;
     if (NetWkstaUserGetInfo(NULL, 0, (LPBYTE*)&userinfo) == NERR_Success){
-        LPTSTR lptstr = userinfo->wkui0_username;
+        LMSTR lptstr = userinfo->wkui0_username;
         // Convert the Unicode full name to ANSI.
         WideCharToMultiByte( CP_ACP, 0, (WCHAR*)lptstr, -1,
             userString, maxLen, NULL, NULL );

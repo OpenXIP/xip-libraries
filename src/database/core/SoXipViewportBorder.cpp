@@ -119,7 +119,7 @@
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <xip/inventor/core/SoXipCursor.h>
 #include <xip/system/GL/gl.h>
-
+#include <algorithm>
 
 SO_NODE_SOURCE(SoXipViewportBorder);
 
@@ -160,7 +160,16 @@ void SoXipViewportBorder::GLRender(SoGLRenderAction * action)
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_ALPHA_TEST);
-
+#if 0	
+	// disable clip planes
+	int maxClipPlanes;
+	glGetIntegerv(GL_MAX_CLIP_PLANES, &maxClipPlanes);
+	maxClipPlanes = std::min(maxClipPlanes, 16);
+	for (int i = 0; i < maxClipPlanes; i++)
+	{
+		glDisable(GL_CLIP_PLANE0 + i);
+	}
+#endif
 	unsigned short pattern;
 	float lineWidth;
 	SbColor color;
@@ -260,4 +269,6 @@ void SoXipViewportBorder::GLRender(SoGLRenderAction * action)
 
 	glPopAttrib();
 }
+
+
 

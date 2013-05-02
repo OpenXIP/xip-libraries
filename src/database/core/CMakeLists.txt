@@ -8,7 +8,8 @@ project(core)
 #
 set(HEADERS
   SoXipAnchor.h
-  SoXipAntiAliasing.h
+  # SoXipAntiAliasing.h
+  SoXipApplyLutToImage.h
   SoXipAutoScale.h
   SoXipBackground.h
   SoXipBoundingBox.h
@@ -24,6 +25,7 @@ set(HEADERS
   SoXipDecomposeVec6.h
   SoXipDisableTexturing.h
   SoXipDogEar.h
+  SoXipDrawQuad.h
   ../../../include/xip/inventor/core/SoXipExaminer.h
   SoXipExtractSlice.h
   SoXipGetImage.h
@@ -52,8 +54,10 @@ set(HEADERS
   SoXipPerformance.h
   SoXipPickAction.h
   SoXipPlaneManipBase.h
-	SoXipProxy.h
+  SoXipProxy.h
+  SoXipQuad.h
   SoXipRenderMode.h
+  SoXipSaveRaw.h
   SoXipSFDataImageToSFImage.h
   SoXipStringConcatenate.h
   SoXipSwitchMFDataImage.h
@@ -66,23 +70,32 @@ set(HEADERS
   SoXipVolGroup.h
   SoXipWindowLevelManip.h
   SoXipWindowSize.h
-	../../../include/xip/inventor/core/SoXipConvertToTrigger.h)	
+  ../../../include/xip/inventor/core/SoXipConvertToTrigger.h
+  SoXipRegistrationTransform.h
+  ../../../include/xip/inventor/core/SoXipRegistrationElement.h
+  ../../../include/xip/inventor/core/SbXipValueConvertBase.h
+  ../../../include/xip/inventor/core/SoXipSlopeInterceptConvert.h
+  ../../../include/xip/inventor/core/SoXipValueConvertElement.h
+  )	
 
 #--------------------------------------------------------------------
 # Define the source files
 #
 set(SOURCES
+  SbRectangle3f.cpp
   SbVariant.cpp
   SbXipCoordinateTransform.cpp
   SbXipDirtyFieldList.cpp
   SbXipImage.cpp
   SbXipImageFile.cpp
+  SbXipSlopeInterceptConvert.cpp
   SbXipThread.cpp
   SbXipThreadMutex.cpp
   SoMFVariant.cpp
   SoSFVariant.cpp
   SoXipActiveViewportElement.cpp
   SoXipAnchor.cpp
+  SoXipApplyLutToImage.cpp
   SoXipAutoScale.cpp
   SoXipBackground.cpp
   SoXipBoundingBox.cpp
@@ -104,6 +117,7 @@ set(SOURCES
   SoXipDecomposeVec6.cpp
   SoXipDisableTexturing.cpp
   SoXipDogEar.cpp
+  SoXipDrawQuad.cpp
   SoXipExaminer.cpp
   SoXipExtractSlice.cpp
   SoXipGetImage.cpp
@@ -143,9 +157,11 @@ set(SOURCES
   SoXipPickAction.cpp
   SoXipPickRadiusElement.cpp
   SoXipPlaneManipBase.cpp
-	SoXipProxy.cpp
+  SoXipProxy.cpp
   SoXipRenderMode.cpp
   SoXipRenderModeElement.cpp
+  SoXipSaveRaw.cpp
+  SoXipQuad.cpp
   SoXipSFData.cpp
   SoXipSFDataImage.cpp
   SoXipSFDataImageToSFImage.cpp
@@ -158,6 +174,7 @@ set(SOURCES
   SoXipTrackballToMouse.cpp
   SoXipTransparentGeometryGroup.cpp
   SoXipTransparentGeometryGroupElement.cpp
+  SoXipTrackballToMouse.cpp
   SoXipViewportBorder.cpp
   SoXipViewportGroup.cpp
   SoXipVolDataElement.cpp
@@ -170,7 +187,18 @@ set(SOURCES
   XipGeomUtils.cpp
   XipInventorUtils.cpp
   SoXipConvertToTrigger.cpp
-  init.cpp)
+  SoXipConvertMatrixToPlane.cpp
+  SoXipConvertToEnum.cpp
+  SoXipAnchor.cpp
+  SoXipPickRadiusElement.cpp
+  SoXipStringConcatenate.cpp
+  SoXipConvertToTrigger.cpp
+  SoXipRegistrationTransform.cpp
+  SoXipRegistrationElement.cpp
+  SoXipSlopeInterceptConvert.cpp
+  SoXipValueConvertElement.cpp
+  init.cpp
+  )
 
 #--------------------------------------------------------------------
 # Define the compiler flags
@@ -208,11 +236,12 @@ set_target_properties(xipivcore
 # Link the library
 #
 target_link_libraries(xipivcore
-	optimized xipcommon
-	debug xipcommon${CMAKE_DEBUG_POSTFIX}
+	${XIP_COMMON_LIBRARY}
 	${INVENTOR_LIBRARY}
 	${OPENGL_LIBRARIES})
 
+add_dependencies(xipivcore xipcommon)
+	
 #--------------------------------------------------------------------
 # Install the library
 #
