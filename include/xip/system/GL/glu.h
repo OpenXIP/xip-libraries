@@ -1,42 +1,4 @@
 /*
-  ------------------------------------------------------------------------
-
-    xip/system/GL/glu.h
-
-    This header is intended to provide a platform independent inclusion
-    of GL/glu.h header file and should be used by all source files in XIP.
-    Do not setup an include path pointing to xip/system/, this file
-    must be included with xip/system/GL/glu.h
-
-    Copyright (C) 2008, Siemens Corporate Research
-
-    Authors:
-      Sylvain Jaume, sylvain.jaume@siemens.com
-      Patric Ljung, patric.ljung@siemens.com
-
-    This file is part of XIP, sponsored by NSF, and provided under the
-    caBIG(tm) license.  See end of file for full license.
-
-  ------------------------------------------------------------------------
-*/
-
-#if defined(WIN32)
-
-#  include <GL/glu.h>
-
-#elif defined(linux)
-
-#  include <GL/glu.h>
-
-#elif defined(DARWIN)
-
-#include <OpenGL/glu.h>
-//#include <GL/glu.h>
-
-#endif /* Platform selection */
-
-
-/*
  *  COPYRIGHT NOTICE.  Copyright (C) 2005 Siemens Corporate Research, 
  *  Inc. ("caBIG(tm) Participant"). eXtensible Imaging Platform (XIP)
  *  was created with NCI funding and is part of the caBIG(tm) 
@@ -143,13 +105,47 @@
  *      LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
- *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ *      THE POSSIBILITY OF SUCH DAMAGE. 
  */
+/*
+  ------------------------------------------------------------------------
 
-// Local Variables:
-//   mode: c++
-//   indent-tabs-mode: nil
-//   c-indentation-style: k&r
-//   c-basic-offset: 4
-// End:
+    xip/system/GL/glu.h
+
+    This header is intended to provide a platform independent inclusion
+    of GL/glu.h header file and should be used by all source files in XIP.
+    Do not setup an include path pointing to xip/system/, this file
+    must be included with xip/system/GL/glu.h
+
+    Copyright (C) 2008, Siemens Corporate Research
+
+    Authors:
+      Sylvain Jaume, sylvain.jaume@siemens.com
+      Patric Ljung, patric.ljung@siemens.com
+
+    This file is part of XIP, sponsored by NSF, and provided under the
+    caBIG(tm) license.  See end of file for full license.
+
+  ------------------------------------------------------------------------
+*/
+
+#ifndef _XIP_SYSTEM_GLU_H_
+#define _XIP_SYSTEM_GLU_H_
+
+#if defined(WIN32)
+
+#include <GL/glu.h>
+
+#elif defined(linux)
+
+#include <GL/glu.h>
+
+#elif defined(DARWIN)
+
+#include <OpenGL/glu.h>
+//#include <GL/glu.h>
+
+#endif // Platform selection
+
+#endif // _XIP_SYSTEM_GLU_H_
+

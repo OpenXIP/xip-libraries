@@ -1,0 +1,71 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-1.5 2.4 0.9 3.2
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 5"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-5.7 0.3 -3.7 1.1
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-3.3 0.3 -0.67771 1.1
+    flags	()
+    autoPanelPos	37 0 0 0
+    node	    OrthographicCamera {
+	position	0 0 5
+	height	3
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-0.3 0.3 2.2356 1.1
+    flags	()
+    node	    TransformBoxManip {
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	2.4 0.3 4.4 1.1
+    flags	()
+    node	    BaseColor {
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	5.1 0.3 7.1 1.1
+    flags	()
+    autoPanelPos	326 281 0 0
+    node	    DEF MyCone Cone {
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

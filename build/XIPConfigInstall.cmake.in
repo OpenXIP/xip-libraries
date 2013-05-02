@@ -1,0 +1,88 @@
+# Sylvain Jaume <sylvain.jaume@siemens.com> 2008
+#
+# Find the XIP includes and library
+#
+# This file is configured by XIP and used by the UseXIP.cmake module
+# to load XIP's settings for an external project.
+#
+# XIP_INCLUDE_DIR - where to find xip/include
+# XIP_LIBRARIES - list of fully qualified libraries to link against
+# XIP_FOUND - set to 1 if found
+
+set(XIP_FOUND   1)
+set(XIP_INSTALL 1)
+
+# XIP source directory and paths needed to link with XIP
+set(XIP_INCLUDE_DIRS   "@CMAKE_INSTALL_PREFIX@/include")
+set(XIP_LIBRARY_DIR    "@CMAKE_INSTALL_PREFIX@/lib")
+set(XIP_EXECUTABLE_DIR "@CMAKE_INSTALL_PREFIX@/bin")
+set(XIP_LIBRARIES      "@XIP_LIBRARIES@")
+set(XIP_EXECUTABLES    "@XIP_EXECUTABLES@")
+
+# The C and C++ flags added by XIP to the cmake-configured flags
+set(XIP_REQUIRED_C_FLAGS             "@CMAKE_C_FLAGS@")
+set(XIP_REQUIRED_CXX_FLAGS           "@CMAKE_CXX_FLAGS@")
+set(XIP_REQUIRED_LINK_FLAGS          "@CMAKE_LINK_FLAGS@")
+set(XIP_REQUIRED_EXE_LINKER_FLAGS    "@CMAKE_EXE_LINKER_FLAGS@")
+set(XIP_REQUIRED_SHARED_LINKER_FLAGS "@CMAKE_SHARED_LINKER_FLAGS@")
+set(XIP_REQUIRED_MODULE_LINKER_FLAGS "@CMAKE_MODULE_LINKER_FLAGS@")
+
+# The cmake generator used to configure XIP
+set(XIP_GENERATOR "@CMAKE_GENERATOR@")
+
+# The XIP version number
+set(XIP_VERSION_MAJOR "@CPACK_PACKAGE_VERSION_MAJOR@")
+set(XIP_VERSION_MINOR "@CPACK_PACKAGE_VERSION_MINOR@")
+set(XIP_VERSION_PATCH "@CPACK_PACKAGE_VERSION_PATCH@")
+
+# The location of the UseXIP.cmake file
+set(XIP_USE_FILE "@CMAKE_INSTALL_PREFIX@/lib/UseXIP.cmake")
+
+# The build settings file
+set(XIP_BUILD_SETTINGS_FILE "@XIP_BUILD_SETTINGS_FILE@")
+
+# The library dependencies file
+set(XIP_LIBRARY_DEPENDS_FILE "@XIP_LIBRARY_DEPENDS_FILE@")
+
+# Whether XIP was built with shared libraries
+set(XIP_BUILD_SHARED "@BUILD_SHARED_LIBS@")
+
+# The XIP library dependencies.
+if(NOT XIP_NO_LIBRARY_DEPENDS AND
+    EXISTS "${XIP_LIBRARY_DEPENDS_FILE}")
+  include(${XIP_LIBRARY_DEPENDS_FILE})
+endif(NOT XIP_NO_LIBRARY_DEPENDS AND
+  EXISTS "${XIP_LIBRARY_DEPENDS_FILE}")
+
+# Whether XIP was built using DCMTK, ITK and/or VTK.
+set(HAS_DCMTK "@HAS_DCMTK@")
+set(HAS_ITK   "@HAS_ITK@")
+set(HAS_VTK   "@HAS_VTK@")
+
+# List of XIP examples, data files and GLSL files
+set(XIP_EXAMPLES     "@XIP_EXAMPLES@")
+set(XIP_DATA_FILES   "@XIP_DATA_FILES@")
+set(XIP_GLSL_FILES   "@XIP_GLSL_FILES@")
+set(XIP_EXAMPLES_DIR "@XIP_EXAMPLES_DIR@")
+
+# XIP files to install
+set(XIP_HEADER_FILES           "@XIP_HEADER_FILES@")
+set(XIP_INVENTOR_HEADER_FILES  "@XIP_INVENTOR_HEADER_FILES@")
+set(XIP_EXTRA_FILES_TO_INSTALL "@XIP_EXTRA_FILES_TO_INSTALL@")
+
+# XIP libraries
+set(INVENTOR_LIBRARY     "@INVENTOR_LIBRARY@")
+set(XIP_EXTRA_LIBRARY    "@XIP_EXTRA_LIBRARY@")
+set(XIP_CORE_LIBRARY     "@XIP_CORE_LIBRARY@")
+set(XIP_COREGL_LIBRARY   "@XIP_COREGL_LIBRARY@")
+set(XIP_COMMON_LIBRARY   "@XIP_COMMON_LIBRARY@")
+set(XIP_RENDERER_LIBRARY "@XIP_RENDERER_LIBRARY@")
+set(XIP_REMOTE_LIBRARY   "@XIP_REMOTE_LIBRARY@")
+set(XIP_DICOM_LIBRARY    "@XIP_DICOM_LIBRARY@")
+set(XIP_OVERLAY_LIBRARY  "@XIP_OVERLAY_LIBRARY@")
+set(XIP_ITK_LIBRARY      "@XIP_ITK_LIBRARY@")
+set(XIP_VTK_LIBRARY      "@XIP_VTK_LIBRARY@")
+	
+# DCMTK variables
+set(DCMTK_INCLUDE_DIRS "@CMAKE_INSTALL_PREFIX@/include")
+set(DCMTK_LIBRARIES    "@DCMTK_LIBRARIES@")

@@ -1,9 +1,10 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(src)
 
 #--------------------------------------------------------------------
-# Definitions
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DNOMINMAX)
@@ -14,7 +15,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 include_directories(
   ../include
@@ -26,15 +27,12 @@ include_directories(
   /opt/local/include) # Used for Macports
 
 #--------------------------------------------------------------------
-# Subdirectories
+# Build the subprojects
 #
 add_subdirectory(common)
+add_subdirectory(extern)
 add_subdirectory(database)
 
 if(WIN32) # Not yet supported on MacOSX
   add_subdirectory(rendernode)
 endif(WIN32)
-
-if(BUILD_INVENTOR)
-  add_subdirectory(extern)
-endif(BUILD_INVENTOR)

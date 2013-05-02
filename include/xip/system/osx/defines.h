@@ -1,6 +1,9 @@
-#ifndef _OSX_DEFINES_H_
-# define _OSX_DEFINES_H_
+// Copyright Siemens Corporate Research Inc. 2007
+// Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
-# define KEY_DELETE DELETE
+#ifndef _XIP_OSX_DEFINES_H_
+#define _XIP_OSX_DEFINES_H_
 
-#endif /* _OSX_DEFINES_H_ */
+#define KEY_DELETE DELETE
+
+#endif // _XIP_OSX_DEFINES_H_

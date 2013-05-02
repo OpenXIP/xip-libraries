@@ -126,8 +126,8 @@ get_charset_aliases (void)
       /* Make it possible to override the charset.alias location.  This is
 	 necessary for running the testsuite before "make install".  */
       dir = getenv ("CHARSETALIASDIR");
-      if (dir == NULL || dir[0] == '\0')
-	dir = relocate (LIBDIR);
+      //if (dir == NULL || dir[0] == '\0')
+      //dir = relocate (LIBDIR);
 
       /* Concatenate dir and base into freshly allocated file_name.  */
       {

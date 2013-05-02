@@ -1,4 +1,5 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(ftgl)
 

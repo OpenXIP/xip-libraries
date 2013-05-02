@@ -113,13 +113,15 @@
 #define SOXIPDICOMEXAMINER_H
 
 #include <xip/inventor/core/SoXipSubKit.h>
-#include <xip/inventor/dicom/SoXipMFDataDicom.h>
+#include <xip/inventor/dicom/SoxipMFDataDicom.h>
 
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/fields/SoSFShort.h>
 #include <Inventor/fields/SoSFFloat.h>
 #include <Inventor/fields/SoSFNode.h>
 #include <Inventor/fields/SoSFTrigger.h>
+#include <Inventor/fields/SoSFMatrix.h>
+#include <Inventor/fields/SoSFPlane.h>
 #include <Inventor/fields/SoSFEnum.h>
 #include <Inventor/sensors/SoFieldSensor.h>
 #include <Inventor/SbViewportRegion.h>
@@ -161,6 +163,10 @@ public:
 	SoSFTrigger					viewAll;
 	SoSFFloat					viewAllScale;
 	SoSFEnum					mode;
+	SoSFMatrix					boundingBox;
+	SoSFTrigger					viewBoundingBox;
+
+	SoSFPlane					planeSlice ;
 
 	static void initClass();
 
@@ -173,10 +179,11 @@ protected:
 	SbPlaneProjector				mPlaneProj;
 	SbViewVolume					mViewVolume;
 	SbViewportRegion				mViewport;
-	SoFieldSensor*					mFieldSensors[7];
+	SoFieldSensor*					mFieldSensors[8];
 	SbVec2f							mLastMousePosition;
 	SbBool							mViewAll;
 	SbBool							mPan;
+	SbBool							mViewBoundingBox;
 
 
 	SbBool						mAnimate;

@@ -2,7 +2,7 @@
 
 ### 0 ###
 SoXipBuilderNode {
-    placement	-5.13263 12.7959 -3.13263 13.5959
+    placement	-5.1 12.9 -3.1 13.7
     flags	()
     node	    Separator {
     }
@@ -151,10 +151,10 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	-7.5 1.2 -5.5 2
     flags	()
-    autoPanelPos	68 42 0 0
+    autoPanelPos	29 431 0 0
     node	    SoXipPickAction {
 	fields [ MFVec3f point ]
-	point	0.71425 0.564683 0
+	point	0.492248 0.512924 0
     }
 
 }
@@ -165,7 +165,7 @@ SoXipBuilderNode {
     flags	()
     autoPanelPos	106 349 0 0
     node	    Coordinate3 {
-	point	0.71425 0.564683 0
+	point	0.492248 0.512924 0
     }
 
 }
@@ -280,20 +280,21 @@ SoXipBuilderEngine {
 
 ### 19 ###
 SoXipBuilderEngine {
-    placement	-1.33528 5.7 3.24084 6.5
+    placement	-1.2 5.7 3.37612 6.5
     flags	()
-    autoPanelPos	804 422 385 392
+    autoPanelPos	607 213 0 0
     engine	    SoItkConfidenceConnectedImageFilter {
 	inputs [ SoItkSFDataImage Input0, SFFloat Multiplier, SFVec3f Seed, SFFloat ReplaceValue ]
 	Input0	"NULL"
 	Multiplier	2.1
-	Seed	0.71425 0.564683 0
+	Seed	0.492248 0.512924 0
 	ReplaceValue	0.5
 	outputs [ SoItkSFDataImage Output ]
     }
 
 }
 #connect "Input0@19" "Output@7"
+#connect "Seed@19" "point@10"
 
 ### packages ###
 SoXipBuilderPackage {
@@ -301,13 +302,13 @@ SoXipBuilderPackage {
     placement	-5.1 7.2 -3.1 8
     name	"Picking_In"
     members	[ 8, 9, 10, 11, 12, 13, 14 ]
-    position	-1.85 1.9 1
+    position	0 0 1
     height	16
     inputs	[  ]
     inputsChildIndex	[  ]
-    inputsPlacement	-2.05 -2.4 -0.05 -1.6
+    inputsPlacement	-2.85 -1.6 -0.85 -0.8
     outputs	8
-    outputsPlacement	-2.4 5.4 -0.4 6.2
+    outputsPlacement	-2.85 5.8 -0.85 6.6
 }
 
 SoXipBuilderPackage {
@@ -342,7 +343,7 @@ SoXipBuilderPackage {
     def	0
     members	[ -3, -2, -1, 0, 1, 2, 6, 7,
 		      18, 19 ]
-    position	-4.36167 8.90017 7.53925
+    position	-3.963 9.93008 7.53925
     height	11.1296
     inputs	[  ]
     inputsChildIndex	[  ]

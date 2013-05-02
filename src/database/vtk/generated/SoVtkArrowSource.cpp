@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkArrowSource.h"
-# include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkPolyData.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkArrowSource.h"
+#include "SoVtkUtils.h"
+
+#include "vtkAlgorithmOutput.h"
+#include "vtkPolyData.h"
 
 SO_ENGINE_SOURCE( SoVtkArrowSource )
 
@@ -129,9 +130,6 @@ SoVtkArrowSource::SoVtkArrowSource()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkArrowSource *aArrowSource = vtkArrowSource::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(TipRadius, (0));
 	TipRadius.setValue(aArrowSource->GetTipRadius());
@@ -152,12 +150,11 @@ SoVtkArrowSource::SoVtkArrowSource()
 
 	aArrowSource->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -167,7 +164,6 @@ SoVtkArrowSource::~SoVtkArrowSource()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
@@ -310,3 +306,4 @@ void SoVtkArrowSource::reset()
 
 	mObject->Update();
 }
+

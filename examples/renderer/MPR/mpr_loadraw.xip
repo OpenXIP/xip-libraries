@@ -1,0 +1,259 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-6.9 6 -1.7 6.8
+    flags	()
+    autoPanelPos	421 62 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 6 7 8 9 10 11 12 13"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-11.7 2.4 -9.7 3.2
+    flags	()
+    autoPanelPos	85 249 0 0
+    node	    SoXipMprPlane {
+	fields [ SFMatrix plane, SFVec3f center,  ]
+	plane	0.728411 0.680582 -0.0789056 0
+		-0.680538 0.732029 0.0316014 0
+		0.0792697 0.0306802 0.996381 0
+		0.5 0.5 0.5 1
+	center	0.5 0.5 0.5
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-11.7 0.3 -9.38831 1.1
+    flags	()
+    autoPanelPos	209 297 0 0
+    node	    SoXipMprExaminer {
+	orientation	HEAD
+	mode	ROTATE
+	dogEar	TRUE
+	orientationCube	TRUE
+	camera		OrthographicCamera {
+	    position	0.5 0.5 0.5
+	    orientation	0.000672662 0.115433 0.993315  0.754797
+	    nearDistance	-1
+	    farDistance	1
+	    focalDistance	0
+	    height	1
+	}
+
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	intersectionManip		SoXipMprIntersectionManip {
+	    fields [ SFBool on,  ]
+	    on	TRUE
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	1 1 1
+	    inactiveColor	1 1 1
+	}
+
+	dogEarNode		DEF +0 SoXipDogEar {
+	    fields [  ]
+	}
+
+	orientationNode		DEF +1 SoXipOrientationCube {
+	    fields [  ]
+	}
+
+	dogEarSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	}
+
+	orientationSwitch		Switch {
+	    whichChild	0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-10.5 -1.2 -8.33282 -0.4
+    flags	()
+    autoPanelPos	208 236 0 0
+    node	    SoXipTextureUnit {
+	fields [ SFBool autoGenerate ]
+	autoGenerate	FALSE
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-8.1 -1.2 -6.1 -0.4
+    flags	()
+    autoPanelPos	23 336 0 0
+    node	    SoXipTexture {
+	fields [ SoXipSFDataImage image, SFEnum wrapS, SFEnum wrapT, SFEnum wrapR,
+		SFEnum internalFormat, SFVec3f textureSize,  ]
+	image	"NULL"
+	wrapS	CLAMP_TO_BORDER
+	wrapT	CLAMP_TO_BORDER
+	wrapR	CLAMP_TO_BORDER
+	internalFormat	LUMINANCE8
+	textureSize	256 256 256
+    }
+
+}
+#connect "image@4" "output@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-8.1 -2.7 -6.1 -1.9
+    flags	()
+    autoPanelPos	23 385 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFShort width, SFShort height, SFShort depth, SFString file ]
+	width	256
+	height	256
+	depth	256
+	file	"..\..\data\head_ct_8bit.img"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	-6 -1.2 -3.08204 -0.400002
+    flags	()
+    autoPanelPos	359 224 0 0
+    node	    SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	window	0.608887
+	level	0.325195
+	mouse	BUTTON3
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-2.7 -1.2 -0.532821 -0.4
+    flags	()
+    autoPanelPos	354 249 0 0
+    node	    SoXipTextureUnit {
+	fields [ SFInt32 textureStage, SFBool autoGenerate ]
+	textureStage	1
+	autoGenerate	FALSE
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-0.3 -1.2 1.7 -0.4
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	323 320 0 0
+    node	    SoXipLut {
+	fields [ SoXipSFDataImage LUTDataImage, SFEnum alphaMode, SFEnum fileMode, SFShort bitsUsed,
+		SFFloat rampWidth, SFFloat rampCenter, SFInt32 fileEntries, MFColor arrayColor,
+		MFFloat arrayAlpha ]
+	LUTDataImage	"NULL"
+	alphaMode	CONSTANT
+	fileMode	FLOAT_COMMA
+	bitsUsed	16
+	rampWidth	0.608887
+	rampCenter	0.325195
+	fileEntries	4096
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+#connect "rampWidth@8" "window@6"
+#connect "rampCenter@8" "level@6"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	1.8 -1.2 3.8 -0.400001
+    flags	()
+    autoPanelPos	397 332 0 0
+    node	    SoXipLutTexture {
+	fields [ SoSFVec2s textureSize ]
+	textureSize	256 256
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	3.9 -1.2 6.13503 -0.4
+    flags	()
+    autoPanelPos	472 336 0 0
+    node	    SoXipLoadShaders {
+	fields [ SFString fpFilename, SFString vpFilename,  ]
+	fpFilename	"mpr_fp.glsl"
+	vpFilename	"mpr_vp.glsl"
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	6.3 -1.2 8.3 -0.4
+    flags	()
+    autoPanelPos	577 329 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name,  ]
+	name	"volume"
+    }
+
+}
+#connect "value@11" "textureStage@3"
+
+### 12 ###
+SoXipBuilderNode {
+    placement	8.7 -1.2 10.7 -0.399998
+    flags	()
+    autoPanelPos	637 338 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"lut"
+	value	1
+    }
+
+}
+#connect "value@12" "textureStage@7"
+
+### 13 ###
+SoXipBuilderNode {
+    placement	10.8 -1.2 12.9455 -0.4
+    flags	()
+    autoPanelPos	713 334 0 0
+    node	    SoXipMprRender {
+	fields [  ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9, 10, 11, 12, 13 ]
+    position	-0.747003 -0.661908 1
+    height	18.1125
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

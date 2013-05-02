@@ -1,9 +1,10 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(overlay)
 
 #--------------------------------------------------------------------
-# Find Freetype library
+# Locate the Freetype library
 #
 if(WIN32)
   set(FREETYPE_LIBRARIES freetype2)
@@ -12,12 +13,12 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# First build FTGL project
+# Build FTGL project
 #
 add_subdirectory(ftgl)
 
 #--------------------------------------------------------------------
-# Header files
+# Define the header files
 #
 set(HEADERS
   SbXipSearchTree.h
@@ -102,7 +103,7 @@ set(HEADERS
   geomutils.h)
 
 #--------------------------------------------------------------------
-# Source files
+# Define the source files
 #
 set(SOURCES
   SbXipMarkerShapes.cpp
@@ -202,7 +203,7 @@ set(SOURCES
   init.cpp)
 
 #--------------------------------------------------------------------
-# Define compiler flags
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVOVERLAY_EXPORTS -DFTGL_LIBRARY_STATIC)
@@ -211,11 +212,10 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 include_directories(
-  ftgl/include
-  ${DCMTK_INCLUDE_DIR})
+  ftgl/include)
 
 if(WIN32)
   include_directories(
@@ -225,29 +225,32 @@ else(WIN32)
   include_directories(
     ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
     ${FREETYPE_INCLUDE_DIRS}
-    /usr/local/dicom/include
+    ${DCMTK_DIR}/include
     .)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Link directories
+# Define the link directories
 #
-link_directories(${DCMTK_DIR})
-#if(WIN32)
-#link_directories(${XIPEXT}/freetype2/lib)
-#else(WIN32)
-#  link_directories(
-#    ${src_BINARY_DIR}/database/core
-#    ${Xip_BINARY_DIR}/database/dicom
-#    ${xipivoverlay_BINARY_DIR}/ftgl
-#    /usr/local/dicom/lib)
-#endif(WIN32)
+if(WIN32)
+  link_directories(
+    ${XIPEXT}/freetype2/lib)
+else(WIN32)
+  link_directories(
+    ${src_BINARY_DIR}/database/core
+    ${Xip_BINARY_DIR}/database/dicom
+    ${xipivoverlay_BINARY_DIR}/ftgl
+    ${DCMTK_DIR}/lib)
+endif(WIN32)
 
 #--------------------------------------------------------------------
 # Compile the library
 #
-add_library(xipivoverlay SHARED ${SOURCES} ${HEADERS})
-set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivoverlay)
+if(BUILD_SHARED_LIBS)
+  add_library(xipivoverlay SHARED ${HEADERS} ${SOURCES})
+else(BUILD_SHARED_LIBS)
+  add_library(xipivoverlay STATIC ${HEADERS} ${SOURCES})
+endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipivoverlay
   PROPERTIES VERSION ${XIP_VERSION_STRING}
@@ -260,23 +263,24 @@ target_link_libraries(xipivoverlay
   xipivcore
   xipivdicom
   ftgl
-  #${OPENGL_LIBRARIES}
   ${FREETYPE_LIBRARIES})
 
 #--------------------------------------------------------------------
 # Install the library
 #
 install(TARGETS xipivoverlay
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
-  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
-
-install(TARGETS xipivoverlay
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
-  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release
+  BUNDLE  DESTINATION lib/release CONFIGURATIONS Release)
+
+install(TARGETS xipivoverlay
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug   CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug   CONFIGURATIONS Debug
+  BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/xipivoverlay.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivoverlayd.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

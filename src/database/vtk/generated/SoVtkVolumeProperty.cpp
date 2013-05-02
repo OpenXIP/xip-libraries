@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkVolumeProperty.h"
 # include "SoVtkUtils.h"
@@ -127,8 +131,6 @@ SoVtkVolumeProperty::SoVtkVolumeProperty()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkVolumeProperty *aVolumeProperty = vtkVolumeProperty::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Ambient, (0));
 	Ambient.setValue(aVolumeProperty->GetAmbient());
@@ -275,3 +277,4 @@ void SoVtkVolumeProperty::inputChanged(SoField * f)
 
 	
 }
+

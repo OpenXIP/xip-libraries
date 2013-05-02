@@ -529,6 +529,13 @@ SbXipImage* createImage( DcmDataset** dataset, unsigned int num )
 		SbVec3f lastSlicePos(imagePositionPatientLast[0] * nor[0], imagePositionPatientLast[1] * nor[1], imagePositionPatientLast[2] * nor[2]);
 		SbVec3f diffPos = lastSlicePos - firstSlicePos;
 
+        // the scale of the model matrix goes from the edge to edge, not center to center, 
+        // so we need to get the slice spacing first, then multiply by depth
+        if (depth > 1)
+        {
+            diffPos /= (depth-1);
+            diffPos *= depth;
+        }
 		// The above model matrix is for only the first slice
 		// update it to consider all the slices
 		SbVec3f t, s;

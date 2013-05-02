@@ -305,18 +305,23 @@ SoXipImage::~SoXipImage()
 		mImageSensor = 0;
 	}
 
+	if (mTexture)
+	{
+		mTexture->unref();
+		mTexture = 0;
+	}
+
 	if (mCurrentImage)
 	{
 		mCurrentImage->unref();
 		mCurrentImage = 0;
 	}
 
-	if (mTexture)
-		mTexture->unref();
-
 	if (mMatrixTransform)
+	{
 		mMatrixTransform->unref();
-
+		mMatrixTransform = 0;
+	}
 }
 
 void SoXipImage::initClass()
@@ -501,23 +506,25 @@ void SoXipImage::GLRender(SoGLRenderAction * action)
 {
     try
     {
-		if (image.getValue())
-	    {
-		    ((SoAction*)action)->getState()->push();
+		((SoAction*)action)->getState()->push();
 
-		    if (mTexture)
-		    {
-			    updateTexture(action);
-			    mTexture->GLRender(action);
-		    }
-
-			if (mMatrixTransform)
-			    mMatrixTransform->GLRender(action);
-
-		    SoShape::GLRender(action);
-
-		    ((SoAction*)action)->getState()->pop();
+		if (mTexture)
+		{
+			updateTexture(action);
+			mTexture->GLRender(action);
 		}
+
+		if (mMatrixTransform)
+		{			
+			mMatrixTransform->GLRender(action);
+		}
+
+		if (mCurrentImage)
+		{
+			SoShape::GLRender(action);
+		}
+
+		((SoAction*)action)->getState()->pop();
 	}
 	catch (...)
     {

@@ -203,6 +203,9 @@ SoXipDisplayImageText::GLRender( SoGLRenderAction* action )
 	if( !on.isIgnored() && !on.getValue() )
 		return ;
 
+	SbBool notifyEnabled = isNotifyEnabled();
+	enableNotify(FALSE);
+
 	// Retrieve image text from element
 	const int numPositions = 1 + SoXipImageTextElement::TP_LOWER_RIGHT - SoXipImageTextElement::TP_UPPER_LEFT;
 	SbString displayText[numPositions];
@@ -235,7 +238,7 @@ SoXipDisplayImageText::GLRender( SoGLRenderAction* action )
 			continue ;
 
 		SoMFColor* colorField = (SoMFColor *) materialNode->getField( "diffuseColor" );
-		if( colorField )
+		if( colorField && colorElt )
 			colorField->setValue( colorElt->get( (SoXipImageTextElement::TextElementPosition) pos ) );
 	}
 
@@ -246,9 +249,8 @@ SoXipDisplayImageText::GLRender( SoGLRenderAction* action )
 	int minDim = pixels[0] > pixels[1] ? pixels[1] : pixels[0];
 
 	// do not display dicom text if segment size is less than 200
-	if( minDim < 200 )
-		return ;
-
+	if( minDim >= 200 )
+	{
 	float fontSize = SoFontSizeElement::get( action->getState() );
 
 	const float border = 5;
@@ -282,7 +284,7 @@ SoXipDisplayImageText::GLRender( SoGLRenderAction* action )
 			textUL->set( "vAlignment TOP" );
 		}
 		
-	// UPPER CENTRE
+	// UPPER CENTER
 		xOffset = 0.f;
 		yOffset = 1.f;
 
@@ -460,6 +462,8 @@ SoXipDisplayImageText::GLRender( SoGLRenderAction* action )
 			textLL->set( "vAlignment BOTTOM" );
 		}
 
+		enableNotify(notifyEnabled);
+
 	glPushAttrib( GL_ALL_ATTRIB_BITS );
 	glDisable( GL_LIGHTING );			// disable lighting
 	glDisable( GL_DEPTH_TEST );			// diable depth test
@@ -467,6 +471,11 @@ SoXipDisplayImageText::GLRender( SoGLRenderAction* action )
 	SoBaseKit::GLRender( action );
 
 	glPopAttrib();
+	}
+	else
+	{
+		enableNotify(notifyEnabled);
+	}	
 }
 
 void 
@@ -564,3 +573,5 @@ SoXipDisplayImageText::getDogEarSize( const SbViewportRegion& viewportRegion ) c
 	
 	return 0;
 }
+
+

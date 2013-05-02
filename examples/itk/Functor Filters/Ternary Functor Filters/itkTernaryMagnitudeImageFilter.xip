@@ -1,0 +1,345 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	1.5 6.3 3.5 7.1
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	0 4.8 2 5.6
+    flags	()
+    autoPanelPos	352 98 0 0
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	2.4 4.8 4.92778 5.6
+    flags	SHOW_RENDERVIEW
+    viewPos	651 136 393 678
+    autoPanelPos	-4 -4 1288 1002
+    node	    SoXipViewportGroup {
+	fields [ MFVec4f viewports, SFInt32 current ]
+	viewports	[ 0 0 1 0.5,
+			  0 0.5 1 0.5 ]
+	current	1
+    }
+
+}
+#addChild "2" "3 8"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-1.2 6 0.8 6.8
+    flags	()
+    viewPos	803 175 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "3" "4 5"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-2.7 4.2 -0.7 5
+    flags	()
+    autoPanelPos	861 271 0 0
+    node	    SoXipExaminer {
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-0.6 2.4 1.4 3.2
+    flags	()
+    autoPanelPos	330 516 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@5" "Output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-5.7 2.4 -1.95 3.2
+    flags	()
+    autoPanelPos	895 502 385 392
+    engine	    SoItkRescaleIntensityImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum,  ]
+	Input0	"NULL"
+	OutputMaximum	1
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@6" "Output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-6.3 2.7 -3.7167 3.5
+    flags	()
+    autoPanelPos	846 185 385 392
+    engine	    SoItkImageFileReader {
+	inputs [ SFString File,  ]
+	File	"../../../data/coronary/coronary_1.IMA"
+	outputs [ SoItkSFDataImage Output, MFShort Dimensions ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-2.4 2.4 -0.4 3.2
+    flags	()
+    viewPos	727 125 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "8" "9 10"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-3.9 0.9 -1.9 1.7
+    flags	()
+    autoPanelPos	861 62 0 0
+    node	    SoXipExaminer {
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	1.2 -0.9 3.2 -0.1
+    flags	()
+    autoPanelPos	770 349 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@10" "Output@11"
+
+### 11 ###
+SoXipBuilderEngine {
+    placement	-3.3 -0.9 0.45 -0.0999999
+    flags	()
+    autoPanelPos	332 417 385 392
+    engine	    SoItkRescaleIntensityImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum,  ]
+	Input0	"NULL"
+	OutputMaximum	1
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@11" "Output@12"
+
+### 12 ###
+SoXipBuilderEngine {
+    placement	3 -0.3 7.09552 0.5
+    flags	()
+    autoPanelPos	790 239 385 392
+    engine	    SoItkTernaryMagnitudeImageFilter {
+	inputs [ SoItkSFDataImage Input0, SoItkSFDataImage Input1, SoItkSFDataImage Input2 ]
+	Input0	"NULL"
+	Input1	"NULL"
+	Input2	"NULL"
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@12" "Output@13"
+#connect "Input1@12" "Output@15"
+#connect "Input2@12" "Output@17"
+
+### 13 ###
+SoXipBuilderEngine {
+    placement	-1.8 0.9 2.4209 1.7
+    flags	()
+    autoPanelPos	255 128 385 392
+    engine	    DEF Smooth1Y SoItkRecursiveGaussianImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat Direction, SFEnum Order, SFFloat Sigma,
+		 ]
+	Input0	"NULL"
+	Direction	1
+	Order	FirstOrder
+	Sigma	4
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@13" "Output@14"
+
+### 14 ###
+SoXipBuilderEngine {
+    placement	-6.3 0.9 -2.0791 1.7
+    flags	()
+    autoPanelPos	709 146 459 435
+    engine	    DEF SmoothX SoItkRecursiveGaussianImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat Sigma,  ]
+	Input0	"NULL"
+	Sigma	4
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@14" "Output@7"
+
+### 15 ###
+SoXipBuilderEngine {
+    placement	-1.8 -0.3 2.4209 0.5
+    flags	()
+    autoPanelPos	451 151 385 392
+    engine	    DEF Smooth1X SoItkRecursiveGaussianImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFEnum Order, SFFloat Sigma,  ]
+	Input0	"NULL"
+	Order	FirstOrder
+	Sigma	4
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@15" "Output@16"
+
+### 16 ###
+SoXipBuilderEngine {
+    placement	-6.3 -0.3 -2.0791 0.5
+    flags	()
+    autoPanelPos	638 547 385 392
+    engine	    DEF SmoothY SoItkRecursiveGaussianImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat Direction, SFFloat Sigma,  ]
+	Input0	"NULL"
+	Direction	1
+	Sigma	4
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@16" "Output@7"
+
+### 17 ###
+SoXipBuilderEngine {
+    placement	-1.8 -1.8 2.4209 -1
+    flags	()
+    autoPanelPos	509 616 385 392
+    engine	    DEF Smooth2Y SoItkRecursiveGaussianImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat Direction, SFEnum Order, SFFloat Sigma,
+		 ]
+	Input0	"NULL"
+	Direction	1
+	Order	SecondOrder
+	Sigma	4
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@17" "Output@15"
+
+### packages ###
+SoXipBuilderPackage {
+    def	-2
+    placement	4.2 2.7 6.33889 3.5
+    name	"TernaryMagnitude"
+    members	[ 8, 9, 10, 11 ]
+    position	-0.2 1.55 1
+    height	12.2037
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-0.2 -2.9 1.8 -2.1
+    outputs	8
+    outputsPlacement	-0.2 5.2 1.8 6
+}
+
+SoXipBuilderPackage {
+    def	-1
+    placement	1.5 2.7 3.5 3.5
+    name	"Input"
+    members	[ 3, 4, 5, 6 ]
+    position	-1.7125 3.6 1
+    height	14.6667
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-2.15 -2.4 -0.15 -1.6
+    outputs	3
+    outputsPlacement	-2.15 8.8 -0.15 9.6
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -2, -1, 0, 1, 2, 7, 12, 13,
+		      14, 15, 16, 17 ]
+    position	-0.935825 2.25191 1
+    height	11.2138
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

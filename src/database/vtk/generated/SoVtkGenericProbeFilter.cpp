@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
@@ -403,10 +407,7 @@ void SoVtkGenericProbeFilter::inputChanged(SoField * f)
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -449,12 +450,10 @@ void SoVtkGenericProbeFilter::reset()
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
 	mObject->Update();
 }
+

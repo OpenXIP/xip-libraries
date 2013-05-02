@@ -108,15 +108,17 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
- 
- 
- 
-# include "SoVtkEnSightGoldReader.h"
-# include "SoVtkUtils.h"
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkDataSet.h"
+#include "SoVtkEnSightGoldReader.h"
+#include "SoVtkUtils.h"
 
+#include "vtkAlgorithmOutput.h"
+#include "vtkDataSet.h"
+#include "vtkMultiBlockDataSet.h"
 
 SO_ENGINE_SOURCE( SoVtkEnSightGoldReader )
 
@@ -276,10 +278,7 @@ void SoVtkEnSightGoldReader::inputChanged(SoField * f)
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -334,10 +333,7 @@ void SoVtkEnSightGoldReader::reset()
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -351,3 +347,4 @@ void SoVtkEnSightGoldReader::reset()
 
 	mObject->Update();
 }
+

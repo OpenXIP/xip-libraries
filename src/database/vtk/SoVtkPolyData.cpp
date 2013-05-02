@@ -108,6 +108,9 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*!
+* \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
+*/
 
 # include "SoVtkPolyData.h"
 # include "SoVtkUtils.h"
@@ -131,8 +134,6 @@ SoVtkPolyData::SoVtkPolyData()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkPolyData *aPolyData = vtkPolyData::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Input, (0));
 
@@ -180,10 +181,8 @@ SoVtkPolyData::SoVtkPolyData()
 
 	aPolyData->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT(Output, SoSFVtkObject );
 	mOutput = 0;
-
 }
 
 SoVtkPolyData::~SoVtkPolyData()
@@ -191,9 +190,8 @@ SoVtkPolyData::~SoVtkPolyData()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
-		mOutput->unref();
-		mOutput = 0;
+	  mOutput->unref();
+	  mOutput = 0;
 	}
 	
 	if ( mObject )
@@ -202,8 +200,6 @@ SoVtkPolyData::~SoVtkPolyData()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkPolyData::initClass()
@@ -384,3 +380,5 @@ void SoVtkPolyData::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+
+

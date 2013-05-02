@@ -106,16 +106,19 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
 
-# include "SoVtkBYUReader.h"
-# include "SoVtkUtils.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
-# include "vtkDataObject.h"
-# include "vtkAlgorithmOutput.h"
-# include "vtkPolyData.h"
+#include "SoVtkBYUReader.h"
+#include "SoVtkUtils.h"
 
+#include "vtkDataObject.h"
+#include "vtkAlgorithmOutput.h"
+#include "vtkPolyData.h"
 
 SO_ENGINE_SOURCE( SoVtkBYUReader )
 
@@ -125,11 +128,11 @@ SoVtkBYUReader::SoVtkBYUReader()
 
 	mObject = vtkBYUReader::New();
 
-	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);mObject->SetGlobalWarningDisplay(0);
+	mObject->Register(0);
+	mObject->SetGlobalWarningDisplay(0);
+	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBYUReader *aBYUReader = vtkBYUReader::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(ReadTexture, (0));
 	ReadTexture.setValue(aBYUReader->GetReadTexture());
@@ -162,12 +165,11 @@ SoVtkBYUReader::SoVtkBYUReader()
 
 	aBYUReader->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 }
 
 SoVtkBYUReader::~SoVtkBYUReader()
@@ -321,3 +323,4 @@ void SoVtkBYUReader::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

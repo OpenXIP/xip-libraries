@@ -106,15 +106,15 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkBox.h"
-# include "SoVtkUtils.h"
 
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkBox.h"
+#include "SoVtkUtils.h"
 
 SO_ENGINE_SOURCE( SoVtkBox )
 
@@ -127,29 +127,25 @@ SoVtkBox::SoVtkBox()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBox *aBox = vtkBox::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	double x[3] = {0.0, 0.0, 0.0};
 
 	SO_ENGINE_ADD_INPUT(Bounds, ());
 	Bounds.setFormat("double double double double double double");
 
 	SO_ENGINE_ADD_INPUT(XMin, (0,0,0));
 
-	x = aBox->GetXMin();
+	aBox->GetXMin(x);
 	XMin.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(XMax, (0,0,0));
 
-	x = aBox->GetXMax();
+	aBox->GetXMax(x);
 	XMax.setValue(x[0],x[1],x[2]);
 
 	aBox->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -163,8 +159,6 @@ SoVtkBox::~SoVtkBox()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBox::initClass()
@@ -294,3 +288,4 @@ void SoVtkBox::reset()
 		SO_VTK_SET_FIELD_VEC3F( mObject, XMax);
 
 }
+

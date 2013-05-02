@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkVolumeTextureMapper2D.h"
 # include "SoVtkUtils.h"
@@ -129,8 +133,7 @@ SoVtkVolumeTextureMapper2D::SoVtkVolumeTextureMapper2D()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkVolumeTextureMapper2D *aVolumeTextureMapper2D = vtkVolumeTextureMapper2D::New();
-	double *x;
-	int *y;
+	int y[2];
 
 	SO_ENGINE_ADD_INPUT(Cropping, (0));
 	Cropping.setValue(aVolumeTextureMapper2D->GetCropping());
@@ -147,7 +150,7 @@ SoVtkVolumeTextureMapper2D::SoVtkVolumeTextureMapper2D()
 
 	SO_ENGINE_ADD_INPUT(TargetTextureSize, (0,0));
 
-	y= aVolumeTextureMapper2D->GetTargetTextureSize();
+	aVolumeTextureMapper2D->GetTargetTextureSize(y);
 	TargetTextureSize.setValue((float) y[0],(float) y[1]);
 
 	SO_ENGINE_ADD_INPUT(CroppingRegionFlags, (0));
@@ -334,3 +337,4 @@ void SoVtkVolumeTextureMapper2D::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

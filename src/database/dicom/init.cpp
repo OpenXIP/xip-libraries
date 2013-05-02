@@ -120,6 +120,7 @@
 #include "SoXipLoadPState.h"
 #include "SoXipSortDicom.h"
 #include "SoXipGetDicom.h"
+#include "SoXipSaveDicom.h"
 #include "SoXipGetDicomReference.h"
 #include "SoXipConvertDicom.h"
 #include "SoXipConvertDicomToXipImage.h"
@@ -146,6 +147,7 @@ int XIPIVDICOM_API xipivdicom_init()
 	SoXipLoadPState::initClass();
 	SoXipSortDicom::initClass();
 	SoXipGetDicom::initClass();
+	SoXipSaveDicom::initClass();
 	SoXipGetDicomReference::initClass();
 	SoXipGetDicomString::initClass();
 	SoXipDicomExaminer::initClass();
@@ -171,10 +173,6 @@ int XIPIVDICOM_API xipivdicom_init()
 }
 
 
-static int initted = FALSE;    // a little protection--probably unnecessary
-  
-#ifdef WIN32
-
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 {
 	if (reason == DLL_PROCESS_ATTACH)
@@ -189,28 +187,3 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
 	return TRUE;
 }
 
-#else /* not WIN32 */
-
-void __attribute__ ((constructor)) _init(void)// don't write this if DllMain is to be used
-{
-
-    int err;
-
-  	
-	if (SoDB::isInitialized())
-        {
-            // automatic initialization for dynamic loading
-            xipivdicom_init();
-        }
-    
-
-    initted = TRUE;
-    //return 0;
-}
-
-void __attribute__ ((destructor)) _fini(void)
-{
-   //printf ("fini print.\n");
-}
-
-#endif /* WIN32 */

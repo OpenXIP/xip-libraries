@@ -109,11 +109,12 @@
  *  
  */
 
-/*!
+/*
  * \file SoVtkActor.cpp
- *  
- * \brief SoVtkActor class implementation.
  *
+ * \brief XIP wrapping of SoVtkActor
+ *
+ * \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
  */
 
 #include "SoVtkActor.h"
@@ -135,7 +136,7 @@ SoVtkActor::SoVtkActor()
 	mActor->Register(0);
 
 	vtkActor *aActor = vtkActor::New();
-	double *x;
+	double x[3];
 
 	SO_NODE_ADD_FIELD( Mapper, (0) );
 	SO_NODE_ADD_FIELD( Property, (0) );
@@ -143,19 +144,19 @@ SoVtkActor::SoVtkActor()
 	SO_NODE_ADD_FIELD( Texture, (0) );
 
 	SO_NODE_ADD_FIELD(Origin, (0, 0, 0));
-	x = aActor->GetOrigin();
+	aActor->GetOrigin(x);
 	Origin.setValue(x[0],x[1],x[2]);
 
 	SO_NODE_ADD_FIELD(Orientation, (0, 0, 0));
-	x = aActor->GetOrientation();
+	aActor->GetOrientation(x);
 	Orientation.setValue(x[0],x[1],x[2]);
 
 	SO_NODE_ADD_FIELD(Position, (0, 0, 0));
-	x = aActor->GetPosition();
+	aActor->GetPosition(x);
 	Position.setValue(x[0],x[1],x[2]);
 
 	SO_NODE_ADD_FIELD(Scale, (0, 0, 0));
-	x = aActor->GetScale();
+	aActor->GetScale(x);
 	Scale.setValue(x[0],x[1],x[2]);
 
 	SO_NODE_ADD_FIELD(Pickable, (0));
@@ -252,4 +253,6 @@ SoVtkActor::getActor() const
 {
 	return mActor;
 }
+
+
 

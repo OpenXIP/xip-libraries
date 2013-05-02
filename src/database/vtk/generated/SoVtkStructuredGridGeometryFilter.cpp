@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkStructuredGridGeometryFilter.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkStructuredGridGeometryFilter::SoVtkStructuredGridGeometryFilter()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkStructuredGridGeometryFilter *aStructuredGridGeometryFilter = vtkStructuredGridGeometryFilter::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Input, (0));
 
@@ -294,3 +296,4 @@ void SoVtkStructuredGridGeometryFilter::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

@@ -1,9 +1,10 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(itk)
 
 #--------------------------------------------------------------------
-# Header files
+# Define the header files
 #
 set(HEADERS
   SoItkArray.h
@@ -245,7 +246,7 @@ set(HEADERS
   generated/itkWrapInit.h)
 
 #--------------------------------------------------------------------
-# Source files
+# Define the source files
 #
 set(SOURCES
   SbItkNodeContainer.cpp
@@ -511,19 +512,60 @@ set(SOURCES
   generated/itkWrapInit.cpp)
 
 #--------------------------------------------------------------------
-# Find Insight Toolkit package
+# Find the Insight Toolkit libraries
 #
-find_package(ITK)
+if(${CMAKE_BINARY_DIR} MATCHES release)
+	
+  if(CMAKE_CL_64)
+    find_package(ITK REQUIRED PATHS
+		${CMAKE_SOURCE_DIR}/../xipext-win64-vs8-release/ITK/lib/InsightToolkit)
+  endif(CMAKE_CL_64)
 
-if(ITK_FOUND)
-  include(${ITK_USE_FILE})
-else(ITK_FOUND)
-  find_path(ITK_DIR ITKConfig.cmake
-    ../../../../xipext-win32-vs8/ITK/lib/InsightToolkit
-    ../../../../xipext-mac-xcode/ITK/lib/InsightToolkit
-    ../../../../xipext-linux-32bit/ITK/lib/InsightToolkit
-    "Directory where ITK is installed")
-endif(ITK_FOUND)
+  if(WIN32 AND NOT CMAKE_CL_64)
+    find_package(ITK REQUIRED PATHS
+		${CMAKE_SOURCE_DIR}/../xipext-win32-vs8-release/ITK/lib/InsightToolkit)
+  endif(WIN32 AND NOT CMAKE_CL_64)
+
+  if(DARWIN)
+    find_package(ITK REQUIRED PATHS
+    ${CMAKE_SOURCE_DIR}/../xipext-mac-xcode-release/ITK/lib/InsightToolkit)
+  endif(DARWIN)
+
+  if(UNIX AND NOT DARWIN)
+    find_package(ITK REQUIRED PATHS
+    ${CMAKE_SOURCE_DIR}/../xipext-linux-32bit-release/ITK/lib/InsightToolkit)
+  endif(UNIX AND NOT DARWIN)
+
+else(${CMAKE_BINARY_DIR} MATCHES release)
+
+  if(CMAKE_CL_64)
+    find_package(ITK REQUIRED PATHS
+    ${CMAKE_SOURCE_DIR}/../xipext-win64-vs8-debug/ITK/lib/InsightToolkit)
+  endif(CMAKE_CL_64)
+
+  if(WIN32 AND NOT CMAKE_CL_64)
+    find_package(ITK REQUIRED PATHS
+    ${CMAKE_SOURCE_DIR}/../xipext-win32-vs8-debug/ITK/lib/InsightToolkit)
+  endif(WIN32 AND NOT CMAKE_CL_64)
+
+  if(DARWIN)
+    find_package(ITK REQUIRED PATHS
+    ${CMAKE_SOURCE_DIR}/../xipext-mac-xcode-debug/ITK/lib/InsightToolkit)
+  endif(DARWIN)
+
+  if(UNIX AND NOT DARWIN)
+    find_package(ITK REQUIRED PATHS
+    ${CMAKE_SOURCE_DIR}/../xipext-linux-32bit-debug/ITK/lib/InsightToolkit)
+  endif(UNIX AND NOT DARWIN)
+
+endif(${CMAKE_BINARY_DIR} MATCHES release)
+
+include(${ITK_USE_FILE})
+
+if(NOT ${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR} EQUAL 3.8)
+  message(FATAL_ERROR "ITK 3.8 Required. Found ITK version "
+					${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
+endif(NOT ${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR} EQUAL 3.8)
 
 #--------------------------------------------------------------------
 # Define compiler flags
@@ -535,32 +577,33 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 include_directories(${ITK_INCLUDE_DIRS})
 
 #--------------------------------------------------------------------
-# Link directories
+# Define the link directories
 #
 link_directories(${ITK_LIBRARY_DIRS})
 
 #--------------------------------------------------------------------
-# Compile library
+# Compile the library
 #
-add_library(xipivitk SHARED ${HEADERS} ${SOURCES})
-set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivitk)
+if(BUILD_SHARED_LIBS)
+  add_library(xipivitk SHARED ${HEADERS} ${SOURCES})
+else(BUILD_SHARED_LIBS)
+  add_library(xipivitk STATIC ${HEADERS} ${SOURCES})
+endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipivitk
   PROPERTIES VERSION ${XIP_VERSION_STRING}
   SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
-# Link library
+# Link the library
 #
 target_link_libraries(xipivitk
   xipivcore
-  debug xipinv240d
-  optimized xipinv240
   ${ITK_LIBRARIES})
 
 if(WIN32 AND NOT BORLAND)
@@ -571,19 +614,21 @@ if(WIN32 AND NOT BORLAND)
 endif(WIN32 AND NOT BORLAND)
 
 #--------------------------------------------------------------------
-# Install library
+# Install the library
 #
-install(TARGETS xipivitk
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
-  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
-  
 install(TARGETS xipivitk
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
-  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release
+  BUNDLE  DESTINATION lib/release CONFIGURATIONS Release)
+
+install(TARGETS xipivitk
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug   CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug   CONFIGURATIONS Debug
+  BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivitk.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivitkd.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

@@ -1,0 +1,93 @@
+# Modified by Sylvain Jaume <sylvain.jaume@siemens.com> 2008
+
+#--------------------------------------------------------------------
+# Define the header files
+#
+set(HEADERS
+jchuff16.h
+jconfig16.h
+jdct16.h
+jdhuff16.h
+jerror16.h
+jinclude16.h
+jlossls16.h
+jlossy16.h
+jmemsys16.h
+jmorecfg16.h
+jpegint16.h
+jpeglib16.h
+jversion16.h)				
+
+#--------------------------------------------------------------------
+# Define the source files
+#
+set(SOURCES
+  jaricom.c
+  jcapimin.c
+  jcapistd.c
+  jcarith.c
+  jccoefct.c
+  jccolor.c
+  jcdctmgr.c
+  jcdiffct.c
+  jchuff.c
+  jcinit.c
+  jclhuff.c
+  jclossls.c
+  jclossy.c
+  jcmainct.c
+  jcmarker.c
+  jcmaster.c
+  jcodec.c
+  jcomapi.c
+  jcparam.c
+  jcphuff.c
+  jcpred.c
+  jcprepct.c
+  jcsample.c
+  jcscale.c
+  jcshuff.c
+  jctrans.c
+  jdapimin.c
+  jdapistd.c
+  jdarith.c
+  jdatadst.c
+  jdatasrc.c
+  jdcoefct.c
+  jdcolor.c
+  jddctmgr.c
+  jddiffct.c
+  jdhuff.c
+  jdinput.c
+  jdlhuff.c
+  jdlossls.c
+  jdlossy.c
+  jdmainct.c
+  jdmarker.c
+  jdmaster.c
+  jdmerge.c
+  jdphuff.c
+  jdpostct.c
+  jdpred.c
+  jdsample.c
+  jdscale.c
+  jdshuff.c
+  jdtrans.c
+  jerror.c
+  jfdctflt.c
+  jfdctfst.c
+  jfdctint.c
+  jidctflt.c
+  jidctfst.c
+  jidctint.c
+  jidctred.c
+  jmemmgr.c
+  jmemnobs.c
+  jquant1.c
+  jquant2.c
+  jutils.c)
+
+#--------------------------------------------------------------------
+# Compile the library
+#
+add_library(ijg16 STATIC ${HEADERS} ${SOURCES})

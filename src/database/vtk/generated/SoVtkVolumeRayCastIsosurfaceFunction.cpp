@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkVolumeRayCastIsosurfaceFunction.h"
 # include "SoVtkUtils.h"
@@ -125,8 +129,6 @@ SoVtkVolumeRayCastIsosurfaceFunction::SoVtkVolumeRayCastIsosurfaceFunction()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkVolumeRayCastIsosurfaceFunction *aVolumeRayCastIsosurfaceFunction = vtkVolumeRayCastIsosurfaceFunction::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(IsoValue, (0));
 	IsoValue.setValue(aVolumeRayCastIsosurfaceFunction->GetIsoValue());
@@ -199,3 +201,4 @@ void SoVtkVolumeRayCastIsosurfaceFunction::inputChanged(SoField * f)
 
 	
 }
+

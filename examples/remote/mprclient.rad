@@ -118,7 +118,7 @@ Separator {
 			    }
 			    . bitsUsed
 
-			fileIn	"C:\Data\Lut\SplineShaded.txt"
+			fileIn	"SplineShaded.txt"
 			fileEntries	4096
 			arrayColor	[  ]
 			arrayAlpha	[  ]

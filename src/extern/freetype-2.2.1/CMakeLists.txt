@@ -1,15 +1,25 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research Inc. 2008
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(freetype2)
 
+#--------------------------------------------------------------------
+# Define the compiler flags
+#
 add_definitions(-DFT2_BUILD_LIBRARY)
 
+#--------------------------------------------------------------------
+# Define the include directories
+#
 include_directories(include
   include/freetype
   include/freetype/config
   include/freetype/internal
   include/freetype/internal/services)
 
+#--------------------------------------------------------------------
+# Define the header files
+#
 set(HEADERS
   builds/amiga/include/freetype/config/ftconfig.h
   builds/amiga/include/freetype/config/ftmodule.h
@@ -221,7 +231,10 @@ set(HEADERS
   src/type42/t42types.h
   src/winfonts/fnterrs.h
   src/winfonts/winfnt.h)
-  
+
+#--------------------------------------------------------------------
+# Define the source files
+#
 set(SOURCES
   src/gzip/adler32.c
   src/autofit/afangles.c
@@ -385,4 +398,7 @@ set(SOURCES
   src/winfonts/winfnt.c
   src/gzip/zutil.c)
 
+#--------------------------------------------------------------------
+# Compile the library
+#
 add_library(freetype2 STATIC ${HEADERS} ${SOURCES})

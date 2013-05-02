@@ -108,6 +108,7 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/* author Sylvain Jaume, Julien Gein */
 
 #include <itkImage.h>
 #include <itkRGBPixel.h>
@@ -153,6 +154,97 @@ SoItkConvertItkImageToXipImage::~SoItkConvertItkImageToXipImage()
 	}
 }
 
+
+
+template <class Type, int nDims, int nComps>
+static SoXipDataImage *
+createXipImageSingle(SoItkDataImage * xipItkImage, SbXipImage::DataType typeFlag,
+		     int bitsPerComp, SbXipImage::ComponentLayoutType compLayout)
+{
+    typedef typename itk::Image<Type, nDims> ImageType;
+    ImageType * itkImage = reinterpret_cast<ImageType *>(xipItkImage->getPointer());
+
+    typename ImageType::RegionType region = itkImage->GetBufferedRegion();
+
+    SbXipImageDimensions dimensions(1, 1, 1);
+
+    for (unsigned int i = 0; i < nDims; ++ i)
+    {
+	dimensions[i] = region.GetSize()[i];
+    }
+
+    SbXipImage* image =
+	new SbXipImage(dimensions, typeFlag, bitsPerComp,
+		       itkImage->GetBufferPointer(), nComps,
+		       SbXipImage::INTERLEAVED, compLayout,
+		       xipItkImage->getModelMatrix());
+
+    if (!image) return 0;
+
+    SoXipDataImage * xipImage = new SoXipDataImage;
+    xipImage->ref();
+    xipImage->addRef(xipItkImage);
+    xipImage->set(image);
+
+    return xipImage;
+}
+
+
+template <class Type, int nDims>
+static SoXipDataImage *
+createXipImageAllComp(SoItkDataImage * xipItkImage, SbXipImage::DataType typeFlag, int bpc)
+{
+    SoXipDataImage * xipImage = 0;
+
+    switch (xipItkImage->getComponentLayoutType())
+    {
+    case SoItkDataImage::LUMINANCE:
+	xipImage = createXipImageSingle<Type, nDims, 1>(xipItkImage, typeFlag,
+							bpc, SbXipImage::LUMINANCE);
+	break;
+                    
+    case SoItkDataImage::RGB:
+	xipImage = createXipImageSingle<itk::RGBPixel<Type>, nDims, 3>(xipItkImage, typeFlag,
+								       bpc, SbXipImage::RGB);
+	break;
+                    
+    case SoItkDataImage::RGBA:
+	xipImage = createXipImageSingle<itk::RGBAPixel<Type>, nDims, 4>(xipItkImage, typeFlag,
+									bpc, SbXipImage::RGBA);
+	break;						
+    }
+    
+    return xipImage;
+}
+
+template <int nDims>
+static SoXipDataImage *
+createXipImage(SoItkDataImage * xipItkImage)
+{
+    SoXipDataImage * xipImage = 0;
+
+    switch (xipItkImage->getType())
+    {
+    case SoItkDataImage::UNSIGNED_CHAR:
+	xipImage = createXipImageAllComp<unsigned char, nDims>(xipItkImage, SbXipImage::UNSIGNED_BYTE, 8);
+	break;
+
+    case SoItkDataImage::UNSIGNED_SHORT:
+	xipImage = createXipImageAllComp<unsigned short, nDims>(xipItkImage, SbXipImage::UNSIGNED_SHORT, 16);
+	break;
+                
+    case SoItkDataImage::SHORT:
+	xipImage = createXipImageAllComp<short, nDims>(xipItkImage, SbXipImage::SHORT, 16);
+	break;
+
+    case SoItkDataImage::FLOAT:
+	xipImage = createXipImageAllComp<float, nDims>(xipItkImage, SbXipImage::FLOAT, 32);
+	break;
+    }
+
+    return xipImage;
+}
+
 void
 SoItkConvertItkImageToXipImage::evaluate()
 {
@@ -163,237 +255,34 @@ SoItkConvertItkImageToXipImage::evaluate()
 		SO_ENGINE_OUTPUT( output, SoXipSFDataImage, setValue(0) );
 	}
 
-	SoItkDataImage* radItkImage = input.getValue();
-	if( !radItkImage )
-		return ;
+	SoItkDataImage* xipItkImage = input.getValue();
 
-	if( radItkImage->getType() != SoItkDataImage::UNSIGNED_SHORT &&
-		radItkImage->getType() != SoItkDataImage::FLOAT &&
-		radItkImage->getType() != SoItkDataImage::UNSIGNED_CHAR &&
-		radItkImage->getType() != SoItkDataImage::SHORT )
+	if (!xipItkImage)
+	    return;
+
+	if (xipItkImage->getType() != SoItkDataImage::UNSIGNED_SHORT &&
+	    xipItkImage->getType() != SoItkDataImage::FLOAT &&
+	    xipItkImage->getType() != SoItkDataImage::UNSIGNED_CHAR &&
+	    xipItkImage->getType() != SoItkDataImage::SHORT)
 	{
-		SoDebugError::post( __FILE__, "Itk image only supports UNSIGNED_SHORT, UNSIGNED_CHAR, SHORT or FLOAT" );
-		return ;
+	    SoDebugError::post( __FILE__, "Itk image only supports UNSIGNED_SHORT, UNSIGNED_CHAR, SHORT or FLOAT" );
+	    return ;
 	}
 
 	try
 	{
-		#define CREATE_RAD_IMAGE( Type, TypeFlag, ComponentLayoutFlag, Dimension, NumComponents )		\
-		{                                                                              					\
-			typedef itk::Image< Type, Dimension > ImageType;                           					\
-			ImageType* itkImage = static_cast< ImageType* >( radItkImage->getPointer() );               \
-																					   					\
-			ImageType::RegionType region = itkImage->GetBufferedRegion();              					\
-				                                                                       					\
-			SbXipImageDimensions dimensions(1, 1, 1);													\
-			for( unsigned int i = 0; i < Dimension; ++ i )                             					\
-				dimensions[i] = region.GetSize()[i];                                   					\
-				                                                                       					\
-	 		SbXipImage* image = new SbXipImage( dimensions,                            					\
-				SbXipImage::TypeFlag, 12, itkImage->GetBufferPointer(),              					\
-				NumComponents, SbXipImage::INTERLEAVED, SbXipImage::ComponentLayoutFlag,				\
-				radItkImage->getModelMatrix() );                                       					\
-																					   					\
-			mXipImage = new SoXipDataImage;                                            					\
-			mXipImage->ref();                                                          					\
-			mXipImage->addRef( radItkImage );                                          					\
-			mXipImage->set( image );                                                   					\
-		}
-
-		switch( radItkImage->getNumDimension() )
-		{
-			case 2: 
-			{
-				switch( radItkImage->getType() )
-				{
-					case SoItkDataImage::UNSIGNED_SHORT:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								 CREATE_RAD_IMAGE( unsigned short, UNSIGNED_SHORT, LUMINANCE, 2, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<unsigned short>, UNSIGNED_SHORT, RGB, 2, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<unsigned short>, UNSIGNED_SHORT, RGBA, 2, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-					case SoItkDataImage::FLOAT:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								CREATE_RAD_IMAGE( float, FLOAT, LUMINANCE, 2, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<float>, FLOAT, RGB, 2, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<float>, FLOAT, RGBA, 2, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-					case SoItkDataImage::UNSIGNED_CHAR:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								CREATE_RAD_IMAGE( unsigned char, UNSIGNED_BYTE, LUMINANCE, 2, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<unsigned char>, UNSIGNED_BYTE, RGB, 2, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<unsigned char>, UNSIGNED_BYTE, RGBA, 2, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-					case SoItkDataImage::SHORT:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								CREATE_RAD_IMAGE( short, SHORT, LUMINANCE, 2, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<short>, SHORT, RGB, 2, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<short>, SHORT, RGBA, 2, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-				}
-			}
-			break;
-			case 3: 
-			{
-				switch( radItkImage->getType() )
-				{
-					case SoItkDataImage::UNSIGNED_SHORT:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								 CREATE_RAD_IMAGE( unsigned short, UNSIGNED_SHORT, LUMINANCE, 3, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<unsigned short>, UNSIGNED_SHORT, RGB, 3, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<unsigned short>, UNSIGNED_SHORT, RGBA, 3, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-					case SoItkDataImage::FLOAT:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								CREATE_RAD_IMAGE( float, FLOAT, LUMINANCE, 3, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<float>, FLOAT, RGB, 3, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<float>, FLOAT, RGBA, 3, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-					case SoItkDataImage::UNSIGNED_CHAR:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								CREATE_RAD_IMAGE( unsigned char, UNSIGNED_BYTE, LUMINANCE, 3, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<unsigned char>, UNSIGNED_BYTE, RGB, 3, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<unsigned char>, UNSIGNED_BYTE, RGBA, 3, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-					case SoItkDataImage::SHORT:
-					{
-						switch ( radItkImage->getComponentLayoutType())
-						{
-							case SoItkDataImage::LUMINANCE:
-							{
-								CREATE_RAD_IMAGE( short, SHORT, LUMINANCE, 3, 1 );
-							}
-							break ;
-							case SoItkDataImage::RGB:
-							{
-								CREATE_RAD_IMAGE( itk::RGBPixel<short>, SHORT, RGB, 3, 3 );
-							}
-							break ;
-							case SoItkDataImage::RGBA:
-							{
-								CREATE_RAD_IMAGE( itk::RGBAPixel<short>, SHORT, RGBA, 3, 4 );
-							}
-							break ;						
-						}
-					}
-					break ;
-				}
-			}
-			break;
-		}
-#undef CREATE_RAD_IMAGE
+            switch (xipItkImage->getNumDimension())
+            {
+	    case 1:
+		mXipImage = createXipImage<1>(xipItkImage);
+		break;
+	    case 2:
+		mXipImage = createXipImage<2>(xipItkImage);
+		break;
+	    case 3:
+		mXipImage = createXipImage<3>(xipItkImage);
+		break;
+	    }
 	}
 	catch( itk::ExceptionObject& e )
 	{

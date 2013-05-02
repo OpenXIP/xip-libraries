@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
@@ -130,15 +134,13 @@ SoVtkArcPlotter::SoVtkArcPlotter()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkArcPlotter *aArcPlotter = vtkArcPlotter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(Camera, (0));
 
 	SO_ENGINE_ADD_INPUT(DefaultNormal, (0,0,0));
 
-	z = aArcPlotter->GetDefaultNormal();
+	float x[3] = {0.0, 0.0, 0.0};
+	aArcPlotter->GetDefaultNormal(x);
 	DefaultNormal.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(Offset, (0));
@@ -166,14 +168,14 @@ SoVtkArcPlotter::SoVtkArcPlotter()
 
 	aArcPlotter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oCamera, SoSFVtkObject );
 	mCamera = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -378,3 +380,4 @@ void SoVtkArcPlotter::reset()
 
 	mObject->Update();
 }
+

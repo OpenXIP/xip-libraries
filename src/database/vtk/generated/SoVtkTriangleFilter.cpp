@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkTriangleFilter.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkTriangleFilter::SoVtkTriangleFilter()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkTriangleFilter *aTriangleFilter = vtkTriangleFilter::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(PassLines, (0));
 	PassLines.setValue(aTriangleFilter->GetPassLines());
@@ -277,3 +279,4 @@ void SoVtkTriangleFilter::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

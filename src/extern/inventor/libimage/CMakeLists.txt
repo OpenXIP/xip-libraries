@@ -1,22 +1,23 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research 2008
+# Author Sylvain Jaume
 
 project(image)
 
-#
-# Definitions.
+#--------------------------------------------------------------------
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DINVENTOR_EXPORTS -D__SGIOIV_BUILD_DLL)
 endif(WIN32)
 
-#
-# Header file.
+#--------------------------------------------------------------------
+# Header file
 #
 set(HEADERS
   image.h)
 
-#
-# Source files.
+#--------------------------------------------------------------------
+# Source files
 #
 set(SOURCES
   close.c
@@ -29,7 +30,7 @@ set(SOURCES
   rle.c
   row.c)
 
-#
-# Archive creation.
+#--------------------------------------------------------------------
+# Compile archive
 #
 add_library(image STATIC ${HEADERS} ${SOURCES})

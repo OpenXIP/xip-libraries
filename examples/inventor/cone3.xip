@@ -1,0 +1,98 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-1.2 3 1.6 3.8
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4 6 7"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-9 0.6 -6.5753 1.4
+    flags	()
+    autoPanelPos	387 300 0 0
+    node	    PerspectiveCamera {
+	position	0 0 5
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-6.3 0.6 -4.3 1.4
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-4.2 0.6 -2.2 1.4
+    flags	()
+    node	    TrackballManip {
+	rotation	0.670576 -0.125241 -0.731193  1.28455
+	scaleFactor	1 1 1
+	scaleOrientation	0.0193713 0.0262581 0.999468  0.595898
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-1.2 0.6 0.8 1.4
+    flags	()
+    autoPanelPos	580 399 0 0
+    node	    RotationXYZ {
+	angle	34.5
+    }
+
+}
+#connect "angle@4" "timeOut@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-1.2 -1.2 0.8 -0.4
+    flags	()
+    autoPanelPos	305 386 0 0
+    engine	    ElapsedTime {
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	0.9 0.6 2.9 1.4
+    flags	()
+    autoPanelPos	651 239 0 0
+    node	    Material {
+	diffuseColor	1 0 0
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	3 0.6 5 1.4
+    flags	()
+    autoPanelPos	672 296 0 0
+    node	    Cone {
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

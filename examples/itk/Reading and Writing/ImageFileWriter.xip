@@ -1,0 +1,144 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-9.9 0.6 -7.9 1.4
+    flags	()
+    viewPos	1077 683 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-13.2 -2.1 -11.2 -1.3
+    flags	()
+    autoPanelPos	207 311 0 0
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-10.5 -2.1 -8.5 -1.3
+    flags	()
+    autoPanelPos	386 317 0 0
+    node	    SoXipExaminer {
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-7.5 -2.1 -5.5 -1.3
+    flags	()
+    autoPanelPos	172 493 385 390
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@3" "Output@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-12 -3.6 -7.97 -2.8
+    flags	()
+    autoPanelPos	170 369 0 0
+    engine	    SoItkRescaleIntensityImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFEnum OutputPixelType ]
+	Input0	"NULL"
+	OutputPixelType	UNSIGNED_SHORT
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@4" "Output@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-15.3 -4.2 -12.53 -3.4
+    flags	()
+    autoPanelPos	1065 194 385 392
+    engine	    SoItkImageFileReader {
+	inputs [ SFString File, SFEnum Type,  ]
+	File	"../../data/BrainProtonDensitySlice.PNG"
+	Type	UNSIGNED_SHORT
+	outputs [ SoItkSFDataImage Output, MFShort Dimensions ]
+    }
+
+}
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-2.78889 -4.8 -0.138889 -4
+    flags	()
+    autoPanelPos	573 535 385 392
+    engine	    SoItkImageFileWriter {
+	inputs [ SFString File, SoItkSFDataImage Input,  ]
+	File	"../../data/output.png"
+	Input	"NULL"
+	outputs [  ]
+    }
+
+}
+#connect "Input@6" "Output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-12 -4.8 -7.97 -4
+    flags	()
+    autoPanelPos	177 426 0 0
+    engine	    SoItkRescaleIntensityImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFEnum OutputPixelType ]
+	Input0	"NULL"
+	OutputPixelType	UNSIGNED_SHORT
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@7" "Output@5"
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7 ]
+    position	-7.76389 -2 8.03946
+    height	16.38
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

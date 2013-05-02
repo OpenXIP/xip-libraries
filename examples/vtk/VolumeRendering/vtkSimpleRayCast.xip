@@ -1,0 +1,231 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	3.3 8.4 5.3 9.2
+    flags	()
+    viewPos	1727 316 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	1.5 6 3.61 6.8
+    flags	()
+    autoPanelPos	1364 99 385 392
+    node	    SoXipExaminer {
+	mode	ROTATE
+	viewBoundingBox	67 0 0 0
+		0 67 0 0
+		0 0 67 0
+		0 0 0 1
+	plane	-0.424534 0.38828 0.81793  26.1861
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	156.552 34.5851 -33.4334
+	    orientation	-0.845104 0.18556 -0.501365  2.91313
+	    nearDistance	82.0579
+	    farDistance	198.105
+	    focalDistance	140.082
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	4.8 4.5 6.8 5.3
+    flags	()
+    node	    SoVtkRenderer {
+	fields [  ]
+    }
+
+}
+#addChild "2" "3"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	3.9 1.8 5.9 2.6
+    flags	()
+    viewPos	1884 465 385 392
+    autoPanelPos	2057 199 385 392
+    node	    SoVtkVolume {
+	fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Position ]
+	Mapper	"NULL"
+	Property	"NULL"
+	Origin	0 0 0
+	Position	0 0 0
+    }
+
+}
+#connect "Mapper@3" "Output@4"
+#connect "Property@3" "Output@7"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-0.6 0.3 2.88955 1.1
+    flags	()
+    autoPanelPos	164 42 0 0
+    engine	    SoVtkVolumeRayCastMapper {
+	inputs [ SFInt32 NumberOfThreads, SFInt32 AutoAdjustSampleDistances, SoSFVtkAlgorithmOutput InputConnection, SFFloat SampleDistance,
+		SFFloat MinimumImageSampleDistance, SFInt32 Cropping, SFInt32 IntermixIntersectingGeometry, SFFloat ImageSampleDistance,
+		SFInt32 CroppingRegionFlags, SFInt32 BlendMode, SFFloat MaximumImageSampleDistance, SoSFVtkObject VolumeRayCastFunction,
+		 ]
+	NumberOfThreads	2
+	AutoAdjustSampleDistances	1
+	InputConnection	"NULL"
+	SampleDistance	1
+	MinimumImageSampleDistance	1
+	Cropping	0
+	IntermixIntersectingGeometry	1
+	ImageSampleDistance	1
+	CroppingRegionFlags	8192
+	BlendMode	0
+	MaximumImageSampleDistance	10
+	VolumeRayCastFunction	"NULL"
+	outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+    }
+
+}
+#connect "InputConnection@4" "OutputPort@5"
+#connect "VolumeRayCastFunction@4" "Output@6"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-6.3 0.3 -2.59 1.1
+    flags	()
+    autoPanelPos	283 425 0 0
+    engine	    SoVtkStructuredPointsReader {
+	inputs [ SFInt32 ReadFromInputString, SFInt32 ReadAllNormals, SFInt32 ReadAllTCoords, SFInt32 ReadAllColorScalars,
+		SFInt32 ReadAllTensors, SFInt32 ReadAllScalars, SFInt32 ReadAllVectors, MFString FileName,
+		SFInt32 ReadAllFields ]
+	ReadFromInputString	0
+	ReadAllNormals	0
+	ReadAllTCoords	0
+	ReadAllColorScalars	0
+	ReadAllTensors	0
+	ReadAllScalars	0
+	ReadAllVectors	0
+	FileName	"../../data/ironProt.vtk"
+	ReadAllFields	0
+	outputs [ SoSFVtkObject Output, SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-0.799328 -1.2 4.06933 -0.4
+    flags	()
+    autoPanelPos	1727 316 385 392
+    engine	    SoVtkVolumeRayCastCompositeFunction {
+	inputs [ SFInt32 CompositeMethod ]
+	CompositeMethod	1
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	0 3 2.81 3.8
+    flags	()
+    autoPanelPos	1727 316 385 392
+    engine	    SoVtkVolumeProperty {
+	inputs [ SFFloat Ambient, SFInt32 Shade, SFInt32 InterpolationType, SoSFVtkObject ScalarOpacity,
+		SFFloat Diffuse, SFFloat Specular, SFInt32 IndependentComponents, SoSFVtkObject Color,
+		SFFloat SpecularPower, SFFloat ScalarOpacityUnitDistance, SFInt32 DisableGradientOpacity ]
+	Ambient	0.1
+	Shade	0
+	InterpolationType	0
+	ScalarOpacity	"NULL"
+	Diffuse	0.7
+	Specular	0.2
+	IndependentComponents	1
+	Color	"NULL"
+	SpecularPower	10
+	ScalarOpacityUnitDistance	1
+	DisableGradientOpacity	0
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+#connect "ScalarOpacity@7" "Output@8"
+#connect "Color@7" "Output@9"
+
+### 8 ###
+SoXipBuilderEngine {
+    placement	-5.32903 3.3 -2.34097 4.1
+    flags	()
+    autoPanelPos	1727 316 385 392
+    engine	    SoVtkPiecewiseFunction {
+	inputs [ SFInt32 MaximumNumberOfPieces, SFInt32 RequestExactExtent, SFInt32 UpdatePiece, SFInt32 UpdateGhostLevel,
+		SFInt32 UpdateNumberOfPieces, SFInt32 Clamping, SoMFVariant Point ]
+	MaximumNumberOfPieces	-1
+	RequestExactExtent	0
+	UpdatePiece	0
+	UpdateGhostLevel	0
+	UpdateNumberOfPieces	1
+	Clamping	1
+	Point	[ 20 0 , 255 0.2 ]
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+
+### 9 ###
+SoXipBuilderEngine {
+    placement	-5.7 2.1 -2.23 2.9
+    flags	()
+    autoPanelPos	1727 316 385 392
+    engine	    SoVtkColorTransferFunction {
+	inputs [ SFInt32 HSVWrap, SFInt32 VectorComponent, SFInt32 ColorSpace, SFInt32 Clamping,
+		SoMFVariant RGBPoint, SFInt32 VectorMode, SFFloat Alpha ]
+	HSVWrap	1
+	VectorComponent	0
+	ColorSpace	0
+	Clamping	1
+	RGBPoint	[ 0 0 0 0 , 64 1 0 0 , 128 0 0 1 , 192 0 1 0 , 255 0 0.2 0 ]
+	VectorMode	1
+	Alpha	1
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9 ]
+    position	1.405 3.4 1
+    height	15.32
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

@@ -106,18 +106,19 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkBoxClipDataSet.h"
-# include "SoVtkUtils.h"
 
-# include "vtkPointLocator.h"
-# include "vtkAlgorithmOutput.h"
-# include "vtkUnstructuredGrid.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkBoxClipDataSet.h"
+#include "SoVtkUtils.h"
+
+#include "vtkPointLocator.h"
+#include "vtkAlgorithmOutput.h"
+#include "vtkUnstructuredGrid.h"
 
 SO_ENGINE_SOURCE( SoVtkBoxClipDataSet )
 
@@ -130,9 +131,6 @@ SoVtkBoxClipDataSet::SoVtkBoxClipDataSet()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBoxClipDataSet *aBoxClipDataSet = vtkBoxClipDataSet::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(Orientation, (0));
 	Orientation.setValue(aBoxClipDataSet->GetOrientation());
@@ -141,27 +139,30 @@ SoVtkBoxClipDataSet::SoVtkBoxClipDataSet()
 	BoxClip.setFormat("double double double double double double");
 
 	SO_ENGINE_ADD_INPUT(GenerateClippedOutput, (0));
-	GenerateClippedOutput.setValue(aBoxClipDataSet->GetGenerateClippedOutput());
+	GenerateClippedOutput.setValue(aBoxClipDataSet->
+									GetGenerateClippedOutput());
 
 	SO_ENGINE_ADD_INPUT(Locator, (0));
 
 	SO_ENGINE_ADD_INPUT(GenerateClipScalars, (0));
-	GenerateClipScalars.setValue(aBoxClipDataSet->GetGenerateClipScalars());
+	GenerateClipScalars.setValue(aBoxClipDataSet->
+									GetGenerateClipScalars());
 
 	SO_ENGINE_ADD_INPUT(InputConnection, (0));
 
 	aBoxClipDataSet->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oLocator, SoSFVtkObject );
 	mLocator = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oClippedOutput, SoSFVtkObject );
 	mClippedOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -171,28 +172,24 @@ SoVtkBoxClipDataSet::~SoVtkBoxClipDataSet()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mLocator )
 	{
-	
 		mLocator->unref();
 		mLocator = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
 	
 	if ( mClippedOutput )
 	{
-	
 		mClippedOutput->unref();
 		mClippedOutput = 0;
 	}
@@ -203,8 +200,6 @@ SoVtkBoxClipDataSet::~SoVtkBoxClipDataSet()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBoxClipDataSet::initClass()
@@ -412,3 +407,4 @@ void SoVtkBoxClipDataSet::reset()
 
 	mObject->Update();
 }
+

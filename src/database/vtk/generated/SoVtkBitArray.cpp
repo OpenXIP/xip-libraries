@@ -106,16 +106,17 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkBitArray.h"
-# include "SoVtkUtils.h"
 
-# include "vtkLookupTable.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkBitArray.h"
+#include "SoVtkUtils.h"
+
+#include "vtkLookupTable.h"
 
 SO_ENGINE_SOURCE( SoVtkBitArray )
 
@@ -128,9 +129,6 @@ SoVtkBitArray::SoVtkBitArray()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBitArray *aBitArray = vtkBitArray::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(Value, ());
 	Value.setFormat("vtkIdType int");
@@ -142,7 +140,8 @@ SoVtkBitArray::SoVtkBitArray()
 	NumberOfComponents.setValue(aBitArray->GetNumberOfComponents());
 
 	SO_ENGINE_ADD_INPUT(Tuple9, ());
-	Tuple9.setFormat("vtkIdType double double double double double double double double double");
+	Tuple9.setFormat(
+	"vtkIdType double double double double double double double double double");
 
 	SO_ENGINE_ADD_INPUT(LookupTable, (0));
 
@@ -162,12 +161,11 @@ SoVtkBitArray::SoVtkBitArray()
 
 	aBitArray->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oLookupTable, SoSFVtkObject );
 	mLookupTable = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -177,8 +175,7 @@ SoVtkBitArray::~SoVtkBitArray()
 	// Deletion of the objects if they exist
 	if ( mLookupTable )
 	{
-	
-		mLookupTable->unref();
+	  mLookupTable->unref();
 		mLookupTable = 0;
 	}
 	
@@ -188,8 +185,6 @@ SoVtkBitArray::~SoVtkBitArray()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBitArray::initClass()
@@ -205,7 +200,6 @@ void SoVtkBitArray::evaluate()
 		// Deletion of the objects if they exist
 		if ( mLookupTable )
 		{
-		
 			mLookupTable->unref();
 			mLookupTable = 0;
 		}
@@ -224,13 +218,13 @@ void SoVtkBitArray::evaluate()
 		mOutput = new SoVtkObject();
 		mOutput->ref();
 		mOutput->setPointer( mObject );
-
 	}
 	catch(...)
 	{
 		SoDebugError::post( __FILE__, "Unknown Exception" );
 		return;
 	}
+
 	SO_ENGINE_OUTPUT( oLookupTable, SoSFVtkObject, setValue( mLookupTable ) );
 	SO_ENGINE_OUTPUT( Output, SoSFVtkObject, setValue( mOutput ) );
 }
@@ -658,3 +652,4 @@ void SoVtkBitArray::reset()
 	}
 
 }
+

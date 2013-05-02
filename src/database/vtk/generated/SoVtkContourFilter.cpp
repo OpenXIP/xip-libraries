@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkContourFilter.h"
 # include "SoVtkUtils.h"
@@ -130,8 +134,6 @@ SoVtkContourFilter::SoVtkContourFilter()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkContourFilter *aContourFilter = vtkContourFilter::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(NumberOfContours, (0));
 	NumberOfContours.setValue(aContourFilter->GetNumberOfContours());
@@ -164,12 +166,11 @@ SoVtkContourFilter::SoVtkContourFilter()
 
 	aContourFilter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 }
 
 SoVtkContourFilter::~SoVtkContourFilter()
@@ -177,14 +178,12 @@ SoVtkContourFilter::~SoVtkContourFilter()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
@@ -195,8 +194,6 @@ SoVtkContourFilter::~SoVtkContourFilter()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkContourFilter::initClass()
@@ -211,14 +208,12 @@ void SoVtkContourFilter::evaluate()
 		// Deletion of the objects if they exist
 		if ( mOutput )
 		{
-		
 			mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
@@ -256,7 +251,6 @@ void SoVtkContourFilter::evaluate()
 	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue( mOutputPort ) );
 }
 
-
 void SoVtkContourFilter::inputChanged(SoField * f)
 {
 	// Get the NumberOfContours value
@@ -274,10 +268,7 @@ void SoVtkContourFilter::inputChanged(SoField * f)
 		input.setBuffer((void *)vValue.getField().getString(),256);
 		input.read(val0);
 		input.read(val1);
-		mObject->SetValue( 
-			(int) val0,
-			(double) val1
-		);
+		mObject->SetValue( (int) val0, (double) val1 );
 	}
 	// Get the ComputeScalars value
 	if ( f == &ComputeScalars )
@@ -331,3 +322,4 @@ void SoVtkContourFilter::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

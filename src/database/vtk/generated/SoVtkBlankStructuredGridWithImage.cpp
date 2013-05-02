@@ -106,18 +106,19 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
  */
  
- 
- 
-# include "SoVtkBlankStructuredGridWithImage.h"
-# include "SoVtkUtils.h"
+#include "SoVtkBlankStructuredGridWithImage.h"
+#include "SoVtkUtils.h"
 
-# include "vtkImageData.h"
-# include "vtkAlgorithmOutput.h"
-# include "vtkStructuredGrid.h"
-
+#include "vtkImageData.h"
+#include "vtkAlgorithmOutput.h"
+#include "vtkStructuredGrid.h"
 
 SO_ENGINE_SOURCE( SoVtkBlankStructuredGridWithImage )
 
@@ -129,10 +130,8 @@ SoVtkBlankStructuredGridWithImage::SoVtkBlankStructuredGridWithImage()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkBlankStructuredGridWithImage *aBlankStructuredGridWithImage = vtkBlankStructuredGridWithImage::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	vtkBlankStructuredGridWithImage *aBlankStructuredGridWithImage =
+				 vtkBlankStructuredGridWithImage::New();
 
 	SO_ENGINE_ADD_INPUT(BlankingInput, (0));
 
@@ -140,14 +139,14 @@ SoVtkBlankStructuredGridWithImage::SoVtkBlankStructuredGridWithImage()
 
 	aBlankStructuredGridWithImage->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oBlankingInput, SoSFVtkObject );
 	mBlankingInput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -157,21 +156,18 @@ SoVtkBlankStructuredGridWithImage::~SoVtkBlankStructuredGridWithImage()
 	// Deletion of the objects if they exist
 	if ( mBlankingInput )
 	{
-	
 		mBlankingInput->unref();
 		mBlankingInput = 0;
 	}
 	
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
@@ -182,13 +178,12 @@ SoVtkBlankStructuredGridWithImage::~SoVtkBlankStructuredGridWithImage()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBlankStructuredGridWithImage::initClass()
 {
-	SO_ENGINE_INIT_CLASS( SoVtkBlankStructuredGridWithImage, SoEngine, "Engine" );
+	SO_ENGINE_INIT_CLASS( SoVtkBlankStructuredGridWithImage, SoEngine,
+								 "Engine" );
 }
 
 void SoVtkBlankStructuredGridWithImage::evaluate()
@@ -204,21 +199,18 @@ void SoVtkBlankStructuredGridWithImage::evaluate()
 		// Deletion of the objects if they exist
 		if ( mBlankingInput )
 		{
-		
 			mBlankingInput->unref();
 			mBlankingInput = 0;
 		}
 		
 		if ( mOutput )
 		{
-		
 			mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
@@ -253,6 +245,7 @@ void SoVtkBlankStructuredGridWithImage::evaluate()
 		SoDebugError::post( __FILE__, "Unknown Exception" );
 		return;
 	}
+
 	SO_ENGINE_OUTPUT( oBlankingInput, SoSFVtkObject, setValue( mBlankingInput ) );
 	SO_ENGINE_OUTPUT( Output, SoSFVtkObject, setValue( mOutput ) );
 	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue( mOutputPort ) );
@@ -288,3 +281,4 @@ void SoVtkBlankStructuredGridWithImage::reset()
 
 	mObject->Update();
 }
+

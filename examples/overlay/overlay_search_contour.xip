@@ -2,7 +2,7 @@
 
 ### 0 ###
 SoXipBuilderNode {
-    placement	-3 4.2 0.2 5
+    placement	-0.9 4.2 2.3 5
     flags	()
     node	    Separator {
     }
@@ -12,7 +12,7 @@ SoXipBuilderNode {
 
 ### 1 ###
 SoXipBuilderNode {
-    placement	-8.7 2.4 -6.7 3.2
+    placement	-8.7 1.2 -6.7 2
     flags	()
     autoPanelPos	0 197 0 0
     node	    SoXipFontType {
@@ -24,7 +24,7 @@ SoXipBuilderNode {
 
 ### 2 ###
 SoXipBuilderNode {
-    placement	-8.7 1.2 -6.7 2
+    placement	-6.6 1.2 -4.6 2
     flags	()
     node	    DirectionalLight {
     }
@@ -33,7 +33,7 @@ SoXipBuilderNode {
 
 ### 3 ###
 SoXipBuilderNode {
-    placement	-6.6 1.2 -3.97771 2
+    placement	-4.5 1.2 -1.87771 2
     flags	()
     node	    OrthographicCamera {
     }
@@ -42,14 +42,14 @@ SoXipBuilderNode {
 
 ### 4 ###
 SoXipBuilderNode {
-    placement	-3.9 1.2 -1.9 2
+    placement	-1.8 1.2 0.200001 2
     flags	()
     autoPanelPos	513 400 0 0
     node	    SoXipEllipse {
 	fields [ SFEnum status, SFInt32 rank, SFString caption, SFVec3f textPosition,
 		SFVec3f center, SFVec3f a, SFVec3f b,  ]
 	status	NONE
-	textPosition	-0.499206 0.0897208 -4.5
+	textPosition	-0.497817 0.089721 -4.5
 	center	0.0313808 0.280335 -4.5
 	a	0 -0.343096 0
 	b	0.612971 0 0
@@ -59,17 +59,17 @@ SoXipBuilderNode {
 
 ### 5 ###
 SoXipBuilderNode {
-    placement	-1.8 1.2 0.757276 2
+    placement	0.3 1.2 2.85728 2
     flags	()
     node	    SoXipOverlayManips {
-	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection ]
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection, SFBool enableSelection ]
     }
 
 }
 
 ### 6 ###
 SoXipBuilderNode {
-    placement	0.9 1.2 4.38916 2
+    placement	3 1.2 6.48916 2
     flags	()
     autoPanelPos	207 400 0 0
     node	    SoXipOverlaySearchContour {
@@ -119,7 +119,7 @@ SoXipBuilderNode {
 
 ### 7 ###
 SoXipBuilderNode {
-    placement	4.8 1.2 6.8 2
+    placement	6.9 1.2 8.9 2
     flags	()
     node	    Separator {
     }
@@ -129,7 +129,7 @@ SoXipBuilderNode {
 
 ### 8 ###
 SoXipBuilderNode {
-    placement	-0.9 -1.2 1.1 -0.4
+    placement	1.2 -1.2 3.2 -0.4
     flags	()
     autoPanelPos	488 367 0 0
     node	    DrawStyle {
@@ -140,7 +140,7 @@ SoXipBuilderNode {
 
 ### 9 ###
 SoXipBuilderNode {
-    placement	1.2 -1.2 3.2 -0.4
+    placement	3.3 -1.2 5.3 -0.4
     flags	()
     autoPanelPos	576 338 0 0
     node	    BaseColor {
@@ -151,7 +151,7 @@ SoXipBuilderNode {
 
 ### 10 ###
 SoXipBuilderNode {
-    placement	3.3 -1.2 5.3 -0.4
+    placement	5.4 -1.2 7.4 -0.4
     flags	()
     autoPanelPos	457 509 0 0
     node	    Coordinate3 {
@@ -194,7 +194,7 @@ SoXipBuilderNode {
 
 ### 11 ###
 SoXipBuilderNode {
-    placement	5.4 -1.2 7.4 -0.4
+    placement	7.5 -1.2 9.5 -0.4
     flags	()
     node	    PointSet {
     }
@@ -209,6 +209,7 @@ SoXipBuilderPackage {
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     outputs	[  ]
 }
 

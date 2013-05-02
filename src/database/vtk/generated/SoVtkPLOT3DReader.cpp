@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkPLOT3DReader.h"
 # include "SoVtkUtils.h"
@@ -127,8 +131,6 @@ SoVtkPLOT3DReader::SoVtkPLOT3DReader()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkPLOT3DReader *aPLOT3DReader = vtkPLOT3DReader::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(HasByteCount, (0));
 	HasByteCount.setValue(aPLOT3DReader->GetHasByteCount());
@@ -419,3 +421,4 @@ void SoVtkPLOT3DReader::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

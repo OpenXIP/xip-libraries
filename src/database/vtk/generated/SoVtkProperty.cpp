@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkProperty.h"
 # include "SoVtkUtils.h"
@@ -126,7 +130,6 @@ SoVtkProperty::SoVtkProperty()
 
 	vtkProperty *aProperty = vtkProperty::New();
 	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Representation, (0));
 	Representation.setValue(aProperty->GetRepresentation());
@@ -348,3 +351,4 @@ void SoVtkProperty::inputChanged(SoField * f)
 
 	
 }
+

@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkBooleanTexture.h"
-# include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkImageData.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkBooleanTexture.h"
+#include "SoVtkUtils.h"
+
+#include "vtkAlgorithmOutput.h"
+#include "vtkImageData.h"
 
 SO_ENGINE_SOURCE( SoVtkBooleanTexture )
 
@@ -129,27 +130,21 @@ SoVtkBooleanTexture::SoVtkBooleanTexture()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBooleanTexture *aBooleanTexture = vtkBooleanTexture::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	double x[3] = {0.0, 0.0, 0.0};
 
 	SO_ENGINE_ADD_INPUT(OutIn, (0,0));
-
 	OutIn.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(XSize, (0));
 	XSize.setValue(aBooleanTexture->GetXSize());
 
 	SO_ENGINE_ADD_INPUT(OnOn, (0,0));
-
 	OnOn.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(OutOut, (0,0));
-
 	OutOut.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(InOn, (0,0));
-
 	InOn.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(Thickness, (0));
@@ -159,35 +154,28 @@ SoVtkBooleanTexture::SoVtkBooleanTexture()
 	YSize.setValue(aBooleanTexture->GetYSize());
 
 	SO_ENGINE_ADD_INPUT(OnIn, (0,0));
-
 	OnIn.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(OutOn, (0,0));
-
 	OutOn.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(InIn, (0,0));
-
 	InIn.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(InOut, (0,0));
-
 	InOut.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(OnOut, (0,0));
-
 	OnOut.setValue(x[0],x[1]);
 
 	SO_ENGINE_ADD_INPUT(InputConnection, (0));
-
 	aBooleanTexture->Delete();
-
 
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -196,15 +184,13 @@ SoVtkBooleanTexture::~SoVtkBooleanTexture()
 {
 	// Deletion of the objects if they exist
 	if ( mOutput )
-	{
-	
+	{	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
@@ -215,8 +201,6 @@ SoVtkBooleanTexture::~SoVtkBooleanTexture()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBooleanTexture::initClass()
@@ -236,15 +220,13 @@ void SoVtkBooleanTexture::evaluate()
 
 		// Deletion of the objects if they exist
 		if ( mOutput )
-		{
-		
+		{	
 			mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
@@ -396,3 +378,4 @@ void SoVtkBooleanTexture::reset()
 
 	mObject->Update();
 }
+

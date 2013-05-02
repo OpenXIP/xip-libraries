@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkLookupTable.h"
 # include "SoVtkUtils.h"
@@ -127,7 +131,6 @@ SoVtkLookupTable::SoVtkLookupTable()
 
 	vtkLookupTable *aLookupTable = vtkLookupTable::New();
 	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(VectorComponent, (0));
 	VectorComponent.setValue(aLookupTable->GetVectorComponent());
@@ -289,3 +292,4 @@ void SoVtkLookupTable::inputChanged(SoField * f)
 
 	
 }
+

@@ -110,6 +110,7 @@
  */
 
 #include "SoXipViewportGroup.h"
+#include <xip/inventor/core/SoXipCursor.h>
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/misc/SoChildList.h>
 #include <Inventor/elements/SoViewportRegionElement.h>
@@ -127,6 +128,13 @@
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
 
+#include <Inventor/elements/SoCoordinateElement.h>
+#include <Inventor/elements/SoViewVolumeElement.h>
+#include <Inventor/elements/SoViewingMatrixElement.h>
+#include <Inventor/elements/SoProjectionMatrixElement.h>
+#include <Inventor/elements/SoLazyElement.h>
+#include <Inventor/elements/SoLinePatternElement.h>
+
 
 #ifndef MIN
 # define MIN(a,b) ( a < b ? a : b )
@@ -141,18 +149,27 @@ SoXipViewportGroup::SoXipViewportGroup(void) : SoGroup()
 	mWindowHeight = 0;
 	mActiveViewport = -1;
 	mPickViewport = 0;
+	mLastButtonDownTime = SbTime::getTimeOfDay();
+	mResizeMode = RESIZE_NONE;
+	mResizeValid = FALSE;
 
 	SO_NODE_CONSTRUCTOR(SoXipViewportGroup);
 
 	SO_NODE_ADD_FIELD(on, (TRUE));
 	SO_NODE_ADD_FIELD(activateOnClick, (TRUE));
+	SO_NODE_ADD_FIELD(maximizeOnDoubleClick, (FALSE));
+	SO_NODE_ADD_FIELD(resizable, (FALSE));
 	SO_NODE_ADD_FIELD(relative, (TRUE));
 	SO_NODE_ADD_FIELD(viewports, (SbVec4f( 0, 0, 1, 1)));
 	SO_NODE_ADD_FIELD(current, (0));
+	SO_NODE_ADD_FIELD(maximized, (FALSE));
 
 	mRelativeFieldSensors = new SoFieldSensor( &fieldSensorCBFunc, this );
 	mRelativeFieldSensors->attach(&relative);
 	mRelativeFieldSensors->setPriority(0);
+
+	mLineSet = new SoIndexedLineSet();
+	mLineSet->ref();
 }
 
 SoXipViewportGroup::SoXipViewportGroup( int numChildren ) : SoGroup( numChildren )
@@ -160,6 +177,10 @@ SoXipViewportGroup::SoXipViewportGroup( int numChildren ) : SoGroup( numChildren
 	mWindowWidth = 0;
 	mWindowHeight = 0;
 	mActiveViewport = -1;
+	mPickViewport = 0;
+	mLastButtonDownTime = SbTime::getTimeOfDay();
+	mResizeMode = RESIZE_NONE;
+	mResizeValid = FALSE;
 	
 	SO_NODE_CONSTRUCTOR(SoXipViewportGroup);
 
@@ -171,6 +192,9 @@ SoXipViewportGroup::SoXipViewportGroup( int numChildren ) : SoGroup( numChildren
 	mRelativeFieldSensors = new SoFieldSensor( &fieldSensorCBFunc, this );
 	mRelativeFieldSensors->attach(&relative);
 	mRelativeFieldSensors->setPriority(0);
+
+	mLineSet = new SoIndexedLineSet();
+	mLineSet->ref();
 }
 
 
@@ -179,6 +203,11 @@ SoXipViewportGroup::~SoXipViewportGroup()
 	if (mRelativeFieldSensors)
 	{
 		delete mRelativeFieldSensors;
+	}
+
+	if (mLineSet)
+	{
+		mLineSet->unref();
 	}
 }
 
@@ -197,6 +226,9 @@ int SoXipViewportGroup::pickViewportGroup(SoAction *action, SbVec2s point) const
 	int numIndices;
 	const int* indices;
 	int lastChildIndex;
+
+	if (maximized.getValue())
+		return current.getValue();
 
 	if( action->getPathCode( numIndices, indices ) == SoAction::IN_PATH )
 		lastChildIndex = indices[ numIndices - 1 ];
@@ -277,6 +309,18 @@ void SoXipViewportGroup::doAction(SoAction * action)
 			SbVec2s origin( static_cast<short>(values[0]) , static_cast<short>(values[1]) ), 
 							size( static_cast<short>(values[2]), static_cast<short>(values[3]) );
 			viewportRegion.setViewportPixels( origin, size );
+		}
+
+		if (maximized.getValue())
+		{
+			if (i != current.getValue())
+			{
+				continue;
+			}
+			else
+			{
+				viewportRegion.setViewportPixels(0, 0, mWindowWidth, mWindowHeight);
+			}
 		}
 
 		// reduce viewport size by 1 pixel to avoid overlaps
@@ -408,7 +452,9 @@ void SoXipViewportGroup::getBoundingBox(SoGetBoundingBoxAction * action)
 	if (mActiveViewport < 0)
 		mActiveViewport = current.getValue();
 
+	action->getState()->push();
 	doAction(action);
+	action->getState()->pop();
 }
 
 
@@ -416,6 +462,54 @@ void SoXipViewportGroup::GLRender(SoGLRenderAction * action)
 {
 	mActiveViewport = current.getValue();
 	doAction(action);
+
+	if (mResizeMode)
+	{
+		action->getState()->push();
+
+		GLboolean isDepthTestEnabled = ::glIsEnabled(GL_DEPTH_TEST);
+		glDisable(GL_DEPTH_TEST);
+
+		SbVec3f coordinates[4];
+		int numCoordinates = 0;
+
+		if (mResizeMode & RESIZE_HORIZONTAL)
+		{
+			coordinates[numCoordinates++] = SbVec3f(0.f, (float) mResizePos[1], 0.f);
+			coordinates[numCoordinates++] = SbVec3f((float) mWindowWidth, (float) mResizePos[1], 0.f);
+		}
+
+		if (mResizeMode & RESIZE_VERTICAL)
+		{
+			coordinates[numCoordinates++] = SbVec3f((float) mResizePos[0], 0.f, 0.f);
+			coordinates[numCoordinates++] = SbVec3f((float) mResizePos[0], (float) mWindowHeight, 0.f);
+		}
+
+
+		SbViewVolume viewVol;
+		SbMatrix affine, proj;
+		viewVol.ortho(0, (float) mWindowWidth, 0, (float) mWindowHeight, -1, 1);
+		viewVol.getMatrices(affine, proj);
+
+		SoViewVolumeElement::set(action->getState(), this, viewVol);
+		SoViewingMatrixElement::set(action->getState(), this, affine);
+		SoProjectionMatrixElement::set(action->getState(), this, proj);
+
+		SoColorPacker cPacker;
+		SbColor col = mResizeValid ? SbColor(0.8f, 0.8f, 0.8f) : SbColor(0.5f, 0.5f, 0.5f);
+		SoLazyElement::setDiffuse(action->getState(), this, 1, &col, &cPacker);
+		SoLinePatternElement::set(action->getState(), mResizeValid ? 0xffff : 0xf0f0);
+
+		SoCoordinateElement::set3(action->getState(), this, numCoordinates, coordinates);
+		mLineSet->coordIndex.set(numCoordinates == 4 ? "[ 0 , 1 , -1 , 2 , 3 ]" : "[ 0 , 1 ]");
+ 
+		action->traverse(mLineSet);
+
+		if (isDepthTestEnabled)
+			glEnable(GL_DEPTH_TEST);
+
+		action->getState()->pop();
+	}
 }
 
 
@@ -440,6 +534,17 @@ void SoXipViewportGroup::rayPick (SoRayPickAction *action)
 }
 
 
+void SoXipViewportGroup::updateCursor()
+{
+	switch (mResizeMode)
+	{
+	case RESIZE_HORIZONTAL:	SoXipCursor::setCursor("SPLIT_H"); break;
+	case RESIZE_VERTICAL:	SoXipCursor::setCursor("SPLIT_V"); break;
+	case RESIZE_ALL:		SoXipCursor::setCursor("SPLIT_HV"); break;
+	}
+}
+
+
 void SoXipViewportGroup::handleEvent (SoHandleEventAction *action)
 {
 	// in order to not confuse manipulators, events from a SoHandleEventAction
@@ -451,7 +556,49 @@ void SoXipViewportGroup::handleEvent (SoHandleEventAction *action)
 		mPickViewport = this->pickViewportGroup(action, e->getPosition());
 	}
 
-	if (SO_MOUSE_PRESS_EVENT(e, ANY)) 
+	if (!action->getGrabber())
+	{
+		if (resizable.getValue())
+		{
+			mResizeMode = resize(e->getPosition(), e->getPosition(), FALSE);
+			if (mResizeMode)
+			{
+				if (SO_MOUSE_PRESS_EVENT(e, BUTTON1))
+				{
+					action->setHandled();
+					action->setGrabber(this);
+					mResizeStart = e->getPosition();
+					mResizePos = e->getPosition();
+					updateCursor();
+				}
+				else if (e->isOfType(SoLocation2Event::getClassTypeId()))
+				{
+					action->setHandled();
+					updateCursor();
+				}
+			}
+		}
+	}
+	else if ((action->getGrabber() == this) && SO_MOUSE_RELEASE_EVENT(e, BUTTON1))
+	{
+		action->setHandled();
+		action->releaseGrabber();
+		mResizeMode = RESIZE_NONE;
+
+		resize(mResizeStart, e->getPosition());
+		startNotify();
+	}
+	else if ((action->getGrabber() == this) && e->isOfType(SoLocation2Event::getClassTypeId()))
+	{
+		action->setHandled();
+		mResizePos = e->getPosition();
+		mResizeValid = resize(mResizeStart, mResizePos, FALSE) ? TRUE : FALSE;
+		startNotify();
+		updateCursor();
+	}
+
+	
+	if (!action->isHandled() && SO_MOUSE_PRESS_EVENT(e, ANY)) 
 	{
 		// capture
 		int pick = this->pickViewportGroup(action, e->getPosition());
@@ -462,6 +609,21 @@ void SoXipViewportGroup::handleEvent (SoHandleEventAction *action)
 				current.setValue(pick);
 				if (activateOnClick.getValue())
 					action->setHandled();
+			}
+
+			if (maximizeOnDoubleClick.getValue())
+			{
+				if (SO_MOUSE_PRESS_EVENT(e, BUTTON1))
+				{
+					SbTime t = e->getTime() - mLastButtonDownTime;
+
+					if (t.getMsecValue() < 250)
+					{
+						maximized.setValue(!maximized.getValue());
+						action->setHandled();
+					}
+					else mLastButtonDownTime = e->getTime();
+				}
 			}
 		}
 	}
@@ -511,3 +673,243 @@ void SoXipViewportGroup::fieldSensorCB(SoSensor *sensor)
 	}
 }
 
+
+SbBool SoXipViewportGroup::isOnBorder(SbVec2s origin, SbVec2s size, viewportBorder_t which, SbVec2s pos, int epsilon) const
+{
+	// do not allow picking of lines on the window border
+	if ((pos[0] < 10) || (pos[1] < 10) || (pos[0] > (mWindowWidth - 10)) || (pos[1] > (mWindowHeight - 10)))
+		return FALSE;
+
+	switch (which)
+	{
+	case VIEWPORT_RIGHT:
+		{
+			int pickLine = origin[0] + size[0];
+			if (abs(pickLine - pos[0]) < epsilon)
+			{
+				return TRUE;
+			}
+		} break;
+	case VIEWPORT_LEFT:
+		{
+			int pickLine = origin[0];
+			if (abs(pickLine - pos[0]) < epsilon)
+			{
+				return TRUE;
+			}
+		} break;
+	case VIEWPORT_TOP:
+		{
+			int pickLine = origin[1] + size[1];
+			if (abs(pickLine - pos[1]) < epsilon)
+			{
+				return TRUE;
+			}
+		} break;
+	case VIEWPORT_BOTTOM:
+		{
+			int pickLine = origin[1];
+			if (abs(pickLine - pos[1]) < epsilon)
+			{
+				return TRUE;
+			}
+		} break;
+	}
+
+	return FALSE;
+}
+
+
+SoXipViewportGroup::resizeMode_t SoXipViewportGroup::resize(SbVec2s from, SbVec2s to, SbBool applyChange)
+{
+	SbViewportRegion viewportRegion(mWindowWidth, mWindowHeight);
+	SoMFVec4f viewportsResized;
+	int resizeMode = RESIZE_NONE;
+
+	int maxIndex = viewports.getNum() - 1;
+	for( int i = 0; i <= maxIndex; ++ i )
+	{
+		SbVec4f values = viewports[ i ].getValue();
+		if (values[2] <= 0 || values[3] <= 0)
+			continue;
+
+		if( relative.getValue() )
+		{
+			SbVec2f origin( values[0] , values[1] ), size( values[2], values[3] );
+			viewportRegion.setViewport( origin, size );
+		}
+		else
+		{
+			SbVec2s origin( static_cast<short>(values[0]) , static_cast<short>(values[1]) ), 
+							size( static_cast<short>(values[2]), static_cast<short>(values[3]) );
+			viewportRegion.setViewportPixels( origin, size );
+		}
+
+		SbVec2s origin = viewportRegion.getViewportOriginPixels();
+		SbVec2s size   = viewportRegion.getViewportSizePixels();
+
+		SbVec2s originResized = origin;
+		SbVec2s sizeResized   = size;
+
+		const int pickRadius = 4;
+
+		// vertical
+		if ((origin[0] < to[0]) && ((origin[0] + size[0]) > to[0]))
+		{
+			// cut
+			if (isOnBorder(origin, size, VIEWPORT_LEFT, from, pickRadius))
+			{
+				resizeMode |= RESIZE_VERTICAL;
+				int diff = to[0] - origin[0];
+				if (diff > 0)
+				{
+					originResized[0] += diff;
+					sizeResized[0] -= diff;
+				}
+			}
+			else if (isOnBorder(origin, size, VIEWPORT_RIGHT, from, pickRadius))
+			{
+				resizeMode |= RESIZE_VERTICAL;
+				int diff = (origin[0] + size[0]) - to[0];
+				if (diff > 0)
+				{
+					sizeResized[0] -= diff;
+				}
+			}
+		}
+		else
+		{
+			// enlarge
+			if (isOnBorder(origin, size, VIEWPORT_RIGHT, from, pickRadius))
+			{
+				resizeMode |= RESIZE_VERTICAL;
+				int diff = to[0] - (origin[0] + size[0]);
+				if (diff > 0)
+				{
+					sizeResized[0] += diff;
+				}
+			}
+			else if (isOnBorder(origin, size, VIEWPORT_LEFT, from, pickRadius))
+			{
+				resizeMode |= RESIZE_VERTICAL;
+				int diff = origin[0] - to[0];
+				if (diff > 0)
+				{
+					originResized[0] -= diff;
+					sizeResized[0] += diff;
+				}
+			}
+		}
+
+		// horizontal
+		if ((origin[1] < to[1]) && ((origin[1] + size[1]) > to[1]))
+		{
+			// cut
+			if (isOnBorder(origin, size, VIEWPORT_BOTTOM, from, pickRadius))
+			{
+				resizeMode |= RESIZE_HORIZONTAL;
+				int diff = to[1] - origin[1];
+				if (diff > 0)
+				{
+					originResized[1] += diff;
+					sizeResized[1] -= diff;
+				}
+			}
+			else if (isOnBorder(origin, size, VIEWPORT_TOP, from, pickRadius))
+			{
+				resizeMode |= RESIZE_HORIZONTAL;
+				int diff = (origin[1] + size[1]) - to[1];
+				if (diff > 0)
+				{
+					sizeResized[1] -= diff;
+				}
+			}
+		}
+		else
+		{
+			// enlarge
+			if (isOnBorder(origin, size, VIEWPORT_TOP, from, pickRadius))
+			{
+				resizeMode |= RESIZE_HORIZONTAL;
+				int diff = to[1] - (origin[1] + size[1]);
+				if (diff > 0)
+				{
+					sizeResized[1] += diff;
+				}
+			}
+			else if (isOnBorder(origin, size, VIEWPORT_BOTTOM, from, pickRadius))
+			{
+				resizeMode |= RESIZE_HORIZONTAL;
+				int diff = origin[1] - to[1];
+				if (diff > 0)
+				{
+					originResized[1] -= diff;
+					sizeResized[1] += diff;
+				}
+			}
+		}
+
+
+		viewportRegion.setViewportPixels(originResized, sizeResized);
+
+		if ((originResized[0] < 0) || (originResized[1] < 0) ||
+			(sizeResized[0] < 10) || (sizeResized[1] < 10) ||
+			((originResized[0] + 10) > mWindowWidth) || 
+			((originResized[1] + 10) > mWindowHeight) ||
+			((originResized[0] + sizeResized[0] - 1) > mWindowWidth) || 
+			((originResized[1] + sizeResized[1] - 1) > mWindowHeight) )
+		{
+			//SoDebugError::postWarning("viewport", "out of range: %d %d > %d %d", originResized[0] + sizeResized[0], originResized[1] + sizeResized[1], mWindowWidth, mWindowHeight);
+			return RESIZE_NONE;
+		}
+
+		if( relative.getValue() )
+		{
+			SbVec4f v(
+				viewportRegion.getViewportOriginPixels()[0], viewportRegion.getViewportOriginPixels()[1],
+				viewportRegion.getViewportSizePixels()[0], viewportRegion.getViewportSizePixels()[1]);
+			v[0] /= mWindowWidth - 0.5f;
+			v[1] /= mWindowHeight - 0.5f;
+			v[2] /= mWindowWidth - 0.5f;
+			v[3] /= mWindowHeight - 0.5f;
+			viewportsResized.set1Value(i, v);
+		}
+		else
+		{
+			SbVec4f v(
+				viewportRegion.getViewportOriginPixels()[0], viewportRegion.getViewportOriginPixels()[1],
+				viewportRegion.getViewportSizePixels()[0], viewportRegion.getViewportSizePixels()[1]);
+
+			viewportsResized.set1Value(i, v);
+		}
+	}
+
+	if (!isOverlapping(viewportsResized.getNum(), viewportsResized.getValues(0)))
+	{
+		if (applyChange && resizeMode)
+			viewports = viewportsResized;
+
+		return ((resizeMode_t) resizeMode);
+	}
+
+	return RESIZE_NONE;
+}
+
+
+SbBool SoXipViewportGroup::isOverlapping(int num, const SbVec4f *v) const
+{
+	for (int i = 0; i < num; i++)
+	{
+		SbBox2f a(v[i][0], v[i][1], v[i][0] + v[i][2] * 0.99f, v[i][1] + v[i][3] * 0.99f); 
+		
+		for (int j = 0; (j < num) && (j != i); j++)
+		{
+			SbBox2f b(v[j][0], v[j][1], v[j][0] + v[j][2] * 0.99f, v[j][1] + v[j][3] * 0.99f); 
+
+			if (a.intersect(b))
+				return TRUE;
+		}
+	}
+
+	return FALSE;
+}

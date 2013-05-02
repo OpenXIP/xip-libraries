@@ -121,8 +121,6 @@ void SoXipCursor::initClass()
 {
 	if (!mCursorField)
 	{
-		mCursor= SbString("");
-		mCursorClass=SbString("");
 		mCursorField = (SoMFString*) SoDB::createGlobalField(SbName("XipCursor"), SoMFString::getClassTypeId());
 		update();
 	}
@@ -144,7 +142,6 @@ void SoXipCursor::setClass(const char *cursorClass)
 	update();
 }
 
-
 void SoXipCursor::update()
 {
 	if (mCursorField)
@@ -154,4 +151,3 @@ void SoXipCursor::update()
 		mCursorField->set1Value(1, mCursorClass);
 	}
 }
-

@@ -1,11 +1,12 @@
 # Doxyfile 1.5.4
+# Sylvain Jaume <sylvain.jaume@siemens.com> 2008
 
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = eXtensible Imaging Platform
-PROJECT_NUMBER         = 0
+PROJECT_NAME           = "XIP @CPACK_PACKAGE_VERSION_MAJOR@.@CPACK_PACKAGE_VERSION_MINOR@.@CPACK_PACKAGE_VERSION_PATCH@ Documentation"
+PROJECT_NUMBER         = 
 OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@
 CREATE_SUBDIRS         = YES
 OUTPUT_LANGUAGE        = English
@@ -22,26 +23,26 @@ ABBREVIATE_BRIEF       = "The $name class " \
                          a \
                          an \
                          the
-ALWAYS_DETAILED_SEC    = NO
-INLINE_INHERITED_MEMB  = NO
-FULL_PATH_NAMES        = YES
-STRIP_FROM_PATH        = @CMAKE_CURRENT_SOURCE_DIR@/src/database
-STRIP_FROM_INC_PATH    = @CMAKE_CURRENT_SOURCE_DIR@/src/database
+ALWAYS_DETAILED_SEC    = YES
+INLINE_INHERITED_MEMB  = YES
+FULL_PATH_NAMES        = NO
+STRIP_FROM_PATH        = @CMAKE_SOURCE_DIR@/src/database
+STRIP_FROM_INC_PATH    = @CMAKE_SOURCE_DIR@/include/xip
 SHORT_NAMES            = NO
-JAVADOC_AUTOBRIEF      = NO
+JAVADOC_AUTOBRIEF      = YES
 QT_AUTOBRIEF           = NO
 MULTILINE_CPP_IS_BRIEF = NO
-DETAILS_AT_TOP         = NO
+DETAILS_AT_TOP         = YES
 INHERIT_DOCS           = YES
-SEPARATE_MEMBER_PAGES  = NO
-TAB_SIZE               = 8
+SEPARATE_MEMBER_PAGES  = YES
+TAB_SIZE               = 2
 ALIASES                = 
 OPTIMIZE_OUTPUT_FOR_C  = YES
 OPTIMIZE_OUTPUT_JAVA   = NO
 BUILTIN_STL_SUPPORT    = NO
 CPP_CLI_SUPPORT        = NO
 SIP_SUPPORT            = NO
-DISTRIBUTE_GROUP_DOC   = NO
+DISTRIBUTE_GROUP_DOC   = YES
 SUBGROUPING            = YES
 TYPEDEF_HIDES_STRUCT   = NO
 #---------------------------------------------------------------------------
@@ -63,7 +64,7 @@ HIDE_SCOPE_NAMES       = NO
 SHOW_INCLUDE_FILES     = YES
 INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
-SORT_BRIEF_DOCS        = NO
+SORT_BRIEF_DOCS        = YES
 SORT_BY_SCOPE_NAME     = NO
 GENERATE_TODOLIST      = YES
 GENERATE_TESTLIST      = YES
@@ -72,7 +73,7 @@ GENERATE_DEPRECATEDLIST= YES
 ENABLED_SECTIONS       = 
 MAX_INITIALIZER_LINES  = 30
 SHOW_USED_FILES        = YES
-SHOW_DIRECTORIES       = NO
+SHOW_DIRECTORIES       = YES
 FILE_VERSION_FILTER    = 
 #---------------------------------------------------------------------------
 # configuration options related to warning and progress messages
@@ -87,7 +88,11 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/src/database
+INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/src/common \
+                         @CMAKE_CURRENT_SOURCE_DIR@/src/database \
+                         @CMAKE_CURRENT_SOURCE_DIR@/src/embedding \
+                         @CMAKE_CURRENT_SOURCE_DIR@/src/rendernode \
+                         @CMAKE_CURRENT_SOURCE_DIR@/src/wrap
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -116,15 +121,16 @@ FILE_PATTERNS          = *.c \
                          *.mm \
                          *.dox \
                          *.py \
-                         *.f90
+                         *.f90 \
+                         *.txt
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXCLUDE_SYMBOLS        = 
-EXAMPLE_PATH           = 
-EXAMPLE_PATTERNS       = *
-EXAMPLE_RECURSIVE      = NO
+EXAMPLE_PATH           = @CMAKE_CURRENT_SOURCE_DIR@/examples
+EXAMPLE_PATTERNS       = *.xip
+EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             = @CMAKE_CURRENT_SOURCE_DIR@/doc 
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
@@ -143,17 +149,17 @@ VERBATIM_HEADERS       = YES
 #---------------------------------------------------------------------------
 # configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
-ALPHABETICAL_INDEX     = NO
+ALPHABETICAL_INDEX     = YES
 COLS_IN_ALPHA_INDEX    = 3
-IGNORE_PREFIX          = 
+IGNORE_PREFIX          = SoXip
 #---------------------------------------------------------------------------
 # configuration options related to the HTML output
 #---------------------------------------------------------------------------
 GENERATE_HTML          = YES
 HTML_OUTPUT            = xip-@CPACK_PACKAGE_VERSION_MAJOR@.@CPACK_PACKAGE_VERSION_MINOR@.@CPACK_PACKAGE_VERSION_PATCH@-doxygen
 HTML_FILE_EXTENSION    = .html
-HTML_HEADER            = 
-HTML_FOOTER            = 
+HTML_HEADER            =
+HTML_FOOTER            = XIPFooter.html  
 HTML_STYLESHEET        = 
 HTML_ALIGN_MEMBERS     = YES
 GENERATE_HTMLHELP      = NO
@@ -162,7 +168,7 @@ CHM_FILE               =
 HHC_LOCATION           = 
 GENERATE_CHI           = NO
 BINARY_TOC             = NO
-TOC_EXPAND             = NO
+TOC_EXPAND             = YES
 DISABLE_INDEX          = NO
 ENUM_VALUES_PER_LINE   = 4
 GENERATE_TREEVIEW      = NO
@@ -178,9 +184,9 @@ COMPACT_LATEX          = NO
 PAPER_TYPE             = a4wide
 EXTRA_PACKAGES         = 
 LATEX_HEADER           = 
-PDF_HYPERLINKS         = NO
-USE_PDFLATEX           = NO
-LATEX_BATCHMODE        = NO
+PDF_HYPERLINKS         = YES
+USE_PDFLATEX           = YES
+LATEX_BATCHMODE        = YES
 LATEX_HIDE_INDICES     = NO
 #---------------------------------------------------------------------------
 # configuration options related to the RTF output
@@ -221,7 +227,7 @@ PERLMOD_MAKEVAR_PREFIX =
 # Configuration options related to the preprocessor   
 #---------------------------------------------------------------------------
 ENABLE_PREPROCESSING   = YES
-MACRO_EXPANSION        = NO
+MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
 INCLUDE_PATH           = 
@@ -233,7 +239,7 @@ SKIP_FUNCTION_MACROS   = YES
 # Configuration::additions related to external references   
 #---------------------------------------------------------------------------
 TAGFILES               = 
-GENERATE_TAGFILE       = 
+GENERATE_TAGFILE       = @CMAKE_CURRENT_BINARY_DIR@/XIPDoxygen.tag
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
 PERL_PATH              = /usr/bin/perl
@@ -248,20 +254,20 @@ CLASS_GRAPH            = YES
 COLLABORATION_GRAPH    = YES
 GROUP_GRAPHS           = YES
 UML_LOOK               = NO
-TEMPLATE_RELATIONS     = NO
+TEMPLATE_RELATIONS     = YES
 INCLUDE_GRAPH          = YES
 INCLUDED_BY_GRAPH      = YES
-CALL_GRAPH             = YES
+CALL_GRAPH             = NO
 CALLER_GRAPH           = YES
 GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = png
 DOT_PATH               = @DOXYGEN_DOT_EXECUTABLE@ 
 DOTFILE_DIRS           = 
-DOT_GRAPH_MAX_NODES    = 50
-MAX_DOT_GRAPH_DEPTH    = 1000
-DOT_TRANSPARENT        = YES
-DOT_MULTI_TARGETS      = NO
+DOT_GRAPH_MAX_NODES    = 256
+MAX_DOT_GRAPH_DEPTH    = 3
+DOT_TRANSPARENT        = NO
+DOT_MULTI_TARGETS      = YES
 GENERATE_LEGEND        = YES
 DOT_CLEANUP            = YES
 #---------------------------------------------------------------------------

@@ -106,23 +106,24 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkAssignAttribute.h"
-# include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkImageData.h"
-# include "vtkStructuredPoints.h"
-# include "vtkStructuredGrid.h"
-# include "vtkDataSet.h"
-# include "vtkRectilinearGrid.h"
-# include "vtkUnstructuredGrid.h"
-# include "vtkPolyData.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkAssignAttribute.h"
+#include "SoVtkUtils.h"
+
+#include "vtkAlgorithmOutput.h"
+#include "vtkImageData.h"
+#include "vtkStructuredPoints.h"
+#include "vtkStructuredGrid.h"
+#include "vtkDataSet.h"
+#include "vtkRectilinearGrid.h"
+#include "vtkUnstructuredGrid.h"
+#include "vtkPolyData.h"
 
 SO_ENGINE_SOURCE( SoVtkAssignAttribute )
 
@@ -135,9 +136,6 @@ SoVtkAssignAttribute::SoVtkAssignAttribute()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkAssignAttribute *aAssignAttribute = vtkAssignAttribute::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(InputConnection, (0));
 
@@ -149,21 +147,27 @@ SoVtkAssignAttribute::SoVtkAssignAttribute()
 
 	SO_ENGINE_ADD_OUTPUT( oImageDataOutput, SoSFVtkObject );
 	mImageDataOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oStructuredPointsOutput, SoSFVtkObject );
 	mStructuredPointsOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oStructuredGridOutput, SoSFVtkObject );
 	mStructuredGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oRectilinearGridOutput, SoSFVtkObject );
 	mRectilinearGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oUnstructuredGridOutput, SoSFVtkObject );
 	mUnstructuredGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oPolyDataOutput, SoSFVtkObject );
 	mPolyDataOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -173,56 +177,48 @@ SoVtkAssignAttribute::~SoVtkAssignAttribute()
 	// Deletion of the objects if they exist
 	if ( mImageDataOutput )
 	{
-	
 		mImageDataOutput->unref();
 		mImageDataOutput = 0;
 	}
 	
 	if ( mStructuredPointsOutput )
 	{
-	
 		mStructuredPointsOutput->unref();
 		mStructuredPointsOutput = 0;
 	}
 	
 	if ( mStructuredGridOutput )
 	{
-	
 		mStructuredGridOutput->unref();
 		mStructuredGridOutput = 0;
 	}
 	
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mRectilinearGridOutput )
 	{
-	
 		mRectilinearGridOutput->unref();
 		mRectilinearGridOutput = 0;
 	}
 	
 	if ( mUnstructuredGridOutput )
 	{
-	
 		mUnstructuredGridOutput->unref();
 		mUnstructuredGridOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
 	
 	if ( mPolyDataOutput )
 	{
-	
 		mPolyDataOutput->unref();
 		mPolyDataOutput = 0;
 	}
@@ -233,8 +229,6 @@ SoVtkAssignAttribute::~SoVtkAssignAttribute()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkAssignAttribute::initClass()
@@ -396,3 +390,4 @@ void SoVtkAssignAttribute::reset()
 
 	mObject->Update();
 }
+

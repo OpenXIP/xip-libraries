@@ -206,6 +206,8 @@ public:
 	SoSFEnum intersection;
 	SoSFEnum orientation;
 	SoSFTrigger viewOrientation;
+        SoSFTrigger stepNext;
+        SoSFTrigger stepPrevious;
 //	SoSFTrigger viewCenter;
 //	SoSFTrigger recenter;
 	SoSFTrigger viewAll;

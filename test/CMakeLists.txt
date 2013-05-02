@@ -1,3 +1,4 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research 2007
+# Author Sylvain Jaume
 
 add_subdirectory(imageCompare)

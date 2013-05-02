@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkVolumeRayCastMIPFunction.h"
 # include "SoVtkUtils.h"
@@ -125,8 +129,6 @@ SoVtkVolumeRayCastMIPFunction::SoVtkVolumeRayCastMIPFunction()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkVolumeRayCastMIPFunction *aVolumeRayCastMIPFunction = vtkVolumeRayCastMIPFunction::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(MaximizeMethod, (0));
 	MaximizeMethod.setValue(aVolumeRayCastMIPFunction->GetMaximizeMethod());
@@ -199,3 +201,4 @@ void SoVtkVolumeRayCastMIPFunction::inputChanged(SoField * f)
 
 	
 }
+

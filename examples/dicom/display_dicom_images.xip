@@ -1,0 +1,71 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-5.4 7.36 -3.4 8.16
+    flags	()
+    viewPos	618 41 508 418
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-6.6 5.4 -4.6 6.2
+    flags	()
+    autoPanelPos	646 102 0 0
+    node	    SoXipLut {
+	fields [ SFEnum inputMode, SFEnum outputMode, SFShort bitsUsed, SFFloat rampWidth,
+		SFFloat rampCenter, MFColor arrayColor, MFFloat arrayAlpha ]
+	inputMode	TRAPEZOID
+	outputMode	COLOR
+	bitsUsed	12
+	rampWidth	0.1
+	rampCenter	0
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-3.6 5.4 -1.05075 6.2
+    flags	()
+    autoPanelPos	666 111 0 0
+    node	    SoXipDicomExaminer {
+	fields [ SoXipMFDataDicom images, SFShort imageIndex, SFShort sliceIndex, SFEnum mode ]
+	images	"NULL"
+	sliceIndex	0
+	mode	PANZOOM
+    }
+
+}
+#connect "images@2" "dicom@3"
+
+### 3 ###
+SoXipBuilderEngine {
+    placement	-3.6 3.6 -1.55224 4.4
+    flags	()
+    autoPanelPos	307 409 0 0
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\data\24884367.dcm"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3 ]
+    position	-3.87468 5.84375 3.66116
+    height	13.26
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

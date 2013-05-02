@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkOutlineFilter.h"
 # include "SoVtkUtils.h"
@@ -127,8 +131,6 @@ SoVtkOutlineFilter::SoVtkOutlineFilter()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkOutlineFilter *aOutlineFilter = vtkOutlineFilter::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Input, (0));
 
@@ -262,3 +264,4 @@ void SoVtkOutlineFilter::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

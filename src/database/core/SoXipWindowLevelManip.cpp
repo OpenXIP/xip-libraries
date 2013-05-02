@@ -113,12 +113,14 @@
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoKeyboardEvent.h>
 #include <Inventor/actions/SoHandleEventAction.h>
+#include <Inventor/actions/SoActions.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/elements/SoComplexityElement.h>
+#include <xip/inventor/core/SoXipWindowLevelElement.h>
 
-#ifndef min
-#define min(a, b)  (((a) < (b)) ? (a) : (b)) 
-#endif
+//#ifndef min
+//#define min(a, b)  (((a) < (b)) ? (a) : (b)) 
+//#endif
 
 SO_NODE_SOURCE(SoXipWindowLevelManip);
 
@@ -139,6 +141,9 @@ SoXipWindowLevelManip::SoXipWindowLevelManip()
 	SO_NODE_ADD_FIELD(mouse, (BUTTON2));
 
 	SO_NODE_ADD_FIELD(handleComplexity, (FALSE));
+
+	mDefaultWindow = window.getValue();
+	mDefaultLevel = level.getValue();
 }
 
 
@@ -147,6 +152,10 @@ void SoXipWindowLevelManip::initClass()
 	SO_NODE_INIT_CLASS(SoXipWindowLevelManip, SoNode, "Node");
 
 	SO_ENABLE(SoGLRenderAction, SoComplexityElement);
+
+	SO_ENABLE( SoGLRenderAction,	SoXipWindowLevelElement );
+	SO_ENABLE(SoPickAction,     SoXipWindowLevelElement);
+	SO_ENABLE(SoCallbackAction, SoXipWindowLevelElement);
 }
 
 
@@ -261,8 +270,20 @@ void SoXipWindowLevelManip::GLRender(SoGLRenderAction *action)
 	if (handleComplexity.getValue() && (mComplexity < SoComplexityElement::getDefault()))
 	{
 		float complexity = SoComplexityElement::get(action->getState());
-		SoComplexityElement::set(action->getState(), min(mComplexity, complexity));
+		SoComplexityElement::set(action->getState(), std::min(mComplexity, complexity));
+	}
+
+	if (window.getValue() != mDefaultWindow)
+	{
+		SoXipWindowLevelElement::setWindow( action->getState(), this,window.getValue() );
+	}
+
+	if (level.getValue() != mDefaultLevel)
+	{
+		SoXipWindowLevelElement::setLevel( action->getState(), this,level.getValue() );
 	}
 
 	SoNode::GLRender(action);
 }
+
+

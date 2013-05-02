@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkButterflySubdivisionFilter.h"
-# include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkPolyData.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkButterflySubdivisionFilter.h"
+#include "SoVtkUtils.h"
+
+#include "vtkAlgorithmOutput.h"
+#include "vtkPolyData.h"
 
 SO_ENGINE_SOURCE( SoVtkButterflySubdivisionFilter )
 
@@ -128,24 +129,22 @@ SoVtkButterflySubdivisionFilter::SoVtkButterflySubdivisionFilter()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkButterflySubdivisionFilter *aButterflySubdivisionFilter = vtkButterflySubdivisionFilter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	vtkButterflySubdivisionFilter *aButterflySubdivisionFilter =
+				 vtkButterflySubdivisionFilter::New();
 
 	SO_ENGINE_ADD_INPUT(NumberOfSubdivisions, (0));
-	NumberOfSubdivisions.setValue(aButterflySubdivisionFilter->GetNumberOfSubdivisions());
+	NumberOfSubdivisions.setValue(aButterflySubdivisionFilter->
+									GetNumberOfSubdivisions());
 
 	SO_ENGINE_ADD_INPUT(InputConnection, (0));
 
 	aButterflySubdivisionFilter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -155,15 +154,13 @@ SoVtkButterflySubdivisionFilter::~SoVtkButterflySubdivisionFilter()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
-		mOutputPort->unref();
+    mOutputPort->unref();
 		mOutputPort = 0;
 	}
 	
@@ -173,13 +170,12 @@ SoVtkButterflySubdivisionFilter::~SoVtkButterflySubdivisionFilter()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkButterflySubdivisionFilter::initClass()
 {
-	SO_ENGINE_INIT_CLASS( SoVtkButterflySubdivisionFilter, SoEngine, "Engine" );
+	SO_ENGINE_INIT_CLASS( SoVtkButterflySubdivisionFilter, SoEngine,
+								 	"Engine" );
 }
 
 void SoVtkButterflySubdivisionFilter::evaluate()
@@ -266,3 +262,4 @@ void SoVtkButterflySubdivisionFilter::reset()
 
 	mObject->Update();
 }
+

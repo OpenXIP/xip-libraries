@@ -145,9 +145,12 @@
 
 SO_NODE_SOURCE(SoXipPlot2Area);
 
-// computes axis parameters such as start value and spacing for ticks in world and pixel units
-static void computeAxisParams( float minDistance, float minVal, float span, float spanPixels, 
-							   float &tickSpacing, float &tickSpacingPixels, float &startTick, float &startOffsetPixels, int &numTicks )
+// computes axis parameters such as start value and spacing for ticks
+// in world and pixel units
+static void computeAxisParams( float minDistance, float minVal,
+  float span, float spanPixels, float &tickSpacing,
+	float &tickSpacingPixels, float &startTick,
+	float &startOffsetPixels, int &numTicks )
 {
 	tickSpacing = 0;
 	tickSpacingPixels = 0;
@@ -156,7 +159,9 @@ static void computeAxisParams( float minDistance, float minVal, float span, floa
 	numTicks = 0;
 
 	if( minDistance <= 0 )
+	{
 		return ;
+	}
 
 	// min distance between ticks is minDistance pixels
 	float maxNumTicks = (int) (spanPixels / minDistance);
@@ -174,7 +179,10 @@ static void computeAxisParams( float minDistance, float minVal, float span, floa
 		else if( spacing / tickSpacing < 0.5 )
 			tickSpacing *= 0.5;
 
-		tickSpacingPixels = spanPixels * (tickSpacing / span);
+		if( span )
+		{
+		  tickSpacingPixels = spanPixels * (tickSpacing / span);
+		}
 
 		if( tickSpacingPixels <= 0 )
 		{
@@ -192,7 +200,11 @@ static void computeAxisParams( float minDistance, float minVal, float span, floa
 			startTick += tickSpacing;
 		}
 
-		numTicks = 1.f + (spanPixels + 0.5f - startOffsetPixels) / tickSpacingPixels;
+		if( tickSpacingPixels )
+		{
+		numTicks = 1.f + (spanPixels + 0.5f - startOffsetPixels) /
+					 	tickSpacingPixels;
+		}
 	}
 }
 
@@ -204,7 +216,9 @@ static void formatValue(char *str, double value)
 
 	// remove zeros at the end of fraction
 	char *frac = strchr(str, '.');
-	for (char *end = str + strlen(str) - 1; (end >= frac) && ((*end == '0') || (*end == '.')); end--) *end = 0;
+	for (char *end = str + strlen(str) - 1;
+			(end >= frac) && ((*end == '0') || (*end == '.'));
+			end--) *end = 0;
 }
 
 
@@ -316,7 +330,8 @@ SoXipPlot2Area::~SoXipPlot2Area()
 
 
 // renders a string at the given position
-void SoXipPlot2Area::GLRenderText(SoGLRenderAction *action, SbVec3f position, const char *string)
+void SoXipPlot2Area::GLRenderText(SoGLRenderAction *action,
+								SbVec3f position, const char *string)
 {
 	if (!action || !string || !mTranslation || !mText) 
 		return;
@@ -336,7 +351,8 @@ void SoXipPlot2Area::GLRenderText(SoGLRenderAction *action, SbVec3f position, co
 }
 
 void
-SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action, const LegendInfoVec& legendInfo )
+SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action,
+								const LegendInfoVec& legendInfo )
 {
 	float fontSize = SoFontSizeElement::get( action->getState() );
 
@@ -360,9 +376,11 @@ SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action, const LegendInfoVec& l
 		for( int i = 0; i < (int) legendInfo.size(); i ++ )
 		{
 			SbVec3f posOutsideViewport( 100000, 10000, 0 );
-			GLRenderText( action, posOutsideViewport, legendInfo[i].label.getString() );
+			GLRenderText( action, posOutsideViewport,
+											legendInfo[i].label.getString() );
 
-			SoGetBoundingBoxAction gba( SoViewportRegionElement::get( action->getState() ) );
+			SoGetBoundingBoxAction gba( SoViewportRegionElement::get(
+															action->getState() ) );
 			gba.apply( mText );
 
 			legendTextBBox = gba.getBoundingBox();
@@ -374,7 +392,8 @@ SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action, const LegendInfoVec& l
 
 		for( int j = 0; j < (int) legendInfo.size(); j ++ )
 		{
-			SbVec2f legendOffset = SbVec2f( borderBottomLeft[0], borderBottomLeft[1] ) + legendMargin;
+			SbVec2f legendOffset = SbVec2f( borderBottomLeft[0],
+											borderBottomLeft[1] ) + legendMargin;
 			legendOffset[0] += legendTextSize[0]; // Since text is right-aligned
 			legendOffset[1] += .5 * fontSize + j * (fontSize + 2);
 
@@ -389,11 +408,13 @@ SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action, const LegendInfoVec& l
 
 			GLRenderText(action, pos, legendInfo[j].label.getString());
 
-			SoGetBoundingBoxAction gba( SoViewportRegionElement::get( action->getState() ) );
+			SoGetBoundingBoxAction gba( SoViewportRegionElement::get(
+															action->getState() ) );
 			gba.apply( mText );
 
 			SbMatrix translationMatrix;
-			translationMatrix.setTranslate( mTranslation->translation.getValue() );
+			translationMatrix.setTranslate(
+											mTranslation->translation.getValue() );
 			SbBox3f bbox = gba.getBoundingBox();
 			bbox.transform( translationMatrix );
 
@@ -401,7 +422,8 @@ SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action, const LegendInfoVec& l
 
 			if( legendInfo[j].isArea )
 			{
-				mPrimitiveDraw.quad( action, pos + SbVec3f(10, -4, 0), SbVec2f(30, 8), legendInfo[j].areaColor );
+				mPrimitiveDraw.quad( action, pos + SbVec3f(10, -4, 0),
+												SbVec2f(30, 8), legendInfo[j].areaColor );
 
 				SoMFVec3f borderLineCoords;
 				borderLineCoords.setNum(5);
@@ -411,7 +433,8 @@ SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action, const LegendInfoVec& l
 				borderLineCoords.set1Value( 3, pos + SbVec3f(10,  4, 0) );
 				borderLineCoords.set1Value( 4, pos + SbVec3f(10, -4, 0) );
 
-				mPrimitiveDraw.lines( action, borderLineCoords, legendInfo[j].lineColor );
+				mPrimitiveDraw.lines( action, borderLineCoords,
+												legendInfo[j].lineColor );
 
 				// Update legend bounding box
 				for( int index = 0; index < 4; ++ index )
@@ -440,7 +463,8 @@ SoXipPlot2Area::GLRenderLegend( SoGLRenderAction* action, const LegendInfoVec& l
 				mTranslation->translation.setValue(pos + SbVec3f(25, 0, 0));
 				action->traverse(mTranslation);
 
-				mScale->scaleFactor.setValue(0.5f * legendInfo[j].markerSize, 0.5f * legendInfo[j].markerSize, 1);
+				mScale->scaleFactor.setValue(0.5f * legendInfo[j].markerSize,
+											 	0.5f * legendInfo[j].markerSize, 1);
 				action->traverse(mScale);
 
 				mColor->rgb.setValue(legendInfo[j].markerColor);
@@ -509,7 +533,11 @@ void SoXipPlot2Area::GLRender(SoGLRenderAction *action)
 	SbViewportRegion vp = SoViewportRegionElement::get(state);
 	SbVec2s vpSize = vp.getViewportSizePixels();
 
-	if ((vpSize[0] < (borderBottomLeft[0] + borderTopRight[0] + 2) ) || (vpSize[1] < (borderBottomLeft[1] + borderTopRight[1] + 2))) return;
+	if ((vpSize[0] < (borderBottomLeft[0] + borderTopRight[0] + 2) ) ||
+			(vpSize[1] < (borderBottomLeft[1] + borderTopRight[1] + 2)))
+	{ 
+	  return;
+	}
 
 	mChildrenViewport = SbViewportRegion(vp.getWindowSize());
 	mChildrenViewport.setViewportPixels(
@@ -706,8 +734,13 @@ void SoXipPlot2Area::GLRender(SoGLRenderAction *action)
 
 		// set camera to pixel space
 		mCamera->height.setValue(vpSize[1]);
+		if( vpSize[1] )
+		{
 		mCamera->aspectRatio.setValue((float) vpSize[0] / (float) vpSize[1]);
-		mCamera->position.setValue(SbVec3f((float) vpSize[0] / 2.f, (float) vpSize[1] /2.f, 0));
+		}
+
+		mCamera->position.setValue(SbVec3f((float) vpSize[0] / 2.f,
+													 	(float) vpSize[1] / 2.f, 0));
 		action->traverse(mCamera);		
 
 		// helper macro to render lineset from poins and numPoints
@@ -1172,8 +1205,15 @@ SoXipPlot2Area::handleEvent(SoHandleEventAction *action)
 					vpChildrenSize[1] -= legendSize[1];
 
 					SbVec2f diff;
+					if( vpChildrenSize[0] )
+					{
 					diff[0] = (mousePos[0] - mMouseDownPos[0]) * ((float) vpSize[0] / (float) vpChildrenSize[0]);
+					}
+
+					if( vpChildrenSize[1] )
+					{
 					diff[1] = (mousePos[1] - mMouseDownPos[1]) * ((float) vpSize[1] / (float) vpChildrenSize[1]);
+					}
 
 					SbVec2f newPos( legendPos.getValue() + diff );
 					CLAMP( newPos[0], 0, 1 );

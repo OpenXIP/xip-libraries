@@ -1,0 +1,334 @@
+Copyright Siemens Corporate Research Inc.
+Author Sylvain Jaume <sylvain.jaume@siemens.com>
+Release date: Oct 15, 2008
+
+RELEASE NOTES FOR XIP 0.1.1
+---------------------------
+
+Nov 2008
+--------
+Remove examples/renderer/slicer: dicomSlicer.rad.xip
+Remove examples/renderer/slicer: simple_tf_fp.glsl
+Remove examples/renderer/slicer: simple_vp.glsl
+
+
+Updated examples/renderer/slicer/dicomSlicer.xip
+Updated examples/renderer/slicer/dicomSlicer_simple_tf_fp.glsl
+Updated examples/renderer/slicer/simpleLut_tf_fp.glsl
+Updated examples/renderer/slicer/slicer.xip
+Updated examples/renderer/slicer/slicerWithLut.xip
+Updated examples/renderer/slicer/slicerWithLutShaded.xip
+
+
+Add examples/renderer/slicer: noshading_tf_fp.glsl
+Add examples/renderer/slicer: shade_tf_fp.glsl
+Add examples/renderer/slicer: slicer_fp.glsl
+Add examples/renderer/slicer: slicer_lut_shading_fp.glsl
+Add examples/renderer/slicer: slicer_lut_shading_vp.glsl
+
+Oct 2008
+--------
+(guillaume) Add support for resizable viewports in SoXipViewportGroup
+
+(patric) Add tools directory under xip. First comparison tool
+         compares two .xip files and produce diff outputs for nodes
+         and engines, field connections, and backward field
+         connections. Requires bash, awk and sort - Shell scripts.
+
+(christoph) Automatic Converter from Image to Boolean
+
+(michael) Fix events propagation for SoXipTextEdit2
+
+(patric) Remove duplicate setting of SoEnum type for textureDimension
+         in SoXipTexture.cpp
+
+(sylvain) Install the doxygen files into the config binary directory
+
+(patric) Add three versions of Lena image with info on bits used
+
+(sylvain) Rename example file, so they can be called with regex using ctest
+
+(sylvain) Convert rad examples to xip format
+
+(sylvain) Add source for zlib-1.2.3 library
+
+(sylvain) Add DCMTK variables and install rules for VTK libraries
+
+(sylvain) Add SoXipBlendFuncElement.h
+
+(sylvain) Define the xip include dirs and library dirs
+
+(sylvain) Merge dicom files from oct08 branch
+
+(babu) Fix to read unsigned dicom images
+
+(michael) Fix SoXipText2Edit and SoXipDisplayImageText: text was not
+          editable
+
+(sylvain) Merge core from main-dev
+
+(sylvain) Add example with overlay of dicom tags and scale bar
+overlay_dicom_tag.xip and overlay_dicom_tag_scale_bar.xip,
+
+
+Sep 2008
+--------
+(patric) Add necessary typename qualifiers to template types within
+         templated functions in SoItkConvertItkImageToXipImage.cpp
+
+(sylvain) Replace min with std::min and include of algorithm in
+          SoXipTexture.cpp and SbXipImage.cpp
+
+(patric) SoItkConvertItkImageToXipImage did not account for the
+         number of bits used
+
+(sylvain) Build libiconv and inventor on linux
+
+(sylvain) Fix the vtk and dcmtk variables under linux
+
+(sylvain) Update dcmtk dir variable
+
+(sylvain) Define vtk libraries in cmake
+
+(sylvain) Remove static builds for vtk and itk
+
+(sylvain) clean cmake file for image compare
+
+(sylvain) Change suffix for debug libraries
+
+(sylvain) Export cmake variables for vtk
+
+(sylvain) Configure EasyBMP
+
+(sylvain) Add source for EasyBMP, libPNG, TIFF, and zlib libraries
+
+(sylvain) Fix rules to compile dicom and overlay modules
+
+(sylvain) Add test for vtk
+
+(patric) Add regression compare application
+
+(sylvain) Add readme files in Inventor
+
+(sylvain) Rename inventor file with extension c++ to cpp
+
+(sylvain) Remove deprecated xml and make files
+
+(sylvain) Rename inventor files to automatically find the right compiler
+
+(babu) Add dot net sample application in embedding directory
+
+(sylvain) Build with src/extern/dcmtk
+
+(sylvain) Remove debug message
+
+(sylvain) Install txt files
+
+(sylvain) Add SoXipHtmlView for html support
+
+(sylvain) Fix vtk library configuration issues
+
+(sylvain) Remove deprecated vcproj files
+
+(sylvain) Fix the path for one example
+
+(sylvain) Remove deprecated header files and examples for tftk module
+
+(sylvain) Use new .xip examples instead of .rad examples
+
+(sylvain) Convert rad examples into xip format
+
+(sylvain) Rename itk examples with itk prefix
+
+(sylvain) Modify Doxygen configuration file
+
+(sylvain) Add dcmtk src but do not build yet
+
+(sylvain) Add xipinv240d to XIP_LIBRARIES
+
+(sylvain) Add dcmtk-3.5.4 and build it in Windows.
+          need CMake code for Linux and Mac
+
+(sylvain) Clean up vtk examples
+
+(sylvain) Change path in CPUmpr example
+
+(sylvain) Add data dir name in the path to CTHead data files
+
+(sylvain) Add CTHead to the XIP_DATA variable
+
+(sylvain) Add CTHead to examples/data and fix renderer/MPR/CPUmpr.xip
+
+(sylvain) Resize the installer logo
+
+(sylvain) Remove empty lines from license text
+
+(sylvain) Reduce size of xip logo
+
+(sylvain) Remove /* from beginning of lines in LICENSE.txt
+
+(sylvain) Change file extensions for examples/core files
+
+(sylvain) Convert examples/core/*.rad to .xip format
+
+(sylvain) Install the readme and doc files
+
+(sylvain) Define doc files and readme files in the cmakelists of the top dir
+
+(sylvain) Add and install HELP.html
+
+(sylvain) Clean up the build dir
+
+(sylvain) Move to build dir all config files needed to find XIP package
+
+(sylvain) Add variable to build shared libs or static libs
+
+(sylvain) Modify the doxygen config file to generate class list
+
+(sylvain) edit Javadoc section for VTK
+
+(sylvain) set default to not build with ITK, VTK and DCMTK on MSYS
+
+(sylvain) add variable for xip data files in XIPConfig.cmake.in
+
+(sylvain) add xipcommon to the list of xip libraries
+
+(sylvain) add data files
+
+(sylvain) fix lower case/upper case issue in doc filenames for Linux
+
+(sylvain) fix name of a RAD example for Linux
+
+(sylvain) fix path to dcmtk libraries
+
+(sylvain) fix the doxygen config file
+
+(sylvain) fix name of xipext-linux-32bit
+
+(sylvain) fix Inventor classes to compile on Linux
+
+(sylvain) apply dos2unix on Inventor files
+
+(sylvain) remove the ifdef WIN32 || DARWIN, since they also apply to Linux for SoText2.c++, SoText3.c++, SoV1Text2.c++, SoV2Text2.c++
+
+(sylvain) use ZIP as a source generator, not NSIS since exe files are not compatible with Linux and Mac
+
+(sylvain) rename XipConfig.cmake.in to a tmp name because we cannot rename it directly to XIPConfig.cmake.in
+
+(sylvain) remove cmake debug messages
+
+(sylvain) define all variable for CPack and NSIS
+
+(sylvain) define variables for find_package XIP
+
+(sylvain) set install dir with version number
+
+(sylvain) move archive library from bin dir to lib dir
+
+(sylvain) re-organize xipext to match VTK-install and ITK-install
+
+(sylvain) do not install static libraries in xipivremote
+
+(sylvain) use XIP icon in the NSIS installer
+
+(sylvain) add rule to insert the xip logo in the nsis package
+
+(sylvain) add icon xip_icon.ico for xipbuilder executable 
+
+(sylvain) add logo xip_logo.bmp in bmp format for nsis
+
+
+Aug 2008
+--------
+
+(sylvain) add rules to install headers in src/extern/inventor/lib
+
+(sylvain) remove deprecated GNUmakefile
+
+(sylvain) compile vtk and itk on Windows using xipext-win32-vs8
+
+(sylvain) move find vtk to top dir since we need it in both test and src directories
+
+(sylvain) move cmakelist file to overlay/ftgl
+
+(sylvain) fix include directories
+
+(sylvain) use xipext instead of /usr/local for external libraries on Mac
+
+(sylvain) compile with itk on linux
+
+(sylvain) Modify defines.h and standard.h to compile with itk on mac
+
+(sylvain) add screenshots for xip cuda module
+
+(sylvain) add XipCUDA.ppt slides about CUDA integration in Xip
+
+(sylvain) compile itk on mac
+
+(sylvain) Modify SoItkImportImageFilter to compile itk on mac
+
+(sylvain) use NSIS as package generator on Windows and TAR GZ on Unix
+
+(sylvain) use Xip_VERSION_STRING
+
+(sylvain) compile vtk on mac
+
+(sylvain) copy c++ files to cpp extension
+
+(sylvain) fix uninitialized index in SoCompactPathList.c++
+
+(sylvain) add comments to cmakelists
+
+(sylvain) add soversion for libraries
+
+(sylvain) rename zip file
+
+(sylvain) mark xip builder paths as advanced
+
+(sylvain) rename inventor lib from xipinv to xipinv240
+
+(sylvain) fix install rule for pdb file
+
+(sylvain) add rules to install xipbuilder and qt files
+
+(sylvain) install the glsl files
+
+(sylvain) Modified : /branches/linux-mac-port/CMakeLists.txt
+
+(sylvain) improve install rule for examples. no need for glob recurse anymore.
+
+(sylvain) add missing include file in SoVtkRenderer
+
+(sylvain) add project source to include dirs
+
+(sylvain) fix rule to find ITK path
+
+(sylvain) add include directory
+
+(sylvain) expand list of test files
+
+(sylvain) fix SoVtkRenderer on Windows
+
+(sylvain) add xipbuilder logos
+
+(sylvain) Add XipOverview.ppt
+
+(sylvain) add install rules for documentation
+
+(sylvain) Add SoXipWindowLevelElement
+
+(sylvain) fix install rules
+
+(sylvain) build with vtk on mac
+
+(sylvain) use no-deprecated flag only on Mac and Linux
+
+(sylvain) add XipStarterGuide.doc
+
+(sylvain) modify header files to compile on Mac
+
+(sylvain) modify test executables to compile on linux
+
+(sylvain) remove deprecated directories
+
+(sylvain) add newline at end of files to remove warning on linux

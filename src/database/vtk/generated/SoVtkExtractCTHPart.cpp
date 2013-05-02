@@ -106,19 +106,20 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkExtractCTHPart.h"
-# include "SoVtkUtils.h"
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
-# include "vtkMultiProcessController.h"
-# include "vtkPlane.h"
-# include "vtkAlgorithmOutput.h"
-# include "vtkPolyData.h"
+#include "SoVtkExtractCTHPart.h"
+#include "SoVtkUtils.h"
 
+#include "vtkMultiProcessController.h"
+#include "vtkPlane.h"
+#include "vtkAlgorithmOutput.h"
+#include "vtkPolyData.h"
+#include "vtkMultiBlockDataSet.h"
 
 SO_ENGINE_SOURCE( SoVtkExtractCTHPart )
 
@@ -308,3 +309,4 @@ void SoVtkExtractCTHPart::reset()
 
 	mObject->Update();
 }
+

@@ -1,4 +1,5 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research 2008
+# Author Sylvain Jaume
 
 project(FL)
 
@@ -23,7 +24,7 @@ if(UNIX)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Definitions
+# Define compiler flags
 #
 if(WIN32)
   add_definitions(-DWIN32 -DINVENTOR_EXPORTS -D__SGIOIV_BUILD_DLL

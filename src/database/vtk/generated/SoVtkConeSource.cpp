@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkConeSource.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkConeSource::SoVtkConeSource()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkConeSource *aConeSource = vtkConeSource::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Radius, (0));
 	Radius.setValue(aConeSource->GetRadius());
@@ -142,12 +144,13 @@ SoVtkConeSource::SoVtkConeSource()
 
 	SO_ENGINE_ADD_INPUT(Direction, (0,0,0));
 
-	x= aConeSource->GetDirection();
+	double x[3] = {0.0, 0.0, 0.0};
+	aConeSource->GetDirection(x);
 	Direction.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(Center, (0,0,0));
 
-	x= aConeSource->GetCenter();
+	aConeSource->GetCenter(x);
 	Center.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(Resolution, (0));
@@ -165,12 +168,11 @@ SoVtkConeSource::SoVtkConeSource()
 
 	aConeSource->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 }
 
 SoVtkConeSource::~SoVtkConeSource()
@@ -178,16 +180,14 @@ SoVtkConeSource::~SoVtkConeSource()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
-		mOutputPort->unref();
-		mOutputPort = 0;
+  	  mOutputPort->unref();
+	  mOutputPort = 0;
 	}
 	
 	if ( mObject )
@@ -196,8 +196,6 @@ SoVtkConeSource::~SoVtkConeSource()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkConeSource::initClass()
@@ -316,3 +314,4 @@ void SoVtkConeSource::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

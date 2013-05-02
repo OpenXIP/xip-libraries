@@ -113,7 +113,8 @@
 #include <xip/inventor/core/SbXipImage.h>
 #include <Inventor/errors/SoMemoryError.h>
 #include <Inventor/errors/SoDebugError.h>
-
+//#include <xip/system/standard.h>
+#include <algorithm>
 
 SbXipImageDimensions::SbXipImageDimensions()
 {
@@ -251,6 +252,18 @@ void SbXipImage::init(
 	allocBuffer();
 }
 
+static const int __maxBitsStoredTable[] =
+{
+    8,	// UNSIGNED_BYTE
+    8,	// BYTE
+    16, // UNSIGNED_SHORT
+    16, // SHORT
+    32, // UNSIGNED_INT
+    32, // INT
+    32, // FLOAT
+    64  // DOUBLE
+};
+
 
 void SbXipImage::init(
 	const SbXipImageDimensions &dimensions,
@@ -264,7 +277,7 @@ void SbXipImage::init(
 	mMaxLuminance = 0;
 	mDimAllocated = dimensions;
 	mDimStored = dimensions;
-	mBitsStored = bitsStored;
+	mBitsStored = std::min(bitsStored, __maxBitsStoredTable[type]);
 	mType = type;
 	mComponents = components;
 	mCompType = compType;
@@ -298,7 +311,7 @@ void SbXipImage::init(
 	if( compLayout == PACKED_LUMINANCE )
 		mDimAllocated[0] = ( ( mDimAllocated[0] + 7 ) / 8 ) * 8;
 
-	mBitsStored = bitsStored;
+	mBitsStored = std::min(bitsStored, __maxBitsStoredTable[type]);
 	mType = type;
 	mComponents = components;
 	mCompType = compType;
@@ -499,3 +512,5 @@ SbXipImage::getMaxLuminance() const
 {
     return (mMaxLuminance);
 }
+
+

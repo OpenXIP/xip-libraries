@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkClipPolyData.h"
 # include "SoVtkUtils.h"
@@ -130,8 +134,6 @@ SoVtkClipPolyData::SoVtkClipPolyData()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkClipPolyData *aClipPolyData = vtkClipPolyData::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Value, (0));
 	Value.setValue(aClipPolyData->GetValue());
@@ -158,14 +160,14 @@ SoVtkClipPolyData::SoVtkClipPolyData()
 
 	aClipPolyData->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( ClippedOutput, SoSFVtkObject );
 	mClippedOutput = 0;
-
 }
 
 SoVtkClipPolyData::~SoVtkClipPolyData()
@@ -327,3 +329,4 @@ void SoVtkClipPolyData::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

@@ -105,9 +105,45 @@
 *      LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
 *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
 *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
-*      THE POSSIBILITY OF SUCH DAMAGE.
-*  
+*      THE POSSIBILITY OF SUCH DAMAGE. 
 */
+
+/*! \mainpage eXtensible Imaging Platform (Xip) Documentation
+ *
+ * \image html xip_logo.png
+ *
+ * \section intro_sec Introduction
+ *
+ * The eXtensible Imaging Platform is a C++ toolkit to build Medical
+ * Imaging and Visualization applications.
+ * Xip was created with NCI funding and is part of the caBIG initiative.
+ * Siemens Corporate Research contributes to and maintains the source
+ * code of Xip.
+ *
+ * \section download_sec Download
+ * 
+ * You can download the source code and the binaries at this location:
+ * https://collab01a.scr.siemens.com/gf/project/xip/
+ *
+ * \section tutorials_sec Tutorials
+ * 
+ * Tutorials to install, use and program with Xip are available on
+ * the Xip Wiki:
+ * https://collab01a.scr.siemens.com/xipwiki
+ *
+ * \section modules_sec Modules
+ * Xip is organized around a number of libraries also called modules:
+ *  \li core: base module built around Open Inventor
+ *  \li coregl: module built on OpenGL
+ *  \li dicom: module that wraps DCMTK
+ *  \li itk: module that wraps the Insight Toolkit
+ *  \li overlay: module for 2D annotation
+ *  \li remote: module for client-server functionalities
+ *  \li renderer: module for volume rendering
+ *  \li vtk: module that wraps the Visualization Toolkit
+ *
+ *  \sa README.txt and LICENSE.txt in the source directory.
+ */
 
 #include <xip/system/GL/gl.h>
 #include <xip/inventor/core/SoXipData.h>
@@ -135,9 +171,12 @@
 #include <xip/inventor/core/SbXipDirtyFieldList.h>
 #include <xip/inventor/core/SoXipPickRadiusElement.h>
 #include <xip/inventor/core/SoXipImageTextElement.h>
+#include <xip/inventor/core/SoXipWindowLevelElement.h>
+#include <xip/inventor/core/SoXipConvertToTrigger.h>
 
 #include "SoXipAutoScale.h"
 #include "SoXipBackground.h"
+#include "SoXipHtmlView.h"
 #include "SoXipTexture.h"
 #include "SoXipSFDataImageToSFImage.h"
 #include "SoXipImage.h"
@@ -180,6 +219,7 @@
 #include "SoXipComposeMFImage.h"
 #include "SoXipDecomposeMFImage.h"
 #include "SoXipExtractSlice.h"
+#include "SoXipInvertMatrix.h"
 #include "SoXipLazyGroup.h"
 #include "SoXipImageText.h"
 #include "SoXipComposeVec6.h"
@@ -192,95 +232,108 @@
 
 int XIPIVCORE_API xipivcore_init()
 {
-	//initialize elements first
-	SoXipLutElement::initClass();
-	SoXipActiveViewportElement::initClass();
-	SoXipDataImageElement::initClass();
-	SoXipMultiTextureElement::initClass();
-	SoXipRenderModeElement::initClass();
-	SoXipMprPlaneElement::initClass();
-	SoXipMprActiveElement::initClass();		
-    SoXipTransparentGeometryGroupElement::initClass();
-	SoXipMprLockElement::initClass();
-    SoXipVolDataElement::initClass();		
-    SoXipVolGroupElement::initClass();		
-	SoXipClipPlaneElement::initClass();
-	SoXipPickRadiusElement::initClass();
-	SoXipImageTextElement::initClass();
+  //initialize elements first
+  SoXipLutElement::initClass();
+  //SoXipListActionElement::initClass();
+  //SoXipListActionEnableElement::initClass();
+  SoXipActiveViewportElement::initClass();
+  SoXipDataImageElement::initClass();
+  SoXipHtmlView::initClass();
+  SoXipMultiTextureElement::initClass();
+  SoXipRenderModeElement::initClass();
+  SoXipMprPlaneElement::initClass();
+  SoXipMprActiveElement::initClass();		
+  SoXipTransparentGeometryGroupElement::initClass();
+  SoXipMprLockElement::initClass();
+  SoXipVolDataElement::initClass();		
+  SoXipVolGroupElement::initClass();		
+  SoXipClipPlaneElement::initClass();
+  SoXipPickRadiusElement::initClass();
+  SoXipImageTextElement::initClass();
+  SoXipWindowLevelElement::initClass();
 
-	//initialize rest then
-	SbXipDirtyFieldList::initClass();
-	SoXipData::initClass();
-	SoXipDataImage::initClass();
-	SoXipSFDataImage::initClass();
-	SoXipMFDataImage::initClass();
-	SoXipSFDataImageToSFImage::initClass();
-	SoXipComposeVec6::initClass();
-	SoXipCursor::initClass();
-	SoXipDecomposeVec6::initClass();
-	SoXipKit::initClass();
-    SoXipImage::initClass();
-    SoXipImageAttributes::initClass();
-    SoXipLoadRaw::initClass();
-    SoXipDogEar::initClass();
-    SoXipViewportBorder::initClass();
-    SoXipOrientationCube::initClass();	
-    SoXipViewportGroup::initClass();
-    SoXipLut::initClass();
-    SoXipTexture::initClass();
-    SoXipTimerFunction::initClass();
-    SoXipRenderMode::initClass();
-    SoXipExaminer::initClass();
-    SoSFVariant::initClass();
-    SoMFVariant::initClass();
-    SoXipPlaneManipBase::initClass();
-    SoXipIntersectionPlane::initClass();
-    SoXipWindowLevelManip::initClass();
-	SoXipMprPlane::initClass();
-	SoXipMprIntersectionLine::initClass();
-	SoXipMprIntersectionManip::initClass();
-	SoXipMprExaminer::initClass();
-	SoXipMprAlign::initClass();
-    SoXipTransparentGeometryGroup::initClass();
-	SoXipMprLock::initClass();
-	SoXipMprActive::initClass();
-    SoXipVolGroup::initClass();
-    SoXipPickAction::initClass();
+  //initialize rest then
+  SbXipDirtyFieldList::initClass();
+  SoXipData::initClass();
+  SoXipDataImage::initClass();
+  SoXipSFDataImage::initClass();
+  SoXipMFDataImage::initClass();
+  SoXipSFDataImageToSFImage::initClass();
+  SoXipComposeVec6::initClass();
+  SoXipCursor::initClass();
+  SoXipDecomposeVec6::initClass();
+  SoXipKit::initClass();
+  //SoXipList::initClass();
+  //SoXipListAction::initClass();
+  //SoXipListActionEnable::initClass();
+  SoXipImage::initClass();
+  SoXipImageAttributes::initClass();
+  SoXipLoadRaw::initClass();
+  SoXipDogEar::initClass();
+  SoXipViewportBorder::initClass();
+  SoXipOrientationCube::initClass();	
+  SoXipViewportGroup::initClass();
+  SoXipLut::initClass();
+  SoXipTexture::initClass();
+  SoXipTimerFunction::initClass();
+  SoXipRenderMode::initClass();
+  SoXipExaminer::initClass();
+  SoSFVariant::initClass();
+  SoMFVariant::initClass();
+  SoXipPlaneManipBase::initClass();
+  SoXipIntersectionPlane::initClass();
+  SoXipWindowLevelManip::initClass();
+  SoXipMprPlane::initClass();
+  SoXipMprIntersectionLine::initClass();
+  SoXipMprIntersectionManip::initClass();
+  SoXipMprExaminer::initClass();
+  SoXipMprAlign::initClass();
+  SoXipTransparentGeometryGroup::initClass();
+  SoXipMprLock::initClass();
+  SoXipMprActive::initClass();
+  SoXipVolGroup::initClass();
+  SoXipPickAction::initClass();
 
-    SoXipLazyGroup::initClass();
+    SoXipInvertMatrix::initClass();
+  SoXipLazyGroup::initClass();
 
-	SoXipBoundingBox::initClass();
-	SoXipTrackballToMouse::initClass();
-	SoXipWindowSize::initClass();
-	SoXipMouseToggle::initClass();
-	SoXipClipPlane::initClass();
-	SoXipPerformance::initClass();
-	SoXipPerformanceCounter::initClass();
-	SoXipConvertMatrixToPlane::initClass();
-	SoXipConvertToEnum::initClass();
-    SoXipAutoScale::initClass();
-    SoXipBackground::initClass();
-	SoXipAnchor::initClass();
+  SoXipBoundingBox::initClass();
+  SoXipTrackballToMouse::initClass();
+  SoXipWindowSize::initClass();
+  SoXipMouseToggle::initClass();
+  SoXipClipPlane::initClass();
+  SoXipPerformance::initClass();
+  SoXipPerformanceCounter::initClass();
+  SoXipConvertMatrixToPlane::initClass();
+  SoXipConvertToEnum::initClass();
+  SoXipAutoScale::initClass();
+  SoXipBackground::initClass();
+  SoXipAnchor::initClass();
+  SoXipGetImage::initClass();
+  SoXipImageExaminerBase::initClass();
+  SoXipImageExaminer::initClass();    
+  SoXipComposeMFImage::initClass();
+  SoXipDecomposeMFImage::initClass();
+  SoXipExtractSlice::initClass();
+  SoXipImageText::initClass();
+  SoXipIncrement::initClass();
+  SoXipStringConcatenate::initClass();
+  SoXipConvertMFImageToSFImage::initClass();
+  SoXipConvertSFImageToMFImage::initClass();
+  SoXipImageOperation::initClass();
+  SoXipSwitchMFDataImage::initClass();
+	SoXipConvertToTrigger::initClass();
 
-	SoXipGetImage::initClass();
-	SoXipImageExaminerBase::initClass();
-	SoXipImageExaminer::initClass();    
-	SoXipComposeMFImage::initClass();
-	SoXipDecomposeMFImage::initClass();
-	SoXipExtractSlice::initClass();
-	SoXipImageText::initClass();
-	SoXipIncrement::initClass();
-    SoXipStringConcatenate::initClass();
-	SoXipConvertMFImageToSFImage::initClass();
-	SoXipConvertSFImageToMFImage::initClass();
-	SoXipImageOperation::initClass();
-	SoXipSwitchMFDataImage::initClass();
+	// Register converters to trigger for all data types
+	SoType triggerType = SoType::fromName( "SoSFTrigger" );
+	SoType convType = SoType::fromName( "SoXipConvertToTrigger" );
 
-	return 1;
+	SoDB::addConverter( SoXipSFDataImage::getClassTypeId(), triggerType, convType );
+	SoDB::addConverter( SoXipMFDataImage::getClassTypeId(), triggerType, convType );
+
+  return 1;
 }
 
-
-//#ifdef linux
 #ifndef WIN32
 
 static int initted = FALSE;    // a little protection--probably unnecessary
@@ -322,3 +375,5 @@ BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD reason, LPVOID)
     return TRUE;
 }
 #endif
+
+

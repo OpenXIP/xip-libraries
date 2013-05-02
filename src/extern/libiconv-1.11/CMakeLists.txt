@@ -1,18 +1,31 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research Inc. 2008
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(libiconv)
 
+#--------------------------------------------------------------------
+# Define the compiler flags
+#
 add_definitions(-DHAVE_CONFIG_H -DHAVE_STRING_H)
 
+#--------------------------------------------------------------------
+# Define the include directories
+#
 include_directories(
   ${PROJECT_SOURCE_DIR}
   extras
   include
   lib
   libcharset
-  srclib
-  windows)
+  srclib)
 
+if(WIN32)
+  include_directories(windows)
+endif(WIN32)
+
+#--------------------------------------------------------------------
+# Define the header files
+#
 set(HEADERS
   config.h
   extras/iconv_string.h
@@ -218,7 +231,6 @@ set(HEADERS
   libcharset/include/libcharset.h
   libcharset/include/localcharset.h
   libcharset/lib/relocatable.h
-  libcharset/windows/dllexport.h
   srclib/alloca_.h
   srclib/allocsa.h
   srclib/binary-io.h
@@ -240,11 +252,19 @@ set(HEADERS
   srclib/unlocked-io.h
   srclib/xalloc.h
   srclib/xreadlink.h
-  windows/alloca.h
-  windows/dllexport.h
-  windows/stdbool.h
   woe32dll/export.h)
 
+if(WIN32)
+  set(HEADERS ${HEADERS}
+    libcharset/windows/dllexport.h
+    windows/alloca.h
+    windows/dllexport.h
+    windows/stdbool.h)
+endif(WIN32)
+
+#--------------------------------------------------------------------
+# Define the source files
+#
 set(SOURCES
   extras/iconv_string.c
   lib/genaliases.c
@@ -286,4 +306,7 @@ set(SOURCES
   tools/cjk_variants.c)
   #woe32dll/iconv-exports.c)
 
+#--------------------------------------------------------------------
+# Compile library
+#
 add_library(libiconv STATIC ${HEADERS} ${SOURCES})

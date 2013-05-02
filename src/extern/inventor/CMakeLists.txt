@@ -1,10 +1,10 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research Inc. 2008
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(inventor)
-cmake_minimum_required(VERSION 2.6)
 
 #--------------------------------------------------------------------
-# Definitions
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DINVENTOR_EXPORTS)
@@ -15,7 +15,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 include_directories(
   lib/database/include
@@ -26,13 +26,13 @@ include_directories(
   ../../../include)
 
 #--------------------------------------------------------------------
-# Compile executable
+# Compile the executable
 #
 if(WIN32)
   add_custom_command(TARGET xipinv240
     PRE_BUILD COMMAND ${PROJECT_SOURCE_DIR}/gensources.bat)
 else(WIN32)
-  add_executable(ppp tools/ppp/ppp.c++)
+  #add_executable(ppp tools/ppp/ppp.c++)
   add_custom_command(TARGET xipinv240
     PRE_BUILD COMMAND gensources.sh)
 endif(WIN32)

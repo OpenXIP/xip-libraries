@@ -106,16 +106,17 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
  */
  
- 
- 
-# include "SoVtkBranchExtentTranslator.h"
-# include "SoVtkUtils.h"
+#include "SoVtkBranchExtentTranslator.h"
+#include "SoVtkUtils.h"
 
-# include "vtkImageData.h"
-
+#include "vtkImageData.h"
 
 SO_ENGINE_SOURCE( SoVtkBranchExtentTranslator )
 
@@ -127,10 +128,8 @@ SoVtkBranchExtentTranslator::SoVtkBranchExtentTranslator()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkBranchExtentTranslator *aBranchExtentTranslator = vtkBranchExtentTranslator::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	vtkBranchExtentTranslator *aBranchExtentTranslator =
+				 vtkBranchExtentTranslator::New();
 
 	SO_ENGINE_ADD_INPUT(GhostLevel, (0));
 	GhostLevel.setValue(aBranchExtentTranslator->GetGhostLevel());
@@ -149,18 +148,17 @@ SoVtkBranchExtentTranslator::SoVtkBranchExtentTranslator()
 	SO_ENGINE_ADD_INPUT(WholeExtent, (0));
 
 	SO_ENGINE_ADD_INPUT(AssignedNumberOfPieces, (0));
-	AssignedNumberOfPieces.setValue(aBranchExtentTranslator->GetAssignedNumberOfPieces());
+	AssignedNumberOfPieces.setValue(aBranchExtentTranslator->
+									GetAssignedNumberOfPieces());
 
 	SO_ENGINE_ADD_INPUT(Extent, (0));
-
 	aBranchExtentTranslator->Delete();
-
 
 	SO_ENGINE_ADD_OUTPUT( oOriginalSource, SoSFVtkObject );
 	mOriginalSource = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -343,3 +341,4 @@ void SoVtkBranchExtentTranslator::reset()
 	}
 
 }
+

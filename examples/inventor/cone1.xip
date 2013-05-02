@@ -1,0 +1,63 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-1.2 2.1 0.8 2.9
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-4.8 -0.3 -2.3753 0.5
+    flags	()
+    autoPanelPos	422 247 0 0
+    node	    PerspectiveCamera {
+	position	0 0 5
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-2.1 -0.3 -0.1 0.5
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	0.3 -0.3 2.3 0.5
+    flags	()
+    autoPanelPos	653 239 0 0
+    node	    Material {
+	diffuseColor	1 0 0
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	2.7 -0.3 4.7 0.5
+    flags	()
+    node	    Cone {
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

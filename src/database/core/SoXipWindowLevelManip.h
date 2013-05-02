@@ -146,9 +146,13 @@ protected:
 	virtual void GLRender(SoGLRenderAction *action);
 
 	float mComplexity;
+	float		mDefaultWindow;
+	float		mDefaultLevel;
 	SbVec2s mLastMousePosition;
 };
 
 
 
 #endif // SOXIPWINDOWLEVELMANIP_H
+
+

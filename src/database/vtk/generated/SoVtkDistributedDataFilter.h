@@ -164,7 +164,7 @@ public:
 	/// ClipCells
 	SoSFInt32 ClipCells;
 	/// GlobalNodeIdArrayName
-	SoMFString GlobalNodeIdArrayName;
+	//SoMFString GlobalNodeIdArrayName;
 	/// GlobalElementIdArrayName
 	SoMFString GlobalElementIdArrayName;
 	/// Controller of type vtkMultiProcessController

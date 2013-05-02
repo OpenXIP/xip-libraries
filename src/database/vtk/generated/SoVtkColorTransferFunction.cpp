@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkColorTransferFunction.h"
 # include "SoVtkUtils.h"
@@ -125,8 +129,6 @@ SoVtkColorTransferFunction::SoVtkColorTransferFunction()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkColorTransferFunction *aColorTransferFunction = vtkColorTransferFunction::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(RGBSegment, ());
 	RGBSegment.setFormat("double double double double double double double double");
@@ -160,10 +162,8 @@ SoVtkColorTransferFunction::SoVtkColorTransferFunction()
 
 	aColorTransferFunction->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT(Output, SoSFVtkObject );
 	mOutput = 0;
-
 }
 
 SoVtkColorTransferFunction::~SoVtkColorTransferFunction()
@@ -378,3 +378,4 @@ void SoVtkColorTransferFunction::inputChanged(SoField * f)
 
 	
 }
+

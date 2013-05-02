@@ -106,16 +106,17 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
  */
  
- 
- 
-# include "SoVtkBYUWriter.h"
-# include "SoVtkUtils.h"
+#include "SoVtkBYUWriter.h"
+#include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-
+#include "vtkAlgorithmOutput.h"
 
 SO_ENGINE_SOURCE( SoVtkBYUWriter )
 
@@ -128,9 +129,6 @@ SoVtkBYUWriter::SoVtkBYUWriter()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBYUWriter *aBYUWriter = vtkBYUWriter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(FieldDataName, (""));
 
@@ -177,12 +175,11 @@ SoVtkBYUWriter::SoVtkBYUWriter()
 
 	aBYUWriter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -424,3 +421,4 @@ void SoVtkBYUWriter::reset()
 
 	mObject->Update();
 }
+

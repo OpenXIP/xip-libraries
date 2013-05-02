@@ -106,7 +106,6 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
 
 #include <Inventor/actions/SoGLRenderAction.h>
@@ -268,8 +267,8 @@ SoXipOverlaySearchContour::doAction( SoAction* action )
 }
 
 void 
-SoXipOverlaySearchContour::appendContour( SoXipManipulableShape* shape,
-										   SoMFVec3f& accumulatePoint, SoMFInt32& accumulateCoordIndex )
+SoXipOverlaySearchContour::appendContour( SoXipManipulableShape*
+  shape, SoMFVec3f& accumulatePoint, SoMFInt32& accumulateCoordIndex )
 {
 	if( closed.getValue() && !shape->isClosed() )
 		return ;
@@ -282,14 +281,29 @@ SoXipOverlaySearchContour::appendContour( SoXipManipulableShape* shape,
 	SbBool closed;
 	shape->extractGeometries( linePoints, lineIndices, closed );
 
-	accumulatePoint.setValues( oldNumPoints, linePoints.getNum(), linePoints.getValues(0) );
-	accumulateCoordIndex.setValues( oldNumIndices, lineIndices.getNum(), lineIndices.getValues(0) );
+	accumulatePoint.setValues( oldNumPoints, linePoints.getNum(),
+								 	linePoints.getValues(0) );
+	accumulateCoordIndex.setValues( oldNumIndices,
+									lineIndices.getNum(), lineIndices.getValues(0) );
 
-	int* indPtr = accumulateCoordIndex.startEditing() + oldNumIndices;
-	for( int i = 0; i < lineIndices.getNum(); ++ i, ++ indPtr )
+	int* indPtr = accumulateCoordIndex.startEditing();
+
+  if( !indPtr )
 	{
-		if( *indPtr != -1 )
-			*indPtr += oldNumPoints;		
+	  return;
 	}
+
+	indPtr += oldNumIndices;
+
+  for( int i = 0; i < lineIndices.getNum(); ++ i, ++ indPtr )
+	{
+	  if( *indPtr != -1 )
+		{
+		  *indPtr += oldNumPoints;		
+	  }
+	}
+
 	accumulateCoordIndex.finishEditing();
 }
+
+

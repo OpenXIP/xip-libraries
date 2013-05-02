@@ -58,14 +58,13 @@ SoXipBuilderNode {
     flags	()
     autoPanelPos	294 608 0 0
     node	    SoXipEllipse {
-	fields [ SFBool on, SFEnum status, SFInt32 rank, MFString label,
-		SFString caption, SFVec3f textPosition, SFVec3f center, SFVec3f a,
-		SFVec3f b,  ]
-	on	TRUE
+	fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		SFVec3f textPosition, SFVec3f center, SFVec3f a, SFVec3f b,
+		 ]
 	status	NONE
 	label	"User_1"
 	caption	"User_1"
-	textPosition	-0.357589 -0.386982 -4.5
+	textPosition	-0.3562 -0.386983 -4.5
 	center	0.00209208 -0.0585774 -4.5
 	a	0 -0.464435 0
 	b	0.47908 0 0
@@ -79,15 +78,14 @@ SoXipBuilderNode {
     flags	()
     autoPanelPos	585 595 0 0
     node	    SoXipRectangle {
-	fields [ SFBool on, SFEnum status, SFInt32 rank, MFString label,
-		SFString caption, SFVec3f textPosition, SFVec3f p0, SFVec3f p1,
-		SFVec3f p2, SFVec3f p3 ]
-	on	TRUE
+	fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		SFVec3f textPosition, SFVec3f p0, SFVec3f p1, SFVec3f p2,
+		SFVec3f p3 ]
 	status	NONE
 	label	[ "User_2",
 			  "Tumor" ]
 	caption	"User_2"
-	textPosition	-0.652719 0.146443 -4.5
+	textPosition	-0.65133 0.146443 -4.5
 	p0	-0.631799 0.648536 -4.5
 	p1	0.230125 0.648536 -4.5
 	p2	0.230125 0.146443 -4.5
@@ -102,15 +100,13 @@ SoXipBuilderNode {
     flags	()
     autoPanelPos	953 547 0 0
     node	    SoXipPolygon {
-	fields [ SFBool on, SFEnum status, SFInt32 rank, MFString label,
-		SFString caption, SFVec3f textPosition, MFVec3f point, SFBool closed,
-		 ]
-	on	TRUE
+	fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
+		SFVec3f textPosition, MFVec3f point, SFBool closed,  ]
 	status	NONE
 	label	[ "User_1",
 			  "Tumor" ]
 	caption	"User_1"
-	textPosition	-0.778243 -0.380754 -4.5
+	textPosition	-0.776853 -0.379364 -4.5
 	point	[ -0.757322 -0.359833 -4.5,
 			  -0.518828 0.389121 -4.5,
 			  0.0543933 0.0125523 -4.5,
@@ -129,24 +125,21 @@ SoXipBuilderNode {
     flags	()
     autoPanelPos	646 573 0 0
     node	    SoXipOverlaySearch {
-	fields [ MFString label, SFString type, MFNode overlays, SFInt32 numOverlays ]
+	fields [ MFString label, MFNode overlays,  ]
 	label	[  ]
-	type	""
 	overlays	[  ]
-	numOverlays	0
     }
 
 }
 
 ### 9 ###
 SoXipBuilderNode {
-    placement	6.3 0.3 8.3 1.1
+    placement	8.4 -0.6 10.4 0.2
     flags	()
     autoPanelPos	869 308 0 0
     node	    SoXipText2 {
-	fields [ SFString string, SFEnum vAlignment ]
+	fields [ SFString string,  ]
 	string	""
-	vAlignment	TOP
     }
 
 }
@@ -158,8 +151,7 @@ SoXipBuilderEngine {
     flags	()
     autoPanelPos	822 358 0 0
     engine	    SoXipOverlayActions {
-	inputs [ MFNode overlays,  ]
-	overlays	[  ]
+	inputs [  ]
 	outputs [ SFString status ]
     }
 
@@ -174,6 +166,7 @@ SoXipBuilderPackage {
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     outputs	[  ]
 }
 

@@ -1,0 +1,231 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-0.6 9 1.4 9.8
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-1.01365 7.5 1.63032 8.3
+    flags	SHOW_RENDERVIEW
+    viewPos	409 556 526 287
+    autoPanelPos	43 124 385 392
+    node	    SoXipViewportGroup {
+	fields [ MFVec4f viewports,  ]
+	viewports	[ 0 0 0.5 1,
+			  0.5 0 0.5 1 ]
+    }
+
+}
+#addChild "1" "2 9"
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-2.1 5.7 -0.1 6.5
+    flags	()
+    viewPos	576 613 508 359
+    node	    Separator {
+    }
+
+}
+#addChild "2" "3 4 5 6"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-6.9 3.6 -4.46481 4.4
+    flags	()
+    autoPanelPos	103 459 385 392
+    node	    OrthographicCamera {
+	position	0.5 0.5 1
+	height	1.25
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-3.9 3.6 -1.9 4.4
+    flags	()
+    autoPanelPos	272 468 385 392
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-1.5 3.6 0.5 4.4
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 6 ###
+SoXipBuilderNode {
+    placement	1.2 3.6 3.2 4.4
+    flags	()
+    autoPanelPos	639 532 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@6" "Output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-8.1 3.6 -3.81642 4.4
+    flags	()
+    autoPanelPos	307 426 0 0
+    engine	    SoItkIntensityWindowingImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat WindowMaximum ]
+	Input0	"NULL"
+	WindowMaximum	200
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@7" "output@8"
+
+### 8 ###
+SoXipBuilderEngine {
+    placement	-7.8 2.4 -5.8 3.2
+    flags	()
+    autoPanelPos	651 466 385 464
+    engine	    SoXipLoadRaw {
+	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
+		SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
+	voxelType	USHORT
+	width	256
+	height	256
+	depth	1
+	bitsUsed	12
+	modelMatrix	1 0 0 0
+		0 -1 0 0
+		0 0 1 0
+		0 1 0 1
+	file	"../data/lena.raw"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-2.4 5.7 -0.4 6.5
+    flags	()
+    viewPos	576 613 508 359
+    node	    Separator {
+    }
+
+}
+#addChild "9" "10 11 12 13"
+
+### 10 ###
+SoXipBuilderNode {
+    placement	-6.9 3.6 -4.46481 4.4
+    flags	()
+    autoPanelPos	103 459 385 392
+    node	    OrthographicCamera {
+	position	0.5 0.5 1
+	height	1.25
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	-3.9 3.6 -1.9 4.4
+    flags	()
+    autoPanelPos	272 468 385 392
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	-1.5 3.6 0.5 4.4
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 13 ###
+SoXipBuilderNode {
+    placement	1.2 3.6 3.2 4.4
+    flags	()
+    autoPanelPos	29 594 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@13" "Output@14"
+
+### 14 ###
+SoXipBuilderEngine {
+    placement	-2.79868 3.6 0.148684 4.4
+    flags	()
+    autoPanelPos	434 568 385 392
+    engine	    SoItkMedianImageFilter {
+	inputs [ SoItkSFDataImage Input0, MFInt32 Radius ]
+	Input0	"NULL"
+	Radius	[ 3, 3 ]
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@14" "Output@7"
+
+### packages ###
+SoXipBuilderPackage {
+    def	-2
+    placement	1.2 5.4 3.2 6.2
+    name	"Grouping"
+    members	[ 9, 10, 11, 12, 13 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-1.85 -2.4 0.15 -1.6
+    outputs	9
+    outputsPlacement	-1.85 8.5 0.15 9.3
+}
+
+SoXipBuilderPackage {
+    def	-1
+    placement	-2.7 5.4 -0.7 6.2
+    name	"Grouping"
+    members	[ 2, 3, 4, 5, 6 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-1.85 -2.4 0.150001 -1.6
+    outputs	2
+    outputsPlacement	-1.85 8.5 0.150001 9.3
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -2, -1, 0, 1, 7, 8, 14 ]
+    position	-2.3 6.1 1
+    height	14.1111
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

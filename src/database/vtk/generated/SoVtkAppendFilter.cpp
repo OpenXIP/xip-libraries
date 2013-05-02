@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
@@ -130,22 +134,19 @@ SoVtkAppendFilter::SoVtkAppendFilter()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkAppendFilter *aAppendFilter = vtkAppendFilter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(InputConnection, (0));
 
 	aAppendFilter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oInputList, SoSFVtkObject );
 	mInputList = 0;
-
 
 	addCalled = 0;
 }
@@ -278,3 +279,4 @@ void SoVtkAppendFilter::reset()
 
 	mObject->Update();
 }
+

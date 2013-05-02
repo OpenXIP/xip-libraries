@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
  */
  
- 
- 
-# include "SoVtkBandedPolyDataContourFilter.h"
-# include "SoVtkUtils.h"
+#include "SoVtkBandedPolyDataContourFilter.h"
+#include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkPolyData.h"
-
+#include "vtkAlgorithmOutput.h"
+#include "vtkPolyData.h"
 
 SO_ENGINE_SOURCE( SoVtkBandedPolyDataContourFilter )
 
@@ -128,22 +129,22 @@ SoVtkBandedPolyDataContourFilter::SoVtkBandedPolyDataContourFilter()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkBandedPolyDataContourFilter *aBandedPolyDataContourFilter = vtkBandedPolyDataContourFilter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	vtkBandedPolyDataContourFilter *aBandedPolyDataContourFilter =
+				 vtkBandedPolyDataContourFilter::New();
 
 	SO_ENGINE_ADD_INPUT(ScalarMode, (0));
 	ScalarMode.setValue(aBandedPolyDataContourFilter->GetScalarMode());
 
 	SO_ENGINE_ADD_INPUT(NumberOfContours, (0));
-	NumberOfContours.setValue(aBandedPolyDataContourFilter->GetNumberOfContours());
+	NumberOfContours.setValue(aBandedPolyDataContourFilter->
+									GetNumberOfContours());
 
 	SO_ENGINE_ADD_INPUT(Value, ());
 	Value.setFormat("int double");
 
 	SO_ENGINE_ADD_INPUT(GenerateContourEdges, (0));
-	GenerateContourEdges.setValue(aBandedPolyDataContourFilter->GetGenerateContourEdges());
+	GenerateContourEdges.setValue(aBandedPolyDataContourFilter->
+									GetGenerateContourEdges());
 
 	SO_ENGINE_ADD_INPUT(Clipping, (0));
 	Clipping.setValue(aBandedPolyDataContourFilter->GetClipping());
@@ -152,14 +153,14 @@ SoVtkBandedPolyDataContourFilter::SoVtkBandedPolyDataContourFilter()
 
 	aBandedPolyDataContourFilter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oContourEdgesOutput, SoSFVtkObject );
 	mContourEdgesOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -169,21 +170,18 @@ SoVtkBandedPolyDataContourFilter::~SoVtkBandedPolyDataContourFilter()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
 	
 	if ( mContourEdgesOutput )
 	{
-	
 		mContourEdgesOutput->unref();
 		mContourEdgesOutput = 0;
 	}
@@ -194,13 +192,12 @@ SoVtkBandedPolyDataContourFilter::~SoVtkBandedPolyDataContourFilter()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBandedPolyDataContourFilter::initClass()
 {
-	SO_ENGINE_INIT_CLASS( SoVtkBandedPolyDataContourFilter, SoEngine, "Engine" );
+	SO_ENGINE_INIT_CLASS( SoVtkBandedPolyDataContourFilter, SoEngine,
+								 "Engine" );
 }
 
 void SoVtkBandedPolyDataContourFilter::evaluate()
@@ -366,3 +363,4 @@ void SoVtkBandedPolyDataContourFilter::reset()
 
 	mObject->Update();
 }
+

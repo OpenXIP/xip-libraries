@@ -1,42 +1,10 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(dicom)
 
 #--------------------------------------------------------------------
-# Source files
-#
-set(SOURCES
-  SoXipConvertDicom.cpp
-  SoXipConvertDicomToXipImage.cpp
-  SoXipComposeMFDicom.cpp
-  SoXipDataDicom.cpp
-  SoXipDataDicomElement.cpp
-  SoXipDecomposeMFDicom.cpp
-  SoXipDicomExaminer.cpp
-  SoXipDicomExtractSlice.cpp
-  SoXipDicomWindowLevel.cpp
-  SoXipGetDicom.cpp
-  SoXipGetDicomReference.cpp
-  SoXipGetDicomString.cpp
-  SoXipLoadDicom.cpp
-  SoXipLoadPState.cpp
-  SoXipMFDataDicom.cpp
-  SoXipPState.cpp
-  SoXipSFDataDicom.cpp
-  SoXipSFPState.cpp
-  SoXipSortDicom.cpp
-  SoXipSwitchMFDataDicom.cpp
-  SoXipVolumeDicom.cpp
-  SbXipDicomProviderDcmtk.cpp
-  init.cpp
-  xipivDicomUtils.cpp
-  XipDicomSortAlg.cpp
-  XipDicomSortImage.cpp
-  XipDicomSortUtil.cpp
-  SoXipDicomSort3D.cpp)
-
-#--------------------------------------------------------------------
-# Header files
+# Define the header files
 #
 set(HEADERS
   SbXipDicomProviderDcmtk.h
@@ -53,6 +21,7 @@ set(HEADERS
   SoXipGetDicomString.h
   SoXipLoadDicom.h
   SoXipLoadPState.h
+  SoXipSaveDicom.h
   SoXipSortDicom.h
   SoXipSwitchMFDataDicom.h
   SoXipVolumeDicom.h
@@ -61,7 +30,41 @@ set(HEADERS
   XipDicomSortUtil.h)
 
 #--------------------------------------------------------------------
-# Define compiler flags
+# Define the source files
+#
+set(SOURCES
+  init.cpp
+  SoXipConvertDicom.cpp
+  SoXipConvertDicomToXipImage.cpp
+  SoXipComposeMFDicom.cpp
+  SoXipDataDicom.cpp
+  SoXipDataDicomElement.cpp
+  SoXipDecomposeMFDicom.cpp
+  SoXipDicomExaminer.cpp
+  SoXipDicomExtractSlice.cpp
+  SbXipDicomProviderDcmtk.cpp
+  SoXipDicomSort3D.cpp
+  SoXipDicomWindowLevel.cpp
+  SoXipGetDicom.cpp
+  SoXipGetDicomReference.cpp
+  SoXipGetDicomString.cpp
+  SoXipLoadDicom.cpp
+  SoXipLoadPState.cpp
+  SoXipMFDataDicom.cpp
+  SoXipPState.cpp
+  SoXipSaveDicom.cpp
+  SoXipSFDataDicom.cpp
+  SoXipSFPState.cpp
+  SoXipSortDicom.cpp
+  SoXipSwitchMFDataDicom.cpp
+  SoXipVolumeDicom.cpp
+  XipDicomSortAlg.cpp
+  XipDicomSortImage.cpp
+  XipDicomSortUtil.cpp
+  xipivDicomUtils.cpp)
+
+#--------------------------------------------------------------------
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVDICOM_EXPORTS)
@@ -70,39 +73,36 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the link directories
 #
-include_directories(${DCMTK_INCLUDE_DIR})
+if(UNIX)
+  link_directories(
+    ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
+    ${DCMTK_DIR}/lib)
+endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link directories
+# Compile the library
 #
-link_directories(${DCMTK_DIR})
-
-#--------------------------------------------------------------------
-# Compile library
-#
-add_library(xipivdicom SHARED ${SOURCES} ${HEADERS})
-set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivdicom)
+if(BUILD_SHARED_LIBS)
+  add_library(xipivdicom SHARED ${HEADERS} ${SOURCES})
+else(BUILD_SHARED_LIBS)
+  add_library(xipivdicom STATIC ${HEADERS} ${SOURCES})
+endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipivdicom
   PROPERTIES VERSION ${XIP_VERSION_STRING}
   SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
-# Link library
+# Link the library
 #
 target_link_libraries(xipivdicom
   xipivcore
-  dcmdata
-  ofstd
-  dcmimage
-  dcmpstat
-  dcmimgle)
+  ${DCMTK_LIBRARIES})
 
 if(WIN32)
   target_link_libraries(xipivdicom
-    zlib
     wsock32
     netapi32)
 else(WIN32)
@@ -111,19 +111,21 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Install library
+# Install the library
 #
-install(TARGETS xipivdicom
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
-  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
-
 install(TARGETS xipivdicom
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
-  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release
+  BUNDLE  DESTINATION lib/release CONFIGURATIONS Release)
+
+install(TARGETS xipivdicom
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug   CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug   CONFIGURATIONS Debug
+  BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/xipivdicom.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivdicomd.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

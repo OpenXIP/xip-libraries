@@ -125,6 +125,7 @@
 #include <Inventor/fields/SoMFColor.h>
 #include <Inventor/fields/SoMFFloat.h>
 #include <Inventor/actions/SoActions.h>
+#include <xip/inventor/core/SoXIPSFDataImage.h>
 
 class SoFieldSensor;
 class SoXipDataImage;
@@ -170,7 +171,10 @@ public:
 		STEP_SECOND
     };
 
-	SoSFEnum inputMode;
+    // the data image as field
+    SoXipSFDataImage LUTDataImage;
+
+    SoSFEnum inputMode;
 	SoSFEnum alphaMode;
 
 	SoSFEnum fileMode;
@@ -216,3 +220,5 @@ protected:
 };
 
 #endif // SOXIPLUT_H
+
+

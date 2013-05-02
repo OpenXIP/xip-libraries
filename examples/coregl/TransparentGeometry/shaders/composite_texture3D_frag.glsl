@@ -1,5 +1,5 @@
-sampler3D depthtex;  // Must be setup as a normal texture, i.e. DEPTH_COMP_FUNC to NONE
-sampler3D colortex;
+uniform sampler3D depthtex;  // Must be setup as a normal texture, i.e. DEPTH_COMP_FUNC to NONE
+uniform sampler3D colortex;
 
 uniform vec3 viewsize;
 uniform float z;
@@ -12,7 +12,7 @@ void main()
     vec3 coord3D = vec3( coord, 0.5 * dz );
 
     vec4 color = texture3D(colortex, coord3D);
-    float depth = texture3D(depthtex, coord3D);
+    float depth = texture3D(depthtex, coord3D).z;
 
     for(int i=1; i<numLayers; i++)
     {

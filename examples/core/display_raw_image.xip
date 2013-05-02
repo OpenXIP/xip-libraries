@@ -1,0 +1,90 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-2.1 7.5 -0.0999999 8.3
+    flags	()
+    viewPos	576 613 508 359
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 4"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-5.4 5.4 -2.96481 6.2
+    flags	()
+    autoPanelPos	103 459 385 392
+    node	    OrthographicCamera {
+	position	0.5 0.5 1
+	height	1.25
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-2.4 5.4 -0.4 6.2
+    flags	()
+    autoPanelPos	272 468 385 392
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	0 5.4 2 6.2
+    flags	()
+    node	    DirectionalLight {
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	2.7 5.4 4.7 6.2
+    flags	()
+    autoPanelPos	460 339 0 0
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@4" "output@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	0 3.6 2 4.4
+    flags	()
+    autoPanelPos	136 426 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFShort width, SFShort height, SFShort depth, SFMatrix modelMatrix,
+		SFString file ]
+	width	256
+	height	256
+	depth	1
+	modelMatrix	1 0 0 0
+		0 -1 0 0
+		0 0 1 0
+		0 1 0 1
+	file	"../data/lena-256x256x8.raw"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5 ]
+    position	-0.35 5.8 5.63494
+    height	13.4815
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

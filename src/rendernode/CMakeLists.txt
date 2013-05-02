@@ -1,9 +1,10 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(rendernode)
 
 #--------------------------------------------------------------------
-# Header files.
+# Define the header files
 #
 set(HEADERS
   OIVUtils.h
@@ -11,7 +12,7 @@ set(HEADERS
   XipRenderTask.h)
 
 #--------------------------------------------------------------------
-# Source files.
+# Define the source files
 #
 set(SOURCES
   OIVUtils.cpp
@@ -20,23 +21,29 @@ set(SOURCES
   XipRenderTask.cpp)
 
 #--------------------------------------------------------------------
-# Link directories.
-#
-link_directories(${Xip_BINARY_DIR}/out)
-
-#--------------------------------------------------------------------
-# Executable creation.
+# Compile the executable
 #
 add_executable(rendernode ${HEADERS} ${SOURCES})
 
+set_target_properties(rendernode PROPERTIES DEBUG_POSTFIX d)
+
+if(WIN32)
+#set_target_properties(rendernode PROPERTIES LINK_FLAGS
+#"/DELAYLOAD:xipivcore.dll")
+endif(WIN32)
+
 #--------------------------------------------------------------------
-# Linking.
+# Link the executable
 #
 target_link_libraries(rendernode
   xipivcore
-  stream
-  losslessCompression
-  jpegWrapper)
+  stream)
+
+if(NOT CMAKE_CL_64)
+  target_link_libraries(rendernode
+    losslessCompression
+    jpegWrapper)
+endif(NOT CMAKE_CL_64)
 
 if(WIN32)
   target_link_libraries(rendernode
@@ -44,15 +51,15 @@ if(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Install.
+# Install the executable
 #
-install(TARGETS rendernode
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug)
-
 install(TARGETS rendernode
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release)
 
+install(TARGETS rendernode
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug)
+
 if(WIN32)
-  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/rendernode.pdb
+  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/rendernoded.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkAxes.h"
-# include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkPolyData.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkAxes.h"
+#include "SoVtkUtils.h"
+
+#include "vtkAlgorithmOutput.h"
+#include "vtkPolyData.h"
 
 SO_ENGINE_SOURCE( SoVtkAxes )
 
@@ -129,16 +130,14 @@ SoVtkAxes::SoVtkAxes()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkAxes *aAxes = vtkAxes::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(Symmetric, (0));
 	Symmetric.setValue(aAxes->GetSymmetric());
 
 	SO_ENGINE_ADD_INPUT(Origin, (0,0,0));
 
-	x = aAxes->GetOrigin();
+	double x[3] = {0.0, 0.0, 0.0};
+	aAxes->GetOrigin(x);
 	Origin.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(ComputeNormals, (0));
@@ -151,12 +150,11 @@ SoVtkAxes::SoVtkAxes()
 
 	aAxes->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -301,3 +299,4 @@ void SoVtkAxes::reset()
 
 	mObject->Update();
 }
+

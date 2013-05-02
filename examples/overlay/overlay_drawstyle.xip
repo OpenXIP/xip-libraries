@@ -2,7 +2,7 @@
 
 ### 0 ###
 SoXipBuilderNode {
-    placement	-5.4 4.8 -3.4 5.6
+    placement	-3.9 4.2 -1.9 5
     flags	()
     node	    Separator {
     }
@@ -12,7 +12,7 @@ SoXipBuilderNode {
 
 ### 1 ###
 SoXipBuilderNode {
-    placement	-9.6 2.1 -6.97771 2.9
+    placement	-8.1 1.5 -5.47771 2.3
     flags	()
     node	    OrthographicCamera {
     }
@@ -21,7 +21,7 @@ SoXipBuilderNode {
 
 ### 2 ###
 SoXipBuilderNode {
-    placement	-6.6 2.1 -4.6 2.9
+    placement	-5.1 1.5 -3.1 2.3
     flags	()
     node	    DirectionalLight {
     }
@@ -30,7 +30,7 @@ SoXipBuilderNode {
 
 ### 3 ###
 SoXipBuilderNode {
-    placement	-4.2 2.1 -1.8 2.9
+    placement	-2.7 1.5 -0.3 2.3
     flags	()
     node	    Group {
     }
@@ -40,7 +40,7 @@ SoXipBuilderNode {
 
 ### 4 ###
 SoXipBuilderNode {
-    placement	-10.2 -0.3 -7.85944 0.5
+    placement	-8.7 -0.9 -6.35944 -0.1
     flags	()
     autoPanelPos	174 590 0 0
     node	    SoXipOverlayColor {
@@ -53,7 +53,7 @@ SoXipBuilderNode {
 
 ### 5 ###
 SoXipBuilderNode {
-    placement	-7.5 -0.3 -5.15944 0.5
+    placement	-6 -0.9 -3.65944 -0.1
     flags	()
     autoPanelPos	327 380 0 0
     node	    SoXipOverlayColor {
@@ -66,7 +66,7 @@ SoXipBuilderNode {
 
 ### 6 ###
 SoXipBuilderNode {
-    placement	-10.5 -1.5 -7.61765 -0.7
+    placement	-9 -2.1 -6.11765 -1.3
     flags	()
     autoPanelPos	0 365 0 0
     node	    SoXipOverlayDrawStyle {
@@ -80,7 +80,7 @@ SoXipBuilderNode {
 
 ### 7 ###
 SoXipBuilderNode {
-    placement	-7.2 -1.5 -4.31765 -0.7
+    placement	-5.7 -2.1 -2.81765 -1.3
     flags	()
     autoPanelPos	0 358 0 0
     node	    SoXipOverlayDrawStyle {
@@ -95,7 +95,7 @@ SoXipBuilderNode {
 
 ### 8 ###
 SoXipBuilderNode {
-    placement	-4.8 -0.3 -2.45944 0.5
+    placement	-3.3 -0.9 -0.95944 -0.1
     flags	()
     autoPanelPos	67 312 0 0
     node	    SoXipOverlayColor {
@@ -109,7 +109,7 @@ SoXipBuilderNode {
 
 ### 9 ###
 SoXipBuilderNode {
-    placement	-1.5 2.1 0.5 2.9
+    placement	0 1.5 2 2.3
     flags	()
     node	    SoXipShapeList {
 	fields [  ]
@@ -120,7 +120,7 @@ SoXipBuilderNode {
 
 ### 10 ###
 SoXipBuilderNode {
-    placement	-2.1 -0.3 -0.100002 0.5
+    placement	-0.6 -0.9 1.4 -0.1
     flags	()
     autoPanelPos	535 643 0 0
     node	    SoXipEllipse {
@@ -129,8 +129,7 @@ SoXipBuilderNode {
 		 ]
 	status	NONE
 	label	"User_1"
-	caption	""
-	textPosition	-0.357589 -0.386983 -4.5
+	textPosition	-0.3562 -0.386983 -4.5
 	center	0.00209208 -0.0585774 -4.5
 	a	0 -0.464435 0
 	b	0.47908 0 0
@@ -140,7 +139,7 @@ SoXipBuilderNode {
 
 ### 11 ###
 SoXipBuilderNode {
-    placement	0.6 -0.3 2.6 0.5
+    placement	2.1 -0.9 4.1 -0.1
     flags	()
     autoPanelPos	789 533 0 0
     node	    SoXipRectangle {
@@ -150,7 +149,7 @@ SoXipBuilderNode {
 	status	NONE
 	label	[ "User_2",
 			  "Tumor" ]
-	textPosition	-0.652719 0.146443 -4.5
+	textPosition	-0.65133 0.146443 -4.5
 	p0	-0.631799 0.648536 -4.5
 	p1	0.230125 0.648536 -4.5
 	p2	0.230125 0.146443 -4.5
@@ -161,7 +160,7 @@ SoXipBuilderNode {
 
 ### 12 ###
 SoXipBuilderNode {
-    placement	3 -0.3 5 0.5
+    placement	4.5 -0.9 6.5 -0.1
     flags	()
     autoPanelPos	605 609 0 0
     node	    SoXipPolygon {
@@ -170,7 +169,7 @@ SoXipBuilderNode {
 	status	NONE
 	label	[ "User_1",
 			  "Tumor" ]
-	textPosition	-0.778243 -0.380754 -4.5
+	textPosition	-0.776853 -0.379364 -4.5
 	point	[ -0.757322 -0.359833 -4.5,
 			  -0.518828 0.389121 -4.5,
 			  0.0543933 0.0125523 -4.5,
@@ -191,6 +190,7 @@ SoXipBuilderPackage {
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     outputs	[  ]
 }
 

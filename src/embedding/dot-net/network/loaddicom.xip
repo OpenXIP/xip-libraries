@@ -1,0 +1,140 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-0.9 3.3 1.5 4.1
+    flags	()
+    autoPanelPos	132 109 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 4 6 7 8"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-4.8 0.3 -1.67926 1.1
+    flags	()
+    autoPanelPos	27 69 0 0
+    node	    SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level,  ]
+	window	1
+	level	0.5
+    }
+
+}
+#connect "window@1" "window@2"
+#connect "level@1" "level@2"
+
+### 2 ###
+SoXipBuilderEngine {
+    placement	-5.1 -1.8 -1.95759 -1
+    flags	()
+    autoPanelPos	569 56 0 0
+    engine	    SoXipDicomWindowLevel {
+	inputs [ SoXipSFDataDicom input ]
+	input	"NULL"
+	outputs [ SFFloat window, SFFloat level, SFShort bitsStored ]
+    }
+
+}
+#connect "input@2" "dicom@3"
+
+### 3 ###
+SoXipBuilderEngine {
+    placement	3 -1.8 5 -1
+    flags	()
+    autoPanelPos	388 361 0 0
+    engine	    DEF Load SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	""
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-0.3 0.3 1.7 1.1
+    flags	()
+    autoPanelPos	238 289 0 0
+    node	    SoXipLut {
+	fields [ SFShort bitsUsed, SFFloat rampWidth, SFFloat rampCenter, MFColor arrayColor,
+		MFFloat arrayAlpha ]
+	bitsUsed	0
+	rampWidth	1
+	rampCenter	0.5
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+#connect "bitsUsed@4" "bitsStored@5"
+#connect "rampWidth@4" "window@1"
+#connect "rampCenter@4" "level@1"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-0.6 -1.8 2.15232 -1
+    flags	()
+    autoPanelPos	237 355 0 0
+    engine	    SoXipImageAttributes {
+	inputs [ SoXipSFDataImage image ]
+	image	"NULL"
+	outputs [ SFMatrix modelMatrix, SFShort width, SFShort height, SFShort depth,
+		SFShort bitsStored, SFMatrix defaultOrientation, SFShort orthoScanOrientation, SFMatrix orthoOrientation1,
+		SFMatrix orthoOrientation2, SFMatrix orthoOrientation3, SFVec3f defaultCenter ]
+    }
+
+}
+#connect "image@5" "dicom@3"
+
+### 6 ###
+SoXipBuilderNode {
+    placement	2.7 0.3 5.34397 1.1
+    flags	()
+    autoPanelPos	355 284 0 0
+    node	    SoXipDicomExaminer {
+	fields [ SoXipMFDataDicom images, SFShort imageIndex, SFShort sliceIndex,  ]
+	images	[  ]
+	imageIndex	-1
+	sliceIndex	-1
+    }
+
+}
+#connect "images@6" "dicom@3"
+
+### 7 ###
+SoXipBuilderNode {
+    placement	5.7 0.3 8.25727 1.1
+    flags	()
+    node	    SoXipOverlayManips {
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	8.4 0.3 11.1306 1.1
+    flags	()
+    autoPanelPos	607 286 0 0
+    node	    DEF OverlayManager SoXipOverlayManager {
+	fields [ SFBool create, MFString shapeLabel,  ]
+	create	FALSE
+	shapeLabel	[  ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    outputs	[  ]
+}
+

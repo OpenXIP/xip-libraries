@@ -254,6 +254,7 @@ SoXipConvertMFDicomToSFImage::SoXipConvertMFDicomToSFImage()
 
    // Define input field and its default value
    SO_ENGINE_ADD_INPUT(input, (0));
+   SO_ENGINE_ADD_INPUT(index, (0) );
 
    // Define the output, specifying its type
    SO_ENGINE_ADD_OUTPUT(output, SoXipSFDataImage);
@@ -289,7 +290,11 @@ void SoXipConvertMFDicomToSFImage::evaluate()
 	if (numSlices == 0)
 		return;
 
-	SoXipDataDicom* in = input[0];
+	int sliceId = index.getValue();
+	if (sliceId >= numSlices)
+		return;
+
+	SoXipDataDicom* in = input[sliceId];
 	if (!in)
 		return;
 

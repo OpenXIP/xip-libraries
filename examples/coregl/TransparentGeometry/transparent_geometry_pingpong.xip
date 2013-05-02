@@ -96,13 +96,11 @@ SoXipBuilderNode {
 
 ### 6 ###
 SoXipBuilderNode {
-    placement	1.10984 1.8 5.33756 2.6
+    placement	1.20728 1.8 5.24012 2.6
     flags	()
     autoPanelPos	438 277 0 0
     node	    SoXipTransparentGeometryGroup {
-	fields [ SFBool directRendering, SFBool on ]
-	directRendering	FALSE
-	on	TRUE
+	fields [  ]
     }
 
 }
@@ -133,7 +131,8 @@ SoXipBuilderNode {
 ### 9 ###
 SoXipBuilderNode {
     placement	-8.4 -4.8 -6.4 -4
-    flags	SHOW_AUTOPANEL
+    flags	()
+    autoPanelPos	0 0 0 0
     node	    Cone {
 	bottomRadius	1.5
     }
@@ -250,7 +249,7 @@ SoXipBuilderNode {
 	autoSize	TRUE
 	colorAttachments	1
 	useDepthBuffer	FALSE
-	colorHandlesOutput	2
+	colorHandlesOutput	[  ]
     }
 
 }
@@ -258,12 +257,11 @@ SoXipBuilderNode {
 
 ### 20 ###
 SoXipBuilderNode {
-    placement	2.61313 -3.3 5.40274 -2.5
+    placement	2.71241 -3.3 5.30346 -2.5
     flags	()
     autoPanelPos	857 637 0 0
     node	    SoXipFboAttachDepth {
-	fields [ MFInt32 handleOutput ]
-	handleOutput	1
+	fields [  ]
     }
 
 }
@@ -275,8 +273,8 @@ SoXipBuilderNode {
     autoPanelPos	64 447 0 0
     node	    SoXipPingPong {
 	fields [ MFInt32 handleOutput, MFInt32 opUnitOutput ]
-	handleOutput	3
-	opUnitOutput	1
+	handleOutput	[  ]
+	opUnitOutput	[  ]
     }
 
 }
@@ -295,7 +293,7 @@ SoXipBuilderNode {
 
 ### 23 ###
 SoXipBuilderNode {
-    placement	6.4266 -1.2 11.0528 -0.4
+    placement	6.53522 -1.2 10.9442 -0.4
     flags	()
     autoPanelPos	617 399 0 0
     node	    SoXipTransparentGeometryRenderer {
@@ -393,9 +391,8 @@ SoXipBuilderNode {
     flags	()
     autoPanelPos	606 470 0 0
     node	    SoXipUniformInt {
-	fields [ SFString name, MFInt32 value ]
+	fields [ SFString name,  ]
 	name	"colortex"
-	value	0
     }
 
 }
@@ -450,10 +447,9 @@ SoXipBuilderNode {
     flags	()
     autoPanelPos	738 646 0 0
     node	    SoXipDrawQuad {
-	fields [ SFBool enableTexture, SFBool blend, MFVec3f colors ]
+	fields [ SFBool enableTexture, SFBool blend,  ]
 	enableTexture	FALSE
 	blend	TRUE
-	colors	1 1 1
     }
 
 }
@@ -466,9 +462,10 @@ SoXipBuilderPackage {
 		      16, 17, 18, 19, 20, 21, 22, 23,
 		      24, 25, 26, 27, 28, 29, 30, 31,
 		      32, 33 ]
-    position	3.71712 0.106263 1
-    height	16
+    position	2.94947 0.654584 1
+    height	18.3687
     inputs	[  ]
+    inputsChildIndex	[  ]
     outputs	[  ]
 }
 

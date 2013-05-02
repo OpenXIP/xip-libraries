@@ -1,0 +1,738 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	2.1 5.4 4.1 6.2
+    flags	()
+    viewPos	895 316 385 392
+    autoPanelPos	397 18 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	0.3 3.6 2.3 4.4
+    flags	()
+    autoPanelPos	481 204 0 0
+    node	    SoXipExaminer {
+	mode	ROTATE
+	viewBoundingBox	156.694 0 0 0
+		0 156.694 0 0
+		0 0 119 0
+		0.306641 0.306641 0.50211 1
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	78.6534 78.6534 -243.62
+	    orientation	1 2.10873e-008 -5.10508e-009  3.14159
+	    nearDistance	177.858
+	    farDistance	429.387
+	    focalDistance	303.622
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	3 3.6 5 4.4
+    flags	()
+    node	    SoVtkRenderer {
+	fields [  ]
+    }
+
+}
+#addChild "2" "3"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	3 0.3 5 1.1
+    flags	()
+    autoPanelPos	646 241 0 0
+    node	    SoVtkVolume {
+	fields [ SoSFVtkObject Mapper, SoSFVtkObject Property, SFVec3f Origin, SFVec3f Position ]
+	Mapper	"NULL"
+	Property	"NULL"
+	Origin	0 0 0
+	Position	0 0 0
+    }
+
+}
+#connect "Mapper@3" "Output@4"
+#connect "Property@3" "Output@10"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-4.04478 0.9 -0.555224 1.7
+    flags	()
+    autoPanelPos	187 327 0 0
+    engine	    SoVtkVolumeRayCastMapper {
+	inputs [ SFInt32 NumberOfThreads, SFInt32 AutoAdjustSampleDistances, SoSFVtkAlgorithmOutput InputConnection, SFFloat SampleDistance,
+		SFFloat MinimumImageSampleDistance, SFInt32 Cropping, SFInt32 IntermixIntersectingGeometry, SFFloat ImageSampleDistance,
+		SFInt32 CroppingRegionFlags, SFInt32 BlendMode, SFFloat MaximumImageSampleDistance, SoSFVtkObject VolumeRayCastFunction,
+		 ]
+	NumberOfThreads	2
+	AutoAdjustSampleDistances	1
+	InputConnection	"NULL"
+	SampleDistance	1
+	MinimumImageSampleDistance	1
+	Cropping	0
+	IntermixIntersectingGeometry	1
+	ImageSampleDistance	1
+	CroppingRegionFlags	8192
+	BlendMode	0
+	MaximumImageSampleDistance	10
+	VolumeRayCastFunction	"NULL"
+	outputs [ SoSFVtkAlgorithmOutput OutputPort, SoSFVtkObject Output ]
+    }
+
+}
+#connect "InputConnection@4" "OutputPort@5"
+#connect "VolumeRayCastFunction@4" "Output@9"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-10.785 2 -5.375 2.8
+    flags	()
+    autoPanelPos	120 322 385 392
+    engine	    SoVtkConvertXipImageToVtkAlgorithmOutput {
+	inputs [ SoXipSFDataImage Input ]
+	Input	"NULL"
+	outputs [ SoSFVtkAlgorithmOutput OutputPort ]
+    }
+
+}
+#connect "Input@5" "output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-10.5 3.9 -8.1388 4.7
+    flags	()
+    autoPanelPos	0 194 0 0
+    engine	    SoXipVolumeDicom {
+	inputs [ SoXipMFDataDicom input ]
+	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL" ]
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+#connect "input@6" "output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-10.2 5.1 -8.2 5.9
+    flags	()
+    autoPanelPos	0 138 0 0
+    engine	    SoXipSortDicom {
+	inputs [ SoXipMFDataDicom input ]
+	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL" ]
+	outputs [ SoXipMFDataDicom output ]
+    }
+
+}
+#connect "input@7" "dicom@8"
+
+### 8 ###
+SoXipBuilderEngine {
+    placement	-10.5 6.3 -8.45222 7.1
+    flags	()
+    autoPanelPos	382 64 0 0
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\..\data\Acetabulum"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### 9 ###
+SoXipBuilderEngine {
+    placement	-10.3193 0.12 -5.45067 0.92
+    flags	()
+    autoPanelPos	269 436 0 0
+    engine	    SoVtkVolumeRayCastCompositeFunction {
+	inputs [ SFInt32 CompositeMethod ]
+	CompositeMethod	1
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+
+### 10 ###
+SoXipBuilderEngine {
+    placement	-4.74 -2.2 -1.93 -1.4
+    flags	()
+    autoPanelPos	432 425 0 0
+    engine	    SoVtkVolumeProperty {
+	inputs [ SFFloat Ambient, SFInt32 Shade, SFInt32 InterpolationType, SoSFVtkObject ScalarOpacity,
+		SFFloat Diffuse, SFFloat Specular, SFInt32 IndependentComponents, SoSFVtkObject Color,
+		SFFloat SpecularPower, SFFloat ScalarOpacityUnitDistance, SFInt32 DisableGradientOpacity ]
+	Ambient	0.1
+	Shade	0
+	InterpolationType	1
+	ScalarOpacity	"NULL"
+	Diffuse	1
+	Specular	0
+	IndependentComponents	1
+	Color	"NULL"
+	SpecularPower	10
+	ScalarOpacityUnitDistance	1
+	DisableGradientOpacity	0
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+#connect "ScalarOpacity@10" "Output@11"
+#connect "Color@10" "Output@12"
+
+### 11 ###
+SoXipBuilderEngine {
+    placement	-9.80903 -3 -6.82097 -2.2
+    flags	()
+    autoPanelPos	221 425 0 0
+    engine	    SoVtkPiecewiseFunction {
+	inputs [ SoMFVariant Segment, SFInt32 MaximumNumberOfPieces, SFInt32 RequestExactExtent, SFInt32 UpdatePiece,
+		SFInt32 UpdateGhostLevel, SFInt32 UpdateNumberOfPieces, SFInt32 Clamping, SoMFVariant Point ]
+	Segment	[ 0 0 1289 0 , 1289 0 1611 1 , 1611 1 4095 1 ]
+	MaximumNumberOfPieces	-1
+	RequestExactExtent	0
+	UpdatePiece	0
+	UpdateGhostLevel	0
+	UpdateNumberOfPieces	1
+	Clamping	1
+	Point	[ 0 0 , 940 0 , 1427.6 0.2 , 4095 0.2 ]
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+
+### 12 ###
+SoXipBuilderEngine {
+    placement	-9.92 -1.5 -6.45 -0.7
+    flags	()
+    autoPanelPos	-60 246 385 392
+    engine	    SoVtkColorTransferFunction {
+	inputs [ SoMFVariant RGBSegment, SFInt32 HSVWrap, SFInt32 VectorComponent, SFInt32 ColorSpace,
+		SFInt32 Clamping, SoMFVariant HSVPoint, SFInt32 VectorMode, SFFloat Alpha ]
+	RGBSegment	[ 0 0 0 0 1300 0 0 0 , 1300 0 0 0 1385 0.5 0.39 0.23 , 1385 0.5 0.39 0.23 1635 0.99 1 0.97 , 1635 0.99 1 0.97 4095 1 1 1 ]
+	HSVWrap	1
+	VectorComponent	0
+	ColorSpace	0
+	Clamping	1
+	HSVPoint	0 0 0 0 
+	VectorMode	1
+	Alpha	1
+	outputs [ SoSFVtkObject Output ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7,
+		      8, 9, 10, 11, 12 ]
+    position	-3.1525 1.82 9.32168
+    height	13.26
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

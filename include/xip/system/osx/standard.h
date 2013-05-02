@@ -1,5 +1,8 @@
-#ifndef _OSX_STANDARD_H_
-#define _OSX_STANDARD_H_
+// Copyright Siemens Corporate Research Inc. 2007
+// Author Sylvain Jaume <sylvain.jaume@siemens.com>
+
+#ifndef _XIP_OSX_STANDARD_H_
+#define _XIP_OSX_STANDARD_H_
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -10,8 +13,8 @@
 #ifdef __cplusplus
 #include <string>
 #include <algorithm>
-#endif /* __cplusplus */
+#endif // __cplusplus
 
 // typedef int64_t __int64;
 
-#endif /* _OSX_STANDARD_H_ */
+#endif // _XIP_OSX_STANDARD_H_

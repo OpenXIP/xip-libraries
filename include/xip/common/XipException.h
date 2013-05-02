@@ -108,39 +108,38 @@
 *      THE POSSIBILITY OF SUCH DAMAGE.
 *  
 */
-#ifndef XIPEXCEPTION_H
-#define XIPEXCEPTION_H
-
-#include <xip/common/XipCommon.h>
 
 /**	\class XipException
- *	\brief Exception class that contains information about fatal errors.
+ *	\brief Exception class that contains information about fatal
+ *	errors.
  *
- *  Exceptions are used to indicate "broken contract" when calling the XIP framework.
+ *  Exceptions are used to indicate "broken contract" when calling
+ *  the XIP framework.
  *  The exception maintains the following information:
  *  - Exception type,
  *  - Source file information (line and filename),
  *  - and an optional debug string.
  *
- *  \warning Do no use the <tt>throw;</tt> statement without any arguments outside of a <tt>catch()</tt>
- *           block. <tt>throw;</tt> may \e only be used to propagate an exception that was catched by
- *           a catch block (see example).
+ *  \warning Do no use the <tt>throw;</tt> statement without any
+ *  arguments outside of a <tt>catch()</tt> block. <tt>throw;</tt>
+ *  may \e only be used to propagate an exception that was catched by
+ *  a catch block (see example).
  *
  *	\b Example:
 	\code
 	 
 	// Example for using exceptions.
 
-    try
+  try
 	{
-	    // some i/o error
+	  // some i/o error
 		throw XipException(__LINE__, __FILE__, XipException::IO_ERROR);
-
     }
 	catch (XipException &e)
 	{
 		// let's output some information about the error
-		wprintf(L"Exception of type %d occured at %hs(%d)\n", e.type, e.file, e.line);
+		wprintf(L"Exception of type %d occured at %hs(%d)\n", e.type,
+		e.file, e.line);
 
 		// propagate exception to upper layers
 		throw;
@@ -149,57 +148,81 @@
 	\endcode
  *
  */
+
+#ifndef _XIP_EXCEPTION_H
+#define _XIP_EXCEPTION_H
+
+#include <xip/common/XipCommon.h>
+
 class XIPCOMMON_API XipException
 {
 public:
 	/// Public field for cause of exception.
 	enum XipExceptionType
 	{
-		INTERNAL_SYSTEM_ERROR = 1,	///< An internal error or invalid state caused aborting the normal program flow.
+		///< An internal error or invalid state caused aborting the
+		// normal program flow.
+		INTERNAL_SYSTEM_ERROR = 1,
 		COMM_ERROR,                 ///< Communication failure.
 		IO_ERROR,                   ///< File I/O error. 
-		MEMORY_HEAP_ERROR,          ///< A memory allocation from the heap memory failed.
+		///< A memory allocation from the heap memory failed.
+		MEMORY_HEAP_ERROR,          
 		MEMORY_DISK_ERROR,          ///< Allocation of disk space failed.
-		MEMORY_MAPPING_ERROR,       ///< Failed to allocate or map a file into virtual address space of a process.
-		INVALID_PARAM_ERROR,        ///< Invalid parameters have been passed to a method of function.
-		INVALID_STATE_ERROR,        ///< Object is in invalid state to perform requested operation.
-		ABORT_EXECUTION,            ///< This exception type indicates that the user cancelled an operation.
-		OPERATION_UNSUPPORTED       ///< Specified that requested operation or feature is unsupported by a given module/plugin.
+		///< Failed to allocate or map a file into virtual address space
+		// of a process.
+		MEMORY_MAPPING_ERROR,
+		///< Invalid parameters have been passed to a method of function.
+		INVALID_PARAM_ERROR,
+		///< Object is in invalid state to perform requested operation.
+		INVALID_STATE_ERROR,
+		///< This exception type indicates that the user cancelled an
+		// operation.
+		ABORT_EXECUTION,
+		///< Specified that requested operation or feature is unsupported
+		// by a given module/plugin.
+		OPERATION_UNSUPPORTED
 	};
-
+	
+	inline const wchar_t* ToString(XipExceptionType type) const;	
 
 	/// Constructor used to generate an exception
-	XipException(unsigned int _line, const char *_file, XipExceptionType _type, const wchar_t *_message = 0);
+	XipException(unsigned int _line, const char *_file, XipExceptionType
+								 	_type, const wchar_t *_message = 0);
 
-    /// Destructor, cleans up data as needed
-    virtual ~XipException();
+  /// Destructor, cleans up data as needed
+  virtual ~XipException();
 
-    /// Returns the line number where the exception is thrown
-    unsigned int getLine();
+  /// Returns the line number where the exception is thrown
+  unsigned int getLine();
 
-    /// Returns the exception type
-    XipExceptionType getType();
+  /// Returns the exception type
+  XipExceptionType getType();
 
-    /// Returns the file name pointer
-    const char* getFile();
+  /// Returns the file name pointer
+  const char* getFile();
 
-    /// Returns the message string pointer
-    const wchar_t* getMessage();
+  /// Returns the message string pointer
+  const wchar_t* getMessage();
 
 
 protected:
-    /// Source code line number where the exception occured.
-    unsigned int mLine;
+  /// Source code line number where the exception occured.
+  unsigned int mLine;
 
-    /// Source code file where the exception occured. This is a multibyte string!
-    const char *mFile;
+  /// Source code file where the exception occured. This is a
+	// multibyte string!
+  //const char *mFile;
+	char *mFile;
 
-    /// Optional additional information string (UNICODE).
-    const wchar_t *mMessage;
+  /// Optional additional information string (UNICODE).
+  //const wchar_t *mMessage;
+	wchar_t *mMessage;
 
-    /// Type of exception
-    XipExceptionType mType;
+  /// Type of exception
+  XipExceptionType mType;
+
+	//wchar_t *module;
 };
 
-#endif // XIPEXCEPTION_H
+#endif // _XIP_EXCEPTION_H
 

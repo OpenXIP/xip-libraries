@@ -112,12 +112,25 @@
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/errors/SoDebugError.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
+
+#ifdef WIN32
+#ifdef _CRT_ALLOCATION_DEFINED 
+	#include <xip/system/GL/gl.h>
+	#include <xip/system/GL/glext.h>
+#else //only for VC6 compilation
+	#include <GL/gl.h>
+	#include <GL/glext.h>
+#endif
+#endif // WIN32
+
+#ifndef WIN32
 #include <xip/system/GL/gl.h>
 #include <xip/system/GL/glext.h>
+#endif // WIN32
+
 #ifndef DARWIN
 static PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = 0;
 #endif // DARWIN
-
 
 
 /*
@@ -288,13 +301,14 @@ void SoXipMultiTextureElement::bindTextureCurrUnit(SoState *state) {
 
 void SoXipMultiTextureElement::bindTextureElt(GLenum target, GLuint id) {
 	if ( target )
+	if (target != 0)
 	{
-	textures[currentUnit].target = target;
-	textures[currentUnit].id = id;
+		textures[currentUnit].target = target;
+		textures[currentUnit].id = id;
 
-	bindTextureGL(currentUnit);
+		bindTextureGL(currentUnit);
 
-	unitsChanged |= 1 << currentUnit;
+		unitsChanged |= 1 << currentUnit;
 	}
 }
 

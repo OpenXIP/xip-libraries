@@ -127,13 +127,12 @@
 #include <xip/inventor/core/SoXipSFDataImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>
 //#include <xip/inventor/core/SoXipTexture.h>
-
 #include <xip/inventor/remote/losslessCompression/losslessCompression.h>
 
 #include <iomanip>
 #include <vector>
 
-static losslessCompression compressionObj;
+//static losslessCompression compressionObj;
 static fastMemTransfer memTransfers;
 /**
  *
@@ -178,7 +177,7 @@ XipRenderAction::~XipRenderAction()
  */
 void XipRenderAction::initialize()
 {
-    mRoot = readSceneGraph("..\\..\\graph\\offline_renderer.iv");
+    mRoot = readSceneGraph("offline_renderer.iv");
     if ( NULL==mRoot )
     {
         printf("The root node of the Scene graph is not initialized!\n");
@@ -383,29 +382,53 @@ int XipRenderAction::renderVolume(XipTreeRequestReceiver &reqReceiver, unsigned 
     setMode(renderMode);
 
     float temp[4];
+#ifdef WIN64
+    memcpy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_POSITION, 3*sizeof(float)),3*sizeof(float));
+#else // WIN64
     memTransfers.fastMemcopy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_POSITION, 3*sizeof(float)),3*sizeof(float));
+#endif // WIN64
     reqReceiver.rSwapf(temp, 3);
     SbVec3f pos(temp[0], temp[1], temp[2]);
     printf("received pos=%f %f %f\n", temp[0], temp[1], temp[2]);
 
+#ifdef WIN64
+    memcpy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_ORIENTATION, 4*sizeof(float)),4*sizeof(float));
+#else // WIN64
     memTransfers.fastMemcopy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_ORIENTATION, 4*sizeof(float)),4*sizeof(float));
+#endif // WIN64
     reqReceiver.rSwapf(temp, 4);
     SbRotation rot(temp);
     printf("received ori=%f %f %f %f\n", temp[0], temp[1], temp[2], temp[3]);
 
+#ifdef WIN64
+    memcpy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_RATIO, sizeof(float)), sizeof(float));
+#else // WIN64
     memTransfers.fastMemcopy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_RATIO, sizeof(float)), sizeof(float));
+#endif // WIN64
     reqReceiver.rSwapf(temp);
     float ratio = temp[0];
    
+#ifdef WIN64
+    memcpy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_NEARDIST, sizeof(float)), sizeof(float));
+#else // WIN64
     memTransfers.fastMemcopy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_NEARDIST, sizeof(float)), sizeof(float));
+#endif // WIN64
     reqReceiver.rSwapf(temp);
     float zNear = temp[0];
 
+#ifdef WIN64
+    memcpy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_FARDIST, sizeof(float)), sizeof(float));
+#else // WIN64
     memTransfers.fastMemcopy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_FARDIST, sizeof(float)), sizeof(float));
+#endif // WIN64
     reqReceiver.rSwapf(temp);
     float zFar = temp[0];
 
+#ifdef WIN64
+    memcpy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_HEIGHT, sizeof(float)), sizeof(float));
+#else // WIN64
     memTransfers.fastMemcopy((unsigned char *)&temp[0], (unsigned char *)reqReceiver.getElementContent(RENDERACTION_CAMERA_HEIGHT, sizeof(float)), sizeof(float));
+#endif // WIN64
     reqReceiver.rSwapf(temp);
     float height = temp[0];
 

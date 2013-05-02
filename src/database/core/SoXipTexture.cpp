@@ -114,6 +114,8 @@
 #include <xip/inventor/core/SbXipImageAdaptor.h>
 #include <xip/inventor/core/SoXipMultiTextureElement.h>
 
+//#include <xip/common/XipTypes.h>
+
 #include <Inventor/elements/SoGLTextureEnabledElement.h>
 #include <Inventor/elements/SoTextureQualityElement.h>
 #ifndef TGS_VERSION
@@ -276,8 +278,7 @@ SoXipTexture::SoXipTexture()
 	SO_NODE_ADD_FIELD(textureSize, (SbVec3f(-1, -1, -1)));
 	SO_NODE_ADD_FIELD(usePBO, (FALSE));
 	SO_NODE_ADD_FIELD(forceNPOT, (FALSE));
-
-	
+	SO_NODE_ADD_FIELD(autoScaleRange, (TRUE));
 
 	// Set up sensors
 	SoField* fields[] = {&wrapS, &wrapT, &wrapR, &filter, &borderColor};
@@ -291,7 +292,9 @@ SoXipTexture::SoXipTexture()
 		mSensors[i]->attach(fields[i]);
 	}
 
-	SoField* criticalFields[] = {&internalFormat, &overrideDefault, &padDimensions};
+	SoField* criticalFields[] = {
+	    &internalFormat, &overrideDefault, &padDimensions, &autoScaleRange
+	};
 	mNumCriticalFields = sizeof(criticalFields) / sizeof(criticalFields[0]);
 	mCriticalSensors = new SoFieldSensor*[mNumCriticalFields];
 
@@ -311,6 +314,7 @@ SoXipTexture::SoXipTexture()
 	mQueryExtensions = true;
 	mGLTexture = 0;
 	mPBOId = 0;
+	mPBOBufSize = 0;
 }
 
 /**
@@ -503,7 +507,8 @@ bool SoXipTexture::validateImage()
 		// or let the module decide for us
 		const int formatIndex = mNewImageData->get()->getComponents() - 1;
 		mNewTextureInternalFormat = dataTypeInfo[mNewTextureDataType].defaultFormat[formatIndex];
-		internalFormat.setValue(mNewTextureInternalFormat);
+		if ((GLenum)internalFormat.getValue() != mNewTextureInternalFormat)
+		    internalFormat.setValue(mNewTextureInternalFormat);
 		mCriticalSensors[0]->unschedule();
 	}
 
@@ -747,10 +752,12 @@ void SoXipTexture::updateTexture()
 
 	bool didScale = false;
 	bool didBias = false;
-	if (dataTypeInfo[mTextureDataType].scaleOption != SoXipTexture::NONE)
+	if (dataTypeInfo[mTextureDataType].scaleOption != SoXipTexture::NONE &&
+	    autoScaleRange.getValue())
 	{
 		// we need to scale the components of the texture
-		double scale = (pow(2.0, dataTypeInfo[mTextureDataType].bits) - 1.0) / (pow(2.0, image->getBitsStored()) - 1.0);
+	        int bitsUsed = std::min(dataTypeInfo[mTextureDataType].bits, image->getBitsStored());
+		double scale = (pow(2.0, dataTypeInfo[mTextureDataType].bits) - 1.0) / (pow(2.0, bitsUsed) - 1.0);
 
 		if (dataTypeInfo[mTextureDataType].scaleOption == SoXipTexture::BITSUSED_SIGNED)
 			scale *= 0.5;
@@ -853,6 +860,7 @@ void SoXipTexture::updateTexture()
 			if (mHasPBOs && usePBO.getValue())
 			{
 				glBindBuffer(GL_PIXEL_UNPACK_BUFFER, mPBOId);				
+				glBufferData(GL_PIXEL_UNPACK_BUFFER, mPBOBufSize, NULL, GL_STREAM_DRAW);
 				unsigned char *buf = (unsigned char*) glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
 				memcpy(buf, imageBuffer, dim[0] * dim[1]);
 				glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);

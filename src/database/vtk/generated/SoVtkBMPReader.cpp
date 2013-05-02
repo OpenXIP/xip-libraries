@@ -106,18 +106,19 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkBMPReader.h"
-# include "SoVtkUtils.h"
 
-# include "vtkTransform.h"
-# include "vtkAlgorithmOutput.h"
-# include "vtkImageData.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkBMPReader.h"
+#include "SoVtkUtils.h"
+
+#include "vtkTransform.h"
+#include "vtkAlgorithmOutput.h"
+#include "vtkImageData.h"
 
 SO_ENGINE_SOURCE( SoVtkBMPReader )
 
@@ -130,13 +131,11 @@ SoVtkBMPReader::SoVtkBMPReader()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBMPReader *aBMPReader = vtkBMPReader::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(DataSpacing, (0,0,0));
 
-	x = aBMPReader->GetDataSpacing();
+	double x[3] = {0.0, 0.0, 0.0};
+	aBMPReader->GetDataSpacing(x);
 	DataSpacing.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(Transform, (0));
@@ -152,7 +151,7 @@ SoVtkBMPReader::SoVtkBMPReader()
 
 	SO_ENGINE_ADD_INPUT(DataOrigin, (0,0,0));
 
-	x = aBMPReader->GetDataOrigin();
+	aBMPReader->GetDataOrigin(x);
 	DataOrigin.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(Allow8BitBMP, (0));
@@ -171,7 +170,8 @@ SoVtkBMPReader::SoVtkBMPReader()
 	FileNameSliceOffset.setValue(aBMPReader->GetFileNameSliceOffset());
 
 	SO_ENGINE_ADD_INPUT(NumberOfScalarComponents, (0));
-	NumberOfScalarComponents.setValue(aBMPReader->GetNumberOfScalarComponents());
+	NumberOfScalarComponents.setValue(aBMPReader->
+									GetNumberOfScalarComponents());
 
 	SO_ENGINE_ADD_INPUT(FileLowerLeft, (0));
 	FileLowerLeft.setValue(aBMPReader->GetFileLowerLeft());
@@ -191,14 +191,14 @@ SoVtkBMPReader::SoVtkBMPReader()
 
 	aBMPReader->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oTransform, SoSFVtkObject );
 	mTransform = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -208,21 +208,18 @@ SoVtkBMPReader::~SoVtkBMPReader()
 	// Deletion of the objects if they exist
 	if ( mTransform )
 	{
-	
-		mTransform->unref();
+	  mTransform->unref();
 		mTransform = 0;
 	}
 	
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
@@ -233,8 +230,6 @@ SoVtkBMPReader::~SoVtkBMPReader()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBMPReader::initClass()
@@ -255,21 +250,18 @@ void SoVtkBMPReader::evaluate()
 		// Deletion of the objects if they exist
 		if ( mTransform )
 		{
-		
 			mTransform->unref();
 			mTransform = 0;
 		}
 		
 		if ( mOutput )
 		{
-		
 			mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
@@ -308,7 +300,6 @@ void SoVtkBMPReader::evaluate()
 	SO_ENGINE_OUTPUT( Output, SoSFVtkObject, setValue( mOutput ) );
 	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue( mOutputPort ) );
 }
-
 
 void SoVtkBMPReader::inputChanged(SoField * f)
 {
@@ -527,3 +518,4 @@ void SoVtkBMPReader::reset()
 
 	mObject->Update();
 }
+

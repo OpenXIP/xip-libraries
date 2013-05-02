@@ -121,12 +121,15 @@ class SbXipDicomProviderDcmtk : public SbXipDicomProviderBase
 public:
 	static void initClass();
 
+	virtual void* open();
 	virtual void* open(const char *fileName, const char *options);
 	virtual void close(void *handle);
+	virtual SbBool save(void *fileHandle, const char *fileName, const char *options);
 	virtual void *getDataset(void *fileHandle) const;
 	virtual void *getMetaInfo(void *fileHandle) const;
 	virtual SbBool getPixelData(void *fileHandle, SbXipImage &image, int sliceIndex, const char *options, void* pixelDataItem);
 	virtual int getNumSlices(void *fileHandle, const char *options, void* pixelDataItem);
+	virtual void* createCompatible(void *metaInfoHandle, void *datasetHandle);
 
 	virtual SbBool  isOfType(void *item, const char *type) const;
 	virtual SbBool  tagExists(void *item, const SbXipDicomTagKey &key, SbBool searchIntoSub = FALSE);

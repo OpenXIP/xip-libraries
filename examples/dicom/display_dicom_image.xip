@@ -1,0 +1,114 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.76 7.5 -2.76 8.3
+    flags	()
+    viewPos	692 35 508 418
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-7.4037 5.3 -5.4037 6.1
+    flags	()
+    autoPanelPos	332 337 0 0
+    node	    SoXipExaminer {
+	mode	PANZOOM
+	viewBoundingBox	230 0 0 0
+		0 227.785 0 0
+		0 0 42.1032 0
+		-112.59 -117.21 50.3972 1
+	plane	0 0 1  -3
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	-3.01233 85.6548 455.298
+	    orientation	-0.494995 0.0901597 0.864206  0.470889
+	    nearDistance	230.823
+	    farDistance	557.256
+	    focalDistance	394.04
+	    heightAngle	0.409544
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-4.53 5.2975 -2.53 6.0975
+    flags	()
+    autoPanelPos	321 525 385 392
+    node	    SoXipLut {
+	fields [ SFEnum inputMode, SFEnum outputMode, SFShort bitsUsed, SFFloat rampWidth,
+		SFFloat rampCenter, MFColor arrayColor, MFFloat arrayAlpha ]
+	inputMode	TRAPEZOID
+	outputMode	COLOR
+	bitsUsed	12
+	rampWidth	0.05
+	rampCenter	0.009
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-1.24 5.3 0.76 6.1
+    flags	()
+    autoPanelPos	736 455 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@3" "dicom@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-1.25758 3.82 0.790181 4.62
+    flags	()
+    autoPanelPos	69 602 385 392
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\data\24884367.dcm"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4 ]
+    position	-3.2712 6.06 4.70055
+    height	13.26
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

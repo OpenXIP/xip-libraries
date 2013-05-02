@@ -1,9 +1,10 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(vtk)
 
 #--------------------------------------------------------------------
-# Header files
+# Define the header files
 #
 set(HEADERS
   SoVtkActor.h
@@ -313,7 +314,7 @@ set(HEADERS
   generated/SoVtkVolumeTextureMapper2D.h)
  
 #--------------------------------------------------------------------
-# Source files
+# Define the source files
 #
 set(SOURCES
   SoSFVtkAlgorithmOutput.cpp
@@ -627,7 +628,7 @@ set(SOURCES
   generated/SoVtkVolumeTextureMapper2D.cpp)
 
 #--------------------------------------------------------------------
-# Definitions
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVVTK_EXPORTS)
@@ -636,55 +637,48 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 include_directories(
   ${PROJECT_SOURCE_DIR}
-  generated
-  ../../../include
-  ${VTK_INCLUDE_DIRS})
-  
-#--------------------------------------------------------------------
-# Link directories
-#
-link_directories(${VTK_LIBRARY_DIRS})
+  generated)
 
 #--------------------------------------------------------------------
-# Compile library
+# Compile the library
 #
-add_library(xipivvtk SHARED ${HEADERS} ${SOURCES})
-set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivvtk)
+if(BUILD_SHARED_LIBS)
+  add_library(xipivvtk SHARED ${HEADERS} ${SOURCES})
+else(BUILD_SHARED_LIBS)
+  add_library(xipivvtk STATIC ${HEADERS} ${SOURCES})
+endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipivvtk
   PROPERTIES VERSION ${XIP_VERSION_STRING}
   SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
-# Link library
+# Link the library
 #
 target_link_libraries(xipivvtk
-  xipivcore
-  vtkHybrid
-  vtkParallel
-  vtkRendering
-  vtkVolumeRendering
-  vtkGenericFiltering
-  vtkIO)
+  ${XIP_CORE_LIBRARY}
+  ${VTK_LIBRARIES})
 
 #--------------------------------------------------------------------
-# Install library
+# Install the library
 #
-install(TARGETS xipivvtk
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
-  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
-
 install(TARGETS xipivvtk
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
-  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release
+  BUNDLE  DESTINATION lib/release CONFIGURATIONS Release)
+
+install(TARGETS xipivvtk
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug   CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug   CONFIGURATIONS Debug
+  BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivvtk.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivvtkd.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

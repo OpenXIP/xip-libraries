@@ -1,23 +1,79 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(core)
 
 #--------------------------------------------------------------------
-# OpenGL
+# Define the header files
 #
-find_package(OpenGL)
-
-if(WIN32 AND OPENGL-NOTFOUND)
-  set(OPENGL_LIBRARIES opengl32 glu32)
-endif(WIN32 AND OPENGL-NOTFOUND)
+set(HEADERS
+  SoXipAnchor.h
+  SoXipAntiAliasing.h
+  SoXipAutoScale.h
+  SoXipBackground.h
+  SoXipBoundingBox.h
+  SoXipClipPlane.h
+  SoXipComposeMFImage.h
+  SoXipComposeVec6.h
+  SoXipConvertMFImageToSFImage.h
+  SoXipConvertMatrixToPlane.h
+  SoXipConvertSFImageToMFImage.h
+  SoXipConvertToEnum.h
+  SoXipDecomposeMFImage.h
+  SoXipDecomposeVec6.h
+  SoXipDogEar.h
+  ../../../include/xip/inventor/core/SoXipExaminer.h
+  SoXipExtractSlice.h
+  SoXipGetImage.h
+  SoXipHtmlView.h
+  SoXipImage.h
+  SoXipImageAttributes.h
+  SoXipImageExaminer.h
+  SoXipImageExaminerBase.h
+  SoXipImageOperation.h
+  SoXipImageText.h
+  SoXipIncrement.h
+  SoXipIntersectionPlane.h
+  SoXipInvertMatrix.h
+  SoXipLazyGroup.h
+  SoXipLoadRaw.h
+  SoXipLut.h
+  SoXipMouseToggle.h
+  SoXipMprActive.h
+  SoXipMprAlign.h
+  SoXipMprExaminer.h
+  SoXipMprIntersectionLine.h
+  SoXipMprIntersectionManip.h
+  SoXipMprIntersectionPlanes.h
+  SoXipMprLock.h
+  SoXipMprPlane.h
+  SoXipOrientationCube.h
+  SoXipPerformance.h
+  SoXipPickAction.h
+  SoXipPlaneManipBase.h
+  SoXipRenderMode.h
+  SoXipSFDataImageToSFImage.h
+  SoXipStringConcatenate.h
+  SoXipSwitchMFDataImage.h
+  SoXipTexture.h
+  SoXipTimerFunction.h
+  SoXipTrackballToMouse.h
+  SoXipTransparentGeometryGroup.h
+  SoXipViewportBorder.h
+  SoXipViewportGroup.h
+  SoXipVolGroup.h
+  SoXipWindowLevelManip.h
+  SoXipWindowSize.h
+	../../../include/xip/inventor/core/SoXipConvertToTrigger.h)	
 
 #--------------------------------------------------------------------
-# Source files
+# Define the source files
 #
 set(SOURCES
   SbVariant.cpp
   SbXipCoordinateTransform.cpp
   SbXipDirtyFieldList.cpp
+  SoXipHtmlView.cpp
   SbXipImage.cpp
   SbXipImageFile.cpp
   SbXipThread.cpp
@@ -44,7 +100,6 @@ set(SOURCES
   SoXipDataImageElement.cpp
   SoXipDecomposeMFImage.cpp
   SoXipDecomposeVec6.cpp
-  SoXipDecomposeVec6.h
   SoXipDogEar.cpp
   SoXipExaminer.cpp
   SoXipExtractSlice.cpp
@@ -57,8 +112,8 @@ set(SOURCES
   SoXipImageText.cpp
   SoXipImageTextElement.cpp
   SoXipIncrement.cpp
-  SoXipIncrement.h
   SoXipIntersectionPlane.cpp
+  SoXipInvertMatrix.cpp
   SoXipKit.cpp
   SoXipLazyGroup.cpp
   SoXipLoadRaw.cpp
@@ -107,73 +162,14 @@ set(SOURCES
   SoXipWindowLevelManip.cpp
   SoXipWindowLevelElement.cpp
   SoXipWindowSize.cpp
+  XipStringUtils.cpp
   XipGeomUtils.cpp
   XipInventorUtils.cpp
-  XipStringUtils.cpp
+  SoXipConvertToTrigger.cpp
   init.cpp)
 
 #--------------------------------------------------------------------
-# Header files
-#
-set(HEADERS
-  SoXipAnchor.h
-  SoXipAntiAliasing.h
-  SoXipAutoScale.h
-  SoXipBackground.h
-  SoXipBoundingBox.h
-  SoXipClipPlane.h
-  SoXipComposeMFImage.h
-  SoXipComposeVec6.h
-  SoXipConvertMFImageToSFImage.h
-  SoXipConvertMatrixToPlane.h
-  SoXipConvertSFImageToMFImage.h
-  SoXipConvertToEnum.h
-  SoXipDecomposeMFImage.h
-  SoXipDecomposeVec6.h
-  SoXipDogEar.h
-  #SoXipExaminer.h
-  SoXipExtractSlice.h
-  SoXipGetImage.h
-  SoXipImage.h
-  SoXipImageAttributes.h
-  SoXipImageExaminer.h
-  SoXipImageExaminerBase.h
-  SoXipImageOperation.h
-  SoXipImageText.h
-  SoXipIncrement.h
-  SoXipIntersectionPlane.h
-  SoXipLazyGroup.h
-  SoXipLoadRaw.h
-  SoXipLut.h
-  SoXipMouseToggle.h
-  SoXipMprActive.h
-  SoXipMprAlign.h
-  SoXipMprExaminer.h
-  SoXipMprIntersectionLine.h
-  SoXipMprIntersectionManip.h
-  SoXipMprIntersectionPlanes.h
-  SoXipMprLock.h
-  SoXipMprPlane.h
-  SoXipOrientationCube.h
-  SoXipPerformance.h
-  SoXipPickAction.h
-  SoXipPlaneManipBase.h
-  SoXipRenderMode.h
-  SoXipSFDataImageToSFImage.h
-  SoXipStringConcatenate.h
-  SoXipSwitchMFDataImage.h
-  SoXipTexture.h
-  SoXipTimerFunction.h
-  SoXipTrackballToMouse.h
-  SoXipTransparentGeometryGroup.h
-  SoXipViewportBorder.h
-  SoXipViewportGroup.h
-  SoXipVolGroup.h
-  SoXipWindowLevelManip.h
-  SoXipWindowSize.h)	
-
-#--------------------------------------------------------------------
-# Define compiler flags
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVCORE_EXPORTS)
@@ -182,54 +178,61 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 if(UNIX)
   include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR} # for generated config.h
-    ${OIV_PATH}/include/
-    ../../../include
+    ${PROJECT_BINARY_DIR} # for generated config.h
     /usr/include 
     /usr/include/libxml2/) 
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link directories
+# Compile the library
 #
-link_directories(${LIBRARY_OUTPUT_PATH})
-
-#--------------------------------------------------------------------
-# Compile library
-#
-add_library(xipivcore SHARED ${SOURCES} ${HEADERS})
+if(BUILD_SHARED_LIBS)
+  add_library(xipivcore SHARED ${HEADERS} ${SOURCES})
+else(BUILD_SHARED_LIBS)
+  add_library(xipivcore STATIC ${HEADERS} ${SOURCES})
+endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipivcore
   PROPERTIES VERSION ${XIP_VERSION_STRING}
   SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
-# Link library
+# Link the library
 #
 target_link_libraries(xipivcore
   xipcommon
-  debug xipinv240d
-  optimized xipinv240
+  ${INVENTOR_LIBRARY}
   ${OPENGL_LIBRARIES})
 
 #--------------------------------------------------------------------
-# Install library
+# Install the library
 #
-install(TARGETS xipivcore
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
-  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
-
 install(TARGETS xipivcore
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
-  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release
+  BUNDLE  DESTINATION lib/release CONFIGURATIONS Release)
+
+install(TARGETS xipivcore
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug   CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug   CONFIGURATIONS Debug
+  BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivcore.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivcored.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)
+
+if(UNIX)
+  install(TARGETS xipivcore
+    NAMES xipinv
+    PATHS /usr/local/lib
+          /usr/lib
+          ENV LD_LIBRARY_PATH
+          ENV DYLD_LIBRARY_PATH)
+endif(UNIX)

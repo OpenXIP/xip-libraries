@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
@@ -129,9 +133,6 @@ SoVtk3DSImporter::SoVtk3DSImporter()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtk3DSImporter *a3DSImporter = vtk3DSImporter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(RenderWindow, (0));
 
@@ -142,12 +143,11 @@ SoVtk3DSImporter::SoVtk3DSImporter()
 
 	a3DSImporter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oRenderWindow, SoSFVtkObject );
 	mRenderWindow = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oRenderer, SoSFVtkObject );
 	mRenderer = 0;
-
 
 	addCalled = 0;
 }
@@ -269,3 +269,4 @@ void SoVtk3DSImporter::reset()
 		SO_VTK_SET_FIELD_VALUE( mObject, ComputeNormals);
 
 }
+

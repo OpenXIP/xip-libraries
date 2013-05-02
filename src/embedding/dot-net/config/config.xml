@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Properties>
+<Category Name="Layout">
+	<Field Object="SwitchLayout" Field="whichChild" Name="LayoutSelector" Value="1">
+		Set to -1 to disable, 0 for BMode, 1 for B+Doppler Mode
+	</Field>
+</Category>
+<Category Name="Shape">
+	<Field Object="MyCone" Field="bottomRadius" Name="Radius" Value="1">
+		Cone radius
+	</Field>
+	<Field Object="MyCone" Field="height" Name="Height" Value="2">
+		Cone height
+	</Field>
+</Category>
+  <Category Name="Load">
+    <Field Object="Load" Field="name" Name="Data Location" Value="C:\">
+      Load Data
+    </Field>
+    <Field Object="Examiner" Field="mode" Name="Mode" Value="NONE">
+      Mode
+    </Field>
+  </Category>
+  <Category Name="Overlay">
+    <Field Object="OverlayManager" Field="create" Name="Create" Value="FALSE">
+      Create Overlays
+    </Field>
+    <Field Object="OverlayManager" Field="shapeClassName" Name="Shape" Value="SoXipEllipse">
+      Overlay Shape
+    </Field>
+  </Category>
+</Properties>

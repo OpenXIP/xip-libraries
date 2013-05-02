@@ -1,0 +1,279 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-0.170278 4.18204 1.82972 4.98204
+    flags	()
+    autoPanelPos	542 230 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 5"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-8.4 -0.9 -6.2551 -0.1
+    flags	()
+    node	    SoXipClearBuffer {
+	fields [  ]
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-6 -0.9 -3.48932 -0.0999971
+    flags	()
+    autoPanelPos	30 342 0 0
+    node	    SoXipGLSLPrograms {
+	fields [ MFString prgTags, MFString vpFilenames, MFString fpFilenames,  ]
+	prgTags	"slicer1"
+	vpFilenames	"shaders\slicer_vp.glsl"
+	fpFilenames	"shaders\slicer1_fp.glsl"
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-3 -0.9 -1 -0.1
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "3" "4"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-3.6 -3 -1.08932 -2.2
+    flags	()
+    autoPanelPos	131 450 0 0
+    node	    SoXipGLSLPrograms {
+	fields [ MFString prgTags, MFString vpFilenames, MFString gpFilenames, MFString fpFilenames,
+		MFString vpDefines, MFString gpDefines, MFString fpDefines,  ]
+	prgTags	[ "slicer2",
+			  "slicer3" ]
+	vpFilenames	[ "shaders\slicer_vp.glsl",
+			  "shaders\slicer_vp.glsl" ]
+	gpFilenames	[ "",
+			  "" ]
+	fpFilenames	[ "shaders\slicer2_fp.glsl",
+			  "shaders\slicer3_fp.glsl" ]
+	vpDefines	[ "",
+			  "" ]
+	gpDefines	[ "",
+			  "" ]
+	fpDefines	[ "",
+			  "" ]
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	2.92198 -0.845813 5.72198 -0.0458134
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "5" "6 7 8 9 13 14"
+
+### 6 ###
+SoXipBuilderNode {
+    placement	-0.3 -3 1.70001 -2.2
+    flags	()
+    autoPanelPos	319 411 0 0
+    node	    SoXipExaminer {
+	perspective	FALSE
+	mode	ROTATE
+	viewBoundingBox	1 0 0 0
+		0 2 0 0
+		0 0 1 0
+		0 0 0 1
+	plane	-5.71906e-009 -5.68503e-008 1  0.5
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	    viewportMapping	ADJUST_CAMERA
+	    position	1.03409 1.95929 1.04269
+	    orientation	0.0640562 0.554341 0.829821  2.47897
+	    aspectRatio	1
+	    nearDistance	-0
+	    farDistance	2.44949
+	    focalDistance	1.22474
+	    height	2.44949
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    viewportMapping	ADJUST_CAMERA
+	    position	2.09941 1.42003 1.48323
+	    orientation	-0.269889 -0.512286 -0.815305  4.0937
+	    aspectRatio	1
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	1.00872
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	2.1 -3 4.92661 -2.2
+    flags	()
+    autoPanelPos	451 421 0 0
+    node	    SoXipGLSLUseProgram {
+	fields [ SFString prgTag ]
+	prgTag	"slicer1"
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	2.7 -4.2 4.75001 -3.4
+    flags	()
+    autoPanelPos	554 461 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name,  ]
+	name	"volume"
+    }
+
+}
+#connect "value@8" "textureStage@10"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-7.56173 3.48305 -5.56173 4.28305
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "9" "10 11"
+
+### 10 ###
+SoXipBuilderNode {
+    placement	-7.85548 1.7922 -5.64548 2.5922
+    flags	()
+    autoPanelPos	202 221 0 0
+    node	    SoXipTextureUnit {
+	fields [  ]
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	-7.36755 0.517561 -5.36755 1.31756
+    flags	()
+    autoPanelPos	259 251 0 0
+    node	    SoXipTexture {
+	fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize,  ]
+	image	"NULL"
+	internalFormat	LUMINANCE8
+	textureSize	160 430 183
+    }
+
+}
+#connect "image@11" "output@12"
+
+### 12 ###
+SoXipBuilderEngine {
+    placement	-10.0841 0.527281 -8.08408 1.32728
+    flags	()
+    autoPanelPos	172 266 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFShort width, SFShort height, SFShort depth, SFMatrix modelMatrix,
+		SFString file ]
+	width	160
+	height	430
+	depth	183
+	modelMatrix	430 0 0 0
+		0 104 0 0
+		0 0 118.95 0
+		0 0 0 1
+	file	"..\..\data\CT_WHOLE.img"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 13 ###
+SoXipBuilderNode {
+    placement	6 -3 8 -2.2
+    flags	()
+    autoPanelPos	604 542 0 0
+    node	    MatrixTransform {
+	matrix	1 0 0 0
+		0 2 0 0
+		0 0 1 0
+		0 0 0 1
+    }
+
+}
+
+### 14 ###
+SoXipBuilderNode {
+    placement	8.1 -3 10.1 -2.2
+    flags	()
+    autoPanelPos	537 421 0 0
+    node	    SoXipSlicer {
+	fields [ SFInt32 numSlicesX, SFInt32 numSlicesY, SFInt32 numSlicesZ, SFInt32 numSlices,
+		SFBool useComplexity, SFEnum mode,  ]
+	numSlicesX	100
+	numSlicesY	100
+	numSlicesZ	100
+	numSlices	250
+	useComplexity	FALSE
+	mode	MAXIP
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	4.8 -4.2 6.8 -3.4
+    name	"Volume"
+    members	[ 9, 10, 11, 12 ]
+    position	-7.72582 2.22361 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-7.57411 -1.48987 -5.57411 -0.68987
+    outputs	9
+    outputsPlacement	-7.57411 5.13709 -5.57411 5.93709
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
+		      7, 8, 13, 14 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

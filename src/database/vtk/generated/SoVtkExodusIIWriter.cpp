@@ -105,18 +105,23 @@
  *      LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
- *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ *      THE POSSIBILITY OF SUCH DAMAGE. 
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
  */
  
- 
- 
-# include "SoVtkExodusIIWriter.h"
-# include "SoVtkUtils.h"
+#include "SoVtkExodusIIWriter.h"
+#include "SoVtkUtils.h"
 
-# include "vtkModelMetadata.h"
-# include "vtkAlgorithmOutput.h"
+#include "vtkModelMetadata.h"
+#include "vtkAlgorithmOutput.h"
 
+#ifdef WIN64
+#include "vtkMultiBlockDataSet.h"
+#endif
 
 SO_ENGINE_SOURCE( SoVtkExodusIIWriter )
 
@@ -140,22 +145,25 @@ SoVtkExodusIIWriter::SoVtkExodusIIWriter()
 	StoreDoubles.setValue(aExodusIIWriter->GetStoreDoubles());
 
 	SO_ENGINE_ADD_INPUT(WriteOutBlockIdArray, (0));
-	WriteOutBlockIdArray.setValue(aExodusIIWriter->GetWriteOutBlockIdArray());
+	WriteOutBlockIdArray.setValue(aExodusIIWriter->
+	  GetWriteOutBlockIdArray());
 
 	SO_ENGINE_ADD_INPUT(WriteOutGlobalElementIdArray, (0));
-	WriteOutGlobalElementIdArray.setValue(aExodusIIWriter->GetWriteOutGlobalElementIdArray());
+	WriteOutGlobalElementIdArray.setValue(aExodusIIWriter->
+	  GetWriteOutGlobalElementIdArray());
 
 	SO_ENGINE_ADD_INPUT(WriteOutGlobalNodeIdArray, (0));
-	WriteOutGlobalNodeIdArray.setValue(aExodusIIWriter->GetWriteOutGlobalNodeIdArray());
+	WriteOutGlobalNodeIdArray.setValue(aExodusIIWriter->
+	  GetWriteOutGlobalNodeIdArray());
 
-	SO_ENGINE_ADD_INPUT(CurrentTimeStep, (0));
-	CurrentTimeStep.setValue(aExodusIIWriter->GetCurrentTimeStep());
+	//SO_ENGINE_ADD_INPUT(CurrentTimeStep, (0));
+	//CurrentTimeStep.setValue(aExodusIIWriter->GetCurrentTimeStep());
 
 	SO_ENGINE_ADD_INPUT(ModelMetadata, (0));
 
-	SO_ENGINE_ADD_INPUT(GlobalNodeIdArrayName, (""));
+	//SO_ENGINE_ADD_INPUT(GlobalNodeIdArrayName, (""));
 
-	SO_ENGINE_ADD_INPUT(GlobalElementIdArrayName, (""));
+	//SO_ENGINE_ADD_INPUT(GlobalElementIdArrayName, (""));
 
 	SO_ENGINE_ADD_INPUT(ErrorStatus, (0));
 	ErrorStatus.setValue(aExodusIIWriter->GetErrorStatus());
@@ -295,20 +303,20 @@ void SoVtkExodusIIWriter::inputChanged(SoField * f)
 		SO_VTK_SET_FIELD_VALUE( mObject, WriteOutGlobalNodeIdArray);
 
 	// Get the CurrentTimeStep value
-	if ( f == &CurrentTimeStep )
-		SO_VTK_SET_FIELD_VALUE( mObject, CurrentTimeStep);
+	//if ( f == &CurrentTimeStep )
+  //SO_VTK_SET_FIELD_VALUE( mObject, CurrentTimeStep);
 
 	// Get the ModelMetadata value
 	if ( f == &ModelMetadata )
 		SO_VTK_SET_FIELD_DATA( mObject, ModelMetadata, vtkModelMetadata);
 
 	// Get the GlobalNodeIdArrayName value
-	if ( f == &GlobalNodeIdArrayName )
-		SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalNodeIdArrayName);
+	//if ( f == &GlobalNodeIdArrayName )
+	//SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalNodeIdArrayName);
 
 	// Get the GlobalElementIdArrayName value
-	if ( f == &GlobalElementIdArrayName )
-		SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalElementIdArrayName);
+	//if ( f == &GlobalElementIdArrayName )
+	//SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalElementIdArrayName);
 
 	// Get the ErrorStatus value
 	if ( f == &ErrorStatus )
@@ -360,20 +368,16 @@ void SoVtkExodusIIWriter::reset()
 		SO_VTK_SET_FIELD_VALUE( mObject, WriteOutGlobalNodeIdArray);
 
 	// Get the CurrentTimeStep value
-	
-		SO_VTK_SET_FIELD_VALUE( mObject, CurrentTimeStep);
+	//SO_VTK_SET_FIELD_VALUE( mObject, CurrentTimeStep);
 
 	// Get the ModelMetadata value
-	
-		SO_VTK_SET_FIELD_DATA( mObject, ModelMetadata, vtkModelMetadata);
+	SO_VTK_SET_FIELD_DATA( mObject, ModelMetadata, vtkModelMetadata);
 
 	// Get the GlobalNodeIdArrayName value
-	
-		SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalNodeIdArrayName);
+	//SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalNodeIdArrayName);
 
 	// Get the GlobalElementIdArrayName value
-	
-		SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalElementIdArrayName);
+	//SO_VTK_SET_FIELD_MFSTRING( mObject, GlobalElementIdArrayName);
 
 	// Get the ErrorStatus value
 	
@@ -389,3 +393,4 @@ void SoVtkExodusIIWriter::reset()
 
 	mObject->Update();
 }
+

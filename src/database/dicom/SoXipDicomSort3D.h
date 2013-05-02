@@ -116,9 +116,6 @@
 #include <Inventor/fields/SoMFString.h>
 #include <Inventor/engines/SoSubEngine.h>
 
-#ifdef linux
-#include <stdlib.h>
-#endif
 
 class SoXipDicomSort3D : public SoEngine
 {

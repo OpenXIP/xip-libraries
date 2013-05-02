@@ -213,12 +213,20 @@ static LONG GetNextNameValue(HKEY key, LPCTSTR pszSubkey, LPTSTR pszName, LPTSTR
 //              are specific to a particular device, or that are not installed
 //              into the font directory.
 //
-int GetFontFile(const char* lpszFontName,
+int GetFontFile(const char* mbFontName,
 				 char* lpszDisplayName,
 				 int nDisplayNameSize,
 				 char* lpszFontFile,
 				 int nFontFileSize)
 {
+	// convert to UNICODE if needed
+	#ifdef _UNICODE
+	TCHAR lpszFontName[2 * MAX_PATH];
+	wsprintf(lpszFontName, L"%hs", mbFontName);
+	#else
+	LPCTSTR lpszFontName = mbFontName;
+	#endif
+	
 	if (!lpszFontName || lpszFontName[0] == 0)
 		return FALSE;
 
@@ -255,13 +263,20 @@ int GetFontFile(const char* lpszFontName,
 		szName[strlen(lpszFontName)] = 0;
 		if (lstrcmpi(lpszFontName, szName) == 0)
 		{
+			char systemDir[MAX_PATH];
+			::GetWindowsDirectoryA(systemDir, MAX_PATH);
+
+			#ifdef _UNICODE
+			_snprintf(lpszDisplayName, nDisplayNameSize-1, "%S", szName);
+			_snprintf(lpszFontFile, nFontFileSize-1, "%s\\Fonts\\%S", systemDir, szData);
+			#else
+			
 			strncpy(lpszDisplayName, szName, nDisplayNameSize-1);
 			//strncpy(lpszFontFile, szData, nFontFileSize-1);
 
-			char systemDir[MAX_PATH];
-			::GetWindowsDirectory(systemDir, MAX_PATH);
+			//::GetWindowsDirectory(systemDir, MAX_PATH);
 			_snprintf(lpszFontFile, nFontFileSize-1, "%s\\Fonts\\%s", systemDir, szData);
-
+            #endif
 			bResult = TRUE;
 			break;
 		}
@@ -279,11 +294,15 @@ int GetFontFile(const char* lpszFontName,
 
 
 #include <stdio.h>
+#ifndef WIN32
 #include <regex.h>
 #include<string.h>
 #define MAX_PATH 216
+#endif // WIN32
+
 int GetFontFile(const char* lpszFontName, char* lpszDisplayName, int nDisplayNameSize, char* lpszFontFile, int nFontFileSize)
 {
+#ifndef WIN32
 	char FONT_FILE[MAX_PATH] = "/usr/share/X11/fonts/TTF/";
 	regex_t reg;
 	if (regcomp(&reg, FONT_FILE, REG_EXTENDED | REG_NOSUB))
@@ -300,6 +319,7 @@ int GetFontFile(const char* lpszFontName, char* lpszDisplayName, int nDisplayNam
 		//if requires font file not presend load any font file
 		strcat(FONT_FILE,"luximb.ttf");
 	}
+#endif // WIN32
 	if(lpszFontFile)
 		sprintf(lpszFontFile,"%s\0", FONT_FILE);
 	else
@@ -309,4 +329,6 @@ int GetFontFile(const char* lpszFontName, char* lpszDisplayName, int nDisplayNam
 }
 
 #endif //END
+
+
 

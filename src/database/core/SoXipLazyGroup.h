@@ -117,9 +117,8 @@
 
 #include <Inventor/nodes/SoGroup.h>
 #include <Inventor/actions/SoGLRenderAction.h>
-#include <xip/inventor/core/xipivcore.h>
 
-class XIPIVCORE_API SoXipLazyGroup : public SoGroup
+class SoXipLazyGroup : public SoGroup
 {
     SO_NODE_HEADER( SoXipLazyGroup );
 public: 
@@ -134,3 +133,5 @@ private:
 };
 
 #endif // SO_XIP_LAZY_GROUP
+
+

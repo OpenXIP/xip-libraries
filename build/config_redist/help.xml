@@ -1,8 +1,0 @@
-<XMLConfig>
-  <section name="references" >
-    <setting key="^SoItk[A-Z]">http://www.itk.org/Doxygen/html/classitk_1_1HELPID(5).html</setting>
-    <setting key="^So[A-Z]">https://collab01a.scr.siemens.com/xipwiki/index.php/HELPID()</setting>
-    <setting key=":help">https://collab01a.scr.siemens.com/xipwiki/index.php/XipBuilder</setting>
-    <setting key=".">http://techpubs.sgi.com/library/tpl/cgi-bin/getdoc.cgi?coll=0650&amp;db=man&amp;fname=/usr/share/catman/p_man/cat3/Inventor_c/SoHELPID().z</setting>
-  </section>
-</XMLConfig>

@@ -143,12 +143,15 @@ class XIPIVDICOM_API SbXipDicomProviderBase
 {
 public:
 	// object
+	virtual void* open() = 0;
 	virtual void* open(const char *fileName, const char *options) = 0;
 	virtual void close(void *fileHandle) = 0;
+	virtual SbBool save(void *fileHandle, const char *fileName, const char *options) = 0;
 	virtual void *getDataset(void *fileHandle) const = 0;
 	virtual void *getMetaInfo(void *fileHandle) const = 0;
 	virtual SbBool getPixelData(void *fileHandle, SbXipImage &image, int sliceIndex, const char *options, void* pixelDataItem) = 0;
 	virtual int getNumSlices(void *fileHandle, const char *options, void* pixelDataItem) = 0;
+	virtual void* createCompatible(void *metaInfoHandle, void *datasetHandle) = 0;
 
 	// item
 	virtual SbBool  isOfType(void *item, const char *type) const = 0;
@@ -237,8 +240,11 @@ public:
 	SbXipDicomItemHandle getMetaInfo() const;
 	SbBool getPixelData(SbXipImage &image, int sliceIndex = -1, const char *options = 0, SbXipDicomItemHandle pixelDataItem = SbXipDicomItemHandle()) const;
 	int getNumSlices(const char *options = 0, SbXipDicomItemHandle pixelDataItem = SbXipDicomItemHandle()) const;
+	SbBool createCompatible(const SoXipDataDicom *dataDicomObj);
 
+	SbBool open();
 	SbBool open(const char *fileName, const char *options = 0);
+	SbBool save(const char *fileName, const char *options = 0);
 	void close();
 
 	static SbBool interpret(const SoMFString &in, SoMFString &out);

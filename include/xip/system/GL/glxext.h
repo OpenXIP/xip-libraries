@@ -1,10 +1,3 @@
-#ifndef __glxext_h_
-#define __glxext_h_
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*
 ** Copyright (c) 2007 The Khronos Group Inc.
 ** 
@@ -28,7 +21,15 @@ extern "C" {
 ** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
 
-#if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
+#ifndef __glxext_h_
+#define __glxext_h_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) &&
+			 	!defined(__SCITECH_SNAP__)
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
 #endif
@@ -788,4 +789,5 @@ typedef void ( * PFNGLXRELEASETEXIMAGEEXTPROC) (Display *dpy, GLXDrawable drawab
 }
 #endif
 
-#endif
+#endif // __glxext_h_
+

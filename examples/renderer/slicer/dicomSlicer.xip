@@ -24,7 +24,7 @@ SoXipBuilderNode {
 		0 157 0 0
 		0 0 119 0
 		-127.5 -51.5 -245 1
-	plane	4.60062e-009 -7.54053e-008 1  -66.5
+	plane	4.60062e-009 -7.54053e-008 1  -69.5
 	complexity		Complexity {
 	    value	0.5
 	    textureQuality	0.5
@@ -32,8 +32,8 @@ SoXipBuilderNode {
 
 	orthoCamera		DEF +0 OrthographicCamera {
 	    viewportMapping	ADJUST_CAMERA
-	    position	-59.9103 137.6 -244.771
-	    orientation	-0.1572 0.843809 0.513103  3.05332
+	    position	-78.1843 -84.1053 -237.159
+	    orientation	0.372836 -0.812975 0.447287  2.43847
 	    aspectRatio	1
 	    nearDistance	-0
 	    farDistance	251.911
@@ -70,7 +70,7 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	-11.7 8.7 -9.7 9.5
     flags	()
-    autoPanelPos	292 272 0 0
+    autoPanelPos	0 169 0 0
     node	    DirectionalLight {
     }
 
@@ -94,7 +94,7 @@ SoXipBuilderNode {
     node	    MatrixTransform {
 	matrix	157 0 0 0
 		0 157 0 0
-		0 0 119 0
+		0 0 119.502 0
 		-127.5 -51.5 -245 1
     }
 
@@ -103,7 +103,7 @@ SoXipBuilderNode {
 
 ### 5 ###
 SoXipBuilderEngine {
-    placement	-9.9 6.6 -7.14768 7.4
+    placement	-9.82545 6.6 -7.22223 7.4
     flags	()
     autoPanelPos	123 367 0 0
     engine	    SoXipImageAttributes {
@@ -121,10 +121,129 @@ SoXipBuilderEngine {
 SoXipBuilderEngine {
     placement	-12.9 4.2 -10.4511 5
     flags	()
-    autoPanelPos	136 319 0 0
+    autoPanelPos	0 377 0 0
     engine	    SoXipVolumeDicom {
 	inputs [ SoXipMFDataDicom input ]
 	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
 			  "NULL",
 			  "NULL",
 			  "NULL",
@@ -251,12 +370,131 @@ SoXipBuilderEngine {
 
 ### 7 ###
 SoXipBuilderEngine {
-    placement	-12.6 2.4 -10.6 3.2
+    placement	-12.6 3 -10.6 3.8
     flags	()
     autoPanelPos	425 421 0 0
     engine	    SoXipSortDicom {
 	inputs [ SoXipMFDataDicom input ]
 	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
 			  "NULL",
 			  "NULL",
 			  "NULL",
@@ -385,10 +623,10 @@ SoXipBuilderEngine {
 SoXipBuilderEngine {
     placement	-12.6 0.9 -10.6 1.7
     flags	SHOW_AUTOPANEL
-    autoPanelPos	258 508 0 0
+    autoPanelPos	297 529 0 0
     engine	    SoXipLoadDicom {
 	inputs [ MFString name ]
-	name	"C:\Data\Acetabulum"
+	name	"..\..\data\Acetabulum"
 	outputs [ SoXipMFDataDicom dicom ]
     }
 
@@ -406,20 +644,21 @@ SoXipBuilderNode {
 
 ### 10 ###
 SoXipBuilderNode {
-    placement	-8.4 2.1 -5.27926 2.9
+    placement	-6.9 3.6 -3.94832 4.4
     flags	()
-    autoPanelPos	176 493 0 0
+    autoPanelPos	153 473 0 0
     node	    SoXipWindowLevelManip {
-	fields [ SFFloat window, SFFloat level,  ]
-	window	0
-	level	0.043457
+	fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	window	0.875976
+	level	0.493164
+	mouse	BUTTON3
     }
 
 }
 
 ### 11 ###
 SoXipBuilderNode {
-    placement	-5.1 7.2 -2.89 8
+    placement	-5.01989 7.2 -2.97011 8
     flags	()
     autoPanelPos	477 174 0 0
     node	    SoXipTextureUnit {
@@ -433,12 +672,12 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	-3.9 6 -1.9 6.8
     flags	()
-    autoPanelPos	372 194 0 0
+    autoPanelPos	305 290 0 0
     node	    SoXipTexture {
 	fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize,  ]
 	image	"NULL"
 	internalFormat	LUMINANCE16
-	textureSize	512 512 119
+	textureSize	512 512 238
     }
 
 }
@@ -461,17 +700,18 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	-1.5 6 0.499999 6.8
     flags	()
-    autoPanelPos	652 286 0 0
+    autoPanelPos	463 288 0 0
     node	    SoXipLut {
-	fields [ SFEnum inputMode, SFEnum fileMode, SFShort bitsUsed, SFFloat rampWidth,
-		SFFloat rampCenter, SFString fileIn, SFInt32 fileEntries, MFColor arrayColor,
-		MFFloat arrayAlpha ]
-	inputMode	FILE
+	fields [ SoXipSFDataImage LUTDataImage, SFEnum inputMode, SFEnum fileMode, SFShort bitsUsed,
+		SFFloat rampWidth, SFFloat rampCenter, SFString fileIn, SFInt32 fileEntries,
+		MFColor arrayColor, MFFloat arrayAlpha ]
+	LUTDataImage	"NULL"
+	inputMode	RAMP_FILE
 	fileMode	FLOAT_COMMA
 	bitsUsed	12
-	rampWidth	0
-	rampCenter	0.043457
-	fileIn	"C:\Data\Lut\ctAbdomen.txt"
+	rampWidth	0.875976
+	rampCenter	0.493164
+	fileIn	"ctAbdomen.txt"
 	fileEntries	4096
 	arrayColor	[  ]
 	arrayAlpha	[  ]
@@ -486,7 +726,7 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	-1.5 4.8 0.5 5.6
     flags	()
-    autoPanelPos	646 290 0 0
+    autoPanelPos	402 345 0 0
     node	    SoXipLutTexture {
 	fields [ SoSFVec2s textureSize ]
 	textureSize	4096 1
@@ -496,13 +736,13 @@ SoXipBuilderNode {
 
 ### 16 ###
 SoXipBuilderNode {
-    placement	0.9 7.2 3.31 8
+    placement	0.9 7.2 3.15476 8
     flags	()
-    autoPanelPos	423 207 0 0
+    autoPanelPos	599 239 0 0
     node	    SoXipLoadShaders {
 	fields [ SFString fpFilename, SFString vpFilename,  ]
-	fpFilename	"..\..\..\examples\renderer\slicer\simple_tf_fp.glsl"
-	vpFilename	"..\..\..\examples\renderer\slicer\simple_vp.glsl"
+	fpFilename	"dicomSlicer_simple_tf_fp.glsl"
+	vpFilename	"dicomSlicer_simple_vp.glsl"
     }
 
 }
@@ -523,7 +763,7 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	0.9 4.8 2.9 5.6
     flags	()
-    autoPanelPos	488 339 0 0
+    autoPanelPos	527 351 0 0
     node	    SoXipUniformInt {
 	fields [ SFString name, MFInt32 value ]
 	name	"lut"
@@ -568,7 +808,7 @@ SoXipBuilderNode {
     node	    SoXipUniformInt {
 	fields [ SFString name, MFInt32 value ]
 	name	"depth"
-	value	119
+	value	238
     }
 
 }
@@ -578,15 +818,14 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	3.6 7.2 5.60001 8
     flags	()
-    autoPanelPos	515 425 0 0
+    autoPanelPos	693 235 0 0
     node	    SoXipSlicer {
 	fields [ SFInt32 numSlicesX, SFInt32 numSlicesY, SFInt32 numSlicesZ, SFInt32 numSlices,
-		SFBool useComplexity, SFEnum compositing ]
+		SFEnum compositing ]
 	numSlicesX	100
 	numSlicesY	100
 	numSlicesZ	100
 	numSlices	512
-	useComplexity	FALSE
 	compositing	FRONT_TO_BACK
     }
 

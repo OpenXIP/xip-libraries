@@ -23,7 +23,7 @@ SO_NODE_SOURCE(SoXipCPUMprRender);
 // Fast Floor for 3 values
 inline void floor_int3 (float x, float y, float z, int &xi, int &yi, int &zi)
 {
-#ifdef WIN32
+#if defined(WIN32) && !defined(WIN64)
   const float round_towards_m_i = -0.5f;
   int rx, ry, rz;
 //#ifndef __POWERPC__ // FIXME: We must code for PPC arch

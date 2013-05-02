@@ -109,7 +109,7 @@
 *  
 */
 #include <xip/inventor/core/SoXipMprPlaneElement.h>
-#include <xip/inventor/core/XipGeomUtils.h>
+#include <xip/inventor/core/XipGeomUtils.h> // XipInventorUtils?
 #include <Inventor/elements/SoModelMatrixElement.h>
 #include <Inventor/fields/SoSFMatrix.h>
 #include <Inventor/fields/SoSFVec3f.h>
@@ -215,7 +215,8 @@ int SoXipMprPlaneElement::getNum() const
 // Returns the nth plane matrix stored in an instance.
 const SbMatrix& SoXipMprPlaneElement::getMatrix(int index) const
 {
-#ifdef _DEBUG
+// _DEBUG
+#ifdef DEBUG
 	if (index < 0 || index >= mMprPlanes.getLength())
 		SoDebugError::post("SoXipMprPlaneElement::getMatrix",
 			   "Index (%d) is out of range 0 - %d",
@@ -405,3 +406,5 @@ void SoXipMprPlaneElement::addToElt(const SbMatrix &planeMatrix, const SbVec3f &
 		mMprPlanes.append(newPlane);
 	}
 }
+
+

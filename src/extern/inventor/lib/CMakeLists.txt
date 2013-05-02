@@ -1,35 +1,33 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research Inc. 2008
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(xipinv240)
-cmake_minimum_required(VERSION 2.6)
 
 #--------------------------------------------------------------------
-# Find external packages
-#
-find_package(OpenGL REQUIRED)
-
-if(UNIX)
-  find_library(ICONV_LIBRARY iconv
-    ${Xip_SOURCE_DIR}/../xipext-win32-vs8/lib
-    ${Xip_SOURCE_DIR}/../xipext-mac-xcode/lib
-    ${Xip_SOURCE_DIR}/../xipext-linux-gcc/lib
-    /usr/lib)
-  find_package(JPEG REQUIRED)
-endif(UNIX)
-
-#--------------------------------------------------------------------
-# Definitions
+# Define the compiler flags
 #
 add_definitions(-DLIBRARYBUILD -D__SGIOIV_BUILD_DLL)
 
 if(WIN32)
-  add_definitions(-Ddll -Dexceptions -Dshared -Dthread -Divgensources
-  -Dopengl -DlibFL -Dlibimage -Djpeg_static -Diconv -Dfreetype)
-  add_definitions(-DWIN32 -DINVENTOR_EXPORTS -DHAVE_BOOLEAN)
+  add_definitions(
+	  -Ddll
+		-Dexceptions
+		-Dshared
+		-Dthread
+		-Divgensources
+		-Dopengl
+		-DlibFL
+		-Dlibimage
+		-Djpeg_static
+		-Diconv
+		-Dfreetype
+		-DWIN32
+		-DINVENTOR_EXPORTS
+		-DHAVE_BOOLEAN)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 include_directories(
   database/include
@@ -58,12 +56,11 @@ if(WIN32)
 endif(WIN32)
 
 if(UNIX)
-  include_directories(
-    ${OPENGL_INCLUDE_DIR})
+  include_directories(${OPENGL_INCLUDE_DIR})
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link directories
+# Define the link directories
 #
 link_directories(${inventor_BINARY_DIR}/libFL)
 
@@ -86,16 +83,16 @@ set(HEADERS
   mevis/include/Inventor/system/SbSystem.h)
 
 set(SOURCES
-  mevis/src/SoCatch.c++
-  mevis/src/SoMeVis.c++
-  mevis/src/SoTrace.c++
-  mevis/src/elements/SoGLPolygonOffsetElement.c++
-  mevis/src/elements/SoGLStencilBitsElement.c++
-  mevis/src/elements/SoPolygonOffsetElement.c++
-  mevis/src/elements/SoStencilBitsElement.c++
-  mevis/src/fields/SoSFVec2s.c++
-  mevis/src/fields/SoSFVec3s.c++
-  mevis/src/nodes/SoPolygonOffset.c++)
+  mevis/src/SoCatch.cpp
+  mevis/src/SoMeVis.cpp
+  mevis/src/SoTrace.cpp
+  mevis/src/elements/SoGLPolygonOffsetElement.cpp
+  mevis/src/elements/SoGLStencilBitsElement.cpp
+  mevis/src/elements/SoPolygonOffsetElement.cpp
+  mevis/src/elements/SoStencilBitsElement.cpp
+  mevis/src/fields/SoSFVec2s.cpp
+  mevis/src/fields/SoSFVec3s.cpp
+  mevis/src/nodes/SoPolygonOffset.cpp)
 
 if(WIN32)
   set(HEADERS ${HEADERS}
@@ -105,7 +102,7 @@ if(WIN32)
     mevis/src/utf8_filesupport_win32.h)
 	
   set(SOURCES ${SOURCES}
-    mevis/src/utf8_filesupport_win32.c++)
+    mevis/src/utf8_filesupport_win32.cpp)
 endif(WIN32)
 
 #--------------------------------------------------------------------
@@ -715,499 +712,502 @@ set(HEADERS ${HEADERS}
   nodekits/include/Inventor/nodekits/SoSubKit.h
   nodekits/include/Inventor/nodekits/SoWrapperKit.h)
 
-set(SOURCES ${SOURCES}
-  database/src/sb/SbBox.c++
-  database/src/sb/SbColor.c++
-  database/src/sb/SbCylinder.c++
-  database/src/sb/SbDict.c++
-  database/src/sb/SbLine.c++
-  database/src/sb/SbMatrix.c++
-  database/src/sb/SbName.c++
-  database/src/sb/SbPList.c++
-  database/src/sb/SbPlane.c++
-  database/src/sb/SbRotation.c++
-  database/src/sb/SbSphere.c++
-  database/src/sb/SbString.c++
-  database/src/sb/SbTime.c++
-  database/src/sb/SbVec.c++
-  database/src/sb/SbView.c++
-  database/src/sb/SbViewportRegion.c++
-  database/src/sb/projectors/SbCylinderPlaneProjector.c++
-  database/src/sb/projectors/SbCylinderProjector.c++
-  database/src/sb/projectors/SbCylinderSectionProjector.c++
-  database/src/sb/projectors/SbCylinderSheetProjector.c++
-  database/src/sb/projectors/SbLineProjector.c++
-  database/src/sb/projectors/SbPlaneProjector.c++
-  database/src/sb/projectors/SbProjector.c++
-  database/src/sb/projectors/SbSpherePlaneProjector.c++
-  database/src/sb/projectors/SbSphereProjector.c++
-  database/src/sb/projectors/SbSphereSectionProjector.c++
-  database/src/sb/projectors/SbSphereSheetProjector.c++
-  database/src/so/SoAuditorList.c++
-  database/src/so/SoBase.c++
-  database/src/so/SoByteStream.c++
-  database/src/so/SoCBList.c++
-  database/src/so/SoChildList.c++
-  database/src/so/SoCompactPathList.c++
-  database/src/so/SoDB.c++
-  database/src/so/SoDebug.c++
-  database/src/so/SoInput.c++
-  database/src/so/SoLists.c++
-  database/src/so/SoNormalGenerator.c++
-  database/src/so/SoNotification.c++
-  database/src/so/SoOutput.c++
-  database/src/so/SoPath.c++
-  database/src/so/SoPickedPoint.c++
-  database/src/so/SoPrimitiveVertex.c++
-  database/src/so/SoState.c++
-  database/src/so/SoTempPath.c++
-  database/src/so/SoTranscribe.c++
-  database/src/so/SoType.c++
-  database/src/so/actions/SoAction.c++
-  database/src/so/actions/SoActionInit.c++
-  database/src/so/actions/SoCallbackAction.c++
-  database/src/so/actions/SoGLRenderAction.c++
-  database/src/so/actions/SoGetBoundingBoxAction.c++
-  database/src/so/actions/SoGetMatrixAction.c++
-  database/src/so/actions/SoHandleEventAction.c++
-  database/src/so/actions/SoPickAction.c++
-  database/src/so/actions/SoRayPickAction.c++
-  database/src/so/actions/SoSearchAction.c++
-  database/src/so/actions/SoWriteAction.c++
-  database/src/so/bundles/SoMaterialBundle.c++
-  database/src/so/bundles/SoNormalBundle.c++
-  database/src/so/bundles/SoTextureCoordinateBundle.c++
-  database/src/so/caches/SoBoundingBoxCache.c++
-  database/src/so/caches/SoCache.c++
-  database/src/so/caches/SoGLCacheList.c++
-  database/src/so/caches/SoGLRenderCache.c++
-  database/src/so/caches/SoNormalCache.c++
-  database/src/so/details/SoConeDetail.c++
-  database/src/so/details/SoCubeDetail.c++
-  database/src/so/details/SoCylinderDetail.c++
-  database/src/so/details/SoDetail.c++
-  database/src/so/details/SoDetailInit.c++
-  database/src/so/details/SoFaceDetail.c++
-  database/src/so/details/SoLineDetail.c++
-  database/src/so/details/SoPointDetail.c++
-  database/src/so/details/SoTextDetail.c++
-  database/src/so/elements/SoAccumulatedElement.c++
-  database/src/so/elements/SoAmbientColorElement.c++
-  database/src/so/elements/SoBBoxModelMatrixElement.c++
-  database/src/so/elements/SoCacheElement.c++
-  database/src/so/elements/SoClipPlaneElement.c++
-  database/src/so/elements/SoComplexityElement.c++
-  database/src/so/elements/SoComplexityTypeElement.c++
-  database/src/so/elements/SoCoordinateElement.c++
-  database/src/so/elements/SoCreaseAngleElement.c++
-  database/src/so/elements/SoDiffuseColorElement.c++
-  database/src/so/elements/SoDrawStyleElement.c++
-  database/src/so/elements/SoElement.c++
-  database/src/so/elements/SoElementInit.c++
-  database/src/so/elements/SoEmissiveColorElement.c++
-  database/src/so/elements/SoFloatElement.c++
-  database/src/so/elements/SoFocalDistanceElement.c++
-  database/src/so/elements/SoFontNameElement.c++
-  database/src/so/elements/SoFontSizeElement.c++
-  database/src/so/elements/SoGLAmbientColorElement.c++
-  database/src/so/elements/SoGLCacheContextElement.c++
-  database/src/so/elements/SoGLClipPlaneElement.c++
-  database/src/so/elements/SoGLCoordinateElement.c++
-  database/src/so/elements/SoGLDiffuseColorElement.c++
-  database/src/so/elements/SoGLDrawStyleElement.c++
-  database/src/so/elements/SoGLEmissiveColorElement.c++
-  database/src/so/elements/SoGLLazyElement.c++
-  database/src/so/elements/SoGLLightIdElement.c++
-  database/src/so/elements/SoGLLinePatternElement.c++
-  database/src/so/elements/SoGLLineWidthElement.c++
-  database/src/so/elements/SoGLModelMatrixElement.c++
-  database/src/so/elements/SoGLNormalElement.c++
-  database/src/so/elements/SoGLPointSizeElement.c++
-  database/src/so/elements/SoGLProjectionMatrixElement.c++
-  database/src/so/elements/SoGLRenderPassElement.c++
-  database/src/so/elements/SoGLShapeHintsElement.c++
-  database/src/so/elements/SoGLShininessElement.c++
-  database/src/so/elements/SoGLSpecularColorElement.c++
-  database/src/so/elements/SoGLTextureCoordinateElement.c++
-  database/src/so/elements/SoGLTextureEnabledElement.c++
-  database/src/so/elements/SoGLTextureImageElement.c++
-  database/src/so/elements/SoGLTextureMatrixElement.c++
-  database/src/so/elements/SoGLUpdateAreaElement.c++
-  database/src/so/elements/SoGLViewingMatrixElement.c++
-  database/src/so/elements/SoGLViewportRegionElement.c++
-  database/src/so/elements/SoInt32Element.c++
-  database/src/so/elements/SoLazyElement.c++
-  database/src/so/elements/SoLightAttenuationElement.c++
-  database/src/so/elements/SoLinePatternElement.c++
-  database/src/so/elements/SoLineWidthElement.c++
-  database/src/so/elements/SoLocalBBoxMatrixElement.c++
-  database/src/so/elements/SoMaterialBindingElement.c++
-  database/src/so/elements/SoModelMatrixElement.c++
-  database/src/so/elements/SoNormalBindingElement.c++
-  database/src/so/elements/SoNormalElement.c++
-  database/src/so/elements/SoOverrideElement.c++
-  database/src/so/elements/SoPickRayElement.c++
-  database/src/so/elements/SoPickStyleElement.c++
-  database/src/so/elements/SoPointSizeElement.c++
-  database/src/so/elements/SoProfileCoordinateElement.c++
-  database/src/so/elements/SoProfileElement.c++
-  database/src/so/elements/SoProjectionMatrixElement.c++
-  database/src/so/elements/SoReplacedElement.c++
-  database/src/so/elements/SoShapeHintsElement.c++
-  database/src/so/elements/SoShapeStyleElement.c++
-  database/src/so/elements/SoShininessElement.c++
-  database/src/so/elements/SoSpecularColorElement.c++
-  database/src/so/elements/SoSwitchElement.c++
-  database/src/so/elements/SoTextureCoordinateBindingElement.c++
-  database/src/so/elements/SoTextureCoordinateElement.c++
-  database/src/so/elements/SoTextureImageElement.c++
-  database/src/so/elements/SoTextureMatrixElement.c++
-  database/src/so/elements/SoTextureQualityElement.c++
-  database/src/so/elements/SoUnitsElement.c++
-  database/src/so/elements/SoViewVolumeElement.c++
-  database/src/so/elements/SoViewingMatrixElement.c++
-  database/src/so/elements/SoViewportRegionElement.c++
-  database/src/so/elements/SoWindowElement.c++
-  database/src/so/engines/SoBoolOperation.c++
-  database/src/so/engines/SoCalcExpr.c++
-  database/src/so/engines/SoCalculator.c++
-  database/src/so/engines/SoCompose.c++
-  database/src/so/engines/SoComputeBoundingBox.c++
-  database/src/so/engines/SoConcatenate.c++
-  database/src/so/engines/SoCounter.c++
-  database/src/so/engines/SoElapsedTime.c++
-  database/src/so/engines/SoEngine.c++
-  database/src/so/engines/SoEngineInit.c++
-  database/src/so/engines/SoFieldConverter.c++
-  database/src/so/engines/SoFieldConverters.c++
-  database/src/so/engines/SoGate.c++
-  database/src/so/engines/SoInterpolate.c++
-  database/src/so/engines/SoOnOff.c++
-  database/src/so/engines/SoOneShot.c++
-  database/src/so/engines/SoOutputData.c++
-  database/src/so/engines/SoSelectOne.c++
-  database/src/so/engines/SoTimeCounter.c++
-  database/src/so/engines/SoTransformVec3f.c++
-  database/src/so/engines/SoTriggerAny.c++
-  database/src/so/engines/SoUnknownEngine.c++
-  database/src/so/errors/SoDebugError.c++
-  database/src/so/errors/SoError.c++
-  database/src/so/errors/SoErrorInit.c++
-  database/src/so/errors/SoMemoryError.c++
-  database/src/so/errors/SoReadError.c++
-  database/src/so/events/SoButtonEvent.c++
-  database/src/so/events/SoEvent.c++
-  database/src/so/events/SoEventInit.c++
-  database/src/so/events/SoKeyboardEvent.c++
-  database/src/so/events/SoLocation2Event.c++
-  database/src/so/events/SoMotion3Event.c++
-  database/src/so/events/SoMouseButtonEvent.c++
-  database/src/so/events/SoSpaceballButtonEvent.c++
-  database/src/so/fields/SoField.c++
-  database/src/so/fields/SoFieldContainer.c++
-  database/src/so/fields/SoFieldData.c++
-  database/src/so/fields/SoFieldInit.c++
-  database/src/so/fields/SoGlobalField.c++
-  database/src/so/fields/SoMFBitMask.c++
-  database/src/so/fields/SoMFBool.c++
-  database/src/so/fields/SoMFColor.c++
-  database/src/so/fields/SoMFEngine.c++
-  database/src/so/fields/SoMFEnum.c++
-  database/src/so/fields/SoMFFloat.c++
-  database/src/so/fields/SoMFInt32.c++
-  database/src/so/fields/SoMFMatrix.c++
-  database/src/so/fields/SoMFName.c++
-  database/src/so/fields/SoMFNode.c++
-  database/src/so/fields/SoMFPath.c++
-  database/src/so/fields/SoMFPlane.c++
-  database/src/so/fields/SoMFRotation.c++
-  database/src/so/fields/SoMFShort.c++
-  database/src/so/fields/SoMFString.c++
-  database/src/so/fields/SoMFTime.c++
-  database/src/so/fields/SoMFUInt32.c++
-  database/src/so/fields/SoMFUShort.c++
-  database/src/so/fields/SoMFVec2f.c++
-  database/src/so/fields/SoMFVec3f.c++
-  database/src/so/fields/SoMFVec4f.c++
-  database/src/so/fields/SoSFBitMask.c++
-  database/src/so/fields/SoSFBool.c++
-  database/src/so/fields/SoSFColor.c++
-  database/src/so/fields/SoSFEngine.c++
-  database/src/so/fields/SoSFEnum.c++
-  database/src/so/fields/SoSFFloat.c++
-  database/src/so/fields/SoSFImage.c++
-  database/src/so/fields/SoSFInt32.c++
-  database/src/so/fields/SoSFMatrix.c++
-  database/src/so/fields/SoSFName.c++
-  database/src/so/fields/SoSFNode.c++
-  database/src/so/fields/SoSFPath.c++
-  database/src/so/fields/SoSFPlane.c++
-  database/src/so/fields/SoSFRotation.c++
-  database/src/so/fields/SoSFShort.c++
-  database/src/so/fields/SoSFString.c++
-  database/src/so/fields/SoSFTime.c++
-  database/src/so/fields/SoSFTrigger.c++
-  database/src/so/fields/SoSFUInt32.c++
-  database/src/so/fields/SoSFUShort.c++
-  database/src/so/fields/SoSFVec2f.c++
-  database/src/so/fields/SoSFVec3f.c++
-  database/src/so/fields/SoSFVec4f.c++
-  database/src/so/nodes/SoAnnotation.c++
-  database/src/so/nodes/SoArray.c++
-  database/src/so/nodes/SoAsciiText.c++
-  database/src/so/nodes/SoBaseColor.c++
-  database/src/so/nodes/SoBlinker.c++
-  database/src/so/nodes/SoCallback.c++
-  database/src/so/nodes/SoCamera.c++
-  database/src/so/nodes/SoClipPlane.c++
-  database/src/so/nodes/SoColorIndex.c++
-  database/src/so/nodes/SoComplexity.c++
-  database/src/so/nodes/SoCoordinate3.c++
-  database/src/so/nodes/SoCoordinate4.c++
-  database/src/so/nodes/SoDirectionalLight.c++
-  database/src/so/nodes/SoDrawStyle.c++
-  database/src/so/nodes/SoEnvironment.c++
-  database/src/so/nodes/SoEventCallback.c++
-  database/src/so/nodes/SoFile.c++
-  database/src/so/nodes/SoFont.c++
-  database/src/so/nodes/SoFontStyle.c++
-  database/src/so/nodes/SoGroup.c++
-  database/src/so/nodes/SoIndexedNurbsCurve.c++
-  database/src/so/nodes/SoIndexedNurbsSurface.c++
-  database/src/so/nodes/SoIndexedShape.c++
-  database/src/so/nodes/SoInfo.c++
-  database/src/so/nodes/SoLOD.c++
-  database/src/so/nodes/SoLabel.c++
-  database/src/so/nodes/SoLevelOfDetail.c++
-  database/src/so/nodes/SoLight.c++
-  database/src/so/nodes/SoLightModel.c++
-  database/src/so/nodes/SoLinearProfile.c++
-  database/src/so/nodes/SoLocateHighlight.c++
-  database/src/so/nodes/SoMaterial.c++
-  database/src/so/nodes/SoMaterialBinding.c++
-  database/src/so/nodes/SoMatrixTransform.c++
-  database/src/so/nodes/SoMultipleCopy.c++
-  database/src/so/nodes/SoNode.c++
-  database/src/so/nodes/SoNodeInit.c++
-  database/src/so/nodes/SoNonIndexedShape.c++
-  database/src/so/nodes/SoNormal.c++
-  database/src/so/nodes/SoNormalBinding.c++
-  database/src/so/nodes/SoNurbsCurve.c++
-  database/src/so/nodes/SoNurbsProfile.c++
-  database/src/so/nodes/SoNurbsSurface.c++
-  database/src/so/nodes/SoOrthographicCamera.c++
-  database/src/so/nodes/SoPackedColor.c++
-  database/src/so/nodes/SoPathSwitch.c++
-  database/src/so/nodes/SoPendulum.c++
-  database/src/so/nodes/SoPerspectiveCamera.c++
-  database/src/so/nodes/SoPickStyle.c++
-  database/src/so/nodes/SoPointLight.c++
-  database/src/so/nodes/SoProfile.c++
-  database/src/so/nodes/SoProfileCoordinate2.c++
-  database/src/so/nodes/SoProfileCoordinate3.c++
-  database/src/so/nodes/SoResetTransform.c++
-  database/src/so/nodes/SoRotation.c++
-  database/src/so/nodes/SoRotationXYZ.c++
-  database/src/so/nodes/SoRotor.c++
-  database/src/so/nodes/SoScale.c++
-  database/src/so/nodes/SoSeparator.c++
-  database/src/so/nodes/SoShape.c++
-  database/src/so/nodes/SoShapeHints.c++
-  database/src/so/nodes/SoShuttle.c++
-  database/src/so/nodes/SoSpotLight.c++
-  database/src/so/nodes/SoSwitch.c++
-  database/src/so/nodes/SoText2.c++
-  database/src/so/nodes/SoText3.c++
-  database/src/so/nodes/SoTexture2.c++
-  database/src/so/nodes/SoTexture2Transform.c++
-  database/src/so/nodes/SoTextureCoordinate2.c++
-  database/src/so/nodes/SoTextureCoordinateBinding.c++
-  database/src/so/nodes/SoTextureCoordinateDefault.c++
-  database/src/so/nodes/SoTextureCoordinateEnvironment.c++
-  database/src/so/nodes/SoTextureCoordinateFunction.c++
-  database/src/so/nodes/SoTextureCoordinatePlane.c++
-  database/src/so/nodes/SoTransform.c++
-  database/src/so/nodes/SoTransformSeparator.c++
-  database/src/so/nodes/SoTransformation.c++
-  database/src/so/nodes/SoTranslation.c++
-  database/src/so/nodes/SoUnits.c++
-  database/src/so/nodes/SoUnknownNode.c++
-  database/src/so/nodes/SoVertexArray.c++
-  database/src/so/nodes/SoVertexProperty.c++
-  database/src/so/nodes/SoVertexShape.c++
-  database/src/so/nodes/SoWWWAnchor.c++
-  database/src/so/nodes/SoWWWInline.c++
-  database/src/so/nodes/nurbs/SoCurveMaps.c++
-  database/src/so/nodes/nurbs/SoCurveRender.c++
-  database/src/so/nodes/nurbs/SoCurveRndEvl.c++
-  database/src/so/nodes/nurbs/SoGLRender.c++
-  database/src/so/nodes/nurbs/SoPickEvals.c++
-  database/src/so/nodes/nurbs/SoPickMaps.c++
-  database/src/so/nodes/nurbs/SoPickRender.c++
-  database/src/so/nodes/nurbs/SoPrimEvals.c++
-  database/src/so/nodes/nurbs/SoPrimMaps.c++
-  database/src/so/nodes/nurbs/SoPrimRender.c++
-  database/src/so/nodes/nurbs/clients/nurbsClient.c++
-  database/src/so/nodes/nurbs/libnurbs/libNurbs.c++
-  database/src/so/sensors/SoAlarmSensor.c++
-  database/src/so/sensors/SoDataSensor.c++
-  database/src/so/sensors/SoDelayQueueSensor.c++
-  database/src/so/sensors/SoFieldSensor.c++
-  database/src/so/sensors/SoIdleSensor.c++
-  database/src/so/sensors/SoNodeSensor.c++
-  database/src/so/sensors/SoOneShotSensor.c++
-  database/src/so/sensors/SoPathSensor.c++
-  database/src/so/sensors/SoSensor.c++
-  database/src/so/sensors/SoSensorMgr.c++
-  database/src/so/sensors/SoTimerQueueSensor.c++
-  database/src/so/sensors/SoTimerSensor.c++
-  database/src/so/upgraders/SoUpgrader.c++
-  database/src/so/upgraders/SoUpgraderInit.c++
-  database/src/so/upgraders/SoV1CustomNode.c++
-  database/src/so/upgraders/SoV1DrawStyle.c++
-  database/src/so/upgraders/SoV1Environment.c++
-  database/src/so/upgraders/SoV1IndexedTriangleMesh.c++
-  database/src/so/upgraders/SoV1LayerGroup.c++
-  database/src/so/upgraders/SoV1LightModel.c++
-  database/src/so/upgraders/SoV1Material.c++
-  database/src/so/upgraders/SoV1PackedColor.c++
-  database/src/so/upgraders/SoV1PickStyle.c++
-  database/src/so/upgraders/SoV1Separator.c++
-  database/src/so/upgraders/SoV1ShapeHints.c++
-  database/src/so/upgraders/SoV1Text2.c++
-  database/src/so/upgraders/SoV1Text3.c++
-  database/src/so/upgraders/SoV1Texture2.c++
-  database/src/so/upgraders/SoV1TextureCoordinateCube.c++
-  database/src/so/upgraders/SoV1TextureCoordinateCylinder.c++
-  database/src/so/upgraders/SoV1TextureCoordinateEnvironment.c++
-  database/src/so/upgraders/SoV1TextureCoordinatePlane.c++
-  database/src/so/upgraders/SoV1TextureCoordinateSphere.c++
-  database/src/so/upgraders/SoV2AsciiText.c++
-  database/src/so/upgraders/SoV2FontStyle.c++
-  database/src/so/upgraders/SoV2LOD.c++
-  database/src/so/upgraders/SoV2MaterialIndex.c++
-  database/src/so/upgraders/SoV2Text2.c++
-  database/src/so/upgraders/SoV2Text3.c++
-  database/src/so/upgraders/SoV2VertexProperty.c++
-  database/src/so/upgraders/SoV2WWWAnchor.c++
-  database/src/so/upgraders/SoV2WWWInline.c++
-  database/src/so/linux.c++
-  interaction/src/SoInteraction.c++
-  interaction/src/SoSceneMgr.c++
-  interaction/src/SoSelection.c++
-  interaction/src/actions/SoBoxHL.c++
-  interaction/src/actions/SoLineHL.c++
-  interaction/src/draggers/SoCenterballDragger.c++
-  interaction/src/draggers/SoDirectionalLightDragger.c++
-  interaction/src/draggers/SoDragPointDragger.c++
-  interaction/src/draggers/SoDragger.c++
-  interaction/src/draggers/SoDraggerInit.c++
-  interaction/src/draggers/SoHandleBoxDragger.c++
-  interaction/src/draggers/SoJackDragger.c++
-  interaction/src/draggers/SoPointLightDragger.c++
-  interaction/src/draggers/SoRotateCylindricalDragger.c++
-  interaction/src/draggers/SoRotateDiscDragger.c++
-  interaction/src/draggers/SoRotateSphericalDragger.c++
-  interaction/src/draggers/SoScale1Dragger.c++
-  interaction/src/draggers/SoScale2Dragger.c++
-  interaction/src/draggers/SoScale2UniformDragger.c++
-  interaction/src/draggers/SoScaleUniformDragger.c++
-  interaction/src/draggers/SoSpotLightDragger.c++
-  interaction/src/draggers/SoTabBoxDragger.c++
-  interaction/src/draggers/SoTabPlaneDragger.c++
-  interaction/src/draggers/SoTrackballDragger.c++
-  interaction/src/draggers/SoTransformBoxDragger.c++
-  interaction/src/draggers/SoTransformerDragger.c++
-  interaction/src/draggers/SoTranslate1Dragger.c++
-  interaction/src/draggers/SoTranslate2Dragger.c++
-  interaction/src/manips/SoCenterballManip.c++
-  interaction/src/manips/SoDirLtManip.c++
-  interaction/src/manips/SoHbox.c++
-  interaction/src/manips/SoJackManip.c++
-  interaction/src/manips/SoPtLtManip.c++
-  interaction/src/manips/SoSpotLtManip.c++
-  interaction/src/manips/SoTabBoxManip.c++
-  interaction/src/manips/SoTball.c++
-  interaction/src/manips/SoTransformManip.c++
-  interaction/src/manips/SoTransformerManip.c++
-  interaction/src/manips/SoXformBox.c++
-  interaction/src/nodekits/SoInteractionKit.c++
-  interaction/src/nodes/SoAntiSquish.c++
-  interaction/src/nodes/SoSurroundScale.c++
-  nodekits/src/SoNodeKitPath.c++
-  nodekits/src/details/SoNodeKitDetail.c++
-  nodekits/src/nodekits/SoAppearKit.c++
-  nodekits/src/nodekits/SoBaseKit.c++
-  nodekits/src/nodekits/SoCameraKit.c++
-  nodekits/src/nodekits/SoLightKit.c++
-  nodekits/src/nodekits/SoNkCatalog.c++
-  nodekits/src/nodekits/SoNkParts.c++
-  nodekits/src/nodekits/SoNodeKit.c++
-  nodekits/src/nodekits/SoNodeKitListPart.c++
-  nodekits/src/nodekits/SoSceneKit.c++
-  nodekits/src/nodekits/SoSeparatorKit.c++
-  nodekits/src/nodekits/SoShapeKit.c++
-  nodekits/src/nodekits/SoWrapperKit.c++
-  nodekits/src/upgraders/SoV1AppearKit.c++
-  nodekits/src/upgraders/SoV1BaseKit.c++
-  nodekits/src/upgraders/SoV1CameraKit.c++
-  nodekits/src/upgraders/SoV1ConeKit.c++
-  nodekits/src/upgraders/SoV1CubeKit.c++
-  nodekits/src/upgraders/SoV1CylinderKit.c++
-  nodekits/src/upgraders/SoV1DirLtKit.c++
-  nodekits/src/upgraders/SoV1FaceSetKit.c++
-  nodekits/src/upgraders/SoV1GroupKit.c++
-  nodekits/src/upgraders/SoV1IFaceSetKit.c++
-  nodekits/src/upgraders/SoV1ILineSetKit.c++
-  nodekits/src/upgraders/SoV1INrbCurvKit.c++
-  nodekits/src/upgraders/SoV1INrbSurfKit.c++
-  nodekits/src/upgraders/SoV1ITMshSetKit.c++
-  nodekits/src/upgraders/SoV1LightKit.c++
-  nodekits/src/upgraders/SoV1LineSetKit.c++
-  nodekits/src/upgraders/SoV1NkCatalog.c++
-  nodekits/src/upgraders/SoV1NkParts.c++
-  nodekits/src/upgraders/SoV1NodeKit.c++
-  nodekits/src/upgraders/SoV1NurbCurvKit.c++
-  nodekits/src/upgraders/SoV1NurbSurfKit.c++
-  nodekits/src/upgraders/SoV1OrthoCamKit.c++
-  nodekits/src/upgraders/SoV1PerspCamKit.c++
-  nodekits/src/upgraders/SoV1PointLtKit.c++
-  nodekits/src/upgraders/SoV1PointSetKit.c++
-  nodekits/src/upgraders/SoV1QuadMeshKit.c++
-  nodekits/src/upgraders/SoV1SceneKit.c++
-  nodekits/src/upgraders/SoV1ShapeKit.c++
-  nodekits/src/upgraders/SoV1SphereKit.c++
-  nodekits/src/upgraders/SoV1SpotLtKit.c++
-  nodekits/src/upgraders/SoV1Text2Kit.c++
-  nodekits/src/upgraders/SoV1Text3Kit.c++
-  nodekits/src/upgraders/SoV1TriStripKit.c++
-  nodekits/src/upgraders/SoV1VtxShapeKit.c++
-  nodekits/src/upgraders/SoV1WrapperKit.c++)
-
 #--------------------------------------------------------------------
-# PPP generated sources
+# Define the source files
 #
 set(SOURCES ${SOURCES}
-  database/src/so/nodes/SoCone.c++
-  database/src/so/nodes/SoCube.c++
-  database/src/so/nodes/SoCylinder.c++
-  database/src/so/nodes/SoFaceSet.c++
-  database/src/so/nodes/SoIndexedFaceSet.c++
-  database/src/so/nodes/SoIndexedLineSet.c++
-  database/src/so/nodes/SoIndexedTriangleStripSet.c++
-  database/src/so/nodes/SoLineSet.c++
-  database/src/so/nodes/SoPointSet.c++
-  database/src/so/nodes/SoQuadMesh.c++
-  database/src/so/nodes/SoSphere.c++
-  database/src/so/nodes/SoTriangleStripSet.c++)
+  database/src/sb/SbBox.cpp
+  database/src/sb/SbColor.cpp
+  database/src/sb/SbCylinder.cpp
+  database/src/sb/SbDict.cpp
+  database/src/sb/SbLine.cpp
+  database/src/sb/SbMatrix.cpp
+  database/src/sb/SbName.cpp
+  database/src/sb/SbPList.cpp
+  database/src/sb/SbPlane.cpp
+  database/src/sb/SbRotation.cpp
+  database/src/sb/SbSphere.cpp
+  database/src/sb/SbString.cpp
+  database/src/sb/SbTime.cpp
+  database/src/sb/SbVec.cpp
+  database/src/sb/SbView.cpp
+  database/src/sb/SbViewportRegion.cpp
+  database/src/sb/projectors/SbCylinderPlaneProjector.cpp
+  database/src/sb/projectors/SbCylinderProjector.cpp
+  database/src/sb/projectors/SbCylinderSectionProjector.cpp
+  database/src/sb/projectors/SbCylinderSheetProjector.cpp
+  database/src/sb/projectors/SbLineProjector.cpp
+  database/src/sb/projectors/SbPlaneProjector.cpp
+  database/src/sb/projectors/SbProjector.cpp
+  database/src/sb/projectors/SbSpherePlaneProjector.cpp
+  database/src/sb/projectors/SbSphereProjector.cpp
+  database/src/sb/projectors/SbSphereSectionProjector.cpp
+  database/src/sb/projectors/SbSphereSheetProjector.cpp
+  database/src/so/SoAuditorList.cpp
+  database/src/so/SoBase.cpp
+  database/src/so/SoByteStream.cpp
+  database/src/so/SoCBList.cpp
+  database/src/so/SoChildList.cpp
+  database/src/so/SoCompactPathList.cpp
+  database/src/so/SoDB.cpp
+  database/src/so/SoDebug.cpp
+  database/src/so/SoInput.cpp
+  database/src/so/SoLists.cpp
+  database/src/so/SoNormalGenerator.cpp
+  database/src/so/SoNotification.cpp
+  database/src/so/SoOutput.cpp
+  database/src/so/SoPath.cpp
+  database/src/so/SoPickedPoint.cpp
+  database/src/so/SoPrimitiveVertex.cpp
+  database/src/so/SoState.cpp
+  database/src/so/SoTempPath.cpp
+  database/src/so/SoTranscribe.cpp
+  database/src/so/SoType.cpp
+  database/src/so/actions/SoAction.cpp
+  database/src/so/actions/SoActionInit.cpp
+  database/src/so/actions/SoCallbackAction.cpp
+  database/src/so/actions/SoGLRenderAction.cpp
+  database/src/so/actions/SoGetBoundingBoxAction.cpp
+  database/src/so/actions/SoGetMatrixAction.cpp
+  database/src/so/actions/SoHandleEventAction.cpp
+  database/src/so/actions/SoPickAction.cpp
+  database/src/so/actions/SoRayPickAction.cpp
+  database/src/so/actions/SoSearchAction.cpp
+  database/src/so/actions/SoWriteAction.cpp
+  database/src/so/bundles/SoMaterialBundle.cpp
+  database/src/so/bundles/SoNormalBundle.cpp
+  database/src/so/bundles/SoTextureCoordinateBundle.cpp
+  database/src/so/caches/SoBoundingBoxCache.cpp
+  database/src/so/caches/SoCache.cpp
+  database/src/so/caches/SoGLCacheList.cpp
+  database/src/so/caches/SoGLRenderCache.cpp
+  database/src/so/caches/SoNormalCache.cpp
+  database/src/so/details/SoConeDetail.cpp
+  database/src/so/details/SoCubeDetail.cpp
+  database/src/so/details/SoCylinderDetail.cpp
+  database/src/so/details/SoDetail.cpp
+  database/src/so/details/SoDetailInit.cpp
+  database/src/so/details/SoFaceDetail.cpp
+  database/src/so/details/SoLineDetail.cpp
+  database/src/so/details/SoPointDetail.cpp
+  database/src/so/details/SoTextDetail.cpp
+  database/src/so/elements/SoAccumulatedElement.cpp
+  database/src/so/elements/SoAmbientColorElement.cpp
+  database/src/so/elements/SoBBoxModelMatrixElement.cpp
+  database/src/so/elements/SoCacheElement.cpp
+  database/src/so/elements/SoClipPlaneElement.cpp
+  database/src/so/elements/SoComplexityElement.cpp
+  database/src/so/elements/SoComplexityTypeElement.cpp
+  database/src/so/elements/SoCoordinateElement.cpp
+  database/src/so/elements/SoCreaseAngleElement.cpp
+  database/src/so/elements/SoDiffuseColorElement.cpp
+  database/src/so/elements/SoDrawStyleElement.cpp
+  database/src/so/elements/SoElement.cpp
+  database/src/so/elements/SoElementInit.cpp
+  database/src/so/elements/SoEmissiveColorElement.cpp
+  database/src/so/elements/SoFloatElement.cpp
+  database/src/so/elements/SoFocalDistanceElement.cpp
+  database/src/so/elements/SoFontNameElement.cpp
+  database/src/so/elements/SoFontSizeElement.cpp
+  database/src/so/elements/SoGLAmbientColorElement.cpp
+  database/src/so/elements/SoGLCacheContextElement.cpp
+  database/src/so/elements/SoGLClipPlaneElement.cpp
+  database/src/so/elements/SoGLCoordinateElement.cpp
+  database/src/so/elements/SoGLDiffuseColorElement.cpp
+  database/src/so/elements/SoGLDrawStyleElement.cpp
+  database/src/so/elements/SoGLEmissiveColorElement.cpp
+  database/src/so/elements/SoGLLazyElement.cpp
+  database/src/so/elements/SoGLLightIdElement.cpp
+  database/src/so/elements/SoGLLinePatternElement.cpp
+  database/src/so/elements/SoGLLineWidthElement.cpp
+  database/src/so/elements/SoGLModelMatrixElement.cpp
+  database/src/so/elements/SoGLNormalElement.cpp
+  database/src/so/elements/SoGLPointSizeElement.cpp
+  database/src/so/elements/SoGLProjectionMatrixElement.cpp
+  database/src/so/elements/SoGLRenderPassElement.cpp
+  database/src/so/elements/SoGLShapeHintsElement.cpp
+  database/src/so/elements/SoGLShininessElement.cpp
+  database/src/so/elements/SoGLSpecularColorElement.cpp
+  database/src/so/elements/SoGLTextureCoordinateElement.cpp
+  database/src/so/elements/SoGLTextureEnabledElement.cpp
+  database/src/so/elements/SoGLTextureImageElement.cpp
+  database/src/so/elements/SoGLTextureMatrixElement.cpp
+  database/src/so/elements/SoGLUpdateAreaElement.cpp
+  database/src/so/elements/SoGLViewingMatrixElement.cpp
+  database/src/so/elements/SoGLViewportRegionElement.cpp
+  database/src/so/elements/SoInt32Element.cpp
+  database/src/so/elements/SoLazyElement.cpp
+  database/src/so/elements/SoLightAttenuationElement.cpp
+  database/src/so/elements/SoLinePatternElement.cpp
+  database/src/so/elements/SoLineWidthElement.cpp
+  database/src/so/elements/SoLocalBBoxMatrixElement.cpp
+  database/src/so/elements/SoMaterialBindingElement.cpp
+  database/src/so/elements/SoModelMatrixElement.cpp
+  database/src/so/elements/SoNormalBindingElement.cpp
+  database/src/so/elements/SoNormalElement.cpp
+  database/src/so/elements/SoOverrideElement.cpp
+  database/src/so/elements/SoPickRayElement.cpp
+  database/src/so/elements/SoPickStyleElement.cpp
+  database/src/so/elements/SoPointSizeElement.cpp
+  database/src/so/elements/SoProfileCoordinateElement.cpp
+  database/src/so/elements/SoProfileElement.cpp
+  database/src/so/elements/SoProjectionMatrixElement.cpp
+  database/src/so/elements/SoReplacedElement.cpp
+  database/src/so/elements/SoShapeHintsElement.cpp
+  database/src/so/elements/SoShapeStyleElement.cpp
+  database/src/so/elements/SoShininessElement.cpp
+  database/src/so/elements/SoSpecularColorElement.cpp
+  database/src/so/elements/SoSwitchElement.cpp
+  database/src/so/elements/SoTextureCoordinateBindingElement.cpp
+  database/src/so/elements/SoTextureCoordinateElement.cpp
+  database/src/so/elements/SoTextureImageElement.cpp
+  database/src/so/elements/SoTextureMatrixElement.cpp
+  database/src/so/elements/SoTextureQualityElement.cpp
+  database/src/so/elements/SoUnitsElement.cpp
+  database/src/so/elements/SoViewVolumeElement.cpp
+  database/src/so/elements/SoViewingMatrixElement.cpp
+  database/src/so/elements/SoViewportRegionElement.cpp
+  database/src/so/elements/SoWindowElement.cpp
+  database/src/so/engines/SoBoolOperation.cpp
+  database/src/so/engines/SoCalcExpr.cpp
+  database/src/so/engines/SoCalculator.cpp
+  database/src/so/engines/SoCompose.cpp
+  database/src/so/engines/SoComputeBoundingBox.cpp
+  database/src/so/engines/SoConcatenate.cpp
+  database/src/so/engines/SoCounter.cpp
+  database/src/so/engines/SoElapsedTime.cpp
+  database/src/so/engines/SoEngine.cpp
+  database/src/so/engines/SoEngineInit.cpp
+  database/src/so/engines/SoFieldConverter.cpp
+  database/src/so/engines/SoFieldConverters.cpp
+  database/src/so/engines/SoGate.cpp
+  database/src/so/engines/SoInterpolate.cpp
+  database/src/so/engines/SoOnOff.cpp
+  database/src/so/engines/SoOneShot.cpp
+  database/src/so/engines/SoOutputData.cpp
+  database/src/so/engines/SoSelectOne.cpp
+  database/src/so/engines/SoTimeCounter.cpp
+  database/src/so/engines/SoTransformVec3f.cpp
+  database/src/so/engines/SoTriggerAny.cpp
+  database/src/so/engines/SoUnknownEngine.cpp
+  database/src/so/errors/SoDebugError.cpp
+  database/src/so/errors/SoError.cpp
+  database/src/so/errors/SoErrorInit.cpp
+  database/src/so/errors/SoMemoryError.cpp
+  database/src/so/errors/SoReadError.cpp
+  database/src/so/events/SoButtonEvent.cpp
+  database/src/so/events/SoEvent.cpp
+  database/src/so/events/SoEventInit.cpp
+  database/src/so/events/SoKeyboardEvent.cpp
+  database/src/so/events/SoLocation2Event.cpp
+  database/src/so/events/SoMotion3Event.cpp
+  database/src/so/events/SoMouseButtonEvent.cpp
+  database/src/so/events/SoSpaceballButtonEvent.cpp
+  database/src/so/fields/SoField.cpp
+  database/src/so/fields/SoFieldContainer.cpp
+  database/src/so/fields/SoFieldData.cpp
+  database/src/so/fields/SoFieldInit.cpp
+  database/src/so/fields/SoGlobalField.cpp
+  database/src/so/fields/SoMFBitMask.cpp
+  database/src/so/fields/SoMFBool.cpp
+  database/src/so/fields/SoMFColor.cpp
+  database/src/so/fields/SoMFEngine.cpp
+  database/src/so/fields/SoMFEnum.cpp
+  database/src/so/fields/SoMFFloat.cpp
+  database/src/so/fields/SoMFInt32.cpp
+  database/src/so/fields/SoMFMatrix.cpp
+  database/src/so/fields/SoMFName.cpp
+  database/src/so/fields/SoMFNode.cpp
+  database/src/so/fields/SoMFPath.cpp
+  database/src/so/fields/SoMFPlane.cpp
+  database/src/so/fields/SoMFRotation.cpp
+  database/src/so/fields/SoMFShort.cpp
+  database/src/so/fields/SoMFString.cpp
+  database/src/so/fields/SoMFTime.cpp
+  database/src/so/fields/SoMFUInt32.cpp
+  database/src/so/fields/SoMFUShort.cpp
+  database/src/so/fields/SoMFVec2f.cpp
+  database/src/so/fields/SoMFVec3f.cpp
+  database/src/so/fields/SoMFVec4f.cpp
+  database/src/so/fields/SoSFBitMask.cpp
+  database/src/so/fields/SoSFBool.cpp
+  database/src/so/fields/SoSFColor.cpp
+  database/src/so/fields/SoSFEngine.cpp
+  database/src/so/fields/SoSFEnum.cpp
+  database/src/so/fields/SoSFFloat.cpp
+  database/src/so/fields/SoSFImage.cpp
+  database/src/so/fields/SoSFInt32.cpp
+  database/src/so/fields/SoSFMatrix.cpp
+  database/src/so/fields/SoSFName.cpp
+  database/src/so/fields/SoSFNode.cpp
+  database/src/so/fields/SoSFPath.cpp
+  database/src/so/fields/SoSFPlane.cpp
+  database/src/so/fields/SoSFRotation.cpp
+  database/src/so/fields/SoSFShort.cpp
+  database/src/so/fields/SoSFString.cpp
+  database/src/so/fields/SoSFTime.cpp
+  database/src/so/fields/SoSFTrigger.cpp
+  database/src/so/fields/SoSFUInt32.cpp
+  database/src/so/fields/SoSFUShort.cpp
+  database/src/so/fields/SoSFVec2f.cpp
+  database/src/so/fields/SoSFVec3f.cpp
+  database/src/so/fields/SoSFVec4f.cpp
+  database/src/so/nodes/SoAnnotation.cpp
+  database/src/so/nodes/SoArray.cpp
+  database/src/so/nodes/SoAsciiText.cpp
+  database/src/so/nodes/SoBaseColor.cpp
+  database/src/so/nodes/SoBlinker.cpp
+  database/src/so/nodes/SoCallback.cpp
+  database/src/so/nodes/SoCamera.cpp
+  database/src/so/nodes/SoClipPlane.cpp
+  database/src/so/nodes/SoColorIndex.cpp
+  database/src/so/nodes/SoComplexity.cpp
+  database/src/so/nodes/SoCoordinate3.cpp
+  database/src/so/nodes/SoCoordinate4.cpp
+  database/src/so/nodes/SoDirectionalLight.cpp
+  database/src/so/nodes/SoDrawStyle.cpp
+  database/src/so/nodes/SoEnvironment.cpp
+  database/src/so/nodes/SoEventCallback.cpp
+  database/src/so/nodes/SoFile.cpp
+  database/src/so/nodes/SoFont.cpp
+  database/src/so/nodes/SoFontStyle.cpp
+  database/src/so/nodes/SoGroup.cpp
+  database/src/so/nodes/SoIndexedNurbsCurve.cpp
+  database/src/so/nodes/SoIndexedNurbsSurface.cpp
+  database/src/so/nodes/SoIndexedShape.cpp
+  database/src/so/nodes/SoInfo.cpp
+  database/src/so/nodes/SoLOD.cpp
+  database/src/so/nodes/SoLabel.cpp
+  database/src/so/nodes/SoLevelOfDetail.cpp
+  database/src/so/nodes/SoLight.cpp
+  database/src/so/nodes/SoLightModel.cpp
+  database/src/so/nodes/SoLinearProfile.cpp
+  database/src/so/nodes/SoLocateHighlight.cpp
+  database/src/so/nodes/SoMaterial.cpp
+  database/src/so/nodes/SoMaterialBinding.cpp
+  database/src/so/nodes/SoMatrixTransform.cpp
+  database/src/so/nodes/SoMultipleCopy.cpp
+  database/src/so/nodes/SoNode.cpp
+  database/src/so/nodes/SoNodeInit.cpp
+  database/src/so/nodes/SoNonIndexedShape.cpp
+  database/src/so/nodes/SoNormal.cpp
+  database/src/so/nodes/SoNormalBinding.cpp
+  database/src/so/nodes/SoNurbsCurve.cpp
+  database/src/so/nodes/SoNurbsProfile.cpp
+  database/src/so/nodes/SoNurbsSurface.cpp
+  database/src/so/nodes/SoOrthographicCamera.cpp
+  database/src/so/nodes/SoPackedColor.cpp
+  database/src/so/nodes/SoPathSwitch.cpp
+  database/src/so/nodes/SoPendulum.cpp
+  database/src/so/nodes/SoPerspectiveCamera.cpp
+  database/src/so/nodes/SoPickStyle.cpp
+  database/src/so/nodes/SoPointLight.cpp
+  database/src/so/nodes/SoProfile.cpp
+  database/src/so/nodes/SoProfileCoordinate2.cpp
+  database/src/so/nodes/SoProfileCoordinate3.cpp
+  database/src/so/nodes/SoResetTransform.cpp
+  database/src/so/nodes/SoRotation.cpp
+  database/src/so/nodes/SoRotationXYZ.cpp
+  database/src/so/nodes/SoRotor.cpp
+  database/src/so/nodes/SoScale.cpp
+  database/src/so/nodes/SoSeparator.cpp
+  database/src/so/nodes/SoShape.cpp
+  database/src/so/nodes/SoShapeHints.cpp
+  database/src/so/nodes/SoShuttle.cpp
+  database/src/so/nodes/SoSpotLight.cpp
+  database/src/so/nodes/SoSwitch.cpp
+  database/src/so/nodes/SoText2.cpp
+  database/src/so/nodes/SoText3.cpp
+  database/src/so/nodes/SoTexture2.cpp
+  database/src/so/nodes/SoTexture2Transform.cpp
+  database/src/so/nodes/SoTextureCoordinate2.cpp
+  database/src/so/nodes/SoTextureCoordinateBinding.cpp
+  database/src/so/nodes/SoTextureCoordinateDefault.cpp
+  database/src/so/nodes/SoTextureCoordinateEnvironment.cpp
+  database/src/so/nodes/SoTextureCoordinateFunction.cpp
+  database/src/so/nodes/SoTextureCoordinatePlane.cpp
+  database/src/so/nodes/SoTransform.cpp
+  database/src/so/nodes/SoTransformSeparator.cpp
+  database/src/so/nodes/SoTransformation.cpp
+  database/src/so/nodes/SoTranslation.cpp
+  database/src/so/nodes/SoUnits.cpp
+  database/src/so/nodes/SoUnknownNode.cpp
+  database/src/so/nodes/SoVertexArray.cpp
+  database/src/so/nodes/SoVertexProperty.cpp
+  database/src/so/nodes/SoVertexShape.cpp
+  database/src/so/nodes/SoWWWAnchor.cpp
+  database/src/so/nodes/SoWWWInline.cpp
+  database/src/so/nodes/nurbs/SoCurveMaps.cpp
+  database/src/so/nodes/nurbs/SoCurveRender.cpp
+  database/src/so/nodes/nurbs/SoCurveRndEvl.cpp
+  database/src/so/nodes/nurbs/SoGLRender.cpp
+  database/src/so/nodes/nurbs/SoPickEvals.cpp
+  database/src/so/nodes/nurbs/SoPickMaps.cpp
+  database/src/so/nodes/nurbs/SoPickRender.cpp
+  database/src/so/nodes/nurbs/SoPrimEvals.cpp
+  database/src/so/nodes/nurbs/SoPrimMaps.cpp
+  database/src/so/nodes/nurbs/SoPrimRender.cpp
+  database/src/so/nodes/nurbs/clients/nurbsClient.cpp
+  database/src/so/nodes/nurbs/libnurbs/libNurbs.cpp
+  database/src/so/sensors/SoAlarmSensor.cpp
+  database/src/so/sensors/SoDataSensor.cpp
+  database/src/so/sensors/SoDelayQueueSensor.cpp
+  database/src/so/sensors/SoFieldSensor.cpp
+  database/src/so/sensors/SoIdleSensor.cpp
+  database/src/so/sensors/SoNodeSensor.cpp
+  database/src/so/sensors/SoOneShotSensor.cpp
+  database/src/so/sensors/SoPathSensor.cpp
+  database/src/so/sensors/SoSensor.cpp
+  database/src/so/sensors/SoSensorMgr.cpp
+  database/src/so/sensors/SoTimerQueueSensor.cpp
+  database/src/so/sensors/SoTimerSensor.cpp
+  database/src/so/upgraders/SoUpgrader.cpp
+  database/src/so/upgraders/SoUpgraderInit.cpp
+  database/src/so/upgraders/SoV1CustomNode.cpp
+  database/src/so/upgraders/SoV1DrawStyle.cpp
+  database/src/so/upgraders/SoV1Environment.cpp
+  database/src/so/upgraders/SoV1IndexedTriangleMesh.cpp
+  database/src/so/upgraders/SoV1LayerGroup.cpp
+  database/src/so/upgraders/SoV1LightModel.cpp
+  database/src/so/upgraders/SoV1Material.cpp
+  database/src/so/upgraders/SoV1PackedColor.cpp
+  database/src/so/upgraders/SoV1PickStyle.cpp
+  database/src/so/upgraders/SoV1Separator.cpp
+  database/src/so/upgraders/SoV1ShapeHints.cpp
+  database/src/so/upgraders/SoV1Text2.cpp
+  database/src/so/upgraders/SoV1Text3.cpp
+  database/src/so/upgraders/SoV1Texture2.cpp
+  database/src/so/upgraders/SoV1TextureCoordinateCube.cpp
+  database/src/so/upgraders/SoV1TextureCoordinateCylinder.cpp
+  database/src/so/upgraders/SoV1TextureCoordinateEnvironment.cpp
+  database/src/so/upgraders/SoV1TextureCoordinatePlane.cpp
+  database/src/so/upgraders/SoV1TextureCoordinateSphere.cpp
+  database/src/so/upgraders/SoV2AsciiText.cpp
+  database/src/so/upgraders/SoV2FontStyle.cpp
+  database/src/so/upgraders/SoV2LOD.cpp
+  database/src/so/upgraders/SoV2MaterialIndex.cpp
+  database/src/so/upgraders/SoV2Text2.cpp
+  database/src/so/upgraders/SoV2Text3.cpp
+  database/src/so/upgraders/SoV2VertexProperty.cpp
+  database/src/so/upgraders/SoV2WWWAnchor.cpp
+  database/src/so/upgraders/SoV2WWWInline.cpp
+  database/src/so/linux.cpp
+  interaction/src/SoInteraction.cpp
+  interaction/src/SoSceneMgr.cpp
+  interaction/src/SoSelection.cpp
+  interaction/src/actions/SoBoxHL.cpp
+  interaction/src/actions/SoLineHL.cpp
+  interaction/src/draggers/SoCenterballDragger.cpp
+  interaction/src/draggers/SoDirectionalLightDragger.cpp
+  interaction/src/draggers/SoDragPointDragger.cpp
+  interaction/src/draggers/SoDragger.cpp
+  interaction/src/draggers/SoDraggerInit.cpp
+  interaction/src/draggers/SoHandleBoxDragger.cpp
+  interaction/src/draggers/SoJackDragger.cpp
+  interaction/src/draggers/SoPointLightDragger.cpp
+  interaction/src/draggers/SoRotateCylindricalDragger.cpp
+  interaction/src/draggers/SoRotateDiscDragger.cpp
+  interaction/src/draggers/SoRotateSphericalDragger.cpp
+  interaction/src/draggers/SoScale1Dragger.cpp
+  interaction/src/draggers/SoScale2Dragger.cpp
+  interaction/src/draggers/SoScale2UniformDragger.cpp
+  interaction/src/draggers/SoScaleUniformDragger.cpp
+  interaction/src/draggers/SoSpotLightDragger.cpp
+  interaction/src/draggers/SoTabBoxDragger.cpp
+  interaction/src/draggers/SoTabPlaneDragger.cpp
+  interaction/src/draggers/SoTrackballDragger.cpp
+  interaction/src/draggers/SoTransformBoxDragger.cpp
+  interaction/src/draggers/SoTransformerDragger.cpp
+  interaction/src/draggers/SoTranslate1Dragger.cpp
+  interaction/src/draggers/SoTranslate2Dragger.cpp
+  interaction/src/manips/SoCenterballManip.cpp
+  interaction/src/manips/SoDirLtManip.cpp
+  interaction/src/manips/SoHbox.cpp
+  interaction/src/manips/SoJackManip.cpp
+  interaction/src/manips/SoPtLtManip.cpp
+  interaction/src/manips/SoSpotLtManip.cpp
+  interaction/src/manips/SoTabBoxManip.cpp
+  interaction/src/manips/SoTball.cpp
+  interaction/src/manips/SoTransformManip.cpp
+  interaction/src/manips/SoTransformerManip.cpp
+  interaction/src/manips/SoXformBox.cpp
+  interaction/src/nodekits/SoInteractionKit.cpp
+  interaction/src/nodes/SoAntiSquish.cpp
+  interaction/src/nodes/SoSurroundScale.cpp
+  nodekits/src/SoNodeKitPath.cpp
+  nodekits/src/details/SoNodeKitDetail.cpp
+  nodekits/src/nodekits/SoAppearKit.cpp
+  nodekits/src/nodekits/SoBaseKit.cpp
+  nodekits/src/nodekits/SoCameraKit.cpp
+  nodekits/src/nodekits/SoLightKit.cpp
+  nodekits/src/nodekits/SoNkCatalog.cpp
+  nodekits/src/nodekits/SoNkParts.cpp
+  nodekits/src/nodekits/SoNodeKit.cpp
+  nodekits/src/nodekits/SoNodeKitListPart.cpp
+  nodekits/src/nodekits/SoSceneKit.cpp
+  nodekits/src/nodekits/SoSeparatorKit.cpp
+  nodekits/src/nodekits/SoShapeKit.cpp
+  nodekits/src/nodekits/SoWrapperKit.cpp
+  nodekits/src/upgraders/SoV1AppearKit.cpp
+  nodekits/src/upgraders/SoV1BaseKit.cpp
+  nodekits/src/upgraders/SoV1CameraKit.cpp
+  nodekits/src/upgraders/SoV1ConeKit.cpp
+  nodekits/src/upgraders/SoV1CubeKit.cpp
+  nodekits/src/upgraders/SoV1CylinderKit.cpp
+  nodekits/src/upgraders/SoV1DirLtKit.cpp
+  nodekits/src/upgraders/SoV1FaceSetKit.cpp
+  nodekits/src/upgraders/SoV1GroupKit.cpp
+  nodekits/src/upgraders/SoV1IFaceSetKit.cpp
+  nodekits/src/upgraders/SoV1ILineSetKit.cpp
+  nodekits/src/upgraders/SoV1INrbCurvKit.cpp
+  nodekits/src/upgraders/SoV1INrbSurfKit.cpp
+  nodekits/src/upgraders/SoV1ITMshSetKit.cpp
+  nodekits/src/upgraders/SoV1LightKit.cpp
+  nodekits/src/upgraders/SoV1LineSetKit.cpp
+  nodekits/src/upgraders/SoV1NkCatalog.cpp
+  nodekits/src/upgraders/SoV1NkParts.cpp
+  nodekits/src/upgraders/SoV1NodeKit.cpp
+  nodekits/src/upgraders/SoV1NurbCurvKit.cpp
+  nodekits/src/upgraders/SoV1NurbSurfKit.cpp
+  nodekits/src/upgraders/SoV1OrthoCamKit.cpp
+  nodekits/src/upgraders/SoV1PerspCamKit.cpp
+  nodekits/src/upgraders/SoV1PointLtKit.cpp
+  nodekits/src/upgraders/SoV1PointSetKit.cpp
+  nodekits/src/upgraders/SoV1QuadMeshKit.cpp
+  nodekits/src/upgraders/SoV1SceneKit.cpp
+  nodekits/src/upgraders/SoV1ShapeKit.cpp
+  nodekits/src/upgraders/SoV1SphereKit.cpp
+  nodekits/src/upgraders/SoV1SpotLtKit.cpp
+  nodekits/src/upgraders/SoV1Text2Kit.cpp
+  nodekits/src/upgraders/SoV1Text3Kit.cpp
+  nodekits/src/upgraders/SoV1TriStripKit.cpp
+  nodekits/src/upgraders/SoV1VtxShapeKit.cpp
+  nodekits/src/upgraders/SoV1WrapperKit.cpp)
+
+#--------------------------------------------------------------------
+# Define the PPP generated sources
+#
+set(SOURCES ${SOURCES}
+  database/src/so/nodes/SoCone.cpp
+  database/src/so/nodes/SoCube.cpp
+  database/src/so/nodes/SoCylinder.cpp
+  database/src/so/nodes/SoFaceSet.cpp
+  database/src/so/nodes/SoIndexedFaceSet.cpp
+  database/src/so/nodes/SoIndexedLineSet.cpp
+  database/src/so/nodes/SoIndexedTriangleStripSet.cpp
+  database/src/so/nodes/SoLineSet.cpp
+  database/src/so/nodes/SoPointSet.cpp
+  database/src/so/nodes/SoQuadMesh.cpp
+  database/src/so/nodes/SoSphere.cpp
+  database/src/so/nodes/SoTriangleStripSet.cpp)
 
 # image loaders
 set(SOURCES ${SOURCES}
   database/src/so/nodes/readGIF.c)
 	
 set(SOURCES ${SOURCES}
-  xip/src/so/events/SoMouseWheelEvent.c++
-  xip/src/SoXip.c++)
+  xip/src/so/events/SoMouseWheelEvent.cpp
+  xip/src/SoXip.cpp)
 	
 # FIXME: Which yacc files should we consider?
 #SET(YACCSOURCES
@@ -1224,247 +1224,227 @@ if(UNIX AND NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     database/include/Inventor/SoOffscreenRenderer.h)
 
   set(SOURCES ${SOURCES}
-    database/src/so/SoOffscreenRenderer.c++)
+    database/src/so/SoOffscreenRenderer.cpp)
 endif(UNIX AND NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 if(WIN32)
-  set(SOURCES ${SOURCES} initDll.c++)
+  set(SOURCES ${SOURCES} initDll.cpp)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Object files
+# Define the object files
 #
-set(OBJECTS
-  initDll.obj
-  database/src/sb/Sb.obj
-  database/src/sb/projectors/SbProjectors.obj
-  database/src/so/linux.obj
-  database/src/so/So.obj
-  database/src/so/SoState.obj
-  database/src/so/actions/SoActions.obj
-  database/src/so/bundles/SoBundles.obj
-  database/src/so/caches/SoCaches.obj
-  database/src/so/details/SoDetails.obj
-  database/src/so/elements/SoElement.obj
-  database/src/so/elements/SoElements.obj
-  database/src/so/engines/SoConcatenate.obj
-  database/src/so/engines/SoEngineInit.obj
-  database/src/so/engines/SoEngines.obj
-  database/src/so/engines/SoFieldConverters.obj
-  database/src/so/engines/SoGate.obj 
-  database/src/so/engines/SoSelectOne.obj 
-  database/src/so/errors/SoErrorInit.obj 
-  database/src/so/errors/SoErrors.obj 
-  database/src/so/events/SoEventInit.obj 
-  database/src/so/events/SoEvents.obj 
-  database/src/so/fields/SoField.obj 
-  database/src/so/fields/SoFieldContainer.obj 
-  database/src/so/fields/SoFieldData.obj 
-  database/src/so/fields/SoFieldInit.obj
-  database/src/so/fields/SoFields.obj 
-  database/src/so/fields/SoGlobalField.obj 
-  database/src/so/nodes/readGIF.obj 
-  database/src/so/nodes/SoAnnotation.obj 
-  database/src/so/nodes/SoArray.obj 
-  database/src/so/nodes/SoAsciiText.obj 
-  database/src/so/nodes/SoBaseColor.obj
-  database/src/so/nodes/SoBlinker.obj
-  database/src/so/nodes/SoCallback.obj
-  database/src/so/nodes/SoCamera.obj 
-  database/src/so/nodes/SoClipPlane.obj 
-  database/src/so/nodes/SoColorIndex.obj 
-  database/src/so/nodes/SoComplexity.obj 
-  database/src/so/nodes/SoCone.obj 
-  database/src/so/nodes/SoCoordinate3.obj 
-  database/src/so/nodes/SoCoordinate4.obj
-  database/src/so/nodes/SoCube.obj 
-  database/src/so/nodes/SoCylinder.obj 
-  database/src/so/nodes/SoDirectionalLight.obj 
-  database/src/so/nodes/SoDrawStyle.obj 
-  database/src/so/nodes/SoEnvironment.obj 
-  database/src/so/nodes/SoEventCallback.obj 
-  database/src/so/nodes/SoFaceSet.obj 
-  database/src/so/nodes/SoFile.obj 
-  database/src/so/nodes/SoFont.obj
-  database/src/so/nodes/SoFontStyle.obj 
-  database/src/so/nodes/SoGroup.obj 
-  database/src/so/nodes/SoIndexedFaceSet.obj 
-  database/src/so/nodes/SoIndexedLineSet.obj
-  database/src/so/nodes/SoIndexedNurbsCurve.obj 
-  database/src/so/nodes/SoIndexedNurbsSurface.obj 
-  database/src/so/nodes/SoIndexedShape.obj 
-  database/src/so/nodes/SoIndexedTriangleStripSet.obj 
-  database/src/so/nodes/SoInfo.obj 
-  database/src/so/nodes/SoLabel.obj
-  database/src/so/nodes/SoLevelOfDetail.obj
-  database/src/so/nodes/SoLight.obj 
-  database/src/so/nodes/SoLightModel.obj 
-  database/src/so/nodes/SoLinearProfile.obj 
-  database/src/so/nodes/SoLineSet.obj 
-  database/src/so/nodes/SoLocateHighlight.obj 
-  database/src/so/nodes/SoLOD.obj 
-  database/src/so/nodes/SoMaterial.obj 
-  database/src/so/nodes/SoMaterialBinding.obj 
-  database/src/so/nodes/SoMatrixTransform.obj
-  database/src/so/nodes/SoMultipleCopy.obj 
-  database/src/so/nodes/SoNode.obj 
-  database/src/so/nodes/SoNodeInit.obj 
-  database/src/so/nodes/SoNonIndexedShape.obj 
-  database/src/so/nodes/SoNormal.obj 
-  database/src/so/nodes/SoNormalBinding.obj 
-  database/src/so/nodes/SoNurbsCurve.obj 
-  database/src/so/nodes/SoNurbsProfile.obj 
-  database/src/so/nodes/SoNurbsSurface.obj 
-  database/src/so/nodes/SoOrthographicCamera.obj 
-  database/src/so/nodes/SoPackedColor.obj 
-  database/src/so/nodes/SoPathSwitch.obj 
-  database/src/so/nodes/SoPendulum.obj 
-  database/src/so/nodes/SoPerspectiveCamera.obj 
-  database/src/so/nodes/SoPickStyle.obj 
-  database/src/so/nodes/SoPointLight.obj 
-  database/src/so/nodes/SoPointSet.obj 
-  database/src/so/nodes/SoProfile.obj 
-  database/src/so/nodes/SoProfileCoordinate2.obj 
-  database/src/so/nodes/SoProfileCoordinate3.obj 
-  database/src/so/nodes/SoQuadMesh.obj 
-  database/src/so/nodes/SoResetTransform.obj 
-  database/src/so/nodes/SoRotation.obj 
-  database/src/so/nodes/SoRotationXYZ.obj 
-  database/src/so/nodes/SoRotor.obj 
-  database/src/so/nodes/SoScale.obj
-  database/src/so/nodes/SoSeparator.obj 
-  database/src/so/nodes/SoShape.obj 
-  database/src/so/nodes/SoShapeHints.obj 
-  database/src/so/nodes/SoShuttle.obj 
-  database/src/so/nodes/SoSphere.obj 
-  database/src/so/nodes/SoSpotLight.obj 
-  database/src/so/nodes/SoSwitch.obj 
-  database/src/so/nodes/SoText2.obj 
-  database/src/so/nodes/SoText3.obj 
-  database/src/so/nodes/SoTexture2.obj 
-  database/src/so/nodes/SoTexture2Transform.obj 
-  database/src/so/nodes/SoTextureCoordinate2.obj 
-  database/src/so/nodes/SoTextureCoordinateBinding.obj 
-  database/src/so/nodes/SoTextureCoordinateDefault.obj 
-  database/src/so/nodes/SoTextureCoordinateEnvironment.obj 
-  database/src/so/nodes/SoTextureCoordinateFunction.obj 
-  database/src/so/nodes/SoTextureCoordinatePlane.obj
-  database/src/so/nodes/SoTransform.obj 
-  database/src/so/nodes/SoTransformation.obj 
-  database/src/so/nodes/SoTransformSeparator.obj 
-  database/src/so/nodes/SoTranslation.obj 
-  database/src/so/nodes/SoTriangleStripSet.obj 
-  database/src/so/nodes/SoUnits.obj 
-  database/src/so/nodes/SoUnknownNode.obj 
-  database/src/so/nodes/SoVertexProperty.obj 
-  database/src/so/nodes/SoVertexShape.obj 
-  database/src/so/nodes/SoWWWAnchor.obj 
-  database/src/so/nodes/SoWWWInline.obj 
-  database/src/so/nodes/nurbs/SoNurbs.obj 
-  database/src/so/nodes/nurbs/clients/nurbsClient.obj 
-  database/src/so/nodes/nurbs/libnurbs/libNurbs.obj 
-  database/src/so/sensors/SoSensors.obj 
-  database/src/so/upgraders/SoUpgrader.obj 
-  database/src/so/upgraders/SoUpgraderInit.obj 
-  database/src/so/upgraders/SoUpgraders.obj 
-  interaction/src/SoInteraction.obj 
-  interaction/src/SoSceneMgr.obj 
-  interaction/src/SoSelection.obj 
-  interaction/src/actions/SoBoxHL.obj 
-  interaction/src/actions/SoLineHL.obj 
-  interaction/src/draggers/SoCenterballDragger.obj 
-  interaction/src/draggers/SoDirectionalLightDragger.obj 
-  interaction/src/draggers/SoDragger.obj 
-  interaction/src/draggers/SoDraggerInit.obj 
-  interaction/src/draggers/SoDragPointDragger.obj 
-  interaction/src/draggers/SoHandleBoxDragger.obj 
-  interaction/src/draggers/SoJackDragger.obj 
-  interaction/src/draggers/SoPointLightDragger.obj 
-  interaction/src/draggers/SoRotateCylindricalDragger.obj 
-  interaction/src/draggers/SoRotateDiscDragger.obj 
-  interaction/src/draggers/SoRotateSphericalDragger.obj
-  interaction/src/draggers/SoScale1Dragger.obj 
-  interaction/src/draggers/SoScale2Dragger.obj
-  interaction/src/draggers/SoScale2UniformDragger.obj 
-  interaction/src/draggers/SoScaleUniformDragger.obj 
-  interaction/src/draggers/SoSpotLightDragger.obj 
-  interaction/src/draggers/SoTabBoxDragger.obj 
-  interaction/src/draggers/SoTabPlaneDragger.obj
-  interaction/src/draggers/SoTrackballDragger.obj
-  interaction/src/draggers/SoTransformBoxDragger.obj 
-  interaction/src/draggers/SoTransformerDragger.obj 
-  interaction/src/draggers/SoTranslate1Dragger.obj 
-  interaction/src/draggers/SoTranslate2Dragger.obj
-  interaction/src/manips/SoManips.obj 
-  interaction/src/nodekits/SoInteractionKit.obj 
-  interaction/src/nodes/SoAntiSquish.obj 
-  interaction/src/nodes/SoSurroundScale.obj 
-  mevis/src/SoCatch.obj 
-  mevis/src/SoMeVis.obj
-  mevis/src/SoTrace.obj 
-  mevis/src/utf8_filesupport_win32.obj 
-  mevis/src/elements/SoGLPolygonOffsetElement.obj 
-  mevis/src/elements/SoGLStencilBitsElement.obj 
-  mevis/src/elements/SoPolygonOffsetElement.obj
-  mevis/src/elements/SoStencilBitsElement.obj 
-  mevis/src/fields/SoSFVec2s.obj 
-  mevis/src/fields/SoSFVec3s.obj
-  mevis/src/nodes/SoPolygonOffset.obj 
-  nodekits/src/SoNodeKitPath.obj 
-  nodekits/src/details/SoNodeKitDetail.obj 
-  nodekits/src/nodekits/SoNodeKits.obj 
-  nodekits/src/upgraders/SoNodeKitUpgraders.obj 
-  FL/ang/fl.obj 
-  FL/ang/flclient.obj 
-  FL/ang/flfreetype.obj 
-  image/close.obj 
-  image/filbuf.obj 
-  image/flsbuf.obj 
-  image/name.obj 
-  image/open.obj
-  image/pix.obj
-  image/rdwr.obj 
-  image/rle.obj 
-  image/row.obj
-  xip/src/so/events/SoMouseWheelEvent.obj 
-  xip/src/SoXip.obj)
+#set(OBJECTS
+#  initDll.obj
+#  database/src/sb/Sb.obj
+#  database/src/sb/projectors/SbProjectors.obj
+#  database/src/so/linux.obj
+#  database/src/so/So.obj
+#  database/src/so/SoState.obj
+#  database/src/so/actions/SoActions.obj
+#  database/src/so/bundles/SoBundles.obj
+#  database/src/so/caches/SoCaches.obj
+#  database/src/so/details/SoDetails.obj
+#  database/src/so/elements/SoElement.obj
+#  database/src/so/elements/SoElements.obj
+#  database/src/so/engines/SoConcatenate.obj
+#  database/src/so/engines/SoEngineInit.obj
+#  database/src/so/engines/SoEngines.obj
+#  database/src/so/engines/SoFieldConverters.obj
+#  database/src/so/engines/SoGate.obj 
+#  database/src/so/engines/SoSelectOne.obj 
+#  database/src/so/errors/SoErrorInit.obj 
+#  database/src/so/errors/SoErrors.obj 
+#  database/src/so/events/SoEventInit.obj 
+#  database/src/so/events/SoEvents.obj 
+#  database/src/so/fields/SoField.obj 
+#  database/src/so/fields/SoFieldContainer.obj 
+#  database/src/so/fields/SoFieldData.obj 
+#  database/src/so/fields/SoFieldInit.obj
+#  database/src/so/fields/SoFields.obj 
+#  database/src/so/fields/SoGlobalField.obj 
+#  database/src/so/nodes/readGIF.obj 
+#  database/src/so/nodes/SoAnnotation.obj 
+#  database/src/so/nodes/SoArray.obj 
+#  database/src/so/nodes/SoAsciiText.obj 
+#  database/src/so/nodes/SoBaseColor.obj
+#  database/src/so/nodes/SoBlinker.obj
+#  database/src/so/nodes/SoCallback.obj
+#  database/src/so/nodes/SoCamera.obj 
+#  database/src/so/nodes/SoClipPlane.obj 
+#  database/src/so/nodes/SoColorIndex.obj 
+#  database/src/so/nodes/SoComplexity.obj 
+#  database/src/so/nodes/SoCone.obj 
+#  database/src/so/nodes/SoCoordinate3.obj 
+#  database/src/so/nodes/SoCoordinate4.obj
+#  database/src/so/nodes/SoCube.obj 
+#  database/src/so/nodes/SoCylinder.obj 
+#  database/src/so/nodes/SoDirectionalLight.obj 
+#  database/src/so/nodes/SoDrawStyle.obj 
+#  database/src/so/nodes/SoEnvironment.obj 
+#  database/src/so/nodes/SoEventCallback.obj 
+#  database/src/so/nodes/SoFaceSet.obj 
+#  database/src/so/nodes/SoFile.obj 
+#  database/src/so/nodes/SoFont.obj
+#  database/src/so/nodes/SoFontStyle.obj 
+#  database/src/so/nodes/SoGroup.obj 
+#  database/src/so/nodes/SoIndexedFaceSet.obj 
+#  database/src/so/nodes/SoIndexedLineSet.obj
+#  database/src/so/nodes/SoIndexedNurbsCurve.obj 
+#  database/src/so/nodes/SoIndexedNurbsSurface.obj 
+#  database/src/so/nodes/SoIndexedShape.obj 
+#  database/src/so/nodes/SoIndexedTriangleStripSet.obj 
+#  database/src/so/nodes/SoInfo.obj 
+#  database/src/so/nodes/SoLabel.obj
+#  database/src/so/nodes/SoLevelOfDetail.obj
+#  database/src/so/nodes/SoLight.obj 
+#  database/src/so/nodes/SoLightModel.obj 
+#  database/src/so/nodes/SoLinearProfile.obj 
+#  database/src/so/nodes/SoLineSet.obj 
+#  database/src/so/nodes/SoLocateHighlight.obj 
+#  database/src/so/nodes/SoLOD.obj 
+#  database/src/so/nodes/SoMaterial.obj 
+#  database/src/so/nodes/SoMaterialBinding.obj 
+#  database/src/so/nodes/SoMatrixTransform.obj
+#  database/src/so/nodes/SoMultipleCopy.obj 
+#  database/src/so/nodes/SoNode.obj 
+#  database/src/so/nodes/SoNodeInit.obj 
+#  database/src/so/nodes/SoNonIndexedShape.obj 
+#  database/src/so/nodes/SoNormal.obj 
+#  database/src/so/nodes/SoNormalBinding.obj 
+#  database/src/so/nodes/SoNurbsCurve.obj 
+#  database/src/so/nodes/SoNurbsProfile.obj 
+#  database/src/so/nodes/SoNurbsSurface.obj 
+#  database/src/so/nodes/SoOrthographicCamera.obj 
+#  database/src/so/nodes/SoPackedColor.obj 
+#  database/src/so/nodes/SoPathSwitch.obj 
+#  database/src/so/nodes/SoPendulum.obj 
+#  database/src/so/nodes/SoPerspectiveCamera.obj 
+#  database/src/so/nodes/SoPickStyle.obj 
+#  database/src/so/nodes/SoPointLight.obj 
+#  database/src/so/nodes/SoPointSet.obj 
+#  database/src/so/nodes/SoProfile.obj 
+#  database/src/so/nodes/SoProfileCoordinate2.obj 
+#  database/src/so/nodes/SoProfileCoordinate3.obj 
+#  database/src/so/nodes/SoQuadMesh.obj 
+#  database/src/so/nodes/SoResetTransform.obj 
+#  database/src/so/nodes/SoRotation.obj 
+#  database/src/so/nodes/SoRotationXYZ.obj 
+#  database/src/so/nodes/SoRotor.obj 
+#  database/src/so/nodes/SoScale.obj
+#  database/src/so/nodes/SoSeparator.obj 
+#  database/src/so/nodes/SoShape.obj 
+#  database/src/so/nodes/SoShapeHints.obj 
+#  database/src/so/nodes/SoShuttle.obj 
+#  database/src/so/nodes/SoSphere.obj 
+#  database/src/so/nodes/SoSpotLight.obj 
+#  database/src/so/nodes/SoSwitch.obj 
+#  database/src/so/nodes/SoText2.obj 
+#  database/src/so/nodes/SoText3.obj 
+#  database/src/so/nodes/SoTexture2.obj 
+#  database/src/so/nodes/SoTexture2Transform.obj 
+#  database/src/so/nodes/SoTextureCoordinate2.obj 
+#  database/src/so/nodes/SoTextureCoordinateBinding.obj 
+#  database/src/so/nodes/SoTextureCoordinateDefault.obj 
+#  database/src/so/nodes/SoTextureCoordinateEnvironment.obj 
+#  database/src/so/nodes/SoTextureCoordinateFunction.obj 
+#  database/src/so/nodes/SoTextureCoordinatePlane.obj
+#  database/src/so/nodes/SoTransform.obj 
+#  database/src/so/nodes/SoTransformation.obj 
+#  database/src/so/nodes/SoTransformSeparator.obj 
+#  database/src/so/nodes/SoTranslation.obj 
+#  database/src/so/nodes/SoTriangleStripSet.obj 
+#  database/src/so/nodes/SoUnits.obj 
+#  database/src/so/nodes/SoUnknownNode.obj 
+#  database/src/so/nodes/SoVertexProperty.obj 
+#  database/src/so/nodes/SoVertexShape.obj 
+#  database/src/so/nodes/SoWWWAnchor.obj 
+#  database/src/so/nodes/SoWWWInline.obj 
+#  database/src/so/nodes/nurbs/SoNurbs.obj 
+#  database/src/so/nodes/nurbs/clients/nurbsClient.obj 
+#  database/src/so/nodes/nurbs/libnurbs/libNurbs.obj 
+#  database/src/so/sensors/SoSensors.obj 
+#  database/src/so/upgraders/SoUpgrader.obj 
+#  database/src/so/upgraders/SoUpgraderInit.obj 
+#  database/src/so/upgraders/SoUpgraders.obj 
+#  interaction/src/SoInteraction.obj 
+#  interaction/src/SoSceneMgr.obj 
+#  interaction/src/SoSelection.obj 
+#  interaction/src/actions/SoBoxHL.obj 
+#  interaction/src/actions/SoLineHL.obj 
+#  interaction/src/draggers/SoCenterballDragger.obj 
+#  interaction/src/draggers/SoDirectionalLightDragger.obj 
+#  interaction/src/draggers/SoDragger.obj 
+#  interaction/src/draggers/SoDraggerInit.obj 
+#  interaction/src/draggers/SoDragPointDragger.obj 
+#  interaction/src/draggers/SoHandleBoxDragger.obj 
+#  interaction/src/draggers/SoJackDragger.obj 
+#  interaction/src/draggers/SoPointLightDragger.obj 
+#  interaction/src/draggers/SoRotateCylindricalDragger.obj 
+#  interaction/src/draggers/SoRotateDiscDragger.obj 
+#  interaction/src/draggers/SoRotateSphericalDragger.obj
+#  interaction/src/draggers/SoScale1Dragger.obj 
+#  interaction/src/draggers/SoScale2Dragger.obj
+#  interaction/src/draggers/SoScale2UniformDragger.obj 
+#  interaction/src/draggers/SoScaleUniformDragger.obj 
+#  interaction/src/draggers/SoSpotLightDragger.obj 
+#  interaction/src/draggers/SoTabBoxDragger.obj 
+#  interaction/src/draggers/SoTabPlaneDragger.obj
+#  interaction/src/draggers/SoTrackballDragger.obj
+#  interaction/src/draggers/SoTransformBoxDragger.obj 
+#  interaction/src/draggers/SoTransformerDragger.obj 
+#  interaction/src/draggers/SoTranslate1Dragger.obj 
+#  interaction/src/draggers/SoTranslate2Dragger.obj
+#  interaction/src/manips/SoManips.obj 
+#  interaction/src/nodekits/SoInteractionKit.obj 
+#  interaction/src/nodes/SoAntiSquish.obj 
+#  interaction/src/nodes/SoSurroundScale.obj 
+#  mevis/src/SoCatch.obj 
+#  mevis/src/SoMeVis.obj
+#  mevis/src/SoTrace.obj 
+#  mevis/src/utf8_filesupport_win32.obj 
+#  mevis/src/elements/SoGLPolygonOffsetElement.obj 
+#  mevis/src/elements/SoGLStencilBitsElement.obj 
+#  mevis/src/elements/SoPolygonOffsetElement.obj
+#  mevis/src/elements/SoStencilBitsElement.obj 
+#  mevis/src/fields/SoSFVec2s.obj 
+#  mevis/src/fields/SoSFVec3s.obj
+#  mevis/src/nodes/SoPolygonOffset.obj 
+#  nodekits/src/SoNodeKitPath.obj 
+#  nodekits/src/details/SoNodeKitDetail.obj 
+#  nodekits/src/nodekits/SoNodeKits.obj 
+#  nodekits/src/upgraders/SoNodeKitUpgraders.obj 
+#  FL/ang/fl.obj 
+#  FL/ang/flclient.obj 
+#  FL/ang/flfreetype.obj 
+#  image/close.obj 
+#  image/filbuf.obj 
+#  image/flsbuf.obj 
+#  image/name.obj 
+#  image/open.obj
+#  image/pix.obj
+#  image/rdwr.obj 
+#  image/rle.obj 
+#  image/row.obj
+#  xip/src/so/events/SoMouseWheelEvent.obj 
+#  xip/src/SoXip.obj)
 
 #foreach(target ${OBJECTS})
 #  message("${EXECUTABLE_OUTPUT_PATH}/ppp.exe"
-#  ${xipinv_SOURCE_DIR}/database/src/so/engines/SoCalcParse.c++ ${target})
-  #	@!IF NOT EXIST $(OUTDIR)\. mkdir $(OUTDIR)
-  #	$(link) $(LDFLAGS) /OUT:"$(TARGET)" $(OBJECTS) $(LIBS)
-  #	mt.exe -manifest $(TARGET).manifest -outputresource:$(TARGET);2
+#  ${xipinv_SOURCE_DIR}/database/src/so/engines/SoCalcParse.cpp ${target})
+#  @!IF NOT EXIST $(OUTDIR)\. mkdir $(OUTDIR)
+#  $(link) $(LDFLAGS) /OUT:"$(TARGET)" $(OBJECTS) $(LIBS)
+#	mt.exe -manifest $(TARGET).manifest -outputresource:$(TARGET);2
 #endforeach(target ${OBJECTS})
 
 #tools/ppp/ppp.exe:
-#	@cl /Fe"tools/ppp/ppp.exe" /I "lib/mevis/include" /I "lib/database/include" /I "lib/xip/include" /D_INVENTOR_ /DWIN32 /DINVENTOR_API= /D__SGIOIV_BUILD_DLL /TP tools/ppp/ppp.c++
-
+#  @cl /Fe"tools/ppp/ppp.exe" /I "lib/mevis/include" /I
+# "lib/database/include" /I "lib/xip/include" # /D_INVENTOR_ /DWIN32
+# /DINVENTOR_API= /D__SGIOIV_BUILD_DLL /TP tools/ppp/ppp.cpp
 
 #--------------------------------------------------------------------
-# Create library
+# Compile the library
 #
-# rename c++ files with cpp extension
-# and copy them to the binary directory
-if(WIN32)
-  make_directory(${CMAKE_CURRENT_BINARY_DIR}/cpp_files)
-
-  foreach(filename ${SOURCES})
-    get_filename_component(filename_we ${filename} NAME_WE)
-    get_filename_component(filepath ${filename} PATH)
-
-    set(filename_cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/cpp_files/${filename_we}.cpp)
-    configure_file(${filename} ${filename_cpp} COPYONLY)
-
-    set(CPP_FILES ${CPP_FILES} ${filename_cpp})
-  endforeach(filename ${SOURCES})
-
-  set(SOURCES ${CPP_FILES})
-endif(WIN32)
-
-set(CMAKE_DEBUG_POSTFIX d)
-
 add_library(xipinv240 SHARED ${SOURCES} ${HEADERS})
 
 if(UNIX)
@@ -1473,26 +1453,22 @@ if(UNIX)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Link library
+# Link the library
 #
 target_link_libraries(xipinv240
   ${OPENGL_LIBRARIES}
   ${JPEG_LIBRARIES}
   FL
-  image)
+  image
+  ${ICONV_LIBRARY})
 
 if(WIN32)
   target_link_libraries(xipinv240
-    jpeg freetype2 libiconv Ws2_32)
-#opengl32 glu32)
-else(WIN32)
-  target_link_libraries(xipinv240
-    ${ICONV_LIBRARY})
+    jpeg freetype2 Ws2_32)
 endif(WIN32)
-#shell32
 
 #--------------------------------------------------------------------
-# Install
+# Install the library
 #
 install(TARGETS xipinv240
   RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
@@ -1505,6 +1481,6 @@ install(TARGETS xipinv240
   LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
 
 if(WIN32)
-  install(FILES ${EXECUTABLE_OUTPUT_PATH}/debug/xipinv240d.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipinv240d.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

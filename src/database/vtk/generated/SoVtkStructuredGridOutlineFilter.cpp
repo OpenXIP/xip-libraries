@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkStructuredGridOutlineFilter.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkStructuredGridOutlineFilter::SoVtkStructuredGridOutlineFilter()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkStructuredGridOutlineFilter *aStructuredGridOutlineFilter = vtkStructuredGridOutlineFilter::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Input, (0));
 
@@ -263,3 +265,4 @@ void SoVtkStructuredGridOutlineFilter::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

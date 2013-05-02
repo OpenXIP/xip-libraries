@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkVolumeRayCastCompositeFunction.h"
 # include "SoVtkUtils.h"
@@ -125,8 +129,6 @@ SoVtkVolumeRayCastCompositeFunction::SoVtkVolumeRayCastCompositeFunction()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkVolumeRayCastCompositeFunction *aVolumeRayCastCompositeFunction = vtkVolumeRayCastCompositeFunction::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(CompositeMethod, (0));
 	CompositeMethod.setValue(aVolumeRayCastCompositeFunction->GetCompositeMethod());
@@ -199,3 +201,4 @@ void SoVtkVolumeRayCastCompositeFunction::inputChanged(SoField * f)
 
 	
 }
+

@@ -334,6 +334,21 @@ extern float dgl_ntoh_double();
 	}
 #define DGL_NTOH_INT32 DGL_HTON_INT32
 
+#define DGL_HTON_INT64(t,f)	\
+	{			\
+		int64_t _from = f,_to;	\
+		((char *)&_to)[0] = ((char *)&_from)[7];	\
+		((char *)&_to)[1] = ((char *)&_from)[6];	\
+		((char *)&_to)[2] = ((char *)&_from)[5];	\
+		((char *)&_to)[3] = ((char *)&_from)[4];	\
+		((char *)&_to)[4] = ((char *)&_from)[3];	\
+		((char *)&_to)[5] = ((char *)&_from)[2];	\
+		((char *)&_to)[6] = ((char *)&_from)[1];	\
+		((char *)&_to)[7] = ((char *)&_from)[0];	\
+		t = _to;	\
+	}
+#define DGL_NTOH_INT64 DGL_HTON_INT64
+
 #endif /* LITTLE_ENDIAN */
 
 

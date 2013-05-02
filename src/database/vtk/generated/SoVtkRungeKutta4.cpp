@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkRungeKutta4.h"
 # include "SoVtkUtils.h"
@@ -126,8 +130,6 @@ SoVtkRungeKutta4::SoVtkRungeKutta4()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkRungeKutta4 *aRungeKutta4 = vtkRungeKutta4::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(FunctionSet, (0));
 
@@ -199,3 +201,4 @@ void SoVtkRungeKutta4::inputChanged(SoField * f)
 
 	
 }
+

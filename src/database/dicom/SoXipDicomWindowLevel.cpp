@@ -150,6 +150,8 @@ SoXipDicomWindowLevel::initClass()
 	const unsigned int XIP_IMAGE_WINDOW_WIDTH_DICOMELEMENT			= 0x1051;
 	const unsigned int XIP_IMAGE_WINDOW_CENTER_DICOMGROUP			= 0x0028;
 	const unsigned int XIP_IMAGE_WINDOW_CENTER_DICOMELEMENT			= 0x1050;
+	const unsigned int XIP_IMAGE_PIXELREPRESENTATION_DICOMGROUP		= 0x0028;
+	const unsigned int XIP_IMAGE_PIXELREPRESENTATION_DICOMELEMENT	= 0x0103;
 
 
 void
@@ -160,6 +162,7 @@ SoXipDicomWindowLevel::evaluate()
 	float center = 0.5f;
 	float slope = 1.0;
 	float intercept = 0.0;
+	unsigned short pixelRepresentation = 0; // default unsigned
 
 	SoXipDataDicom* dicomData = input.getValue();
 	if( dicomData )
@@ -202,13 +205,20 @@ SoXipDicomWindowLevel::evaluate()
 					sscanf( v.getString(), "%f", &slope );
 				}
 
+				// pixel representation
+				if( item.findAndGet( SbXipDicomTagKey( XIP_IMAGE_PIXELREPRESENTATION_DICOMGROUP,
+					XIP_IMAGE_PIXELREPRESENTATION_DICOMELEMENT ), v, FALSE ) )
+				{
+					sscanf( v.getString(), "%hu", &pixelRepresentation );
+				}
+
 				// Read window width
 				if( item.findAndGet( SbXipDicomTagKey( XIP_IMAGE_WINDOW_WIDTH_DICOMGROUP,
 					XIP_IMAGE_WINDOW_WIDTH_DICOMELEMENT ), v, FALSE ) )
 				{
 					if( sscanf( v.getString(), "%f", &width ) == 1 )
 					{
-						width = (width - intercept) / slope;
+						//width = (width - intercept) / slope;
 						width /= pow( 2.0, (double) bitsUsed );
 					}
 				}
@@ -220,6 +230,11 @@ SoXipDicomWindowLevel::evaluate()
 					if( sscanf( v.getString(), "%f", &center ) == 1 )
 					{
 						center = (center - intercept) / slope; 
+
+						if (pixelRepresentation == 1) // signed
+						{
+							center += (1 << bitsUsed) / 2;
+						}
 						center /= pow( 2.0, (double) bitsUsed );
 					}
 				}

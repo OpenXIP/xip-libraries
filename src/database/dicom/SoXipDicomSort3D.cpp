@@ -113,7 +113,6 @@
 #include "SoXipDicomSort3D.h"
 #include "XipDicomSortUtil.h"
 #include <xip/inventor/dicom/SoXipDataDicom.h>
-#include <stdlib.h>
 
 
 

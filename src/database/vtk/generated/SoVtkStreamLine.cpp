@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkStreamLine.h"
 # include "SoVtkUtils.h"
@@ -130,8 +134,6 @@ SoVtkStreamLine::SoVtkStreamLine()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkStreamLine *aStreamLine = vtkStreamLine::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(StartPosition, ());
 	StartPosition.setFormat("double double double");
@@ -369,3 +371,4 @@ void SoVtkStreamLine::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

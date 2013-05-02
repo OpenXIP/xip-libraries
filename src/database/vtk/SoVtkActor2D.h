@@ -108,24 +108,22 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-
 /*!
  * \file SoVtkActor2D.h
- *
- * \brief SoVtkActor2D class description.
- *
+ * \brief Wrapping of vtkActor2D
+ * \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
  * A vtkActor2D has a mapper as input.
- * You have then to connect it to a SoVtkRenderer.
+ * It must be connected to a SoVtkRenderer.
  *
  * \see SoVtkRenderer
  * \see SoVtkActor
  * \see SoVtkAssembly
  * \see SoVtkImageActor
  *
- * \author Sylvain Jaume, Francois Huguet
+ * 
  */
-#ifndef SO_VTK_ACTOR2D_H_
-# define SO_VTK_ACTOR2D_H_
+#ifndef _SO_VTK_ACTOR2D_H_
+#define _SO_VTK_ACTOR2D_H_
 
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/nodes/SoNode.h>
@@ -153,7 +151,6 @@ class SoVtkActor2D : public SoNode
 	/// Get the current actor.
 	vtkActor2D *getActor2D() const;
 
-
 protected:
 
 	/// Destructor.
@@ -162,13 +159,12 @@ protected:
 	virtual void GLRender(SoGLRenderAction *action);
 	virtual void getBoundingBox(SoGetBoundingBoxAction *action);
 
-
 private:
 
 	/// Pointer to the vtkActor2D object.
 	vtkActor2D	*mActor;
 };
 
-#endif // SO_VTK_ACTOR2D_H_
+#endif // _SO_VTK_ACTOR2D_H_
 
 

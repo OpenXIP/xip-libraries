@@ -1,0 +1,32 @@
+The following changes have been made based on DCMTK 3.5.4:
+ 
+1. dcmdata.dsp: Removed _REENTRANT pre-processor flag
+ 
+The default dsp-file defines this flag to ensure thread-
+safety of the library. However, this comes with a 
+performance penalty of more than 20%. Because in RAD the 
+DICOM dictionary is not modified, JPEG codecs are 
+registered on plugin loading time and all other accesses
+to global structures are read-only, thread-safety is not
+required.
+ 
+
+2. dcelem.h: Added public member method to DcmElement class
+ 
+A public accessor getInputStreamFactory() was added for the 
+private member fLoadValue. This is needed to support direct 
+file-mapping of the pixel data.
+ 
+
+3. dcistrmf.h: Added stream position tracking member
+ 
+A member variable to track the current stream position was 
+added to boost the performance of reading DICOM files. This 
+member will be used instead of ftell() function call.
+ 
+
+4. dcistrmf.cpp: Use of pos_ instead of ftell()
+ 
+At a number of places the pos_ member variable is updated 
+whenever the stream position changes. Also pos_ is returned 
+when rather that using ftell().

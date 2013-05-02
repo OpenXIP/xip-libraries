@@ -162,6 +162,7 @@ class SoXipConvertMFDicomToSFImage : public SoFieldConverter
 public:
 	// Input:
 	SoXipMFDataDicom input;
+	SoSFShort		 index;
 
 	// Output:
 	SoEngineOutput   output;  // (SoXipSFDataImage)

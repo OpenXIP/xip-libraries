@@ -1,0 +1,339 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.5 9.9 -2.5 10.7
+    flags	()
+    viewPos	486 200 748 491
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-9.3 7.8 -7.3 8.6
+    flags	()
+    autoPanelPos	26 149 0 0
+    node	    SoXipExaminer {
+	perspective	FALSE
+	orientation	HEAD
+	mode	ROTATE
+	viewBoundingBox	1 0 0 0
+		0 2 0 0
+		0 0 1 0
+		0 0 0 1
+	plane	2.7149e-017 -5.71594e-016 -1  -0.5
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	    viewportMapping	ADJUST_CAMERA
+	    position	1.05665 1.85785 1.17397
+	    orientation	0.125629 0.476986 0.869886  2.58373
+	    aspectRatio	1
+	    nearDistance	-0
+	    farDistance	2.44949
+	    focalDistance	1.22474
+	    height	2.44949
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	634.652 198.22 388.576
+	    orientation	0.291622 0.452998 0.842466  1.97674
+	    nearDistance	323.933
+	    farDistance	782.043
+	    focalDistance	552.988
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-6 7.8 -3.91 8.6
+    flags	()
+    autoPanelPos	131 145 0 0
+    node	    MatrixTransform {
+	matrix	1 0 0 0
+		0 2 0 0
+		0 0 1 0
+		0 0 0 1
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-2.6 7.8 1.4 8.6
+    flags	()
+    viewPos	700 338 385 385
+    node	    Separator {
+    }
+
+}
+#addChild "3" "4 5 7 8 9 10 11 12 18"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-4.8 4.8 -2.75022 5.6
+    flags	()
+    autoPanelPos	242 307 0 0
+    node	    SoXipTextureUnit {
+	fields [ SFBool autoGenerate ]
+	autoGenerate	FALSE
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-4.8 3.9 -2.8 4.7
+    flags	()
+    autoPanelPos	452 236 385 385
+    node	    SoXipTexture {
+	fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize,  ]
+	image	"NULL"
+	internalFormat	LUMINANCE8
+	textureSize	160 430 183
+    }
+
+}
+#connect "image@5" "output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-7.5 3.9 -5.5 4.7
+    flags	()
+    autoPanelPos	92 387 0 0
+    engine	    SoXipLoadRaw {
+	inputs [ SFShort width, SFShort height, SFShort depth, SFMatrix modelMatrix,
+		SFString file ]
+	width	160
+	height	430
+	depth	183
+	modelMatrix	430 0 0 0
+		0 104 0 0
+		0 0 118.95 0
+		0 0 0 1
+	file	"..\..\data\CT_WHOLE.img"
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-2.4 1.5 0.551683 2.3
+    flags	()
+    autoPanelPos	205 166 0 0
+    node	    SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	window	0.311523
+	level	0.435547
+	mouse	BUTTON3
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-1.8 4.2 0.249781 5
+    flags	()
+    autoPanelPos	377 353 0 0
+    node	    SoXipTextureUnit {
+	fields [ SFInt32 textureStage, SFBool autoGenerate ]
+	textureStage	1
+	autoGenerate	FALSE
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-1.5 3.3 0.5 4.1
+    flags	()
+    autoPanelPos	400 410 0 0
+    node	    SoXipLut {
+	fields [ SoXipSFDataImage LUTDataImage, SFShort bitsUsed, SFFloat rampWidth, SFFloat rampCenter,
+		SFFloat alphaFactor, SFFloat slopeCenter, SFColor colorMiddle, SFColor colorTop,
+		MFColor arrayColor, MFFloat arrayAlpha ]
+	LUTDataImage	"NULL"
+	bitsUsed	8
+	rampWidth	0.311523
+	rampCenter	0.435547
+	alphaFactor	0.4
+	slopeCenter	0
+	colorMiddle	0.8 0.5 0.3
+	colorTop	0.6 0.6 0.6
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+#connect "rampWidth@9" "window@7"
+#connect "rampCenter@9" "level@7"
+
+### 10 ###
+SoXipBuilderNode {
+    placement	-1.5 2.4 0.610001 3.2
+    flags	()
+    autoPanelPos	610 690 385 385
+    node	    SoXipLutTexture {
+	fields [ SoSFVec2s textureSize ]
+	textureSize	256 1
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	0.9 4.5 3.15476 5.3
+    flags	()
+    autoPanelPos	542 341 0 0
+    node	    SoXipLoadShaders {
+	fields [ SFString fpFilename, SFString vpFilename,  ]
+	fpFilename	"slicer_lut_shading_fp.glsl"
+	vpFilename	"slicer_lut_shading_vp.glsl"
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	2.8 3.9 5.2 4.7
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "12" "13 14 15 16 17"
+
+### 13 ###
+SoXipBuilderNode {
+    placement	0 1.8 2.05 2.6
+    flags	()
+    autoPanelPos	836 31 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name,  ]
+	name	"volume"
+    }
+
+}
+#connect "value@13" "textureStage@4"
+
+### 14 ###
+SoXipBuilderNode {
+    placement	1.8 0.6 3.85 1.4
+    flags	()
+    autoPanelPos	836 110 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"lut"
+	value	1
+    }
+
+}
+#connect "value@14" "textureStage@8"
+
+### 15 ###
+SoXipBuilderNode {
+    placement	3.6 -0.6 5.6 0.2
+    flags	()
+    autoPanelPos	836 204 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"width"
+	value	160
+    }
+
+}
+#connect "value@15" "width@6"
+
+### 16 ###
+SoXipBuilderNode {
+    placement	5.4 0.3 7.4 1.1
+    flags	()
+    autoPanelPos	836 294 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"height"
+	value	430
+    }
+
+}
+#connect "value@16" "height@6"
+
+### 17 ###
+SoXipBuilderNode {
+    placement	7.5 0.9 9.5 1.7
+    flags	()
+    autoPanelPos	836 380 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"depth"
+	value	183
+    }
+
+}
+#connect "value@17" "depth@6"
+
+### 18 ###
+SoXipBuilderNode {
+    placement	4.2 5.7 6.2 6.5
+    flags	()
+    autoPanelPos	719 288 0 0
+    node	    SoXipSlicer {
+	fields [ SFInt32 numSlicesX, SFInt32 numSlicesY, SFInt32 numSlicesZ, SFBool useComplexity,
+		 ]
+	numSlicesX	400
+	numSlicesY	100
+	numSlicesZ	100
+	useComplexity	FALSE
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	3.6 3 5.6 3.8
+    name	"ShaderParams"
+    members	[ 12, 13, 14, 15, 16, 17 ]
+    position	4.0125 1.75 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	3 -3.1 5 -2.3
+    outputs	12
+    outputsPlacement	3 5.8 5 6.6
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
+		      7, 8, 9, 10, 11, 18 ]
+    position	-2.4658 5.04615 9.02358
+    height	11.74
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

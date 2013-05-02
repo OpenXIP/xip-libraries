@@ -106,19 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
-/*
- * \brief
- * \author Sylvain Jaume, Francois Huguet
- */
- 
- 
- 
-# ifndef SO_VTK_IMAGESTENCILDATA_H_
-# define SO_VTK_IMAGESTENCILDATA_H_
 
-# include <Inventor/engines/SoSubEngine.h>
+/*
+ * \brief SoVtkImageStencilData.h
+ * Wrapping of vtkImageStencilData.h
+ * \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
+ */
+ 
+#ifndef SO_VTK_IMAGESTENCILDATA_H_
+#define SO_VTK_IMAGESTENCILDATA_H_
+
+#include <Inventor/engines/SoSubEngine.h>
 
 # include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
 # include "xip/inventor/vtk/SoSFVtkObject.h"
@@ -145,8 +144,8 @@ public:
 	// Inputs
 	/// ExtentTranslator of type vtkExtentTranslator
 	SoSFVtkObject ExtentTranslator;
-	/// OldSpacing
-	SoSFVec3f OldSpacing;
+	// OldSpacing
+	// SoSFVec3f OldSpacing;
 	/// MaximumNumberOfPieces
 	SoSFInt32 MaximumNumberOfPieces;
 	/// RequestExactExtent
@@ -169,8 +168,8 @@ public:
 	SoSFVtkObject PipelineInformation;
 	/// FieldData of type vtkFieldData
 	SoSFVtkObject FieldData;
-	/// OldOrigin
-	SoSFVec3f OldOrigin;
+	// OldOrigin
+	// SoSFVec3f OldOrigin;
 	/// UpdateExtent
 	SoMFVariant UpdateExtent;
 	/// WholeExtent

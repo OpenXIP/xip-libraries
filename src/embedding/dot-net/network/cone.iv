@@ -1,0 +1,14 @@
+#Inventor V2.1 ascii
+
+Separator {
+    DirectionalLight {
+    }
+    OrthographicCamera {
+	position	0 0 5
+	height	3
+    }
+    BaseColor {
+    }
+    DEF MyCone Cone {
+    }
+}

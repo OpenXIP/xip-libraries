@@ -106,7 +106,6 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
 
 #include <Inventor/actions/SoGLRenderAction.h>
@@ -159,18 +158,22 @@ SoXipOverlaySearch::initClass()
 void
 SoXipOverlaySearch::searchSensorCB( void* userData, SoSensor* sensor )
 {
-	((SoXipOverlaySearch *) userData)->m_doSearch = TRUE;
+  if(userData)
+	{
+	  ((SoXipOverlaySearch *) userData)->m_doSearch = TRUE;
+	}
 }
 
 void
 SoXipOverlaySearch::GLRender( SoGLRenderAction* action )
 {
-	doAction( action );
+  doAction( action );
 }
 
 void
 SoXipOverlaySearch::handleEvent( SoHandleEventAction* action )
 {
+
 	doAction( action );
 }
 
@@ -183,7 +186,8 @@ SoXipOverlaySearch::selectMatches( const SoNodeList& shapes )
 	if( classTypeName.getLength() )
 	{
 		SoType classType = SoType::fromName( classTypeName );
-		if( classType.isBad() || !classType.isDerivedFrom( SoXipShape::getClassTypeId() ) )
+		if( classType.isBad() || !classType.isDerivedFrom(
+														SoXipShape::getClassTypeId() ) )
 		{
 			SoDebugError::post( __FILE__, "Invalid Type" );
 			return SoNodeList();
@@ -246,6 +250,9 @@ SoXipOverlaySearch::doAction( SoAction* action )
 	SoMFNode accum;
 
 	const SoFullPath* path = (SoFullPath *) action->getCurPath();
+
+	if( !path ) return;
+
 	SoNodeList nodes = XipOverlayUtils::loadOverlaysFromNode( 
 		path->getNodeFromTail( numNodesUpToContainer.getValue() ),
 		searchAll.getValue() );
@@ -259,7 +266,8 @@ SoXipOverlaySearch::doAction( SoAction* action )
 		{
 			SoXipShapeList* newShapeList = new SoXipShapeList;
 			newShapeList->ref();
-			newShapeList->label.setValue( ((SoXipShapeList *) nodes[i])->label.getValue() );
+			newShapeList->label.setValue( ((SoXipShapeList *)
+															nodes[i])->label.getValue() );
 
 			for( int j = 0; j < matches.getLength(); ++ j )			
 				newShapeList->addChild( matches[j] );
@@ -274,3 +282,5 @@ SoXipOverlaySearch::doAction( SoAction* action )
 	numOverlays.setValue( count );
 	overlays.copyFrom( accum );
 }
+
+

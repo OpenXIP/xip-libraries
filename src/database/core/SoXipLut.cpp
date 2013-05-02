@@ -146,6 +146,8 @@ SoXipLut::SoXipLut()
 	mLutData = 0;
 	mNodeId = 0;
 
+    SO_NODE_ADD_FIELD(LUTDataImage, (NULL));
+
 	SO_NODE_DEFINE_ENUM_VALUE(InputType, RAMP);
 	SO_NODE_DEFINE_ENUM_VALUE(InputType, TRAPEZOID);
 	SO_NODE_DEFINE_ENUM_VALUE(InputType, FILE);
@@ -908,13 +910,15 @@ void SoXipLut::doAction(SoAction *action)
 	if (newBitsUsed <= 0) return;
 
 	if (mLutData)
-		if (!mLutData->get()) mNodeId = 0;
-	if (!mLutData) mNodeId = 0;
+		if (!mLutData->get())
+            mNodeId = 0;
+
+	if (!mLutData)
+        mNodeId = 0;
 
 	if ((mNodeId != getNodeId()) || !mNodeId)
 	{
 		// need to update
-		mNodeId = getNodeId();
 		mNumElements = 1 << newBitsUsed;
 
 		if (mLutData)
@@ -941,6 +945,9 @@ void SoXipLut::doAction(SoAction *action)
 		case COLOR:			updateColor(); break;
 		case LUMINANCE:		updateGray(); break;
 		}
+
+        LUTDataImage.setValue(mLutData);
+		mNodeId = getNodeId();
 	}
 
 	SoXipLutElement::set(action->getState(), this, mLutData);
@@ -1016,3 +1023,5 @@ void SoXipLut::adjustAlpha(colorRGBA* rgbaBuffer, int numElements, int start, in
 		} break;
 	}
 }
+
+

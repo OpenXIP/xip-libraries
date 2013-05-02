@@ -1,3 +1,9 @@
+// Copyright Siemens Corporate Research Inc. 2007
+// Author Sylvain Jaume <sylvain.jaume@siemens.com>
+
+#ifndef _XIP_LINUX_STANDARD_H_
+#define _XIP_LINUX_STANDARD_H_
+
 #include <linux/limits.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -22,3 +28,5 @@ typedef unsigned short WCHAR;
 #endif // _NATIVE_WCHAR_T_DEFINED
 
 #define MAX_PATH PATH_MAX
+
+#endif // _XIP_LINUX_STANDARD_H_

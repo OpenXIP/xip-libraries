@@ -108,32 +108,30 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+
 /*
  * \brief
  * \author Sylvain Jaume, Francois Huguet
  */
  
- 
- 
-# ifndef SO_VTK_EXODUSIIWRITER_H_
-# define SO_VTK_EXODUSIIWRITER_H_
+#ifndef SO_VTK_EXODUSIIWRITER_H_
+#define SO_VTK_EXODUSIIWRITER_H_
 
-# include <Inventor/engines/SoSubEngine.h>
+#include <Inventor/engines/SoSubEngine.h>
 
-# include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
-# include "xip/inventor/vtk/SoSFVtkObject.h"
+#include "xip/inventor/vtk/SoSFVtkAlgorithmOutput.h"
+#include "xip/inventor/vtk/SoSFVtkObject.h"
 
-# include "vtkExodusIIWriter.h"
+#include "vtkExodusIIWriter.h"
 
-# include "Inventor/fields/SoSFInt32.h"
-# include "Inventor/fields/SoMFString.h"
+#include "Inventor/fields/SoSFInt32.h"
+#include "Inventor/fields/SoMFString.h"
 
 class SoVtkExodusIIWriter : public SoEngine
 {
 	SO_ENGINE_HEADER( SoVtkExodusIIWriter );
 
 public:
-
 	/// Constructor
 	SoVtkExodusIIWriter();
 
@@ -151,14 +149,14 @@ public:
 	SoSFInt32 WriteOutGlobalElementIdArray;
 	/// WriteOutGlobalNodeIdArray
 	SoSFInt32 WriteOutGlobalNodeIdArray;
-	/// CurrentTimeStep
-	SoSFInt32 CurrentTimeStep;
+	// CurrentTimeStep
+	//SoSFInt32 CurrentTimeStep;
 	/// ModelMetadata of type vtkModelMetadata
 	SoSFVtkObject ModelMetadata;
-	/// GlobalNodeIdArrayName
-	SoMFString GlobalNodeIdArrayName;
-	/// GlobalElementIdArrayName
-	SoMFString GlobalElementIdArrayName;
+	// GlobalNodeIdArrayName
+	//SoMFString GlobalNodeIdArrayName;
+	// GlobalElementIdArrayName
+	//SoMFString GlobalElementIdArrayName;
 	/// ErrorStatus
 	SoSFInt32 ErrorStatus;
 	/// FileName
@@ -168,7 +166,6 @@ public:
 	/// Input connection 
 	SoSFVtkAlgorithmOutput InputConnection;
 
-	
 	// Outputs
 	/// SoSFVtkAlgorithmOutput
 	SoEngineOutput OutputPort;
@@ -178,7 +175,6 @@ public:
 	SoEngineOutput Output;
 
 protected:
-
 	/// Destructor
 	~SoVtkExodusIIWriter();
 
@@ -200,9 +196,7 @@ protected:
 	/// vtkExodusIIWriter
 	SoVtkObject *mOutput;
 
-
 private:
-
 	vtkExodusIIWriter* mObject;
 	/// addCalled checks if the Add*() method has been called 
 	bool addCalled;

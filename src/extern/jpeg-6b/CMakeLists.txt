@@ -1,7 +1,11 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research Inc. 2008
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(jpeg)
 
+#--------------------------------------------------------------------
+# Define the compiler flags
+#
 if(WIN32)
   add_definitions(-DUSE_MSDOS_MEMMGR -DNEED_FAR_POINTERS)
 endif(WIN32)
@@ -10,6 +14,9 @@ if(APPLE)
 #  add_definitions(-DUSE_MAC_MEMMGR)
 endif(APPLE)
 
+#--------------------------------------------------------------------
+# Define the header files
+#
 set(HEADERS
   jchuff.h
   jdhuff.h
@@ -25,6 +32,9 @@ set(HEADERS
   cderror.h
   transupp.h)
 
+#--------------------------------------------------------------------
+# Define the source files
+#
 set(SOURCES
   jcapimin.c
   jcapistd.c
@@ -87,7 +97,8 @@ if(APPLE)
   set(SYSDEPSOURCES ${SYSDEPSOURCES} jmemmac.c)
 endif(APPLE)
 
-# source files: cjpeg/djpeg/jpegtran applications, also rdjpgcom/wrjpgcom
+# source files for cjpeg/djpeg/jpegtran applications and
+# rdjpgcom/wrjpgcom
 set(APPSOURCES
   cjpeg.c
   djpeg.c
@@ -109,4 +120,8 @@ set(APPSOURCES
   rdrle.c
   wrrle.c)
 
-add_library(jpeg STATIC ${HEADERS} ${SOURCES} ${SYSDEPSOURCES} ${APPSOURCES})
+#--------------------------------------------------------------------
+# Compile the library
+#
+add_library(jpeg STATIC ${HEADERS} ${SOURCES}
+  ${SYSDEPSOURCES} ${APPSOURCES})

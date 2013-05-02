@@ -1,0 +1,242 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	0.529179 7.06699 2.52918 7.86699
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-1.60498 5.70475 0.395019 6.50475
+    flags	()
+    autoPanelPos	352 98 0 0
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	0.600002 5.7 3.12778 6.5
+    flags	()
+    viewPos	29 51 486 596
+    autoPanelPos	305 244 385 392
+    node	    SoXipViewportGroup {
+	fields [ MFVec4f viewports, SFInt32 current ]
+	viewports	[ 0 0 1 0.5,
+			  0 0.5 1 0.5 ]
+	current	1
+    }
+
+}
+#addChild "2" "3 8"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-3.3 3 -1.3 3.8
+    flags	()
+    viewPos	825 437 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "3" "4 5"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-4.5 0.9 -2.5 1.7
+    flags	SHOW_AUTOPANEL
+    autoPanelPos	422 351 0 0
+    node	    SoXipExaminer {
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [  ]
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-1.8 0.9 0.2 1.7
+    flags	()
+    autoPanelPos	215 605 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@5" "Output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-0.378729 1.2 3.52873 2
+    flags	()
+    autoPanelPos	22 830 385 392
+    engine	    SoItkRescaleIntensityImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum,  ]
+	Input0	"NULL"
+	OutputMaximum	1
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@6" "Output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-5.17366 1.2 -2.44301 2
+    flags	()
+    autoPanelPos	51 507 385 392
+    engine	    SoItkImageFileReader {
+	inputs [ SFString File,  ]
+	File	"../../data/cthead1.png"
+	outputs [ SoItkSFDataImage Output, MFShort Dimensions ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	4.5 3 6.5 3.8
+    flags	()
+    viewPos	540 423 385 392
+    autoPanelPos	465 264 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "8" "9 10"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	1.5 0.9 3.5 1.7
+    flags	()
+    autoPanelPos	322 359 0 0
+    node	    SoXipExaminer {
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [  ]
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	3.9 0.9 5.9 1.7
+    flags	()
+    autoPanelPos	160 1219 160 34
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@10" "Output@11"
+
+### 11 ###
+SoXipBuilderEngine {
+    placement	6.20329 1.2 8.86893 2
+    flags	()
+    autoPanelPos	519 673 385 392
+    engine	    SoItkCropImageFilter {
+	inputs [ SoItkSFDataImage Input0, MFInt32 ExtractionRegion, MFInt32 UpperBoundaryCropSize, MFInt32 LowerBoundaryCropSize ]
+	Input0	"NULL"
+	ExtractionRegion	[ 128, 0, 128, 128 ]
+	UpperBoundaryCropSize	[ 128, 128 ]
+	LowerBoundaryCropSize	[ 0, 0 ]
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@11" "Output@6"
+
+### packages ###
+SoXipBuilderPackage {
+    def	-2
+    placement	3.9 3.3 5.9 4.1
+    name	"Output"
+    members	[ 8, 9, 10 ]
+    position	6.1 2.1 1
+    height	15.2593
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	4.4 -2.4 6.4 -1.6
+    outputs	8
+    outputsPlacement	4.4 5.8 6.4 6.6
+}
+
+SoXipBuilderPackage {
+    def	-1
+    placement	-3.6 3.3 -1.6 4.1
+    name	"Input"
+    members	[ 3, 4, 5 ]
+    position	-2.3 2.05 1
+    height	15.2593
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-2.15 -2.4 -0.15 -1.6
+    outputs	3
+    outputsPlacement	-3 5.7 -1 6.5
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -2, -1, 0, 1, 2, 6, 7, 11 ]
+    position	1.86389 4.53349 1
+    height	9.68961
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

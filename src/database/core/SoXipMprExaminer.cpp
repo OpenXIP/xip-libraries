@@ -118,13 +118,11 @@
 #include <Inventor/elements/SoViewportRegionElement.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
-
 #ifdef WIN32
-	#include <Inventor/events/SoMouseWheelEvent.h>
+  #include <Inventor/events/SoMouseWheelEvent.h>
 #else
-	#include "../../extern/inventor/lib/xip/include/Inventor/events/SoMouseWheelEvent.h"
+  #include "../../extern/inventor/lib/xip/include/Inventor/events/SoMouseWheelEvent.h"
 #endif
-
 #include <Inventor/projectors/SbPlaneProjector.h>
 #include <Inventor/projectors/SbSphereSheetProjector.h>
 #include <Inventor/projectors/SbLineProjector.h>
@@ -142,7 +140,6 @@
 #include "SoXipDogEar.h"
 #include "SoXipViewportBorder.h"
 #include "SoXipOrientationCube.h"
-
 
 SO_KIT_SOURCE(SoXipMprExaminer);
 
@@ -219,6 +216,8 @@ SoXipMprExaminer::SoXipMprExaminer()
 	SO_NODE_ADD_FIELD(viewOrientation, ());
 //	SO_NODE_ADD_FIELD(viewCenter, ());
 	SO_NODE_ADD_FIELD(viewAll, ());
+	SO_NODE_ADD_FIELD(stepNext, ());
+	SO_NODE_ADD_FIELD(stepPrevious, ());
 
 //	SO_NODE_ADD_FIELD(recenter, ());
 
@@ -265,7 +264,7 @@ SoXipMprExaminer::SoXipMprExaminer()
 	SO_NODE_ADD_FIELD(stubScale, (10.0f));
 
 	SoFieldSensor *fieldSensor;
-	SoField *fields[] = { &viewAll, &viewOrientation, &intersection, &rotateCamera, &scaleHeight, &stubs, &stubScale };
+	SoField *fields[] = { &viewAll, &viewOrientation, &stepNext, &stepPrevious, &intersection, &rotateCamera, &scaleHeight, &stubs, &stubScale };
 	for (int i = 0; i < (sizeof(fields) / sizeof(SoField*)); i++)
 	{
 		fieldSensor = new SoFieldSensor(&fieldSensorCBFunc, this);
@@ -525,8 +524,8 @@ void SoXipMprExaminer::inputChanged(SoField *which, SoSensor *sensor)
 		}
 
 		mMprModelMatrix.setTransform(t, rot, s, so);
-	}
-	else if (sensor == mDogEarNextSensor)
+	} 
+	else if ((sensor == mDogEarNextSensor) || (which == &stepNext))
 	{
 		SbVec3f step, p1, p2;
 		SbMatrix trans;
@@ -547,7 +546,7 @@ void SoXipMprExaminer::inputChanged(SoField *which, SoSensor *sensor)
 
 		center += step;
 	}
-	else if (sensor == mDogEarPreviousSensor)
+	else if ((sensor == mDogEarPreviousSensor) || (which == &stepPrevious))
 	{
 		SbVec3f step, p1, p2;
 		SbMatrix trans;
@@ -607,13 +606,27 @@ void SoXipMprExaminer::timer(SoSensor *sensor)
 {
 	if (mode.getValue() == SHIFT)
 	{
-		SbVec3f p1, p2;
+		SbVec3f step, p1, p2;
 		SbMatrix trans;
 
 		mMprModelMatrix.multVecMatrix(SbVec3f(0, 0, 0), p1);
 		mMprModelMatrix.multVecMatrix(SbVec3f(0, 0, mShift), p2);
 
-		trans.setTranslate(p1 - p2);
+        if (mStepSize <=XIP_FLT_EPSILON)
+        {
+            step = p1 - p2;
+        } else
+        {
+            SbVec3f diffVec = p1 - p2;
+            float diff = diffVec.length();
+            diffVec.normalize();
+
+            // speed it up a little since typically the step size is larger than the default increments
+            int numIncr = int(2.0 * diff / mStepSize + 0.5);
+            step = mStepSize * numIncr * diffVec;
+        }
+
+		trans.setTranslate(step);
 		mMprModelMatrix *= trans;
 
 		if (!mMprMatrixField->getValue().equals(mMprModelMatrix, XIP_FLT_EPSILON))
@@ -688,9 +701,27 @@ void SoXipMprExaminer::GLRender(SoGLRenderAction * action)
 					mBoundingBox.getOrigin(origin[0], origin[1], origin[2]);
 					mBoundingBox.getSize(size[0], size[1], size[2]);
 
-					float maxSize = size[0] > size[1] ? size[0] : size[1];
-					maxSize = maxSize > size[2] ? maxSize : size[2];
-						
+					//float maxSize = size[0] > size[1] ? size[0] : size[1];
+					//maxSize = maxSize > size[2] ? maxSize : size[2];
+
+					float maxSize = 0.0f;
+					if ( orientation.getValue() == FEET || orientation.getValue() == HEAD )
+					{
+						maxSize = size[0] > size[1] ? size[0] : size[1];
+					}
+					else if ( orientation.getValue() == LEFT || orientation.getValue() == RIGHT )
+					{
+						maxSize = size[1] > size[2] ? size[1] : size[2];
+					}
+					else if ( orientation.getValue() == ANTERIOR || orientation.getValue() == POSTERIOR )
+					{
+						maxSize = size[0] > size[2] ? size[0] : size[2];
+					}
+					else
+					{
+						maxSize = size[0] > size[1] ? size[0] : size[1];
+						maxSize = maxSize > size[2] ? maxSize : size[2];
+					}
 					SbVec3f t, s;
 					SbRotation r, so;
 					mMprModelMatrix.getTransform(t, r, s, so);
@@ -796,7 +827,15 @@ void SoXipMprExaminer::handleEvent(SoHandleEventAction *action)
 
 		SbVec3f step, p1, p2;
 		SbMatrix trans;
-		step = delta * XipGeomUtils::planeFromMatrix(mMprModelMatrix).getNormal();
+        float stepIncr = 0.0f;
+        if (mStepSize <=XIP_FLT_EPSILON)
+        {
+            stepIncr = 1.0f;
+        } else
+        {            
+            stepIncr = mStepSize ;
+        }
+		step = delta * stepIncr * XipGeomUtils::planeFromMatrix(mMprModelMatrix).getNormal();
 		trans.setTranslate(step);
 		mMprModelMatrix *= trans;
 

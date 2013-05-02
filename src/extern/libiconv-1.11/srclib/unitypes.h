@@ -23,7 +23,9 @@
 #include <stdint.h>
 
 /* Type representing a Unicode character.  */
+#ifdef WIN32
 typedef uint32_t ucs4_t;
+#endif
 
 /* Common macro, to avoid compilation errors when we use a GCC extension and
    GCC is run in pedantic mode.  */

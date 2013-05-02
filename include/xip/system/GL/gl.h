@@ -1,75 +1,4 @@
 /*
-  ------------------------------------------------------------------------
-
-    xip/system/GL/gl.h
-
-    This header is intended to provide a platform independent inclusion
-    of GL/gl.h header file and should be used by all source files in XIP.
-    Do not setup an include path pointing to xip/system/, this file
-    must be included with xip/system/GL/gl.h
-
-    Copyright (C) 2008, Siemens Corporate Research
-
-    Authors:
-      Sylvain Jaume, sylvain.jaume@siemens.com
-      Patric Ljung, patric.ljung@siemens.com
-
-    This file is part of XIP, sponsored by NSF, and provided under the
-    caBIG(tm) license.  See end of file for full license.
-
-  ------------------------------------------------------------------------
-*/
-
-/*
-  ------------------------------------------------------------------------
-
-    Notes
-
-    Header files providing platform independence are located in
-    xip/system/GL and the real standard files are placed in the
-    subdirectory standard.
-
-    Header files that are platform specific, e.g. wglext.h and
-    glxext.h, are located within this directory or in the platform's
-    native location (i.e. for Apple OS X and Linux).
-
-    Current list of header files provided for OpenGL in XIP.
-
-    Headers providing platform independence:
-
-      xip/system/GL/gl.h
-      xip/system/GL/glu.h
-      xip/system/GL/glext.h
-
-    Standard header files from OpenGL.org
-
-      xip/system/GL/standard/gl.h
-      xip/system/GL/standard/glext.h
-      xip/system/GL/wglext.h
-      xip/system/GL/glxext.h
-
-  ------------------------------------------------------------------------
-*/
-
-
-#if defined(WIN32)
-
-#  include <windows.h>
-#  include <xip/system/GL/standard/gl.h>
-
-#elif defined(linux)
-
-//#  include <xip/system/GL/standard/gl.h>
-#include <GL/gl.h>
-
-#elif defined(DARWIN)
-
-#  include <OpenGL/gl.h>
-
-#endif /* Platform selection */
-
-
-/*
  *  COPYRIGHT NOTICE.  Copyright (C) 2005 Siemens Corporate Research, 
  *  Inc. ("caBIG(tm) Participant"). eXtensible Imaging Platform (XIP)
  *  was created with NCI funding and is part of the caBIG(tm) 
@@ -177,12 +106,73 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
 
-// Local Variables:
-//   mode: c++
-//   indent-tabs-mode: nil
-//   c-indentation-style: k&r
-//   c-basic-offset: 4
-// End:
+/*
+    xip/system/GL/gl.h
+
+    This header is intended to provide a platform independent inclusion
+    of GL/gl.h header file and should be used by all source files in XIP.
+    Do not setup an include path pointing to xip/system/, this file
+    must be included with xip/system/GL/gl.h
+
+    Copyright (C) 2008, Siemens Corporate Research
+
+    Authors:
+      Sylvain Jaume, sylvain.jaume@siemens.com
+      Patric Ljung, patric.ljung@siemens.com
+
+    This file is part of XIP, sponsored by NSF, and provided under the
+    caBIG(tm) license.  See end of file for full license.
+*/
+
+/*
+    Notes
+
+    Header files providing platform independence are located in
+    xip/system/GL and the real standard files are placed in the
+    subdirectory standard.
+
+    Header files that are platform specific, e.g. wglext.h and
+    glxext.h, are located within this directory or in the platform's
+    native location (i.e. for Apple OS X and Linux).
+
+    Current list of header files provided for OpenGL in XIP.
+
+    Headers providing platform independence:
+
+      xip/system/GL/gl.h
+      xip/system/GL/glu.h
+      xip/system/GL/glext.h
+
+    Standard header files from OpenGL.org
+
+      xip/system/GL/standard/gl.h
+      xip/system/GL/standard/glext.h
+      xip/system/GL/wglext.h
+      xip/system/GL/glxext.h
+			
+  ------------------------------------------------------------------------	
+*/
+
+#ifndef _XIP_SYSTEM_GL_H_
+#define _XIP_SYSTEM_GL_H_
+
+#if defined(WIN32)
+
+#include <windows.h>
+#include <xip/system/GL/standard/gl.h>
+
+#elif defined(linux)
+
+//#include <xip/system/GL/standard/gl.h>
+#include <GL/gl.h>
+
+#elif defined(DARWIN)
+
+#include <OpenGL/gl.h>
+
+#endif // Platform selection
+
+#endif // _XIP_SYSTEM_GL_H_
+

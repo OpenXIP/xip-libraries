@@ -108,15 +108,17 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
- 
- 
- 
-# include "SoVtkEnSight6Reader.h"
-# include "SoVtkUtils.h"
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkDataSet.h"
+#include "SoVtkEnSight6Reader.h"
+#include "SoVtkUtils.h"
 
+#include "vtkAlgorithmOutput.h"
+#include "vtkDataSet.h"
+#include "vtkMultiBlockDataSet.h"
 
 SO_ENGINE_SOURCE( SoVtkEnSight6Reader )
 
@@ -276,10 +278,7 @@ void SoVtkEnSight6Reader::inputChanged(SoField * f)
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			// mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -309,15 +308,12 @@ void SoVtkEnSight6Reader::reset()
 		mObject->SetInputConnection(inputPortPtr->getPointer());
 
 	// Get the ByteOrder value
-	
 		SO_VTK_SET_FIELD_VALUE( mObject, ByteOrder);
 
 	// Get the TimeValue value
-	
 		SO_VTK_SET_FIELD_VALUE( mObject, TimeValue);
 
 	// Get the FilePath value
-	
 		SO_VTK_SET_FIELD_MFSTRING( mObject, FilePath);
 
 	// Get the NumberOfInputConnections value
@@ -334,10 +330,7 @@ void SoVtkEnSight6Reader::reset()
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -351,3 +344,4 @@ void SoVtkEnSight6Reader::reset()
 
 	mObject->Update();
 }
+

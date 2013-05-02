@@ -1,5 +1,5 @@
-sampler3D depthtex;
-sampler3D colortex;
+uniform sampler3D depthtex;
+uniform sampler3D colortex;
 
 uniform vec4 viewsize;
 uniform float z;  // (0.5 + layer) / texSizeZ
@@ -38,4 +38,4 @@ void main()
 		gl_FragColor = vec4(1.0, 0.5, 0.2, 0.5); // gl_Color;
 #endif
 	}
-};
+}

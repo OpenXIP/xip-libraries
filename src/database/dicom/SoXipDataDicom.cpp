@@ -191,6 +191,32 @@ int SoXipDataDicom::getNumSlices(const char *options, SbXipDicomItemHandle pixel
 	return 0;
 }
 
+SbBool SoXipDataDicom::createCompatible(const SoXipDataDicom *dataDicomObj)
+{
+	if (!dataDicomObj)
+		return FALSE;
+
+	close();
+
+	if (mProvider)
+	{
+		mFile = mProvider->createCompatible(&dataDicomObj->getDataset(), &dataDicomObj->getMetaInfo());
+	}
+
+	return (mFile ? TRUE : FALSE);
+}
+
+SbBool SoXipDataDicom::open()
+{
+	close();
+
+	if (mProvider)
+	{
+		mFile = mProvider->open();
+	}
+
+	return (mFile ? TRUE : FALSE);
+}
 
 SbBool SoXipDataDicom::open(const char *fileName, const char *options)
 {
@@ -212,6 +238,16 @@ void SoXipDataDicom::close()
 		mProvider->close(mFile);
 		mFile = 0;
 	}
+}
+
+SbBool SoXipDataDicom::save(const char *fileName, const char *options)
+{
+	if (mProvider && mFile)
+	{
+		return mProvider->save(mFile, fileName, options);
+	}
+
+	return FALSE;
 }
 
 

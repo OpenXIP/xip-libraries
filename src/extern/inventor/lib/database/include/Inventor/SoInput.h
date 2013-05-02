@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (C) 2000 Silicon Graphics, Inc.  All Rights Reserved. 
  *
  *  This library is free software; you can redistribute it and/or
@@ -31,7 +30,6 @@
  *  For further information regarding this notice, see: 
  * 
  *  http://oss.sgi.com/projects/GenInfo/NoticeExplan/
- *
  */
 
 //  -*- C++ -*-
@@ -240,8 +238,12 @@ class INVENTOR_API SoInput {
     // C-api: name=readName
     SbBool		read(SbName	    &n, SbBool validIdent = FALSE);
     // C-api: name=readInt
+#if WIN64
+    SbBool		read(__int32	    &i);
+    SbBool		read(__int64	    &i);
+#else // WIN64
     SbBool		read(int	    &i);
-    // C-api: name=readUInt
+#endif // WIN64
     SbBool		read(unsigned int   &i);
     // C-api: name=readShort
     SbBool		read(short	    &s);

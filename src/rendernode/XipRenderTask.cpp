@@ -115,8 +115,6 @@
 #include "XipRenderTask.h"
 #include <xip/inventor/remote/XipStream.h>
 #include <xip/inventor/remote/XipRenderActionParams.h>
-#include <xip/inventor/remote/losslessCompression/losslessCompression.h>
-#include <xip/inventor/remote/losslessCompression/fastMemTransfer.h>
 #include <xip/inventor/core/SbXipImage.h>
 #include <Inventor/engines/SoEngine.h>
 #include <Inventor/fields/SoSFNode.h>
@@ -124,13 +122,8 @@
 #include <xip/inventor/core/SoXipSFDataImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>
 #include "OIVUtils.h"
-//#include "cimg.h"
 
 #define XIP_MAX_CLIENT_REQUEST_SIZE	1024
-
-static bufferImage img;
-static losslessCompression compressorObj;
-static fastMemTransfer memTransfers;
 
 //using namespace cimg_library;
 using namespace std; 

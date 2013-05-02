@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkTransform.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkTransform::SoVtkTransform()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkTransform *aTransform = vtkTransform::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Matrix, (0));
 
@@ -214,3 +216,4 @@ void SoVtkTransform::inputChanged(SoField * f)
 
 	
 }
+

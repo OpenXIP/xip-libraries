@@ -109,7 +109,10 @@
 *  
 */
 #include <xip/common/XipException.h>
-
+#include <xip/common/XipLog.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 /** \fn XipException::XipException()
  * Constructor used to generate an exception.
@@ -125,12 +128,28 @@
  *  \param message Optional string containing additional information about the error.
  *
  */
-XipException::XipException(unsigned int line, const char *file, XipExceptionType type, const wchar_t *message)
+XipException::XipException(unsigned int line, const char *file, XipExceptionType type, const wchar_t *message):mLine(line), mType(type)
 {
-	mLine = line;
-	mFile = file;
-	mType = type;
-	mMessage = message;
+	const int XIP_STRING_LEN = 500;
+	mFile = new char[XIP_STRING_LEN];
+	mMessage = new wchar_t[XIP_STRING_LEN];
+	
+	//mLine = line;
+	//mType = type;
+	//mFile = file;	
+	strcpy(mFile, file);
+	//mMessage = message;
+	wcscpy(mMessage, message);	
+
+	if (XipLog::getListener()) {
+		
+		wchar_t lFile[XIP_STRING_LEN], module[XIP_STRING_LEN];
+		int len = strlen(file)+1;
+		mbstowcs(lFile, file, len*sizeof(wchar_t));		
+		swprintf(module, XIP_STRING_LEN, L"File: %s, Line: %d", lFile, line);
+			
+		XIP_POST_ERROR(mMessage, module, ToString(type));
+	}
 }
 
 
@@ -140,8 +159,25 @@ XipException::XipException(unsigned int line, const char *file, XipExceptionType
  */
 XipException::~XipException()
 {
+	if(mFile){
+		delete [] mFile;
+		mFile = 0;
+	}
+	if(mMessage) {
+		delete [] mMessage;
+		mMessage = 0;
+	}
+	
 };
 
+static const wchar_t* const exceptionTypeName[] = {L"INTERNAL_SYSTEM_ERROR", L"COMM_ERROR", L"IO_ERROR", L"MEMORY_HEAP_ERROR", L"MEMORY_DISK_ERROR", L"MEMORY_MAPPING_ERROR", L"INVALID_PARAM_ERROR", L"INVALID_STATE_ERROR", L"ABORT_EXECUTION", L"OPERATION_UNSUPPORTED"};
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//convert the exception type to a string name
+//////////////////////////////////////////////////////////////////////////////////////////////////
+inline const wchar_t* XipException::ToString(XipExceptionType type) const	{
+	return exceptionTypeName[type-1]; 
+}
 
 /*! \fn XipException::getLine()
  * 

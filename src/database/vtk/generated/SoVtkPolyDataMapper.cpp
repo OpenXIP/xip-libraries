@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkPolyDataMapper.h"
 # include "SoVtkUtils.h"
@@ -132,7 +136,6 @@ SoVtkPolyDataMapper::SoVtkPolyDataMapper()
 
 	vtkPolyDataMapper *aPolyDataMapper = vtkPolyDataMapper::New();
 	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(ScalarRange, (0,0));
 
@@ -398,3 +401,4 @@ void SoVtkPolyDataMapper::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

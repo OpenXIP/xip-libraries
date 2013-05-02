@@ -1,9 +1,10 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(xipivrenderer)
 
 #--------------------------------------------------------------------
-# Header files
+# Define the header files
 #
 set(HEADERS
   SoXipMprRender.h
@@ -12,7 +13,7 @@ set(HEADERS
   SoXipCPUMprRender.h)
 
 #--------------------------------------------------------------------
-# Source files
+# Define the source files
 #
 set(SOURCES
   SoXipMprRender.cpp
@@ -22,7 +23,7 @@ set(SOURCES
   init.cpp)
 
 #--------------------------------------------------------------------
-# Compiler flags
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVRENDERER_EXPORTS)
@@ -31,7 +32,7 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Include directories
+# Define the include directories
 #
 if(UNIX)
   # for generated config.h
@@ -39,35 +40,40 @@ if(UNIX)
 endif(UNIX)
 
 #--------------------------------------------------------------------
-# Compile library
+# Compile the library
 #
-add_library(xipivrenderer SHARED ${SOURCES} ${HEADERS})
-set(XIP_LIBRARIES ${XIP_LIBRARIES} xipivrenderer)
+if(BUILD_SHARED_LIBS)
+  add_library(xipivrenderer SHARED ${HEADERS} ${SOURCES})
+else(BUILD_SHARED_LIBS)
+  add_library(xipivrenderer STATIC ${HEADERS} ${SOURCES})
+endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipivrenderer
   PROPERTIES VERSION ${XIP_VERSION_STRING}
   SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
-# Link library
+# Link the library
 #
 target_link_libraries(xipivrenderer
   xipivcoregl)
 
 #--------------------------------------------------------------------
-# Install library
+# Install the library
 #
-install(TARGETS xipivrenderer
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
-  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
-
 install(TARGETS xipivrenderer
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
-  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release
+  BUNDLE  DESTINATION lib/release CONFIGURATIONS Release)
+
+install(TARGETS xipivrenderer
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug   CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug   CONFIGURATIONS Debug
+  BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivrenderer.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipivrendererd.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

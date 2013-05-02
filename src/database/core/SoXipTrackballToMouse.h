@@ -112,9 +112,7 @@
 #ifndef SOXIPTRACKBALLTOMOUSE_H
 #define SOXIPTRACKBALLTOMOUSE_H
 
-#ifdef WIN32
-#include <windows.h>
-#endif
+#include <xip/system/standard.h>
 #include <Inventor/nodes/SoGroup.h>
 #include <Inventor/actions/SoHandleEventAction.h>
 #include <Inventor/fields/SoSFBool.h>

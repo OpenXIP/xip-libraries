@@ -106,15 +106,15 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkBSPCuts.h"
-# include "SoVtkUtils.h"
 
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkBSPCuts.h"
+#include "SoVtkUtils.h"
 
 SO_ENGINE_SOURCE( SoVtkBSPCuts )
 
@@ -127,16 +127,10 @@ SoVtkBSPCuts::SoVtkBSPCuts()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBSPCuts *aBSPCuts = vtkBSPCuts::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
-
 	aBSPCuts->Delete();
-
 
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -146,7 +140,6 @@ SoVtkBSPCuts::~SoVtkBSPCuts()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
@@ -157,8 +150,6 @@ SoVtkBSPCuts::~SoVtkBSPCuts()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBSPCuts::initClass()
@@ -173,7 +164,6 @@ void SoVtkBSPCuts::evaluate()
 		// Deletion of the objects if they exist
 		if ( mOutput )
 		{
-		
 			mOutput->unref();
 			mOutput = 0;
 		}
@@ -211,3 +201,4 @@ void SoVtkBSPCuts::reset()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 }
+

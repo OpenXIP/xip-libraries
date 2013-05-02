@@ -1,0 +1,125 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-3 9.62 -1 10.42
+    flags	()
+    viewPos	491 27 508 418
+    autoPanelPos	395 97 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 4 5"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-5.7 5.7 -3.7 6.5
+    flags	()
+    autoPanelPos	114 354 0 0
+    node	    SoXipLut {
+	fields [ SFEnum inputMode, SFEnum outputMode, SFShort bitsUsed, SFFloat rampWidth,
+		SFFloat rampCenter, SFFloat slopeWidth, SFFloat slopeCenter, MFColor arrayColor,
+		MFFloat arrayAlpha ]
+	inputMode	TRAPEZOID
+	outputMode	COLOR
+	bitsUsed	12
+	rampWidth	0.1
+	rampCenter	0
+	slopeWidth	0.1
+	slopeCenter	0
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-3.3 5.7 -0.750747 6.5
+    flags	()
+    autoPanelPos	708 12 0 0
+    node	    SoXipDicomExaminer {
+	fields [ SoXipMFDataDicom images, SFShort imageIndex, SFShort sliceIndex,  ]
+	images	"NULL"
+	sliceIndex	0
+    }
+
+}
+#connect "images@2" "dicom@3"
+
+### 3 ###
+SoXipBuilderEngine {
+    placement	-1.2 3.6 0.847761 4.4
+    flags	()
+    autoPanelPos	341 496 0 0
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\data\24884367.dcm"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-0.42344 5.785 2.16656 6.585
+    flags	()
+    node	    SoXipOverlayManips {
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection, SFBool enableSelection ]
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	3 5.7 5.75 6.5
+    flags	()
+    autoPanelPos	668 323 0 0
+    node	    SoXipOverlayManager {
+	fields [ SFString shapeClassName, MFString shapeLabel,  ]
+	shapeClassName	"SoXipAnnotation"
+	shapeLabel	[  ]
+    }
+
+}
+#connect "overlays@5" "overlays@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-8.90769 3.6 -5.98231 4.4
+    flags	()
+    autoPanelPos	167 450 0 0
+    engine	    SoXipLoadOverlayPState {
+	inputs [  ]
+	outputs [ MFNode overlays ]
+    }
+
+}
+#connect "presentationstate@6" "presentationstate@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-4.37808 3.48 -2.30942 4.28
+    flags	()
+    autoPanelPos	673 685 385 392
+    engine	    SoXipLoadPState {
+	inputs [ SoXipSFDataDicom image,  ]
+	image	"NULL"
+	outputs [ SoXipSFPState presentationstate ]
+    }
+
+}
+#connect "image@7" "dicom@3"
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6, 7 ]
+    position	-2.31687 6.405 9.85268
+    height	13.26
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

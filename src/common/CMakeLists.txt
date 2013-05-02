@@ -1,15 +1,17 @@
-# Sylvain Jaume 2008
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(common)
 
 #--------------------------------------------------------------------
-# Source files
+# Define the source files
 #
 set(SOURCES
-  XipException.cpp)
+  XipException.cpp
+  XipLog.cpp)
 
 #--------------------------------------------------------------------
-# Define compiler flags
+# Define the compiler flags
 #
 if(WIN32)
   add_definitions(-DXIPIVCOMMON_EXPORTS)
@@ -18,28 +20,34 @@ else(WIN32)
 endif(WIN32)
 
 #--------------------------------------------------------------------
-# Compile library
+# Compile the library
 #
-add_library(xipcommon SHARED ${SOURCES})
+if(BUILD_SHARED_LIBS)
+  add_library(xipcommon SHARED ${SOURCES})
+else(BUILD_SHARED_LIBS)
+  add_library(xipcommon STATIC ${SOURCES})
+endif(BUILD_SHARED_LIBS)
 
 set_target_properties(xipcommon
   PROPERTIES VERSION ${XIP_VERSION_STRING}
   SOVERSION ${XIP_VERSION_STRING})
 
 #--------------------------------------------------------------------
-# Install library
+# Install the library
 #
-install(TARGETS xipcommon
-  RUNTIME DESTINATION bin/debug CONFIGURATIONS Debug
-  ARCHIVE DESTINATION lib/debug CONFIGURATIONS Debug
-  LIBRARY DESTINATION lib/debug CONFIGURATIONS Debug)
-
 install(TARGETS xipcommon
   RUNTIME DESTINATION bin/release CONFIGURATIONS Release
   ARCHIVE DESTINATION lib/release CONFIGURATIONS Release
-  LIBRARY DESTINATION lib/release CONFIGURATIONS Release)
+  LIBRARY DESTINATION lib/release CONFIGURATIONS Release
+  BUNDLE  DESTINATION lib/release CONFIGURATIONS Release)
+
+install(TARGETS xipcommon
+  RUNTIME DESTINATION bin/debug   CONFIGURATIONS Debug
+  ARCHIVE DESTINATION lib/debug   CONFIGURATIONS Debug
+  LIBRARY DESTINATION lib/debug   CONFIGURATIONS Debug
+  BUNDLE  DESTINATION lib/debug   CONFIGURATIONS Debug)
 
 if(WIN32)
-  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipcommon.pdb
+  install(FILES ${LIBRARY_OUTPUT_PATH}/debug/xipcommond.pdb
     DESTINATION bin/debug CONFIGURATIONS Debug)
 endif(WIN32)

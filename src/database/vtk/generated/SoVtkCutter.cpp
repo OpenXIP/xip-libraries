@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkCutter.h"
 # include "SoVtkUtils.h"
@@ -130,8 +134,6 @@ SoVtkCutter::SoVtkCutter()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkCutter *aCutter = vtkCutter::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(NumberOfContours, (0));
 	NumberOfContours.setValue(aCutter->GetNumberOfContours());
@@ -158,12 +160,11 @@ SoVtkCutter::SoVtkCutter()
 
 	aCutter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 }
 
 SoVtkCutter::~SoVtkCutter()
@@ -317,3 +318,4 @@ void SoVtkCutter::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

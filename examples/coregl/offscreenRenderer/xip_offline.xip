@@ -1,0 +1,84 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-1.2 2.7 0.8 3.5
+    flags	()
+    viewPos	325 303 385 385
+    autoPanelPos	333 312 385 385
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-3.3 -1.5 -0.89 -0.7
+    flags	()
+    autoPanelPos	172 526 385 385
+    node	    SoXipLoadShaders {
+	fields [ SFString fpFilename,  ]
+	fpFilename	"red.glsl.frag.txt"
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	1.2 0 3.29 0.8
+    flags	()
+    node	    SoXipDrawQuad {
+	fields [  ]
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	1.5 -1.8 3.5 -1
+    flags	()
+    viewPos	464 532 385 385
+    node	    Separator {
+    }
+
+}
+#addChild "3" "4"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	1.8 -3.6 3.8 -2.8
+    flags	()
+    autoPanelPos	602 483 385 385
+    node	    SoXipImage {
+	fields [  ]
+    }
+
+}
+#connect "image@4" "image@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-5.7 -3.6 -2.67 -2.8
+    flags	()
+    autoPanelPos	120 503 385 385
+    engine	    SoXipOffscreenRenderer {
+	inputs [ SFNode node,  ]
+	node	NULL
+	outputs [ SoXipSFDataImage image, SoXipSFDataImage depthImage ]
+    }
+
+}
+#setObject "node@5" "0"
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5 ]
+    position	-0.95 -0.05 5.93001
+    height	9.09404
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

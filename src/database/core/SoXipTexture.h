@@ -122,22 +122,24 @@
 #include <xip/inventor/core/SbXipImage.h>
 #include <Inventor/nodes/SoSubNode.h>
 #include <Inventor/nodes/SoShape.h>
-#include <Inventor/fields/SoSFEnum.h>
-#include <Inventor/fields/SoSFVec3f.h>
-#include <Inventor/fields/SoSFVec4f.h>
-#include <Inventor/fields/SoSFBool.h>
+#include <inventor/fields/SoSFEnum.h>
+#include <inventor/fields/SoSFVec3f.h>
+#include <inventor/fields/SoSFVec4f.h>
+#include <inventor/fields/SoSFBool.h>
 #include <Inventor/sensors/SoFieldSensor.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 
 #include <xip/system/standard.h>
-#include <xip/system/GL/gl.h>
-#if !defined(linux)
-#include <xip/system/GL/glext.h>
-#endif // !defined(linux)
 
-#ifndef DARWIN
-#include <xip/system/GL/glu.h>
-#endif // DARWIN
+#ifdef _CRT_ALLOCATION_DEFINED 
+	#include <xip/system/GL/gl.h>
+	#include <xip/system/GL/glext.h>
+#else //only for VC6 compilation
+	#include <GL/gl.h>
+	#include <GL/glext.h>
+#endif
+
+#include <GL/glu.h>
 
 #ifndef TGS_VERSION
 class SoGLDisplayList;
@@ -327,6 +329,11 @@ public:
 	SoSFVec3f textureSize;
 
 	SoSFBool	usePBO;
+	/*
+	 * Automatically scale the range of pixels (using pixel_scale and _bias),
+	 * based on bitsUsed of the input image.
+	 */
+	SoSFBool	autoScaleRange;
 
 private:
 	/**	
@@ -465,13 +472,9 @@ private:
 
 	bool	mHasPBOs;
 	unsigned int mPBOId;
-        unsigned int mPBOBufSize;
+	unsigned int	mPBOBufSize;
 
 	bool	mQueryExtensions;
 };
 
 #endif // SO_XIP_TEXTURE_H
-
-
-
-

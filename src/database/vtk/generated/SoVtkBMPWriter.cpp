@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
  */
  
- 
- 
-# include "SoVtkBMPWriter.h"
-# include "SoVtkUtils.h"
+#include "SoVtkBMPWriter.h"
+#include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkImageData.h"
-
+#include "vtkAlgorithmOutput.h"
+#include "vtkImageData.h"
 
 SO_ENGINE_SOURCE( SoVtkBMPWriter )
 
@@ -129,9 +130,6 @@ SoVtkBMPWriter::SoVtkBMPWriter()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkBMPWriter *aBMPWriter = vtkBMPWriter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(FileName, (""));
 
@@ -146,12 +144,11 @@ SoVtkBMPWriter::SoVtkBMPWriter()
 
 	aBMPWriter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -161,14 +158,12 @@ SoVtkBMPWriter::~SoVtkBMPWriter()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
@@ -179,8 +174,6 @@ SoVtkBMPWriter::~SoVtkBMPWriter()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBMPWriter::initClass()
@@ -201,14 +194,12 @@ void SoVtkBMPWriter::evaluate()
 		// Deletion of the objects if they exist
 		if ( mOutput )
 		{
-		
 			mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
@@ -239,7 +230,8 @@ void SoVtkBMPWriter::evaluate()
 		return;
 	}
 	SO_ENGINE_OUTPUT( Output, SoSFVtkObject, setValue( mOutput ) );
-	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue( mOutputPort ) );
+	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue(
+												 mOutputPort ) );
 }
 
 
@@ -296,3 +288,4 @@ void SoVtkBMPWriter::reset()
 
 	mObject->Update();
 }
+

@@ -1,11 +1,11 @@
-#ifdef WIN32
-// # include <xip/system/windows/defines.h>
-#endif /* WIN32 */
+// Copyright Siemens Corporate Research Inc. 2007
+// Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
-#ifdef LINUX
-// # include <xip/system/linux/defines.h>
-#endif /* LINUX */
+#ifndef _XIP_SYSTEM_DEFINES_H_
+#define _XIP_SYSTEM_DEFINES_H_
 
 #ifdef DARWIN
-# include <xip/system/osx/defines.h>
-#endif /* DARWIN */
+#include <xip/system/osx/defines.h>
+#endif // DARWIN
+
+#endif // _XIP_SYSTEM_DEFINES_H_

@@ -113,6 +113,9 @@
 #include "SbXipDicomProviderDcmtk.h"
 #include <Inventor/errors/SoErrors.h>
 #include <dcmtk/dcmdata/dctk.h>
+#include <dcmtk/dcmdata/dctk.h>
+#include <dcmtk/dcmdata/dcostrmb.h>
+#include <dcmtk/dcmdata/dcistrmb.h>
 #include <xip/inventor/core/SbXipImage.h>
 #include <Inventor/fields/SoMFString.h>
 
@@ -152,6 +155,16 @@ void SbXipDicomProviderDcmtk::initClass()
 	SoXipDataDicom::setProvider(&defaultProvider);
 }
 
+void* SbXipDicomProviderDcmtk::open()
+{
+	DcmFileFormat *fileFormat = new DcmFileFormat();
+	if (!fileFormat)
+	{
+		SoMemoryError::post("DcmFileFormat");
+	}
+	
+	return fileFormat;
+}
 
 void* SbXipDicomProviderDcmtk::open(const char *fileName, const char *options)
 {
@@ -186,6 +199,23 @@ void SbXipDicomProviderDcmtk::close(void *fileHandle)
 		delete fileHandle;
 }
 
+SbBool SbXipDicomProviderDcmtk::save(void *fileHandle, const char *fileName, const char *options)
+{
+	if (fileHandle)
+	{
+		E_TransferSyntax writeXfer = (E_TransferSyntax) parseInt(options, "writeXfer", -1);
+		E_EncodingType encodingType = (E_EncodingType) parseInt(options, "encodeType", 1);
+		E_GrpLenEncoding groupLength = (E_GrpLenEncoding) parseInt(options, "groupLength", 0);
+		E_PaddingEncoding padEncoding = (E_PaddingEncoding) parseInt(options, "padEncode", 0);
+
+		if (((DcmFileFormat*) fileHandle)->saveFile(fileName, writeXfer, encodingType, groupLength, padEncoding).good())
+		{
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
 
 void *SbXipDicomProviderDcmtk::getDataset(void *fileHandle) const
 {
@@ -229,6 +259,7 @@ SbBool SbXipDicomProviderDcmtk::getPixelData(void *fileHandle, SbXipImage &image
 	unsigned short bitsAllocated = 0;
 	unsigned short samplesPerPixel = 0;
 	unsigned short numberOfSlices = 1;
+	unsigned short pixelRepresentation = 0;	// unsigned short
 	double zSpacing = 1.0;
 	double spacing[2] = { 1.0, 1.0 };
 	double imagePositionPatient[3] = {0};
@@ -263,6 +294,11 @@ SbBool SbXipDicomProviderDcmtk::getPixelData(void *fileHandle, SbXipImage &image
 		errorFlag = dataset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
 		if (!errorFlag.good())
 			throw "SamplesPerPixel";
+
+		// pixel representation
+		errorFlag = dataset->findAndGetUint16(DCM_PixelRepresentation, pixelRepresentation);
+		if (!errorFlag.good())
+			throw "PixelRepresentation";
 
 		// number of slices
 		if ( dataset->search(DCM_NumberOfSlices, stack) == EC_Normal)
@@ -417,7 +453,7 @@ SbBool SbXipDicomProviderDcmtk::getPixelData(void *fileHandle, SbXipImage &image
 						pixelData->getUint16Array(pixelBuffer);
 						image.init(
 							SbXipImageDimensions(width, height, numberOfSlices),
-							SbXipImage::UNSIGNED_SHORT, 
+							(pixelRepresentation == 1) ? SbXipImage::SHORT : SbXipImage::UNSIGNED_SHORT, 
 							bitsStored,
 							pixelBuffer + pixelOffset,
 							samplesPerPixel,
@@ -507,6 +543,95 @@ SbBool  SbXipDicomProviderDcmtk::isOfType(void *item, const char *type) const
 	return FALSE;
 }
 
+void* SbXipDicomProviderDcmtk::createCompatible(void *metaInfoHandle, void *datasetHandle)
+{
+	if (!(metaInfoHandle && datasetHandle))
+		return NULL;
+
+	DcmFileFormat *fileFormat = new DcmFileFormat();
+	if (!fileFormat)
+	{
+		SoMemoryError::post("DcmFileFormat");
+	}
+	
+	try
+	{
+		// get dicom meta info header
+		DcmMetaInfo *metaInfo = (DcmMetaInfo *)(((SbXipDicomItemHandle *)metaInfoHandle)->getItem());
+		if (!metaInfo)
+		{
+			SoMemoryError::post("DcmMetaInfo");
+		}
+
+		// get dicom dataset
+		DcmDataset *dataset = (DcmDataset *)(((SbXipDicomItemHandle *)metaInfoHandle)->getItem());
+		if (!dataset)
+		{
+			SoMemoryError::post("DcmDataset");
+		}
+
+		E_TransferSyntax opt_oxfer = EXS_LittleEndianExplicit;
+		
+		Uint32 elementLength = metaInfo->calcElementLength(opt_oxfer, EET_UndefinedLength) + 
+			                   dataset->calcElementLength(opt_oxfer, EET_UndefinedLength);
+
+		// create buffer
+		unsigned char *buffer = new unsigned char[elementLength];
+		if (!buffer)
+		{
+			SoMemoryError::post("Failed to create memory");
+		}
+
+		DcmOutputBufferStream outStream(buffer, elementLength);
+
+		// transfer meta info header
+		metaInfo->transferInit();
+
+		if (metaInfo->write(outStream, opt_oxfer, EET_UndefinedLength) != EC_Normal)
+		{
+			SoError::post("Error writting meta info header into output buffer stream");
+		}
+
+		metaInfo->transferEnd();
+
+		// transfer dataset
+		dataset->transferInit();
+
+		if (dataset->write(outStream, opt_oxfer, EET_UndefinedLength) != EC_Normal)
+		{
+			SoError::post("Error writting data object element into output buffer stream");
+		}
+
+		dataset->transferEnd();
+
+		DcmInputBufferStream inputStream;
+		inputStream.setBuffer(buffer, elementLength);
+
+		fileFormat->transferInit();
+
+		fileFormat->read(inputStream);
+
+		if ((fileFormat->error() != EC_Normal) && (fileFormat->error() != EC_StreamNotifyClient))
+		{
+			SoError::post("Error reading from input buffer stream");
+		}
+
+		fileFormat->transferEnd();
+
+	}
+	catch(...)
+	{
+		if (fileFormat)
+		{
+			delete fileFormat;
+			fileFormat = 0;
+		}
+
+		SoError::post("Failed to create compatible DICOM object");
+	}
+
+	return fileFormat;
+}
 
 SbBool  SbXipDicomProviderDcmtk::tagExists(void *item, const SbXipDicomTagKey &key, SbBool searchIntoSub)
 {

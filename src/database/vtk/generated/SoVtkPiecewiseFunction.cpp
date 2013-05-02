@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkPiecewiseFunction.h"
 # include "SoVtkUtils.h"
@@ -129,8 +133,6 @@ SoVtkPiecewiseFunction::SoVtkPiecewiseFunction()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkPiecewiseFunction *aPiecewiseFunction = vtkPiecewiseFunction::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(ExtentTranslator, (0));
 
@@ -401,3 +403,4 @@ void SoVtkPiecewiseFunction::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

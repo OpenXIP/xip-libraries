@@ -118,6 +118,8 @@
 #include <Inventor/elements/SoViewVolumeElement.h>
 #include <Inventor/actions/SoGLRenderAction.h>
 #include <Inventor/SbLinear.h>
+#include <xip/system/GL/gl.h>
+
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -412,6 +414,8 @@ void SoXipOrientationCube::GLRender(SoGLRenderAction * action)
 
 	glPopAttrib();
 }
+
+
 
 
 

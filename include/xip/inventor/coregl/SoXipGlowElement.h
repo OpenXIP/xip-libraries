@@ -133,6 +133,18 @@
   #define glActiveTexture glActiveTextureext
 #endif
 
+#ifdef WIN32
+//#include <windows.h>
+#ifdef _CRT_ALLOCATION_DEFINED 
+	#include <xip/system/GL/gl.h>
+	#include <xip/system/GL/glext.h>
+#else //only for VC6 compilation
+	#include <GL/gl.h>
+	#include <GL/glext.h>
+	#define xipGlGetProcAddress(X) wglGetProcAddress(X)
+#endif
+#endif
+
 extern XIPIVCOREGL_API bool GLOW_init;
 extern XIPIVCOREGL_API bool GLOW_GREMEDY_string_marker;
 extern XIPIVCOREGL_API bool GLOW_EXT_framebuffer_object;

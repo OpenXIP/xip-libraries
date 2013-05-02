@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkAttributesErrorMetric.h"
-# include "SoVtkUtils.h"
 
-# include "vtkGenericAdaptorCell.h"
-# include "vtkGenericDataSet.h"
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
+ */
 
+#include "SoVtkAttributesErrorMetric.h"
+#include "SoVtkUtils.h"
+
+#include "vtkGenericAdaptorCell.h"
+#include "vtkGenericDataSet.h"
 
 SO_ENGINE_SOURCE( SoVtkAttributesErrorMetric )
 
@@ -128,10 +129,8 @@ SoVtkAttributesErrorMetric::SoVtkAttributesErrorMetric()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkAttributesErrorMetric *aAttributesErrorMetric = vtkAttributesErrorMetric::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	vtkAttributesErrorMetric *aAttributesErrorMetric =
+				 vtkAttributesErrorMetric::New();
 
 	SO_ENGINE_ADD_INPUT(GenericCell, (0));
 
@@ -141,12 +140,11 @@ SoVtkAttributesErrorMetric::SoVtkAttributesErrorMetric()
 	SO_ENGINE_ADD_INPUT(AbsoluteAttributeTolerance, (0));
 	aAttributesErrorMetric->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oGenericCell, SoSFVtkObject );
 	mGenericCell = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oDataSet, SoSFVtkObject );
 	mDataSet = 0;
-
 
 	addCalled = 0;
 }
@@ -156,14 +154,12 @@ SoVtkAttributesErrorMetric::~SoVtkAttributesErrorMetric()
 	// Deletion of the objects if they exist
 	if ( mGenericCell )
 	{
-	
 		mGenericCell->unref();
 		mGenericCell = 0;
 	}
 	
 	if ( mDataSet )
 	{
-	
 		mDataSet->unref();
 		mDataSet = 0;
 	}
@@ -174,8 +170,6 @@ SoVtkAttributesErrorMetric::~SoVtkAttributesErrorMetric()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkAttributesErrorMetric::initClass()
@@ -191,14 +185,12 @@ void SoVtkAttributesErrorMetric::evaluate()
 		// Deletion of the objects if they exist
 		if ( mGenericCell )
 		{
-		
 			mGenericCell->unref();
 			mGenericCell = 0;
 		}
 		
 		if ( mDataSet )
 		{
-		
 			mDataSet->unref();
 			mDataSet = 0;
 		}
@@ -276,3 +268,4 @@ void SoVtkAttributesErrorMetric::reset()
 		SO_VTK_SET_FIELD_VALUE( mObject, AbsoluteAttributeTolerance);
 
 }
+

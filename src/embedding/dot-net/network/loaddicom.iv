@@ -1,0 +1,70 @@
+#Inventor V2.1 ascii
+
+Separator {
+    DEF +0 SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level,  ]
+	window	1 =
+	    DEF +1 SoXipDicomWindowLevel {
+		inputs [ SoXipSFDataDicom input ]
+		input	"NULL" =
+		    DEF Load+2 SoXipLoadDicom {
+			inputs [ MFString name ]
+			name	""
+			outputs [ SoXipMFDataDicom dicom ]
+		    }
+		    . dicom
+
+		outputs [ SFFloat window, SFFloat level, SFShort bitsStored ]
+	    }
+	    . window
+
+	level	0.5 =
+	    USE +1
+	    . level
+
+    }
+    SoXipLut {
+	fields [ SFShort bitsUsed, SFFloat rampWidth, SFFloat rampCenter, MFColor arrayColor,
+		MFFloat arrayAlpha ]
+	bitsUsed	0 =
+	    SoXipImageAttributes {
+		inputs [ SoXipSFDataImage image ]
+		image	"NULL" =
+		    USE Load+2
+		    . dicom
+
+		outputs [ SFMatrix modelMatrix, SFShort width, SFShort height, SFShort depth,
+			SFShort bitsStored, SFMatrix defaultOrientation, SFShort orthoScanOrientation, SFMatrix orthoOrientation1,
+			SFMatrix orthoOrientation2, SFMatrix orthoOrientation3, SFVec3f defaultCenter ]
+	    }
+	    . bitsStored
+
+	rampWidth	1 =
+	    USE +0
+	    . window
+
+	rampCenter	0.5 =
+	    USE +0
+	    . level
+
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+    DEF Examiner SoXipDicomExaminer {
+	fields [ SoXipMFDataDicom images, SFShort imageIndex, SFShort sliceIndex,  ]
+	images	[  ] =
+	    USE Load+2
+	    . dicom
+
+	imageIndex	-1
+	sliceIndex	-1
+    }
+    SoXipOverlayManips {
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection ]
+    }
+    DEF OverlayManager SoXipOverlayManager {
+	fields [ SFBool create, MFString shapeLabel,  ]
+	create	FALSE
+	shapeLabel	[  ]
+    }
+}

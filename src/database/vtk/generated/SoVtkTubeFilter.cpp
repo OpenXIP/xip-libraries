@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkTubeFilter.h"
 # include "SoVtkUtils.h"
@@ -129,7 +133,6 @@ SoVtkTubeFilter::SoVtkTubeFilter()
 
 	vtkTubeFilter *aTubeFilter = vtkTubeFilter::New();
 	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Radius, (0));
 	Radius.setValue(aTubeFilter->GetRadius());
@@ -349,3 +352,4 @@ void SoVtkTubeFilter::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

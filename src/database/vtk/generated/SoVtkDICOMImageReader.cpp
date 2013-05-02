@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkDICOMImageReader.h"
 # include "SoVtkUtils.h"
@@ -128,12 +132,11 @@ SoVtkDICOMImageReader::SoVtkDICOMImageReader()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkDICOMImageReader *aDICOMImageReader = vtkDICOMImageReader::New();
-	double *x;
-	int *y;
 
+	double x[3] = {0.0, 0.0, 0.0};
 	SO_ENGINE_ADD_INPUT(DataSpacing, (0,0,0));
 
-	x= aDICOMImageReader->GetDataSpacing();
+	aDICOMImageReader->GetDataSpacing(x);
 	DataSpacing.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(FilePattern, (""));
@@ -145,7 +148,7 @@ SoVtkDICOMImageReader::SoVtkDICOMImageReader()
 
 	SO_ENGINE_ADD_INPUT(DataOrigin, (0,0,0));
 
-	x= aDICOMImageReader->GetDataOrigin();
+	aDICOMImageReader->GetDataOrigin(x);
 	DataOrigin.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(InputArrayToProcess, ());
@@ -383,3 +386,4 @@ void SoVtkDICOMImageReader::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

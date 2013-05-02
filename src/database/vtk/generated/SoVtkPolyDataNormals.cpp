@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkPolyDataNormals.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkPolyDataNormals::SoVtkPolyDataNormals()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkPolyDataNormals *aPolyDataNormals = vtkPolyDataNormals::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Splitting, (0));
 	Splitting.setValue(aPolyDataNormals->GetSplitting());
@@ -319,3 +321,4 @@ void SoVtkPolyDataNormals::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

@@ -127,7 +127,7 @@
 #include <xip/inventor/core/SbXipImage.h>
 #include <xip/inventor/core/SoXipSFDataImage.h>
 #include <xip/inventor/core/SoXipDataImage.h>
-#include <xip/inventor/dicom/SoXipSFDataDicom.h>
+#include <xip/inventor/dicom/SoXipSFDatadicom.h>
 #include <xip/inventor/core/SoXipDataImageElement.h>
 #include <xip/inventor/dicom/SoXipDataDicomElement.h>
 #include <xip/inventor/dicom/SoXipDataDicom.h>
@@ -163,9 +163,12 @@ SoXipDicomExaminer::SoXipDicomExaminer()
 	SO_NODE_ADD_FIELD(         viewAll, () );
 	SO_NODE_ADD_FIELD(    viewAllScale, (0.8) );
 	SO_NODE_ADD_FIELD(            mode, (NONE) );
+	SO_NODE_ADD_FIELD(     boundingBox, (SbMatrix::identity()) );
+	SO_NODE_ADD_FIELD( viewBoundingBox, ());
+	SO_NODE_ADD_FIELD( planeSlice, (SbPlane(SbVec3f(1, 0, 0), 0)));
 
-	SoField* fields[7] = { &viewAll, &nextImage, &previousImage, &nextSlice, &previousSlice, &images, &mode };
-	for( int i = 0; i < 7; ++ i )
+	SoField* fields[8] = { &viewAll, &viewBoundingBox, &nextImage, &previousImage, &nextSlice, &previousSlice, &images, &mode };
+	for( int i = 0; i < 8; ++ i )
 	{
 		mFieldSensors[i] = new SoFieldSensor( &fieldSensorCB, this );
 		mFieldSensors[i]->attach( fields[i] );
@@ -202,11 +205,12 @@ SoXipDicomExaminer::SoXipDicomExaminer()
 
 	mViewAll = TRUE;
 	mPan = FALSE;
+	mViewBoundingBox = FALSE;
 }
 
 SoXipDicomExaminer::~SoXipDicomExaminer()
 {
-	for( int i = 0; i < 7; ++ i )
+	for( int i = 0; i < 8; ++ i )
 	{
 		if( mFieldSensors[i] )
 		{
@@ -306,6 +310,12 @@ void SoXipDicomExaminer::inputChanged( SoField* whichField )
 	else if( whichField == &viewAll )
 	{
 		mViewAll = TRUE;	
+	}
+
+	// View bounding box flag
+	else if( whichField == &viewBoundingBox )
+	{
+		mViewBoundingBox = TRUE;	
 	}
 
 	// Previous image sensor
@@ -537,6 +547,7 @@ void SoXipDicomExaminer::updateCamera()
 	if( image )
 	{
 		SbVec3f newImagePos = image->getModelMatrix()[3];
+		
 		SbVec3f oldImagePos = mImageModelMatrix[3];
 
 		SbVec3f cameraTranslation = (newImagePos - oldImagePos);
@@ -544,6 +555,16 @@ void SoXipDicomExaminer::updateCamera()
 		getCamera()->position.setValue( getCamera()->position.getValue() + cameraTranslation );
 		
 		mImageModelMatrix = image->getModelMatrix();
+		
+		SbVec3f t, s, normal;
+		SbRotation r, so;
+		mImageModelMatrix.getTransform(t, r, s, so);
+		normal = SbVec3f(mImageModelMatrix[2][0], mImageModelMatrix[2][1], mImageModelMatrix[2][2]);
+		normal.normalize();
+
+		SbPlane plane ( normal, t );
+
+		planeSlice.setValue ( plane ) ;
 	}
 }
 
@@ -579,6 +600,8 @@ void SoXipDicomExaminer::adjustCamera( SoGLRenderAction* action, const SbMatrix&
 	getCamera()->focalDistance.setValue( 0 );
 	getCamera()->nearDistance.setValue( -1 );
 	getCamera()->farDistance.setValue( 1. );	
+	//getCamera()->nearDistance.setValue( -0.1 );
+	//getCamera()->farDistance.setValue( 0.1 );
 }
 
 void SoXipDicomExaminer::tiltCamera( const SbRotation& rot )
@@ -617,6 +640,13 @@ void SoXipDicomExaminer::GLRender( SoGLRenderAction* action )
 		mImageModelMatrix = image->getModelMatrix();
 
 		mViewAll = FALSE;
+	}
+
+	if( mViewBoundingBox )
+	{
+		adjustCamera( action, boundingBox.getValue() );
+
+		mViewBoundingBox = false;
 	}
 
 	// Set the Dicom Element

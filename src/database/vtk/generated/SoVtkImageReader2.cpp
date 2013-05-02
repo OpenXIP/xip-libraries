@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 
 # include "SoVtkImageReader2.h"
@@ -129,7 +133,6 @@ SoVtkImageReader2::SoVtkImageReader2()
 
 	vtkImageReader2 *aImageReader2 = vtkImageReader2::New();
 	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(DataSpacing, (0,0,0));
 
@@ -378,3 +381,4 @@ void SoVtkImageReader2::inputChanged(SoField * f)
 	////mObject->Update();
 	
 }
+

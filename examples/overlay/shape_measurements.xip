@@ -2,18 +2,18 @@
 
 ### 0 ###
 SoXipBuilderNode {
-    placement	-0.5 7.2 2.3 8
+    placement	-1.8 6.9 1 7.7
     flags	()
     viewPos	217 377 501 539
     node	    Separator {
     }
 
 }
-#addChild "0" "1 2 3 4 5 8"
+#addChild "0" "1 2 3 4 5 7"
 
 ### 1 ###
 SoXipBuilderNode {
-    placement	-9 3.9 -7 4.7
+    placement	-8.1 3.6 -6.1 4.4
     flags	()
     autoPanelPos	104 358 0 0
     node	    SoXipFontType {
@@ -25,7 +25,7 @@ SoXipBuilderNode {
 
 ### 2 ###
 SoXipBuilderNode {
-    placement	-6.69355 3.9 -4.07126 4.7
+    placement	-5.7 3.6 -3.07771 4.4
     flags	()
     autoPanelPos	129 423 385 392
     node	    OrthographicCamera {
@@ -37,7 +37,7 @@ SoXipBuilderNode {
 
 ### 3 ###
 SoXipBuilderNode {
-    placement	-3.9 3.9 -1.9 4.7
+    placement	-3 3.6 -1 4.4
     flags	()
     node	    DirectionalLight {
     }
@@ -46,7 +46,7 @@ SoXipBuilderNode {
 
 ### 4 ###
 SoXipBuilderNode {
-    placement	-1.5 3.9 0.5 4.7
+    placement	-0.6 3.6 1.4 4.4
     flags	()
     autoPanelPos	164 606 385 392
     node	    LightModel {
@@ -57,58 +57,39 @@ SoXipBuilderNode {
 
 ### 5 ###
 SoXipBuilderNode {
-    placement	0.9 3.9 2.9 4.7
+    placement	1.8 3.6 3.8 4.4
     flags	()
-    autoPanelPos	802 154 385 392
+    autoPanelPos	500 520 0 0
     node	    SoXipImage {
 	fields [ SoXipSFDataImage image ]
-	image	"DATA"
+	image	"NULL"
     }
 
 }
-#connect "image@5" "Output@6"
+#connect "image@5" "output@6"
 
 ### 6 ###
 SoXipBuilderEngine {
-    placement	-3.49821 2.1 0.94451 2.9
+    placement	-0.6 2.1 1.4 2.9
     flags	()
-    autoPanelPos	439 444 0 0
-    engine	    SoItkIntensityWindowingImageFilter {
-	inputs [ SoItkSFDataImage Input0, SFFloat WindowMinimum, SFFloat OutputMaximum, SFFloat WindowMaximum ]
-	Input0	"DATA"
-	WindowMinimum	0
-	OutputMaximum	4095
-	WindowMaximum	200
-	outputs [ SoItkSFDataImage Output ]
-    }
-
-}
-#connect "Input0@6" "output@7"
-
-### 7 ###
-SoXipBuilderEngine {
-    placement	-6 2.1 -4 2.9
-    flags	()
-    autoPanelPos	651 466 385 464
+    autoPanelPos	17 450 0 0
     engine	    SoXipLoadRaw {
-	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
-		SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
-	voxelType	USHORT
+	inputs [ SFShort width, SFShort height, SFShort depth, SFMatrix modelMatrix,
+		SFString file ]
 	width	256
 	height	256
 	depth	1
-	bitsUsed	12
 	modelMatrix	1 0 0 0
 		0 -1 0 0
 		0 0 1 0
 		0 1 0 1
-	file	"../data/lena.raw"
+	file	"../data/lena-256x256x8.raw"
 	outputs [ SoXipSFDataImage output ]
     }
 
 }
 
-### 8 ###
+### 7 ###
 SoXipBuilderNode {
     placement	4 5.4 6.8 6.2
     flags	()
@@ -117,22 +98,21 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "8" "9 10 11 12 13 14"
+#addChild "7" "8 9 10 11 12 13"
 
-### 9 ###
+### 8 ###
 SoXipBuilderNode {
     placement	-2.7 4.2 0.05 5
     flags	()
     autoPanelPos	7 404 385 392
     node	    SoXipDropShadowStyle {
-	fields [ SFBool on, SFColor color,  ]
+	fields [ SFBool on,  ]
 	on	TRUE
-	color	0 0 0
     }
 
 }
 
-### 10 ###
+### 9 ###
 SoXipBuilderNode {
     placement	-2.7 3.3 -0.7 4.1
     flags	()
@@ -143,17 +123,17 @@ SoXipBuilderNode {
 
 }
 
-### 11 ###
+### 10 ###
 SoXipBuilderNode {
     placement	-2.4 2.1 0.0166665 2.9
     flags	()
     node	    SoXipOverlayManips {
-	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection ]
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection, SFBool enableSelection ]
     }
 
 }
 
-### 12 ###
+### 11 ###
 SoXipBuilderNode {
     placement	0.3 2.1 3.05 2.9
     flags	()
@@ -163,14 +143,14 @@ SoXipBuilderNode {
 		MFVec3f point ]
 	status	NONE
 	caption	"0.584 mm"
-	textPosition	0.447732 0.779195 -4.5
+	textPosition	0.442481 0.784446 -4.5
 	point	[ 0.158976 0.688895 -4.5,
 			  0.701572 0.904412 -4.5 ]
     }
 
 }
 
-### 13 ###
+### 12 ###
 SoXipBuilderNode {
     placement	3.6 2.1 5.6 2.9
     flags	()
@@ -178,29 +158,20 @@ SoXipBuilderNode {
 	fields [ SFEnum status, MFNode children ]
 	status	NONE
 	children	[ 			SoXipLine {
-			    fields [ SFEnum status, SFInt32 rank, SFString caption, SFVec3f textPosition,
-				    MFVec3f point ]
-			    status	NONE
-			    caption	"45 deg."
-			    textPosition	0.6974 0.621697 -4.5
-			    point	[ 0.59237 0.510797 -4.5,
-					      0.767514 0.767514 -4.5 ]
+			    fields [ SFInt32 rank, SFString caption, SFVec3f textPosition, MFVec3f point ]
+			    point	[  ]
 			}
 ,
 			  			SoXipLine {
-			    fields [ SFEnum status, SFInt32 rank, SFString caption, SFVec3f textPosition,
-				    MFVec3f point ]
-			    status	NONE
-			    textPosition	0.780174 0.481342 -4.5
-			    point	[ 0.647553 0.477207 -4.5,
-					      0.877879 0.520393 -4.5 ]
+			    fields [ SFInt32 rank, SFString caption, SFVec3f textPosition, MFVec3f point ]
+			    point	[  ]
 			}
  ]
     }
 
 }
 
-### 14 ###
+### 13 ###
 SoXipBuilderNode {
     placement	6.3 2.1 8.3 2.9
     flags	()
@@ -210,7 +181,7 @@ SoXipBuilderNode {
 		MFVec3f point, SFBool closed,  ]
 	status	NONE
 	caption	"0.241586"
-	textPosition	0.131877 0.108728 -4.5
+	textPosition	0.137128 0.113979 -4.5
 	point	[ 0.0940217 0.298944 -4.5,
 			  0.267178 0.549442 -4.5,
 			  0.413879 0.35509 -4.5,
@@ -233,9 +204,9 @@ SoXipBuilderNode {
     }
 
 }
-#connect "caption@14" "area@15"
+#connect "caption@13" "area@14"
 
-### 15 ###
+### 14 ###
 SoXipBuilderEngine {
     placement	9.30002 2.1 11.513 2.9
     flags	()
@@ -265,29 +236,30 @@ SoXipBuilderEngine {
     }
 
 }
-#connect "point@15" "point@14"
+#connect "point@14" "point@13"
 
 ### packages ###
 SoXipBuilderPackage {
     def	-1
-    placement	3.6 3.9 5.6 4.7
+    placement	4.5 3.6 6.5 4.4
     name	"Overlays"
-    members	[ 8, 9, 10, 11, 12, 13, 14, 15 ]
+    members	[ 7, 8, 9, 10, 11, 12, 13, 14 ]
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     inputsPlacement	4.5 -0.9 6.5 -0.1
-    outputs	8
+    outputs	7
     outputsPlacement	4.8 6.9 6.8 7.7
 }
 
 SoXipBuilderPackage {
     def	0
-    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
-		      7 ]
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6 ]
     position	-0.5 5.05 6.77588
     height	13.6296
     inputs	[  ]
+    inputsChildIndex	[  ]
     outputs	[  ]
 }
 

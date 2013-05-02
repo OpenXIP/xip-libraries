@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
@@ -129,9 +133,6 @@ SoVtkAppendPolyData::SoVtkAppendPolyData()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkAppendPolyData *aAppendPolyData = vtkAppendPolyData::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(UserManagedInputs, (0));
 	UserManagedInputs.setValue(aAppendPolyData->GetUserManagedInputs());
@@ -144,12 +145,11 @@ SoVtkAppendPolyData::SoVtkAppendPolyData()
 
 	aAppendPolyData->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -286,3 +286,4 @@ void SoVtkAppendPolyData::reset()
 
 	mObject->Update();
 }
+

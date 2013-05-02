@@ -106,17 +106,18 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
  */
  
- 
- 
-# include "SoVtkBlankStructuredGrid.h"
-# include "SoVtkUtils.h"
+#include "SoVtkBlankStructuredGrid.h"
+#include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkStructuredGrid.h"
-
+#include "vtkAlgorithmOutput.h"
+#include "vtkStructuredGrid.h"
 
 SO_ENGINE_SOURCE( SoVtkBlankStructuredGrid )
 
@@ -128,10 +129,8 @@ SoVtkBlankStructuredGrid::SoVtkBlankStructuredGrid()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkBlankStructuredGrid *aBlankStructuredGrid = vtkBlankStructuredGrid::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	vtkBlankStructuredGrid *aBlankStructuredGrid =
+					vtkBlankStructuredGrid::New();
 
 	SO_ENGINE_ADD_INPUT(ArrayName, (""));
 
@@ -154,9 +153,9 @@ SoVtkBlankStructuredGrid::SoVtkBlankStructuredGrid()
 
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
-
 
 	addCalled = 0;
 }
@@ -166,14 +165,12 @@ SoVtkBlankStructuredGrid::~SoVtkBlankStructuredGrid()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
@@ -184,8 +181,6 @@ SoVtkBlankStructuredGrid::~SoVtkBlankStructuredGrid()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkBlankStructuredGrid::initClass()
@@ -206,14 +201,12 @@ void SoVtkBlankStructuredGrid::evaluate()
 		// Deletion of the objects if they exist
 		if ( mOutput )
 		{
-		
-			mOutput->unref();
+		  mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
@@ -243,8 +236,10 @@ void SoVtkBlankStructuredGrid::evaluate()
 		SoDebugError::post( __FILE__, "Unknown Exception" );
 		return;
 	}
+
 	SO_ENGINE_OUTPUT( Output, SoSFVtkObject, setValue( mOutput ) );
-	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue( mOutputPort ) );
+	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue(
+												 mOutputPort ) );
 }
 
 
@@ -288,24 +283,20 @@ void SoVtkBlankStructuredGrid::reset()
 		mObject->SetInputConnection(inputPortPtr->getPointer());
 
 	// Get the ArrayName value
-	
 		SO_VTK_SET_FIELD_MFSTRING( mObject, ArrayName);
 
 	// Get the Component value
-	
 		SO_VTK_SET_FIELD_VALUE( mObject, Component);
 
 	// Get the ArrayId value
-	
 		SO_VTK_SET_FIELD_VALUE( mObject, ArrayId);
 
 	// Get the MaxBlankingValue value
-	
 		SO_VTK_SET_FIELD_VALUE( mObject, MaxBlankingValue);
 
 	// Get the MinBlankingValue value
-	
 		SO_VTK_SET_FIELD_VALUE( mObject, MinBlankingValue);
 
 	mObject->Update();
 }
+

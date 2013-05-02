@@ -167,8 +167,8 @@ void SbXipThread::join()
 #ifdef _WINDOWS
 	WaitForSingleObject(mThreadHandle, INFINITE);
 #else
-	
-	pthread_join(mThreadHandle, NULL);
+	int status;
+	pthread_join(mThreadHandle, &status);
 #endif
 }
 
@@ -229,4 +229,6 @@ void SbXipThreadNotify::startNotify()
 	if (mNotifySensor)
 		mNotifySensor->schedule();
 }
+
+
 

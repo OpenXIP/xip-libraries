@@ -1,0 +1,757 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.2 6 0.6 6.8
+    flags	()
+    autoPanelPos	634 154 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 7 8 9 10 11 12 13 14"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-9.9 3.3 -7.9 4.1
+    flags	()
+    autoPanelPos	85 249 0 0
+    node	    SoXipMprPlane {
+	fields [ SFMatrix plane, SFVec3f center,  ]
+	plane	0.0760426 0.458655 -0.885354 0
+		-0.708262 -0.600146 -0.371736 0
+		-0.701842 0.655333 0.27921 0
+		0.5 0.5 0.5 1
+	center	0.5 0.5 0.5
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-7.8 3.3 -5.48831 4.1
+    flags	()
+    autoPanelPos	183 240 0 0
+    node	    SoXipMprExaminer {
+	mode	ROTATE
+	dogEar	TRUE
+	orientationCube	TRUE
+	camera		OrthographicCamera {
+	    position	0.5 0.5 0.5
+	    orientation	-0.656137 0.117237 0.745479  2.24266
+	    nearDistance	-1
+	    farDistance	1
+	    focalDistance	0
+	    height	0.999998
+	}
+
+	complexity		Complexity {
+	    value	0.5
+	    textureQuality	0.5
+	}
+
+	intersectionManip		SoXipMprIntersectionManip {
+	    fields [ SFBool on,  ]
+	    on	TRUE
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	1 1 1
+	    inactiveColor	1 1 1
+	}
+
+	dogEarNode		DEF +0 SoXipDogEar {
+	    fields [  ]
+	}
+
+	orientationNode		DEF +1 SoXipOrientationCube {
+	    fields [  ]
+	}
+
+	dogEarSwitch		Switch {
+	    whichChild	0
+	    USE +0
+	}
+
+	orientationSwitch		Switch {
+	    whichChild	0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-5.1 3.3 -3.1 4.1
+    flags	()
+    autoPanelPos	164 326 0 0
+    node	    SoXipTexture {
+	fields [ SoXipSFDataImage image, SFEnum wrapS, SFEnum wrapT, SFEnum wrapR,
+		SFEnum internalFormat, SFVec3f textureSize,  ]
+	image	"NULL"
+	wrapS	CLAMP_TO_BORDER
+	wrapT	CLAMP_TO_BORDER
+	wrapR	CLAMP_TO_BORDER
+	internalFormat	LUMINANCE16
+	textureSize	512 512 238
+    }
+
+}
+#connect "image@3" "output@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-5.1 -1.8 -2.72338 -1
+    flags	()
+    autoPanelPos	412 299 0 0
+    engine	    SoXipVolumeDicom {
+	inputs [ SoXipMFDataDicom input ]
+	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL" ]
+	outputs [ SoXipSFDataImage output ]
+    }
+
+}
+#connect "input@4" "output@5"
+
+### 5 ###
+SoXipBuilderEngine {
+    placement	-5.1 -3 -3.1 -2.2
+    flags	()
+    autoPanelPos	49 451 0 0
+    engine	    SoXipSortDicom {
+	inputs [ SoXipMFDataDicom input ]
+	input	[ "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL",
+			  "NULL" ]
+	outputs [ SoXipMFDataDicom output ]
+    }
+
+}
+#connect "input@5" "dicom@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-5.1 -4.2 -3.1 -3.4
+    flags	()
+    autoPanelPos	248 375 0 0
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\..\data\Acetabulum"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### 7 ###
+SoXipBuilderNode {
+    placement	-4.5 -0.6 -1.37926 0.2
+    flags	()
+    autoPanelPos	49 334 0 0
+    node	    SoXipWindowLevelManip {
+	fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	window	0.711426
+	level	0.157715
+	mouse	BUTTON3
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-2.7 3.3 -0.532818 4.1
+    flags	()
+    autoPanelPos	328 330 0 0
+    node	    SoXipTextureUnit {
+	fields [ SFInt32 textureStage, SFBool autoGenerate ]
+	textureStage	1
+	autoGenerate	FALSE
+    }
+
+}
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-2.7 2.1 -0.700001 2.9
+    flags	()
+    autoPanelPos	557 378 0 0
+    node	    SoXipLut {
+	fields [ SoXipSFDataImage LUTDataImage, SFEnum fileMode, SFShort bitsUsed, SFFloat rampWidth,
+		SFFloat rampCenter, SFString fileIn, SFInt32 fileEntries, MFColor arrayColor,
+		MFFloat arrayAlpha ]
+	LUTDataImage	"NULL"
+	fileMode	FLOAT_COMMA
+	bitsUsed	16
+	rampWidth	0.711426
+	rampCenter	0.157715
+	fileIn	"SplineShaded.txt"
+	fileEntries	4096
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+#connect "rampWidth@9" "window@7"
+#connect "rampCenter@9" "level@7"
+
+### 10 ###
+SoXipBuilderNode {
+    placement	-2.7 0.9 -0.7 1.7
+    flags	()
+    autoPanelPos	198 268 0 0
+    node	    SoXipLutTexture {
+	fields [ SoSFVec2s textureSize ]
+	textureSize	256 256
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	-0.3 3.3 2.0839 4.1
+    flags	()
+    autoPanelPos	307 182 0 0
+    node	    SoXipLoadShaders {
+	fields [ SFString fpFilename, SFString vpFilename,  ]
+	fpFilename	"mpr_fp.glsl"
+	vpFilename	"mpr_vp.glsl"
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	0 2.1 2 2.9
+    flags	()
+    autoPanelPos	605 267 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name, MFInt32 value ]
+	name	"lut"
+	value	1
+    }
+
+}
+
+### 13 ###
+SoXipBuilderNode {
+    placement	0 0.9 2 1.7
+    flags	()
+    autoPanelPos	663 134 0 0
+    node	    SoXipUniformInt {
+	fields [ SFString name,  ]
+	name	"volume"
+    }
+
+}
+
+### 14 ###
+SoXipBuilderNode {
+    placement	2.4 3.3 4.54551 4.1
+    flags	()
+    autoPanelPos	614 170 0 0
+    node	    SoXipMprRender {
+	fields [  ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	-5.7 2.1 -3.7 2.9
+    name	"volume"
+    members	[ 4, 5, 6 ]
+    position	0 0 1
+    height	16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-4.91169 -7 -2.91169 -6.2
+    outputs	[  ]
+    outputsPlacement	-4.91169 1 -2.91169 1.8
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 7, 8, 9,
+		      10, 11, 12, 13, 14 ]
+    position	0 0 1
+    height	16.4115
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

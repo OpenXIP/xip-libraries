@@ -20,7 +20,7 @@
 #elif defined(__i386__) || defined(__alpha__) \
    || defined(__ia64) || defined(__ia64__) \
    || defined(_M_IX86) || defined(_M_IA64) \
-   || defined(_M_ALPHA)
+   || defined(_M_ALPHA) || defined(_WIN64)
 # define FL_LITTLE_ENDIAN
 #else
 # error The file flendian.h needs to be set up for your CPU type.

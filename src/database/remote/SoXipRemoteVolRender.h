@@ -138,12 +138,13 @@
 
 #include <xip/inventor/remote/XipRenderActionParams.h>
 #include <xip/inventor/remote/XipRequestManager.h>
-#include <xip/inventor/remote/jpegWrapper/bufferImage.h>
-
 #include <xip/inventor/core/SoXipRenderModeElement.h>
+
+#ifndef WIN64
+#include <xip/inventor/remote/jpegWrapper/bufferImage.h>
 #include <xip/inventor/remote/losslessCompression/losslessCompression.h>
 #include <xip/inventor/remote/losslessCompression/fastMemTransfer.h>
-
+#endif
 
 class SbXipImage;
 
@@ -416,7 +417,9 @@ private:
 	//losslessCompression compressorObj;
 
 	//! Fast Memory Transfers
-	fastMemTransfer memTransfers;	 
+#ifndef WIN64
+	fastMemTransfer memTransfers;
+#endif // WIN64
 };
 
 #endif // SOXIPREMOTEVOLRENDER_H

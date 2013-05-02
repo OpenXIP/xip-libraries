@@ -1,0 +1,396 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-0.3 8.1 1.7 8.9
+    flags	()
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-2.4 6.6 -0.400003 7.4
+    flags	()
+    autoPanelPos	352 98 0 0
+    node	    LightModel {
+	model	BASE_COLOR
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-0.0767622 6.6 2.49343 7.4
+    flags	()
+    viewPos	-61 164 829 321
+    autoPanelPos	305 244 385 392
+    node	    SoXipViewportGroup {
+	fields [ MFVec4f viewports,  ]
+	viewports	[ 0 0 0.33 1,
+			  0.33 0 0.33 1,
+			  0.66 0 0.34 1 ]
+    }
+
+}
+#addChild "2" "3 13 17"
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-2.7 4.5 -0.700001 5.3
+    flags	()
+    viewPos	825 437 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "3" "4 5 8"
+
+### 4 ###
+SoXipBuilderNode {
+    placement	-6.6 2.4 -4.6 3.2
+    flags	()
+    autoPanelPos	171 519 0 0
+    node	    SoXipExaminer {
+	plane	-0 -8.74228e-008 1  0.5
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-4.2 2.4 -2.2 3.2
+    flags	()
+    autoPanelPos	215 605 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@5" "Output@6"
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-5.77873 -0.3 -1.87127 0.5
+    flags	()
+    autoPanelPos	114 582 0 0
+    engine	    SoItkRescaleIntensityImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFEnum OutputPixelType ]
+	Input0	"NULL"
+	OutputPixelType	UNSIGNED_SHORT
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@6" "Output@7"
+
+### 7 ###
+SoXipBuilderEngine {
+    placement	-5.7 -1.5 -3.11667 -0.7
+    flags	()
+    autoPanelPos	86 646 0 0
+    engine	    SoItkImageFileReader {
+	inputs [ SFString File, SFEnum Type,  ]
+	File	"../../data/cthead1.png"
+	Type	UNSIGNED_SHORT
+	outputs [ SoItkSFDataImage Output, MFShort Dimensions ]
+    }
+
+}
+
+### 8 ###
+SoXipBuilderNode {
+    placement	-2.4 1.8 -0.4 2.6
+    flags	()
+    node	    Group {
+    }
+
+}
+#addChild "8" "9 10 11 12"
+
+### 9 ###
+SoXipBuilderNode {
+    placement	-4.8 0 -2.8 0.8
+    flags	()
+    autoPanelPos	464 511 385 392
+    node	    Coordinate3 {
+	point	0.629824 0.661672 0
+    }
+
+}
+
+### 10 ###
+SoXipBuilderNode {
+    placement	-2.1 0 -0.0999999 0.8
+    flags	()
+    autoPanelPos	437 556 385 392
+    node	    BaseColor {
+	rgb	0 0 1
+    }
+
+}
+
+### 11 ###
+SoXipBuilderNode {
+    placement	0.6 0 2.6 0.8
+    flags	()
+    autoPanelPos	566 557 385 392
+    node	    DrawStyle {
+	pointSize	4
+    }
+
+}
+
+### 12 ###
+SoXipBuilderNode {
+    placement	3 0 5 0.8
+    flags	()
+    node	    PointSet {
+    }
+
+}
+
+### 13 ###
+SoXipBuilderNode {
+    placement	2.1 4.2 4.1 5
+    flags	()
+    viewPos	825 437 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "13" "14 15"
+
+### 14 ###
+SoXipBuilderNode {
+    placement	0.9 2.4 2.9 3.2
+    flags	()
+    autoPanelPos	780 512 0 0
+    node	    SoXipExaminer {
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 15 ###
+SoXipBuilderNode {
+    placement	3 2.4 5 3.2
+    flags	()
+    autoPanelPos	343 265 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@15" "Output@16"
+
+### 16 ###
+SoXipBuilderEngine {
+    placement	-0.6 -1.5 3.33506 -0.7
+    flags	()
+    autoPanelPos	384 341 0 0
+    engine	    SoItkDoubleThresholdImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat Threshold1, SFFloat Threshold3, SFFloat Threshold2,
+		SFFloat Threshold4 ]
+	Input0	"NULL"
+	Threshold1	10000
+	Threshold3	50000
+	Threshold2	38400
+	Threshold4	54880
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@16" "Output@6"
+
+### 17 ###
+SoXipBuilderNode {
+    placement	7.2 4.2 9.2 5
+    flags	()
+    viewPos	825 437 385 392
+    node	    Separator {
+    }
+
+}
+#addChild "17" "18 19"
+
+### 18 ###
+SoXipBuilderNode {
+    placement	6 2.4 8 3.2
+    flags	()
+    autoPanelPos	1161 506 0 0
+    node	    SoXipExaminer {
+	complexity		Complexity {
+	}
+
+	orthoCamera		DEF +0 OrthographicCamera {
+	}
+
+	perspectiveCamera		DEF +1 PerspectiveCamera {
+	    position	0.5 0.5 -1.59077
+	    orientation	1 0 0  3.14159
+	    nearDistance	1.22474
+	    farDistance	2.9568
+	    focalDistance	2.09077
+	    heightAngle	0.785398
+	}
+
+	borderNode		SoXipViewportBorder {
+	    fields [ SFColor activeColor, SFColor inactiveColor,  ]
+	    activeColor	0.7 0.7 0.7
+	    inactiveColor	0.7 0.7 0.7
+	}
+
+	cameraSwitch		Switch {
+	    whichChild	1
+	    USE +0
+	    USE +1
+	}
+
+    }
+
+}
+
+### 19 ###
+SoXipBuilderNode {
+    placement	8.1 2.4 10.1 3.2
+    flags	()
+    autoPanelPos	343 265 385 392
+    node	    SoXipImage {
+	fields [ SoXipSFDataImage image ]
+	image	"NULL"
+    }
+
+}
+#connect "image@19" "Output@20"
+
+### 20 ###
+SoXipBuilderEngine {
+    placement	4.42127 0.9 8.32873 1.7
+    flags	()
+    autoPanelPos	502 195 385 392
+    engine	    SoItkRescaleIntensityImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFFloat OutputMaximum,  ]
+	Input0	"NULL"
+	OutputMaximum	1
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@20" "Output@21"
+
+### 21 ###
+SoXipBuilderEngine {
+    placement	4.5 -0.3 7.06481 0.5
+    flags	()
+    autoPanelPos	737 139 385 392
+    engine	    SoItkMaskImageFilter {
+	inputs [ SoItkSFDataImage Input0, SoItkSFDataImage Input1,  ]
+	Input0	"NULL"
+	Input1	"NULL"
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@21" "Output@6"
+#connect "Input1@21" "Output@22"
+
+### 22 ###
+SoXipBuilderEngine {
+    placement	4.38233 -1.5 9.46026 -0.7
+    flags	()
+    autoPanelPos	512 611 385 392
+    engine	    SoItkHardConnectedComponentImageFilter {
+	inputs [ SoItkSFDataImage Input0, SFVec3f ObjectSeed ]
+	Input0	"NULL"
+	ObjectSeed	0.629824 0.661672 0
+	outputs [ SoItkSFDataImage Output ]
+    }
+
+}
+#connect "Input0@22" "Output@16"
+
+### packages ###
+SoXipBuilderPackage {
+    def	-1
+    placement	-2.1 2.4 -0.1 3.2
+    name	"Picking"
+    members	[ 8, 9, 10, 11, 12 ]
+    position	0.0999999 1.5 1
+    height	14.6667
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    inputsPlacement	-1.9 -2.4 0.0999999 -1.6
+    outputs	8
+    outputsPlacement	-1.9 4.6 0.0999999 5.4
+}
+
+SoXipBuilderPackage {
+    def	0
+    members	[ -1, 0, 1, 2, 3, 4, 5, 6,
+		      7, 13, 14, 15, 16, 17, 18, 19,
+		      20, 21, 22 ]
+    position	1.81667 2.5 8.52288
+    height	18.0541
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

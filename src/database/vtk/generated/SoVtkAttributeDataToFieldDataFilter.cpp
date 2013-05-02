@@ -106,23 +106,24 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume <sylvain.jaume@siemens.com>, Francois Huguet
  */
  
- 
- 
-# include "SoVtkAttributeDataToFieldDataFilter.h"
-# include "SoVtkUtils.h"
+#include "SoVtkAttributeDataToFieldDataFilter.h"
+#include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkImageData.h"
-# include "vtkStructuredPoints.h"
-# include "vtkStructuredGrid.h"
-# include "vtkDataSet.h"
-# include "vtkRectilinearGrid.h"
-# include "vtkUnstructuredGrid.h"
-# include "vtkPolyData.h"
-
+#include "vtkAlgorithmOutput.h"
+#include "vtkImageData.h"
+#include "vtkStructuredPoints.h"
+#include "vtkStructuredGrid.h"
+#include "vtkDataSet.h"
+#include "vtkRectilinearGrid.h"
+#include "vtkUnstructuredGrid.h"
+#include "vtkPolyData.h"
 
 SO_ENGINE_SOURCE( SoVtkAttributeDataToFieldDataFilter )
 
@@ -134,36 +135,40 @@ SoVtkAttributeDataToFieldDataFilter::SoVtkAttributeDataToFieldDataFilter()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkAttributeDataToFieldDataFilter *aAttributeDataToFieldDataFilter = vtkAttributeDataToFieldDataFilter::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
+	vtkAttributeDataToFieldDataFilter *aAttributeDataToFieldDataFilter
+				 = vtkAttributeDataToFieldDataFilter::New();
 
 	SO_ENGINE_ADD_INPUT(PassAttributeData, (0));
-	PassAttributeData.setValue(aAttributeDataToFieldDataFilter->GetPassAttributeData());
+	PassAttributeData.setValue(aAttributeDataToFieldDataFilter->
+									GetPassAttributeData());
 
 	SO_ENGINE_ADD_INPUT(InputConnection, (0));
 
 	aAttributeDataToFieldDataFilter->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oImageDataOutput, SoSFVtkObject );
 	mImageDataOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oStructuredPointsOutput, SoSFVtkObject );
 	mStructuredPointsOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oStructuredGridOutput, SoSFVtkObject );
 	mStructuredGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oRectilinearGridOutput, SoSFVtkObject );
 	mRectilinearGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oUnstructuredGridOutput, SoSFVtkObject );
 	mUnstructuredGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oPolyDataOutput, SoSFVtkObject );
 	mPolyDataOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -173,56 +178,48 @@ SoVtkAttributeDataToFieldDataFilter::~SoVtkAttributeDataToFieldDataFilter()
 	// Deletion of the objects if they exist
 	if ( mImageDataOutput )
 	{
-	
 		mImageDataOutput->unref();
 		mImageDataOutput = 0;
 	}
 	
 	if ( mStructuredPointsOutput )
 	{
-	
 		mStructuredPointsOutput->unref();
 		mStructuredPointsOutput = 0;
 	}
 	
 	if ( mStructuredGridOutput )
 	{
-	
 		mStructuredGridOutput->unref();
 		mStructuredGridOutput = 0;
 	}
 	
 	if ( mOutput )
 	{
-	
-		mOutput->unref();
+    mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mRectilinearGridOutput )
 	{
-	
 		mRectilinearGridOutput->unref();
 		mRectilinearGridOutput = 0;
 	}
 	
 	if ( mUnstructuredGridOutput )
 	{
-	
 		mUnstructuredGridOutput->unref();
 		mUnstructuredGridOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
 	
 	if ( mPolyDataOutput )
 	{
-	
 		mPolyDataOutput->unref();
 		mPolyDataOutput = 0;
 	}
@@ -233,13 +230,12 @@ SoVtkAttributeDataToFieldDataFilter::~SoVtkAttributeDataToFieldDataFilter()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkAttributeDataToFieldDataFilter::initClass()
 {
-	SO_ENGINE_INIT_CLASS( SoVtkAttributeDataToFieldDataFilter, SoEngine, "Engine" );
+	SO_ENGINE_INIT_CLASS( SoVtkAttributeDataToFieldDataFilter,
+								 SoEngine, "Engine" );
 }
 
 void SoVtkAttributeDataToFieldDataFilter::evaluate()
@@ -255,56 +251,48 @@ void SoVtkAttributeDataToFieldDataFilter::evaluate()
 		// Deletion of the objects if they exist
 		if ( mImageDataOutput )
 		{
-		
 			mImageDataOutput->unref();
 			mImageDataOutput = 0;
 		}
 		
 		if ( mStructuredPointsOutput )
 		{
-		
 			mStructuredPointsOutput->unref();
 			mStructuredPointsOutput = 0;
 		}
 		
 		if ( mStructuredGridOutput )
 		{
-		
 			mStructuredGridOutput->unref();
 			mStructuredGridOutput = 0;
 		}
 		
 		if ( mOutput )
 		{
-		
 			mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mRectilinearGridOutput )
 		{
-		
 			mRectilinearGridOutput->unref();
 			mRectilinearGridOutput = 0;
 		}
 		
 		if ( mUnstructuredGridOutput )
 		{
-		
 			mUnstructuredGridOutput->unref();
 			mUnstructuredGridOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
 		
 		if ( mPolyDataOutput )
 		{
-		
 			mPolyDataOutput->unref();
 			mPolyDataOutput = 0;
 		}
@@ -323,7 +311,8 @@ void SoVtkAttributeDataToFieldDataFilter::evaluate()
 		mObject->GetStructuredPointsOutput();
 		mStructuredPointsOutput = new SoVtkObject();
 		mStructuredPointsOutput->ref();
-		mStructuredPointsOutput->setPointer( mObject->GetStructuredPointsOutput() );
+		mStructuredPointsOutput->setPointer( mObject->
+										GetStructuredPointsOutput() );
 
 		mObject->GetStructuredGridOutput();
 		mStructuredGridOutput = new SoVtkObject();
@@ -404,3 +393,4 @@ void SoVtkAttributeDataToFieldDataFilter::reset()
 
 	mObject->Update();
 }
+

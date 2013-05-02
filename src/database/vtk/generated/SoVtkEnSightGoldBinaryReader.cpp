@@ -105,18 +105,20 @@
  *      LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
- *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ *      THE POSSIBILITY OF SUCH DAMAGE.  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
  */
  
- 
- 
-# include "SoVtkEnSightGoldBinaryReader.h"
-# include "SoVtkUtils.h"
+#include "SoVtkEnSightGoldBinaryReader.h"
+#include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkDataSet.h"
-
+#include "vtkAlgorithmOutput.h"
+#include "vtkDataSet.h"
+#include "vtkMultiBlockDataSet.h"
 
 SO_ENGINE_SOURCE( SoVtkEnSightGoldBinaryReader )
 
@@ -128,7 +130,9 @@ SoVtkEnSightGoldBinaryReader::SoVtkEnSightGoldBinaryReader()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkEnSightGoldBinaryReader *aEnSightGoldBinaryReader = vtkEnSightGoldBinaryReader::New();
+	vtkEnSightGoldBinaryReader *aEnSightGoldBinaryReader =
+	  vtkEnSightGoldBinaryReader::New();
+
 	double *x = 0;
 	int *y = 0;
 	float *z = 0;
@@ -265,7 +269,9 @@ void SoVtkEnSightGoldBinaryReader::inputChanged(SoField * f)
 	// Get the NumberOfInputConnections value
 	if ( f == &NumberOfInputConnections )
 	{
-		SbVariant *vNumberOfInputConnections = (SbVariant *)NumberOfInputConnections.getValues(0);
+		SbVariant *vNumberOfInputConnections = (SbVariant *)
+		  NumberOfInputConnections.getValues(0);
+
 		SoInput input;
 		int nb_fields = NumberOfInputConnections.getNum();
 
@@ -273,13 +279,13 @@ void SoVtkEnSightGoldBinaryReader::inputChanged(SoField * f)
 		int val1;
 		for (int i=0; i < nb_fields; i++)
 		{
-			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
+			input.setBuffer((void *)vNumberOfInputConnections[i].getField().
+			  getString(),256);
+
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -309,21 +315,20 @@ void SoVtkEnSightGoldBinaryReader::reset()
 		mObject->SetInputConnection(inputPortPtr->getPointer());
 
 	// Get the ByteOrder value
-	
-		SO_VTK_SET_FIELD_VALUE( mObject, ByteOrder);
+	SO_VTK_SET_FIELD_VALUE( mObject, ByteOrder);
 
 	// Get the TimeValue value
-	
-		SO_VTK_SET_FIELD_VALUE( mObject, TimeValue);
+	SO_VTK_SET_FIELD_VALUE( mObject, TimeValue);
 
 	// Get the FilePath value
-	
-		SO_VTK_SET_FIELD_MFSTRING( mObject, FilePath);
+	SO_VTK_SET_FIELD_MFSTRING( mObject, FilePath);
 
 	// Get the NumberOfInputConnections value
 	if (addCalled == 1)
 	{
-		SbVariant *vNumberOfInputConnections = (SbVariant *)NumberOfInputConnections.getValues(0);
+		SbVariant *vNumberOfInputConnections = (SbVariant *)
+		  NumberOfInputConnections.getValues(0);
+
 		SoInput input;
 		int nb_fields = NumberOfInputConnections.getNum();
 
@@ -331,23 +336,21 @@ void SoVtkEnSightGoldBinaryReader::reset()
 		int val1;
 		for (int i=0; i < nb_fields; i++)
 		{
-			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
+			input.setBuffer((void *)vNumberOfInputConnections[i].getField().
+			  getString(),256);
+
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
 	// Get the CaseFileName value
-	
-		SO_VTK_SET_FIELD_MFSTRING( mObject, CaseFileName);
+	SO_VTK_SET_FIELD_MFSTRING( mObject, CaseFileName);
 
 	// Get the ReadAllVariables value
-	
-		SO_VTK_SET_FIELD_VALUE( mObject, ReadAllVariables);
+	SO_VTK_SET_FIELD_VALUE( mObject, ReadAllVariables);
 
 	mObject->Update();
 }
+

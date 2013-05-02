@@ -2,8 +2,9 @@
 
 ### 0 ###
 SoXipBuilderNode {
-    placement	-4.7 3.3 -1.1 4.1
+    placement	-2.7 2.7 0.9 3.5
     flags	()
+    autoPanelPos	281 191 0 0
     node	    Separator {
     }
 
@@ -12,7 +13,7 @@ SoXipBuilderNode {
 
 ### 1 ###
 SoXipBuilderNode {
-    placement	-9.3 1.5 -7.3 2.3
+    placement	-9.6 -0.3 -7.6 0.5
     flags	()
     autoPanelPos	1 240 0 0
     node	    SoXipFontType {
@@ -24,7 +25,7 @@ SoXipBuilderNode {
 
 ### 2 ###
 SoXipBuilderNode {
-    placement	-9.6 0.3 -7.10649 1.1
+    placement	-7.2 -0.3 -4.70649 0.5
     flags	()
     node	    OrthographicCamera {
     }
@@ -33,7 +34,7 @@ SoXipBuilderNode {
 
 ### 3 ###
 SoXipBuilderNode {
-    placement	-6.6 0.3 -4.6 1.1
+    placement	-4.5 -0.3 -2.5 0.5
     flags	()
     node	    DirectionalLight {
     }
@@ -42,7 +43,7 @@ SoXipBuilderNode {
 
 ### 4 ###
 SoXipBuilderNode {
-    placement	-4.2 0.3 -2.2 1.1
+    placement	-2.1 -0.3 -0.1 0.5
     flags	()
     node	    Group {
     }
@@ -52,7 +53,7 @@ SoXipBuilderNode {
 
 ### 5 ###
 SoXipBuilderNode {
-    placement	-7.5 -2.4 -5.2013 -1.6
+    placement	-3.6 -3 -1.3013 -2.2
     flags	()
     autoPanelPos	338 660 0 0
     node	    SoXipOverlayColor {
@@ -65,7 +66,7 @@ SoXipBuilderNode {
 
 ### 6 ###
 SoXipBuilderNode {
-    placement	-4.8 -2.4 -2.5013 -1.6
+    placement	-0.9 -3 1.3987 -2.2
     flags	()
     autoPanelPos	188 786 0 0
     node	    SoXipOverlayColor {
@@ -79,19 +80,18 @@ SoXipBuilderNode {
 
 ### 7 ###
 SoXipBuilderNode {
-    placement	-1.8 0.3 0.693505 1.1
+    placement	0.3 -0.3 2.7935 0.5
     flags	()
     node	    SoXipOverlayManips {
-	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection ]
+	fields [ SFShort numNodesUpToContainer, SFBool multipleSelection, SFBool enableSelection ]
     }
 
 }
 
 ### 8 ###
 SoXipBuilderNode {
-    placement	0.9 0.3 3.56234 1.1
+    placement	3 -0.3 5.66234 0.5
     flags	()
-    autoPanelPos	0 0 0 0
     node	    SoXipOverlayManager {
 	fields [ SFBool create, MFString shapeLabel, SFString shapeCaption,  ]
 	create	TRUE
@@ -103,31 +103,14 @@ SoXipBuilderNode {
 
 ### 9 ###
 SoXipBuilderNode {
-    placement	3.9 0.3 6.38052 1.1
+    placement	6 -0.3 8.48053 0.5
     flags	()
     autoPanelPos	1112 727 0 0
     node	    SoXipOverlaySearch {
 	fields [ MFString label, SFBool selected, MFNode overlays, SFInt32 numOverlays ]
 	label	[  ]
 	selected	TRUE
-	overlays		SoXipShapeList {
-	    fields [ SFString label ]
-	    label	""
-	    SoXipEllipse {
-		fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
-			SFVec3f textPosition, SFVec3f center, SFVec3f a, SFVec3f b,
-			 ]
-		status	NONE
-		label	[ "User",
-				  "adjudicated" ]
-		caption	""
-		textPosition	-0.539361 0.137833 -4.5
-		center	-0.24477 0.349373 -4.5
-		a	0 -0.299163 0
-		b	0.387029 0 0
-	    }
-	}
-
+	overlays	[  ]
 	numOverlays	1
     }
 
@@ -135,12 +118,11 @@ SoXipBuilderNode {
 
 ### 10 ###
 SoXipBuilderNode {
-    placement	6.9 1.5 8.9 2.3
+    placement	9 0.9 11 1.7
     flags	()
-    autoPanelPos	1094 217 0 0
+    autoPanelPos	662 261 0 0
     node	    Text2 {
-	string	""
-	justification	LEFT
+	string	"Hello!"
     }
 
 }
@@ -148,29 +130,12 @@ SoXipBuilderNode {
 
 ### 11 ###
 SoXipBuilderEngine {
-    placement	6.9 0.3 9.77013 1.1
+    placement	9 -0.3 11.8701 0.5
     flags	()
     autoPanelPos	819 747 0 0
     engine	    SoXipOverlayProperties {
 	inputs [ MFNode overlays, SFString label, SFString caption,  ]
-	overlays		SoXipShapeList {
-	    fields [ SFString label ]
-	    label	""
-	    SoXipEllipse {
-		fields [ SFEnum status, SFInt32 rank, MFString label, SFString caption,
-			SFVec3f textPosition, SFVec3f center, SFVec3f a, SFVec3f b,
-			 ]
-		status	NONE
-		label	[ "User",
-				  "adjudicated" ]
-		caption	""
-		textPosition	-0.539361 0.137833 -4.5
-		center	-0.24477 0.349373 -4.5
-		a	0 -0.299163 0
-		b	0.387029 0 0
-	    }
-	}
-
+	overlays	[  ]
 	label	"adjudicated"
 	caption	"adjudicated"
 	outputs [ SFString status ]
@@ -187,6 +152,7 @@ SoXipBuilderPackage {
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     outputs	[  ]
 }
 

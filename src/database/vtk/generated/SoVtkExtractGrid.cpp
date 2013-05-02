@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkExtractGrid.h"
 # include "SoVtkUtils.h"
@@ -128,7 +132,6 @@ SoVtkExtractGrid::SoVtkExtractGrid()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkExtractGrid *aExtractGrid = vtkExtractGrid::New();
-	double *x;
 	int *y;
 
 	SO_ENGINE_ADD_INPUT(VOI, (0));
@@ -294,3 +297,4 @@ void SoVtkExtractGrid::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

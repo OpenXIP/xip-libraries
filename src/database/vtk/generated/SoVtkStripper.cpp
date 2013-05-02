@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkStripper.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkStripper::SoVtkStripper()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkStripper *aStripper = vtkStripper::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(MaximumLength, (0));
 	MaximumLength.setValue(aStripper->GetMaximumLength());
@@ -277,3 +279,4 @@ void SoVtkStripper::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

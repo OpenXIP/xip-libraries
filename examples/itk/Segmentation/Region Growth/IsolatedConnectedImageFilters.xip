@@ -2,7 +2,7 @@
 
 ### 0 ###
 SoXipBuilderNode {
-    placement	0.981219 9.19838 2.98122 9.99838
+    placement	0.9 9.3 2.9 10.1
     flags	()
     node	    Separator {
     }
@@ -139,7 +139,7 @@ SoXipBuilderEngine {
 
 ### 9 ###
 SoXipBuilderNode {
-    placement	-2.6 3 -0.2 3.8
+    placement	-4.5 0 -2.1 0.8
     flags	()
     node	    Separator {
     }
@@ -149,23 +149,23 @@ SoXipBuilderNode {
 
 ### 10 ###
 SoXipBuilderNode {
-    placement	-7.2 1.2 -5.2 2
+    placement	-9.3 -1.8 -7.3 -1
     flags	()
-    autoPanelPos	72 147 0 0
+    autoPanelPos	116 330 0 0
     node	    SoXipPickAction {
 	fields [ MFVec3f point ]
-	point	0.326175 0.532344 0
+	point	0.321704 0.569772 0
     }
 
 }
 
 ### 11 ###
 SoXipBuilderNode {
-    placement	-5.1 1.2 -3.1 2
+    placement	-7.2 -1.8 -5.2 -1
     flags	()
     autoPanelPos	266 417 0 0
     node	    Coordinate3 {
-	point	0.326175 0.532344 0
+	point	0.321704 0.569772 0
     }
 
 }
@@ -173,7 +173,7 @@ SoXipBuilderNode {
 
 ### 12 ###
 SoXipBuilderNode {
-    placement	-3 1.2 -1 2
+    placement	-5.1 -1.8 -3.1 -1
     flags	()
     autoPanelPos	326 514 385 392
     node	    BaseColor {
@@ -184,7 +184,7 @@ SoXipBuilderNode {
 
 ### 13 ###
 SoXipBuilderNode {
-    placement	-0.9 1.2 1.1 2
+    placement	-3 -1.8 -1 -1
     flags	()
     autoPanelPos	183 533 385 392
     node	    DrawStyle {
@@ -195,7 +195,7 @@ SoXipBuilderNode {
 
 ### 14 ###
 SoXipBuilderNode {
-    placement	1.2 1.2 3.2 2
+    placement	-0.9 -1.8 1.1 -1
     flags	()
     node	    PointSet {
     }
@@ -204,7 +204,7 @@ SoXipBuilderNode {
 
 ### 15 ###
 SoXipBuilderNode {
-    placement	-2.6 3 -0.2 3.8
+    placement	-2.7 -0.3 -0.3 0.5
     flags	()
     node	    Separator {
     }
@@ -214,24 +214,24 @@ SoXipBuilderNode {
 
 ### 16 ###
 SoXipBuilderNode {
-    placement	-7.5 1.2 -5.5 2
+    placement	-7.8 -2.1 -5.8 -1.3
     flags	()
-    autoPanelPos	14 387 0 0
+    autoPanelPos	72 342 0 0
     node	    SoXipPickAction {
 	fields [ SFEnum mouse, MFVec3f point ]
 	mouse	BUTTON3
-	point	0.597019 0.374688 0
+	point	0.64212 0.34238 0
     }
 
 }
 
 ### 17 ###
 SoXipBuilderNode {
-    placement	-5.1 1.2 -3.1 2
+    placement	-5.4 -2.1 -3.4 -1.3
     flags	()
     autoPanelPos	290 393 0 0
     node	    Coordinate3 {
-	point	0.597019 0.374688 0
+	point	0.64212 0.34238 0
     }
 
 }
@@ -239,7 +239,7 @@ SoXipBuilderNode {
 
 ### 18 ###
 SoXipBuilderNode {
-    placement	-3 1.2 -1 2
+    placement	-3.3 -2.1 -1.3 -1.3
     flags	()
     autoPanelPos	326 514 385 392
     node	    BaseColor {
@@ -250,7 +250,7 @@ SoXipBuilderNode {
 
 ### 19 ###
 SoXipBuilderNode {
-    placement	-0.9 1.2 1.1 2
+    placement	-1.2 -2.1 0.8 -1.3
     flags	()
     autoPanelPos	183 533 385 392
     node	    DrawStyle {
@@ -261,7 +261,7 @@ SoXipBuilderNode {
 
 ### 20 ###
 SoXipBuilderNode {
-    placement	1.2 1.2 3.2 2
+    placement	0.9 -2.1 2.9 -1.3
     flags	()
     node	    PointSet {
     }
@@ -346,34 +346,36 @@ SoXipBuilderEngine {
 
 ### 25 ###
 SoXipBuilderEngine {
-    placement	1.37804 1.8 5.55714 2.6
+    placement	1.5 1.8 5.6791 2.6
     flags	()
-    autoPanelPos	0 425 0 0
+    autoPanelPos	704 116 0 0
     engine	    SoItkIsolatedConnectedImageFilter {
 	inputs [ SoItkSFDataImage Input0, SFVec3f Seed1, SFVec3f Seed2, SFFloat Upper ]
 	Input0	"NULL"
-	Seed1	0.326175 0.532344 0
-	Seed2	0.597019 0.374688 0
+	Seed1	0.321704 0.569772 0
+	Seed2	0.64212 0.34238 0
 	Upper	4095
 	outputs [ SoItkSFDataImage Output ]
     }
 
 }
 #connect "Input0@25" "Output@8"
+#connect "Seed1@25" "point@10"
+#connect "Seed2@25" "point@16"
 
 ### packages ###
 SoXipBuilderPackage {
     def	-4
-    placement	-1.5 3 0.5 3.8
+    placement	-1.8 3 0.2 3.8
     name	"Picking_Blue"
     members	[ 15, 16, 17, 18, 19, 20 ]
-    position	-2.11991 1.95 1
-    height	14.6667
+    position	0 0 1
+    height	16
     inputs	[  ]
     inputsChildIndex	[  ]
-    inputsPlacement	-2.05 -2.4 -0.05 -1.6
+    inputsPlacement	-3.45 -4.9 -1.45 -4.1
     outputs	15
-    outputsPlacement	-2.05 5.5 -0.05 6.3
+    outputsPlacement	-3.45 2.5 -1.45 3.3
 }
 
 SoXipBuilderPackage {
@@ -381,13 +383,13 @@ SoXipBuilderPackage {
     placement	-4.2 3 -2.2 3.8
     name	"Picking_Red"
     members	[ 9, 10, 11, 12, 13, 14 ]
-    position	-2.11991 1.95 1
-    height	14.6667
+    position	0 0 1
+    height	16
     inputs	[  ]
     inputsChildIndex	[  ]
-    inputsPlacement	-2.05 -2.4 -0.05 -1.6
+    inputsPlacement	-5.1 -4.6 -3.1 -3.8
     outputs	9
-    outputsPlacement	-2.05 5.5 -0.05 6.3
+    outputsPlacement	-5.1 2.8 -3.1 3.6
 }
 
 SoXipBuilderPackage {
@@ -395,8 +397,8 @@ SoXipBuilderPackage {
     placement	3.6 5.4 5.6 6.2
     name	"ViewOutput"
     members	[ 21, 22, 23 ]
-    position	2.95 2.1 1
-    height	14.6667
+    position	0 0 1
+    height	16
     inputs	[  ]
     inputsChildIndex	[  ]
     inputsPlacement	2.7953 -2.4 4.7953 -1.6
@@ -409,8 +411,8 @@ SoXipBuilderPackage {
     placement	0.3 5.4 2.3 6.2
     name	"ViewInput"
     members	[ 3, 4, 5, 6 ]
-    position	-5 1.3 1
-    height	14.6667
+    position	0 0 1
+    height	16
     inputs	[ 3, 3 ]
     inputsChildIndex	[ 3, 4 ]
     inputsPlacement	-3.6 -3.6 -1.6 -2.8

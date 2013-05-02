@@ -113,6 +113,7 @@
 #define SOXIPVIEWPORTGROUP_H
 
 #include <Inventor/nodes/SoGroup.h>
+#include <Inventor/nodes/SoIndexedLineSet.h>
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/fields/SoSFBool.h>
 #include <Inventor/fields/SoMFVec4f.h>
@@ -139,11 +140,30 @@ protected:
 public:
 	SoSFBool  on;
 	SoSFBool  activateOnClick;
+	SoSFBool  maximizeOnDoubleClick;
+	SoSFBool  resizable;
 	SoSFBool  relative;
 	SoMFVec4f viewports;
 	SoSFInt32 current;
+	SoSFBool  maximized;
 
 protected:
+	enum viewportBorder_t
+	{
+		VIEWPORT_LEFT,
+		VIEWPORT_RIGHT,
+		VIEWPORT_TOP,
+		VIEWPORT_BOTTOM
+	};
+
+	enum resizeMode_t
+	{
+		RESIZE_NONE = 0,
+		RESIZE_HORIZONTAL = 1,
+		RESIZE_VERTICAL = 2,
+		RESIZE_ALL = 3
+	};
+
 	virtual void doAction(SoAction * action);
 	virtual void getBoundingBox(SoGetBoundingBoxAction * action);
 	virtual void GLRender(SoGLRenderAction * action);
@@ -153,11 +173,22 @@ protected:
 	virtual void handleEvent (SoHandleEventAction *action);
 	virtual void fieldSensorCB(SoSensor *sensor);
 
+	virtual resizeMode_t resize(SbVec2s from, SbVec2s to, SbBool applyChange = TRUE);
+	virtual SbBool isOnBorder(SbVec2s origin, SbVec2s size, viewportBorder_t which, SbVec2s pos, int epsilon) const;
+	virtual SbBool isOverlapping(int num, const SbVec4f *v) const;
+	virtual void updateCursor();
+
 	SoFieldSensor *mRelativeFieldSensors;
 	int mWindowWidth;
 	int mWindowHeight;
 	int mActiveViewport;
 	int mPickViewport;
+	SbTime mLastButtonDownTime;
+	SbVec2s mResizeStart;
+	SbVec2s mResizePos;
+	resizeMode_t mResizeMode;
+	SbBool mResizeValid;
+	SoIndexedLineSet *mLineSet;
 
 private:
 	static void fieldSensorCBFunc(void *, SoSensor *);

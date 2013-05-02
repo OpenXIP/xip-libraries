@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
  
  
  
@@ -135,9 +139,6 @@ SoVtkArrayCalculator::SoVtkArrayCalculator()
 	mObject->SetGlobalWarningDisplay(0);
 
 	vtkArrayCalculator *aArrayCalculator = vtkArrayCalculator::New();
-	double *x = 0;
-	int *y = 0;
-	float *z = 0;
 
 	SO_ENGINE_ADD_INPUT(ResultArrayName, (""));
 
@@ -148,7 +149,8 @@ SoVtkArrayCalculator::SoVtkArrayCalculator()
 	ReplacementValue.setValue(aArrayCalculator->GetReplacementValue());
 
 	SO_ENGINE_ADD_INPUT(ReplaceInvalidValues, (0));
-	ReplaceInvalidValues.setValue(aArrayCalculator->GetReplaceInvalidValues());
+	ReplaceInvalidValues.setValue(aArrayCalculator->
+	  GetReplaceInvalidValues());
 
 	SO_ENGINE_ADD_INPUT(Function, (""));
 
@@ -156,24 +158,29 @@ SoVtkArrayCalculator::SoVtkArrayCalculator()
 
 	aArrayCalculator->Delete();
 
-
 	SO_ENGINE_ADD_OUTPUT( oImageDataOutput, SoSFVtkObject );
 	mImageDataOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oStructuredPointsOutput, SoSFVtkObject );
 	mStructuredPointsOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oStructuredGridOutput, SoSFVtkObject );
 	mStructuredGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( Output, SoSFVtkObject );
 	mOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oRectilinearGridOutput, SoSFVtkObject );
 	mRectilinearGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oUnstructuredGridOutput, SoSFVtkObject );
 	mUnstructuredGridOutput = 0;
+
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
+
 	SO_ENGINE_ADD_OUTPUT( oPolyDataOutput, SoSFVtkObject );
 	mPolyDataOutput = 0;
-
 
 	addCalled = 0;
 }
@@ -446,3 +453,4 @@ void SoVtkArrayCalculator::reset()
 
 	mObject->Update();
 }
+

@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkStructuredPointsReader.h"
 # include "SoVtkUtils.h"
@@ -128,8 +132,6 @@ SoVtkStructuredPointsReader::SoVtkStructuredPointsReader()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkStructuredPointsReader *aStructuredPointsReader = vtkStructuredPointsReader::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(FieldDataName, (""));
 
@@ -373,3 +375,4 @@ void SoVtkStructuredPointsReader::inputChanged(SoField * f)
 	//mObject->Update();
 	
 }
+

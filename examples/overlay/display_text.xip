@@ -9,7 +9,7 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "0" "1 2 3 4 5 8"
+#addChild "0" "1 2 3 4 5 7"
 
 ### 1 ###
 SoXipBuilderNode {
@@ -59,56 +59,37 @@ SoXipBuilderNode {
 SoXipBuilderNode {
     placement	4.8 5.4 6.8 6.2
     flags	()
-    autoPanelPos	639 532 385 392
+    autoPanelPos	640 73 0 0
     node	    SoXipImage {
 	fields [ SoXipSFDataImage image ]
-	image	"DATA"
+	image	"NULL"
     }
 
 }
-#connect "image@5" "Output@6"
+#connect "image@5" "output@6"
 
 ### 6 ###
 SoXipBuilderEngine {
-    placement	-3.19821 3.3 1.24451 4.1
+    placement	-0.6 3.3 1.4 4.1
     flags	()
-    autoPanelPos	257 383 0 0
-    engine	    SoItkIntensityWindowingImageFilter {
-	inputs [ SoItkSFDataImage Input0, SFFloat WindowMinimum, SFFloat OutputMaximum, SFFloat WindowMaximum ]
-	Input0	"DATA"
-	WindowMinimum	0
-	OutputMaximum	4095
-	WindowMaximum	200
-	outputs [ SoItkSFDataImage Output ]
-    }
-
-}
-#connect "Input0@6" "output@7"
-
-### 7 ###
-SoXipBuilderEngine {
-    placement	-5.7 3.3 -3.7 4.1
-    flags	()
-    autoPanelPos	651 466 385 464
+    autoPanelPos	25 423 0 0
     engine	    SoXipLoadRaw {
-	inputs [ SFEnum voxelType, SFShort width, SFShort height, SFShort depth,
-		SFShort bitsUsed, SFMatrix modelMatrix, SFString file ]
-	voxelType	USHORT
+	inputs [ SFShort width, SFShort height, SFShort depth, SFMatrix modelMatrix,
+		SFString file ]
 	width	256
 	height	256
 	depth	1
-	bitsUsed	12
 	modelMatrix	1 0 0 0
 		0 -1 0 0
 		0 0 1 0
 		0 1 0 1
-	file	"../data/lena.raw"
+	file	"../data/lena-256x256x8.raw"
 	outputs [ SoXipSFDataImage output ]
     }
 
 }
 
-### 8 ###
+### 7 ###
 SoXipBuilderNode {
     placement	7.2 5.4 9.2 6.2
     flags	()
@@ -116,23 +97,22 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "8" "9 10 11"
+#addChild "7" "8 9 10"
 
-### 9 ###
+### 8 ###
 SoXipBuilderNode {
     placement	1.72299 3.3 4.62701 4.1
     flags	()
     autoPanelPos	709 459 385 392
     node	    SoXipDropShadowStyle {
-	fields [ SFBool on, SFColor color, SFFloat transparency,  ]
+	fields [ SFBool on, SFFloat transparency,  ]
 	on	TRUE
-	color	0 0 0
 	transparency	0.5
     }
 
 }
 
-### 10 ###
+### 9 ###
 SoXipBuilderNode {
     placement	4.8 3.3 6.8 4.1
     flags	()
@@ -143,7 +123,7 @@ SoXipBuilderNode {
 
 }
 
-### 11 ###
+### 10 ###
 SoXipBuilderNode {
     placement	7.2 3.3 9.2 4.1
     flags	()
@@ -151,9 +131,9 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "11" "12 14 17 20"
+#addChild "10" "11 13 16 19"
 
-### 12 ###
+### 11 ###
 SoXipBuilderNode {
     placement	3 1.2 5 2
     flags	()
@@ -161,23 +141,22 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "12" "13"
+#addChild "11" "12"
 
-### 13 ###
+### 12 ###
 SoXipBuilderNode {
     placement	2.1 -0.3 4.1 0.500001
     flags	()
     autoPanelPos	659 663 385 392
     node	    SoXipText2 {
-	fields [ SFString string, SFEnum justification, SFEnum vAlignment ]
+	fields [ SFString string, SFEnum vAlignment ]
 	string	"Bottom Left"
-	justification	LEFT
 	vAlignment	BOTTOM
     }
 
 }
 
-### 14 ###
+### 13 ###
 SoXipBuilderNode {
     placement	5.4 1.2 7.4 2
     flags	()
@@ -185,9 +164,9 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "14" "15 16"
+#addChild "13" "14 15"
 
-### 15 ###
+### 14 ###
 SoXipBuilderNode {
     placement	4.5 -0.3 6.5 0.5
     flags	()
@@ -198,7 +177,7 @@ SoXipBuilderNode {
 
 }
 
-### 16 ###
+### 15 ###
 SoXipBuilderNode {
     placement	6.9 -0.3 8.9 0.500001
     flags	()
@@ -212,7 +191,7 @@ SoXipBuilderNode {
 
 }
 
-### 17 ###
+### 16 ###
 SoXipBuilderNode {
     placement	8.1 1.2 10.1 2
     flags	()
@@ -220,9 +199,9 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "17" "18 19"
+#addChild "16" "17 18"
 
-### 18 ###
+### 17 ###
 SoXipBuilderNode {
     placement	7.2 -0.3 9.2 0.5
     flags	()
@@ -233,21 +212,19 @@ SoXipBuilderNode {
 
 }
 
-### 19 ###
+### 18 ###
 SoXipBuilderNode {
     placement	9.6 -0.3 11.6 0.500001
     flags	()
     autoPanelPos	659 663 385 392
     node	    SoXipText2 {
-	fields [ SFString string, SFEnum justification, SFEnum vAlignment ]
+	fields [ SFString string,  ]
 	string	"Upper Left"
-	justification	LEFT
-	vAlignment	TOP
     }
 
 }
 
-### 20 ###
+### 19 ###
 SoXipBuilderNode {
     placement	10.5 1.2 12.5 2
     flags	()
@@ -255,9 +232,9 @@ SoXipBuilderNode {
     }
 
 }
-#addChild "20" "21 22"
+#addChild "19" "20 21"
 
-### 21 ###
+### 20 ###
 SoXipBuilderNode {
     placement	9.6 -0.3 11.6 0.5
     flags	()
@@ -268,16 +245,15 @@ SoXipBuilderNode {
 
 }
 
-### 22 ###
+### 21 ###
 SoXipBuilderNode {
     placement	12 -0.3 14 0.500001
     flags	()
     autoPanelPos	659 663 385 392
     node	    SoXipText2 {
-	fields [ SFString string, SFEnum justification, SFEnum vAlignment ]
+	fields [ SFString string, SFEnum justification,  ]
 	string	"Upper Right"
 	justification	RIGHT
-	vAlignment	TOP
     }
 
 }
@@ -287,12 +263,13 @@ SoXipBuilderPackage {
     def	-4
     placement	9.6 1.2 11.6 2
     name	"UpperRight"
-    members	[ 20, 21, 22 ]
+    members	[ 19, 20, 21 ]
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     inputsPlacement	6.5 -2.4 8.5 -1.6
-    outputs	20
+    outputs	19
     outputsPlacement	6.5 4 8.5 4.8
 }
 
@@ -300,12 +277,13 @@ SoXipBuilderPackage {
     def	-3
     placement	7.2 1.2 9.2 2
     name	"UpperLeft"
-    members	[ 17, 18, 19 ]
+    members	[ 16, 17, 18 ]
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     inputsPlacement	5.3 -2.4 7.3 -1.6
-    outputs	17
+    outputs	16
     outputsPlacement	5.3 4 7.3 4.8
 }
 
@@ -313,12 +291,13 @@ SoXipBuilderPackage {
     def	-2
     placement	4.8 1.2 6.8 2
     name	"BottomRight"
-    members	[ 14, 15, 16 ]
+    members	[ 13, 14, 15 ]
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     inputsPlacement	3.95 -2.4 5.95 -1.6
-    outputs	14
+    outputs	13
     outputsPlacement	3.95 4 5.95 4.8
 }
 
@@ -326,22 +305,24 @@ SoXipBuilderPackage {
     def	-1
     placement	2.4 1.2 4.4 2
     name	"BottomLeft"
-    members	[ 12, 13 ]
+    members	[ 11, 12 ]
     position	0 0 1
     height	16
     inputs	[  ]
+    inputsChildIndex	[  ]
     inputsPlacement	2 -2.4 4 -1.6
-    outputs	12
+    outputs	11
     outputsPlacement	2 4 4 4.8
 }
 
 SoXipBuilderPackage {
     def	0
     members	[ -4, -3, -2, -1, 0, 1, 2, 3,
-		      4, 5, 6, 7, 8, 9, 10, 11 ]
+		      4, 5, 6, 7, 8, 9, 10 ]
     position	2.95 4.9 9.40811
     height	14.1111
     inputs	[  ]
+    inputsChildIndex	[  ]
     outputs	[  ]
 }
 

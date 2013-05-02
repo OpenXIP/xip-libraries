@@ -1,0 +1,67 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	5.45207 4.24093 7.45207 5.04093
+    flags	()
+    autoPanelPos	726 163 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	5.4 2.1 7.40001 2.9
+    flags	()
+    autoPanelPos	706 284 0 0
+    node	    SoXipText2 {
+	fields [ SFString string, SFEnum justification,  ]
+	string	"ep2d_diff_MDDW_20_p2_TRACEW"
+	justification	CENTER
+    }
+
+}
+#connect "string@1" "string@2"
+
+### 2 ###
+SoXipBuilderEngine {
+    placement	1.8 2.1 4.37015 2.9
+    flags	()
+    autoPanelPos	426 352 0 0
+    engine	    SoXipGetDicomString {
+	inputs [ SoXipMFDataDicom dicom, SFUShort group, SFUShort element,  ]
+	dicom	"NULL"
+	group	0x8
+	element	0x103e
+	outputs [ MFString string ]
+    }
+
+}
+#connect "dicom@2" "dicom@3"
+
+### 3 ###
+SoXipBuilderEngine {
+    placement	-1.5 2.1 0.547761 2.9
+    flags	()
+    autoPanelPos	63 269 0 0
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\data\24884367.dcm"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3 ]
+    position	2.5 1.3 7.7666
+    height	13.16
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

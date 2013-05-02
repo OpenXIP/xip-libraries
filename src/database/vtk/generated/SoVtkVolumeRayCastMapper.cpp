@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkVolumeRayCastMapper.h"
 # include "SoVtkUtils.h"
@@ -130,8 +134,6 @@ SoVtkVolumeRayCastMapper::SoVtkVolumeRayCastMapper()
 	mObject->Register(0);mObject->SetGlobalWarningDisplay(0);
 
 	vtkVolumeRayCastMapper *aVolumeRayCastMapper = vtkVolumeRayCastMapper::New();
-	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(NumberOfThreads, (0));
 	NumberOfThreads.setValue(aVolumeRayCastMapper->GetNumberOfThreads());
@@ -368,3 +370,4 @@ void SoVtkVolumeRayCastMapper::inputChanged(SoField * f)
 	////mObject->Update();
 	
 }
+

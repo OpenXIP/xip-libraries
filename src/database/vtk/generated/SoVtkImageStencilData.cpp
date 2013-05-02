@@ -106,19 +106,21 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
  */
- 
- 
- 
-# include "SoVtkImageStencilData.h"
-# include "SoVtkUtils.h"
 
-# include "vtkExtentTranslator.h"
-# include "vtkSource.h"
-# include "vtkInformation.h"
-# include "vtkFieldData.h"
+/*
+ * \brief SoVtkImageStencilData.cpp
+ * Wrapping of vtkImageStencilData.cpp
+ * \author Sylvain Jaume (Siemens Corporate Research), Francois Huguet
+ */
 
+#include "SoVtkImageStencilData.h"
+#include "SoVtkUtils.h"
+
+#include "vtkExtentTranslator.h"
+#include "vtkSource.h"
+#include "vtkInformation.h"
+#include "vtkFieldData.h"
 
 SO_ENGINE_SOURCE( SoVtkImageStencilData )
 
@@ -137,10 +139,9 @@ SoVtkImageStencilData::SoVtkImageStencilData()
 
 	SO_ENGINE_ADD_INPUT(ExtentTranslator, (0));
 
-	SO_ENGINE_ADD_INPUT(OldSpacing, (0,0,0));
-
-	x = aImageStencilData->GetOldSpacing();
-	OldSpacing.setValue(x[0],x[1],x[2]);
+	//SO_ENGINE_ADD_INPUT(OldSpacing, (0,0,0));
+	//x = aImageStencilData->GetOldSpacing();
+	//OldSpacing.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(MaximumNumberOfPieces, (0));
 	MaximumNumberOfPieces.setValue(aImageStencilData->GetMaximumNumberOfPieces());
@@ -174,10 +175,9 @@ SoVtkImageStencilData::SoVtkImageStencilData()
 
 	SO_ENGINE_ADD_INPUT(FieldData, (0));
 
-	SO_ENGINE_ADD_INPUT(OldOrigin, (0,0,0));
-
-	x = aImageStencilData->GetOldOrigin();
-	OldOrigin.setValue(x[0],x[1],x[2]);
+	//SO_ENGINE_ADD_INPUT(OldOrigin, (0,0,0));
+	//x = aImageStencilData->GetOldOrigin();
+	//OldOrigin.setValue(x[0],x[1],x[2]);
 
 	SO_ENGINE_ADD_INPUT(UpdateExtent, ());
 	UpdateExtent.setFormat("int int int");
@@ -317,8 +317,8 @@ void SoVtkImageStencilData::inputChanged(SoField * f)
 		SO_VTK_SET_FIELD_DATA( mObject, ExtentTranslator, vtkExtentTranslator);
 
 	// Get the OldSpacing value
-	if ( f == &OldSpacing )
-		SO_VTK_SET_FIELD_VEC3F( mObject, OldSpacing);
+	//if ( f == &OldSpacing )
+	//SO_VTK_SET_FIELD_VEC3F( mObject, OldSpacing);
 
 	// Get the MaximumNumberOfPieces value
 	if ( f == &MaximumNumberOfPieces )
@@ -423,8 +423,8 @@ void SoVtkImageStencilData::inputChanged(SoField * f)
 		SO_VTK_SET_FIELD_DATA( mObject, FieldData, vtkFieldData);
 
 	// Get the OldOrigin value
-	if ( f == &OldOrigin )
-		SO_VTK_SET_FIELD_VEC3F( mObject, OldOrigin);
+	//if ( f == &OldOrigin )
+	//SO_VTK_SET_FIELD_VEC3F( mObject, OldOrigin);
 
 	// Get the UpdateExtent value
 	if ( f == &UpdateExtent )
@@ -503,53 +503,52 @@ void SoVtkImageStencilData::reset()
 	
 		SO_VTK_SET_FIELD_DATA( mObject, ExtentTranslator, vtkExtentTranslator);
 
-	// Get the OldSpacing value
-	
-		SO_VTK_SET_FIELD_VEC3F( mObject, OldSpacing);
+	// Get the OldSpacing value	
+	//SO_VTK_SET_FIELD_VEC3F( mObject, OldSpacing);
 
 	// Get the MaximumNumberOfPieces value
 	
-		SO_VTK_SET_FIELD_VALUE( mObject, MaximumNumberOfPieces);
+	SO_VTK_SET_FIELD_VALUE( mObject, MaximumNumberOfPieces);
 
 	// Get the RequestExactExtent value
 	
-		SO_VTK_SET_FIELD_VALUE( mObject, RequestExactExtent);
+	SO_VTK_SET_FIELD_VALUE( mObject, RequestExactExtent);
 
 	// Get the UpdatePiece value
 	
-		SO_VTK_SET_FIELD_VALUE( mObject, UpdatePiece);
+	SO_VTK_SET_FIELD_VALUE( mObject, UpdatePiece);
 
 	// Get the WholeBoundingBox value
 	if (addCalled == 1)
 	{
-		SbVariant *vWholeBoundingBox = (SbVariant *)WholeBoundingBox.getValues(0);
-		SoInput input;
-		int nb_fields = WholeBoundingBox.getNum();
+	SbVariant *vWholeBoundingBox = (SbVariant *)WholeBoundingBox.getValues(0);
+	SoInput input;
+	int nb_fields = WholeBoundingBox.getNum();
 
-		double val0;
-		double val1;
-		double val2;
-		double val3;
-		double val4;
-		double val5;
-		for (int i=0; i < nb_fields; i++)
-		{
-			input.setBuffer((void *)vWholeBoundingBox[i].getField().getString(),256);
-			input.read(val0);
-			input.read(val1);
-			input.read(val2);
-			input.read(val3);
-			input.read(val4);
-			input.read(val5);
-			mObject->SetWholeBoundingBox( 
-				(double) val0,
-				(double) val1,
-				(double) val2,
-				(double) val3,
-				(double) val4,
-				(double) val5
-			);
-		}
+	double val0;
+	double val1;
+	double val2;
+	double val3;
+	double val4;
+	double val5;
+	for (int i=0; i < nb_fields; i++)
+	{
+		input.setBuffer((void *)vWholeBoundingBox[i].getField().getString(),256);
+		input.read(val0);
+		input.read(val1);
+		input.read(val2);
+		input.read(val3);
+		input.read(val4);
+		input.read(val5);
+		mObject->SetWholeBoundingBox( 
+			(double) val0,
+			(double) val1,
+			(double) val2,
+			(double) val3,
+			(double) val4,
+			(double) val5
+		);
+	}
 	}
 
 	// Get the UpdateGhostLevel value
@@ -609,9 +608,8 @@ void SoVtkImageStencilData::reset()
 	
 		SO_VTK_SET_FIELD_DATA( mObject, FieldData, vtkFieldData);
 
-	// Get the OldOrigin value
-	
-		SO_VTK_SET_FIELD_VEC3F( mObject, OldOrigin);
+	// Get the OldOrigin value	
+	//SO_VTK_SET_FIELD_VEC3F( mObject, OldOrigin);
 
 	// Get the UpdateExtent value
 	if (addCalled == 1)
@@ -676,3 +674,4 @@ void SoVtkImageStencilData::reset()
 
 	mObject->Update();
 }
+

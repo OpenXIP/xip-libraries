@@ -108,6 +108,10 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
 # include "SoVtkPlane.h"
 # include "SoVtkUtils.h"
@@ -127,7 +131,6 @@ SoVtkPlane::SoVtkPlane()
 
 	vtkPlane *aPlane = vtkPlane::New();
 	double *x;
-	int *y;
 
 	SO_ENGINE_ADD_INPUT(Transform, (0));
 
@@ -217,3 +220,4 @@ void SoVtkPlane::inputChanged(SoField * f)
 
 	
 }
+

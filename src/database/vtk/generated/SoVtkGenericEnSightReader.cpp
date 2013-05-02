@@ -108,15 +108,17 @@
  *      THE POSSIBILITY OF SUCH DAMAGE.
  *  
  */
- 
- 
- 
-# include "SoVtkGenericEnSightReader.h"
-# include "SoVtkUtils.h"
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
+ */
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkDataSet.h"
+#include "SoVtkGenericEnSightReader.h"
+#include "SoVtkUtils.h"
 
+#include "vtkAlgorithmOutput.h"
+#include "vtkDataSet.h"
+#include "vtkMultiBlockDataSet.h"
 
 SO_ENGINE_SOURCE( SoVtkGenericEnSightReader )
 
@@ -128,7 +130,9 @@ SoVtkGenericEnSightReader::SoVtkGenericEnSightReader()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkGenericEnSightReader *aGenericEnSightReader = vtkGenericEnSightReader::New();
+	vtkGenericEnSightReader *aGenericEnSightReader =
+	  vtkGenericEnSightReader::New();
+
 	double *x = 0;
 	int *y = 0;
 	float *z = 0;
@@ -163,7 +167,6 @@ SoVtkGenericEnSightReader::SoVtkGenericEnSightReader()
 	SO_ENGINE_ADD_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput );
 	mOutputPort = 0;
 
-
 	addCalled = 0;
 }
 
@@ -172,14 +175,12 @@ SoVtkGenericEnSightReader::~SoVtkGenericEnSightReader()
 	// Deletion of the objects if they exist
 	if ( mOutput )
 	{
-	
 		mOutput->unref();
 		mOutput = 0;
 	}
 	
 	if ( mOutputPort )
 	{
-	
 		mOutputPort->unref();
 		mOutputPort = 0;
 	}
@@ -190,8 +191,6 @@ SoVtkGenericEnSightReader::~SoVtkGenericEnSightReader()
 		mObject->Delete();
 		mObject = 0;
 	}
-	
-
 }
 
 void SoVtkGenericEnSightReader::initClass()
@@ -212,14 +211,12 @@ void SoVtkGenericEnSightReader::evaluate()
 		// Deletion of the objects if they exist
 		if ( mOutput )
 		{
-		
 			mOutput->unref();
 			mOutput = 0;
 		}
 		
 		if ( mOutputPort )
 		{
-		
 			mOutputPort->unref();
 			mOutputPort = 0;
 		}
@@ -249,10 +246,11 @@ void SoVtkGenericEnSightReader::evaluate()
 		SoDebugError::post( __FILE__, "Unknown Exception" );
 		return;
 	}
-	SO_ENGINE_OUTPUT( Output, SoSFVtkObject, setValue( mOutput ) );
-	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput, setValue( mOutputPort ) );
-}
 
+	SO_ENGINE_OUTPUT( Output, SoSFVtkObject, setValue( mOutput ) );
+	SO_ENGINE_OUTPUT( OutputPort, SoSFVtkAlgorithmOutput,
+	  setValue( mOutputPort ) );
+}
 
 void SoVtkGenericEnSightReader::inputChanged(SoField * f)
 {
@@ -282,10 +280,7 @@ void SoVtkGenericEnSightReader::inputChanged(SoField * f)
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -315,16 +310,13 @@ void SoVtkGenericEnSightReader::reset()
 		mObject->SetInputConnection(inputPortPtr->getPointer());
 
 	// Get the ByteOrder value
-	
-		SO_VTK_SET_FIELD_VALUE( mObject, ByteOrder);
+	SO_VTK_SET_FIELD_VALUE( mObject, ByteOrder);
 
 	// Get the TimeValue value
-	
-		SO_VTK_SET_FIELD_VALUE( mObject, TimeValue);
+	SO_VTK_SET_FIELD_VALUE( mObject, TimeValue);
 
 	// Get the FilePath value
-	
-		SO_VTK_SET_FIELD_MFSTRING( mObject, FilePath);
+	SO_VTK_SET_FIELD_MFSTRING( mObject, FilePath);
 
 	// Get the NumberOfInputConnections value
 	if (addCalled == 1)
@@ -340,20 +332,16 @@ void SoVtkGenericEnSightReader::reset()
 			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
 	// Get the CaseFileName value
-	
-		SO_VTK_SET_FIELD_MFSTRING( mObject, CaseFileName);
+	SO_VTK_SET_FIELD_MFSTRING( mObject, CaseFileName);
 
 	// Get the ReadAllVariables value
-	
-		SO_VTK_SET_FIELD_VALUE( mObject, ReadAllVariables);
+	SO_VTK_SET_FIELD_VALUE( mObject, ReadAllVariables);
 
 	mObject->Update();
 }
+

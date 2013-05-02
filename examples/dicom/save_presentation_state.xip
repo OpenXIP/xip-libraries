@@ -1,0 +1,112 @@
+#Inventor V2.1 ascii
+
+### 0 ###
+SoXipBuilderNode {
+    placement	-4.34 10.36 -2.34 11.16
+    flags	()
+    viewPos	9 576 508 418
+    autoPanelPos	395 97 0 0
+    node	    Separator {
+    }
+
+}
+#addChild "0" "1 2 3 5"
+
+### 1 ###
+SoXipBuilderNode {
+    placement	-9.56038 7.21 -7.1365 8.01
+    flags	()
+    autoPanelPos	61 503 385 392
+    node	    SoXipOverlaySearch {
+	fields [ MFString label, MFNode overlays, SFInt32 numOverlays ]
+	label	[  ]
+	overlays	[  ]
+	numOverlays	1
+    }
+
+}
+
+### 2 ###
+SoXipBuilderNode {
+    placement	-6.6 7.2 -4.6 8
+    flags	()
+    autoPanelPos	110 349 0 0
+    node	    SoXipLut {
+	fields [ SFEnum inputMode, SFEnum outputMode, SFShort bitsUsed, SFFloat rampWidth,
+		SFFloat rampCenter, MFColor arrayColor, MFFloat arrayAlpha ]
+	inputMode	TRAPEZOID
+	outputMode	COLOR
+	bitsUsed	12
+	rampWidth	0.1
+	rampCenter	0
+	arrayColor	[  ]
+	arrayAlpha	[  ]
+    }
+
+}
+
+### 3 ###
+SoXipBuilderNode {
+    placement	-3.88963 7.36 -1.34037 8.16
+    flags	()
+    autoPanelPos	159 364 385 392
+    node	    SoXipDicomExaminer {
+	fields [ SoXipMFDataDicom images, SFShort imageIndex, SFShort sliceIndex,  ]
+	images	"NULL"
+	sliceIndex	0
+    }
+
+}
+#connect "images@3" "dicom@4"
+
+### 4 ###
+SoXipBuilderEngine {
+    placement	-3.3 5.7 -1.25224 6.5
+    flags	()
+    autoPanelPos	273 387 0 0
+    engine	    SoXipLoadDicom {
+	inputs [ MFString name ]
+	name	"..\data\24884367.dcm"
+	outputs [ SoXipMFDataDicom dicom ]
+    }
+
+}
+
+### 5 ###
+SoXipBuilderNode {
+    placement	-0.531871 7.33 2.21813 8.13
+    flags	()
+    autoPanelPos	527 632 385 392
+    node	    SoXipOverlayManager {
+	fields [ MFString shapeLabel,  ]
+	shapeLabel	[  ]
+    }
+
+}
+
+### 6 ###
+SoXipBuilderEngine {
+    placement	-0.0759888 5.73 2.82849 6.53
+    flags	()
+    autoPanelPos	611 407 385 392
+    engine	    SoXipSaveOverlayPState {
+	inputs [ SoXipSFDataDicom image,  ]
+	image	"NULL"
+	outputs [ SFString status ]
+    }
+
+}
+#connect "overlays@6" "overlays@1"
+#connect "image@6" "dicom@4"
+
+### packages ###
+SoXipBuilderPackage {
+    def	0
+    members	[ 0, 1, 2, 3, 4, 5, 6 ]
+    position	-2.79843 7.18 9.41839
+    height	13.26
+    inputs	[  ]
+    inputsChildIndex	[  ]
+    outputs	[  ]
+}
+

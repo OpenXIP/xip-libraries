@@ -1,17 +1,14 @@
-# Sylvain Jaume 2007
+# Copyright Siemens Corporate Research Inc. 2007
+# Author Sylvain Jaume <sylvain.jaume@siemens.com>
 
 project(database)
-
-#--------------------------------------------------------------------
-# Link to libraries in the library output path
-#
-link_directories(${LIBRARY_OUTPUT_PATH})
 
 #--------------------------------------------------------------------
 # Build projects in the subdirectories
 #
 add_subdirectory(core)
 add_subdirectory(coregl)
+add_subdirectory(extra)
 add_subdirectory(renderer)
 
 if(WIN32)
@@ -22,76 +19,70 @@ endif(WIN32)
 # Build the DICOM module that wraps the DCMTK libraries
 #
 if(HAS_DCMTK)
+  add_subdirectory(dicom)
+  add_subdirectory(overlay)
+endif(HAS_DCMTK)
+
+if(UNIX AND HAS_DCMTK)
 
   find_package(DCMTK)
 
+  if(NOT DCMTK_DIR)
+    set(DCMTK_DIR ${XIPEXT}/dcmtk)
+  endif(NOT DCMTK_DIR)
+
   find_library(DCMTK_dcmdata_LIBRARY dcmdata
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
-    /usr/local/dicom/lib)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib)
 
   if(DCMTK_dcmdata_LIBRARY)
     get_filename_component(DCMTK_DIR ${DCMTK_dcmdata_LIBRARY} PATH)
   endif(DCMTK_dcmdata_LIBRARY)
-  
+
   find_library(DCMTK_dcmimgle_LIBRARY dcmimgle
     ${DCMTK_DIR}
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
-    /usr/local/dicom/lib)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib)
 
   mark_as_advanced(DCMTK_dcmnet_LIBRARY)
 
   find_library(DCMTK_imagedb_LIBRARY dcmimage
     ${DCMTK_DIR}
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
-    /usr/local/dicom/lib)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib)
 
   find_library(DCMTK_ofstd_LIBRARY ofstd
     ${DCMTK_DIR}
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/lib/release
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/lib/release
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib
-    /usr/local/dicom/lib)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/lib)
 
   find_path(DCMTK_config_INCLUDE_DIR osconfig.h
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/config
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/config
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/config
-    /usr/local/dicom/include/dcmtk/config)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/config)
 
   find_path(DCMTK_dcmdata_INCLUDE_DIR dcmetinf.h
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/dcmdata
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/dcmdata
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/dcmdata
-    /usr/local/dicom/include/dcmtk/dcmdata)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/dcmdata)
 
   find_path(DCMTK_dcmimgle_INCLUDE_DIR dcmimage.h
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/dcmimgle
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/dcmimgle
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/dcmimgle
-    /usr/local/dicom/include/dcmtk/dcmimgle)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/dcmimgle)
 
   find_path(DCMTK_ofstd_INCLUDE_DIR ofstd.h
-    ${XIP_SOURCE_DIR}/../xipext-win32-vs8/dcmtk/include/dcmtk/ofstd
     ${XIP_SOURCE_DIR}/../xipext-mac-xcode/dcmtk/include/dcmtk/ofstd
-    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/ofstd
-    /usr/local/dicom/include/dcmtk/ofstd)
+    ${XIP_SOURCE_DIR}/../xipext-linux-32bit/dcmtk/include/dcmtk/ofstd)
 
-  # Go two directories up
   set(DCMTK_INCLUDE_DIR ${DCMTK_config_INCLUDE_DIR}/../..)
- 
-  # build DICOM module
-  add_subdirectory(dicom)
 
-  # build module for 2D annotation
-  add_subdirectory(overlay)
+  set(DCMTK_INCLUDE_DIR ${DCMTK_INCLUDE_DIR}
+    ${DCMTK_config_INCLUDE_DIR}
+    ${DCMTK_dcmdata_INCLUDE_DIR}
+    ${DCMTK_dcmimgle_INCLUDE_DIR}
+    ${DCMTK_ofstd_INCLUDE_DIR}
+    ${DCMTK_dcmdata_INCLUDE_DIR}
+    ${DCMTK_dcmimgle_INCLUDE_DIR})
 
-endif(HAS_DCMTK)
+endif(UNIX AND HAS_DCMTK)
 
 #--------------------------------------------------------------------
 # Build the Insight Toolkit module

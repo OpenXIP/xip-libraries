@@ -31,7 +31,7 @@
 
 /* For the sake of symbolic names in gdb, define _Bool as an enum type.  */
 #ifndef __cplusplus
-# if !0
+# if WIN32
 typedef enum { false = 0, true = 1 } _Bool;
 # endif
 #else

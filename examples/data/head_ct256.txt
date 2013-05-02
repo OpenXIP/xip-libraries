@@ -1,0 +1,10 @@
+ivt@scr.siemens.com 0.1
+source \\IVT_FRAMEWORK\\Demos\\Data\\head_ct256.img
+volume.size 256 256 256
+voxel.size 2.0 2.0 2.0
+bits.stored 12
+bits.allocated 16
+center 500
+width 1250
+rotation -90 0 0
+translation 0 0 0

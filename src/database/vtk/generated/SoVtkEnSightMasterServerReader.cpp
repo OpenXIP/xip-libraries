@@ -106,17 +106,19 @@
  *      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  *      OF THE USE OF THIS caBIG(tm) SOFTWARE, EVEN IF ADVISED OF 
  *      THE POSSIBILITY OF SUCH DAMAGE.
- *  
+ */
+
+/*
+ * \brief
+ * \author Sylvain Jaume, Francois Huguet
  */
  
- 
- 
-# include "SoVtkEnSightMasterServerReader.h"
-# include "SoVtkUtils.h"
+#include "SoVtkEnSightMasterServerReader.h"
+#include "SoVtkUtils.h"
 
-# include "vtkAlgorithmOutput.h"
-# include "vtkDataSet.h"
-
+#include "vtkAlgorithmOutput.h"
+#include "vtkDataSet.h"
+#include "vtkMultiBlockDataSet.h"
 
 SO_ENGINE_SOURCE( SoVtkEnSightMasterServerReader )
 
@@ -128,7 +130,9 @@ SoVtkEnSightMasterServerReader::SoVtkEnSightMasterServerReader()
 	mObject->Register(0);
 	mObject->SetGlobalWarningDisplay(0);
 
-	vtkEnSightMasterServerReader *aEnSightMasterServerReader = vtkEnSightMasterServerReader::New();
+	vtkEnSightMasterServerReader *aEnSightMasterServerReader =
+				 vtkEnSightMasterServerReader::New();
+
 	double *x = 0;
 	int *y = 0;
 	float *z = 0;
@@ -280,13 +284,11 @@ void SoVtkEnSightMasterServerReader::inputChanged(SoField * f)
 		int val1;
 		for (int i=0; i < nb_fields; i++)
 		{
-			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
+			input.setBuffer((void *)vNumberOfInputConnections[i].getField().
+			  getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -342,13 +344,11 @@ void SoVtkEnSightMasterServerReader::reset()
 		int val1;
 		for (int i=0; i < nb_fields; i++)
 		{
-			input.setBuffer((void *)vNumberOfInputConnections[i].getField().getString(),256);
+			input.setBuffer((void *)vNumberOfInputConnections[i].getField().
+			  getString(),256);
 			input.read(val0);
 			input.read(val1);
-			mObject->SetNumberOfInputConnections( 
-				(int) val0,
-				(int) val1
-			);
+			//mObject->SetNumberOfInputConnections( (int) val0, (int) val1 );
 		}
 	}
 
@@ -362,3 +362,4 @@ void SoVtkEnSightMasterServerReader::reset()
 
 	mObject->Update();
 }
+
