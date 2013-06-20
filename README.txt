@@ -1,31 +1,64 @@
 To configure Xip with CMake, you first need to download CMake
 from www.cmake.org. Then follow the instructions and adjust
-C:/home/sylvain to your path.
+C:/XIP to your local path.
+
+Prerequisites
+--------------------------- 
+*Tested in Windows, 32-bit compiler
+
+CMake 2.8.11 
+	Download - http://www.cmake.org/files/v2.8/cmake-2.8.11.1-win32-x86.exe
+	
+Visual Studio 9 2008
+
+InsightToolkit-3.8.0.zip
+	Download - http://sourceforge.net/projects/itk/files/itk/3.8/
+	Configure in CMake
+		Exceptions to default CMake options
+			uncheck ITK_USE_CONCEPT_CHECKING
+				*see http://www.itk.org/pipermail/insight-developers/2007-September/009606.html for details
+	Build in Visual Studio 9
+	
+vtk-5.2.1.zip
+	Download - http://www.vtk.org/files/release/5.2/vtk-5.2.1.zip
+	Configure in CMake
+		Exceptions to default CMake options
+			check VTK_USE_PARALLEL
+	Build in Visual Studio 9
+		
+glew 1.9.0 bin
+	Unzip
+	Note location of "include" directory and "lib/glew32.lib"
 
 Configuring Xip using CMake 
 --------------------------- 
 * Using CMake from the Start Menu:
 
-Set source dir to C:/home/sylvain/xip
-Set binary dir to C:/home/sylvain/xip-build
+Set source dir to C:/XIP/xip-libraries
+Set binary dir to C:/XIP/xip-libraries-build
 Click on Configure
-Set the path to Xipext: C:/home/sylvain/xipext
-Set the path to Xipbuilder:  C:/home/sylvain/xipbuilder/bin/release
+Set GLEW_INCLUDE_DIR to C:/XIP/glew-1.9.0/include
+Set GLEW_LIBRARIES to C:/XIP/glew-1.9.0/lib/glew32.lib
+Uncheck  BUILD_TESTING
+Click on Configure
+(optional) Set the path to Xipext: C:/XIP/xipext
+(optional) Set the path to Xipbuilder:  C:/XIP/xipbuilder/bin/release
 !!! You need the new Xipbuilder (Jan 2008) that takes the parameter:
 !!! /cmd=filename
 Click on Configure and then OK
-Open C:/home/sylvain/xip-build/Xip.sln
+Click on Generate
+Open C:/XIP/xip-libraries-build/Xip.sln
 Build for Release
-(optional) in cygwin, go to xip-build and type ctest -D ExperimentalSubmit -VV
+(optional) in cygwin, go to xip-libraries-build and type ctest -D ExperimentalSubmit -VV
 
 * Using CMake on the command line
 
-Assuming you have Xip in C:/home/sylvain/xip
-Go one level above Xip dir: C:/home/sylvain
-mkdir xip-build
-cd xip-build
-cmake ../xip -G "Visual Studio 8 2005" -DXIPEXT:PATH=C:/home/sylvain/xipext -DXIPBUILDER:PATH=C:/home/sylvain/xipbuilder/bin/release
-(optional) in cygwin, go to xip-build and type ctest -D ExperimentalSubmit -VV
+Assuming you have Xip in C:/XIP/xip
+Go one level above Xip dir: C:/XIP
+mkdir xip-libraries-build
+cd xip-libraries-build
+cmake ../xip-libraries -G "Visual Studio 9 2008" -DXIPEXT:PATH=C:/XIP/xipext -DXIPBUILDER:PATH=C:/XIP/xipbuilder/bin/release
+(optional) in cygwin, go to xip-libraries-build and type ctest -D ExperimentalSubmit -VV
 
 To compile on Mac and Linux, you need to build Open Inventor.
 Inventor has dependencies on third party libraries.
