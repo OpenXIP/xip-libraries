@@ -13,7 +13,95 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/			/* increment the reference count of the resulting image, to avoid */ 			\
+*/
+
+/* author Sylvain Jaume, Julien Gein */
+
+#include <itkImageFileReader.h>
+#include <itkRGBPixel.h>
+#include <itkRGBAPixel.h>
+#include <xip/inventor/itk/SoItkSFDataImage.h>
+#include <Inventor/fields/SoMFShort.h>
+#include "SoItkImageFileReader.h"
+
+SO_ENGINE_SOURCE( SoItkImageFileReader );
+
+SoItkImageFileReader::SoItkImageFileReader()
+{
+	SO_ENGINE_CONSTRUCTOR( SoItkImageFileReader );
+
+	// Enumerations
+	SO_ENGINE_DEFINE_ENUM_VALUE( DataType, FLOAT );
+	SO_ENGINE_DEFINE_ENUM_VALUE( DataType, UNSIGNED_SHORT );
+	SO_ENGINE_DEFINE_ENUM_VALUE( DataType, SHORT );
+	SO_ENGINE_DEFINE_ENUM_VALUE( DataType, UNSIGNED_CHAR );
+ 
+	SO_ENGINE_DEFINE_ENUM_VALUE( DimensionEnum, TWO );
+	SO_ENGINE_DEFINE_ENUM_VALUE( DimensionEnum, THREE );
+
+	SO_ENGINE_DEFINE_ENUM_VALUE( ComponentLayoutType, LUMINANCE );
+	SO_ENGINE_DEFINE_ENUM_VALUE( ComponentLayoutType, RGB );
+	SO_ENGINE_DEFINE_ENUM_VALUE( ComponentLayoutType, RGBA );
+
+	// Define input fields and their default values
+	SO_ENGINE_SET_SF_ENUM_TYPE( Type, DataType );
+	SO_ENGINE_SET_SF_ENUM_TYPE( Dimension, DimensionEnum );
+	SO_ENGINE_SET_SF_ENUM_TYPE( ComponentLayout, ComponentLayoutType );
+
+	SO_ENGINE_ADD_INPUT( File, ("") );
+	SO_ENGINE_ADD_INPUT( Type, (FLOAT) );
+	SO_ENGINE_ADD_INPUT( Dimension, (TWO) );
+	SO_ENGINE_ADD_INPUT( ComponentLayout, (LUMINANCE) );
+
+	// Outputs
+	SO_ENGINE_ADD_OUTPUT( Output, SoItkSFDataImage );
+	SO_ENGINE_ADD_OUTPUT( Dimensions, SoMFShort );
+
+	mOutput = 0;
+}
+
+SoItkImageFileReader::~SoItkImageFileReader()
+{
+	if( mOutput )
+	{
+		mOutput->unref();
+		mOutput = 0;
+	}
+}
+
+void 
+SoItkImageFileReader::initClass()
+{
+	SO_ENGINE_INIT_CLASS( SoItkImageFileReader, SoEngine, "SoEngine" );
+}
+
+void 
+SoItkImageFileReader::evaluate()
+{
+	if( mOutput )
+	{
+		mOutput->unref();
+		mOutput = 0;
+		SO_ENGINE_OUTPUT( Output, SoItkSFDataImage, setValue( 0 ) );
+		SO_ENGINE_OUTPUT( Dimensions, SoMFShort, setNum( 0 ) );
+	}
+
+	if( File.getValue().getLength() <= 0 )
+		return ;
+
+	try
+	{
+		#define DO_IT( Type, ComponentLayoutFlag, TypeFlag, Dimension )				        \
+		{                                                                        			\
+			typedef itk::Image< Type, Dimension > OutputImageType;							\
+			typedef itk::ImageFileReader< OutputImageType > ReaderType;          			\
+																				 			\
+			ReaderType::Pointer reader = ReaderType::New();                      			\
+			reader->SetFileName( File.getValue().getString() );                  			\
+			reader->Update();                                                    			\
+																				 			\
+			/* Since Itk objects are reference-counted, we need to manually   */ 			\
+			/* increment the reference count of the resulting image, to avoid */ 			\
 			/* the importFilter instance to destroy it.                       */ 			\
 																				 			\
 			reader->GetOutput()->Register();                                     			\
