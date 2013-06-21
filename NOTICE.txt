@@ -1,0 +1,22 @@
+XIP Libraries (tm), part of the eXtensible Imaging Platform family
+Copyright (c) 2005, Siemens Corporate Research a Division of Siemens Corporation
+
+This project is distributed under the Apache 2.0 License.
+Please see the LICENSE file for details.
+
+The code found in the src/extern directory comes from other open source projects,
+which generally have different licensing terms than the XIP Libraries.  Please
+see each individual directory in src/extern for particulars about the licensing
+for each of the external software libraries used.
+
+This project was originally developed as part of the NCI caBIG initiative. The Electronic
+Radiology Laboratory at the Mallinckrodt Institute of Radiology of Washington University in
+St. Louis was the development lead for the overall XIP project.  The Princeton, NJ office of 
+Siemens Corporate Research was the primary developer of the XIP Libraries project. The 
+project's web home is found at http://www.OpenXIP.org
+
+In 2013, as part of the National Cancer Informatics Program (NCIP) Open Development Initiative,
+the XIP and AVT source code and documentation was consolidated onto imphub.org to foster
+future development by a broader community.  The source code was also mirrored to GitHub to 
+facilitate distribution to and contributions from a wide audience.
+

@@ -13,6 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+The code found in the src/extern directory comes from other open source projects,
+which generally have different licensing terms than the XIP Libraries.  Please
+see each individual directory in src/extern for particulars about the licensing
+for each of the external software libraries used.
+
 For your convenience, we reproduce the Apache license here.
 
 Apache License
