@@ -1,23 +1,18 @@
 /*
-  ------------------------------------------------------------------------
+Copyright (c) 2011, Siemens Corporate Research a Division of Siemens Corporation 
+All rights reserved.
 
-    class SoXipGLSLShaderProgramElement
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    Provides access to Shader Programs through tag references.
-    Class was extended to interface with the ShaderProgramManager.
-    It is unclear what the purpose of the previous class was.
+  http://www.apache.org/licenses/LICENSE-2.0
 
-    Copyright (C) 2005 - 2008, Siemens Corporate Research, Inc.
-
-    Authors:
-      Patric Ljung, patric.ljung@siemens.com
-      Stefan Lindholm, stefan.lindholm.ext@siemens.com
-      Unknown @ Siemens
-
-    This file is part of XIP, see Copyright and Licence Notice at the
-    end of the file.
-
-  ------------------------------------------------------------------------
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
 
 /**
