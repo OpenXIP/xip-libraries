@@ -1,25 +1,19 @@
 /*
-  ------------------------------------------------------------------------
+Copyright (c) 2011, Siemens Corporate Research a Division of Siemens Corporation 
+All rights reserved.
 
-    SoXipGpuProcessTexture.cpp
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    This node provides image processing for texture to texture
-    processing on the GPU, supporting both 2D and 3D textures.
-    Requires the use of GLSL Shader Program
+  http://www.apache.org/licenses/LICENSE-2.0
 
-    Copyright (C) 2008 - 2009, Siemens Corporate Research, Inc.
-
-    Authors:
-      Fabian Klebe, fabian.klebe.ext@siemens.com
-      Stefan Lindholm, stefan.lindholm.ext@siemens.com
-      Patric Ljung, patric.ljung@siemens.com
-
-    This file is part of Open XIP under the caBig license, see end of
-    file for details.
-
-  ------------------------------------------------------------------------
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
-
 #include <xip/system/GL/gl.h>
 
 #include <Inventor/actions/SoGLRenderAction.h>
