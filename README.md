@@ -27,8 +27,10 @@ Please see the NOTICE and LICENSE files for details.
 
 You will find more details about XIP&trade; in the following links:
 
-*  [Home Page] (http://www.OpenXIP.org)
-*  [Forum/Mailing List] (https://groups.google.com/forum/?fromgroups#!forum/openxip)
-*  [Issue tracker] (https://plans.imphub.org/browse/XIP)
-*  [Documentation] (https://docs.imphub.org/display/XIP)
-*  [Git code repository] (https://github.com/OpenXIP/xip-host)
+* [Home Page](http://www.OpenXIP.org)
+* [Forum/Mailing List](https://groups.google.com/forum/?fromgroups#!forum/openxip)
+* [Issue tracker](https://plans.imphub.org/browse/XIP)
+* [Documentation](https://docs.imphub.org/display/XIP)
+* [Git code repository](https://github.com/OpenXIP/xip-host)
+* [Installer for Windows (with XIP Host&trade;)](https://mirgforge.wustl.edu/gf/project/xip/frs/)
+* [Installer (XIP Libraries&trade; only)](https://collab01a.scr.siemens.com/gf/project/xip/frs)
